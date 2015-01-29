@@ -9,7 +9,7 @@ public class User {
     public String Pass;
     public String Name;
     public String DeviceID;
-    public String ISWIFI;
+    public String ISWIFI;//这个不是一个单纯的user包含了其他内容
     public String Time;
     public String ServerReturn;
 
