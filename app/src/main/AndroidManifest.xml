@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ylescort.ylmobileandroid" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".Login"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Task"
+            android:label="@string/title_activity_task_" >
+        </activity>
+        <activity
+            android:name=".site"
+            android:label="@string/title_activity_site" >
+        </activity>
+        <activity
+            android:name=".box"
+            android:label="@string/title_activity_box" >
+        </activity>
+        <activity
+            android:name=".boxlist"
+            android:label="@string/title_activity_boxlist" >
+        </activity>
+        <activity
+            android:name=".setup"
+            android:label="@string/title_activity_setup" >
+        </activity>
+        <activity
+            android:name=".Taskitem"
+            android:label="@string/title_activity_taskitem" >
+        </activity>
+    </application>
+
+</manifest>

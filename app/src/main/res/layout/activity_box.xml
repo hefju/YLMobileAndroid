@@ -1,0 +1,111 @@
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    tools:context="ylescort.ylmobileandroid.box">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="102dp"
+        android:layout_x="9dp"
+        android:layout_y="203dp">
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="收/送"
+        android:id="@+id/switch1"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="空/实"
+        android:id="@+id/switch2"
+        android:layout_centerVertical="true"
+        android:layout_below="@id/switch1"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单/多"
+            android:id="@+id/switch3"
+            android:layout_x="0dp"
+            android:layout_y="350dp"
+            android:layout_below="@id/switch2"
+            android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="款箱"
+        android:id="@+id/radioButton"
+        android:layout_alignParentEnd="true"
+        />
+
+    <RadioButton
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="卡箱"
+        android:id="@+id/radioButton2"
+        android:layout_below="@+id/radioButton"
+        android:layout_alignParentEnd="true" />
+
+    <RadioButton
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="凭证"
+        android:id="@+id/radioButton3"
+        android:layout_below="@+id/radioButton2"
+        android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:layout_x="4dp"
+        android:layout_y="312dp"
+        android:layout_below="@+id/radioButton2"
+        android:layout_alignParentStart="true">
+
+
+        <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="扫描"
+        android:layout_x="0dp"
+        android:layout_y="380dp"
+        android:id="@+id/button3"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="无标签"
+            android:layout_x="200dp"
+            android:layout_y="380dp"
+            android:id="@+id/button4"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_x="0dp"
+        android:layout_y="150dp" ></RelativeLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+
+        android:id="@+id/boxlistview"
+        android:layout_x="6dp"
+        android:layout_y="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+</AbsoluteLayout>
