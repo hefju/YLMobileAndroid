@@ -21,13 +21,13 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
 
-    public void EmpIns() throws Exception {
+    public void testEmpIns() throws Exception {
 
         User user = new User();
         user.setEmpNO("200097");
         user.setName("kim");
         user.setPass("200097");
-        EmpDBSer empDBSer = new EmpDBSer(this.getContext());
+        EmpDBSer empDBSer = new EmpDBSer(getContext());
         empDBSer.InsEmp(user);
     }
 

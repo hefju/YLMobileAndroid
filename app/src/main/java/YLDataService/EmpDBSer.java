@@ -19,7 +19,7 @@ public class EmpDBSer {
         sdb.beginTransaction();
         try {
            sdb.execSQL("insert into T_employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time,ServerReturn) values(?,?,?,?,?,?,?,?)"
-                   ,new Object[]{user.getEmpID(),user.getEmpID(),user.getEmpNO(),user.getPass(),user.getName(),user.getDeviceID(),
+                   ,new Object[]{user.getEmpID(),user.getEmpNO(),user.getPass(),user.getName(),user.getDeviceID(),
            user.getISWIFI(),user.getTime(),user.getServerReturn()} );
         }
         finally {
