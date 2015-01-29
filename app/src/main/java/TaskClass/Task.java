@@ -1,10 +1,13 @@
 package TaskClass;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/1/19.
  */
 public class Task {
     private Integer id;
+    public String ServerReturn ;//服务器返回的成功与否，成功1，其他异常是e.toString().
     private String ServerVersion;//服务器任务版本.
     private String TaskVersion ;//任务版本.
     private String TaskID ;//任务编后 是ID吗?
@@ -16,6 +19,9 @@ public class Task {
     private String TaskATMBeginTime  ;//任务负责人卡号
     private String TaskATMEndTime  ;//ATM开始任务时间
     private String TaskManagerNo ;//ATM完成任务时间
+    public List<Site> lstSite;
+    public List<Box> lstBox;
+
 
     public Task(){}
 
