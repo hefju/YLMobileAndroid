@@ -113,6 +113,33 @@ public class TasksManager {
         return null;
     }
 
+    // 记录ATM数
+    public void SetATMCount(String strSiteID, String tempCount)
+    {
+        for(Site x:CurrentTask.lstSite) {
+            if(x.SiteID.equals(strSiteID)){
+                x.ATMCount=tempCount;
+                break;
+            }
+        }
+    }
+
+    // 存到达时间到列表里。
+    public void SetArriveTime(String strSiteID)
+    {
+        for(Site x:CurrentTask.lstSite) {
+            if(x.SiteID.equals(strSiteID)){
+
+                ArriveTime s = new ArriveTime();
+                s.ATime =(new java.util.Date()).toString();
+                s.EmpID ="";//YLSystem.EmpID;
+                x.lstArriveTime.add(s);
+                break;
+            }
+        }
+
+    }
+
 
     //从本地查找任务
 //    public Task GetTaskList()
