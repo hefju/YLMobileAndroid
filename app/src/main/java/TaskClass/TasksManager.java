@@ -8,9 +8,9 @@ import java.util.ArrayList;
  */
 public class TasksManager {
     public String TaskDate;//任务日期
-    public Task CurrentTask;//当前执行的任务
-    public ArrayList<Task> lstAllTask;//全部任务列表
-    public ArrayList<Task> lstLatestTask;//最新的任务
+    public YLTask CurrentTask;//当前执行的任务
+    public ArrayList<YLTask> lstAllTask;//全部任务列表
+    public ArrayList<YLTask> lstLatestTask;//最新的任务
 
     public TasksManager(){
         CurrentTask=null;
@@ -18,19 +18,19 @@ public class TasksManager {
         lstLatestTask=new ArrayList<>();
     }
     //从远程获取当前设备的任务列表
-    public ArrayList<Task> DownTaskList()
+    public ArrayList<YLTask> DownTaskList()
     {
         String empid="";
         String deviceID="";
         String isWifi="";
-        ArrayList<Task> lst=new ArrayList<Task>();
+        ArrayList<YLTask> lst=new ArrayList<YLTask>();
         return lst;
     }
 
     // 检查是否已经存在任务
     public boolean IsExistsTask(String taskID)
     {
-        for(Task x:lstAllTask)
+        for(YLTask x:lstAllTask)
         {
             if(x.getTaskID().equals(taskID)) {
                 return true;
@@ -45,9 +45,9 @@ public class TasksManager {
     }
 
     //从所有任务中查找指定的任务ID
-    private Task GetTaskByID(String taskID)
+    private YLTask GetTaskByID(String taskID)
     {
-        for(Task x:lstLatestTask)
+        for(YLTask x:lstLatestTask)
         {
             if(x.getTaskID().equals(taskID)) {
                 return x;
@@ -57,7 +57,7 @@ public class TasksManager {
     }
 
     public void DownloadTaskByID(String taskID){
-        Task t =new Task();
+        YLTask t =new YLTask();
         this.TaskDate = t.getTaskDate();
         UpdateLatestTask(t);//将旧版本的信息更新到新版本
 
@@ -65,12 +65,12 @@ public class TasksManager {
         lstLatestTask.add(t);//最新列表添加远程下载的任务------最后合并完的任务列表
     }
 
-    private void UpdateLatestTask(Task t) {
+    private void UpdateLatestTask(YLTask t) {
         //检查本地是否已经存在任务
         if (IsExistsTask(t.getTaskID()))
         {
             //在最新列表里面找到任务的版本, 更新远程下载的任务版本, 并在最新列表删除任务
-            Task lastTask = GetTaskByID(t.getTaskID());
+            YLTask lastTask = GetTaskByID(t.getTaskID());
             if (lastTask != null)
             {
                 t.setTaskVersion(String.valueOf(Integer.parseInt(t.getTaskVersion()) + 1));
@@ -83,7 +83,7 @@ public class TasksManager {
             t.setTaskVersion("1");
     }
 
-    private void UpdateLatestTask(Task task_new, Task task_local) {
+    private void UpdateLatestTask(YLTask task_new, YLTask task_local) {
         //更新网点,
         for(Site site_local:task_local.lstSite)
         {
@@ -105,7 +105,7 @@ public class TasksManager {
        task_new.lstBox = task_local.lstBox;
     }
 
-    private Site FindSiteByID(String siteID,Task t){
+    private Site FindSiteByID(String siteID,YLTask t){
         for (Site x:t.lstSite){
             if(x.SiteID.equals(siteID))
                 return x;

@@ -76,5 +76,20 @@
         android:layout_below="@+id/Log_ET_PassWord"
         android:layout_alignEnd="@+id/Log_TV_Title" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTest1"
+        android:text="巨测试1"
+        android:layout_below="@+id/Log_BN_Ent"
+        android:layout_alignEnd="@+id/Log_TV_PassWord" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnTest2"
+        android:text="巨测试2"
+        android:layout_below="@+id/Log_BN_Cal"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package TaskClass;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/1/19.
  */
@@ -17,6 +19,8 @@ public class YLTask {
     private String TaskATMEndTime  ;//ATM开始任务时间
     private String TaskManagerNo ;//ATM完成任务时间
     private String ServerReturn;
+    public List<Site> lstSite;
+    public List<Box> lstBox;
 
     public YLTask(){}
 
