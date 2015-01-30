@@ -25,8 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import TaskClass.Site;
-import TaskClass.Task;
+import TaskClass.YLTask;
 import TaskClass.User;
+import TaskClass.YLTask;
 import YLSystem.YLSystem;
 
 /**
@@ -84,7 +85,7 @@ public class YLWebService {
     }
 
     //获取任务列表
-    public List<Task>  DownloadTaskList(){
+    public List<YLTask>  DownloadTaskList(){
         try {
             String url = map.get("TaskList").toString();
             HttpPost post = new HttpPost(url);
@@ -106,8 +107,8 @@ public class YLWebService {
                 String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
                 Log.d("WCF", content);//打印到logcat
 
-                List<Task> taskList=new ArrayList<Task> ();
-                taskList = gson.fromJson(content, new TypeToken<List<Task>>() {
+                List<YLTask> taskList=new ArrayList<YLTask> ();
+                taskList = gson.fromJson(content, new TypeToken<List<YLTask>>() {
                 }.getType());
 
                 return taskList;
