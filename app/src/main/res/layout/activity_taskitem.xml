@@ -9,19 +9,19 @@
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/Task_taskname"
             android:textSize="20dp"
             android:text="texview1"/>
         <TextView
             android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/Task_taskstype"
             android:textSize="20dp"
             android:text="texview1"/>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:id="@+id/Task_taskstaut"
             android:textSize="20dp"
             android:text="texview3"/>

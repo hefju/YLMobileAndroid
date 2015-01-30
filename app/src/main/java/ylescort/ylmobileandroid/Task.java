@@ -87,6 +87,9 @@ public class Task extends ActionBarActivity {
     }
 
 
+    public void LoadYLTaskdata() throws Exception{
+
+    }
 
 
     public void LoadData() throws ClassNotFoundException {
@@ -95,7 +98,7 @@ public class Task extends ActionBarActivity {
         //生成动态数组，加入数据
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
 
-        for(int i=0;i<20;i++)
+        for(int i=0;i<5;i++)
         {
             HashMap<String, Object> map = new HashMap<>();
             map.put("任务名称", "stateLoad "+i);

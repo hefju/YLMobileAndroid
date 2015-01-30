@@ -8,6 +8,7 @@ import TaskClass.User;
 import YLDataService.EmpDBSer;
 import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
+import YLSystem.YLSystem;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -15,7 +16,7 @@ import YLDataService.YLSQLHelper;
 public class ApplicationTest extends ApplicationTestCase<Application> {
     public ApplicationTest() { super(Application.class); }
 
-    private static final String TAG = "PersonServiceTest";
+    private static final String TAG = "YLtest";
 
     public void testCreateDB() throws Exception{
         YLSQLHelper ylsqlHelper = new YLSQLHelper(getContext());
@@ -37,10 +38,26 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
         WebService webService = new WebService();
         User user = new User();
-        user.setEmpNO("200097");
-        user.setPass("200097");
+        user.setEmpNO("600241");
+        user.setPass( YLSystem.md5("600241"));
         String mather = "Login1";
          String webcontent =  webService.UserWebContent(mather,user);
+        Log.d(TAG,webcontent);
+    }
+
+    public void testTaskWebContent() throws Exception {
+
+        WebService webService = new WebService();
+        User user = new User();
+        user.EmpNO="600241";
+        user.Name="杨磊";
+        user.Pass= YLSystem.md5("600241");
+        user.DeviceID="NH008";
+        user.ISWIFI="1";
+        user.EmpID="2703";
+        user.TaskDate= "2014-08-07";
+        String mather = "GetTask1";
+        String webcontent =  webService.TaskWebContent(mather,user);
         Log.d(TAG,webcontent);
     }
 

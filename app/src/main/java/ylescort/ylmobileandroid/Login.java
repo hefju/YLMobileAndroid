@@ -1,16 +1,17 @@
 package ylescort.ylmobileandroid;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,6 +27,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -34,9 +36,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import YLSystem.YLSystem;
-import YLWebServices.YLWebService;
-import TaskClass.User;
+import TaskClass.*;
 
 
 public class Login extends ActionBarActivity {
@@ -52,27 +52,7 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
-
-         btnju1=(Button)findViewById(R.id.btnTest1);
-         btnju2=(Button)findViewById(R.id.btnTest2);
-        btnju1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "ju test 1", Toast.LENGTH_SHORT).show();
-            }
-        });
-        btnju2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                YLWebService ws=new YLWebService();
-                Log.d("jutest","login click");
-          ws.Login("200099","tzc","c4ca4238a0b923820dcc509a6f75849b","NH008","1");
-             //   Toast.makeText(getApplicationContext(), YLSystem.getUser().getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
-    private    Button btnju1;
-    private Button btnju2;
 
     List<String> listViewdata = new ArrayList<String>();
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();

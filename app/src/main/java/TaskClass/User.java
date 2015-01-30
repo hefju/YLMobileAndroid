@@ -12,6 +12,15 @@ public class User {
     public String ISWIFI;//这个不是一个单纯的user包含了其他内容
     public String Time;
     public String ServerReturn;
+    public String TaskDate;
+
+    public String getTaskDate() {
+        return TaskDate;
+    }
+
+    public void setTaskDate(String taskDate) {
+        TaskDate = taskDate;
+    }
 
     public String getServerReturn() {
         return ServerReturn;
