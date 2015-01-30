@@ -1,19 +1,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="ylescort.ylmobileandroid.Taskitem">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
     <LinearLayout
-        android:id="@+id/LinearLayout01"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        xmlns:android="http://schemas.android.com/apk/res/android">
-        <ListView android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:id="@+id/TaskListView" />
-    </LinearLayout>
+            android:id="@+id/Task_taskname"
+            android:textSize="20dp"
+            android:text="texview1"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Task_taskstype"
+            android:textSize="20dp"
+            android:text="texview1"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Task_taskstaut"
+            android:textSize="20dp"
+            android:text="texview3"/>
+
+        </LinearLayout>
 
 </RelativeLayout>

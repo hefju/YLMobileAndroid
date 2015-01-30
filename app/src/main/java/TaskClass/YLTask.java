@@ -3,7 +3,7 @@ package TaskClass;
 /**
  * Created by Administrator on 2015/1/19.
  */
-public class Task {
+public class YLTask {
     private Integer id;
     private String ServerVersion;//服务器任务版本.
     private String TaskVersion ;//任务版本.
@@ -16,12 +16,13 @@ public class Task {
     private String TaskATMBeginTime  ;//任务负责人卡号
     private String TaskATMEndTime  ;//ATM开始任务时间
     private String TaskManagerNo ;//ATM完成任务时间
+    private String ServerReturn;
 
-    public Task(){}
+    public YLTask(){}
 
-    public Task(Integer id,String ServerVersion,String TaskVersion, String TaskID, String TaskType,
-                String Handset,String TaskDate, String Line,String TaskManager,String TaskATMBeginTime,
-                String TaskATMEndTime, String TaskManagerNo )
+    public YLTask(Integer id, String ServerVersion, String TaskVersion, String TaskID, String TaskType,
+                  String Handset, String TaskDate, String Line, String TaskManager, String TaskATMBeginTime,
+                  String TaskATMEndTime, String TaskManagerNo)
     {
         this.id = id;
         this.ServerVersion = ServerVersion;
@@ -37,9 +38,9 @@ public class Task {
         this. TaskManagerNo=TaskManagerNo;
     }
 
-    public Task(String ServerVersion,String TaskVersion, String TaskID, String TaskType,
-                String Handset,String TaskDate, String Line,String TaskManager,String TaskATMBeginTime,
-                String TaskATMEndTime, String TaskManagerNo )
+    public YLTask(String ServerVersion, String TaskVersion, String TaskID, String TaskType,
+                  String Handset, String TaskDate, String Line, String TaskManager, String TaskATMBeginTime,
+                  String TaskATMEndTime, String TaskManagerNo)
     {
         this.ServerVersion = ServerVersion;
         this.TaskVersion=TaskVersion;
@@ -60,6 +61,14 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getServerReturn() {
+        return ServerReturn;
+    }
+
+    public void setServerReturn(String serverReturn) {
+        ServerReturn = serverReturn;
     }
 
     public String getTaskManagerNo() {

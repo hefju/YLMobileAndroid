@@ -23,7 +23,7 @@
             android:label="@string/title_activity_task_" >
         </activity>
         <activity
-            android:name=".site"
+            android:name=".Site"
             android:label="@string/title_activity_site" >
         </activity>
         <activity

@@ -2,9 +2,11 @@ package ylescort.ylmobileandroid;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
+import android.util.Log;
 
 import TaskClass.User;
 import YLDataService.EmpDBSer;
+import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
 
 /**
@@ -29,6 +31,17 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         user.setPass("200097");
         EmpDBSer empDBSer = new EmpDBSer(getContext());
         empDBSer.InsEmp(user);
+    }
+
+    public void testWebContent() throws Exception {
+
+        WebService webService = new WebService();
+        User user = new User();
+        user.setEmpNO("200097");
+        user.setPass("200097");
+        String mather = "Login1";
+         String webcontent =  webService.UserWebContent(mather,user);
+        Log.d(TAG,webcontent);
     }
 
 

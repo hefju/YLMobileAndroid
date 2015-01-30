@@ -4,20 +4,42 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import TaskClass.User;
 
 
 public class Task extends ActionBarActivity {
@@ -68,23 +90,22 @@ public class Task extends ActionBarActivity {
 
 
     public void LoadData() throws ClassNotFoundException {
-
-       // listView = (ListView)findViewById(R.id.Task_listView);
+        // listView = (ListView)findViewById(R.id.Task_listView);
 
         //生成动态数组，加入数据
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
 
-        for(int i=0;i<10;i++)
+        for(int i=0;i<20;i++)
         {
             HashMap<String, Object> map = new HashMap<>();
-            map.put("任务名称", "Name "+i);
-            map.put("任务类型", "Stype2 "+i);
-            map.put("任务状态", "stateLoadData");
+            map.put("任务名称", "stateLoad "+i);
+            map.put("任务类型", "Stype "+i);
+            map.put("任务状态", "state");
             listItem.add(map);
         }
         //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.activity_task,//ListItem的XML实现
+                R.layout.activity_taskitem,//ListItem的XML实现
                 //动态数组与ImageItem对应的子项
                 new String[] {"任务名称","任务类型", "任务状态"},
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID

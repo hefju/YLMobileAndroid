@@ -43,7 +43,7 @@ public class box extends ActionBarActivity {
         }
         //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.activity_task,//ListItem的XML实现
+                R.layout.activity_taskitem,//ListItem的XML实现
                 //动态数组与ImageItem对应的子项
                 new String[] {"任务名称","任务类型", "任务状态"},
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID

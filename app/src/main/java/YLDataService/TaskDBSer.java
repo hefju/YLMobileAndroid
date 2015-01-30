@@ -3,7 +3,7 @@ package YLDataService;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import TaskClass.Task;
+import TaskClass.YLTask;
 
 /**
  * Created by Administrator on 2015/1/19.
@@ -15,7 +15,7 @@ public class TaskDBSer {
         this.ylsqlHelper = new YLSQLHelper(context);
     }
 
-    public void InsterTask (Task task){
+    public void InsterTask (YLTask task){
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {

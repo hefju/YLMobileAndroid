@@ -21,12 +21,11 @@ import TaskClass.User;
  * Created by Administrator on 2015/1/28.
  */
 public class WebService {
-    private String webserviceaddress = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/Login1";
+    private String webserviceaddress = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/";
 
-    public final String WebContent() throws JSONException, IOException {
+    public final String UserWebContent(String webapi,User user ) throws JSONException, IOException {
 
-        User user = new User();
-        user.setEmpNO("200097");
+         webserviceaddress +=webapi;
         HttpPost post = new HttpPost(webserviceaddress);
         Gson gson = new Gson();
         JSONObject jsonObject = new JSONObject();
