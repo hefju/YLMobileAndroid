@@ -4,6 +4,7 @@ package TaskClass;
  * Created by asus on 2015/1/29.
  */
 public class ArriveTime {
+    public int  Id;
     public String ServerReturn ;//服务器返回的成功与否，成功1，其他异常是e.toString().
     public String EmpID ;//登陆的人员ID，记录操作人员ID.
     public String ATime ;//到达网点的时间

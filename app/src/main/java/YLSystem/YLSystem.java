@@ -1,6 +1,8 @@
 package YLSystem;
 
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -29,9 +31,14 @@ public class YLSystem {
 
 
 
-    public String GetDeviceID()
+    public static String GetDeviceID(Context ctx)
     {
-        return "NH008";//todo 等待添加方法从本机数据库取数
+        //todo 目前还不能从SharedPreferences中取数
+        ContextWrapper wrapper=new ContextWrapper(ctx);
+        SharedPreferences settings =  wrapper.getSharedPreferences("Settings", wrapper.MODE_PRIVATE);
+        String content = settings.getString("Handset_name", "无数据");
+        //android.util.Log.d("jutest", content);
+        return content;//"NH008";
     }
 
     public String GetISWIFI(Context context)
