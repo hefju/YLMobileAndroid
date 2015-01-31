@@ -98,8 +98,6 @@ public class Task extends ActionBarActivity {
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
     protected   void GetTaskData() throws ClassNotFoundException{
 
-
-
     }
 
 
