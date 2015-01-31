@@ -35,7 +35,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import YLSystem.YLSystem;
-import YLWebServices.YLWebService;
 import TaskClass.User;
 
 
@@ -64,10 +63,6 @@ public class Login extends ActionBarActivity {
         btnju2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                YLWebService ws=new YLWebService();
-                Log.d("jutest","login click");
-          ws.Login("200099","tzc","c4ca4238a0b923820dcc509a6f75849b","NH008","1");
-             //   Toast.makeText(getApplicationContext(), YLSystem.getUser().getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
