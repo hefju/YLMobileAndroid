@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -35,7 +36,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import YLSystem.YLSystem;
-import YLWebServices.YLWebService;
 import TaskClass.User;
 
 
@@ -58,16 +58,22 @@ public class Login extends ActionBarActivity {
         btnju1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "ju test 1", Toast.LENGTH_SHORT).show();
+                JuTestClass mytest=new JuTestClass();
+                mytest.goahead1(getApplicationContext());
+                Toast.makeText(getApplicationContext(), "启动测试1", Toast.LENGTH_SHORT).show();
+
             }
         });
         btnju2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                YLWebService ws=new YLWebService();
-                Log.d("jutest","login click");
-          ws.Login("200099","tzc","c4ca4238a0b923820dcc509a6f75849b","NH008","1");
-             //   Toast.makeText(getApplicationContext(), YLSystem.getUser().getName(), Toast.LENGTH_SHORT).show();
+                JuTestClass mytest=new JuTestClass();
+                mytest.goahead2(getApplicationContext());
+//                Intent intent = new Intent();
+//                intent.setClass(getApplicationContext(), SettingsActivity.class);
+//                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                 startActivity(intent);
+                Toast.makeText(getApplicationContext(), "启动测试2", Toast.LENGTH_SHORT).show();
             }
         });
     }
