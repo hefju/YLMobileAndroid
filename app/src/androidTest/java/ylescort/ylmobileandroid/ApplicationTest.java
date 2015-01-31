@@ -4,7 +4,15 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import TaskClass.User;
+import TaskClass.YLTask;
 import YLDataService.EmpDBSer;
 import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
@@ -47,6 +55,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testTaskWebContent() throws Exception {
 
+        Gson gson = new Gson();
         WebService webService = new WebService();
         User user = new User();
         user.EmpNO="600241";
@@ -59,6 +68,13 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         String mather = "GetTask1";
         String webcontent =  webService.TaskWebContent(mather,user);
         Log.d(TAG,webcontent);
+
+        List<YLTask> ylTaskList = new ArrayList<YLTask>();
+
+        ylTaskList= gson.fromJson(webcontent, new TypeToken<List<YLTask>>() {
+        }.getType());
+        Log.d(TAG,ylTaskList.toString());
+
     }
 
 

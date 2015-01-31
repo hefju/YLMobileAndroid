@@ -36,10 +36,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import TaskClass.User;
+import TaskClass.YLTask;
+import YLDataService.WebService;
+import YLSystem.YLSystem;
 
 
 public class Task extends ActionBarActivity {
@@ -57,13 +61,16 @@ public class Task extends ActionBarActivity {
         textView = (TextView)findViewById(R.id.TaskTital);
         textView.setText(Name);
         */
-        listView = (ListView)findViewById(R.id.Task_lv_mlistview);
+        listView = (ListView)findViewById(R.id.Task_lv_mlistview);/*
         try {
             LoadData();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        */
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -87,7 +94,57 @@ public class Task extends ActionBarActivity {
     }
 
 
+
+    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+    protected   void GetTaskData() throws ClassNotFoundException{
+
+
+
+    }
+
+
+
+
     public void LoadYLTaskdata() throws Exception{
+
+        Gson gson = new Gson();
+        WebService webService = new WebService();
+        User user = new User();
+        user.EmpNO="600241";
+        user.Name="杨磊";
+        user.Pass= YLSystem.md5("600241");
+        user.DeviceID="NH008";
+        user.ISWIFI="1";
+        user.EmpID="2703";
+        user.TaskDate= "2014-08-07";
+        String mather = "GetTask1";
+        String webcontent =  webService.TaskWebContent(mather,user);
+
+        List<YLTask> ylTaskList = new ArrayList<YLTask>();
+
+        ylTaskList= gson.fromJson(webcontent, new TypeToken<List<YLTask>>() {
+        }.getType());
+        Log.d("YLtest",ylTaskList.toString());
+        ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
+        for (YLTask task : ylTaskList){
+            if (task.getServerReturn().equals("1")){
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("任务名称",task.getLine());
+                map.put("任务类型",task.getTaskType());
+                map.put("手持机",task.getHandset());
+                listItem.add(map);
+            }
+        }
+        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
+                R.layout.activity_taskitem,//ListItem的XML实现
+                //动态数组与ImageItem对应的子项
+                new String[] {"任务名称","任务类型", "手持机"},
+                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
+                new int[] {R.id.Task_taskname,R.id.Task_taskstype,R.id.Task_taskstaut}
+        );
+        //添加并且显示
+        listView.setAdapter(listItemAdapter);
+
 
     }
 
