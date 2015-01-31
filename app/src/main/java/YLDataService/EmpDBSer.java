@@ -27,4 +27,11 @@ public class EmpDBSer {
         }
     }
 
+    public void UpdateUser(User x) {
+
+    }
+    public void DeleteUser(User x) {
+
+    }
+
 }
