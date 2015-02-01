@@ -173,6 +173,7 @@ public class Task extends ActionBarActivity {
         intent.putExtras(bundle);
         startActivity(intent);
         */
+        /*
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -225,6 +226,14 @@ public class Task extends ActionBarActivity {
                 }
             }
         });
+*/
+        WebService webService = new WebService();
+        try {
+            String webconte =  webService.gettask();
+            Log.d("Tasktest",webconte);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

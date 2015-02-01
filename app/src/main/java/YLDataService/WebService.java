@@ -86,8 +86,10 @@ public class WebService {
         }
     }
 
+    private  String webcontent= null;
 
-    public void gettask() throws Exception{
+    public String gettask() throws Exception{
+        final String content = null;
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -111,12 +113,8 @@ public class WebService {
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(post);
-                    Log.d("WCF", "fhe");  //得到返回字符串
                     if (response.getStatusLine().getStatusCode() == 200) {
-                        String content = EntityUtils.toString(response.getEntity());
-
-
-
+                        webcontent = EntityUtils.toString(response.getEntity());
                         if (content.equals("1")){
                             mh.sendEmptyMessage(0);
                         }
@@ -138,8 +136,9 @@ public class WebService {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+
             }
-        });
+        }); return webcontent;
     }
 
 
