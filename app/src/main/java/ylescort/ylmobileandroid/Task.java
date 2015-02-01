@@ -2,6 +2,7 @@ package ylescort.ylmobileandroid;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import TaskClass.User;
 import TaskClass.YLTask;
@@ -50,6 +53,7 @@ public class Task extends ActionBarActivity {
 
     private TextView textView;
     private ListView listView;
+    private android.os.Handler handler = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,15 +65,14 @@ public class Task extends ActionBarActivity {
         textView = (TextView)findViewById(R.id.TaskTital);
         textView.setText(Name);
         */
-        listView = (ListView)findViewById(R.id.Task_lv_mlistview);/*
+        listView = (ListView)findViewById(R.id.Task_lv_mlistview);
         try {
-            LoadData();
+           // LoadData();
 
-        } catch (ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -96,14 +99,16 @@ public class Task extends ActionBarActivity {
 
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-    protected   void GetTaskData() throws ClassNotFoundException{
 
-    }
+    android.os.Handler mh = new android.os.Handler() {   //以Handler为桥梁将结果传入UI
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 
 
-
-
-    public void LoadYLTaskdata() throws Exception{
+    protected   void GetTaskData() throws Exception{
 
         Gson gson = new Gson();
         WebService webService = new WebService();
@@ -116,39 +121,116 @@ public class Task extends ActionBarActivity {
         user.EmpID="2703";
         user.TaskDate= "2014-08-07";
         String mather = "GetTask1";
-        String webcontent =  webService.TaskWebContent(mather,user);
+        String webcontent = null;
+
+        webcontent =  asyncTask(user,mather);
 
         List<YLTask> ylTaskList = new ArrayList<YLTask>();
 
         ylTaskList= gson.fromJson(webcontent, new TypeToken<List<YLTask>>() {
         }.getType());
         Log.d("YLtest",ylTaskList.toString());
-        ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
-        for (YLTask task : ylTaskList){
-            if (task.getServerReturn().equals("1")){
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("任务名称",task.getLine());
-                map.put("任务类型",task.getTaskType());
-                map.put("手持机",task.getHandset());
-                listItem.add(map);
-            }
-        }
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.activity_taskitem,//ListItem的XML实现
-                //动态数组与ImageItem对应的子项
-                new String[] {"任务名称","任务类型", "手持机"},
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[] {R.id.Task_taskname,R.id.Task_taskstype,R.id.Task_taskstaut}
-        );
-        //添加并且显示
-        listView.setAdapter(listItemAdapter);
+    }
 
+
+
+    private String asyncTask(final User user, final String mather) {
+
+        final android.os.Handler handler = new android.os.Handler(){
+
+            public void handleMessage(Message message)
+            {
+                try {
+                    WebService.TaskWebContent(mather,user);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    handler.sendMessage(handler.obtainMessage());
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        };
+        new Thread(runnable).start();
+        return "";
+    }
+
+
+    public void YLtask(View view) throws ClassNotFoundException {
+        /*
+        Intent intent = new Intent();
+        intent.setClass(Login.this, Task.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("AName","Kim");
+        intent.putExtras(bundle);
+        startActivity(intent);
+        */
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    HttpPost post = new HttpPost(url);
+                    //添加数值到User类
+                    User user = new User();
+                    user.EmpNO="600241";
+                    user.Name="杨磊";
+                    user.Pass= YLSystem.md5("600241");
+                    user.DeviceID="NH008";
+                    user.ISWIFI="1";
+                    user.EmpID="2703";
+                    user.TaskDate= "2014-08-07";
+                    Gson gson = new Gson();
+                    //设置POST请求中的参数
+                    JSONObject p = new JSONObject();
+                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    Log.d("WCF","fhe");  //得到返回字符串
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+                        Log.d("WCF",content);  //得到返回字符串
+
+
+                        if (content.equals("1")){
+                            mh.sendEmptyMessage(0);
+                        }
+                        else {
+
+                            mh.sendEmptyMessage(0);
+                        }
+
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
 
     public void LoadData() throws ClassNotFoundException {
-        // listView = (ListView)findViewById(R.id.Task_listView);
+         listView = (ListView)findViewById(R.id.Task_lv_mlistview);
 
         //生成动态数组，加入数据
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();

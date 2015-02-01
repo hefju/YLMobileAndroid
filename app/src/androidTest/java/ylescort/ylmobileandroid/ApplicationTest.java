@@ -17,6 +17,7 @@ import YLDataService.EmpDBSer;
 import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
 import YLSystem.YLSystem;
+import YLWebService.YLWebService;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
@@ -54,7 +55,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testTaskWebContent() throws Exception {
-
         Gson gson = new Gson();
         WebService webService = new WebService();
         User user = new User();
@@ -76,6 +76,4 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         Log.d(TAG,ylTaskList.toString());
 
     }
-
-
 }

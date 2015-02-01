@@ -1,9 +1,15 @@
 package YLDataService;
 
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -14,15 +20,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLSystem.YLSystem;
 
 /**
  * Created by Administrator on 2015/1/28.
  */
 public class WebService {
-    private String webserviceaddress = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/";
+    public static String webserviceaddress = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/";
+
+    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+    android.os.Handler mh = new android.os.Handler() {   //以Handler为桥梁将结果传入UI
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 
     public final String UserWebContent(String webapi,User user ) throws JSONException, IOException {
 
@@ -47,7 +66,7 @@ public class WebService {
     }
 
 
-    public final String TaskWebContent(String webapi,User user ) throws JSONException, IOException {
+    public final static   String TaskWebContent(String webapi,User user ) throws Exception {
 
         webserviceaddress +=webapi;
         HttpPost post = new HttpPost(webserviceaddress);
@@ -67,6 +86,61 @@ public class WebService {
         }
     }
 
+
+    public void gettask() throws Exception{
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    HttpPost post = new HttpPost(url);
+                    //添加数值到User类
+                    User user = new User();
+                    user.EmpNO="600241";
+                    user.Name="杨磊";
+                    user.Pass= YLSystem.md5("600241");
+                    user.DeviceID="NH008";
+                    user.ISWIFI="1";
+                    user.EmpID="2703";
+                    user.TaskDate= "2014-08-07";
+                    Gson gson = new Gson();
+                    //设置POST请求中的参数
+                    JSONObject p = new JSONObject();
+                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    Log.d("WCF", "fhe");  //得到返回字符串
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+
+
+
+                        if (content.equals("1")){
+                            mh.sendEmptyMessage(0);
+                        }
+                        else {
+
+                            mh.sendEmptyMessage(0);
+                        }
+
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
 
 

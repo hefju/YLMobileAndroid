@@ -105,7 +105,7 @@ public class Login extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                    String url = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/Login1";//网址
+                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login1";//网址
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
 
