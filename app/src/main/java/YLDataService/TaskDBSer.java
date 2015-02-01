@@ -3,6 +3,9 @@ package YLDataService;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import TaskClass.YLTask;
 
 /**
@@ -16,35 +19,71 @@ public class TaskDBSer {
     }
 
     public void InsterTask (YLTask task){
-        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
-        sdb.beginTransaction();
-        try {
-           // sdb.execSQL("",task.getId().toString());
-        }
-        finally {
-            sdb.endTransaction();
-        }
+        List<YLTask> lst=new ArrayList<>();
+        lst.add(task);
+        InsertYLTask(lst);
     }
-    public void InsertYLTask(YLTask x) {
-        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
-        sdb.beginTransaction();
-        try {
-//            sdb.execSQL("INSERT INTO YLTask(ServerVersion, TaskVersion, TaskID, TaskType, Handset, " +
-//                            "TaskDate, Line, TaskManager, TaskATMBeginTime, TaskATMEndTime, " +
-//                            "TaskManagerNo, ServerReturn) VALUES   (?,?,?,?,?,?,?,?,?,?,?,?,)",
-//                    new Object[]{x.getServerReturn(),x.getTaskVersion(),x.getTaskID(),x.getTaskType(),
-//                            x.getHandset(),x.getTaskDate(),x.getLine(),x.getTaskManager()} );
-            //暂停更新, 跟服务器端的版本不同
-        }
-        finally {
-            sdb.endTransaction();
-        }
-    }
-    public void UpdateYLTask(YLTask x) {
 
+    public void UpdateYLTask(YLTask x) {
+        List<YLTask> lst=new ArrayList<>();
+        lst.add(x);
+        UpdateYLTask(lst);
     }
     public void DeleteYLTask(YLTask x) {
+        List<YLTask> lst=new ArrayList<>();
+        lst.add(x);
+        DeleteYLTask(lst);
+    }
 
+    public void UpdateYLTask(List<YLTask> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for(YLTask x:lst) {
+                sdb.execSQL("UPDATE  YLTask SET ServerVersion =?, TaskVersion =?, TaskID =?, TaskType =?," +
+                            " Handset =?, TaskDate =?, Line =?, TaskManager =?, TaskATMBeginTime =?," +
+                            " TaskATMEndTime =?, TaskManagerNo =?, ServerReturn =? where Id=?",
+                        new Object[]{x.ServerVersion,x.TaskVersion,x.TaskID,x.TaskType, x.Handset,
+                                x.TaskDate,x.Line,x.TaskManager,x.TaskATMBeginTime,x.TaskATMEndTime,
+                                x.TaskManagerNo,x.ServerReturn,x.Id} );
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close();
+        }
+    }
+    public void DeleteYLTask(List<YLTask> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for(YLTask x:lst) {
+                sdb.execSQL("delete from YLTask where Id=?", new Object[]{x.Id} );
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close();
+        }
+
+    }
+    public void InsertYLTask(List<YLTask> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for(YLTask x:lst) {
+            sdb.execSQL("INSERT INTO YLTask(ServerVersion, TaskVersion, TaskID, TaskType, Handset, " +
+                            "TaskDate, Line, TaskManager, TaskATMBeginTime, TaskATMEndTime, " +
+                            "TaskManagerNo, ServerReturn) VALUES   (?,?,?,?,?,?,?,?,?,?,?,?,)",
+                    new Object[]{x.ServerVersion,x.TaskVersion,x.TaskID,x.TaskType, x.Handset,
+                           x.TaskDate,x.Line,x.TaskManager,x.TaskATMBeginTime,x.TaskATMEndTime,
+                    x.TaskManagerNo,x.ServerReturn} );
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close();
+        }
     }
 
 }

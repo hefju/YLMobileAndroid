@@ -6,19 +6,19 @@ import java.util.List;
  * Created by Administrator on 2015/1/19.
  */
 public class YLTask {
-    private Integer id;
-    private String ServerVersion;//服务器任务版本.
-    private String TaskVersion ;//任务版本.
-    private String TaskID ;//任务编后 是ID吗?
-    private String TaskType ;//任务类型
-    private String Handset ;//手持机
-    private String TaskDate ;//任务日期
-    private String Line ;//线路
-    private String TaskManager ;//任务负责人
-    private String TaskATMBeginTime  ;//任务负责人卡号
-    private String TaskATMEndTime  ;//ATM开始任务时间
-    private String TaskManagerNo ;//ATM完成任务时间
-    private String ServerReturn;
+    public Integer Id;
+    public String ServerVersion;//服务器任务版本.
+    public String TaskVersion ;//任务版本.
+    public String TaskID ;//任务编后 是ID吗?
+    public String TaskType ;//任务类型
+    public String Handset ;//手持机
+    public String TaskDate ;//任务日期
+    public String Line ;//线路
+    public String TaskManager ;//任务负责人
+    public String TaskATMBeginTime  ;//任务负责人卡号
+    public String TaskATMEndTime  ;//ATM开始任务时间
+    public String TaskManagerNo ;//ATM完成任务时间
+    public String ServerReturn;
     public List<Site> lstSite;
     public List<Box> lstBox;
 
@@ -28,7 +28,7 @@ public class YLTask {
                   String Handset, String TaskDate, String Line, String TaskManager, String TaskATMBeginTime,
                   String TaskATMEndTime, String TaskManagerNo)
     {
-        this.id = id;
+        this.Id = id;
         this.ServerVersion = ServerVersion;
         this.TaskVersion=TaskVersion;
         this. TaskID=TaskID;
@@ -60,11 +60,11 @@ public class YLTask {
     }
 
     public Integer getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getServerReturn() {
