@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Administrator on 2015/1/19.
  */
 public class YLSQLHelper extends SQLiteOpenHelper {
-    public YLSQLHelper(Context context) { super(context, "YLDB", null,1);}
+    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,1);}
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Employee (ID integer primary key autoincrement,EmpID varchar(20),EmpNO varchar(20),Pass varchar(20),\n" +

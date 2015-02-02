@@ -112,7 +112,8 @@ public class SiteDBSer {
             sdb.close();
         }
 
-    } public void UpdateSite(List<Site> lst) {
+    }
+    public void UpdateSite(List<Site> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
@@ -144,5 +145,23 @@ public class SiteDBSer {
             }
         }
 
+    public void InsertSite2(Site x) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+
+            sdb.execSQL("INSERT INTO Site(ServerReturn, TaskID, SiteID, SiteName, SiteManager, " +
+                    "SiteManagerPhone, SiteType, Status, ATMCount) VALUES (?,?,?,?,?,?,?,?,?)"
+                    , new Object[]{x.ServerReturn, x.TaskID, x.SiteID, x.SiteName, x.SiteManager,
+                    x.SiteManagerPhone, x.SiteType, x.Status, x.ATMCount});
+            sdb.setTransactionSuccessful();
+
+        } finally {
+            sdb.endTransaction();
+            sdb.close();
+        }
+
+
+    }
 
 }

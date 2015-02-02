@@ -1,6 +1,7 @@
 package YLDataService;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
@@ -71,6 +72,7 @@ public class TaskDBSer {
     }
     public void InsertYLTask(List<YLTask> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
         try {
             for(YLTask x:lst) {
             sdb.execSQL("INSERT INTO YLTask(ServerVersion, TaskVersion, TaskID, TaskType, Handset, " +
@@ -83,8 +85,48 @@ public class TaskDBSer {
             }
         }
         finally {
+            sdb.endTransaction();
             sdb.close();
         }
     }
+
+    public void InsertYLTask2(YLTask x) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+                sdb.execSQL("INSERT INTO YLTask(ServerVersion, TaskVersion, TaskID, TaskType, Handset, " +
+                                "TaskDate, Line, TaskManager, TaskATMBeginTime, TaskATMEndTime, " +
+                                "TaskManagerNo, ServerReturn) VALUES   (?,?,?,?,?,?,?,?,?,?,?,?)",
+                        new Object[]{x.getServerVersion(),x.getTaskVersion(),x.getTaskID(),x.getTaskType(), x.getHandset(),
+                                x.getTaskDate(),x.getLine(),x.getTaskManager(),x.getTaskATMBeginTime(),x.getTaskATMEndTime(),
+                                x.getTaskManagerNo(),x.getServerReturn()} );
+            sdb.setTransactionSuccessful();
+        }
+        finally {
+
+            sdb.endTransaction();
+            sdb.close();
+        }
+    }
+
+    public List<YLTask> SelTaskID(String datetime){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select TaskID from YLTask where TaskDate = ?",new String[]{datetime});
+
+        List<YLTask> ylTaskList =new ArrayList<YLTask>();
+
+
+        while (cursor.moveToNext()){
+            YLTask ylTask = new YLTask();
+            String yltaskid = cursor.getString(cursor.getColumnIndex("TaskID"));
+            ylTask.setTaskID(yltaskid);
+            ylTaskList.add(ylTask);
+        }
+        sdb.close();
+        return ylTaskList;
+    }
+
+
+
 
 }

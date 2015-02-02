@@ -22,7 +22,7 @@ public class EmpDBSer {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
-           sdb.execSQL("insert into T_employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time,ServerReturn) values(?,?,?,?,?,?,?,?)"
+           sdb.execSQL("insert into Employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time,ServerReturn) values(?,?,?,?,?,?,?,?)"
                    ,new Object[]{user.getEmpID(),user.getEmpNO(),user.getPass(),user.getName(),user.getDeviceID(),
            user.getISWIFI(),user.getTime(),user.getServerReturn()} );
             sdb.setTransactionSuccessful();
@@ -47,7 +47,7 @@ public class EmpDBSer {
     //通过EmpID查找用户
     public User GetUser(String empID) {
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("select * from T_employee where EmpID=?" + empID, null);
+        Cursor cursor = sdb.rawQuery("select * from Employee where EmpID=?" + empID, null);
 
         User u=new User();
         while(cursor.moveToNext()){
@@ -81,7 +81,7 @@ public class EmpDBSer {
         sdb.beginTransaction();
         try {
             for(User x: lst) {
-                sdb.execSQL("insert into T_employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time," +
+                sdb.execSQL("insert into Employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time," +
                         "ServerReturn,TaskDate) values(?,?,?,?,?,?,?,?,?)"
                         , new Object[]{x.getEmpID(), x.getEmpNO(), x.getPass(), x.getName(), x.getDeviceID(),
                         x.getISWIFI(), x.getTime(), x.getServerReturn(),x.getTaskDate()});

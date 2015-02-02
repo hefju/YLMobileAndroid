@@ -18,4 +18,93 @@ public class Site {
     public String ATMCount ;//ATM数目
     public List<ArriveTime> lstArriveTime;
 
+    public Site(){}
+
+    public List<ArriveTime> getLstArriveTime() {
+        return lstArriveTime;
+    }
+
+    public void setLstArriveTime(List<ArriveTime> lstArriveTime) {
+        this.lstArriveTime = lstArriveTime;
+    }
+
+    public String getATMCount() {
+        return ATMCount;
+    }
+
+    public void setATMCount(String ATMCount) {
+        this.ATMCount = ATMCount;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getSiteType() {
+        return SiteType;
+    }
+
+    public void setSiteType(String siteType) {
+        SiteType = siteType;
+    }
+
+    public String getSiteManagerPhone() {
+        return SiteManagerPhone;
+    }
+
+    public void setSiteManagerPhone(String siteManagerPhone) {
+        SiteManagerPhone = siteManagerPhone;
+    }
+
+    public String getSiteManager() {
+        return SiteManager;
+    }
+
+    public void setSiteManager(String siteManager) {
+        SiteManager = siteManager;
+    }
+
+    public String getSiteName() {
+        return SiteName;
+    }
+
+    public void setSiteName(String siteName) {
+        SiteName = siteName;
+    }
+
+    public String getSiteID() {
+        return SiteID;
+    }
+
+    public void setSiteID(String siteID) {
+        SiteID = siteID;
+    }
+
+    public String getTaskID() {
+        return TaskID;
+    }
+
+    public void setTaskID(String taskID) {
+        TaskID = taskID;
+    }
+
+    public String getServerReturn() {
+        return ServerReturn;
+    }
+
+    public void setServerReturn(String serverReturn) {
+        ServerReturn = serverReturn;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
 }
