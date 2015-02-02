@@ -126,6 +126,18 @@ public class TaskDBSer {
         return ylTaskList;
     }
 
+    public String SelTaskID2(String TaskID){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select TaskID from YLTask where TaskDate = ?",new String[]{TaskID});
+        String yltaskid = cursor.getString(cursor.getColumnIndex("TaskID"));
+        sdb.close();
+        return yltaskid;
+    }
+
+
+
+
+
 
 
 

@@ -129,12 +129,16 @@ public class Task extends ActionBarActivity {
         user.ISWIFI="1";
         user.EmpID="2703";
         user.TaskDate= "2014.08.06";
-
+        //获取任务
         GetTask(user);
 
-        List<YLTask> ylTaskList = new ArrayList<YLTask>();
         TaskDBSer  taskDBSer = new TaskDBSer(getApplicationContext());
-        ylTaskList = taskDBSer.SelTaskID("2014-08-06");
+        final String taskid = taskDBSer.SelTaskID2("2014-08-06");
+        //获取网点
+        GetSite(user, taskid);
+    }
+
+    private void GetSite(final User user, final String taskid) {
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -146,7 +150,7 @@ public class Task extends ActionBarActivity {
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
                     p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
-                    p.put("taskID","5789");
+                    p.put("taskID",taskid);
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
@@ -159,7 +163,7 @@ public class Task extends ActionBarActivity {
                         for (Site site:siteList){
                             SiteDBSer siteDBSer = new SiteDBSer(getApplicationContext());
                             siteDBSer.InsertSite2(site);
-                            Log.d("WCF",site.getSiteName());
+                            Log.d("WCF", site.getSiteName());
                         }
                         if (webcontent.equals("1")){
                             mh.sendEmptyMessage(0);
@@ -185,10 +189,6 @@ public class Task extends ActionBarActivity {
             }
 
         });
-
-
-
-
     }
 
     private void GetTask(final User user) {
