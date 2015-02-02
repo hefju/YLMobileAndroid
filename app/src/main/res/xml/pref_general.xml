@@ -8,30 +8,34 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <PreferenceCategory android:title="子标题000">
+    <PreferenceCategory android:title="设备">
     <EditTextPreference
-        android:key="example_text"
+        android:key="HandsetName"
         android:title="@string/pref_title_display_name"
         android:defaultValue="@string/pref_default_display_name"
         android:selectAllOnFocus="true"
         android:capitalize="words"
         android:singleLine="true"
         android:maxLines="1" />
+
     </PreferenceCategory>
 
-<PreferenceCategory android:title="子标题一">
+<PreferenceCategory android:title="系统">
     <Preference android:title="缓存网点">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
-    <Preference android:title="缓存人员">
+    <Preference android:title="缓存人员" android:summary="要缓存什么内容?">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
-    <Preference android:title="检查新版本">
+    <Preference
+        android:key="GetNewVersion"
+        android:title="检查新版本">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
 
-    <Preference android:title="关于">
-        <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
+    <Preference
+        android:key="version"
+        android:title="版本">
     </Preference>
 </PreferenceCategory>
 

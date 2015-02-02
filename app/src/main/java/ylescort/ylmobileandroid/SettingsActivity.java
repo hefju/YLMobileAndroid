@@ -2,6 +2,8 @@ package ylescort.ylmobileandroid;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,6 +18,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 
 import java.util.List;
@@ -67,10 +70,26 @@ public class SettingsActivity extends PreferenceActivity {
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-//        bindPreferenceSummaryToValue(findPreference("example_text"));
-//        bindPreferenceSummaryToValue(findPreference("example_list"));
-//        bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-//        bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+        bindPreferenceSummaryToValue(findPreference("HandsetName"));
+        bindPreferenceSummaryToValue(findPreference("version"));
+
+        Preference p= findPreference("version");
+        try {
+            p.setSummary(getVersionName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private String getVersionName() throws Exception
+    {
+        // 获取packagemanager的实例
+        PackageManager packageManager = getPackageManager();
+        // getPackageName()是你当前类的包名，0代表是获取版本信息
+        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
+        String version = packInfo.versionName;
+        return version;
     }
 
     /**
@@ -186,25 +205,7 @@ public class SettingsActivity extends PreferenceActivity {
                         .getString(preference.getKey(), ""));
     }
 
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class GeneralPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_general);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-//            bindPreferenceSummaryToValue(findPreference("example_text"));
-//            bindPreferenceSummaryToValue(findPreference("example_list"));
-        }
-    }
 
 
 
