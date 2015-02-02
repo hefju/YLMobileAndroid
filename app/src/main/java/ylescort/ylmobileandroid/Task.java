@@ -43,8 +43,10 @@ import java.util.concurrent.Executors;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
+import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.SiteDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
@@ -109,7 +111,6 @@ public class Task extends ActionBarActivity {
         }
     };
 
-    final String[] webcontent = {""};
     public void YLtask(View view) throws ClassNotFoundException {
         /*
         Intent intent = new Intent();
@@ -127,35 +128,38 @@ public class Task extends ActionBarActivity {
         user.DeviceID="NH008";
         user.ISWIFI="1";
         user.EmpID="2703";
-        user.TaskDate= "2014-08-07";
+        user.TaskDate= "2014.08.06";
 
+        GetTask(user);
+
+        List<YLTask> ylTaskList = new ArrayList<YLTask>();
+        TaskDBSer  taskDBSer = new TaskDBSer(getApplicationContext());
+        ylTaskList = taskDBSer.SelTaskID("2014-08-06");
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
-
                     Gson gson = new Gson();
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
                     p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+                    p.put("taskID","5789");
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(post);
                     if (response.getStatusLine().getStatusCode() == 200) {
                         String webcontent = EntityUtils.toString(response.getEntity());
-                        List<YLTask> ylTaskList = new ArrayList<YLTask>();
-                        ylTaskList = gson.fromJson(webcontent,new TypeToken<List<YLTask>>(){}.getType());
+                        List<Site> siteList = new ArrayList<Site>();
+                        siteList = gson.fromJson(webcontent,new TypeToken<List<Site>>(){}.getType());
 
-                        TaskDBSer taskDBSer = new TaskDBSer(getApplicationContext());
-                        taskDBSer.InsertYLTask(ylTaskList);
-
-
-                        for (YLTask ylTask:ylTaskList){
-                            Log.d("WCF",ylTask.getLine());
+                        for (Site site:siteList){
+                            SiteDBSer siteDBSer = new SiteDBSer(getApplicationContext());
+                            siteDBSer.InsertSite2(site);
+                            Log.d("WCF",site.getSiteName());
                         }
                         if (webcontent.equals("1")){
                             mh.sendEmptyMessage(0);
@@ -185,6 +189,59 @@ public class Task extends ActionBarActivity {
 
 
 
+    }
+
+    private void GetTask(final User user) {
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    HttpPost post = new HttpPost(url);
+                    //添加数值到User类
+
+                    Gson gson = new Gson();
+                    //设置POST请求中的参数
+                    JSONObject p = new JSONObject();
+                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String webcontent = EntityUtils.toString(response.getEntity());
+                        List<YLTask> ylTaskList = new ArrayList<YLTask>();
+                        ylTaskList = gson.fromJson(webcontent,new TypeToken<List<YLTask>>(){}.getType());
+
+                        for (YLTask ylTask:ylTaskList){
+                            TaskDBSer taskDBSer = new TaskDBSer(getApplicationContext());
+                            taskDBSer.InsertYLTask2(ylTask);
+                            Log.d("WCF", ylTask.getLine());
+                        }
+                        if (webcontent.equals("1")){
+                            mh.sendEmptyMessage(0);
+                        }
+                        else {
+
+                            mh.sendEmptyMessage(0);
+                        }
+
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+        });
     }
 
     public void LoadData() throws ClassNotFoundException {

@@ -86,8 +86,24 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         taskDBSer.InsterTask(ylTask);
     }
 
-    public void testInsemp(){
-        EmpDBSer empDBSer = new EmpDBSer(getContext());
-        empDBSer.Insemptest();
+    public void testseltaskid(){
+        TaskDBSer taskDBSer =new  TaskDBSer(getContext());
+         List<YLTask> ylTaskList =  taskDBSer.SelTaskID("2014-08-06");
+        for (YLTask ylTask:ylTaskList){
+            Log.d(TAG,ylTask.getTaskID());
+        }
     }
+
+    public void testDeltask(){
+        TaskDBSer taskDBSer =new  TaskDBSer(getContext());
+        YLTask ylTask = new YLTask();
+        for (int i = 5; i < 15;i++)
+        {
+            ylTask.setId(i);
+            taskDBSer.DeleteYLTask(ylTask);
+        }
+
+    }
+
+
 }
