@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 /**
  * Created by rush on 2015-01-31.
@@ -11,16 +13,12 @@ import android.content.SharedPreferences;
 public class JuTestClass {
 
     public  void goahead1(Context ctx){
-       // android.content.getSharedPreferences
-//        ContextWrapper wrapper=new ContextWrapper(ctx);
-//        SharedPreferences settings =  wrapper.getSharedPreferences("Settings", wrapper.MODE_PRIVATE);
-//        String content = settings.getString("Handset_name", "无数据");
-//        android.util.Log.d("jutest", content);
+
         ContextWrapper wrapper=new ContextWrapper(ctx);
-        SharedPreferences settings =  wrapper.getSharedPreferences("ju", wrapper.MODE_PRIVATE);
-        SharedPreferences.Editor edit=settings.edit();
-        String content = settings.getString("hefju", "无数据");
-        android.util.Log.d("jutest", content);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String content =  prefs.getString("HandsetName", "无数据");
+        Toast.makeText(ctx.getApplicationContext(),content, Toast.LENGTH_SHORT).show();
+       // android.util.Log.d("jutest", content);
     }
 
     public  void goahead2(Context ctx){

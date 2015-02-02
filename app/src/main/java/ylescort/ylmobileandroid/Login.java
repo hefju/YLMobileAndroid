@@ -53,14 +53,14 @@ public class Login extends ActionBarActivity {
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
 
-         btnju1=(Button)findViewById(R.id.btnTest1);
-         btnju2=(Button)findViewById(R.id.btnTest2);
+        Button    btnju1=(Button)findViewById(R.id.btnTest1);
+        Button btnju2=(Button)findViewById(R.id.btnTest2);
         btnju1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JuTestClass mytest=new JuTestClass();
                 mytest.goahead1(getApplicationContext());
-                Toast.makeText(getApplicationContext(), "启动测试1", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "启动测试1", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -69,16 +69,14 @@ public class Login extends ActionBarActivity {
             public void onClick(View v) {
                 JuTestClass mytest=new JuTestClass();
                 mytest.goahead2(getApplicationContext());
-//                Intent intent = new Intent();
-//                intent.setClass(getApplicationContext(), SettingsActivity.class);
-//                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), "启动测试2", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "启动测试2", Toast.LENGTH_SHORT).show();
             }
         });
+
+        //action_settings
     }
-    private    Button btnju1;
-    private Button btnju2;
+//    private    Button btnju1;
+//    private Button btnju2;
 
     List<String> listViewdata = new ArrayList<String>();
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -174,6 +172,9 @@ public class Login extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 

@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -33,11 +34,10 @@ public class YLSystem {
 
     public static String GetDeviceID(Context ctx)
     {
-        //todo 目前还不能从SharedPreferences中取数
         ContextWrapper wrapper=new ContextWrapper(ctx);
-        SharedPreferences settings =  wrapper.getSharedPreferences("Settings", wrapper.MODE_PRIVATE);
-        String content = settings.getString("Handset_name", "无数据");
-        //android.util.Log.d("jutest", content);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String content =  prefs.getString("HandsetName", "未设置");
+
         return content;//"NH008";
     }
 

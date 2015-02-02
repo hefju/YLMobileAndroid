@@ -80,7 +80,21 @@ public class SettingsActivity extends PreferenceActivity {
             e.printStackTrace();
         }
 
+        clickcount=0;
+        p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                clickcount++;
+                if(clickcount>5){
+                    Toast.makeText(getApplicationContext(),"不要这么无聊好吗.",Toast.LENGTH_SHORT).show();
+                    clickcount=0;
+                }
+                return false;
+            }
+        });
+
     }
+    static  int clickcount=0;
 
     private String getVersionName() throws Exception
     {
