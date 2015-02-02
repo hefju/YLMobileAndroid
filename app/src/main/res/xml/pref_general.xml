@@ -8,6 +8,7 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <PreferenceCategory android:title="子标题000">
     <EditTextPreference
         android:key="example_text"
         android:title="@string/pref_title_display_name"
@@ -16,8 +17,9 @@
         android:capitalize="words"
         android:singleLine="true"
         android:maxLines="1" />
+    </PreferenceCategory>
 
-
+<PreferenceCategory android:title="子标题一">
     <Preference android:title="缓存网点">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
@@ -31,5 +33,6 @@
     <Preference android:title="关于">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
+</PreferenceCategory>
 
 </PreferenceScreen>
