@@ -14,6 +14,7 @@ import java.util.List;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.EmpDBSer;
+import YLDataService.TaskDBSer;
 import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
 import YLSystem.YLSystem;
@@ -75,5 +76,18 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         }.getType());
         Log.d(TAG,ylTaskList.toString());
 
+    }
+
+    public void testInsTask(){
+        YLTask ylTask = new YLTask();
+        ylTask.setLine("123");
+        ylTask.setHandset("2115");
+        TaskDBSer taskDBSer = new TaskDBSer(getContext());
+        taskDBSer.InsterTask(ylTask);
+    }
+
+    public void testInsemp(){
+        EmpDBSer empDBSer = new EmpDBSer(getContext());
+        empDBSer.Insemptest();
     }
 }

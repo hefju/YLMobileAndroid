@@ -46,6 +46,7 @@ public class TaskDBSer {
                         new Object[]{x.ServerVersion,x.TaskVersion,x.TaskID,x.TaskType, x.Handset,
                                 x.TaskDate,x.Line,x.TaskManager,x.TaskATMBeginTime,x.TaskATMEndTime,
                                 x.TaskManagerNo,x.ServerReturn,x.Id} );
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
@@ -59,6 +60,7 @@ public class TaskDBSer {
         try {
             for(YLTask x:lst) {
                 sdb.execSQL("delete from YLTask where Id=?", new Object[]{x.Id} );
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
@@ -69,19 +71,18 @@ public class TaskDBSer {
     }
     public void InsertYLTask(List<YLTask> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
-        sdb.beginTransaction();
         try {
             for(YLTask x:lst) {
             sdb.execSQL("INSERT INTO YLTask(ServerVersion, TaskVersion, TaskID, TaskType, Handset, " +
                             "TaskDate, Line, TaskManager, TaskATMBeginTime, TaskATMEndTime, " +
-                            "TaskManagerNo, ServerReturn) VALUES   (?,?,?,?,?,?,?,?,?,?,?,?,)",
-                    new Object[]{x.ServerVersion,x.TaskVersion,x.TaskID,x.TaskType, x.Handset,
-                           x.TaskDate,x.Line,x.TaskManager,x.TaskATMBeginTime,x.TaskATMEndTime,
-                    x.TaskManagerNo,x.ServerReturn} );
+                            "TaskManagerNo, ServerReturn) VALUES   (?,?,?,?,?,?,?,?,?,?,?,?)",
+                    new Object[]{x.getServerVersion(),x.getTaskVersion(),x.getTaskID(),x.getTaskType(), x.getHandset(),
+                           x.getTaskDate(),x.getLine(),x.getTaskManager(),x.getTaskATMBeginTime(),x.getTaskATMEndTime(),
+                    x.getTaskManagerNo(),x.getServerReturn()} );
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
-            sdb.endTransaction();
             sdb.close();
         }
     }

@@ -25,6 +25,7 @@ public class BoxDBSer {
                     " BoxType, NextOutTime, ActionTime, TimeID) VALUES   (?,?,?,?,?,?,?,?,?,?,)",
                     new Object[]{x.ServerReturn,x.SiteID,x.BoxID,x.BoxName,
                     x.TradeAction,x.BoxStatus,x.BoxType,x.NextOutTime,x.ActionTime,x.TimeID} );
+            sdb.setTransactionSuccessful();
         }
         finally {
             sdb.endTransaction();
@@ -40,6 +41,7 @@ public class BoxDBSer {
                             " BoxStatus =?, BoxType =?, NextOutTime =?, ActionTime =?, TimeID =? where Id=?",
                     new Object[]{x.ServerReturn,x.SiteID,x.BoxID,x.BoxName,x.TradeAction,x.BoxStatus,
                             x.BoxType,x.NextOutTime,x.ActionTime,x.TimeID,x.Id} );
+            sdb.setTransactionSuccessful();
         }
         finally {
             sdb.endTransaction();
@@ -52,6 +54,7 @@ public class BoxDBSer {
         sdb.beginTransaction();
         try {
             sdb.execSQL("DELETE FROM Box where Id=?", new Object[]{x.Id} );
+            sdb.setTransactionSuccessful();
         }
         finally {
             sdb.endTransaction();
@@ -108,6 +111,7 @@ public class BoxDBSer {
                                 " BoxType, NextOutTime, ActionTime, TimeID) VALUES   (?,?,?,?,?,?,?,?,?,?,)",
                         new Object[]{x.ServerReturn, x.SiteID, x.BoxID, x.BoxName,
                                 x.TradeAction, x.BoxStatus, x.BoxType, x.NextOutTime, x.ActionTime, x.TimeID});
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
@@ -127,6 +131,7 @@ public class BoxDBSer {
                                 " BoxStatus =?, BoxType =?, NextOutTime =?, ActionTime =?, TimeID =? where Id=?",
                         new Object[]{x.ServerReturn, x.SiteID, x.BoxID, x.BoxName, x.TradeAction, x.BoxStatus,
                                 x.BoxType, x.NextOutTime, x.ActionTime, x.TimeID, x.Id});
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
@@ -142,6 +147,7 @@ public class BoxDBSer {
         try {
             for (Box x : lst) {
                 sdb.execSQL("DELETE FROM Box where Id=?", new Object[]{x.Id});
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
