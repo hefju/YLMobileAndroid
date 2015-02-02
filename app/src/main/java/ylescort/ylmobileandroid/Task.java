@@ -45,6 +45,7 @@ import java.util.logging.LogRecord;
 
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.TaskDBSer;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
 
@@ -67,7 +68,8 @@ public class Task extends ActionBarActivity {
         */
         listView = (ListView)findViewById(R.id.Task_lv_mlistview);
         try {
-           // LoadData();
+
+            //LoadData();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,63 +109,7 @@ public class Task extends ActionBarActivity {
         }
     };
 
-
-    protected   void GetTaskData() throws Exception{
-
-        Gson gson = new Gson();
-        WebService webService = new WebService();
-        User user = new User();
-        user.EmpNO="600241";
-        user.Name="杨磊";
-        user.Pass= YLSystem.md5("600241");
-        user.DeviceID="NH008";
-        user.ISWIFI="1";
-        user.EmpID="2703";
-        user.TaskDate= "2014-08-07";
-        String mather = "GetTask1";
-        String webcontent = null;
-
-        webcontent =  asyncTask(user,mather);
-
-        List<YLTask> ylTaskList = new ArrayList<YLTask>();
-
-        ylTaskList= gson.fromJson(webcontent, new TypeToken<List<YLTask>>() {
-        }.getType());
-        Log.d("YLtest",ylTaskList.toString());
-    }
-
-
-
-    private String asyncTask(final User user, final String mather) {
-
-        final android.os.Handler handler = new android.os.Handler(){
-
-            public void handleMessage(Message message)
-            {
-                try {
-                    WebService.TaskWebContent(mather,user);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    handler.sendMessage(handler.obtainMessage());
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        };
-        new Thread(runnable).start();
-        return "";
-    }
-
-
+    final String[] webcontent = {""};
     public void YLtask(View view) throws ClassNotFoundException {
         /*
         Intent intent = new Intent();
@@ -173,7 +119,16 @@ public class Task extends ActionBarActivity {
         intent.putExtras(bundle);
         startActivity(intent);
         */
-        /*
+
+        final User user = new User();
+        user.EmpNO="600241";
+        user.Name="杨磊";
+        user.Pass= YLSystem.md5("600241");
+        user.DeviceID="NH008";
+        user.ISWIFI="1";
+        user.EmpID="2703";
+        user.TaskDate= "2014-08-07";
+
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -181,14 +136,7 @@ public class Task extends ActionBarActivity {
                     String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
-                    User user = new User();
-                    user.EmpNO="600241";
-                    user.Name="杨磊";
-                    user.Pass= YLSystem.md5("600241");
-                    user.DeviceID="NH008";
-                    user.ISWIFI="1";
-                    user.EmpID="2703";
-                    user.TaskDate= "2014-08-07";
+
                     Gson gson = new Gson();
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
@@ -197,13 +145,19 @@ public class Task extends ActionBarActivity {
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(post);
-                    Log.d("WCF","fhe");  //得到返回字符串
                     if (response.getStatusLine().getStatusCode() == 200) {
-                        String content = EntityUtils.toString(response.getEntity());
-                        Log.d("WCF",content);  //得到返回字符串
+                        String webcontent = EntityUtils.toString(response.getEntity());
+                        List<YLTask> ylTaskList = new ArrayList<YLTask>();
+                        ylTaskList = gson.fromJson(webcontent,new TypeToken<List<YLTask>>(){}.getType());
+
+                        TaskDBSer taskDBSer = new TaskDBSer(getApplicationContext());
+                        taskDBSer.InsertYLTask(ylTaskList);
 
 
-                        if (content.equals("1")){
+                        for (YLTask ylTask:ylTaskList){
+                            Log.d("WCF",ylTask.getLine());
+                        }
+                        if (webcontent.equals("1")){
                             mh.sendEmptyMessage(0);
                         }
                         else {
@@ -225,18 +179,13 @@ public class Task extends ActionBarActivity {
                     e.printStackTrace();
                 }
             }
+
         });
-*/
-        WebService webService = new WebService();
-        try {
-            String webconte =  webService.gettask();
-            Log.d("Tasktest",webconte);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+
 
     }
-
 
     public void LoadData() throws ClassNotFoundException {
          listView = (ListView)findViewById(R.id.Task_lv_mlistview);

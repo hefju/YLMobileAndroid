@@ -25,6 +25,7 @@ public class SiteDBSer {
                     "SiteManagerPhone, SiteType, Status, ATMCount) VALUES (?,?,?,?,?,?,?,?,?)"
                     ,new Object[]{x.ServerReturn,x.TaskID,x.SiteID,x.SiteName,x.SiteManager,
                     x.SiteManagerPhone,x.SiteType,x.Status,x.ATMCount} );
+            sdb.setTransactionSuccessful();
         }
         finally {
             sdb.endTransaction();
@@ -39,6 +40,7 @@ public class SiteDBSer {
                         "SiteManager =?, SiteManagerPhone =?, SiteType =?, Status =?, ATMCount =?" +
                             " where id=?",new Object[]{x.ServerReturn,x.TaskID,x.SiteID,x.SiteName,
                     x.SiteManager,x.SiteManagerPhone,x.SiteType,x.Status,x.ATMCount,x.Id} );
+            sdb.setTransactionSuccessful();
         }
         finally {
             sdb.endTransaction();
@@ -50,6 +52,7 @@ public class SiteDBSer {
         sdb.beginTransaction();
         try {
             sdb.execSQL("delete from Site where id=?",new Object[]{x.Id} );
+            sdb.setTransactionSuccessful();
         }
         finally {
             sdb.endTransaction();
@@ -101,6 +104,7 @@ public class SiteDBSer {
                         "SiteManagerPhone, SiteType, Status, ATMCount) VALUES (?,?,?,?,?,?,?,?,?)"
                         , new Object[]{x.ServerReturn, x.TaskID, x.SiteID, x.SiteName, x.SiteManager,
                         x.SiteManagerPhone, x.SiteType, x.Status, x.ATMCount});
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
@@ -117,6 +121,7 @@ public class SiteDBSer {
                         "SiteManager =?, SiteManagerPhone =?, SiteType =?, Status =?, ATMCount =?" +
                         " where id=?", new Object[]{x.ServerReturn, x.TaskID, x.SiteID, x.SiteName,
                         x.SiteManager, x.SiteManagerPhone, x.SiteType, x.Status, x.ATMCount, x.Id});
+                sdb.setTransactionSuccessful();
             }
         }
         finally {
@@ -130,6 +135,7 @@ public class SiteDBSer {
             try {
                 for (Site x : lst) {
                     sdb.execSQL("delete from Site where id=?", new Object[]{x.Id});
+                    sdb.setTransactionSuccessful();
                 }
             }
             finally {
