@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import TaskClass.User;
+import YLDataService.WebService;
 
 /**
  * Created by asus on 2015/1/29.
@@ -30,7 +32,21 @@ public class YLSystem {
     }
 
 
+    public static String getVerName(Context context) {
+        String verName = context.getResources().getText(ylescort.ylmobileandroid.R.string.app_versionName).toString();
+        return verName;
+    }
 
+    public static boolean CheckUpdate(Context ctx) {
+        WebService ws = new WebService();
+        String serverVer = ws.getServerVer();
+        String localVer = YLSystem.getVerName(ctx);
+        if (Double.parseDouble(serverVer) > Double.parseDouble(localVer)) {
+           return true;
+        } else {
+           return false;
+        }
+    }
 
     public static String GetDeviceID(Context ctx)
     {

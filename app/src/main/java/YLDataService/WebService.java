@@ -141,6 +141,12 @@ public class WebService {
         }); return webcontent;
     }
 
+    public String getServerVer () {
+        //todo 从服务器获取软件的最新版本
+        webcontent="1.02";
+        return webcontent;
+    }
+
 
 
 }

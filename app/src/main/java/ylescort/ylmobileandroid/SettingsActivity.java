@@ -1,7 +1,10 @@
 package ylescort.ylmobileandroid;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -18,10 +21,14 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 
 import java.util.List;
+
+import YLSystem.YLSystem;
+import YLWebService.UpdateManager;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -93,17 +100,31 @@ public class SettingsActivity extends PreferenceActivity {
             }
         });
 
+        Preference pUpdate= findPreference("GetNewVersion");
+        pUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Log.d("jutest","GetNewVersion click");
+                UpdateManager um=new UpdateManager(SettingsActivity.this);
+                um.check();
+//
+//                if (YLSystem.CheckUpdate(getApplicationContext())){
+//                    Toast.makeText(getApplicationContext(),"准备更新.",Toast.LENGTH_SHORT).show();
+//                    downFile(Config.UPDATE_SERVER + Config.UPDATE_APKNAME);
+//                }else{
+//                    Toast.makeText(getApplicationContext(),"已经是最新版本.",Toast.LENGTH_SHORT).show();
+//                }
+
+                return false;
+            }
+        });
+
     }
     static  int clickcount=0;
 
     private String getVersionName() throws Exception
     {
-        // 获取packagemanager的实例
-        PackageManager packageManager = getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
-        String version = packInfo.versionName;
-        return version;
+      return   YLSystem .getVerName(getApplicationContext());
     }
 
     /**
