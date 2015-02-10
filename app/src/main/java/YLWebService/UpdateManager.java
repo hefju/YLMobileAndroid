@@ -40,7 +40,11 @@ public class UpdateManager {
     private String currentTempFilePath = "";
     private String fileEx = "";
     private String fileNa = "";
-    private String strURL = "ftp://58.252.75.149:2222/YLERP_MOBILE_ANDROID/YLMobile.apk";
+    private String strURL = "http://58.252.75.149:8055/YLMobile.apk";
+
+    private static final String savePath = "/sdcard/updatedemo/";
+    private static final String saveFileName = savePath + "YLMobile.apk";
+
     private ProgressDialog dialog;
     public UpdateManager(Activity activity) {
         this.activity = activity;
@@ -138,7 +142,12 @@ public class UpdateManager {
             if (is == null) {
                 throw new RuntimeException("stream is null");
             }
-            File myTempFile = File.createTempFile(fileNa, "." + fileEx);
+            File file = new File(savePath);
+            if(!file.exists()){
+                file.mkdir();
+            }
+
+            File myTempFile =new File(saveFileName);// File.createTempFile(fileNa, "." + fileEx);
             currentTempFilePath = myTempFile.getAbsolutePath();
             FileOutputStream fos = new FileOutputStream(myTempFile);
             byte buf[] = new byte[128];
@@ -152,7 +161,8 @@ public class UpdateManager {
             Log.i(TAG, "getDataSource() Download  ok...");
             dialog.cancel();
             dialog.dismiss();
-            openFile(myTempFile);
+            Log.d("jutest",myTempFile.toURI().toString());
+            installApk(myTempFile);//openFile(myTempFile);
             try {
                 is.close();
             } catch (Exception ex) {
@@ -160,14 +170,24 @@ public class UpdateManager {
             }
         }
     }
-    private void openFile(File f) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(android.content.Intent.ACTION_VIEW);
-        String type = getMIMEType(f);
-        intent.setDataAndType(Uri.fromFile(f), type);
-        activity.startActivity(intent);
+    private void installApk(File apkfile){
+//        File apkfile = new File(saveFileName);
+        if (!apkfile.exists()) {
+            return;
+        }
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
+        activity.startActivity(i);
+
     }
+//    private void openFile(File f) {
+//        Intent intent = new Intent();
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.setAction(android.content.Intent.ACTION_VIEW);
+//        String type = getMIMEType(f);
+//        intent.setDataAndType(Uri.fromFile(f), type);
+//        activity.startActivity(intent);
+//    }
     public void delFile() {
         Log.i(TAG, "The TempFile(" + currentTempFilePath + ") was deleted.");
         File myFile = new File(currentTempFilePath);
