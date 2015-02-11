@@ -23,12 +23,11 @@
             android:label="@string/title_activity_task_" >
         </activity>
         <activity
-            android:name=".Site"
-            android:label="@string/title_activity_site" >
-        </activity>
-        <activity
-            android:name=".box"
+            android:name="ylescort.ylmobileandroid.box"
             android:label="@string/title_activity_box" >
+            <intent-filter>
+            <action android:name="ylescort.ylmobileandroid.box" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".boxlist"
@@ -46,6 +45,7 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+        <service android:name=".Scan1DService"></service>
     </application>
 
 </manifest>
