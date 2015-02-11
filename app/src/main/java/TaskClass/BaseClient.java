@@ -16,4 +16,3 @@ public class BaseClient //客户类
     public String ClientType ;//客户类型
 }
 
-}
