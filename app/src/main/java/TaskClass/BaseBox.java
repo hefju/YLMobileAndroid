@@ -6,19 +6,19 @@ package TaskClass;
 public class BaseBox //箱类
 {
     
-    public string ServerReturn ;//服务器返回的成功与否，成功1，其他异常是e.tostring().
+    public String ServerReturn ;//服务器返回的成功与否，成功1，其他异常是e.toString().
     
-    public string BoxID ;//箱ID
+    public String BoxID ;//箱ID
     
-    public string BoxName ;//箱名称
+    public String BoxName ;//箱名称
     
-    public string BoxUHFNo ;//箱UHF卡号
+    public String BoxUHFNo ;//箱UHF卡号
     
-    public string BoxBCNo ;//箱条形码号
+    public String BoxBCNo ;//箱条形码号
     
-    public string BoxType ;//箱类型
+    public String BoxType ;//箱类型
     
-    public string ClientID ;//客户ID
+    public String ClientID ;//客户ID
     
-    public string SiteID ;//网点ID
+    public String SiteID ;//网点ID
 }
