@@ -124,6 +124,9 @@ public class Login extends ActionBarActivity {
                         }.getType());
                         Log.d("WCF", getjsonuser.getServerReturn()+"");//打印到logcat
                         if (getjsonuser.getServerReturn().equals("1")){
+
+                            YLSystem.setUser(getjsonuser);
+
                             Intent intent = new Intent();
                             intent.setClass(Login.this, box.class);
                             Bundle bundle = new Bundle();

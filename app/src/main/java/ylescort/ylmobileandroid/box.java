@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 
 public class box extends ActionBarActivity {
@@ -115,6 +116,10 @@ public class box extends ActionBarActivity {
                 mlist = new ArrayList<Map<String,Object>>();
                 //对数据进行排序
                 //list_goods = sortAndadd(list_goods, receivedata);
+
+               String sql[] = receivedata.split("\\\\");
+               receivedata = sql[0];
+
                 Toast.makeText(getApplicationContext(), receivedata, Toast.LENGTH_LONG).show();
                 // String  allcount = list_goods.get(0).getCount()+"";
                 //写到固定的文件中
