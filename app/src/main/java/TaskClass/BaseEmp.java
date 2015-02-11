@@ -6,6 +6,7 @@ package TaskClass;
 
 public class BaseEmp//员工类
 {
+    public int  Id;
     public String ServerReturn ;//服务器返回的成功与否，成功1，其他异常是e.toString().
     public String EmpID ;//员工ID
     public String EmpName ;//员工名称

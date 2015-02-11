@@ -28,6 +28,20 @@ public class YLSQLHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE YLTask (ID integer primary key autoincrement,ServerVersion varchar(50), TaskVersion varchar(50),"+
                 " TaskID varchar(50), TaskType varchar(50), Handset varchar(50), TaskDate varchar(50), Line varchar(50), TaskManager varchar(50),"+
                 "  TaskATMBeginTime varchar(50), TaskATMEndTime varchar(50), TaskManagerNo varchar(50), ServerReturn varchar(50))");
+
+        db.execSQL("CREATE TABLE BaseBox (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50), " +
+                "BoxID varchar(50), BoxName varchar(50), BoxUHFNo varchar(50), BoxBCNo varchar(50), " +
+                "BoxType varchar(50), ClientID varchar(50), SiteID varchar(50) NULL)");
+        db.execSQL("CREATE TABLE BaseClient (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                "ServerReturn varchar(50), ClientID varchar(50), ClientName varchar(50)," +
+                " ClientType varchar(50))");
+
+        db.execSQL("CREATE TABLE BaseEmp (Id INTEGER PRIMARY KEY identity NOT NULL, ServerReturn varchar(50)," +
+                " EmpID varchar(50), EmpName varchar(50), EmpNo varchar(50), EmpHFNo varchar(50)," +
+                " EmpWorkState varchar(50), EmpJJNo varchar(50))");
+        db.execSQL("CREATE TABLE BaseSite (Id INTEGER PRIMARY KEY identity NOT NULL, ServerReturn varchar(50)," +
+                " SiteID varchar(50), SiteName varchar(50), SiteType varchar(50), ClientID varchar(50))");
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
