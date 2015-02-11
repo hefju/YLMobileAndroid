@@ -91,5 +91,14 @@
         android:layout_below="@+id/Log_BN_Cal"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="翀测试1"
+        android:id="@+id/button2"
+        android:layout_below="@+id/btnTest1"
+        android:onClick="chongtest"
+        android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

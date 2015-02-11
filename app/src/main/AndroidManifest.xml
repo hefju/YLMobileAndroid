@@ -3,7 +3,8 @@
     package="ylescort.ylmobileandroid" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -23,10 +24,10 @@
             android:label="@string/title_activity_task_" >
         </activity>
         <activity
-            android:name="ylescort.ylmobileandroid.box"
+            android:name=".box"
             android:label="@string/title_activity_box" >
             <intent-filter>
-            <action android:name="ylescort.ylmobileandroid.box" />
+                <action android:name="ylescort.ylmobileandroid.box" />
             </intent-filter>
         </activity>
         <activity
@@ -45,7 +46,13 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <service android:name=".Scan1DService"></service>
+
+        <service android:name=".Scan1DService" />
+
+        <activity
+            android:name=".CHONG_TEST"
+            android:label="@string/title_activity_chong__test" >
+        </activity>
     </application>
 
 </manifest>

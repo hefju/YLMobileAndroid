@@ -89,7 +89,14 @@ public class Login extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
     };
-
+    public void chongtest(View view){
+        Intent intent = new Intent();
+        intent.setClass(Login.this, CHONG_TEST.class);
+     /*   Bundle bundle = new Bundle();
+        bundle.putString("AName","Kim");
+        intent.putExtras(bundle);*/
+        startActivity(intent);
+    }
     public void LoginEnter(View view) throws ClassNotFoundException {
         /*
         Intent intent = new Intent();

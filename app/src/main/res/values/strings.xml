@@ -21,5 +21,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_taskitem">Taskitem</string>
     <string name="app_versionName">1.01</string>
+    <string name="title_activity_chong__test">CHONG_TEST</string>
 
 </resources>
