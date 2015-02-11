@@ -64,7 +64,27 @@ public class WebService {
             return null;
         }
     }
+    public final String getBaseEmp(String webapi,User user ) throws JSONException, IOException {
 
+        webserviceaddress +=webapi;
+        HttpPost post = new HttpPost(webserviceaddress);
+        Gson gson = new Gson();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user",gson.toJson(user));
+        post.setEntity(new StringEntity(jsonObject.toString(), "UTF-8"));//将参数设置入POST请求
+        post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+        HttpClient client = new DefaultHttpClient();
+        HttpResponse response = client.execute(post);
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
+            User getjsonuser = gson.fromJson(content, new TypeToken<User>() {
+            }.getType());
+            return getjsonuser.getServerReturn();
+        }
+        else {
+            return null;
+        }
+    }
 
     public final static   String TaskWebContent(String webapi,User user ) throws Exception {
 
