@@ -183,7 +183,7 @@ public class Login extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), SettingsActivity.class);
+            intent.setClass(getApplicationContext(), setup.class);
             startActivity(intent);
             return true;
         }
