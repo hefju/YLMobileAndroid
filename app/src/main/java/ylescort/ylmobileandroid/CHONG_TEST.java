@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -38,6 +40,13 @@ import YLSystem.YLSystem;
 
 
 public class CHONG_TEST extends ActionBarActivity {
+
+    List<String> listViewdata = new ArrayList<String>();
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +83,8 @@ public class CHONG_TEST extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
+          ListView listView = (ListView) findViewById(R.id.listView);
+            listView.setAdapter(new ArrayAdapter<String>(CHONG_TEST.this, android.R.layout.simple_expandable_list_item_1, listViewdata));
             //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
     };
@@ -84,10 +94,22 @@ public class CHONG_TEST extends ActionBarActivity {
             @Override
             public void run() {
                 try {
+                    //添加数值到User类
+                    User s1 = new User();
+                    s1.EmpNO = "200097";
+                    s1.Name = "徐竞航";
+                    s1.Pass = "8c4d6ed1b2688b2373bcac4137fab1e6";
+                    s1.DeviceID = "NH008";
+                    s1.ISWIFI = "1";
                     String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
+                    //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", s1.DeviceID);//手持机号
+                    p.put("ISWIFI", s1.ISWIFI);//是否用WIFI
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(post);
@@ -98,16 +120,14 @@ public class CHONG_TEST extends ActionBarActivity {
                         List<BaseEmp> ListBaseEmp=new ArrayList<BaseEmp>();
                         ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
                         }.getType());
-                        List listViewdata= new ArrayList<>();
+
                         listViewdata.clear();
                         for (BaseEmp baseEmp : ListBaseEmp) {
-
                                 listViewdata.add(baseEmp.EmpName);
-
                         }
                         Log.d("WCF",  "ok");//打印到logcat
 
-                            mh.sendEmptyMessage(0);
+                        mh.sendEmptyMessage(0);
 
 
                     }
@@ -120,6 +140,8 @@ public class CHONG_TEST extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
