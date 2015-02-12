@@ -126,15 +126,42 @@ public class TaskDBSer {
         return ylTaskList;
     }
 
-    public String SelTaskID2(String TaskID){
+    public List<String> SelTaskID2(String TaskID){
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("select TaskID from YLTask where TaskDate = ?",new String[]{TaskID});
-        String yltaskid = cursor.getString(cursor.getColumnIndex("TaskID"));
+        List<String> stringList = new ArrayList<String>();
+        while (cursor.moveToNext()){
+            stringList.add(cursor.getString(cursor.getColumnIndex("TaskID")));
+        }
         sdb.close();
-        return yltaskid;
+        return stringList;
     }
 
+    public List<YLTask> SelTaskbydatetolist(String TaskDate){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("SELECT * FROM YLTask WHERE TaskDate = ?",new String[]{TaskDate});
+        List<YLTask> ylTaskList = new ArrayList<>();
 
+        while (cursor.moveToNext()){
+            YLTask ylTask = new YLTask();
+            ylTask.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+            ylTask.setServerVersion(cursor.getString(cursor.getColumnIndex("ServerVersion")));
+            ylTask.setTaskVersion(cursor.getString(cursor.getColumnIndex("TaskVersion")));
+            ylTask.setTaskID(cursor.getString(cursor.getColumnIndex("TaskID")));
+            ylTask.setTaskType(cursor.getString(cursor.getColumnIndex("TaskType")));
+            ylTask.setHandset(cursor.getString(cursor.getColumnIndex("Handset")));
+            ylTask.setTaskDate(cursor.getString(cursor.getColumnIndex("TaskDate")));
+            ylTask.setLine(cursor.getString(cursor.getColumnIndex("Line")));
+            ylTask.setTaskManager(cursor.getString(cursor.getColumnIndex("TaskManager")));
+            ylTask.setTaskATMBeginTime(cursor.getString(cursor.getColumnIndex("TaskATMBeginTime")));
+            ylTask.setTaskATMEndTime(cursor.getString(cursor.getColumnIndex("TaskATMEndTime")));
+            ylTask.setTaskManagerNo(cursor.getString(cursor.getColumnIndex("TaskManagerNo")));
+            ylTask.setServerReturn(cursor.getString(cursor.getColumnIndex("ServerReturn")));
+            ylTaskList.add(ylTask);
+        }
+        sdb.close();
+        return ylTaskList;
+    }
 
 
 

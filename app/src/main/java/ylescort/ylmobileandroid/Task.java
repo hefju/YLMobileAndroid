@@ -69,24 +69,18 @@ public class Task extends ActionBarActivity {
         textView.setText(Name);
         */
         listView = (ListView)findViewById(R.id.Task_lv_mlistview);
-        try {
-
-            //LoadData();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                 /*获取列表项目数据
+/*
+                // 获取列表项目数据
                  ListView lView = (ListView)parent;
                  HashMap<String,String> map=(HashMap<String,String>)lView.getItemAtPosition(position);
-                 String title=map.get("任务名称");
+                 String title=map.get("任务状态");
                  Toast.makeText(Task.this,title,Toast.LENGTH_SHORT).show();
-                 */
+*/
 
                  Intent intent = new Intent();
                  intent.setClass(Task.this,box.class);
@@ -121,6 +115,8 @@ public class Task extends ActionBarActivity {
         startActivity(intent);
         */
 
+        //final User user = YLSystem.getUser();
+
         final User user = new User();
         user.EmpNO="600241";
         user.Name="杨磊";
@@ -128,14 +124,20 @@ public class Task extends ActionBarActivity {
         user.DeviceID="NH008";
         user.ISWIFI="1";
         user.EmpID="2703";
-        user.TaskDate= "2014.08.06";
+        user.TaskDate= "2014.08.07";
+
         //获取任务
         GetTask(user);
 
         TaskDBSer  taskDBSer = new TaskDBSer(getApplicationContext());
-        final String taskid = taskDBSer.SelTaskID2("2014-08-06");
+        final List<String> taskid = taskDBSer.SelTaskID2("2014-08-07");
         //获取网点
-        GetSite(user, taskid);
+        for (String singtaskid :taskid){
+            GetSite(user, singtaskid);
+        }
+
+        List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
+        LoadData(ylTaskList);
     }
 
     private void GetSite(final User user, final String taskid) {
@@ -149,8 +151,11 @@ public class Task extends ActionBarActivity {
                     Gson gson = new Gson();
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
-                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
                     p.put("taskID",taskid);
+                    p.put("deviceID",user.getDeviceID());
+                    p.put("empid",user.getEmpID());
+                    p.put("ISWIFI",user.getISWIFI());
+
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
@@ -161,6 +166,9 @@ public class Task extends ActionBarActivity {
                         siteList = gson.fromJson(webcontent,new TypeToken<List<Site>>(){}.getType());
 
                         for (Site site:siteList){
+                            if (site.getServerReturn().equals("此任务没有网点。")){
+                                continue;
+                            }
                             SiteDBSer siteDBSer = new SiteDBSer(getApplicationContext());
                             siteDBSer.InsertSite2(site);
                             Log.d("WCF", site.getSiteName());
@@ -213,7 +221,11 @@ public class Task extends ActionBarActivity {
                         List<YLTask> ylTaskList = new ArrayList<YLTask>();
                         ylTaskList = gson.fromJson(webcontent,new TypeToken<List<YLTask>>(){}.getType());
 
+
                         for (YLTask ylTask:ylTaskList){
+                            if (ylTask.getServerReturn().equals("没有任务。")){
+                                continue;
+                            }
                             TaskDBSer taskDBSer = new TaskDBSer(getApplicationContext());
                             taskDBSer.InsertYLTask2(ylTask);
                             Log.d("WCF", ylTask.getLine());
@@ -244,20 +256,22 @@ public class Task extends ActionBarActivity {
         });
     }
 
-    public void LoadData() throws ClassNotFoundException {
+    public void LoadData(List<YLTask> ylTaskList) throws ClassNotFoundException {
          listView = (ListView)findViewById(R.id.Task_lv_mlistview);
 
         //生成动态数组，加入数据
         ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
 
-        for(int i=0;i<5;i++)
-        {
+        for (YLTask ylTask:ylTaskList){
             HashMap<String, Object> map = new HashMap<>();
-            map.put("任务名称", "stateLoad "+i);
-            map.put("任务类型", "Stype "+i);
-            map.put("任务状态", "state");
+            map.put("任务名称",ylTask.getLine());
+            map.put("任务类型",ylTask.getTaskType());
+            map.put("任务状态","未完成");
+            map.put("taskid",ylTask.getId());
             listItem.add(map);
         }
+
+
         //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
                 R.layout.activity_taskitem,//ListItem的XML实现

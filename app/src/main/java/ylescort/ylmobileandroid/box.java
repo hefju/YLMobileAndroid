@@ -33,11 +33,8 @@ public class box extends ActionBarActivity {
     private List<Map<String, Object>> mlist;
     //用于保存扫描次数
     private FileOutputStream fos;
-
     private MyBroadcast myBroad;  //广播接收者
-
     private String activity = "ylescort.ylmobileandroid.box";
-    //    ylescort.ylmobileandroid.Scan1DService
     public String TAG = "MainActivity";  //Debug
     private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
 
@@ -114,21 +111,7 @@ public class box extends ActionBarActivity {
             if (receivedata != null) {
                 Log.e(TAG  + "  receivedata", receivedata);
                 mlist = new ArrayList<Map<String,Object>>();
-                //对数据进行排序
-                //list_goods = sortAndadd(list_goods, receivedata);
-
-               String sql[] = receivedata.split("\\\\");
-               receivedata = sql[0];
-
                 Toast.makeText(getApplicationContext(), receivedata, Toast.LENGTH_LONG).show();
-                // String  allcount = list_goods.get(0).getCount()+"";
-                //写到固定的文件中
-//                try {
-//                    fos.write(allcount.getBytes());
-//                } catch (IOException e1) {
-//                    // TODO Auto-generated catch block
-//                    e1.printStackTrace();
-//                }
                 try {
                     fos.close();
                 } catch (IOException e1) {

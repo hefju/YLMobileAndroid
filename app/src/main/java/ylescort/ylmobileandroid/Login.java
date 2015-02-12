@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import TaskClass.YLTask;
 import YLSystem.YLSystem;
 import TaskClass.User;
 
@@ -86,7 +87,7 @@ public class Login extends ActionBarActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         }
     };
     public void chongtest(View view){
@@ -116,7 +117,7 @@ public class Login extends ActionBarActivity {
 
                     User user = new User();
                     user.setEmpNO(Log_Name.getText().toString());
-                    user.setPass(Log_PassWord.getText().toString());
+                    user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
                     Gson gson = new Gson();
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
@@ -135,7 +136,7 @@ public class Login extends ActionBarActivity {
                             YLSystem.setUser(getjsonuser);
 
                             Intent intent = new Intent();
-                            intent.setClass(Login.this, box.class);
+                            intent.setClass(Login.this, Task.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("AName","Kim");
                             intent.putExtras(bundle);
