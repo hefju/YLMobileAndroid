@@ -97,7 +97,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public void testDeltask(){
         TaskDBSer taskDBSer =new  TaskDBSer(getContext());
         YLTask ylTask = new YLTask();
-        for (int i = 5; i < 15;i++)
+        for (int i = 13; i < 25;i++)
         {
             ylTask.setId(i);
             taskDBSer.DeleteYLTask(ylTask);

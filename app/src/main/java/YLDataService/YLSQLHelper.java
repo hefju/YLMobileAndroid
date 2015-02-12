@@ -16,7 +16,7 @@ public class YLSQLHelper extends SQLiteOpenHelper {
 
         db.execSQL("CREATE TABLE Site (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ServerReturn varchar(50), TaskID varchar(50)," +
                 " SiteID varchar(50), SiteName varchar(50), SiteManager varchar(50), SiteManagerPhone varchar(50), SiteType varchar(50)," +
-                " Status varchar(50), ATMCount varchar(50));" );
+                " Status varchar(50), ATMCount varchar(50))" );
 
         db.execSQL("CREATE TABLE Box (Id INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL, ServerReturn varchar(50), SiteID varchar(50), BoxID varchar(50), " +
                         "BoxName varchar(50), TradeAction varchar(50), BoxStatus varchar(50), BoxType varchar(50), " +
