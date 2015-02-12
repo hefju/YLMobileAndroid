@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -17,7 +17,9 @@
         android:id="@+id/button"
         android:onClick="chongtest_emp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_x="11dp"
+        android:layout_y="11dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -26,7 +28,9 @@
         android:onClick="chongtest_box"
         android:id="@+id/button5"
         android:layout_alignTop="@+id/button"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_x="130dp"
+        android:layout_y="77dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -35,7 +39,9 @@
         android:id="@+id/button6"
         android:onClick="chongtest_site"
         android:layout_below="@+id/button"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_x="11dp"
+        android:layout_y="77dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -44,15 +50,18 @@
         android:id="@+id/button7"
         android:onClick="chongtest_client"
         android:layout_alignTop="@+id/button6"
-        android:layout_alignStart="@+id/button5" />
+        android:layout_alignStart="@+id/button5"
+        android:layout_x="130dp"
+        android:layout_y="11dp" />
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="325dp"
         android:id="@+id/listView"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="159dp"
-        android:layout_below="@+id/button6" />
+        android:layout_x="17dp"
+        android:layout_y="158dp" />
 
-</RelativeLayout>
+</AbsoluteLayout>
