@@ -29,7 +29,7 @@
         android:id="@+id/button5"
         android:layout_alignTop="@+id/button"
         android:layout_centerHorizontal="true"
-        android:layout_x="130dp"
+        android:layout_x="150dp"
         android:layout_y="77dp" />
 
     <Button
@@ -51,7 +51,7 @@
         android:onClick="chongtest_client"
         android:layout_alignTop="@+id/button6"
         android:layout_alignStart="@+id/button5"
-        android:layout_x="130dp"
+        android:layout_x="150dp"
         android:layout_y="11dp" />
 
     <ListView
