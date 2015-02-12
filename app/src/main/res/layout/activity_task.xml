@@ -9,7 +9,7 @@
         android:id="@+id/TextViewLin"
         >
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="任务名称"
         android:textSize="20dp"/>
