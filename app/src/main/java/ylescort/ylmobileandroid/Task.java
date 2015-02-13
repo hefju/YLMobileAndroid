@@ -159,7 +159,7 @@ public class Task extends ActionBarActivity {
         }
 
         List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
-        LoadData(ylTaskList);
+        //LoadData(ylTaskList);
     }
 
     private void GetSite(final User user, final String taskid) {
