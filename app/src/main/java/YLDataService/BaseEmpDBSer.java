@@ -122,4 +122,19 @@ public class BaseEmpDBSer {
         }
 
     }
+    public void DeleteBaseEmpByEmpID(List<BaseEmp> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseEmp x : lst) {
+                sdb.execSQL("DELETE FROM BaseEmp where EmpID=?", new Object[]{x.EmpID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
 }
