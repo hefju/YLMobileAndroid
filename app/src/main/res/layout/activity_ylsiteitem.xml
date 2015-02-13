@@ -11,14 +11,14 @@
     <TextView
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="12dp"
         android:id="@+id/ylsiteitem_Num"
-        android:text="序号"
+        android:text="类型"
         />
     <TextView
-        android:layout_width="180dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="12dp"
         android:id="@+id/ylsiteitem_Name"
         android:layout_toRightOf="@+id/ylsiteitem_Num"
         android:text="名称"
@@ -26,8 +26,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:id="@+id/ylsite_state"
+        android:textSize="12dp"
+        android:id="@+id/ylsiteitem_state"
         android:layout_toRightOf="@+id/ylsiteitem_Name"
         android:text="状态"/>
 

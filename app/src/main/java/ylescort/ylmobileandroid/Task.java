@@ -95,14 +95,14 @@ public class Task extends ActionBarActivity {
 
 */
 
-/*
+
                  Intent intent = new Intent();
-                 intent.setClass(Task.this,box.class);
+                 intent.setClass(Task.this,YLSite.class);
                  Bundle bundle = new Bundle();
-                 bundle.putString("AName","Kim");
+                 bundle.putString("taskid",ylTask.getTaskID().toString());
                  intent.putExtras(bundle);
                  startActivity(intent);
-*/
+
              }
          });
 

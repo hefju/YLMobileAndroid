@@ -4,14 +4,38 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.List;
+
+import TaskClass.Site;
+import YLDataService.SiteDBSer;
+import adapter.YLSiteAdapter;
 
 
 public class YLSite extends ActionBarActivity {
+
+    private ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylsite);
+
+        Bundle bundle = this.getIntent().getExtras();
+        String taskid = bundle.getString("taskid");
+        listView = (ListView)findViewById(R.id.ylsite_lv_MainView);
+        LoadLocalData(taskid);
+
+    }
+
+    private void LoadLocalData(String taskid) {
+        SiteDBSer siteDBSer = new SiteDBSer(getApplicationContext());
+        List<Site> siteList = siteDBSer.GetSites("WHERE TaskID = '"+taskid+"'");
+        YLSiteAdapter ylSiteAdapter = new YLSiteAdapter(this,siteList,R.layout.activity_ylsiteitem);
+        listView.setAdapter(ylSiteAdapter);
+
     }
 
 
