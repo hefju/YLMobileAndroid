@@ -95,14 +95,14 @@ public class Task extends ActionBarActivity {
 
 */
 
-/*
+
                  Intent intent = new Intent();
-                 intent.setClass(Task.this,box.class);
+                 intent.setClass(Task.this,YLSite.class);
                  Bundle bundle = new Bundle();
-                 bundle.putString("AName","Kim");
+                 bundle.putString("taskid",ylTask.getTaskID().toString());
                  intent.putExtras(bundle);
                  startActivity(intent);
-*/
+
              }
          });
 
@@ -159,7 +159,7 @@ public class Task extends ActionBarActivity {
         }
 
         List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
-        LoadData(ylTaskList);
+        //LoadData(ylTaskList);
     }
 
     private void GetSite(final User user, final String taskid) {

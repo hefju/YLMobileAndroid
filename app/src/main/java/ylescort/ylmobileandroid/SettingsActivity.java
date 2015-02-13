@@ -15,7 +15,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+
 import TaskClass.BaseEmp;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
@@ -42,7 +45,7 @@ public class SettingsActivity extends PreferenceActivity {
     int CacheCount=0;//缓存数据当前进度
     int CacheMaxcount=4;//缓存数据最大进度
 
-
+    Handler mHandler;
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -99,16 +102,17 @@ public class SettingsActivity extends PreferenceActivity {
         });
 
         //上次更新时间
-        Preference pCacheLastUpdate=findPreference("CacheLastUpdate");
+        final Preference pCacheLastUpdate=findPreference("CacheLastUpdate");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String content =  prefs.getString("CacheLastUpdate", "2000-1-1");
         pCacheLastUpdate.setSummary(content);
         pCacheLastUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                List<BaseEmp> lst =  WebService.GetBaseEmp(getApplicationContext());
-                BaseEmp x=lst.get(0);
-                Toast.makeText(getApplicationContext(),x.EmpName,Toast.LENGTH_SHORT).show();
+//                List<BaseEmp> lst =  WebService.GetBaseEmp(getApplicationContext());
+//                BaseEmp x=lst.get(0);
+//                Toast.makeText(getApplicationContext(),x.EmpName,Toast.LENGTH_SHORT).show();
+                WebService.GetBaseEmp(getApplicationContext(),mHandler);
                 return false;
             }
         });
@@ -156,6 +160,29 @@ public class SettingsActivity extends PreferenceActivity {
                 return false;
             }
         });
+
+        //用于回传数据更新UI
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+
+               //String content = (String) msg.obj;
+                switch (msg.what)
+                {
+                    case 1:
+                        String content = (String) msg.obj;
+                        pCacheLastUpdate.setSummary("hello world " + content);
+                        break;
+                    case 2:
+                        List<BaseEmp> lstBaseEmp=(  List<BaseEmp> ) msg.obj;
+                        pCacheLastUpdate.setSummary("wo cao "+lstBaseEmp.get(0).EmpName);
+                        break;
+                }
+
+
+                super.handleMessage(msg);
+            }
+        };
 
     }
     static  int clickcount=0;

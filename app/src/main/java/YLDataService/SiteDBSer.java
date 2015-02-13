@@ -153,7 +153,7 @@ public class SiteDBSer {
             sdb.execSQL("INSERT INTO Site(ServerReturn, TaskID, SiteID, SiteName, SiteManager, " +
                     "SiteManagerPhone, SiteType, Status, ATMCount) VALUES (?,?,?,?,?,?,?,?,?)"
                     , new Object[]{x.ServerReturn, x.TaskID, x.SiteID, x.SiteName, x.SiteManager,
-                    x.SiteManagerPhone, x.SiteType, x.Status, x.ATMCount});
+                    x.SiteManagerPhone, x.SiteType, "未完成", x.ATMCount});
             sdb.setTransactionSuccessful();
 
         } finally {
