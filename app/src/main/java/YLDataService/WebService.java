@@ -172,45 +172,50 @@ public class WebService {
         return webcontent;
     }
 
-    public static  List<BaseEmp>  GetBaseEmp(Context ctx) {
-        String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
-        HttpPost post = new HttpPost(url);
+    public static  void  GetBaseEmp(final Context ctx,final Handler mHandler) {
+        new Thread() {
+            public void run() {
+                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
+                HttpPost post = new HttpPost(url);
 
-        List<BaseEmp> ListBaseEmp = new ArrayList<BaseEmp>();
-        //添加数值到User类
-        Gson gson = new Gson();
-        //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
-        try {
-            JSONObject p = new JSONObject();
-            p.put("DeviceID","NH008");// YLSystem.GetDeviceID(ctx));
-            p.put("ISWIFI", "1");//YLSystem.isWifiActive(ctx));
-            post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                List<BaseEmp> ListBaseEmp = new ArrayList<BaseEmp>();
+                //添加数值到User类
+                Gson gson = new Gson();
+                //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+                try {
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
 
-            HttpClient client = new DefaultHttpClient();
-            HttpResponse response = null;
-            response = client.execute(post);
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = null;
+                    response = client.execute(post);
 
-            if (response.getStatusLine().getStatusCode() == 200) {
-                String content = null;    //得到返回字符串
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = null;    //得到返回字符串
+                        content = EntityUtils.toString(response.getEntity());
+                        ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {}.getType());
 
-                content = EntityUtils.toString(response.getEntity());
+                        Log.d("jutest", "GetBaseEmp"+ListBaseEmp.size());//打印到logcat
 
-                ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
-                }.getType());
-
-                Log.d("jutest", "GetBaseEmp");//打印到logcat
+                        //UPDATE是一个自己定义的整数，代表了消息ID
+                        Message msg = mHandler.obtainMessage(2);
+                        msg.obj=ListBaseEmp;
+                        mHandler.sendMessage(msg);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
+        }.start();
 
-        return ListBaseEmp;
+       // return ListBaseEmp;
     }
 
 
