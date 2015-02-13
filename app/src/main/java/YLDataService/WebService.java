@@ -194,12 +194,11 @@ public class WebService {
                     response = client.execute(post);
 
                     if (response.getStatusLine().getStatusCode() == 200) {
-                        String content = null;    //得到返回字符串
-                        content = EntityUtils.toString(response.getEntity());
+                        String content = EntityUtils.toString(response.getEntity());
                         ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {}.getType());
-
                         Log.d("jutest", "GetBaseEmp"+ListBaseEmp.size());//打印到logcat
 
+                        (new BaseEmp()).CacheBaseEmp(ctx,ListBaseEmp);//保存到数据库
                         //UPDATE是一个自己定义的整数，代表了消息ID
                         Message msg = mHandler.obtainMessage(2);
                         msg.obj=ListBaseEmp;
@@ -214,8 +213,6 @@ public class WebService {
                 }
             }
         }.start();
-
-       // return ListBaseEmp;
     }
 
 

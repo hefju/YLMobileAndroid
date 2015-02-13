@@ -70,7 +70,7 @@ public class BaseEmpDBSer {
     }
 
     //批量更新BaseEmp
-    public void UpdateBaseEmp(List<BaseEmp> lst) {
+       public void UpdateBaseEmp(List<BaseEmp> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
@@ -87,6 +87,25 @@ public class BaseEmpDBSer {
         }
 
     }
+
+    public void UpdateBaseEmpByEmpID(List<BaseEmp> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseEmp x : lst) {
+                sdb.execSQL("UPDATE BaseEmp SET ServerReturn =?, EmpID =?, EmpName =?, EmpNo =?," +
+                                " EmpHFNo =?, EmpWorkState =?, EmpJJNo =? where EmpID=?",
+                        new Object[]{x.ServerReturn,x.EmpID,x.EmpName,x.EmpNo,x.EmpHFNo,x.EmpWorkState,x.EmpJJNo, x.EmpID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
+
 
     public void DeleteBaseEmp(List<BaseEmp> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
