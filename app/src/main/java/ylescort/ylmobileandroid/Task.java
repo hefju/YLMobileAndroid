@@ -50,6 +50,7 @@ import YLDataService.SiteDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
+import adapter.YLTaskAdapter;
 
 
 public class Task extends ActionBarActivity {
@@ -62,6 +63,7 @@ public class Task extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+
         /*
         Bundle bundle = this.getIntent().getExtras();
         String Name = bundle.getString("AName");
@@ -69,31 +71,51 @@ public class Task extends ActionBarActivity {
         textView.setText(Name);
         */
         listView = (ListView)findViewById(R.id.Task_lv_mlistview);
-
+        LocaData();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
-             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+             public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
+
+                 ListView listView1 = (ListView)parent;
+                 YLTask ylTask = (YLTask)listView1.getItemAtPosition(position);
+                 Toast.makeText(Task.this,ylTask.getTaskID().toString(),Toast.LENGTH_SHORT).show();
 
 /*
                 // 获取列表项目数据
                  ListView lView = (ListView)parent;
                  HashMap<String,String> map=(HashMap<String,String>)lView.getItemAtPosition(position);
-                 String title=map.get("任务状态");
+                 String title=map.get("任务名称");
                  Toast.makeText(Task.this,title,Toast.LENGTH_SHORT).show();
+                 */
+
+/*
+                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
+                 int personid = cursor.getInt(cursor.getColumnIndex("任务名称"));
+                 Toast.makeText(Task.this,personid+"",Toast.LENGTH_SHORT).show();
+
 */
 
+/*
                  Intent intent = new Intent();
                  intent.setClass(Task.this,box.class);
                  Bundle bundle = new Bundle();
                  bundle.putString("AName","Kim");
                  intent.putExtras(bundle);
                  startActivity(intent);
-
+*/
              }
          });
 
+
+
     }
 
+    private void LocaData() {
+        TaskDBSer  taskDBSer = new TaskDBSer(getApplicationContext());
+        List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
+        YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,ylTaskList,R.layout.activity_taskitem);
+        listView.setAdapter(ylTaskAdapter);
+    }
 
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -308,4 +330,5 @@ public class Task extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
