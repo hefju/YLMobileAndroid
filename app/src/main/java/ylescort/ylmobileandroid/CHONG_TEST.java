@@ -131,7 +131,10 @@ public class CHONG_TEST extends ActionBarActivity {
 
                         listViewdata.clear();
                         for (BaseEmp classtemp : ListTemp) {
+                            //返回的ServerReturn值==1的时候就代表成功。不是1的时候代表失败。===========================================
+                            if (classtemp.ServerReturn.equals("1")) {
                                 listViewdata.add(classtemp.EmpName);
+                            }
                         }
                         Log.d("WCF",  "ok");//打印到logcat
 
@@ -195,7 +198,10 @@ public class CHONG_TEST extends ActionBarActivity {
 
                         listViewdata.clear();
                         for (BaseClient classtemp : ListTemp) {
-                            listViewdata.add(classtemp.ClientName);
+                            //返回的ServerReturn值==1的时候就代表成功。不是1的时候代表失败。===========================================
+                            if (classtemp.ServerReturn.equals("1")) {
+                                listViewdata.add(classtemp.ClientName);
+                            }
                         }
                         Log.d("WCF",  "ok");//打印到logcat
 
@@ -259,7 +265,11 @@ public class CHONG_TEST extends ActionBarActivity {
 
                         listViewdata.clear();
                         for (BaseSite classtemp : ListTemp) {
-                            listViewdata.add(classtemp.SiteName);
+                            //返回的ServerReturn值==1的时候就代表成功。不是1的时候代表失败。===========================================
+                            if (classtemp.ServerReturn.equals("1"))
+                            {
+                                listViewdata.add(classtemp.SiteName);
+                            }
                         }
                         Log.d("WCF",  "ok");//打印到logcat
 
@@ -323,7 +333,10 @@ public class CHONG_TEST extends ActionBarActivity {
 
                         listViewdata.clear();
                         for (BaseBox classtemp : ListTemp) {
-                            listViewdata.add(classtemp.BoxName);
+                            //返回的ServerReturn值==1的时候就代表成功。不是1的时候代表失败。===========================================
+                            if (classtemp.ServerReturn.equals("1")) {
+                                listViewdata.add(classtemp.BoxName);
+                            }
                         }
                         Log.d("WCF",  "ok");//打印到logcat
 

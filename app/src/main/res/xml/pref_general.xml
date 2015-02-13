@@ -21,11 +21,12 @@
     </PreferenceCategory>
 
 <PreferenceCategory android:title="系统">
-    <Preference android:title="缓存网点">
+    <Preference android:key="CacheData" android:title="缓存基础数据" android:summary="缓存人员,网点,客户,钱箱">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
-    <Preference android:title="缓存人员" android:summary="要缓存什么内容?">
-        <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
+    <Preference android:key="CacheLastUpdate" android:title="上次缓存时间" android:defaultValue="2000-1-1"
+        android:summary="2000-1-1">
+
     </Preference>
     <Preference
         android:key="GetNewVersion"

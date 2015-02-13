@@ -1,5 +1,6 @@
 package YLDataService;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -21,9 +23,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import TaskClass.BaseEmp;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLSystem.YLSystem;
@@ -165,6 +170,47 @@ public class WebService {
         //todo 从服务器获取软件的最新版本
         webcontent="1.02";
         return webcontent;
+    }
+
+    public static  List<BaseEmp>  GetBaseEmp(Context ctx) {
+        String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
+        HttpPost post = new HttpPost(url);
+
+        List<BaseEmp> ListBaseEmp = new ArrayList<BaseEmp>();
+        //添加数值到User类
+        Gson gson = new Gson();
+        //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+        try {
+            JSONObject p = new JSONObject();
+            p.put("DeviceID","NH008");// YLSystem.GetDeviceID(ctx));
+            p.put("ISWIFI", "1");//YLSystem.isWifiActive(ctx));
+            post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response = null;
+            response = client.execute(post);
+
+            if (response.getStatusLine().getStatusCode() == 200) {
+                String content = null;    //得到返回字符串
+
+                content = EntityUtils.toString(response.getEntity());
+
+                ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
+                }.getType());
+
+                Log.d("jutest", "GetBaseEmp");//打印到logcat
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return ListBaseEmp;
     }
 
 

@@ -63,20 +63,19 @@ public class YLSystem {
     }
 
     public static String isWifiActive(Context icontext){
-        Context context = icontext.getApplicationContext();
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] info;
-        if (connectivity != null) {
-            info = connectivity.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getTypeName().equals("WIFI") && info[i].isConnected()) {
-                        return "1";
-                      //  return true;
-                    }
-                }
-            }
-        }
+//        Context context = icontext.getApplicationContext();
+//        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo[] info;
+//        if (connectivity != null) {
+//            info = connectivity.getAllNetworkInfo();
+//            if (info != null) {
+//                for (int i = 0; i < info.length; i++) {
+//                    if (info[i].getTypeName().equals("WIFI") && info[i].isConnected()) {
+//                        return "1";
+//                    }
+//                }
+//            }
+//        }
         return "0";// return false;
     }
 

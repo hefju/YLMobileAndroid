@@ -3,8 +3,10 @@ package ylescort.ylmobileandroid;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -13,6 +15,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -27,28 +30,17 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import TaskClass.BaseEmp;
+import YLDataService.WebService;
 import YLSystem.YLSystem;
 import YLWebService.UpdateManager;
 
-/**
- * A {@link PreferenceActivity} that presents a set of application settings. On
- * handset devices, settings are presented as a single list. On tablets,
- * settings are split by category, with category headers shown to the left of
- * the list of settings.
- * <p/>
- * See <a href="http://developer.android.com/design/patterns/settings.html">
- * Android Design: Settings</a> for design guidelines and the <a
- * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
- * API Guide</a> for more information on developing a Settings UI.
- */
 public class SettingsActivity extends PreferenceActivity {
-    /**
-     * Determines whether to always show the simplified settings UI, where
-     * settings are presented in a single list. When false, settings are shown
-     * as a master/detail two-pane view on tablets. When true, a single pane is
-     * shown on tablets.
-     */
+
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
+    ProgressDialog Cachedialog;//缓存数据进度窗口
+    int CacheCount=0;//缓存数据当前进度
+    int CacheMaxcount=4;//缓存数据最大进度
 
 
     @Override
@@ -58,18 +50,10 @@ public class SettingsActivity extends PreferenceActivity {
         setupSimplePreferencesScreen();
     }
 
-    /**
-     * Shows the simplified settings UI if the device configuration if the
-     * device configuration dictates that a simplified, single-pane UI should be
-     * shown.
-     */
     private void setupSimplePreferencesScreen() {
         if (!isSimplePreferences(this)) {
             return;
         }
-
-        // In the simplified UI, fragments are not used at all and we instead
-        // use the older PreferenceActivity APIs.
 
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
@@ -79,27 +63,29 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference("HandsetName"));
         bindPreferenceSummaryToValue(findPreference("version"));
+        bindPreferenceSummaryToValue(findPreference("CacheLastUpdate"));
 
-        Preference p= findPreference("version");
+        Preference pVersion= findPreference("version");
         try {
-            p.setSummary(getVersionName());
+            pVersion.setSummary(getVersionName());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         clickcount=0;
-        p.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        pVersion.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 clickcount++;
-                if(clickcount>5){
-                    Toast.makeText(getApplicationContext(),"不要这么无聊好吗.",Toast.LENGTH_SHORT).show();
-                    clickcount=0;
+                if (clickcount > 5) {
+                    Toast.makeText(getApplicationContext(), "不要这么无聊好吗.", Toast.LENGTH_SHORT).show();
+                    clickcount = 0;
                 }
                 return false;
             }
         });
 
+        //版本更新
         Preference pUpdate= findPreference("GetNewVersion");
         pUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -107,13 +93,65 @@ public class SettingsActivity extends PreferenceActivity {
                 Log.d("jutest","GetNewVersion click");
                 UpdateManager um=new UpdateManager(SettingsActivity.this);
                 um.check();
-//
-//                if (YLSystem.CheckUpdate(getApplicationContext())){
-//                    Toast.makeText(getApplicationContext(),"准备更新.",Toast.LENGTH_SHORT).show();
-//                    downFile(Config.UPDATE_SERVER + Config.UPDATE_APKNAME);
-//                }else{
-//                    Toast.makeText(getApplicationContext(),"已经是最新版本.",Toast.LENGTH_SHORT).show();
-//                }
+
+                return false;
+            }
+        });
+
+        //上次更新时间
+        Preference pCacheLastUpdate=findPreference("CacheLastUpdate");
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String content =  prefs.getString("CacheLastUpdate", "2000-1-1");
+        pCacheLastUpdate.setSummary(content);
+        pCacheLastUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                List<BaseEmp> lst =  WebService.GetBaseEmp(getApplicationContext());
+                BaseEmp x=lst.get(0);
+                Toast.makeText(getApplicationContext(),x.EmpName,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+
+        //缓存数据
+        Preference pCache= findPreference("CacheData");
+        pCache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Log.d("jutest","CacheData click");
+                Cachedialog = new ProgressDialog(SettingsActivity.this);
+                Cachedialog.setMessage("正 在 下 载...");
+                Cachedialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                Cachedialog.setProgress(CacheCount);
+                Cachedialog.setMax(CacheMaxcount);
+                Cachedialog.setIndeterminate(false);
+                Cachedialog.setCancelable(true);
+                Cachedialog.show();
+
+                new Thread()
+                {
+                    public void run()
+                    {
+                        try
+                        {
+                            while (CacheCount <= CacheMaxcount)
+                            {
+
+                                Cachedialog.setProgress(CacheCount++);
+                                Thread.sleep(2000);
+                            }
+                            Cachedialog.cancel();
+                            Looper.prepare();
+                            Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_SHORT).show();
+                            Looper.loop();
+                        }
+                        catch (InterruptedException e)
+                        {
+                            Cachedialog.cancel();
+                        }
+                    }
+                }.start();
 
                 return false;
             }
