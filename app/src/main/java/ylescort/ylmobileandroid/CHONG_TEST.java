@@ -317,6 +317,7 @@ public class CHONG_TEST extends ActionBarActivity {
                     JSONObject p = new JSONObject();
                     p.put("DeviceID", s1.DeviceID);//手持机号=====================自定义。。。。。
                     p.put("ISWIFI", s1.ISWIFI);//是否用WIFI=====================自定义。。。。。
+                    p.put("datetime", "ALL");//ALL下载全部，写入时间为下载包含时间以内的所有记录。按秒计算，如：2015-02-02 12:23:34=====================自定义。。。。。
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();

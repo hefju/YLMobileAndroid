@@ -7,12 +7,10 @@ public class BaseSite //网点类
 {
     public int  Id;
     public String ServerReturn;//服务器返回的成功与否，成功1，其他异常是e.toString().
-
     public String SiteID;//网点ID
-
     public String SiteName;//网点名称
-
     public String SiteType;//网点类型
-
     public String ClientID;//客户ID
+    public String Mark ;//标记添加=1、修改=2、删除=3
+    public String ServerTime;//服务器时间。
 }

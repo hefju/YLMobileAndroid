@@ -14,5 +14,6 @@ public class BaseEmp//员工类
     public String EmpHFNo ;//员工卡号
     public String EmpWorkState ;//员工岗位
     public String EmpJJNo ;//交接证号
-
+    public String Mark ;//标记添加=1、修改=2、删除=3
+    public String ServerTime;//服务器时间。
 }
