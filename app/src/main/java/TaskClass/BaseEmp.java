@@ -30,16 +30,16 @@ public class BaseEmp//员工类
         ArrayList<BaseEmp> lstUpdate=new ArrayList<>();
         ArrayList<BaseEmp> lstDel=new ArrayList<>();
         for (BaseEmp x : lst){
-            if(x.Id ==1){
+            if(x.Mark.equals("1")){
                 lstAdd.add(x);
-            }else if(x.Id ==2){
+            }else if(x.Mark.equals("2")){
                 lstUpdate.add(x);
-            }else if(x.Id ==3){
+            }else if(x.Mark.equals("3")){
                 lstDel.add(x);
             }
         }
         BaseEmpDBSer dbSer = new BaseEmpDBSer(ctx);
-        dbSer.DeleteBaseEmp(lstDel);
+        dbSer.DeleteBaseEmpByEmpID(lstDel);
         dbSer.UpdateBaseEmpByEmpID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
         dbSer.InsertBaseEmp(lstAdd);
     }
