@@ -30,6 +30,8 @@ public class BaseBox //箱类
         ArrayList<BaseBox> lstUpdate=new ArrayList<>();
         ArrayList<BaseBox> lstDel=new ArrayList<>();
         for (BaseBox x : lst){
+            if(x.Mark==null)
+                continue;
             if(x.Mark.equals("1")){
                 lstAdd.add(x);
             }else if(x.Mark.equals("2")){
@@ -39,8 +41,11 @@ public class BaseBox //箱类
             }
         }
         BaseBoxDBSer dbSer = new BaseBoxDBSer(ctx);
+        if(lstDel.size()>0)
         dbSer.DeleteBaseEmpByBoxID(lstDel);
+        if(lstUpdate.size()>0)
         dbSer.UpdateBaseEmpByBoxID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
+        if(lstAdd.size()>0)
         dbSer.InsertBox(lstAdd);
     }
 }

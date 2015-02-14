@@ -1,8 +1,10 @@
 package YLDataService;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,7 +30,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import TaskClass.BaseBox;
+import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
+import TaskClass.BaseSite;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLSystem.YLSystem;
@@ -177,6 +182,8 @@ public class WebService {
             public void run() {
                 String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
                 HttpPost post = new HttpPost(url);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+                String timeLastUpdate =  prefs.getString("CacheLastUpdate", "ALL");
 
                 List<BaseEmp> ListBaseEmp = new ArrayList<BaseEmp>();
                 //添加数值到User类
@@ -186,7 +193,7 @@ public class WebService {
                     JSONObject p = new JSONObject();
                     p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
                     p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
-                    p.put("datetime", "2015-01-01 00:00:00");
+                    p.put("datetime", timeLastUpdate);
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
 
@@ -197,12 +204,165 @@ public class WebService {
                     if (response.getStatusLine().getStatusCode() == 200) {
                         String content = EntityUtils.toString(response.getEntity());
                         ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {}.getType());
-                        Log.d("jutest", "GetBaseEmp"+ListBaseEmp.size());//打印到logcat
+                        Log.d("jutest", "GetBaseEmp:"+ListBaseEmp.size());//打印到logcat
+
+                        Message msg = mHandler.obtainMessage(20);
+                        msg.obj="BaseEmp下载完毕";
+                        mHandler.sendMessage(msg);
 
                         (new BaseEmp()).CacheBaseEmp(ctx,ListBaseEmp);//保存到数据库
-                        //UPDATE是一个自己定义的整数，代表了消息ID
-                        Message msg = mHandler.obtainMessage(2);
-                        msg.obj=ListBaseEmp;
+                        msg = mHandler.obtainMessage(21);
+                        msg.obj="BaseEmp更新完毕";
+                        mHandler.sendMessage(msg);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public static  void  GetBaseClient(final Context ctx,final Handler mHandler) {
+        new Thread() {
+            public void run() {
+                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseClient";//网址
+                HttpPost post = new HttpPost(url);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+                String timeLastUpdate =  prefs.getString("CacheLastUpdate", "ALL");
+
+                List<BaseClient> ListBase = new ArrayList<BaseClient>();
+                //添加数值到User类
+                Gson gson = new Gson();
+                //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+                try {
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
+                    p.put("datetime", timeLastUpdate);
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = null;
+                    response = client.execute(post);
+
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+                        ListBase = gson.fromJson(content, new TypeToken<List<BaseClient>>() {}.getType());
+                        Log.d("jutest", "GetBaseClient:"+ListBase.size());//打印到logcat
+
+                        Message msg = mHandler.obtainMessage(20);
+                        msg.obj="BaseClient下载完毕";
+                        mHandler.sendMessage(msg);
+
+                        (new BaseClient()).CacheBaseClient(ctx,ListBase);//保存到数据库
+                        msg = mHandler.obtainMessage(21);
+                        msg.obj="BaseClient更新完毕";
+                        mHandler.sendMessage(msg);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+    public static  void  GetBaseSite(final Context ctx,final Handler mHandler) {
+        new Thread() {
+            public void run() {
+                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseSite";//网址
+                HttpPost post = new HttpPost(url);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+                String timeLastUpdate =  prefs.getString("CacheLastUpdate", "ALL");
+
+                List<BaseSite> ListBase = new ArrayList<BaseSite>();
+                //添加数值到User类
+                Gson gson = new Gson();
+                //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+                try {
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
+                    p.put("datetime", timeLastUpdate);
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = null;
+                    response = client.execute(post);
+
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+                        ListBase = gson.fromJson(content, new TypeToken<List<BaseSite>>() {}.getType());
+                        Log.d("jutest", "GetBaseSite:"+ListBase.size());//打印到logcat
+
+                        Message msg = mHandler.obtainMessage(20);
+                        msg.obj="BaseSite下载完毕";
+                        mHandler.sendMessage(msg);
+
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        (new BaseSite()).CacheBaseSite(ctx, ListBase);//保存到数据库
+                        msg = mHandler.obtainMessage(21);
+                        msg.obj="BaseSite更新完毕";
+                        mHandler.sendMessage(msg);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+    public static  void  GetBaseBox(final Context ctx,final Handler mHandler) {
+        new Thread() {
+            public void run() {
+                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseBox";//网址
+                HttpPost post = new HttpPost(url);
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+                String timeLastUpdate =  prefs.getString("CacheLastUpdate", "ALL");
+
+                List<BaseBox> ListBase = new ArrayList<BaseBox>();
+                //添加数值到User类
+                Gson gson = new Gson();
+                //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+                try {
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
+                    p.put("datetime", timeLastUpdate);
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = null;
+                    response = client.execute(post);
+
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+                        ListBase = gson.fromJson(content, new TypeToken<List<BaseBox>>() {}.getType());
+                        Log.d("jutest", "GetBaseBox:"+ListBase.size());//打印到logcat
+
+                        Message msg = mHandler.obtainMessage(20);
+                        msg.obj="BaseBox下载完毕";
+                        mHandler.sendMessage(msg);
+
+                        (new BaseBox()).CacheBaseBox(ctx,ListBase);//保存到数据库
+                        msg = mHandler.obtainMessage(21);
+                        msg.obj="BaseBox更新完毕";
                         mHandler.sendMessage(msg);
                     }
                 } catch (JSONException e) {

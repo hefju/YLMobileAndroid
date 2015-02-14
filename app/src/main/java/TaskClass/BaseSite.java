@@ -26,6 +26,8 @@ public class BaseSite //网点类
         ArrayList<BaseSite> lstUpdate=new ArrayList<>();
         ArrayList<BaseSite> lstDel=new ArrayList<>();
         for (BaseSite x : lst){
+            if(x.Mark==null)
+                continue;
             if(x.Mark.equals("1")){
                 lstAdd.add(x);
             }else if(x.Mark.equals("2")){
@@ -35,8 +37,11 @@ public class BaseSite //网点类
             }
         }
         BaseSiteDBSer dbSer = new BaseSiteDBSer(ctx);
+        if(lstDel.size()>0)
         dbSer.DeleteBaseSiteByEmpID(lstDel);
+        if(lstUpdate.size()>0)
         dbSer.UpdateBaseSiteByEmpID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
+        if(lstAdd.size()>0)
         dbSer.InsertBaseSite(lstAdd);
     }
 }

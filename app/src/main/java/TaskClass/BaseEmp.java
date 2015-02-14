@@ -30,6 +30,8 @@ public class BaseEmp//员工类
         ArrayList<BaseEmp> lstUpdate=new ArrayList<>();
         ArrayList<BaseEmp> lstDel=new ArrayList<>();
         for (BaseEmp x : lst){
+            if(x.Mark==null)
+                continue;
             if(x.Mark.equals("1")){
                 lstAdd.add(x);
             }else if(x.Mark.equals("2")){
@@ -39,8 +41,11 @@ public class BaseEmp//员工类
             }
         }
         BaseEmpDBSer dbSer = new BaseEmpDBSer(ctx);
+        if(lstDel.size()>0)
         dbSer.DeleteBaseEmpByEmpID(lstDel);
+        if(lstUpdate.size()>0)
         dbSer.UpdateBaseEmpByEmpID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
+        if(lstAdd.size()>0)
         dbSer.InsertBaseEmp(lstAdd);
     }
 }

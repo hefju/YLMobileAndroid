@@ -76,7 +76,7 @@ public class YLSystem {
 //                }
 //            }
 //        }
-        return "0";// return false;
+        return "1";// return "0";
     }
 
     public static String md5(String string) {

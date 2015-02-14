@@ -27,6 +27,8 @@ public class BaseClient //客户类
         ArrayList<BaseClient> lstUpdate=new ArrayList<>();
         ArrayList<BaseClient> lstDel=new ArrayList<>();
         for (BaseClient x : lst){
+            if(x.Mark==null)
+                continue;
             if(x.Mark.equals("1")){
                 lstAdd.add(x);
             }else if(x.Mark.equals("2")){
@@ -36,8 +38,11 @@ public class BaseClient //客户类
             }
         }
         BaseClientDBSer dbSer = new BaseClientDBSer(ctx);
+        if(lstDel.size()>0)
         dbSer.DeleteBaseClientByEmpID(lstDel);
+        if(lstUpdate.size()>0)
         dbSer.UpdateBaseClientByEmpID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
+        if(lstAdd.size()>0)
         dbSer.InsertBaseClient(lstAdd);
     }
 }

@@ -26,10 +26,13 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.util.Log;
+import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -104,15 +107,14 @@ public class SettingsActivity extends PreferenceActivity {
         //上次更新时间
         final Preference pCacheLastUpdate=findPreference("CacheLastUpdate");
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String content =  prefs.getString("CacheLastUpdate", "2000-1-1");
+        String content =  prefs.getString("CacheLastUpdate", "ALL");
         pCacheLastUpdate.setSummary(content);
         pCacheLastUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-//                List<BaseEmp> lst =  WebService.GetBaseEmp(getApplicationContext());
-//                BaseEmp x=lst.get(0);
-//                Toast.makeText(getApplicationContext(),x.EmpName,Toast.LENGTH_SHORT).show();
-                WebService.GetBaseEmp(getApplicationContext(),mHandler);
+
+
+                //WebService.GetBaseEmp(getApplicationContext(),mHandler);
                 return false;
             }
         });
@@ -127,6 +129,7 @@ public class SettingsActivity extends PreferenceActivity {
                 Cachedialog = new ProgressDialog(SettingsActivity.this);
                 Cachedialog.setMessage("正 在 下 载...");
                 Cachedialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                CacheCount=0;
                 Cachedialog.setProgress(CacheCount);
                 Cachedialog.setMax(CacheMaxcount);
                 Cachedialog.setIndeterminate(false);
@@ -139,16 +142,30 @@ public class SettingsActivity extends PreferenceActivity {
                     {
                         try
                         {
-                            while (CacheCount <= CacheMaxcount)
-                            {
+                            Cachedialog.setProgress(CacheCount++);
+                            WebService.GetBaseEmp(getApplicationContext(),mHandler);
 
-                                Cachedialog.setProgress(CacheCount++);
-                                Thread.sleep(2000);
-                            }
+                            Thread.sleep(20);
+                            Cachedialog.setProgress(CacheCount++);
+                            WebService.GetBaseClient(getApplicationContext(), mHandler);
+
+                            Thread.sleep(20);
+                            Cachedialog.setProgress(CacheCount++);
+                            WebService.GetBaseSite(getApplicationContext(), mHandler);
+
+                            Thread.sleep(20);
+                            Cachedialog.setProgress(CacheCount++);
+                            WebService.GetBaseBox(getApplicationContext(), mHandler);
+
+                            Thread.sleep(20);
+
                             Cachedialog.cancel();
-                            Looper.prepare();
-                            Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_SHORT).show();
-                            Looper.loop();
+
+                            Message msg = mHandler.obtainMessage(100);
+                            mHandler.sendMessage(msg);
+//                            Looper.prepare();
+//                            Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_SHORT).show();
+//                            Looper.loop();
                         }
                         catch (InterruptedException e)
                         {
@@ -167,15 +184,31 @@ public class SettingsActivity extends PreferenceActivity {
             public void handleMessage(Message msg) {
 
                //String content = (String) msg.obj;
-                switch (msg.what)
-                {
+                switch (msg.what) {
                     case 1:
                         String content = (String) msg.obj;
                         pCacheLastUpdate.setSummary("hello world " + content);
                         break;
-                    case 2:
-                        List<BaseEmp> lstBaseEmp=(  List<BaseEmp> ) msg.obj;
-                        pCacheLastUpdate.setSummary("wo cao "+lstBaseEmp.get(0).EmpName);
+                    case 20:
+                        content = (String) msg.obj;
+                        Cachedialog.setMessage(content);
+                        break;
+                    case 21:
+                        content = (String) msg.obj;
+                        Cachedialog.setMessage(content);
+                        break;
+                    case 100:
+                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        String date = sDateFormat.format(new java.util.Date());
+
+                        //Log.d("jutest","msg.what 100:"+date);
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor edit = settings.edit();
+                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+                        edit.apply();
+                        pCacheLastUpdate.setSummary(date);
+
+                        Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_LONG).show();
                         break;
                 }
 
