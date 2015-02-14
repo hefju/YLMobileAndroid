@@ -107,4 +107,41 @@ public class BaseBoxDBSer {
         }
 
     }
+
+    public void DeleteBaseEmpByBoxID(List<BaseBox> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseBox x : lst) {
+                sdb.execSQL("DELETE FROM BaseBox where BoxID=?", new Object[]{x.BoxID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
+
+    public void UpdateBaseEmpByBoxID(List<BaseBox> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseBox x : lst) {
+                sdb.execSQL("UPDATE BaseBox SET ServerReturn =?, BoxID =?, BoxName =?, BoxUHFNo =?," +
+                                " BoxBCNo =?, BoxType =?, ClientID =?, SiteID =? where BoxID=?",
+                        new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
+                                x.ClientID,x.SiteID, x.BoxID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
+
+
 }

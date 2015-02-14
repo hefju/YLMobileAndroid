@@ -81,6 +81,23 @@ public class BaseClientDBSer {
         }
 
     }
+    public void UpdateBaseClientByEmpID(List<BaseClient> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseClient x : lst) {
+                sdb.execSQL("UPDATE BaseClient SET ServerReturn =?, ClientID =?, ClientName =?," +
+                                " ClientType =? where ClientID=?",
+                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType, x.ClientID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
 
     public void DeleteBaseClient(List<BaseClient> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
@@ -97,4 +114,20 @@ public class BaseClientDBSer {
         }
 
     }
+    public void DeleteBaseClientByEmpID(List<BaseClient> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseClient x : lst) {
+                sdb.execSQL("DELETE FROM BaseClient where ClientID=?", new Object[]{x.ClientID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
+
 }

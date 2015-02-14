@@ -82,6 +82,23 @@ public class BaseSiteDBSer {
         }
 
     }
+    public void UpdateBaseSiteByEmpID(List<BaseSite> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseSite x : lst) {
+                sdb.execSQL("UPDATE BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?, " +
+                                "ClientID =? where SiteID=?",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID, x.SiteID});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
 
     public void DeleteBaseSite(List<BaseSite> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
@@ -89,6 +106,22 @@ public class BaseSiteDBSer {
         try {
             for (BaseSite x : lst) {
                 sdb.execSQL("DELETE FROM BaseSite where Id=?", new Object[]{x.Id});
+                sdb.setTransactionSuccessful();
+            }
+        }
+        finally {
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+
+    }
+
+    public void DeleteBaseSiteByEmpID(List<BaseSite> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            for (BaseSite x : lst) {
+                sdb.execSQL("DELETE FROM BaseSite where SiteID=?", new Object[]{x.SiteID});
                 sdb.setTransactionSuccessful();
             }
         }

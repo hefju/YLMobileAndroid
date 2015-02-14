@@ -186,6 +186,7 @@ public class WebService {
                     JSONObject p = new JSONObject();
                     p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
                     p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
+                    p.put("datetime", "2015-01-01 00:00:00");
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
 
