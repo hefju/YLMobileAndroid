@@ -1,6 +1,5 @@
 package ylescort.ylmobileandroid;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -9,8 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -39,29 +36,21 @@ import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
 import TaskClass.User;
-import YLSystem.YLSystem;
 
 
-public class CHONG_TEST extends ActionBarActivity {
-
+public class chongTest2 extends ActionBarActivity {
     private List<String> listViewdata ;
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chong__test);
+        setContentView(R.layout.activity_chong_test2);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_chong__test, menu);
+        getMenuInflater().inflate(R.menu.menu_chong_test2, menu);
         return true;
     }
 
@@ -86,8 +75,8 @@ public class CHONG_TEST extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-         // ListView listView = (ListView) findViewById(R.id.listView);
-          //  listView.setAdapter(new ArrayAdapter<String>(CHONG_TEST.this, android.R.layout.simple_expandable_list_item_1, listViewdata));
+            // ListView listView = (ListView) findViewById(R.id.listView);
+            //  listView.setAdapter(new ArrayAdapter<String>(CHONG_TEST.this, android.R.layout.simple_expandable_list_item_1, listViewdata));
             Toast.makeText(getApplicationContext(), "储存在每个方法的内存里。调试里能看到。", Toast.LENGTH_LONG).show();
         }
     };
@@ -123,11 +112,11 @@ public class CHONG_TEST extends ActionBarActivity {
                     if (response.getStatusLine().getStatusCode() == 200) {
                         String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
 
-                     //存储在ListBaseEmp里=============================================================================================
+                        //存储在ListBaseEmp里=============================================================================================
                         List<BaseEmp> ListTemp=new ArrayList<BaseEmp>();
                         ListTemp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
                         }.getType());
-                    //=================================================================================================================
+                        //=================================================================================================================
 
 
                         listViewdata.clear();
@@ -137,7 +126,7 @@ public class CHONG_TEST extends ActionBarActivity {
                                 listViewdata.add(classtemp.EmpName);
                             }
                         }
-                        Log.d("WCF",  "ok");//打印到logcat
+                        Log.d("WCF", "ok");//打印到logcat
 
                         mh.sendEmptyMessage(0);
 
@@ -364,4 +353,5 @@ public class CHONG_TEST extends ActionBarActivity {
         });
 
     }
+
 }
