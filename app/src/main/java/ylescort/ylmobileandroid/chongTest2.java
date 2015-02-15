@@ -39,7 +39,7 @@ import TaskClass.User;
 
 
 public class chongTest2 extends ActionBarActivity {
-    private List<String> listViewdata ;
+    private List<String> listViewdata = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
