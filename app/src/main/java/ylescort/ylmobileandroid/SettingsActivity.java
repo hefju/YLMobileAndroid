@@ -2,13 +2,10 @@ package ylescort.ylmobileandroid;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,19 +13,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
-import android.text.format.Time;
 import android.util.Log;
-import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 
@@ -36,7 +29,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-import TaskClass.BaseEmp;
+import YLDataService.BaseBoxDBSer;
+import YLDataService.BaseClientDBSer;
+import YLDataService.BaseEmpDBSer;
+import YLDataService.BaseSiteDBSer;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
 import YLWebService.UpdateManager;
@@ -84,7 +80,7 @@ public class SettingsActivity extends PreferenceActivity {
             public boolean onPreferenceClick(Preference preference) {
                 clickcount++;
                 if (clickcount > 5) {
-                    Toast.makeText(getApplicationContext(), "不要这么无聊好吗.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "You are so boring.", Toast.LENGTH_SHORT).show();
                     clickcount = 0;
                 }
                 return false;
@@ -112,13 +108,52 @@ public class SettingsActivity extends PreferenceActivity {
         pCacheLastUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
+                clickcount++;
+                if(clickcount>5) {
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor edit = settings.edit();
+                    edit.putString("CacheLastUpdate", "ALL");
+                    edit.apply();
+                    clickcount=0;
+                    pCacheLastUpdate.setSummary("ALL");
 
-
-                //WebService.GetBaseEmp(getApplicationContext(),mHandler);
+                    Toast.makeText(SettingsActivity.this,"缓存时间初始化成功.",Toast.LENGTH_LONG).show();
+                }
                 return false;
             }
         });
 
+        //清空缓存数据
+        Preference pCacheCleanData= findPreference("CacheCleanData");
+        pCacheCleanData.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                 builder.setMessage("确认清空基础数据吗？");
+                 builder.setTitle("提示");
+                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(DialogInterface dialog, int which) {
+                          dialog.dismiss();
+                         (new BaseBoxDBSer(SettingsActivity.this)).DeleteAll();
+                         (new BaseClientDBSer(SettingsActivity.this)).DeleteAll();
+                         (new BaseEmpDBSer(SettingsActivity.this)).DeleteAll();
+                         (new BaseSiteDBSer(SettingsActivity.this)).DeleteAll();
+
+                          Toast.makeText(SettingsActivity.this,"删除完毕.",Toast.LENGTH_SHORT).show();
+                         }
+                      });
+                  builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           dialog.dismiss();
+                          }
+                     });
+                 builder.create().show();
+
+                return false;
+            }
+        });
 
         //缓存数据
         Preference pCache= findPreference("CacheData");
@@ -145,18 +180,18 @@ public class SettingsActivity extends PreferenceActivity {
                             Cachedialog.setProgress(CacheCount++);
                             WebService.GetBaseEmp(getApplicationContext(),mHandler);
 
-                            Thread.sleep(20);
+//                            Thread.sleep(20);
                             Cachedialog.setProgress(CacheCount++);
                             WebService.GetBaseClient(getApplicationContext(), mHandler);
-
-                            Thread.sleep(20);
+//
+//                            Thread.sleep(20);
                             Cachedialog.setProgress(CacheCount++);
                             WebService.GetBaseSite(getApplicationContext(), mHandler);
-
-                            Thread.sleep(20);
+//
+//                            Thread.sleep(20);
                             Cachedialog.setProgress(CacheCount++);
                             WebService.GetBaseBox(getApplicationContext(), mHandler);
-
+//
                             Thread.sleep(20);
 
                             Cachedialog.cancel();
@@ -201,12 +236,12 @@ public class SettingsActivity extends PreferenceActivity {
                         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                         String date = sDateFormat.format(new java.util.Date());
 
-                        //Log.d("jutest","msg.what 100:"+date);
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        SharedPreferences.Editor edit = settings.edit();
-                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
-                        edit.apply();
-                        pCacheLastUpdate.setSummary(date);
+                        //测试不开
+//                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                        SharedPreferences.Editor edit = settings.edit();
+//                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+//                        edit.apply();
+//                        pCacheLastUpdate.setSummary(date);
 
                         Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_LONG).show();
                         break;

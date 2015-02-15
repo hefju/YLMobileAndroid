@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import YLDataService.WebService;
 import YLSystem.YLSystem;
+import ylescort.ylmobileandroid.util.CacheDataView;
 
 /**
  * Created by rush on 2015-01-31.
@@ -17,14 +18,18 @@ public class JuTestClass {
 
     public  void goahead1(Context ctx){
 
-        WebService ws=new WebService();
-        String serverVer=   ws.getServerVer();
-        String localVer= YLSystem.getVerName(ctx);
-        if(  Double.parseDouble(serverVer)>  Double.parseDouble(localVer)) {
-            Toast.makeText(ctx.getApplicationContext(),"你需要升级到:"+serverVer, Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(ctx.getApplicationContext(),"你无需升级!", Toast.LENGTH_SHORT).show();
-        }
+        Intent intent=new Intent();
+        intent.setClass(ctx, CacheDataView.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ctx.startActivity(intent);
+//        WebService ws=new WebService();
+//        String serverVer=   ws.getServerVer();
+//        String localVer= YLSystem.getVerName(ctx);
+//        if(  Double.parseDouble(serverVer)>  Double.parseDouble(localVer)) {
+//            Toast.makeText(ctx.getApplicationContext(),"你需要升级到:"+serverVer, Toast.LENGTH_SHORT).show();
+//        }else{
+//            Toast.makeText(ctx.getApplicationContext(),"你无需升级!", Toast.LENGTH_SHORT).show();
+//        }
 
 
 //        ContextWrapper wrapper=new ContextWrapper(ctx);

@@ -57,6 +57,10 @@
             android:name=".YLsiteitem"
             android:label="@string/title_activity_ylsiteitem" >
         </activity>
+        <activity
+            android:name=".util.CacheDataView"
+            android:label="@string/title_activity_cache_data_view" >
+        </activity>
     </application>
 
 </manifest>

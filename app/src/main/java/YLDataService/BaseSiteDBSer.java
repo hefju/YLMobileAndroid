@@ -55,10 +55,11 @@ public class BaseSiteDBSer {
                                 "VALUES     (?,?,?,?,?)",
                         new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,
                         });
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -73,10 +74,11 @@ public class BaseSiteDBSer {
             for (BaseSite x : lst) {
                 sdb.execSQL("UPDATE    BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?, ClientID =? where Id=?",
                         new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID, x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -90,10 +92,11 @@ public class BaseSiteDBSer {
                 sdb.execSQL("UPDATE BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?, " +
                                 "ClientID =? where SiteID=?",
                         new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID, x.SiteID});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -106,10 +109,11 @@ public class BaseSiteDBSer {
         try {
             for (BaseSite x : lst) {
                 sdb.execSQL("DELETE FROM BaseSite where Id=?", new Object[]{x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -122,13 +126,27 @@ public class BaseSiteDBSer {
         try {
             for (BaseSite x : lst) {
                 sdb.execSQL("DELETE FROM BaseSite where SiteID=?", new Object[]{x.SiteID});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
 
+    }
+
+    public void DeleteAll() {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            sdb.execSQL("DELETE FROM BaseSite ");
+        }
+        finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
     }
 }

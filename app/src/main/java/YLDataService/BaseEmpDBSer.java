@@ -59,10 +59,11 @@ public class BaseEmpDBSer {
                                 "EmpWorkState, EmpJJNo) VALUES     (?,?,?,?,?,?,?)",
                         new Object[]{x.ServerReturn,x.EmpID,x.EmpName,x.EmpNo,x.EmpHFNo,x.EmpWorkState,x.EmpJJNo,
                         });
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -78,10 +79,11 @@ public class BaseEmpDBSer {
                 sdb.execSQL("UPDATE BaseEmp SET ServerReturn =?, EmpID =?, EmpName =?, EmpNo =?," +
                                 " EmpHFNo =?, EmpWorkState =?, EmpJJNo =? where Id=?",
                         new Object[]{x.ServerReturn,x.EmpID,x.EmpName,x.EmpNo,x.EmpHFNo,x.EmpWorkState,x.EmpJJNo, x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -96,10 +98,11 @@ public class BaseEmpDBSer {
                 sdb.execSQL("UPDATE BaseEmp SET ServerReturn =?, EmpID =?, EmpName =?, EmpNo =?," +
                                 " EmpHFNo =?, EmpWorkState =?, EmpJJNo =? where EmpID=?",
                         new Object[]{x.ServerReturn,x.EmpID,x.EmpName,x.EmpNo,x.EmpHFNo,x.EmpWorkState,x.EmpJJNo, x.EmpID});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -113,10 +116,11 @@ public class BaseEmpDBSer {
         try {
             for (BaseEmp x : lst) {
                 sdb.execSQL("DELETE FROM BaseEmp where Id=?", new Object[]{x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -128,13 +132,26 @@ public class BaseEmpDBSer {
         try {
             for (BaseEmp x : lst) {
                 sdb.execSQL("DELETE FROM BaseEmp where EmpID=?", new Object[]{x.EmpID});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
 
+    }
+
+    public void DeleteAll() {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            sdb.execSQL("DELETE FROM BaseEmp ");
+        }
+        finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
     }
 }

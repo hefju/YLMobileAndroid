@@ -62,10 +62,11 @@ public class BaseBoxDBSer {
                                 " BoxType, ClientID, SiteID) VALUES     (?,?,?,?,?,?,?,?)",
                         new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
                                 x.ClientID,x.SiteID });
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -82,10 +83,11 @@ public class BaseBoxDBSer {
                                 " BoxBCNo =?, BoxType =?, ClientID =?, SiteID =? where Id=?",
                         new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
                                 x.ClientID,x.SiteID, x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -98,10 +100,10 @@ public class BaseBoxDBSer {
         try {
             for (BaseBox x : lst) {
                 sdb.execSQL("DELETE FROM BaseBox where Id=?", new Object[]{x.Id});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -114,10 +116,10 @@ public class BaseBoxDBSer {
         try {
             for (BaseBox x : lst) {
                 sdb.execSQL("DELETE FROM BaseBox where BoxID=?", new Object[]{x.BoxID});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -133,15 +135,27 @@ public class BaseBoxDBSer {
                                 " BoxBCNo =?, BoxType =?, ClientID =?, SiteID =? where BoxID=?",
                         new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
                                 x.ClientID,x.SiteID, x.BoxID});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
 
     }
 
+    public void DeleteAll() {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            sdb.execSQL("DELETE FROM BaseBox ");
+        }
+        finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
+    }
 
 }
