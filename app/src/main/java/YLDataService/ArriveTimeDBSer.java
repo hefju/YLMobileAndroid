@@ -24,9 +24,9 @@ public class ArriveTimeDBSer {
             sdb.execSQL("INSERT INTO ArriveTime(ServerReturn, EmpID, ATime, TimeID, TradeBegin," +
                             " TradeEnd, TradeState) VALUES   (?,?,?,?,?,?,?,)",
                     new Object[]{x.ServerReturn,x.EmpID,x.ATime,x.TimeID,x.TradeBegin,x.TradeEnd,x.TradeState} );
-            sdb.setTransactionSuccessful();
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -40,9 +40,9 @@ public class ArriveTimeDBSer {
                             " TradeBegin =?, TradeEnd =?, TradeState =? where Id=?",
                     new Object[]{x.ServerReturn,x.EmpID,x.ATime,x.TimeID,x.TradeBegin,x.TradeEnd,
                             x.TradeState,x.Id} );
-            sdb.setTransactionSuccessful();
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -53,9 +53,9 @@ public class ArriveTimeDBSer {
         try {
             sdb.execSQL("DELETE FROM ArriveTime where Id=? ",
                     new Object[]{x.Id} );
-            sdb.setTransactionSuccessful();
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -100,10 +100,10 @@ public class ArriveTimeDBSer {
                 sdb.execSQL("INSERT INTO ArriveTime(ServerReturn, EmpID, ATime, TimeID, TradeBegin," +
                                 " TradeEnd, TradeState) VALUES   (?,?,?,?,?,?,?,)",
                         new Object[]{x.ServerReturn, x.EmpID, x.ATime, x.TimeID, x.TradeBegin, x.TradeEnd, x.TradeState});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -118,10 +118,10 @@ public class ArriveTimeDBSer {
                                 " TradeBegin =?, TradeEnd =?, TradeState =? where Id=?",
                         new Object[]{x.ServerReturn, x.EmpID, x.ATime, x.TimeID, x.TradeBegin, x.TradeEnd,
                                 x.TradeState, x.Id});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -132,10 +132,10 @@ public class ArriveTimeDBSer {
         try {
             for (ArriveTime x : lst) {
                 sdb.execSQL("DELETE FROM ArriveTime where Id=? ", new Object[]{x.Id});
-                sdb.setTransactionSuccessful();
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }

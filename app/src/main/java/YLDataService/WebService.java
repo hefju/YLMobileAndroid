@@ -204,7 +204,7 @@ public class WebService {
                     if (response.getStatusLine().getStatusCode() == 200) {
                         String content = EntityUtils.toString(response.getEntity());
                         ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {}.getType());
-                        Log.d("jutest", "GetBaseEmp:"+ListBaseEmp.size());//打印到logcat
+                        Log.d("jutest", "GetBaseEmp:"+ListBaseEmp.size()+" 时间:"+timeLastUpdate);//打印到logcat
 
                         Message msg = mHandler.obtainMessage(20);
                         msg.obj="BaseEmp下载完毕";

@@ -53,10 +53,11 @@ public class BaseClientDBSer {
                 sdb.execSQL("INSERT INTO BaseClient (ServerReturn, ClientID, ClientName, ClientType)\n" +
                                 "VALUES     (?,?,?,?)",
                         new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType });
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -72,10 +73,11 @@ public class BaseClientDBSer {
                 sdb.execSQL("UPDATE BaseClient SET ServerReturn =?, ClientID =?, ClientName =?," +
                                 " ClientType =? where Id=?",
                         new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType, x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -89,10 +91,11 @@ public class BaseClientDBSer {
                 sdb.execSQL("UPDATE BaseClient SET ServerReturn =?, ClientID =?, ClientName =?," +
                                 " ClientType =? where ClientID=?",
                         new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType, x.ClientID});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -105,10 +108,11 @@ public class BaseClientDBSer {
         try {
             for (BaseClient x : lst) {
                 sdb.execSQL("DELETE FROM BaseClient where Id=?", new Object[]{x.Id});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
@@ -120,14 +124,28 @@ public class BaseClientDBSer {
         try {
             for (BaseClient x : lst) {
                 sdb.execSQL("DELETE FROM BaseClient where ClientID=?", new Object[]{x.ClientID});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
 
+    }
+
+    public void DeleteAll() {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+            sdb.execSQL("DELETE FROM BaseClient ");
+        }
+        finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close(); //关闭数据库
+        }
     }
 
 }

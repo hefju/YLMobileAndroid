@@ -24,10 +24,13 @@
     <Preference android:key="CacheData" android:title="缓存基础数据" android:summary="缓存人员,网点,客户,钱箱">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
     </Preference>
-    <Preference android:key="CacheLastUpdate" android:title="上次缓存时间" android:defaultValue="2000-1-1"
-        android:summary="2000-1-1">
-
+    <Preference android:key="CacheLastUpdate" android:title="上次缓存时间" android:defaultValue="All"
+        android:summary="All">
     </Preference>
+    <Preference android:key="CacheCleanData" android:title="清除缓存数据"
+        android:summary="删除基础数据:人员,网点,客户,钱箱">
+    </Preference>
+
     <Preference
         android:key="GetNewVersion"
         android:title="检查新版本">

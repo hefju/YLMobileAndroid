@@ -25,9 +25,10 @@ public class EmpDBSer {
            sdb.execSQL("insert into Employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time,ServerReturn) values(?,?,?,?,?,?,?,?)"
                    ,new Object[]{user.getEmpID(),user.getEmpNO(),user.getPass(),user.getName(),user.getDeviceID(),
            user.getISWIFI(),user.getTime(),user.getServerReturn()} );
-            sdb.setTransactionSuccessful();
+
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -85,10 +86,11 @@ public class EmpDBSer {
                         "ServerReturn,TaskDate) values(?,?,?,?,?,?,?,?,?)"
                         , new Object[]{x.getEmpID(), x.getEmpNO(), x.getPass(), x.getName(), x.getDeviceID(),
                         x.getISWIFI(), x.getTime(), x.getServerReturn(),x.getTaskDate()});
-                sdb.setTransactionSuccessful();
+
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -106,6 +108,7 @@ public class EmpDBSer {
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -120,6 +123,7 @@ public class EmpDBSer {
             }
         }
         finally {
+            sdb.setTransactionSuccessful();
             sdb.endTransaction();
             sdb.close();
         }
@@ -131,13 +135,15 @@ public class EmpDBSer {
         sdb.beginTransaction();
         try {
             sdb.execSQL("insert into Employee (EmpID,EmpNO,Pass,Name,DeviceID,ISWIFI,Time,ServerReturn) values(1,1,1,1,1,1,1,1)");
-            sdb.setTransactionSuccessful();
+
         }catch (Exception e){
             e.printStackTrace();
         }
         finally{
+            sdb.setTransactionSuccessful();
             //结束事务
             sdb.endTransaction();
+            sdb.close();
         }
     }
 
