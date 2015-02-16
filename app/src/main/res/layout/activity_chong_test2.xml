@@ -62,7 +62,17 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="159dp"
-        android:layout_x="17dp"
-        android:layout_y="158dp" />
+        android:layout_x="-3dp"
+        android:layout_y="220dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上传任务"
+        android:id="@+id/button8"
+        android:layout_x="13dp"
+        android:layout_y="145dp"
+        android:onClick="upload_Task"
+        android:nestedScrollingEnabled="false" />
 
 </AbsoluteLayout>
