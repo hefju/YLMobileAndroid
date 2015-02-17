@@ -13,6 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -44,6 +46,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import TaskClass.Site;
+import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.SiteDBSer;
@@ -58,12 +61,36 @@ public class Task extends ActionBarActivity {
     private TextView textView;
     private ListView listView;
     private android.os.Handler handler = null;
+    private TasksManager tasksManager = null;
+    private CalendarView calendarView;
+    private TextView txt_Date_Task;
+    private Button Task_btn_refresh;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
+        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);
+        calendarView=(CalendarView)findViewById(R.id.calendarViewTask);
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                txt_Date_Task.setText( "当前日期是:"+year+"年"+month+"月"+dayOfMonth+"日");
+                txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
+            }
+        });
 
+        Task_btn_refresh =(Button)findViewById(R.id.Task_btn_refresh);
+        Task_btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FillData();
+            }
+        });
         /*
         Bundle bundle = this.getIntent().getExtras();
         String Name = bundle.getString("AName");
@@ -71,7 +98,7 @@ public class Task extends ActionBarActivity {
         textView.setText(Name);
         */
         listView = (ListView)findViewById(R.id.Task_lv_mlistview);
-        LocaData();
+        //LocaData();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
              @Override
              public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
@@ -110,7 +137,28 @@ public class Task extends ActionBarActivity {
 
     }
 
+    //将任务列表显示到界面上
+    private void FillData() {
+        List<YLTask> ylTaskList =GetTaskList();//获取任务列表
+        YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,ylTaskList,R.layout.activity_taskitem);
+        listView.setAdapter(ylTaskAdapter);
+    }
+
+    private List<YLTask> GetTaskList() {
+        if(tasksManager==null)
+        {
+            String taskdate= txt_Date_Task.getTag().toString();
+            tasksManager=new TasksManager();
+            if(tasksManager.GetTaskListFromLoacl(taskdate,getApplicationContext())==false) {
+                tasksManager.DownTaskList();
+            }
+        }
+        List<YLTask> ylTaskList=null;
+        return ylTaskList;
+    }
+
     private void LocaData() {
+        //从本地读取数据, 如果没有, 就从网上下载数据
         TaskDBSer  taskDBSer = new TaskDBSer(getApplicationContext());
         List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
         YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,ylTaskList,R.layout.activity_taskitem);

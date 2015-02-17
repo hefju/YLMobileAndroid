@@ -1,7 +1,13 @@
 package TaskClass;
 
 //import java.sql.Date;
+import android.content.Context;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import YLDataService.TaskDBSer;
+import YLSystem.YLSystem;
 
 /**
  * Created by asus on 2015/1/29.
@@ -138,6 +144,16 @@ public class TasksManager {
             }
         }
 
+    }
+
+    //从本地数据库加载数据
+    public boolean GetTaskListFromLoacl(String taskdate, Context ctx) {
+        TaskDBSer dbSer=new TaskDBSer(ctx);
+       List<YLTask> lst =dbSer.SelTaskbydatetolist(taskdate);
+      //  lstAllTask=lst.
+//        public ArrayList<YLTask> lstAllTask;//全部任务列表
+//        public ArrayList<YLTask> lstLatestTask;//最新的任务
+        return false;
     }
 
 

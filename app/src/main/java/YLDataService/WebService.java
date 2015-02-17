@@ -40,6 +40,13 @@ import YLSystem.YLSystem;
 
 /**
  * Created by Administrator on 2015/1/28.
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseClient
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseSite
+ * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseBox
  */
 public class WebService {
     public static String webserviceaddress = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/";
@@ -225,7 +232,6 @@ public class WebService {
             }
         }.start();
     }
-
     public static  void  GetBaseClient(final Context ctx,final Handler mHandler) {
         new Thread() {
             public void run() {
@@ -377,5 +383,53 @@ public class WebService {
     }
 
 
+    public  static List<YLTask> GetTaskList(final Context ctx,final Handler mHandler)
+    {
+        try {
+            String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+            HttpPost post = new HttpPost(url);
+            //添加数值到User类
+            User user = new User();
+            user.EmpNO="600241";
+            user.Name="杨磊";
+            user.Pass= YLSystem.md5("600241");
+            user.DeviceID="NH008";
+            user.ISWIFI="1";
+            user.EmpID="2703";
+            user.TaskDate= "2014-08-07";
+            Gson gson = new Gson();
+            //设置POST请求中的参数
+            JSONObject p = new JSONObject();
+            p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+            post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response = client.execute(post);
+            if (response.getStatusLine().getStatusCode() == 200) {
+//                webcontent = EntityUtils.toString(response.getEntity());
+//                if (content.equals("1")){
+//                    mh.sendEmptyMessage(0);
+//                }
+//                else {
+//
+//                    mh.sendEmptyMessage(0);
+//                }
+
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        List<YLTask> lst=new ArrayList<>();
+        return  lst;
+    }
 
 }
