@@ -59,12 +59,12 @@ import adapter.YLTaskAdapter;
 public class Task extends ActionBarActivity {
 
     private TextView textView;
-    private ListView listView;
+    private ListView listView; //显示任务列表
     private android.os.Handler handler = null;
-    private TasksManager tasksManager = null;
-    private CalendarView calendarView;
-    private TextView txt_Date_Task;
-    private Button Task_btn_refresh;
+    private TasksManager tasksManager = null;//任务管理类
+    private CalendarView calendarView;//日期选择控件
+    private TextView txt_Date_Task;   //显示当前选中的日期
+    private Button Task_btn_refresh;  //从网上下载任务数据
 
 
 

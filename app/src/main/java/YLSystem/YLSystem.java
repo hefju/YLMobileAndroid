@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import TaskClass.TasksManager;
 import TaskClass.User;
 import YLDataService.WebService;
 
@@ -20,7 +21,16 @@ import YLDataService.WebService;
  */
 public class YLSystem {
 
-    private static User user;
+
+
+    //region 变量定义
+    private static TasksManager tasksManager;//任务管理类
+    private static User user; //登录到系统的用户
+    private static String appversion;//软件版本号
+
+    //endregion
+
+    //<editor-fold desc="geter , seter">
     //登录后的用户
     public static User getUser() {
         return user;
@@ -31,6 +41,21 @@ public class YLSystem {
         YLSystem.user = user;
     }
 
+    public static TasksManager getTasksManager() {
+        return tasksManager;
+    }
+
+    public static void setTasksManager(TasksManager tasksManager) {
+        YLSystem.tasksManager = tasksManager;
+    }
+    //</editor-fold>
+
+    public  void InitYLSystem(){
+        //1.设置系统的版本号.
+        //2.设置登录用户
+        //3.设置TasksManager
+        //4.设置手持机ID
+    }
 
     public static String getVerName(Context context) {
         String verName = context.getResources().getText(ylescort.ylmobileandroid.R.string.app_versionName).toString();
