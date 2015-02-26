@@ -4,15 +4,15 @@ package TaskClass;
  * Created by Administrator on 2015/1/19.
  */
 public class User {
-    public String EmpID;
-    public String EmpNO;
-    public String Pass;
-    public String Name;
-    public String DeviceID;
-    public String ISWIFI;//这个不是一个单纯的user包含了其他内容
-    public String Time;
-    public String ServerReturn;
-    public String TaskDate;
+    public String EmpID;//ID---服务器返回的值
+    public String EmpNO;//NO---登陆的时候填的
+    public String Pass;//密码---登陆的时候填的
+    public String Name;//名字---服务器返回的值
+    public String DeviceID;//手持机号---登陆的时候填的
+    public String ISWIFI;//是否在用wifi--登陆的时候填的
+    public String Time;//时间---服务器返回的值
+    public String ServerReturn;//是否访问成功，成功返回1---服务器返回的值
+    public String TaskDate;//获取当前日期的任务用到的日期---登陆的时候填的
 
     public String getTaskDate() {
         return TaskDate;
