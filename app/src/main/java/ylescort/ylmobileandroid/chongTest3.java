@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -42,19 +44,19 @@ import TaskClass.User;
 import TaskClass.YLTask;
 
 
-public class chongTest2 extends ActionBarActivity {
-    private List<String> listViewdata = new ArrayList<String>();
+public class chongTest3 extends ActionBarActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chong_test2);
+        setContentView(R.layout.activity_chong_test3);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_chong_test2, menu);
+        getMenuInflater().inflate(R.menu.menu_chong_test3, menu);
         return true;
     }
 
@@ -74,7 +76,7 @@ public class chongTest2 extends ActionBarActivity {
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-
+    private List<String> listViewdata = new ArrayList<String>();
     Handler mh = new Handler() {   //以Handler为桥梁将结果传入UI
         @Override
         public void handleMessage(Message msg) {
@@ -84,6 +86,7 @@ public class chongTest2 extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "储存在每个方法的内存里。调试里能看到。", Toast.LENGTH_LONG).show();
         }
     };
+
     //获取全部员工
     public void chongtest_emp(View view) throws ClassNotFoundException {
 
@@ -468,6 +471,23 @@ public class chongTest2 extends ActionBarActivity {
                 }
             }
         });
+
+    }
+
+    //读取box 名
+    public void getbox(View view) throws ClassNotFoundException
+    {
+    /*    List<Box> lstbox=new ArrayList<Box>();
+        BoxDBSer a =new BoxDBSer(getApplicationContext());
+        lstbox=a.GetBoxs("");*/
+        listViewdata.add("1");
+        listViewdata.add("2");
+        listViewdata.add("3");
+        listViewdata.add("4");
+        listViewdata.add("5");
+
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(new ArrayAdapter<String>(chongTest3.this, android.R.layout.simple_expandable_list_item_1, listViewdata));
 
     }
 }

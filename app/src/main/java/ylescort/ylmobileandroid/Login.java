@@ -92,7 +92,7 @@ public class Login extends ActionBarActivity {
     };
     public void chongtest(View view){
         Intent intent = new Intent();
-        intent.setClass(Login.this, chongTest2.class);
+        intent.setClass(Login.this, chongTest3.class);
      /*   Bundle bundle = new Bundle();
         bundle.putString("AName","Kim");
         intent.putExtras(bundle);*/

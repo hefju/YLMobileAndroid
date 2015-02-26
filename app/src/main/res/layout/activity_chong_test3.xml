@@ -1,0 +1,137 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ylescort.ylmobileandroid.chongTest3">
+
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取全部员工"
+        android:id="@+id/button"
+        android:onClick="chongtest_emp"
+
+        android:layout_x="11dp"
+        android:layout_y="11dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取全部箱"
+        android:onClick="chongtest_box"
+        android:id="@+id/button5"
+
+        android:layout_x="150dp"
+        android:layout_y="77dp"
+        android:layout_alignTop="@+id/button7"
+        android:layout_alignStart="@+id/button6" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取全部网点"
+        android:id="@+id/button6"
+        android:onClick="chongtest_site"
+
+        android:layout_x="11dp"
+        android:layout_y="77dp"
+        android:layout_above="@+id/button5"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取全部客户"
+        android:id="@+id/button7"
+        android:onClick="chongtest_client"
+        android:layout_x="150dp"
+        android:layout_y="11dp"
+        android:layout_below="@+id/button"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="上传任务"
+        android:id="@+id/button8"
+        android:layout_x="15dp"
+        android:layout_y="131dp"
+        android:onClick="upload_Task"
+        android:layout_below="@+id/button7"
+        android:layout_alignParentStart="true" />
+
+
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="134dp"
+        android:id="@+id/listView"
+        android:layout_x="-3dp"
+        android:layout_y="319dp"
+        android:layout_below="@+id/button9"
+        android:layout_alignParentEnd="true" />
+
+
+    <Button
+        android:id="@+id/contacts_delete_btn"
+        android:layout_width="99dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:enabled="false"
+        android:text="delete"
+        android:layout_x="31dp"
+        android:layout_y="490dp"
+        android:layout_below="@+id/listView"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/contacts_cancel_btn"
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="cancel"
+        android:layout_x="155dp"
+        android:layout_y="495dp"
+        android:layout_alignTop="@+id/contacts_delete_btn"
+        android:layout_alignStart="@+id/button5" />
+
+    <TextView
+        android:id="@+id/text_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_x="51dp"
+        android:layout_y="290dp"
+        android:text="select_all_text"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:layout_alignBottom="@+id/select_all"
+        android:layout_toEndOf="@+id/contacts_delete_btn" />
+
+    <CheckBox
+        android:id="@+id/select_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="CustomCheckboxTheme"
+        android:layout_x="21dp"
+        android:layout_y="280dp"
+        android:layout_below="@+id/button8"
+        android:layout_alignStart="@+id/button8" />
+
+    <Button
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加载listview"
+        android:id="@+id/button9"
+        android:layout_x="147dp"
+        android:layout_y="172dp"
+        android:onClick="getbox"
+        android:nestedScrollingEnabled="false"
+        android:layout_below="@+id/text_all"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>
