@@ -383,20 +383,22 @@ public class WebService {
     }
 
 
-    public  static List<YLTask> GetTaskList(final Context ctx,final Handler mHandler)
+    public  static void GetTaskList(final Context ctx,final Handler mHandler)
     {
         try {
             String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
             HttpPost post = new HttpPost(url);
             //添加数值到User类
-            User user = new User();
-            user.EmpNO="600241";
-            user.Name="杨磊";
-            user.Pass= YLSystem.md5("600241");
-            user.DeviceID="NH008";
-            user.ISWIFI="1";
-            user.EmpID="2703";
-            user.TaskDate= "2014-08-07";
+//            User user = new User();
+//            user.EmpNO="600241";
+//            user.Name="杨磊";
+//            user.Pass= YLSystem.md5("600241");
+//            user.DeviceID="NH008";
+//            user.ISWIFI="1";
+//            user.EmpID="2703";
+//            user.TaskDate= "2014-08-07";
+            User user=YLSystem.getUser();
+
             Gson gson = new Gson();
             //设置POST请求中的参数
             JSONObject p = new JSONObject();
@@ -406,13 +408,19 @@ public class WebService {
             HttpClient client = new DefaultHttpClient();
             HttpResponse response = client.execute(post);
             if (response.getStatusLine().getStatusCode() == 200) {
-//                webcontent = EntityUtils.toString(response.getEntity());
-//                if (content.equals("1")){
-//                    mh.sendEmptyMessage(0);
+                String content = EntityUtils.toString(response.getEntity());
+               // if (content.equals("1")){ //还不知道失败时候返回什么内容
+                    List<YLTask> lstYLTask = gson.fromJson(content, new TypeToken<List<BaseBox>>() {}.getType());
+                    Log.d("jutest", "GetTaskList:"+lstYLTask.size());
+
+                    Message msg = mHandler.obtainMessage(20);
+                    msg.obj=lstYLTask;
+                    mHandler.sendMessage(msg);
 //                }
 //                else {
-//
-//                    mh.sendEmptyMessage(0);
+//                    Message msg = mHandler.obtainMessage(21);
+//                    msg.obj="获取GetTaskList失败.";
+//                    mHandler.sendMessage(msg);
 //                }
 
             }
@@ -428,8 +436,6 @@ public class WebService {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        List<YLTask> lst=new ArrayList<>();
-        return  lst;
     }
 
 }

@@ -141,9 +141,9 @@ public class Login extends ActionBarActivity {
 
                             Intent intent = new Intent();
                             intent.setClass(Login.this, Task.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("AName","Kim");
-                            intent.putExtras(bundle);
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("AName","Kim");
+//                            intent.putExtras(bundle);
                             startActivity(intent);
                             message= "登录成功";
                             mh.sendEmptyMessage(0);

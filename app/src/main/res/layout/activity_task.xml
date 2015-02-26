@@ -87,6 +87,25 @@
             android:layout_height="match_parent"
             android:id="@+id/calendarViewTask"
             android:layout_gravity="center_horizontal" />
+
+
+        <LinearLayout
+            android:id="@+id/pnlDownMenu_Task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+            android:visibility="gone">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消"
+            android:id="@+id/btnCancel_Task" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下 载"
+            android:id="@+id/btnDownload_Task" />
+        </LinearLayout>
     </LinearLayout>
 
 
