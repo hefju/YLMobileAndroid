@@ -134,4 +134,5 @@
         android:nestedScrollingEnabled="false"
         android:layout_below="@+id/text_all"
         android:layout_alignParentStart="true" />
+
 </RelativeLayout>
