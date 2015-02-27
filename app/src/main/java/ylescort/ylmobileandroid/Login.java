@@ -118,6 +118,10 @@ public class Login extends ActionBarActivity {
                     User user = new User();
                     user.setEmpNO(Log_Name.getText().toString());
                     user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
+
+                    user.setDeviceID(YLSystem.GetDeviceID(getApplicationContext()));
+                    user.setISWIFI(YLSystem.isWifiActive(getApplicationContext()));
+
                     Gson gson = new Gson();
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
@@ -137,9 +141,9 @@ public class Login extends ActionBarActivity {
 
                             Intent intent = new Intent();
                             intent.setClass(Login.this, Task.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("AName","Kim");
-                            intent.putExtras(bundle);
+//                            Bundle bundle = new Bundle();
+//                            bundle.putString("AName","Kim");
+//                            intent.putExtras(bundle);
                             startActivity(intent);
                             message= "登录成功";
                             mh.sendEmptyMessage(0);

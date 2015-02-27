@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,9 +67,12 @@ public class Task extends ActionBarActivity {
     private CalendarView calendarView;//日期选择控件
     private TextView txt_Date_Task;   //显示当前选中的日期
     private Button Task_btn_refresh;  //从网上下载任务数据
+    private LinearLayout pnlDownMenu_Task;
+    private Button btnCancel_Task;  //从网上下载任务数据
+    private Button btnDownload_Task;  //从网上下载任务数据
 
 
-
+    android.os.Handler mHandler; //消息处理
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +84,31 @@ public class Task extends ActionBarActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                month=month+1;
                 txt_Date_Task.setText( "当前日期是:"+year+"年"+month+"月"+dayOfMonth+"日");
                 txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
+//                Log.d("jutest","月:"+ String.valueOf(month));
+//                if(dayOfMonth==28){
+//                    Log.d("jutest","onSelectedDayChange:28");
+//                    calendarView.setVisibility(View.GONE);
+//                    pnlDownMenu_Task.setVisibility(View.VISIBLE);
+//                }
+            }
+        });
+        pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);
+        btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);
+        btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);
+        btnCancel_Task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pnlDownMenu_Task.setVisibility(View.GONE);
+                calendarView.setVisibility(View.VISIBLE);
+            }
+        });
+        btnDownload_Task.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("jutest","btnDownload_Task:click");
             }
         });
 
@@ -88,7 +116,16 @@ public class Task extends ActionBarActivity {
         Task_btn_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FillData();
+                if( YLSystem.isNetConnected(Task.this))
+                {
+                    Task_btn_refresh.setEnabled(false);//禁止刷新按钮
+                    WebService.GetTaskList(getApplicationContext(),mHandler);
+
+                }else{
+                  if(! FillDataFromLocal()) {
+                      Toast.makeText(getApplicationContext(), "请连接网络后再刷新.", Toast.LENGTH_LONG).show();
+                  }
+                }
             }
         });
         /*
@@ -134,13 +171,42 @@ public class Task extends ActionBarActivity {
          });
 
 
+        //用于回传数据更新UI
+        mHandler = new android.os.Handler(){
+            @Override
+            public void handleMessage(Message msg) {
 
+                //String content = (String) msg.obj;
+                switch (msg.what) {
+                    case 1:
+                        break;
+                    case 20:
+                        List<YLTask> lstYLTask  = (List<YLTask>) msg.obj;
+                        FillData(lstYLTask);
+                        Task_btn_refresh.setEnabled(true);//可以再次点击刷新了
+                        break;
+                    case 21:
+
+                        break;
+                    case 100:
+                        break;
+                    default:
+                        break;
+                }
+                super.handleMessage(msg);
+            }
+        };
     }
 
+    private boolean FillDataFromLocal() {
+        return false;
+    }
+
+
     //将任务列表显示到界面上
-    private void FillData() {
-        List<YLTask> ylTaskList =GetTaskList();//获取任务列表
-        YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,ylTaskList,R.layout.activity_taskitem);
+    private void FillData(List<YLTask> lstYLTask) {
+//        List<YLTask> ylTaskList =GetTaskList();//获取任务列表
+        YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,lstYLTask,R.layout.activity_taskitem);
         listView.setAdapter(ylTaskAdapter);
     }
 

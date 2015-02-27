@@ -1,5 +1,6 @@
 package YLSystem;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -120,6 +121,21 @@ public class YLSystem {
             hex.append(Integer.toHexString(b & 0xFF));
         }
         return hex.toString();
+    }
+
+    public static boolean isNetConnected(Activity activity) {
+        ConnectivityManager cm = (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo[] infos = cm.getAllNetworkInfo();
+            if (infos != null) {
+                for (NetworkInfo ni : infos) {
+                    if (ni.isConnected()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 }
