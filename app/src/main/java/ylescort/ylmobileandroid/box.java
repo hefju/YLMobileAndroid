@@ -34,6 +34,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import TaskClass.YLTask;
 
@@ -151,7 +153,8 @@ public class box extends ActionBarActivity {
             String receivedata = intent.getStringExtra("result"); // 服务返回的数据
             if (receivedata != null) {
                 Log.e(TAG  + "  receivedata", receivedata);
-                PutDatatoListView(receivedata);
+                receivedata = replaceBlank(receivedata);
+                PutDatatoListView(receivedata,"1");
                 try {
                     fos.close();
                 } catch (IOException e1) {
@@ -184,12 +187,23 @@ public class box extends ActionBarActivity {
 
     }
 
+    public  String replaceBlank(String str) {
+        String dest = "";
+        if (str!=null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
+    }
+
+
     public void ScanOnClick (View view ) throws ClassNotFoundException{
         sendCmd();   //发送指令到服务
     }
 
     public void NoLableIns(View view){
-        /*
+
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         new AlertDialog.Builder(this).setTitle("数量:")
@@ -201,19 +215,19 @@ public class box extends ActionBarActivity {
                         if (input.equals("")) {
                             Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
                         } else {
+                            PutDatatoListView("无标签",input);
                             Toast.makeText(getApplicationContext(), input, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).setNegativeButton("取消", null).show();
-                */
-        Toast.makeText(getApplicationContext(), GetBoxStuat("s"), Toast.LENGTH_SHORT).show();
+
     }
 
     public void boxlistent(View view){
         Toast.makeText(getApplicationContext(), GetBoxStuat("s"), Toast.LENGTH_SHORT).show();
     }
 
-    private void PutDatatoListView(String boxnumber){
+    private void PutDatatoListView(String boxnumber,String boxcount){
 
         //生成动态数组，加入数据
         //ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
@@ -233,23 +247,21 @@ public class box extends ActionBarActivity {
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("序号",count+1);
-        map.put("箱编号",boxnumber);
+        map.put("编号",boxnumber);
         map.put("收/送",GetBoxStuat("g"));
         map.put("空/实",GetBoxStuat("f"));
-        map.put("箱类型",GetBoxStuat("s"));
+        map.put("类型",GetBoxStuat("s"));
+        map.put("数量",boxcount);
         listItem.add(map);
-
-
 
         //生成适配器的Item和动态数组对应的元素
         SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
                 R.layout.activity_boxlist,//ListItem的XML实现
                 //动态数组与ImageItem对应的子项
-                new String[] {"序号","箱编号", "收/送","空/实","箱类型"},
+                new String[] {"序号","编号", "收/送","空/实","类型","数量"},
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID
                 new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Number,R.id.boxlv_tv_getorgive,
-                        R.id.boxlv_tv_emporfull,R.id.boxlv_tv_staut}
-
+                        R.id.boxlv_tv_emporfull,R.id.boxlv_tv_staut,R.id.boxlv_tv_count}
         );
 
         //添加并且显示
@@ -272,7 +284,7 @@ public class box extends ActionBarActivity {
         boolean checkthebox = false;
         for (int i = 0 ;i<listItem.size();i++){
             Map lvNumber = listItem.get(i);
-            if (lvNumber.get("箱编号").equals(boxnumber)){
+            if (lvNumber.get("编号").equals(boxnumber) & !lvNumber.get("编号").equals("无标签")){
                 checkthebox = true;
                 break;
             }

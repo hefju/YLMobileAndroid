@@ -28,26 +28,33 @@
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_order"/>
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:text="收/送"
             android:id="@+id/box_tv_gog"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_Number"/>
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:text="空/实"
             android:id="@+id/box_tv_eof"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_gog"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="35dp"
             android:layout_height="wrap_content"
             android:text="类型"
             android:id="@+id/box_tv_stype"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_eof"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数量"
+            android:id="@+id/box_tv_count"
+            android:layout_below="@+id/box_tv_title"
+            android:layout_toRightOf="@+id/box_tv_stype"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
