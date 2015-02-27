@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -97,6 +99,13 @@ public class Task extends ActionBarActivity {
 //                }
             }
         });
+        Calendar cal = Calendar.getInstance();
+        long now=cal.getTimeInMillis();
+        cal.set(2000,1,1);
+        long tmpTime=cal.getTimeInMillis();
+        calendarView.setDate(tmpTime);
+        calendarView.setDate(now);
+
         pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);//操作菜单
         btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);//关闭操作菜单
         btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);//下载任务
@@ -149,22 +158,7 @@ public class Task extends ActionBarActivity {
                  ListView listView1 = (ListView)parent;
                  YLTask ylTask = (YLTask)listView1.getItemAtPosition(position);
                  Toast.makeText(Task.this,ylTask.getTaskID().toString(),Toast.LENGTH_SHORT).show();
-
-/*
-                // 获取列表项目数据
-                 ListView lView = (ListView)parent;
-                 HashMap<String,String> map=(HashMap<String,String>)lView.getItemAtPosition(position);
-                 String title=map.get("任务名称");
-                 Toast.makeText(Task.this,title,Toast.LENGTH_SHORT).show();
-                 */
-
-/*
-                 Cursor cursor = (Cursor) listView.getItemAtPosition(position);
-                 int personid = cursor.getInt(cursor.getColumnIndex("任务名称"));
-                 Toast.makeText(Task.this,personid+"",Toast.LENGTH_SHORT).show();
-
-*/
-
+                tasksManager.SetCurrentTask(ylTask.getTaskID());//设置选中的任务
 
                  Intent intent = new Intent();
                  intent.setClass(Task.this,YLSite.class);
@@ -222,7 +216,7 @@ public class Task extends ActionBarActivity {
         List<YLTask> lstlocal=tasksManager.lstLatestTask;
         if(lstlocal==null) {
             for (YLTask l:lstYLTask){
-                l.setTaskVersion("有更新");
+                l.setTaskState("有更新");
             }
             tasksManager.lstLatestTask = (ArrayList) lstYLTask;
         }
@@ -233,18 +227,18 @@ public class Task extends ActionBarActivity {
                     int v0=Integer.parseInt(local.getServerVersion());
                     int v1=Integer.parseInt(remote.getServerVersion());
                     if(v1>v0){
-                        local.setTaskVersion("有更新");
+                        local.setTaskState("有更新");
                        // local设置状态
                     }
                 }else{
-                    remote.setTaskVersion("有更新");
+                    remote.setTaskState("有更新");
                     lstlocal.add(remote);
                 }
             }
 
             for (YLTask l:lstlocal){
                 if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null)
-                    l.setTaskVersion("已删除");
+                    l.setTaskState("已删除");
             }
         }
     }

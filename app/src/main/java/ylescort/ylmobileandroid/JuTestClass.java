@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import TaskClass.TasksManager;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
 import ylescort.ylmobileandroid.util.CacheDataView;
@@ -17,11 +18,14 @@ import ylescort.ylmobileandroid.util.CacheDataView;
 public class JuTestClass {
 
     public  void goahead1(Context ctx){
+        TasksManager tasksManager=YLSystem.getTasksManager();//获取任务管理类
+      int taskNum=  tasksManager.lstLatestTask.size();
+        Toast.makeText(ctx.getApplicationContext(),"任务数量:"+taskNum, Toast.LENGTH_SHORT).show();
+//        Intent intent=new Intent();
+//        intent.setClass(ctx, CacheDataView.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        ctx.startActivity(intent);
 
-        Intent intent=new Intent();
-        intent.setClass(ctx, CacheDataView.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ctx.startActivity(intent);
 //        WebService ws=new WebService();
 //        String serverVer=   ws.getServerVer();
 //        String localVer= YLSystem.getVerName(ctx);
