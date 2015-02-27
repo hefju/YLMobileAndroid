@@ -151,56 +151,36 @@ public class box extends ActionBarActivity {
             String receivedata = intent.getStringExtra("result"); // 服务返回的数据
             if (receivedata != null) {
                 Log.e(TAG  + "  receivedata", receivedata);
-                //mlist = new ArrayList<Map<String,Object>>();
-                //Toast.makeText(getApplicationContext(), receivedata, Toast.LENGTH_LONG).show();
                 PutDatatoListView(receivedata);
-
                 try {
                     fos.close();
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
-                int count = 1;
-//                for(Goods goods:list_goods ){
-//                    Map<String, Object> map = new HashMap<String, Object>();
-//                    map.put("barcodeID", count);
-//                    map.put("barcode", goods.getBarcode());
-//                    map.put("count", goods.getCount());
-//                    count++;
-//                    mlist.add(map);
+            }
+                //媒体播放
+                mPlayer = new MediaPlayer();
+                try {
+                    mPlayer.setDataSource("/system/media/audio/ui/VideoRecord.ogg");  //选用系统声音文件
+                    mPlayer.prepare();
+                } catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (SecurityException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IllegalStateException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                mPlayer.start();
+				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
 
-//                mListview.setAdapter(new SimpleAdapter(MainActivity.this,
-//                        mlist, R.layout.listview_item, new String[] {
-//                        "barcodeID","barcode", "count" }, new int[] {
-//                        R.id.barcodeID_item,R.id.barcode_item, R.id.count_item }));
-//                if(mPlayer != null){
-//                    if(mPlayer.isPlaying())
-//                        return;
-//                }
-//                //媒体播放
-//                mPlayer = new MediaPlayer();
-//                try {
-//                    mPlayer.setDataSource("/system/media/audio/ui/VideoRecord.ogg");  //选用系统声音文件
-//                    mPlayer.prepare();
-//                } catch (IllegalArgumentException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                } catch (SecurityException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                } catch (IllegalStateException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//                mPlayer.start();
-////				Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
-//            }
-        }
 
     }
 
@@ -229,13 +209,9 @@ public class box extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), GetBoxStuat("s"), Toast.LENGTH_SHORT).show();
     }
 
-
-    private void InsNumFromScan(String Number){
-        String boxstaut = GetBoxStuat("g");
-
-
+    public void boxlistent(View view){
+        Toast.makeText(getApplicationContext(), GetBoxStuat("s"), Toast.LENGTH_SHORT).show();
     }
-
 
     private void PutDatatoListView(String boxnumber){
 
@@ -263,19 +239,6 @@ public class box extends ActionBarActivity {
         map.put("箱类型",GetBoxStuat("s"));
         listItem.add(map);
 
-//        ArrayList<HashMap<String, Object>> newlistItem = new ArrayList<>();
-//
-//            for (int i = listItem.size(); i >= 0; i--) {
-//                Map  listitemmap = listItem.get(i);
-//                HashMap<String, Object> newmap = new HashMap<>();
-//                newmap.put("序号",listitemmap.get("序号"));
-//                newmap.put("箱编号",listitemmap.get("箱编号"));
-//                newmap.put("收/送",listitemmap.get("收/送"));
-//                newmap.put("空/实",listitemmap.get("空/实"));
-//                newmap.put("箱类型",listitemmap.get("箱类型"));
-//
-//                newlistItem.add(newmap);
-//            }
 
 
         //生成适配器的Item和动态数组对应的元素
@@ -286,11 +249,22 @@ public class box extends ActionBarActivity {
                 //ImageItem的XML文件里面的一个ImageView,两个TextView ID
                 new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Number,R.id.boxlv_tv_getorgive,
                         R.id.boxlv_tv_emporfull,R.id.boxlv_tv_staut}
+
         );
 
         //添加并且显示
         listView.setAdapter(listItemAdapter);
+        scrollMyListViewToBottom();
+    }
 
+    private void scrollMyListViewToBottom() {
+        listView.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                listView.setSelection(listItem.size() - 1);
+            }
+        });
     }
 
     private boolean CheckBoxNumber(String boxnumber) {
