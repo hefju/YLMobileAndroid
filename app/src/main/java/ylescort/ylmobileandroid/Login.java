@@ -136,7 +136,7 @@ public class Login extends ActionBarActivity {
                             YLSystem.setUser(getjsonuser);
 
                             Intent intent = new Intent();
-                            intent.setClass(Login.this, box.class);
+                            intent.setClass(Login.this, Task.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("AName","Kim");
                             intent.putExtras(bundle);
