@@ -19,6 +19,8 @@ public class YLTask {
     public String TaskATMEndTime  ;//ATM开始任务时间
     public String TaskManagerNo ;//ATM完成任务时间
     public String ServerReturn;
+    public String TaskState;//任务状态
+
     public List<Site> lstSite;
     public List<Box> lstBox;
 
@@ -161,5 +163,13 @@ public class YLTask {
 
     public void setServerVersion(String serverVersion) {
         ServerVersion = serverVersion;
+    }
+
+    public String getTaskState() {
+        return TaskState;
+    }
+
+    public void setTaskState(String taskState) {
+        TaskState = taskState;
     }
 }

@@ -22,8 +22,6 @@ import YLDataService.WebService;
  */
 public class YLSystem {
 
-
-
     //region 变量定义
     private static TasksManager tasksManager;//任务管理类
     private static User user; //登录到系统的用户
@@ -43,6 +41,8 @@ public class YLSystem {
     }
 
     public static TasksManager getTasksManager() {
+        if(tasksManager==null)
+            tasksManager=new TasksManager();
         return tasksManager;
     }
 

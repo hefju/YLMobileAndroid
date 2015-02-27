@@ -12,4 +12,5 @@ public class ArriveTime {
     public String TradeBegin ;//交易开始时间
     public String TradeEnd ;//交易结束时间
     public String TradeState ;//这次到达完成交易了么？1为完成，0为未完成
+    public String SiteID ;    //网点ID
 }

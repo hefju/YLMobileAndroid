@@ -79,14 +79,16 @@ public class Task extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);
+        tasksManager=YLSystem.getTasksManager();//获取任务管理类
+
+        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);//显示当前日期
         calendarView=(CalendarView)findViewById(R.id.calendarViewTask);
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 month=month+1;
-                txt_Date_Task.setText( "当前日期是:"+year+"年"+month+"月"+dayOfMonth+"日");
-                txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
+                txt_Date_Task.setText( "日期:"+year+"年"+month+"月"+dayOfMonth+"日");
+                //txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
 //                Log.d("jutest","月:"+ String.valueOf(month));
 //                if(dayOfMonth==28){
 //                    Log.d("jutest","onSelectedDayChange:28");
@@ -95,9 +97,9 @@ public class Task extends ActionBarActivity {
 //                }
             }
         });
-        pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);
-        btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);
-        btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);
+        pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);//操作菜单
+        btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);//关闭操作菜单
+        btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);//下载任务
         btnCancel_Task.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,20 +114,24 @@ public class Task extends ActionBarActivity {
             }
         });
 
-        Task_btn_refresh =(Button)findViewById(R.id.Task_btn_refresh);
+        //刷新按钮
+        Task_btn_refresh =(Button)findViewById(R.id.Task_btn_refresh);//刷新任务列表
         Task_btn_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( YLSystem.isNetConnected(Task.this))
-                {
-                    Task_btn_refresh.setEnabled(false);//禁止刷新按钮
-                    WebService.GetTaskList(getApplicationContext(),mHandler);
+              String time= GetCalendarViewTime();//用户选中的日期
+              tasksManager.Loading(getApplicationContext(),time);//加载本地数据
+              DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
 
-                }else{
-                  if(! FillDataFromLocal()) {
-                      Toast.makeText(getApplicationContext(), "请连接网络后再刷新.", Toast.LENGTH_LONG).show();
-                  }
-                }
+              if(YLSystem.isNetConnected(Task.this)){
+                  User user=YLSystem.getUser();
+                  user.setTaskDate(time);
+                  Task_btn_refresh.setEnabled(false);//禁止刷新按钮
+                  WebService.GetTaskList(getApplicationContext(),mHandler);
+                  Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+              }else{
+                Toast.makeText(getApplicationContext(), "没有网络.", Toast.LENGTH_LONG).show();
+              }
             }
         });
         /*
@@ -180,13 +186,19 @@ public class Task extends ActionBarActivity {
                 switch (msg.what) {
                     case 1:
                         break;
-                    case 20:
+                    case 20: //获取GetTaskList成功
+                        Log.d("jutest","从服务器获取GetTaskList成功");
                         List<YLTask> lstYLTask  = (List<YLTask>) msg.obj;
-                        FillData(lstYLTask);
+                        UpdateLocalTaskList(lstYLTask);
+//                        tasksManager.Merge(GetCalendarViewTime(),lstYLTask);
+//                        FillData(lstYLTask);
+                        DisplayTaskList(tasksManager.lstLatestTask);
                         Task_btn_refresh.setEnabled(true);//可以再次点击刷新了
                         break;
-                    case 21:
-
+                    case 21://获取GetTaskList失败, 服务器返回值不等于1, 获取数据失败
+                        String content = (String) msg.obj;
+                        Toast.makeText(getApplicationContext(),content,Toast.LENGTH_LONG).show();
+                        Task_btn_refresh.setEnabled(true);//可以再次点击刷新了
                         break;
                     case 100:
                         break;
@@ -198,30 +210,86 @@ public class Task extends ActionBarActivity {
         };
     }
 
-    private boolean FillDataFromLocal() {
-        return false;
-    }
-
-
-    //将任务列表显示到界面上
-    private void FillData(List<YLTask> lstYLTask) {
-//        List<YLTask> ylTaskList =GetTaskList();//获取任务列表
+    //显示本地任务列表
+    private void DisplayTaskList( List<YLTask> lstYLTask) {
+        if(lstYLTask==null || lstYLTask.size()<1)return;
         YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,lstYLTask,R.layout.activity_taskitem);
         listView.setAdapter(ylTaskAdapter);
     }
 
-    private List<YLTask> GetTaskList() {
-        if(tasksManager==null)
-        {
-            String taskdate= txt_Date_Task.getTag().toString();
-            tasksManager=new TasksManager();
-            if(tasksManager.GetTaskListFromLoacl(taskdate,getApplicationContext())==false) {
-                tasksManager.DownTaskList();
+    //下载的任务列表跟本地的任务列表比较, 整理出最终的任务列表
+    private void UpdateLocalTaskList(List<YLTask> lstYLTask) {
+        List<YLTask> lstlocal=tasksManager.lstLatestTask;
+        if(lstlocal==null) {
+            for (YLTask l:lstYLTask){
+                l.setTaskVersion("有更新");
+            }
+            tasksManager.lstLatestTask = (ArrayList) lstYLTask;
+        }
+        else{
+            for(YLTask remote: lstYLTask) {
+                YLTask local=GetRemoteYLTask(remote.getTaskID(),lstlocal);
+                if(local!=null){
+                    int v0=Integer.parseInt(local.getServerVersion());
+                    int v1=Integer.parseInt(remote.getServerVersion());
+                    if(v1>v0){
+                        local.setTaskVersion("有更新");
+                       // local设置状态
+                    }
+                }else{
+                    remote.setTaskVersion("有更新");
+                    lstlocal.add(remote);
+                }
+            }
+
+            for (YLTask l:lstlocal){
+                if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null)
+                    l.setTaskVersion("已删除");
             }
         }
-        List<YLTask> ylTaskList=null;
-        return ylTaskList;
     }
+
+    private YLTask GetRemoteYLTask(String taskID, List<YLTask> lstYLTask) {
+        for (YLTask x:lstYLTask){
+            if (x.getTaskID()==taskID){
+                return x;
+            }
+        }
+        return null;
+    }
+
+//    private boolean FillDataFromLocal(String time) {
+//        TaskDBSer dbSer=new TaskDBSer(getApplicationContext());
+//        List<YLTask> lstYLTask =dbSer.FindTaskIDByDate(time);
+//        tasksManager.Merge(time,lstYLTask);
+//        return lstYLTask.size()>0;
+//    }
+
+
+    //将任务列表显示到界面上
+    private void FillData(List<YLTask> lstYLTask) {
+        YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,lstYLTask,R.layout.activity_taskitem);
+        listView.setAdapter(ylTaskAdapter);
+    }
+
+    private  String GetCalendarViewTime(){
+        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        String time=  format.format(calendarView.getDate());//用户选中的日期
+        return  time;
+    }
+
+//    private List<YLTask> GetTaskList() {
+//        if(tasksManager==null)
+//        {
+//            String taskdate= txt_Date_Task.getTag().toString();
+//            tasksManager=new TasksManager();
+//            if(tasksManager.GetTaskListFromLoacl(taskdate,getApplicationContext())==false) {
+//                tasksManager.DownTaskList();
+//            }
+//        }
+//        List<YLTask> ylTaskList=null;
+//        return ylTaskList;
+//    }
 
     private void LocaData() {
         //从本地读取数据, 如果没有, 就从网上下载数据

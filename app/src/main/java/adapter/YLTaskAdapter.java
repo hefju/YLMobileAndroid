@@ -67,7 +67,7 @@ public class YLTaskAdapter extends BaseAdapter {
         YLTask ylTask = ylTaskList.get(position);
         taskName.setText(ylTask.getLine());
         taskType.setText(ylTask.getTaskType());
-        taskState.setText(ylTask.getHandset());
+        taskState.setText(ylTask.getTaskState());
 
         return convertView;
     }

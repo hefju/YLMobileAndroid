@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.ArriveTime;
+import TaskClass.Box;
+import TaskClass.Site;
 import TaskClass.YLTask;
 
 /**
@@ -14,8 +17,10 @@ import TaskClass.YLTask;
  */
 public class TaskDBSer {
     private YLSQLHelper ylsqlHelper;
+    private Context _context;
 
     public TaskDBSer(Context context) {
+        _context=context;
         this.ylsqlHelper = new YLSQLHelper(context);
     }
 
@@ -112,7 +117,7 @@ public class TaskDBSer {
         }
     }
 
-    public List<YLTask> SelTaskID(String datetime){
+    public List<YLTask> FindTaskIDByDate(String datetime){
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
         Cursor cursor = sdb.rawQuery("select TaskID from YLTask where TaskDate = ?",new String[]{datetime});
 
@@ -164,6 +169,46 @@ public class TaskDBSer {
         }
         sdb.close();
         return ylTaskList;
+    }
+
+    //删除指定日期的任务
+    public void DeleteYLTask(String TaskDate) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+
+        List<YLTask> ylTaskList=FindTaskIDByDate(TaskDate);
+        List<Site> lstSite=new ArrayList<>();
+        List<Box> lstBox=new ArrayList<>();
+        List<ArriveTime> lstArriveTime=new ArrayList<>();
+
+        for (YLTask x : ylTaskList) {
+            String where = " where TaskID=" + String.valueOf(x.getTaskID());
+            SiteDBSer siteDBSer = new SiteDBSer(_context);
+            lstSite.addAll( siteDBSer.GetSites(where));
+        }
+        for (Site x : lstSite) {
+            String where = " where SiteID=" + String.valueOf(x.getSiteID());
+            BoxDBSer boxDBSer=new BoxDBSer(_context);
+            lstBox.addAll(boxDBSer.GetBoxs(where));
+
+            ArriveTimeDBSer arriveTimeDBSer=new ArriveTimeDBSer(_context);
+            lstArriveTime.addAll(arriveTimeDBSer.GetArriveTime(where));
+        }
+
+        sdb.beginTransaction();
+        try {
+
+             /*   sdb.execSQL("delete from Box where TaskDate=?", new Object[]{TaskDate} );
+                sdb.execSQL("delete from YLTask where TaskDate=?", new Object[]{TaskDate} );
+            sdb.execSQL("delete from Box where TaskDate=?", new Object[]{TaskDate} );
+            sdb.execSQL("delete from Site where TaskDate=?", new Object[]{TaskDate} );
+            sdb.execSQL("delete from Site where TaskDate=?", new Object[]{TaskDate} );*/
+        }
+        finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close();
+        }
+
     }
 
 

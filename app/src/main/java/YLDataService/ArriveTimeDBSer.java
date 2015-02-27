@@ -12,6 +12,7 @@ import TaskClass.Site;
 
 /**
  * Created by asus on 2015/1/31.
+ * 为什么要重复写insert, delete, update 语句呢? @2015.2.27hefju
  */
 public class ArriveTimeDBSer {
     private YLSQLHelper ylsqlHelper;
@@ -22,8 +23,8 @@ public class ArriveTimeDBSer {
         sdb.beginTransaction();
         try {
             sdb.execSQL("INSERT INTO ArriveTime(ServerReturn, EmpID, ATime, TimeID, TradeBegin," +
-                            " TradeEnd, TradeState) VALUES   (?,?,?,?,?,?,?,)",
-                    new Object[]{x.ServerReturn,x.EmpID,x.ATime,x.TimeID,x.TradeBegin,x.TradeEnd,x.TradeState} );
+                            " TradeEnd, TradeState,SiteID) VALUES   (?,?,?,?,?,?,?,?)",
+                    new Object[]{x.ServerReturn,x.EmpID,x.ATime,x.TimeID,x.TradeBegin,x.TradeEnd,x.TradeState,x.SiteID} );
         }
         finally {
             sdb.setTransactionSuccessful();
@@ -75,6 +76,7 @@ public class ArriveTimeDBSer {
             String TradeBegin = cursor.getString(cursor.getColumnIndex("TradeBegin"));
             String TradeEnd = cursor.getString(cursor.getColumnIndex("TradeEnd"));
             String TradeState = cursor.getString(cursor.getColumnIndex("TradeState"));
+            String SiteID=cursor.getString(cursor.getColumnIndex("SiteID"));
 
             ArriveTime a=new ArriveTime();
             a.Id=Id;
@@ -85,6 +87,7 @@ public class ArriveTimeDBSer {
             a.TradeBegin=TradeBegin;
             a.TradeEnd=TradeEnd;
             a.TradeState=TradeState;
+            a. SiteID=SiteID;
 
             lstArriveTime.add(a);
         }
@@ -98,8 +101,8 @@ public class ArriveTimeDBSer {
         try {
             for (ArriveTime x : lst) {
                 sdb.execSQL("INSERT INTO ArriveTime(ServerReturn, EmpID, ATime, TimeID, TradeBegin," +
-                                " TradeEnd, TradeState) VALUES   (?,?,?,?,?,?,?,)",
-                        new Object[]{x.ServerReturn, x.EmpID, x.ATime, x.TimeID, x.TradeBegin, x.TradeEnd, x.TradeState});
+                                " TradeEnd, TradeState,SiteID) VALUES   (?,?,?,?,?,?,?,?)",
+                        new Object[]{x.ServerReturn, x.EmpID, x.ATime, x.TimeID, x.TradeBegin, x.TradeEnd, x.TradeState,x.SiteID});
             }
         }
         finally {

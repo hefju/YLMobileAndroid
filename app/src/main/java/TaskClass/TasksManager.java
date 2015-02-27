@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import YLDataService.TaskDBSer;
+import YLDataService.TasksManagerDBSer;
 import YLSystem.YLSystem;
 
 /**
@@ -15,14 +16,47 @@ import YLSystem.YLSystem;
 public class TasksManager {
     public String TaskDate;//任务日期
     public YLTask CurrentTask;//当前执行的任务
-    public ArrayList<YLTask> lstAllTask;//全部任务列表
+   // public ArrayList<YLTask> lstAllTask;//全部任务列表
     public ArrayList<YLTask> lstLatestTask;//最新的任务
 
     public TasksManager(){
-        CurrentTask=null;
-        lstAllTask=new ArrayList<>();
-        lstLatestTask=new ArrayList<>();
+        TaskDate="";
+       // CurrentTask=null;
+      //  lstAllTask=new ArrayList<>();
+      //  lstLatestTask=new ArrayList<>();
     }
+
+    //TasksManager获取指定日期的数据
+    public void Loading(Context context,String taskDate){
+        if(TaskDate!=taskDate){
+            TaskDate=taskDate;
+            InitFormLoacl(context,taskDate);
+        }
+    }
+    //合并任务, (合并之前会从本地加载指定日期的任务)
+    public void Merge(String taskDate,List<YLTask> lst){
+       // TaskDate=taskDate;
+      //  CurrentTask=null;
+        //lstLatestTask=( ArrayList<YLTask>)lst;
+    }
+    public  void  SaveTask(Context context){
+        if(TaskDate.length()<1||lstLatestTask.size()<1)
+            return;
+        TasksManagerDBSer tasksManagerDBSer=new TasksManagerDBSer(context);
+        tasksManagerDBSer.SaveTasksManager(this);//保存
+    }
+
+    //从本地获取数据初始化TasksManager
+    public void InitFormLoacl(Context context,String taskDate){
+        TasksManagerDBSer tasksManagerDBSer=new TasksManagerDBSer(context);
+        TasksManager tmp=  tasksManagerDBSer.GetTasksManager(taskDate);
+        if(tmp!=null){
+            CurrentTask=null;
+            lstLatestTask=tmp.lstLatestTask;
+        }
+    }
+
+
     //从远程获取当前设备的任务列表
     public ArrayList<YLTask> DownTaskList()
     {
@@ -36,7 +70,7 @@ public class TasksManager {
     // 检查是否已经存在任务
     public boolean IsExistsTask(String taskID)
     {
-        for(YLTask x:lstAllTask)
+        for(YLTask x:lstLatestTask)
         {
             if(x.getTaskID().equals(taskID)) {
                 return true;
@@ -67,7 +101,7 @@ public class TasksManager {
         this.TaskDate = t.getTaskDate();
         UpdateLatestTask(t);//将旧版本的信息更新到新版本
 
-        lstAllTask.add(t);  //总列表添加远程下载的任务----------全部任务的列表-下载10次就有10个任务
+       // lstAllTask.add(t);  //总列表添加远程下载的任务----------全部任务的列表-下载10次就有10个任务
         lstLatestTask.add(t);//最新列表添加远程下载的任务------最后合并完的任务列表
     }
 
@@ -147,14 +181,14 @@ public class TasksManager {
     }
 
     //从本地数据库加载数据
-    public boolean GetTaskListFromLoacl(String taskdate, Context ctx) {
-        TaskDBSer dbSer=new TaskDBSer(ctx);
-       List<YLTask> lst =dbSer.SelTaskbydatetolist(taskdate);
-      //  lstAllTask=lst.
-//        public ArrayList<YLTask> lstAllTask;//全部任务列表
-//        public ArrayList<YLTask> lstLatestTask;//最新的任务
-        return false;
-    }
+//    public boolean GetTaskListFromLoacl(String taskdate, Context ctx) {
+//        TaskDBSer dbSer=new TaskDBSer(ctx);
+//       List<YLTask> lst =dbSer.SelTaskbydatetolist(taskdate);
+//      //  lstAllTask=lst.
+////        public ArrayList<YLTask> lstAllTask;//全部任务列表
+////        public ArrayList<YLTask> lstLatestTask;//最新的任务
+//        return false;
+//    }
 
 
     //从本地查找任务
