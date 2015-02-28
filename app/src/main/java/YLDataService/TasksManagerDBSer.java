@@ -57,9 +57,9 @@ import TaskClass.TasksManager;
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
-            Gson gson = new Gson();
-            String content=gson.toJson(tasksManager);
-            sdb.execSQL("delete TasksManager where TaskDate=?",new Object[]{tasksManager.TaskDate} );
+//            Gson gson = new Gson();
+//            String content=gson.toJson(tasksManager);
+            sdb.execSQL("delete from TasksManager where TaskDate= ?",new Object[]{tasksManager.TaskDate} );
         }
         finally {
             sdb.setTransactionSuccessful();

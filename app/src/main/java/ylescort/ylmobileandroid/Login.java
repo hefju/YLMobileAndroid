@@ -130,7 +130,7 @@ public class Login extends ActionBarActivity {
                         String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
                         User getjsonuser = gson.fromJson(content, new TypeToken<User>() {
                         }.getType());
-                        Log.d("WCF", getjsonuser.getServerReturn()+"");//打印到logcat
+                        Log.d("jutest", content);//打印到logcat
                         if (getjsonuser.getServerReturn().equals("1")){
 
                             YLSystem.setUser(getjsonuser);

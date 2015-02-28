@@ -24,7 +24,7 @@
     <string name="title_activity_chong__test">CHONG_TEST</string>
     <string name="setup_labelPassword">输入密码</string>
     <string name="action_close">关闭</string>
-    <string name="title_activity_ylsite">YLSite</string>
+    <string name="title_activity_ylsite">网点</string>
     <string name="title_activity_ylsiteitem">YLsiteitem</string>
     <string name="title_activity_cache_data_view">CacheDataView</string>
     <string name="title_activity_ylbox_edit">YLBoxEdit</string>

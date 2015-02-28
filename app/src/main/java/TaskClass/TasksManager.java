@@ -2,6 +2,7 @@ package TaskClass;
 
 //import java.sql.Date;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class TasksManager {
     public void InitFormLoacl(Context context,String taskDate){
         TasksManagerDBSer tasksManagerDBSer=new TasksManagerDBSer(context);
         TasksManager tmp=  tasksManagerDBSer.GetTasksManager(taskDate);
+        //Log.d("jutest","InitFormLoacl:"+tmp.TaskDate);
         if(tmp!=null){
             CurrentTask=null;
             lstLatestTask=tmp.lstLatestTask;

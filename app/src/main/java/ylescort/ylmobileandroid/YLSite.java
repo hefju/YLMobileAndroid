@@ -75,7 +75,9 @@ public class YLSite extends ActionBarActivity {
                         Log.d("jutest", "从服务器获取GetTaskStie成功");
                         List<Site> lstSite  = (List<Site>) msg.obj;
                         tasksManager.MergeSite(lstSite);
+                        tasksManager.CurrentTask.setTaskState("已下载");
                         DisplayTaskSite(ylTask.lstSite);
+                        tasksManager.SaveTask(YLSite.this);
                         //在这里处理获取到的网点
                         //UpdateLocalTaskList(lstYLTask); //同步本地的网点
                         //DisplayTaskSite(tasksManager.lstLatestTask); //显示网点列表
@@ -112,7 +114,7 @@ public class YLSite extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ylsite, menu);
         if(ylTask.getTaskState()!="有更新"){
-            menu.removeItem(0);
+            menu.removeItem(0);//为什么不生效?
         }
         return true;
     }
@@ -126,6 +128,10 @@ public class YLSite extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.btnUpdateSite_ylsite) {
+            if(ylTask.getTaskState()!="有更新") {
+                Toast.makeText(getApplicationContext(),"已经是最新.",Toast.LENGTH_SHORT).show();
+                return true;
+            }
             WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
             Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
             return true;

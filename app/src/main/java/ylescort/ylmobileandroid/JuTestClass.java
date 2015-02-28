@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import TaskClass.TasksManager;
+import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
 import ylescort.ylmobileandroid.util.CacheDataView;
@@ -19,8 +20,13 @@ public class JuTestClass {
 
     public  void goahead1(Context ctx){
         TasksManager tasksManager=YLSystem.getTasksManager();//获取任务管理类
-      int taskNum=  tasksManager.lstLatestTask.size();
-        Toast.makeText(ctx.getApplicationContext(),"任务数量:"+taskNum, Toast.LENGTH_SHORT).show();
+//      int taskNum=  tasksManager.lstLatestTask.size();
+//        Toast.makeText(ctx.getApplicationContext(),"任务数量:"+taskNum, Toast.LENGTH_SHORT).show();
+
+        tasksManager.TaskDate="2015-02-28";//"2014-08-07";
+        TasksManagerDBSer dbSer=new TasksManagerDBSer(ctx);
+        dbSer.DeleteTasksManager(tasksManager);
+        Toast.makeText(ctx.getApplicationContext(),"删除任务:"+tasksManager.TaskDate, Toast.LENGTH_SHORT).show();
 //        Intent intent=new Intent();
 //        intent.setClass(ctx, CacheDataView.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

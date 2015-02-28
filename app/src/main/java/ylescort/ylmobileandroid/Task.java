@@ -76,6 +76,7 @@ public class Task extends ActionBarActivity {
 
     android.os.Handler mHandler; //消息处理
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,7 +158,7 @@ public class Task extends ActionBarActivity {
 
                  ListView listView1 = (ListView)parent;
                  YLTask ylTask = (YLTask)listView1.getItemAtPosition(position);
-                 Toast.makeText(Task.this,ylTask.getTaskID().toString(),Toast.LENGTH_SHORT).show();
+//                 Toast.makeText(Task.this,ylTask.getTaskID().toString(),Toast.LENGTH_SHORT).show();
                 tasksManager.SetCurrentTask(ylTask.getTaskID());//设置选中的任务
 
                  Intent intent = new Intent();
@@ -213,6 +214,12 @@ public class Task extends ActionBarActivity {
 
     //下载的任务列表跟本地的任务列表比较, 整理出最终的任务列表
     private void UpdateLocalTaskList(List<YLTask> lstYLTask) {
+        //测试的代码.
+        for(YLTask x:lstYLTask){
+            x.setTaskDate(GetCalendarViewTime());
+        }
+        //测试代码结束
+        //Log.d("jutest",)
         List<YLTask> lstlocal=tasksManager.lstLatestTask;
         if(lstlocal==null) {
             for (YLTask l:lstYLTask){
@@ -245,7 +252,7 @@ public class Task extends ActionBarActivity {
 
     private YLTask GetRemoteYLTask(String taskID, List<YLTask> lstYLTask) {
         for (YLTask x:lstYLTask){
-            if (x.getTaskID()==taskID){
+            if (x.getTaskID().equals(taskID)){
                 return x;
             }
         }
@@ -505,6 +512,12 @@ public class Task extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
+        super.onResume();
     }
 
 }
