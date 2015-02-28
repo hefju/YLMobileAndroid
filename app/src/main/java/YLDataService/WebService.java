@@ -34,6 +34,7 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
+import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLSystem.YLSystem;
@@ -443,7 +444,63 @@ public class WebService {
     }
 
 
+    public static void GetTaskSite(final Context ctx, final Handler mHandler, final String taskid) {
+        new Thread() {
+            public void run() {
+                try {
+                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie";
+                    HttpPost post = new HttpPost(url);
 
+                    User user=YLSystem.getUser();
+                    //测试数据
+                    user.DeviceID = "NH008";
+                    user.TaskDate = "2014-08-07";
+
+                    //添加数值到User类
+                    Gson gson = new Gson();
+                    //设置POST请求中的参数
+                    JSONObject p = new JSONObject();
+                    p.put("taskID",taskid);
+                    p.put("deviceID",user.getDeviceID());
+                    p.put("empid",user.getEmpID());
+                    p.put("ISWIFI",user.getISWIFI());
+
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+
+                        List<Site> lstSite  = gson.fromJson(content, new TypeToken<List<Site>>() {
+                        }.getType());
+                        String result = lstSite.get(0).ServerReturn;
+                        if (result.equals("1")) {
+                            Log.d("jutest", "GetTaskSite:" + lstSite.size());
+                            Message msg = mHandler.obtainMessage(20);
+                            msg.obj = lstSite;
+                            mHandler.sendMessage(msg);
+                        } else {
+                            Message msg = mHandler.obtainMessage(21);
+                            msg.obj = result;
+                            mHandler.sendMessage(msg);
+                        }
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }. start();
+    }
 
 
 
