@@ -56,17 +56,6 @@ public class TasksManager {
         }
     }
 
-
-    //从远程获取当前设备的任务列表
-    public ArrayList<YLTask> DownTaskList()
-    {
-        String empid="";
-        String deviceID="";
-        String isWifi="";
-        ArrayList<YLTask> lst=new ArrayList<YLTask>();
-        return lst;
-    }
-
     // 检查是否已经存在任务
     public boolean IsExistsTask(String taskID)
     {
@@ -151,6 +140,37 @@ public class TasksManager {
                 return x;
         }
         return null;
+    }
+
+    private Site FindSiteByID(String siteID,List<Site> lstSite){
+        for (Site x:lstSite){
+            if(x.SiteID.equals(siteID))
+                return x;
+        }
+        return null;
+    }
+    public void MergeSite(List<Site> lstSiteRemote){
+        List<Site> lstSiteLocal=   CurrentTask.lstSite;
+        if(lstSiteLocal!=null&&lstSiteLocal.size()>0)
+        {
+            for(Site site_local:lstSiteLocal)
+            {
+                Site site_remote =FindSiteByID(site_local.SiteID,lstSiteRemote);
+
+                if (site_remote != null)//新任务存在这个网点就更新
+                {
+                    site_remote.Status = site_local.Status;
+                    site_remote.lstArriveTime = site_local.lstArriveTime;
+                }
+                else//新任务不存在这个网点就添加
+                {
+                    if (site_local.Status == "已交接")
+                        lstSiteRemote.add(site_local);
+                }
+            }
+        }
+        CurrentTask.lstSite=lstSiteRemote;
+        CurrentTask.setTaskState("已下载");//todo 这里应该是设置什么状体?
     }
 
     // 记录ATM数
