@@ -41,6 +41,9 @@ public class YLSite extends ActionBarActivity {
 
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
+        if(!ylTask.getTaskState().equals("有更新")){
+            ylTask.setTaskState("进行中");
+        }
 
         ylsite_tv_title=(TextView)findViewById(R.id.ylsite_tv_title);
         ylsite_tv_title.setText(ylTask.getLine());
@@ -74,13 +77,10 @@ public class YLSite extends ActionBarActivity {
                     case 20: //获取GetTaskList成功
                         Log.d("jutest", "从服务器获取GetTaskStie成功");
                         List<Site> lstSite  = (List<Site>) msg.obj;
-                        tasksManager.MergeSite(lstSite);
-                        tasksManager.CurrentTask.setTaskState("已下载");
-                        DisplayTaskSite(ylTask.lstSite);
+                        tasksManager.MergeSite(lstSite);//同步本地的网点
+                        tasksManager.CurrentTask.setTaskState("进行中");
+                        DisplayTaskSite(ylTask.lstSite); //显示网点列表
                         tasksManager.SaveTask(YLSite.this);
-                        //在这里处理获取到的网点
-                        //UpdateLocalTaskList(lstYLTask); //同步本地的网点
-                        //DisplayTaskSite(tasksManager.lstLatestTask); //显示网点列表
                         //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了 //
                         break;
                     case 21://获取GetTaskStie失败, 服务器返回值不等于1, 获取数据失败
