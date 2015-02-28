@@ -27,5 +27,6 @@
     <string name="title_activity_ylsite">YLSite</string>
     <string name="title_activity_ylsiteitem">YLsiteitem</string>
     <string name="title_activity_cache_data_view">CacheDataView</string>
+    <string name="title_activity_ylbox_edit">YLBoxEdit</string>
 
 </resources>
