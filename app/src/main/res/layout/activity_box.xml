@@ -17,41 +17,41 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="序号"
+            android:text="@string/boxitem_order"
             android:id="@+id/box_tv_order"
             android:layout_below="@+id/box_tv_title"/>
         <TextView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:text="编号"
+            android:text="@string/boxitem_Number"
             android:id="@+id/box_tv_Number"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_order"/>
         <TextView
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:text="收/送"
+            android:text="@string/boxitem_gog"
             android:id="@+id/box_tv_gog"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_Number"/>
         <TextView
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:text="空/实"
+            android:text="@string/boxitem_eof"
             android:id="@+id/box_tv_eof"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_gog"/>
         <TextView
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:text="类型"
+            android:text="@string/boxitem_stype"
             android:id="@+id/box_tv_stype"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_eof"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数量"
+            android:text="@string/boxitem_count"
             android:id="@+id/box_tv_count"
             android:layout_below="@+id/box_tv_title"
             android:layout_toRightOf="@+id/box_tv_stype"/>
@@ -65,7 +65,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="收/送"
+        android:text="@string/boxitem_gog"
         android:id="@+id/box_swh_getorgive"
         android:layout_above="@+id/box_swh_emplyorfull"
         android:layout_alignParentStart="true"/>
@@ -73,7 +73,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="空/实"
+        android:text="@string/boxitem_eof"
         android:id="@+id/box_swh_emplyorfull"
         android:layout_above="@+id/box_swh_singleormore"
         android:layout_alignParentStart="true"/>

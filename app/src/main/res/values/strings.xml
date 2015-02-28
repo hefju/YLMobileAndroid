@@ -29,4 +29,15 @@
     <string name="title_activity_cache_data_view">CacheDataView</string>
     <string name="title_activity_ylbox_edit">YLBoxEdit</string>
 
+    <string name="boxitem_moneny">款箱</string>
+    <string name="boxitem_card">卡箱</string>
+    <string name="boxitem_Voucher">凭证</string>
+    <string name="boxitem_order">序号</string>
+    <string name="boxitem_Number">编号</string>
+    <string name="boxitem_gog">收/送</string>
+    <string name="boxitem_eof">空/实</string>
+    <string name="boxitem_stype">类型</string>
+    <string name="boxitem_count">数量</string>
+
+
 </resources>

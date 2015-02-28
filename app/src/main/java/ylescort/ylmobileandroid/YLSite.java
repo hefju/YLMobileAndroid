@@ -62,7 +62,7 @@ public class YLSite extends ActionBarActivity {
                  Bundle bundle = new Bundle();
                  bundle.putString("siteid",site.getSiteID());
                  intent.putExtras(bundle);
-              //  startActivity(intent);//我调用时Scan1DService会报错.
+                startActivity(intent);//我调用时Scan1DService会报错.
             }
         });
 
