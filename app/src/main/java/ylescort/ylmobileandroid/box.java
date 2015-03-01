@@ -37,6 +37,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import TaskClass.Box;
 import TaskClass.YLTask;
 
 
@@ -62,6 +63,7 @@ public class box extends ActionBarActivity {
     private RadioButton  box_rbtn_cardbox;//卡箱
     private RadioButton  box_rbtn_Voucher;//凭证
     private ArrayList<HashMap<String, Object>> listItem ;
+    private List<Box> boxList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
