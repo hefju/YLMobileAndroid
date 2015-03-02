@@ -16,14 +16,14 @@ public class Box {
     public String ActionTime ;//钱箱操作时间
     public String TimeID ;//到达时间ID
     public String BoxCount;//箱数量
-    public String boxOrder;//箱序号
+    public String BoxOrder;//箱序号
 
     public String getBoxorder() {
-        return boxOrder;
+        return BoxOrder;
     }
 
     public void setBoxorder(String boxorder) {
-        this.boxOrder = boxorder;
+        this.BoxOrder = boxorder;
     }
 
     public String getBoxcount() {
