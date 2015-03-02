@@ -24,6 +24,8 @@ public class YLTask {
     public List<Site> lstSite;
     public List<Box> lstBox;
 
+
+
     public YLTask(){}
 
     public YLTask(Integer id, String ServerVersion, String TaskVersion, String TaskID, String TaskType,
@@ -61,6 +63,13 @@ public class YLTask {
         this. TaskManagerNo=TaskManagerNo;
     }
 
+    public List<Box> getLstBox() {
+        return lstBox;
+    }
+
+    public void setLstBox(List<Box> lstBox) {
+        this.lstBox = lstBox;
+    }
     public Integer getId() {
         return Id;
     }

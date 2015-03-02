@@ -101,32 +101,7 @@ public class box extends ActionBarActivity {
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
 
         listItem =  new ArrayList<>();
-        boxList =ylTask.lstBox; //new ArrayList<>();
-        // listView = (ListView)findViewById(R.id.Task_listView);
-/*
-        //生成动态数组，加入数据
-        ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
-
-        for(int i=0;i<10;i++)
-        {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("任务名称", "stateLoad "+i);
-            map.put("任务类型", "Stype "+i);
-            map.put("任务状态", "state");
-            listItem.add(map);
-        }
-        //生成适配器的Item和动态数组对应的元素
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.activity_taskitem,//ListItem的XML实现
-                //动态数组与ImageItem对应的子项
-                new String[] {"任务名称","任务类型", "任务状态"},
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[] {R.id.Task_taskname,R.id.Task_taskstype,R.id.Task_taskstaut}
-        );
-
-        //添加并且显示
-        listView.setAdapter(listItemAdapter);
-        */
+        boxList =new ArrayList<>(); //new ArrayList<>();
 
         Bundle bundle = this.getIntent().getExtras();
         String SiteName = bundle.getString("SiteName");
@@ -236,7 +211,7 @@ public class box extends ActionBarActivity {
     }
 
     public void boxlistent(View view){
-        Toast.makeText(getApplicationContext(), GetBoxStuat("s"), Toast.LENGTH_SHORT).show();
+        ylTask.lstBox = boxList;
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){

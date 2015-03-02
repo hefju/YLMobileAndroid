@@ -105,6 +105,7 @@
       android:layout_height="wrap_content"
       android:id="@+id/boxedi_btn_ent"
       android:text="确定"
+      android:onClick="boxedi_ent"
       android:layout_below="@+id/boxedi_rtl_EdiGourp"
       android:layout_alignEnd="@+id/boxedi_rtl_EdiGourp"/>
     <Button

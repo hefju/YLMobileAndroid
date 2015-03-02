@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.TasksManager;
+import TaskClass.YLTask;
+import YLSystem.YLSystem;
 import adapter.YLBoxAdapter;
 
 
@@ -34,6 +37,9 @@ public class YLBoxEdit extends ActionBarActivity {
     private ListView boxedi_listview;
     private List<Box> boxList;
     private int listpostion;
+
+    private TasksManager tasksManager = null;//任务管理类
+    private YLTask ylTask;//当前选中的任务
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +82,7 @@ public class YLBoxEdit extends ActionBarActivity {
                 //箱类型
                 Box box = boxList.get(listpostion);
                 box.setBoxType(GetBoxStuat("s"));
-                boxList.set(listpostion,box);
+                boxList.set(listpostion, box);
                 ReLoadData();
             }
         });
@@ -145,8 +151,11 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_rb_Voucher = (RadioButton)findViewById(R.id.boxedi_rb_Voucher);
         boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
         boxedi_radioGroup= (RadioGroup)findViewById(R.id.boxedi_radioGroup);
-        boxList =  new ArrayList<>();
-        GetLocaData();
+
+        tasksManager= YLSystem.getTasksManager();//获取任务管理类
+        ylTask=tasksManager.CurrentTask;//当前选中的任务
+        boxList =ylTask.getLstBox();
+        ReLoadData();
     }
 
     private void GetLocaData() {
@@ -169,6 +178,10 @@ public class YLBoxEdit extends ActionBarActivity {
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         boxedi_listview.setAdapter(ylBoxAdapter);
         boxedi_listview.setSelection(listpostion);
+    }
+
+    public void boxedi_ent(View view){
+        ylTask.setLstBox(boxList);
     }
 
     @Override
