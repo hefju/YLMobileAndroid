@@ -38,8 +38,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import TaskClass.Box;
+import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLSystem.YLSystem;
 import adapter.YLBoxAdapter;
 
 
@@ -67,10 +69,15 @@ public class box extends ActionBarActivity {
     private ArrayList<HashMap<String, Object>> listItem ;
     private List<Box> boxList;
 
+    private TasksManager tasksManager = null;//任务管理类
+    private YLTask ylTask;//当前选中的任务
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
+        tasksManager= YLSystem.getTasksManager();//获取任务管理类
+        ylTask=tasksManager.CurrentTask;//当前选中的任务
 
         try {
             LoadData();
@@ -94,7 +101,7 @@ public class box extends ActionBarActivity {
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
 
         listItem =  new ArrayList<>();
-        boxList = new ArrayList<>();
+        boxList =ylTask.lstBox; //new ArrayList<>();
         // listView = (ListView)findViewById(R.id.Task_listView);
 /*
         //生成动态数组，加入数据
@@ -237,7 +244,7 @@ public class box extends ActionBarActivity {
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
         int count= boxList.size();
-        box.setBoxOrder(count+1+"");
+        box.setBoxOrder(count + 1 + "");
         box.setBoxID(boxnumber);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
