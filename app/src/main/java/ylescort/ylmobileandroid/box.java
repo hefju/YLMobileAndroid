@@ -237,7 +237,7 @@ public class box extends ActionBarActivity {
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
         int count= boxList.size();
-        box.setBoxorder(count+"");
+        box.setBoxorder(count+1+"");
         box.setBoxID(boxnumber);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
@@ -246,33 +246,6 @@ public class box extends ActionBarActivity {
         boxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
-
-
-
-//
-//        int count = listItem.size();
-//
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("序号",count+1);
-//        map.put("编号",boxnumber);
-//        map.put("收/送",GetBoxStuat("g"));
-//        map.put("空/实",GetBoxStuat("f"));
-//        map.put("类型",GetBoxStuat("s"));
-//        map.put("数量",boxcount);
-//        listItem.add(map);
-//
-//        //生成适配器的Item和动态数组对应的元素
-//        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-//                R.layout.activity_boxlist,//ListItem的XML实现
-//                //动态数组与ImageItem对应的子项
-//                new String[] {"序号","编号", "收/送","空/实","类型","数量"},
-//                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-//                new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Boxid,R.id.boxlv_tv_TradeAction,
-//                        R.id.boxlv_tv_Status,R.id.boxlv_tv_type,R.id.boxlv_tv_count}
-//        );
-//
-//        //添加并且显示
-//        listView.setAdapter(listItemAdapter);
         scrollMyListViewToBottom();
     }
 
@@ -281,7 +254,7 @@ public class box extends ActionBarActivity {
             @Override
             public void run() {
                 // Select the last row so it will scroll into view...
-                listView.setSelection(listItem.size() - 1);
+                listView.setSelection(boxList.size() - 1);
             }
         });
     }
@@ -289,14 +262,6 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-//        for (int i = 0 ;i<listItem.size();i++){
-//            Map lvNumber = listItem.get(i);
-//            if (lvNumber.get("编号").equals(boxnumber) & !lvNumber.get("编号").equals("无标签")){
-//                checkthebox = true;
-//                break;
-//            }
-//            else {checkthebox = false;}
-//        }
         for (int i = 0 ; i<boxList.size();i++){
             String boxid = boxList.get(i).BoxID;
             if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
@@ -309,7 +274,6 @@ public class box extends ActionBarActivity {
 
        return checkthebox;
     }
-
 
     private String GetBoxStuat(String getboxstuat ){
         String boxstuat = "";

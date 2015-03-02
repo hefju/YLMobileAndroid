@@ -5,18 +5,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import TaskClass.YLTask;
+import TaskClass.Box;
+import adapter.YLBoxAdapter;
 
 
 public class YLBoxEdit extends ActionBarActivity {
@@ -30,6 +30,7 @@ public class YLBoxEdit extends ActionBarActivity {
     private RadioButton boxedi_rb_Voucher;
 
     private ListView boxedi_listview;
+    private List<Box> boxList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,16 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String,String> map=(HashMap<String,String>)boxedi_listview.getItemAtPosition(position);
-                String box = map.get("编码");
-                Toast.makeText(getApplicationContext(),box,Toast.LENGTH_SHORT).show();
+               ListView listView = (ListView)parent;
+                Box box = (Box)listView.getItemAtPosition(position);
+                EditBox(box);
             }
         });
+    }
+
+    private void EditBox(Box box) {
+
+
     }
 
     private void init() {
@@ -53,36 +59,24 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_rb_card = (RadioButton)findViewById(R.id.boxedi_rb_card);
         boxedi_rb_Voucher = (RadioButton)findViewById(R.id.boxedi_rb_Voucher);
         boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
+        boxList =  new ArrayList<>();
         GetLocaData();
     }
 
     private void GetLocaData() {
 
-        //生成动态数组，加入数据
-        ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
-
-        for (int i = 0 ;i <=10;i++){
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("序号",i+1);
-            map.put("编码","709394"+i);
-            map.put("收/送","收");
-            map.put("空/实","实");
-            map.put("类型","款箱");
-            map.put("数量",i+2);
-            listItem.add(map);
+        for (int i = 0 ;i<=9;i++){
+            Box box = new Box();
+            box.setBoxorder(i+"");
+            box.setBoxID(709394+i+"");
+            box.setTradeAction("送");
+            box.setBoxStatus("空");
+            box.setBoxType("款箱");
+            box.setBoxcount(1+"");
+            boxList.add(box);
         }
-
-        //生成适配器的Item和动态数组对应的元素
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.activity_boxlist,
-                //动态数组与ImageItem对应的子项
-                new String[] {"序号","编码", "收/送", "空/实", "类型","数量"},
-                new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Boxid,R.id.boxlv_tv_TradeAction,
-                R.id.boxlv_tv_Status,R.id.boxlv_tv_type,R.id.boxlv_tv_count}
-        );
-
-        //添加并且显示
-        boxedi_listview.setAdapter(listItemAdapter);
+        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
+        boxedi_listview.setAdapter(ylBoxAdapter);
     }
 
 

@@ -15,23 +15,23 @@ public class Box {
     public String NextOutTime ;//下次出库时间  预定出库: [2]天后出库
     public String ActionTime ;//钱箱操作时间
     public String TimeID ;//到达时间ID
-    public String boxcount;//箱数量
-    public String boxorder;//箱序号
+    public String BoxCount;//箱数量
+    public String boxOrder;//箱序号
 
     public String getBoxorder() {
-        return boxorder;
+        return boxOrder;
     }
 
     public void setBoxorder(String boxorder) {
-        this.boxorder = boxorder;
+        this.boxOrder = boxorder;
     }
 
     public String getBoxcount() {
-        return boxcount;
+        return BoxCount;
     }
 
     public void setBoxcount(String boxcount) {
-        this.boxcount = boxcount;
+        this.BoxCount = boxcount;
     }
 
     public String getTimeID() {
