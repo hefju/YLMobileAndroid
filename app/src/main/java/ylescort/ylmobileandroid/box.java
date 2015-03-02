@@ -38,7 +38,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import TaskClass.Box;
+import TaskClass.User;
 import TaskClass.YLTask;
+import adapter.YLBoxAdapter;
 
 
 public class box extends ActionBarActivity {
@@ -55,8 +57,8 @@ public class box extends ActionBarActivity {
     private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
     private boolean keyDownFlag = false;
 
-    private Switch box_swh_getorgive; //收送
-    private Switch box_swh_emplyorfull; //空实
+    private Switch box_swh_TradeAction; //收送
+    private Switch box_swh_Status; //空实
     private Switch box_swh_singleormore;//单多
 
     private RadioButton  box_rbtn_moneyboxs;//款箱
@@ -83,8 +85,8 @@ public class box extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
 
-        box_swh_getorgive = (Switch)findViewById(R.id.box_swh_getorgive);
-        box_swh_emplyorfull = (Switch)findViewById(R.id.box_swh_emplyorfull);
+        box_swh_TradeAction = (Switch)findViewById(R.id.box_swh_TradeAction);
+        box_swh_Status = (Switch)findViewById(R.id.box_swh_Status);
         box_swh_singleormore = (Switch)findViewById(R.id.box_swh_singleormore);
 
         box_rbtn_moneyboxs = (RadioButton)findViewById(R.id.box_rbtn_moneyboxs);
@@ -92,6 +94,7 @@ public class box extends ActionBarActivity {
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
 
         listItem =  new ArrayList<>();
+        boxList = new ArrayList<>();
         // listView = (ListView)findViewById(R.id.Task_listView);
 /*
         //生成动态数组，加入数据
@@ -231,43 +234,45 @@ public class box extends ActionBarActivity {
 
     private void PutDatatoListView(String boxnumber,String boxcount){
 
-        //生成动态数组，加入数据
-        //ArrayList<HashMap<String, Object>> listItem = new ArrayList<>();
-
-//        for(int i=0;i<10;i++)
-//        {
-//            HashMap<String, Object> map = new HashMap<>();
-//            map.put("任务名称", "stateLoad "+i);
-//            map.put("任务类型", "Stype "+i);
-//            map.put("任务状态", "state");
-//            listItem.add(map);
-//        }
-
         if (CheckBoxNumber(boxnumber)){return;}
+        Box box = new Box();
+        int count= boxList.size();
+        box.setBoxorder(count+"");
+        box.setBoxID(boxnumber);
+        box.setTradeAction(GetBoxStuat("g"));
+        box.setBoxStatus(GetBoxStuat("f"));
+        box.setBoxType(GetBoxStuat("s"));
+        box.setBoxcount(boxcount);
+        boxList.add(box);
+        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
+        listView.setAdapter(ylBoxAdapter);
 
-        int count = listItem.size();
 
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("序号",count+1);
-        map.put("编号",boxnumber);
-        map.put("收/送",GetBoxStuat("g"));
-        map.put("空/实",GetBoxStuat("f"));
-        map.put("类型",GetBoxStuat("s"));
-        map.put("数量",boxcount);
-        listItem.add(map);
 
-        //生成适配器的Item和动态数组对应的元素
-        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
-                R.layout.activity_boxlist,//ListItem的XML实现
-                //动态数组与ImageItem对应的子项
-                new String[] {"序号","编号", "收/送","空/实","类型","数量"},
-                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
-                new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Number,R.id.boxlv_tv_getorgive,
-                        R.id.boxlv_tv_emporfull,R.id.boxlv_tv_staut,R.id.boxlv_tv_count}
-        );
-
-        //添加并且显示
-        listView.setAdapter(listItemAdapter);
+//
+//        int count = listItem.size();
+//
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("序号",count+1);
+//        map.put("编号",boxnumber);
+//        map.put("收/送",GetBoxStuat("g"));
+//        map.put("空/实",GetBoxStuat("f"));
+//        map.put("类型",GetBoxStuat("s"));
+//        map.put("数量",boxcount);
+//        listItem.add(map);
+//
+//        //生成适配器的Item和动态数组对应的元素
+//        SimpleAdapter listItemAdapter = new SimpleAdapter(this,listItem,//数据源
+//                R.layout.activity_boxlist,//ListItem的XML实现
+//                //动态数组与ImageItem对应的子项
+//                new String[] {"序号","编号", "收/送","空/实","类型","数量"},
+//                //ImageItem的XML文件里面的一个ImageView,两个TextView ID
+//                new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Boxid,R.id.boxlv_tv_TradeAction,
+//                        R.id.boxlv_tv_Status,R.id.boxlv_tv_type,R.id.boxlv_tv_count}
+//        );
+//
+//        //添加并且显示
+//        listView.setAdapter(listItemAdapter);
         scrollMyListViewToBottom();
     }
 
@@ -284,14 +289,24 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-        for (int i = 0 ;i<listItem.size();i++){
-            Map lvNumber = listItem.get(i);
-            if (lvNumber.get("编号").equals(boxnumber) & !lvNumber.get("编号").equals("无标签")){
+//        for (int i = 0 ;i<listItem.size();i++){
+//            Map lvNumber = listItem.get(i);
+//            if (lvNumber.get("编号").equals(boxnumber) & !lvNumber.get("编号").equals("无标签")){
+//                checkthebox = true;
+//                break;
+//            }
+//            else {checkthebox = false;}
+//        }
+        for (int i = 0 ; i<boxList.size();i++){
+            String boxid = boxList.get(i).BoxID;
+            if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
                 checkthebox = true;
                 break;
+            }else {
+                checkthebox = false;
             }
-            else {checkthebox = false;}
         }
+
        return checkthebox;
     }
 
@@ -299,13 +314,13 @@ public class box extends ActionBarActivity {
     private String GetBoxStuat(String getboxstuat ){
         String boxstuat = "";
         if (getboxstuat.equals("g")){
-        if (box_swh_getorgive.isChecked()){
+        if (box_swh_TradeAction.isChecked()){
             boxstuat = "送";
         }else {
             boxstuat = "收";
         }}
         else if (getboxstuat.equals("f")){
-        if (box_swh_emplyorfull.isChecked()){
+        if (box_swh_Status.isChecked()){
             boxstuat ="实";
         }else {
             boxstuat ="空";

@@ -20,25 +20,25 @@
         android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_Number"
-        android:text="@string/boxitem_Number"
+        android:text="@string/boxitem_Boxid"
         android:layout_toRightOf="@+id/boxedi_order"/>
     <TextView
         android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_gog"
-        android:text="@string/boxitem_gog"
+        android:text="@string/boxitem_TradeAction"
         android:layout_toRightOf="@+id/boxedi_Number"/>
     <TextView
         android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_eof"
-        android:text="@string/boxitem_eof"
+        android:text="@string/boxitem_Status"
         android:layout_toRightOf="@+id/boxedi_gog"/>
     <TextView
         android:layout_width="35dp"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_stype"
-        android:text="@string/boxitem_stype"
+        android:text="@string/boxitem_type"
         android:layout_toRightOf="@+id/boxedi_eof"/>
     <TextView
         android:layout_width="wrap_content"
@@ -66,12 +66,12 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:id="@+id/boxedi_sw_gog"
-        android:text="@string/boxitem_gog"/>
+        android:text="@string/boxitem_TradeAction"/>
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_sw_eof"
-        android:text="@string/boxitem_eof"
+        android:text="@string/boxitem_Status"
         android:layout_below="@+id/boxedi_sw_gog"/>
     <RadioGroup
         android:layout_width="wrap_content"
@@ -83,17 +83,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_rb_money"
-        android:text="@string/boxitem_moneny"/>
+        android:text="@string/boxitem_monenybox"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_rb_card"
-            android:text="@string/boxitem_card"/>
+            android:text="@string/boxitem_cardbox"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_rb_Voucher"
-            android:text="@string/boxitem_Voucher"/>
+            android:text="@string/boxitem_Voucherbox"/>
     </RadioGroup>
 </RelativeLayout>
   <Button

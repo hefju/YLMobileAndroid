@@ -10,35 +10,35 @@
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:id="@+id/boxlv_tv_order"
-        android:text="序号"/>
+        android:text="@string/boxitem_order"/>
     <TextView
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:id="@+id/boxlv_tv_Number"
-        android:text="箱编号"
+        android:id="@+id/boxlv_tv_Boxid"
+        android:text="@string/boxitem_Boxid"
         android:layout_toRightOf="@+id/boxlv_tv_order"/>
     <TextView
         android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:id="@+id/boxlv_tv_getorgive"
-        android:text="收/送"
-        android:layout_toRightOf="@+id/boxlv_tv_Number"/>
+        android:id="@+id/boxlv_tv_TradeAction"
+        android:text="@string/boxitem_TradeAction"
+        android:layout_toRightOf="@+id/boxlv_tv_Boxid"/>
     <TextView
         android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:id="@+id/boxlv_tv_emporfull"
-        android:text="空/实"
-        android:layout_toRightOf="@+id/boxlv_tv_getorgive"/>
+        android:id="@+id/boxlv_tv_Status"
+        android:text="@string/boxitem_Status"
+        android:layout_toRightOf="@+id/boxlv_tv_TradeAction"/>
     <TextView
         android:layout_width="40dp"
         android:layout_height="wrap_content"
-        android:id="@+id/boxlv_tv_staut"
-        android:text="类型"
-        android:layout_toRightOf="@+id/boxlv_tv_emporfull"/>
+        android:id="@+id/boxlv_tv_type"
+        android:text="@string/boxitem_type"
+        android:layout_toRightOf="@+id/boxlv_tv_Status"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/boxlv_tv_count"
         android:text="数量"
-        android:layout_toRightOf="@+id/boxlv_tv_staut"/>
+        android:layout_toRightOf="@+id/boxlv_tv_type"/>
 </RelativeLayout>

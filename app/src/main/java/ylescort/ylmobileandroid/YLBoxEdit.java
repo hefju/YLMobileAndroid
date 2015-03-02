@@ -77,8 +77,8 @@ public class YLBoxEdit extends ActionBarActivity {
                 R.layout.activity_boxlist,
                 //动态数组与ImageItem对应的子项
                 new String[] {"序号","编码", "收/送", "空/实", "类型","数量"},
-                new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Number,R.id.boxlv_tv_getorgive,
-                R.id.boxlv_tv_emporfull,R.id.boxlv_tv_staut,R.id.boxlv_tv_count}
+                new int[] {R.id.boxlv_tv_order,R.id.boxlv_tv_Boxid,R.id.boxlv_tv_TradeAction,
+                R.id.boxlv_tv_Status,R.id.boxlv_tv_type,R.id.boxlv_tv_count}
         );
 
         //添加并且显示
