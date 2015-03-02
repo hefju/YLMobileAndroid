@@ -158,23 +158,11 @@ public class YLBoxEdit extends ActionBarActivity {
         ReLoadData();
     }
 
-    private void GetLocaData() {
-
-        for (int i = 0 ;i<=9;i++){
-            Box box = new Box();
-            box.setBoxOrder(i+1+"");
-            box.setBoxID(709394+i+"");
-            box.setTradeAction("送");
-            box.setBoxStatus("空");
-            box.setBoxType("款箱");
-            box.setBoxCount(1+"");
-            boxList.add(box);
-        }
-        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
-        boxedi_listview.setAdapter(ylBoxAdapter);
-    }
 
     private void ReLoadData(){
+        if (boxList==null){
+            return;
+        }
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         boxedi_listview.setAdapter(ylBoxAdapter);
         boxedi_listview.setSelection(listpostion);
