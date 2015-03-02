@@ -18,20 +18,20 @@ public class Box {
     public String BoxCount;//箱数量
     public String BoxOrder;//箱序号
 
-    public String getBoxorder() {
-        return BoxOrder;
-    }
-
-    public void setBoxorder(String boxorder) {
-        this.BoxOrder = boxorder;
-    }
-
-    public String getBoxcount() {
+    public String getBoxCount() {
         return BoxCount;
     }
 
-    public void setBoxcount(String boxcount) {
-        this.BoxCount = boxcount;
+    public void setBoxCount(String boxCount) {
+        BoxCount = boxCount;
+    }
+
+    public String getBoxOrder() {
+        return BoxOrder;
+    }
+
+    public void setBoxOrder(String boxOrder) {
+        BoxOrder = boxOrder;
     }
 
     public String getTimeID() {

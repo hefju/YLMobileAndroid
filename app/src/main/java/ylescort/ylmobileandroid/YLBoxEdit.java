@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -25,12 +26,14 @@ public class YLBoxEdit extends ActionBarActivity {
     private Switch boxedi_sw_gog;
     private Switch boxedi_sw_eof;
 
+    private RadioGroup boxedi_radioGroup;
     private RadioButton boxedi_rb_money;
     private RadioButton boxedi_rb_card;
     private RadioButton boxedi_rb_Voucher;
 
     private ListView boxedi_listview;
     private List<Box> boxList;
+    private int listpostion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +45,96 @@ public class YLBoxEdit extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                ListView listView = (ListView)parent;
                 Box box = (Box)listView.getItemAtPosition(position);
+                listpostion = position;
                 EditBox(box);
             }
         });
+        boxedi_sw_gog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //收/送
+                Box box = boxList.get(listpostion);
+                box.setTradeAction(GetBoxStuat("g"));
+                boxList.set(listpostion,box);
+                ReLoadData();
+            }
+        });
+        boxedi_sw_eof.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //空/实
+                Box box = boxList.get(listpostion);
+                box.setBoxStatus(GetBoxStuat("f"));
+                boxList.set(listpostion,box);
+                ReLoadData();
+            }
+        });
+
+        boxedi_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //箱类型
+                Box box = boxList.get(listpostion);
+                box.setBoxType(GetBoxStuat("s"));
+                boxList.set(listpostion,box);
+                ReLoadData();
+            }
+        });
+
+    }
+
+    private String GetBoxStuat(String getboxstuat ){
+        String boxstuat = "";
+        if (getboxstuat.equals("g")){
+            if (boxedi_sw_gog.isChecked()){
+                boxstuat = "送";
+            }else {
+                boxstuat = "收";
+            }}
+        else if (getboxstuat.equals("f")){
+            if (boxedi_sw_eof.isChecked()){
+                boxstuat ="实";
+            }else {
+                boxstuat ="空";
+            }}
+        else if (getboxstuat.equals("s")){
+            if (boxedi_rb_money.isChecked()){
+                boxstuat ="款箱";
+            }else if (boxedi_rb_card.isChecked()){
+                boxstuat ="卡箱";
+            }else if (boxedi_rb_Voucher.isChecked()){
+                boxstuat ="凭证";
+            }}
+
+        return boxstuat;
+    }
+
+    public void boxedi_del(View view){
+        boxList.remove(listpostion);ReLoadData();
     }
 
     private void EditBox(Box box) {
 
-
+        String boxtradaction = box.getTradeAction();
+        String boxstatus = box.getBoxStatus();
+        String boxtype = box.getBoxType();
+        if (boxtradaction.equals("收")){
+            boxedi_sw_gog.setChecked(false);
+        }else {
+            boxedi_sw_gog.setChecked(true);
+        }
+        if (boxstatus.equals("空")){
+            boxedi_sw_eof.setChecked(false);
+        }else {
+            boxedi_sw_eof.setChecked(true);
+        }
+        if (boxtype.equals("款箱")){
+            boxedi_rb_money.setChecked(true);
+        }else if (boxtype.equals("卡箱")){
+            boxedi_rb_card.setChecked(true);
+        }else if (boxtype.equals("凭证")){
+            boxedi_rb_Voucher.setChecked(true);
+        }
     }
 
     private void init() {
@@ -59,6 +144,7 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_rb_card = (RadioButton)findViewById(R.id.boxedi_rb_card);
         boxedi_rb_Voucher = (RadioButton)findViewById(R.id.boxedi_rb_Voucher);
         boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
+        boxedi_radioGroup= (RadioGroup)findViewById(R.id.boxedi_radioGroup);
         boxList =  new ArrayList<>();
         GetLocaData();
     }
@@ -67,18 +153,23 @@ public class YLBoxEdit extends ActionBarActivity {
 
         for (int i = 0 ;i<=9;i++){
             Box box = new Box();
-            box.setBoxorder(i+"");
+            box.setBoxOrder(i+1+"");
             box.setBoxID(709394+i+"");
             box.setTradeAction("送");
             box.setBoxStatus("空");
             box.setBoxType("款箱");
-            box.setBoxcount(1+"");
+            box.setBoxCount(1+"");
             boxList.add(box);
         }
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         boxedi_listview.setAdapter(ylBoxAdapter);
     }
 
+    private void ReLoadData(){
+        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
+        boxedi_listview.setAdapter(ylBoxAdapter);
+        boxedi_listview.setSelection(listpostion);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

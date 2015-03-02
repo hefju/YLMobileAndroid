@@ -77,12 +77,12 @@ public class YLBoxAdapter extends BaseAdapter {
             ylboxcount = viewCache.ylboxcountview;
         }
         Box box = boxList.get(position);
-        ylboxorder.setText(box.boxorder);
+        ylboxorder.setText(box.BoxOrder);
         ylboxid.setText(box.BoxID);
         ylboxTradeAction.setText(box.TradeAction);
         ylboxStatus.setText(box.BoxStatus);
         ylboxType.setText(box.BoxType);
-        ylboxcount.setText(box.boxcount);
+        ylboxcount.setText(box.BoxCount);
 
         return convertView;
     }

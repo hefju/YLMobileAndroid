@@ -237,12 +237,12 @@ public class box extends ActionBarActivity {
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
         int count= boxList.size();
-        box.setBoxorder(count+1+"");
+        box.setBoxOrder(count+1+"");
         box.setBoxID(boxnumber);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
-        box.setBoxcount(boxcount);
+        box.setBoxCount(boxcount);
         boxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
