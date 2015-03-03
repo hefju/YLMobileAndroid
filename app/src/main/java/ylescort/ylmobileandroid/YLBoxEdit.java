@@ -36,6 +36,7 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private ListView boxedi_listview;
     private List<Box> boxList;
+    private List<Box> boxListEdi;
     private int listpostion;
 
     private TasksManager tasksManager = null;//任务管理类
@@ -152,9 +153,19 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
         boxedi_radioGroup= (RadioGroup)findViewById(R.id.boxedi_radioGroup);
 
+        boxListEdi = new ArrayList<>();
+        boxList = new ArrayList<>();
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
-        boxList =ylTask.getLstBox();
+        boxListEdi =ylTask.getLstBox();
+        Bundle bundle = this.getIntent().getExtras();
+        String SiteID = bundle.getString("siteid");
+
+       for (int i = 0 ;i<boxListEdi.size();i++){
+           if (boxListEdi.get(i).getSiteID().equals(SiteID)){
+               boxList.add(boxListEdi.get(i));
+           }
+       }
         ReLoadData();
     }
 
@@ -169,7 +180,13 @@ public class YLBoxEdit extends ActionBarActivity {
     }
 
     public void boxedi_ent(View view){
-        ylTask.setLstBox(boxList);
+
+        for (int i = 0 ;i <boxList.size();i++){
+            Box box = new Box();
+            box = boxList.get(i);
+            boxListEdi.add(box);
+        }
+        ylTask.setLstBox(boxListEdi);
     }
 
     @Override

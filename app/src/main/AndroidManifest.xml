@@ -29,6 +29,7 @@
             android:label="@string/title_activity_box" >
             <intent-filter>
                 <action android:name="ylescort.ylmobileandroid.box" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity

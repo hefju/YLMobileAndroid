@@ -104,9 +104,25 @@ public class box extends ActionBarActivity {
         boxList =new ArrayList<>(); //new ArrayList<>();
 
         Bundle bundle = this.getIntent().getExtras();
-        String SiteName = bundle.getString("SiteName");
+        String SiteName = bundle.getString("sitename");
+        String SiteID = bundle.getString("siteid");
         box_tv_titel.setText(SiteName);
+        box_tv_titel.setTag(SiteID);
 
+        if (ylTask.lstBox != null && !ylTask.lstBox.isEmpty()){
+            for (int i = 0 ; i < ylTask.lstBox.size();i++){
+                if (ylTask.lstBox.get(i).getSiteID().equals(SiteID)){
+                    Box box = new Box();
+                    box = ylTask.lstBox.get(i);
+                    boxList.add(box);
+                }
+            }
+        }
+
+        if (boxList.size()!=0){
+            YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
+            listView.setAdapter(ylBoxAdapter);
+        }
 
     }
 
@@ -184,7 +200,6 @@ public class box extends ActionBarActivity {
         return dest;
     }
 
-
     public void ScanOnClick (View view ) throws ClassNotFoundException{
         sendCmd();   //发送指令到服务
     }
@@ -211,7 +226,16 @@ public class box extends ActionBarActivity {
     }
 
     public void boxlistent(View view){
-        ylTask.lstBox = boxList;
+        //ylTask.lstBox = boxList;
+        //ylTask.setLstBox(boxList);
+        if (ylTask.lstBox== null){
+            ylTask.lstBox = new ArrayList<>();
+        }
+        for (int i = 0 ;i < boxList.size();i++){
+            Box box = new Box();
+            box = boxList.get(i);
+            ylTask.lstBox.add(box);
+        }
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){
@@ -219,6 +243,7 @@ public class box extends ActionBarActivity {
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
         int count= boxList.size();
+        box.setSiteID(box_tv_titel.getTag().toString());
         box.setBoxOrder(count + 1 + "");
         box.setBoxID(boxnumber);
         box.setTradeAction(GetBoxStuat("g"));
@@ -341,10 +366,25 @@ public class box extends ActionBarActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
             intent.setClass(this, YLBoxEdit.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("siteid",box_tv_titel.getTag().toString());
+            intent.putExtras(bundle);
             startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        //unregisterReceiver(myBroad);
+        Intent stopService = new Intent();
+        stopService.setAction("ylescort.ylmobileandroid.Scan1DService");
+        stopService.putExtra("stopflag", true);
+        sendBroadcast(stopService);  //给服务发送广播,令服务停止
+        Log.e(TAG, "send stop");
+        super.onDestroy();
     }
 }
