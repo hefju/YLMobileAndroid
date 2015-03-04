@@ -70,6 +70,7 @@ public class YLTask {
     public void setLstBox(List<Box> lstBox) {
         this.lstBox = lstBox;
     }
+
     public Integer getId() {
         return Id;
     }

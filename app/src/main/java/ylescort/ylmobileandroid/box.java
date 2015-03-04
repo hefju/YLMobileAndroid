@@ -183,7 +183,7 @@ public class box extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                mPlayer.start();
+                //mPlayer.start();
 				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
 
@@ -241,6 +241,7 @@ public class box extends ActionBarActivity {
     private void PutDatatoListView(String boxnumber,String boxcount){
 
         if (CheckBoxNumber(boxnumber)){return;}
+        String time="19:10";
         Box box = new Box();
         int count= boxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
@@ -250,6 +251,8 @@ public class box extends ActionBarActivity {
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         box.setBoxCount(boxcount);
+        box.setTimeID("1");
+        box.setActionTime(time+"");
         boxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
@@ -278,7 +281,6 @@ public class box extends ActionBarActivity {
                 checkthebox = false;
             }
         }
-
        return checkthebox;
     }
 

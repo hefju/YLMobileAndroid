@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ylsite_tv_title"
-        android:textSize="25dp"
+        android:textSize="30dp"
         android:text="标题"/>
     </LinearLayout>
     <LinearLayout
@@ -49,10 +49,19 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ylsite_LL_itemtitle">
+        android:layout_below="@+id/ylsite_LL_itemtitle"
+        android:id="@+id/linearLayout2">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ylsite_lv_MainView"></ListView>
         </LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Site_Update"
+        android:text="上传"
+        android:onClick="YLSite_UpDate"
+        android:layout_above="@+id/ylsite_LL_itemtitle"
+        android:layout_alignEnd="@+id/linearLayout2"/>
 </RelativeLayout>

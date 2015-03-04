@@ -133,6 +133,7 @@ public class Login extends ActionBarActivity {
                         Log.d("jutest", content);//打印到logcat
                         if (getjsonuser.getServerReturn().equals("1")){
 
+                            getjsonuser.setISWIFI("1");
                             YLSystem.setUser(getjsonuser);
 
                             Intent intent = new Intent();
