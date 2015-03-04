@@ -24,9 +24,10 @@ public class setup extends ActionBarActivity {
             public void onClick(View v) {
                 EditText txtPwd=(EditText)findViewById(R.id.txt_setup_Pwd);
                 if(txtPwd.getText().toString().equals("1024")){
-                            Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), SettingsActivity.class);
-        startActivity(intent);
+                    Intent intent = new Intent();
+                    intent.setClass(getApplicationContext(), SettingsActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 else
                 {
