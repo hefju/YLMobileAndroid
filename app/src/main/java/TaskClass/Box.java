@@ -14,9 +14,18 @@ public class Box {
     public String BoxType ;//钱箱类型   //款箱, 凭证, 卡箱
     public String NextOutTime ;//下次出库时间  预定出库: [2]天后出库
     public String ActionTime ;//钱箱操作时间
-    public String TimeID ;//到达时间ID
+    public int TimeID ;//到达时间ID
     public String BoxCount;//箱数量
     public String BoxOrder;//箱序号
+
+
+    public int getTimeID() {
+        return TimeID;
+    }
+
+    public void setTimeID(int timeID) {
+        TimeID = timeID;
+    }
 
     public String getBoxCount() {
         return BoxCount;
@@ -32,14 +41,6 @@ public class Box {
 
     public void setBoxOrder(String boxOrder) {
         BoxOrder = boxOrder;
-    }
-
-    public String getTimeID() {
-        return TimeID;
-    }
-
-    public void setTimeID(String timeID) {
-        TimeID = timeID;
     }
 
     public String getActionTime() {

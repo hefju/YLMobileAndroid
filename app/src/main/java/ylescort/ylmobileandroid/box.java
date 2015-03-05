@@ -251,7 +251,7 @@ public class box extends ActionBarActivity {
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         box.setBoxCount(boxcount);
-        box.setTimeID("1");
+        box.setTimeID(1);
         box.setActionTime(time+"");
         boxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);

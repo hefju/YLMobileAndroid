@@ -179,19 +179,19 @@ public class YLSite extends ActionBarActivity {
                     LA.add(A1);
                     SI1.lstArriveTime=LA;
                     //添加Task类
-                    YLTask t1 = new YLTask();
-                    t1.ServerVersion = ylTask.getServerVersion();
-                    t1.TaskVersion=ylTask.getTaskVersion();
-                    t1. TaskID=ylTask.getTaskID();
-                    t1. TaskType=ylTask.getTaskType();
-                    t1. Handset=ylTask.getHandset();
-                    t1. TaskDate=ylTask.getTaskDate();
-                    t1. Line=ylTask.getLine();
-                    t1. TaskManager=ylTask.getTaskManager();
-                    t1. TaskATMBeginTime=ylTask.getTaskATMBeginTime();
-                    t1. TaskATMEndTime=ylTask.getTaskATMEndTime();
-                    t1. TaskManagerNo=ylTask.getTaskManagerNo();
-                    t1. ServerReturn=ylTask.getServerReturn();
+                    YLTask t1 = ylTask;
+//                    t1.ServerVersion = ylTask.getServerVersion();
+//                    t1.TaskVersion=ylTask.getTaskVersion();
+//                    t1. TaskID=ylTask.getTaskID();
+//                    t1. TaskType=ylTask.getTaskType();
+//                    t1. Handset=ylTask.getHandset();
+//                    t1. TaskDate=ylTask.getTaskDate();
+//                    t1. Line=ylTask.getLine();
+//                    t1. TaskManager=ylTask.getTaskManager();
+//                    t1. TaskATMBeginTime=ylTask.getTaskATMBeginTime();
+//                    t1. TaskATMEndTime=ylTask.getTaskATMEndTime();
+//                    t1. TaskManagerNo=ylTask.getTaskManagerNo();
+//                    t1. ServerReturn=ylTask.getServerReturn();
 //                    List<Site> LS = new ArrayList<Site>() ;
 //                    LS.add(SI1);
 //                    List<Box> LB= new ArrayList<Box>() ;
@@ -199,6 +199,8 @@ public class YLSite extends ActionBarActivity {
 //                    t1.lstSite = LS;
 //                    t1.lstBox= LB;
 
+//                    ylTask.setTaskATMBeginTime("");
+//                    ylTask.setTaskATMEndTime("");
                     t1.lstSite=ylTask.lstSite;
                     t1.lstBox=ylTask.lstBox;
 
@@ -249,8 +251,6 @@ public class YLSite extends ActionBarActivity {
         HttpResponse response = client.execute(post);
         if (response.getStatusLine().getStatusCode() == 200) {
             String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
-
-
             Log.d("WCF", content);//打印到logcat
         }
     }

@@ -88,7 +88,9 @@
             android:text="单/多"
             android:id="@+id/box_swh_singleormore"
             android:layout_alignBottom="@+id/box_rg"
-            android:layout_alignParentStart="true"/>
+            android:layout_alignParentStart="true"
+            android:textOn="多"
+            android:textOff="单"/>
 <RadioGroup
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

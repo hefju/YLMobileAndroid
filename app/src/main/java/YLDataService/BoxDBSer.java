@@ -1,6 +1,7 @@
 package YLDataService;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -84,7 +85,7 @@ public class BoxDBSer {
             String BoxType = cursor.getString(cursor.getColumnIndex("BoxType"));
             String NextOutTime = cursor.getString(cursor.getColumnIndex("NextOutTime"));
             String ActionTime = cursor.getString(cursor.getColumnIndex("ActionTime"));
-            String TimeID = cursor.getString(cursor.getColumnIndex("TimeID"));
+            Integer TimeID = cursor.getInt(cursor.getColumnIndex("TimeID"));
 
             Box b=new Box();
             b.Id=Id;
