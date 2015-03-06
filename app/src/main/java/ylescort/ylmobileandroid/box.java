@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -66,6 +67,9 @@ public class box extends ActionBarActivity {
     private RadioButton  box_rbtn_moneyboxs;//款箱
     private RadioButton  box_rbtn_cardbox;//卡箱
     private RadioButton  box_rbtn_Voucher;//凭证
+
+    private Button box_btn_ent;//确认
+
     private ArrayList<HashMap<String, Object>> listItem ;
     private List<Box> boxList;
 
@@ -99,6 +103,8 @@ public class box extends ActionBarActivity {
         box_rbtn_moneyboxs = (RadioButton)findViewById(R.id.box_rbtn_moneyboxs);
         box_rbtn_cardbox = (RadioButton)findViewById(R.id.box_rbtn_cardbox);
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
+
+        box_btn_ent = (Button)findViewById(R.id.box_btn_ent);
 
         listItem =  new ArrayList<>();
         boxList =new ArrayList<>(); //new ArrayList<>();
@@ -228,6 +234,16 @@ public class box extends ActionBarActivity {
     public void boxlistent(View view){
         //ylTask.lstBox = boxList;
         //ylTask.setLstBox(boxList);
+
+        String Entbtn =  box_btn_ent.getText().toString();
+        if (Entbtn.equals("确定")){
+            //box_btn_ent.setText("确定");
+            this.finish();
+        }else{
+            dialog();
+        }
+
+
         if (ylTask.lstBox== null){
             ylTask.lstBox = new ArrayList<>();
         }
@@ -236,6 +252,29 @@ public class box extends ActionBarActivity {
             box = boxList.get(i);
             ylTask.lstBox.add(box);
         }
+    }
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(box.this);
+        String Entbtn =  box_btn_ent.getText().toString();
+        builder.setMessage("确认到达吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                box_btn_ent.setText("确定");
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                box_btn_ent.setText("到达");
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){

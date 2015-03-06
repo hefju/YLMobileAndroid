@@ -59,6 +59,7 @@ public class YLSite extends ActionBarActivity {
     android.os.Handler mHandler; //消息处理
     private List<Site> siteList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,32 +80,8 @@ public class YLSite extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-                ListView listView1 = (ListView) parent;
-                Site site = (Site) listView1.getItemAtPosition(position);
-                Toast.makeText(YLSite.this, site.getSiteName(), Toast.LENGTH_SHORT).show();
-                dialog();
-                String time="19:10";
-                ArriveTime arriveTime = new ArriveTime();
-                arriveTime.setEmpID(YLSystem.getUser().getEmpID());
-                arriveTime.setATime(time);
-                arriveTime.setTimeID("1");
-                arriveTime.setTradeBegin(time + "");
-                arriveTime.setTradeEnd(time + "");
-                arriveTime.setTradeState("1");
-                arriveTime.setSiteID(site.getSiteID());
-                List<ArriveTime> arriveTimeList = new ArrayList<ArriveTime>();
-                arriveTimeList.add(arriveTime);
-                site.setLstArriveTime(arriveTimeList);
-                siteList.add(site);
-                //ylTask.lstSite.add(site);
-
-                Intent intent = new Intent();
-                intent.setClass(YLSite.this, box.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("siteid",site.getSiteID());
-                bundle.putString("sitename",site.getSiteName());
-                intent.putExtras(bundle);
-                startActivity(intent);//我调用时Scan1DService会报错.
+               // dialog();
+                OpenBoxAct((ListView) parent, position);
             }
         });
 
@@ -140,26 +117,36 @@ public class YLSite extends ActionBarActivity {
         };
     }
 
-    protected void dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(YLSite.this);
-        builder.setMessage("确认到达吗?");
-        builder.setTitle("提示");
-        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                //YLSite.this.finish();
-            }
-        });
-        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-     }
+    private void OpenBoxAct(ListView parent, int position) {
 
+        ListView listView1 = (ListView) parent;
+        Site site = (Site) listView1.getItemAtPosition(position);
+        Toast.makeText(this, site.getSiteName(), Toast.LENGTH_SHORT).show();
+
+        //if (!ArrOrRes)return;
+        String time="19:10";
+        ArriveTime arriveTime = new ArriveTime();
+        arriveTime.setEmpID(YLSystem.getUser().getEmpID());
+        arriveTime.setATime(time);
+        arriveTime.setTimeID("1");
+        arriveTime.setTradeBegin(time + "");
+        arriveTime.setTradeEnd(time + "");
+        arriveTime.setTradeState("1");
+        arriveTime.setSiteID(site.getSiteID());
+        List<ArriveTime> arriveTimeList = new ArrayList<ArriveTime>();
+        arriveTimeList.add(arriveTime);
+        site.setLstArriveTime(arriveTimeList);
+        siteList.add(site);
+        //ylTask.lstSite.add(site);
+
+        Intent intent = new Intent();
+        intent.setClass(this, box.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("siteid",site.getSiteID());
+        bundle.putString("sitename",site.getSiteName());
+        intent.putExtras(bundle);
+        startActivity(intent);//我调用时Scan1DService会报错.
+    }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 

@@ -144,7 +144,7 @@
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="确认"
+            android:text="到达"
             android:onClick="boxlistent"
             android:id="@+id/box_btn_ent"
             android:layout_toRightOf="@+id/box_btn_nonelable"/>
