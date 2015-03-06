@@ -386,7 +386,7 @@ public class chongTest3 extends ActionBarActivity {
                     B1.BoxStatus="实";//实，空
                     B1.BoxType="款箱";//款箱，卡箱，凭证
                     B1.TradeAction="收";//收，送
-                    B1.TimeID="1" ;//到达时间ID
+                    B1.TimeID=1 ;//到达时间ID
                     //添加site类
                     Site SI1 = new Site();
                     SI1.TaskID="6112" ;

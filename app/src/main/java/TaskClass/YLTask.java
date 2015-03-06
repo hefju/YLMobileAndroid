@@ -24,7 +24,13 @@ public class YLTask {
     public List<Site> lstSite;
     public List<Box> lstBox;
 
+    public List<Site> getLstSite() {
+        return lstSite;
+    }
 
+    public void setLstSite(List<Site> lstSite) {
+        this.lstSite = lstSite;
+    }
 
     public YLTask(){}
 

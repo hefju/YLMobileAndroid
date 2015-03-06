@@ -381,7 +381,7 @@ public class box extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-        //unregisterReceiver(myBroad);
+        unregisterReceiver(myBroad);
         Intent stopService = new Intent();
         stopService.setAction("ylescort.ylmobileandroid.Scan1DService");
         stopService.putExtra("stopflag", true);
