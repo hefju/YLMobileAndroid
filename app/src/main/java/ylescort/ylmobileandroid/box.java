@@ -383,7 +383,6 @@ public class box extends ActionBarActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
