@@ -237,4 +237,9 @@ public class YLSite extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onResume() {
+        DisplayTaskSite(ylTask.lstSite);
+        super.onResume();
+    }
 }
