@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import TaskClass.Box;
+import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
@@ -230,6 +231,11 @@ public class box extends ActionBarActivity {
     public void boxlistent(View view){
         String Entbtn =  box_btn_ent.getText().toString();
         if (Entbtn.equals("确定")){
+            for (int i = 0 ;i<ylTask.lstSite.size();i++){
+                if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
+                    ylTask.lstSite.get(i).setStatus("已完成");
+                }
+            }
             if (ylTask.lstBox== null){
                 ylTask.lstBox = new ArrayList<>();
             }
