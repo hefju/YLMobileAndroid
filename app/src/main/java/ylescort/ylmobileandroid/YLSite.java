@@ -80,7 +80,6 @@ public class YLSite extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-               // dialog();
                 OpenBoxAct((ListView) parent, position);
             }
         });
@@ -123,7 +122,6 @@ public class YLSite extends ActionBarActivity {
         Site site = (Site) listView1.getItemAtPosition(position);
         Toast.makeText(this, site.getSiteName(), Toast.LENGTH_SHORT).show();
 
-        //if (!ArrOrRes)return;
         String time="19:10";
         ArriveTime arriveTime = new ArriveTime();
         arriveTime.setEmpID(YLSystem.getUser().getEmpID());
@@ -137,7 +135,6 @@ public class YLSite extends ActionBarActivity {
         arriveTimeList.add(arriveTime);
         site.setLstArriveTime(arriveTimeList);
         siteList.add(site);
-        //ylTask.lstSite.add(site);
 
         Intent intent = new Intent();
         intent.setClass(this, box.class);

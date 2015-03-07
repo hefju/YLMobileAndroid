@@ -28,7 +28,7 @@ public class Scan1DService extends Service {
     private ReadThread mReadThread;
     private Timer sendData;
     private Timer scan100ms;
-    public String activity = "ylescort.ylmobileandroid.box";
+    public String activity =null; //"ylescort.ylmobileandroid.box";
     public String data;
     public StringBuffer data_buffer = new StringBuffer();  //接收数据缓冲
     private boolean run = true;  //线程标识
@@ -68,7 +68,8 @@ public class Scan1DService extends Service {
 
         myReceive = new MyReceiver();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("ylescort.ylmobileandroid.box");
+        //filter.addAction("ylescort.ylmobileandroid.box");
+        filter.addAction("ylescort.ylmobileandroid.Scan1DService");
         registerReceiver(myReceive, filter);
         // 注册Broadcast Receiver，用于关闭Service
 
@@ -166,7 +167,7 @@ public class Scan1DService extends Service {
                         Log.e(TAG, size +"********"+data);
                         data = null;
 //						 Log.e("DeviceService data", data);
-                        activity="ylescort.ylmobileandroid.box";
+                        //activity="ylescort.ylmobileandroid.box";
                         if(data_buffer != null && data_buffer.length() != 0 && activity != null){
                             Log.e("ScanService data", data_buffer.toString());
 

@@ -70,7 +70,6 @@ public class box extends ActionBarActivity {
 
     private Button box_btn_ent;//确认
 
-    private ArrayList<HashMap<String, Object>> listItem ;
     private List<Box> boxList;
 
     private TasksManager tasksManager = null;//任务管理类
@@ -106,8 +105,7 @@ public class box extends ActionBarActivity {
 
         box_btn_ent = (Button)findViewById(R.id.box_btn_ent);
 
-        listItem =  new ArrayList<>();
-        boxList =new ArrayList<>(); //new ArrayList<>();
+        boxList =new ArrayList<>();
 
         Bundle bundle = this.getIntent().getExtras();
         String SiteName = bundle.getString("sitename");
@@ -124,12 +122,10 @@ public class box extends ActionBarActivity {
                 }
             }
         }
-
         if (boxList.size()!=0){
             YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
             listView.setAdapter(ylBoxAdapter);
         }
-
     }
 
     private void init(){
@@ -232,31 +228,24 @@ public class box extends ActionBarActivity {
     }
 
     public void boxlistent(View view){
-        //ylTask.lstBox = boxList;
-        //ylTask.setLstBox(boxList);
-
         String Entbtn =  box_btn_ent.getText().toString();
         if (Entbtn.equals("确定")){
-            //box_btn_ent.setText("确定");
+            if (ylTask.lstBox== null){
+                ylTask.lstBox = new ArrayList<>();
+            }
+            for (int i = 0 ;i < boxList.size();i++){
+                Box box = new Box();
+                box = boxList.get(i);
+                ylTask.lstBox.add(box);
+            }
             this.finish();
         }else{
             dialog();
-        }
-
-
-        if (ylTask.lstBox== null){
-            ylTask.lstBox = new ArrayList<>();
-        }
-        for (int i = 0 ;i < boxList.size();i++){
-            Box box = new Box();
-            box = boxList.get(i);
-            ylTask.lstBox.add(box);
         }
     }
 
     protected void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(box.this);
-        String Entbtn =  box_btn_ent.getText().toString();
         builder.setMessage("确认到达吗?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
