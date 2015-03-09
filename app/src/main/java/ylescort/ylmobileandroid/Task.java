@@ -320,28 +320,29 @@ public class Task extends ActionBarActivity {
         startActivity(intent);
         */
 
-        //final User user = YLSystem.getUser();
+        final User user = YLSystem.getUser();
 
-        final User user = new User();
-        user.EmpNO="600241";
-        user.Name="杨磊";
-        user.Pass= YLSystem.md5("600241");
-        user.DeviceID="NH008";
-        user.ISWIFI="1";
-        user.EmpID="2703";
-        user.TaskDate= "2014.08.07";
+//        final User user = new User();
+//        user.EmpNO="600241";
+//        user.Name="杨磊";
+//        user.Pass= YLSystem.md5("600241");
+//        user.DeviceID="NH008";
+//        user.ISWIFI="1";
+//        user.EmpID="2703";
+//        user.TaskDate= "2014.08.07";
+
 
         //获取任务
         GetTask(user);
 
         TaskDBSer  taskDBSer = new TaskDBSer(getApplicationContext());
-        final List<String> taskid = taskDBSer.SelTaskID2("2014-08-07");
+        final List<String> taskid = taskDBSer.SelTaskID2(user.getTaskDate());
         //获取网点
         for (String singtaskid :taskid){
             GetSite(user, singtaskid);
         }
 
-        List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
+       // List<YLTask> ylTaskList = taskDBSer.SelTaskbydatetolist("2014-08-07");
         //LoadData(ylTaskList);
     }
 

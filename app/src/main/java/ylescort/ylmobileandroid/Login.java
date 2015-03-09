@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,6 +54,8 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
+
+        //Log_Name.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 
         Button    btnju1=(Button)findViewById(R.id.btnTest1);
         Button btnju2=(Button)findViewById(R.id.btnTest2);

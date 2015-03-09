@@ -122,19 +122,19 @@ public class YLSite extends ActionBarActivity {
         Site site = (Site) listView1.getItemAtPosition(position);
         Toast.makeText(this, site.getSiteName(), Toast.LENGTH_SHORT).show();
 
-        String time="19:10";
-        ArriveTime arriveTime = new ArriveTime();
-        arriveTime.setEmpID(YLSystem.getUser().getEmpID());
-        arriveTime.setATime(time);
-        arriveTime.setTimeID("1");
-        arriveTime.setTradeBegin(time + "");
-        arriveTime.setTradeEnd(time + "");
-        arriveTime.setTradeState("1");
-        arriveTime.setSiteID(site.getSiteID());
-        List<ArriveTime> arriveTimeList = new ArrayList<ArriveTime>();
-        arriveTimeList.add(arriveTime);
-        site.setLstArriveTime(arriveTimeList);
-        siteList.add(site);
+//        String time="19:10";
+//        ArriveTime arriveTime = new ArriveTime();
+//        arriveTime.setEmpID(YLSystem.getUser().getEmpID());
+//        arriveTime.setATime(time);
+//        arriveTime.setTimeID("1");
+//        arriveTime.setTradeBegin(time + "");
+//        arriveTime.setTradeEnd(time + "");
+//        arriveTime.setTradeState("1");
+//        arriveTime.setSiteID(site.getSiteID());
+//        List<ArriveTime> arriveTimeList = new ArrayList<ArriveTime>();
+//        arriveTimeList.add(arriveTime);
+//        site.setLstArriveTime(arriveTimeList);
+//        siteList.add(site);
 
         Intent intent = new Intent();
         intent.setClass(this, box.class);
@@ -148,7 +148,7 @@ public class YLSite extends ActionBarActivity {
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     public void YLSite_UpDate(View view){
-        ylTask.lstSite = siteList;
+        //ylTask.lstSite = siteList;
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -159,6 +159,10 @@ public class YLSite extends ActionBarActivity {
                     String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
                     HttpPost post = new HttpPost(url);
                     UpDataToService(t1, YLSystem.getUser(), post);
+
+                    ylTask.setTaskState("已上传");
+
+                    tasksManager.SaveTask(getApplicationContext());
 
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
@@ -242,4 +246,5 @@ public class YLSite extends ActionBarActivity {
         DisplayTaskSite(ylTask.lstSite);
         super.onResume();
     }
+
 }

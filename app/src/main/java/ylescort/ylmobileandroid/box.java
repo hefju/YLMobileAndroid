@@ -27,6 +27,8 @@ import android.widget.Toast;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import TaskClass.ArriveTime;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
@@ -70,8 +73,12 @@ public class box extends ActionBarActivity {
     private RadioButton  box_rbtn_Voucher;//凭证
 
     private Button box_btn_ent;//确认
+    private Button box_btn_scan;//扫描
+    private Button box_btn_nonelable;//无标签
 
     private List<Box> boxList;
+    private ArriveTime arriveTime;
+
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
@@ -105,8 +112,13 @@ public class box extends ActionBarActivity {
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
 
         box_btn_ent = (Button)findViewById(R.id.box_btn_ent);
+        box_btn_scan = (Button)findViewById(R.id.box_btn_scan);
+        box_btn_nonelable = (Button)findViewById(R.id.box_btn_nonelable);
 
-        boxList =new ArrayList<>();
+        box_btn_scan.setEnabled(false);
+        box_btn_nonelable.setEnabled(false);
+
+
 
         Bundle bundle = this.getIntent().getExtras();
         String SiteName = bundle.getString("sitename");
@@ -114,9 +126,14 @@ public class box extends ActionBarActivity {
         box_tv_titel.setText(SiteName);
         box_tv_titel.setTag(SiteID);
 
+        DisPlayBoxListView(SiteID);
+    }
+
+    private void DisPlayBoxListView(String siteID) {
+        boxList =new ArrayList<>();
         if (ylTask.lstBox != null && !ylTask.lstBox.isEmpty()){
             for (int i = 0 ; i < ylTask.lstBox.size();i++){
-                if (ylTask.lstBox.get(i).getSiteID().equals(SiteID)){
+                if (ylTask.lstBox.get(i).getSiteID().equals(siteID)){
                     Box box = new Box();
                     box = ylTask.lstBox.get(i);
                     boxList.add(box);
@@ -124,7 +141,7 @@ public class box extends ActionBarActivity {
             }
         }
         if (boxList.size()!=0){
-            YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
+            YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList, R.layout.activity_boxlist);
             listView.setAdapter(ylBoxAdapter);
         }
     }
@@ -244,6 +261,24 @@ public class box extends ActionBarActivity {
                 box = boxList.get(i);
                 ylTask.lstBox.add(box);
             }
+
+            arriveTime.setTradeEnd(GetCurrTime());
+            arriveTime.setTradeState("1");
+
+            for (int i = 0 ; i < ylTask.lstSite.size();i++){
+                if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
+                    Site site = ylTask.lstSite.get(i);
+                    List<ArriveTime> getArrTiemList =  site.getLstArriveTime();
+                    if (getArrTiemList == null){
+                        getArrTiemList = new ArrayList<>();
+                        getArrTiemList.add(arriveTime);
+                    }else {
+                        getArrTiemList.add(arriveTime);
+                    }
+                    site.setLstArriveTime(getArrTiemList);
+                    ylTask.lstSite.set(i,site);
+                }
+            }
             this.finish();
         }else{
             dialog();
@@ -258,6 +293,13 @@ public class box extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 box_btn_ent.setText("确定");
+                box_btn_scan.setEnabled(true);
+                box_btn_nonelable.setEnabled(true);
+                AddArriveTime();
+
+                YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(box.this,boxList, R.layout.activity_boxlist);
+                listView.setAdapter(ylBoxAdapter);
+
                 dialog.dismiss();
             }
         });
@@ -265,6 +307,7 @@ public class box extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 box_btn_ent.setText("到达");
+
                 dialog.dismiss();
 
             }
@@ -272,10 +315,41 @@ public class box extends ActionBarActivity {
         builder.create().show();
     }
 
+    private String GetCurrTime(){
+        SimpleDateFormat    sDateFormat    =   new SimpleDateFormat("yyyy-MM-dd    hh:mm:ss");
+        String    date    =    sDateFormat.format(new    java.util.Date());
+        return date;
+    }
+
+    private void AddArriveTime() {
+        List<ArriveTime> arriveTimeList = new ArrayList<>();
+        for (int i = 0 ; i < ylTask.lstSite.size();i++){
+            if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
+                Site site = ylTask.lstSite.get(i);
+                arriveTimeList =  site.getLstArriveTime();
+
+                int TimeID = 0;
+                if (arriveTimeList == null){
+                    TimeID = 1;
+                }else {
+                    TimeID = arriveTimeList.size()+1;
+                }
+
+                arriveTime = new ArriveTime();
+
+                arriveTime.setServerReturn("1");
+                arriveTime.setEmpID(YLSystem.getUser().getEmpID());
+                arriveTime.setATime(GetCurrTime());
+                arriveTime.setTimeID(TimeID+"");
+                arriveTime.setTradeBegin(GetCurrTime());
+                arriveTime.setSiteID(box_tv_titel.getTag().toString());
+            }
+        }
+    }
+
     private void PutDatatoListView(String boxnumber,String boxcount){
 
         if (CheckBoxNumber(boxnumber)){return;}
-        String time="19:10";
         Box box = new Box();
         int count= boxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
@@ -286,7 +360,7 @@ public class box extends ActionBarActivity {
         box.setBoxType(GetBoxStuat("s"));
         box.setBoxCount(boxcount);
         box.setTimeID(1);
-        box.setActionTime(time+"");
+        box.setActionTime(GetCurrTime());
         boxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
@@ -306,6 +380,7 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
+        if (boxnumber.length()<8){checkthebox = true;}
         for (int i = 0 ; i<boxList.size();i++){
             String boxid = boxList.get(i).BoxID;
             if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
@@ -421,5 +496,11 @@ public class box extends ActionBarActivity {
         sendBroadcast(stopService);  //给服务发送广播,令服务停止
         Log.e(TAG, "send stop");
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPostResume() {
+        DisPlayBoxListView(box_tv_titel.getTag().toString());
+        super.onPostResume();
     }
 }

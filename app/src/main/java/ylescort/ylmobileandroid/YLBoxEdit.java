@@ -1,5 +1,7 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -162,11 +164,14 @@ public class YLBoxEdit extends ActionBarActivity {
         Bundle bundle = this.getIntent().getExtras();
         currSiteID = bundle.getString("siteid");
 
-       for (int i = 0 ;i<boxListEdi.size();i++){
-           if (boxListEdi.get(i).getSiteID().equals(currSiteID)){
-               boxList.add(boxListEdi.get(i));
-           }
-       }
+        if (boxListEdi != null){
+            for (int i = 0 ;i<boxListEdi.size();i++){
+                if (boxListEdi.get(i).getSiteID().equals(currSiteID)){
+                    boxList.add(boxListEdi.get(i));
+                }
+            }
+        }
+
         ReLoadData();
     }
 
@@ -182,20 +187,49 @@ public class YLBoxEdit extends ActionBarActivity {
 
     public void boxedi_ent(View view){
 
-        for (int i = 0;i < boxListEdi.size();i++){
-            if (boxListEdi.get(i).getSiteID().equals(currSiteID)){
-                boxListEdi.remove(i);
-                --i;
-            }
-        }
+        dialog();
 
-        for (int i = 0 ;i <boxList.size();i++){
-            Box box = new Box();
-            box = boxList.get(i);
-            boxListEdi.add(box);
-        }
-        ylTask.setLstBox(boxListEdi);
     }
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxEdit.this);
+        builder.setMessage("确认保存吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                for (int i = 0;i < boxListEdi.size();i++){
+                    if (boxListEdi.get(i).getSiteID().equals(currSiteID)){
+                        boxListEdi.remove(i);
+                        --i;
+                    }
+                }
+
+                for (int i = 0 ;i <boxList.size();i++){
+                    Box box = new Box();
+                    box = boxList.get(i);
+                    boxListEdi.add(box);
+                }
+                ylTask.setLstBox(boxListEdi);
+                dialog.dismiss();
+                YLBoxEdit.this.finish();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
+    }
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
