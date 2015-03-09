@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.SimpleAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,16 +26,10 @@ import android.widget.Toast;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.SortedMap;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +37,6 @@ import TaskClass.ArriveTime;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
-import TaskClass.User;
 import TaskClass.YLTask;
 import YLSystem.YLSystem;
 import adapter.YLBoxAdapter;
@@ -76,7 +68,8 @@ public class box extends ActionBarActivity {
     private Button box_btn_scan;//扫描
     private Button box_btn_nonelable;//无标签
 
-    private List<Box> boxList;
+    private List<Box> yltaskboxList;//内存内款数据
+    private List<Box> ScanboxList;//扫描数据
     private ArriveTime arriveTime;
 
 
@@ -130,18 +123,23 @@ public class box extends ActionBarActivity {
     }
 
     private void DisPlayBoxListView(String siteID) {
-        boxList =new ArrayList<>();
+        yltaskboxList =new ArrayList<>();
         if (ylTask.lstBox != null && !ylTask.lstBox.isEmpty()){
             for (int i = 0 ; i < ylTask.lstBox.size();i++){
                 if (ylTask.lstBox.get(i).getSiteID().equals(siteID)){
                     Box box = new Box();
                     box = ylTask.lstBox.get(i);
-                    boxList.add(box);
+                    yltaskboxList.add(box);
                 }
             }
         }
-        if (boxList.size()!=0){
-            YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList, R.layout.activity_boxlist);
+        adapterbox(yltaskboxList);
+    }
+
+
+    private void adapterbox(List<Box> adapterboxlist){
+        if (adapterboxlist.size()!=0){
+            YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             listView.setAdapter(ylBoxAdapter);
         }
     }
@@ -256,9 +254,9 @@ public class box extends ActionBarActivity {
             if (ylTask.lstBox== null){
                 ylTask.lstBox = new ArrayList<>();
             }
-            for (int i = 0 ;i < boxList.size();i++){
+            for (int i = 0 ;i < ScanboxList.size();i++){
                 Box box = new Box();
-                box = boxList.get(i);
+                box = ScanboxList.get(i);
                 ylTask.lstBox.add(box);
             }
 
@@ -297,8 +295,8 @@ public class box extends ActionBarActivity {
                 box_btn_nonelable.setEnabled(true);
                 AddArriveTime();
 
-                YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(box.this,boxList, R.layout.activity_boxlist);
-                listView.setAdapter(ylBoxAdapter);
+                ScanboxList = new ArrayList<Box>();
+                adapterbox(ScanboxList);
 
                 dialog.dismiss();
             }
@@ -316,7 +314,7 @@ public class box extends ActionBarActivity {
     }
 
     private String GetCurrTime(){
-        SimpleDateFormat    sDateFormat    =   new SimpleDateFormat("yyyy-MM-dd    hh:mm:ss");
+        SimpleDateFormat    sDateFormat    =   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String    date    =    sDateFormat.format(new    java.util.Date());
         return date;
     }
@@ -351,7 +349,7 @@ public class box extends ActionBarActivity {
 
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
-        int count= boxList.size();
+        int count= yltaskboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
         box.setBoxOrder(count + 1 + "");
         box.setBoxID(boxnumber);
@@ -361,8 +359,8 @@ public class box extends ActionBarActivity {
         box.setBoxCount(boxcount);
         box.setTimeID(1);
         box.setActionTime(GetCurrTime());
-        boxList.add(box);
-        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
+        ScanboxList.add(box);
+        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
         scrollMyListViewToBottom();
     }
@@ -372,7 +370,7 @@ public class box extends ActionBarActivity {
             @Override
             public void run() {
                 // Select the last row so it will scroll into view...
-                listView.setSelection(boxList.size() - 1);
+                listView.setSelection(yltaskboxList.size() - 1);
             }
         });
     }
@@ -380,9 +378,9 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-        if (boxnumber.length()<8){checkthebox = true;}
-        for (int i = 0 ; i<boxList.size();i++){
-            String boxid = boxList.get(i).BoxID;
+        if (boxnumber.length()!=10){checkthebox = true;}
+        for (int i = 0 ; i< yltaskboxList.size();i++){
+            String boxid = yltaskboxList.get(i).BoxID;
             if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
                 checkthebox = true;
                 break;
