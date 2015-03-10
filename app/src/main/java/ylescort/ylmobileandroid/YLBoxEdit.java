@@ -120,7 +120,9 @@ public class YLBoxEdit extends ActionBarActivity {
     }
 
     public void boxedi_del(View view){
-        boxList.remove(listpostion);ReLoadData();
+        if (boxList.size()!=0){
+            boxList.remove(listpostion);ReLoadData();
+        }
     }
 
     private void EditBox(Box box) {

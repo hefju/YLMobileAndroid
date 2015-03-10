@@ -59,7 +59,7 @@ public class BaseBoxDBSer {
         BaseBox b=new BaseBox();
         if (cursor.getCount()< 1){
            b.BoxBCNo = BCNo;
-           b.BoxName = BCNo;
+           b.BoxName = "";
             sdb.close(); //关闭数据库
             return b;
         }else {
@@ -74,7 +74,6 @@ public class BaseBoxDBSer {
             String BoxType = cursor.getString(cursor.getColumnIndex("BoxType"));
             String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
             String SiteID = cursor.getString(cursor.getColumnIndex("SiteID"));
-
 
             b.Id=Id;
             b.ServerReturn=ServerReturn;
@@ -104,7 +103,6 @@ public class BaseBoxDBSer {
                                 " BoxType, ClientID, SiteID) VALUES     (?,?,?,?,?,?,?,?)",
                         new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
                                 x.ClientID,x.SiteID });
-
             }
         }
         finally {
@@ -112,7 +110,6 @@ public class BaseBoxDBSer {
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
-
     }
 
     //批量更新box
@@ -125,7 +122,6 @@ public class BaseBoxDBSer {
                                 " BoxBCNo =?, BoxType =?, ClientID =?, SiteID =? where Id=?",
                         new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
                                 x.ClientID,x.SiteID, x.Id});
-
             }
         }
         finally {
@@ -165,7 +161,6 @@ public class BaseBoxDBSer {
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
-
     }
 
     public void UpdateBaseEmpByBoxID(List<BaseBox> lst) {

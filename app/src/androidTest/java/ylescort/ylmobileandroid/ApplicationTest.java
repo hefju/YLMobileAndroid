@@ -4,6 +4,7 @@ import android.app.Application;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
+import com.android.hdhe.nfc.NFCcmdManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -86,22 +87,17 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         taskDBSer.InsterTask(ylTask);
     }
 
-    public void testseltaskid(){
-        TaskDBSer taskDBSer =new  TaskDBSer(getContext());
-         List<YLTask> ylTaskList =  taskDBSer.SelTaskID("2014-08-06");
-        for (YLTask ylTask:ylTaskList){
-            Log.d(TAG,ylTask.getTaskID());
-        }
+    private NFCcmdManager manager ;
+    private byte[] uid ;
+
+    public void testHF(){
+
+        manager = NFCcmdManager.getNFCcmdManager(12, 115200, 0);
+        manager.readerPowerOn();
+
     }
 
     public void testDeltask(){
-        TaskDBSer taskDBSer =new  TaskDBSer(getContext());
-        YLTask ylTask = new YLTask();
-        for (int i = 13; i < 25;i++)
-        {
-            ylTask.setId(i);
-            taskDBSer.DeleteYLTask(ylTask);
-        }
 
     }
 

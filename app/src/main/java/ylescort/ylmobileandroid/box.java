@@ -211,7 +211,7 @@ public class box extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                //mPlayer.start();
+                mPlayer.start();
 				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
 
@@ -511,7 +511,8 @@ public class box extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-        DisPlayBoxListView(box_tv_titel.getTag().toString());
+        //DisPlayBoxListView(box_tv_titel.getTag().toString());
+        adapterbox(ylTask.getLstBox());
         super.onPostResume();
     }
 }
