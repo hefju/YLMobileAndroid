@@ -68,12 +68,11 @@ public class Scan1DService extends Service {
 
         myReceive = new MyReceiver();
         IntentFilter filter = new IntentFilter();
-        //filter.addAction("ylescort.ylmobileandroid.box");
         filter.addAction("ylescort.ylmobileandroid.Scan1DService");
         registerReceiver(myReceive, filter);
         // 注册Broadcast Receiver，用于关闭Service
 
-//		sendData = new Timer();
+		sendData = new Timer();
         scan100ms = new Timer();
 		/* Create a receiving thread */
         mReadThread = new ReadThread();
@@ -98,18 +97,29 @@ public class Scan1DService extends Service {
             }
             scan100ms.cancel();   //取消Timer任务
             run_scan100ms = false;
-            if(mSerialPort.scaner_trig_stat() == true){
+            if(mSerialPort.scaner_trig_stat()){
                 mSerialPort.scaner_trigoff();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
             mSerialPort.scaner_trigon();  //触发扫描
 
+            if(timeout != null){
+                timeout.cancel();
+                timeout = null;
+                return 0;
+            }
             timeout = new Timer();
             timeout.schedule(new TimerTask() {
 
                 @Override
                 public void run() {
                     mSerialPort.scaner_trigoff(); //设置5s超时
-
+                    timeout = null;
                 }
             }, 5000);
             Log.e(TAG, "start scan");
@@ -121,7 +131,7 @@ public class Scan1DService extends Service {
             scan100ms.schedule(new TimerTask() {  //开始Timer任务，每100ms扫描一次
                 @Override
                 public void run() {
-                    if(mSerialPort.scaner_trig_stat() == true){
+                    if(mSerialPort.scaner_trig_stat()){
                         mSerialPort.scaner_trigoff();
                     }
                     mSerialPort.scaner_trigon();  //触发扫描
@@ -176,7 +186,6 @@ public class Scan1DService extends Service {
                             serviceIntent.putExtra("result", data_buffer.toString());
                             data_buffer.setLength(0);  //清空缓存数据
                             Log.e(TAG, "result");
-//							mSerialPort.scaner_poweroff();
                             sendBroadcast(serviceIntent);
                         }
                     }

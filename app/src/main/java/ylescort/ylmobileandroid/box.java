@@ -34,10 +34,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import TaskClass.ArriveTime;
+import TaskClass.BaseBox;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
+import YLDataService.BaseBoxDBSer;
 import YLSystem.YLSystem;
 import adapter.YLBoxAdapter;
 
@@ -76,6 +78,10 @@ public class box extends ActionBarActivity {
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
 
+    private BaseBoxDBSer baseBoxDBSer;
+    private BaseBox baseBox;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +98,9 @@ public class box extends ActionBarActivity {
     }
 
     public void LoadData() throws ClassNotFoundException {
+
+        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
+        baseBox = new BaseBox();
 
         listView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
@@ -120,6 +129,7 @@ public class box extends ActionBarActivity {
         box_tv_titel.setTag(SiteID);
 
         DisPlayBoxListView(SiteID);
+
     }
 
     private void DisPlayBoxListView(String siteID) {
@@ -201,7 +211,7 @@ public class box extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                //mPlayer.start();
+                mPlayer.start();
 				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
 
@@ -346,18 +356,19 @@ public class box extends ActionBarActivity {
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){
-
+        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
-        int count= yltaskboxList.size();
+        int count= ScanboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
         box.setBoxOrder(count + 1 + "");
         box.setBoxID(boxnumber);
+        box.setBoxName(baseBox.BoxName);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         box.setBoxCount(boxcount);
-        box.setTimeID(1);
+        box.setTimeID(arriveTime.getTimeID());
         box.setActionTime(GetCurrTime());
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
@@ -378,9 +389,11 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-        if (boxnumber.length()!=10){checkthebox = true;}
-        for (int i = 0 ; i< yltaskboxList.size();i++){
-            String boxid = yltaskboxList.get(i).BoxID;
+        if (boxnumber.length()!=10){
+            checkthebox = true;
+            return checkthebox ;}
+        for (int i = 0 ; i< ScanboxList.size();i++){
+            String boxid = ScanboxList.get(i).BoxID;
             if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
                 checkthebox = true;
                 break;
@@ -498,7 +511,8 @@ public class box extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-        DisPlayBoxListView(box_tv_titel.getTag().toString());
+        //DisPlayBoxListView(box_tv_titel.getTag().toString());
+        adapterbox(ylTask.getLstBox());
         super.onPostResume();
     }
 }
