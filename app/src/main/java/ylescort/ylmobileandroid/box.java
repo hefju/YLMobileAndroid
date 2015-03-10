@@ -30,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,6 +82,8 @@ public class box extends ActionBarActivity {
 
     private BaseBoxDBSer baseBoxDBSer;
     private BaseBox baseBox;
+
+
 
 
     @Override
@@ -146,9 +150,8 @@ public class box extends ActionBarActivity {
         adapterbox(yltaskboxList);
     }
 
-
     private void adapterbox(List<Box> adapterboxlist){
-        if (adapterboxlist.size()!=0){
+        if (adapterboxlist !=null){
             YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             listView.setAdapter(ylBoxAdapter);
         }
@@ -211,7 +214,7 @@ public class box extends ActionBarActivity {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                mPlayer.start();
+                //mPlayer.start();
 				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
 
@@ -227,9 +230,26 @@ public class box extends ActionBarActivity {
         }
         return dest;
     }
-
+    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
     public void ScanOnClick (View view ) throws ClassNotFoundException{
-        sendCmd();   //发送指令到服务
+
+        if (!box_swh_singleormore.isChecked()){
+            sendCmd();   //发送指令到服务
+        }else {
+            singleThreadExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    while (box_swh_singleormore.isChecked()) {
+                        try {
+                            sendCmd();   //发送指令到服务
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     public void NoLableIns(View view){
@@ -441,11 +461,12 @@ public class box extends ActionBarActivity {
         sendBroadcast(ac);
         Log.e(TAG, "send broadcast");
 
-        if (box_swh_singleormore.isChecked()){
-            cmd = "toscan100ms";
-        }else {
-            cmd = "scan";
-        }
+//        if (box_swh_singleormore.isChecked()){
+//            cmd = "toscan100ms";
+//        }else {
+//            cmd = "scan";
+//        }
+        cmd = "scan";
         Intent sendToservice = new Intent(box.this, Scan1DService.class); // 用于发送指令
         sendToservice.putExtra("cmd", cmd);
         this.startService(sendToservice); // 发送指令

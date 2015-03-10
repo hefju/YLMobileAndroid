@@ -46,9 +46,9 @@ public class EmpDBSer {
     }
 
     //通过EmpID查找用户
-    public User GetUser(String empID) {
+    public User GetUser(String HFNO) {
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("select * from Employee where EmpID=?" + empID, null);
+        Cursor cursor = sdb.rawQuery("select * from BaseEmp where EmpHFNo =?" + HFNO, null);
 
         User u=new User();
         while(cursor.moveToNext()){

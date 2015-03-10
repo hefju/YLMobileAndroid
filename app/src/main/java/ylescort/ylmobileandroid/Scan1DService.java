@@ -15,6 +15,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Administrator on 2015/2/10.
@@ -128,19 +130,39 @@ public class Scan1DService extends Service {
             run_scan100ms = true;
             scan100ms.cancel();
             scan100ms = new Timer();
-            scan100ms.schedule(new TimerTask() {  //开始Timer任务，每100ms扫描一次
-                @Override
-                public void run() {
-                    if(mSerialPort.scaner_trig_stat()){
-                        mSerialPort.scaner_trigoff();
-                    }
-                    mSerialPort.scaner_trigon();  //触发扫描
-                }
-            }, 0, 100);
+//            scan100ms.schedule(new TimerTask() {  //开始Timer任务，每100ms扫描一次
+//                @Override
+//                public void run() {
+//                    if(mSerialPort.scaner_trig_stat()){
+//                        mSerialPort.scaner_trigoff();
+//                    }
+//                    mSerialPort.scaner_trigon();  //触发扫描
+//                }
+//            }, 0, 100);
+//            singleThreadExecutor.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while (run_scan100ms){
+//                        try {
+//
+//                            if(mSerialPort.scaner_trig_stat()){
+//                                mSerialPort.scaner_trigoff();
+//                                Thread.sleep(100);
+//                            }
+//                            mSerialPort.scaner_trigon();  //触发扫描
+//
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
 
         }
         return 0;
     }
+
+    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     @Override
     public void onDestroy() {

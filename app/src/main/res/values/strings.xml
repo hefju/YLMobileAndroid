@@ -13,8 +13,8 @@
     <string name="Task_Name">任务列表</string>
     <string name="title_activity_task_item">TaskItem</string>
     <string name="title_activity_site">site</string>
-    <string name="title_activity_box">box</string>
-    <string name="title_activity_boxlist">boxlist</string>
+    <string name="title_activity_box">款箱操作</string>
+    <string name="title_activity_boxlist">款箱明细</string>
     <string name="title_activity_setup">setup</string>
     <string name="title_activity_ftask">Ftask</string>
     <string name="dummy_button">Dummy Button</string>
@@ -27,7 +27,7 @@
     <string name="title_activity_ylsite">网点</string>
     <string name="title_activity_ylsiteitem">YLsiteitem</string>
     <string name="title_activity_cache_data_view">CacheDataView</string>
-    <string name="title_activity_ylbox_edit">YLBoxEdit</string>
+    <string name="title_activity_ylbox_edit">款箱明细</string>
 
     <string name="boxitem_monenybox">款箱</string>
     <string name="boxitem_cardbox">卡箱</string>

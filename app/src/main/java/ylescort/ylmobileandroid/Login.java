@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.hdhe.nfc.NFCcmdManager;
+import com.example.nfc.util.Tools;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -37,6 +39,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import TaskClass.YLTask;
+import YLDataService.EmpDBSer;
 import YLSystem.YLSystem;
 import TaskClass.User;
 
@@ -45,8 +48,10 @@ public class Login extends ActionBarActivity {
 
     private EditText Log_Name;
     private EditText Log_PassWord;
-    private Button Log_Ent;
+    private Button Log_BN_HF;
     private String message;
+    private NFCcmdManager manager ;
+    private byte[] uid ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,14 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
+
+        try{
+            manager = NFCcmdManager.getNFCcmdManager(12, 115200, 0);
+            manager.readerPowerOn();
+            InitHF();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"HF初始化失败",Toast.LENGTH_SHORT).show();
+        }
 
         //Log_Name.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 
@@ -78,6 +91,29 @@ public class Login extends ActionBarActivity {
         });
 
         //action_settings
+    }
+
+    private void InitHF() {
+
+        Log_BN_HF = (Button)findViewById(R.id.Log_BN_HF);
+        Log_BN_HF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manager.init_14443A();
+                uid = manager.inventory_14443A();
+                if(uid != null){
+                    //editUid.setText(Tools.Bytes2HexString(uid, uid.length));
+                    EmpDBSer empDBSer = new EmpDBSer(getApplicationContext());
+                    //User user = empDBSer.GetUser(Tools.Bytes2HexString(uid, uid.length));
+
+                    Toast.makeText(getApplicationContext(),Tools.Bytes2HexString(uid, uid.length)
+                    ,Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 //    private    Button btnju1;
 //    private Button btnju2;
@@ -110,6 +146,7 @@ public class Login extends ActionBarActivity {
         intent.putExtras(bundle);
         startActivity(intent);
         */
+
         singleThreadExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -139,6 +176,9 @@ public class Login extends ActionBarActivity {
                             getjsonuser.setISWIFI("1");
                             YLSystem.setUser(getjsonuser);
 
+                            /*
+                            此处添加更新基础数据
+                             */
                             Intent intent = new Intent();
                             intent.setClass(Login.this, Task.class);
                             Bundle bundle = new Bundle();
@@ -170,6 +210,11 @@ public class Login extends ActionBarActivity {
         });
 
     }
+
+
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

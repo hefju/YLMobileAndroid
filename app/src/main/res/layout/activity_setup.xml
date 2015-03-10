@@ -17,12 +17,12 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
+        android:inputType="numberPassword"
         android:ems="10"
         android:id="@+id/txt_setup_Pwd"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="40dp"
         android:textAlignment="center" />
 
     <Button
