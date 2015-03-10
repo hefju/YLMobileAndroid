@@ -85,7 +85,7 @@ public class BoxDBSer {
             String BoxType = cursor.getString(cursor.getColumnIndex("BoxType"));
             String NextOutTime = cursor.getString(cursor.getColumnIndex("NextOutTime"));
             String ActionTime = cursor.getString(cursor.getColumnIndex("ActionTime"));
-            Integer TimeID = cursor.getInt(cursor.getColumnIndex("TimeID"));
+            String TimeID = cursor.getString(cursor.getColumnIndex("TimeID"));
 
             Box b=new Box();
             b.Id=Id;

@@ -349,7 +349,7 @@ public class box extends ActionBarActivity {
 
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
-        int count= yltaskboxList.size();
+        int count= ScanboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
         box.setBoxOrder(count + 1 + "");
         box.setBoxID(boxnumber);
@@ -357,7 +357,7 @@ public class box extends ActionBarActivity {
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         box.setBoxCount(boxcount);
-        box.setTimeID(1);
+        box.setTimeID(arriveTime.getTimeID());
         box.setActionTime(GetCurrTime());
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
@@ -378,9 +378,11 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-        if (boxnumber.length()!=10){checkthebox = true;}
-        for (int i = 0 ; i< yltaskboxList.size();i++){
-            String boxid = yltaskboxList.get(i).BoxID;
+        if (boxnumber.length()!=10){
+            checkthebox = true;
+            return checkthebox ;}
+        for (int i = 0 ; i< ScanboxList.size();i++){
+            String boxid = ScanboxList.get(i).BoxID;
             if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
                 checkthebox = true;
                 break;
