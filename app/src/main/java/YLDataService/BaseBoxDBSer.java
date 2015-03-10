@@ -52,6 +52,39 @@ public class BaseBoxDBSer {
         return lstBaseBox;
     }
 
+    public BaseBox GetBoxByBCNo(String BCNo){
+
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseBox where BoxBCNo=?" ,new String[]{ BCNo});
+        while(cursor.moveToNext()){
+            int Id = cursor.getInt(cursor.getColumnIndex("Id"));
+            String ServerReturn = cursor.getString(cursor.getColumnIndex("ServerReturn"));
+            String BoxID = cursor.getString(cursor.getColumnIndex("BoxID"));
+            String BoxName = cursor.getString(cursor.getColumnIndex("BoxName"));
+            String BoxUHFNo = cursor.getString(cursor.getColumnIndex("BoxUHFNo"));
+            String BoxBCNo = cursor.getString(cursor.getColumnIndex("BoxBCNo"));
+            String BoxType = cursor.getString(cursor.getColumnIndex("BoxType"));
+            String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
+            String SiteID = cursor.getString(cursor.getColumnIndex("SiteID"));
+
+            BaseBox b=new BaseBox();
+            b.Id=Id;
+            b.ServerReturn=ServerReturn;
+            b.BoxID=BoxID;
+            b.BoxName=BoxName;
+            b.BoxUHFNo=BoxUHFNo;
+            b.BoxBCNo=BoxBCNo;
+            b.BoxType=BoxType;
+            b.ClientID=ClientID;
+            b.SiteID=SiteID;
+
+            sdb.close(); //关闭数据库
+            return b;
+        }
+        sdb.close(); //关闭数据库
+        return null;
+    }
+
     //批量插入box
     public void InsertBox(List<BaseBox> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
