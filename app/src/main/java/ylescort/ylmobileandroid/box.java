@@ -34,10 +34,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import TaskClass.ArriveTime;
+import TaskClass.BaseBox;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
+import YLDataService.BaseBoxDBSer;
 import YLSystem.YLSystem;
 import adapter.YLBoxAdapter;
 
@@ -76,6 +78,10 @@ public class box extends ActionBarActivity {
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
 
+    private BaseBoxDBSer baseBoxDBSer;
+    private BaseBox baseBox;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +98,9 @@ public class box extends ActionBarActivity {
     }
 
     public void LoadData() throws ClassNotFoundException {
+
+        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
+        baseBox = new BaseBox();
 
         listView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
@@ -120,6 +129,7 @@ public class box extends ActionBarActivity {
         box_tv_titel.setTag(SiteID);
 
         DisPlayBoxListView(SiteID);
+
     }
 
     private void DisPlayBoxListView(String siteID) {
@@ -346,13 +356,14 @@ public class box extends ActionBarActivity {
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){
-
+        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
         if (CheckBoxNumber(boxnumber)){return;}
         Box box = new Box();
         int count= ScanboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
         box.setBoxOrder(count + 1 + "");
         box.setBoxID(boxnumber);
+        box.setBoxName(baseBox.BoxName);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));

@@ -45,7 +45,7 @@ public class YLBoxAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup viewGroup) {
 
         TextView ylboxorder = null;
-        TextView ylboxid = null;
+        TextView ylboxnameorid = null;
         TextView ylboxTradeAction = null;
         TextView ylboxStatus = null;
         TextView ylboxType = null;
@@ -54,14 +54,14 @@ public class YLBoxAdapter extends BaseAdapter {
         if (convertView == null){
             convertView = inflater.inflate(resource,null);
             ylboxorder = (TextView)convertView.findViewById(R.id.boxlv_tv_order);
-            ylboxid = (TextView)convertView.findViewById(R.id.boxlv_tv_Boxid);
+            ylboxnameorid = (TextView)convertView.findViewById(R.id.boxlv_tv_Boxid);
             ylboxTradeAction = (TextView)convertView.findViewById(R.id.boxlv_tv_TradeAction);
             ylboxStatus = (TextView)convertView.findViewById(R.id.boxlv_tv_Status);
             ylboxType = (TextView)convertView.findViewById(R.id.boxlv_tv_type);
             ylboxcount = (TextView)convertView.findViewById(R.id.boxlv_tv_count);
             ViewCache viewCache = new ViewCache();
             viewCache.ylboxorderview = ylboxorder;
-            viewCache.ylboxidview = ylboxid;
+            viewCache.ylboxidview = ylboxnameorid;
             viewCache.ylboxTradeActionview = ylboxTradeAction;
             viewCache.ylboxStatusview = ylboxStatus;
             viewCache.ylboxTypeview = ylboxType;
@@ -70,7 +70,7 @@ public class YLBoxAdapter extends BaseAdapter {
         }else {
             ViewCache viewCache = (ViewCache)convertView.getTag();
             ylboxorder = viewCache.ylboxorderview;
-            ylboxid = viewCache.ylboxidview;
+            ylboxnameorid = viewCache.ylboxidview;
             ylboxTradeAction = viewCache.ylboxTradeActionview;
             ylboxStatus = viewCache.ylboxStatusview;
             ylboxType = viewCache.ylboxTypeview;
@@ -78,7 +78,7 @@ public class YLBoxAdapter extends BaseAdapter {
         }
         Box box = boxList.get(position);
         ylboxorder.setText(box.BoxOrder);
-        ylboxid.setText(box.BoxID);
+        ylboxnameorid.setText(box.BoxName);
         ylboxTradeAction.setText(box.TradeAction);
         ylboxStatus.setText(box.BoxStatus);
         ylboxType.setText(box.BoxType);
