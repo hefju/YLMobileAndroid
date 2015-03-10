@@ -171,6 +171,10 @@ public class SettingsActivity extends PreferenceActivity {
                 Cachedialog.setCancelable(true);
                 Cachedialog.show();
 
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(SettingsActivity.this);
+                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
+                final String datetime=timeLastUpdate;
+
                 new Thread()
                 {
                     public void run()
@@ -178,19 +182,19 @@ public class SettingsActivity extends PreferenceActivity {
                         try
                         {
                             Cachedialog.setProgress(CacheCount++);
-                            WebService.GetBaseEmp(getApplicationContext(),mHandler);
+                            WebService.GetBaseEmp(getApplicationContext(),mHandler,datetime);
 
 //                            Thread.sleep(20);
                             Cachedialog.setProgress(CacheCount++);
-                            WebService.GetBaseClient(getApplicationContext(), mHandler);
+                            WebService.GetBaseClient(getApplicationContext(), mHandler,datetime);
 //
 //                            Thread.sleep(20);
                             Cachedialog.setProgress(CacheCount++);
-                            WebService.GetBaseSite(getApplicationContext(), mHandler);
+                            WebService.GetBaseSite(getApplicationContext(), mHandler,datetime);
 //
 //                            Thread.sleep(20);
                             Cachedialog.setProgress(CacheCount++);
-                            WebService.GetBaseBox(getApplicationContext(), mHandler);
+                            WebService.GetBaseBox(getApplicationContext(), mHandler,datetime);
 //
                             Thread.sleep(20);
 
