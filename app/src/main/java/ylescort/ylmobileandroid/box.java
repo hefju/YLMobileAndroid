@@ -138,7 +138,7 @@ public class box extends ActionBarActivity {
 
     private void DisPlayBoxListView(String siteID) {
         yltaskboxList =new ArrayList<>();
-        if (ylTask.lstBox != null && !ylTask.lstBox.isEmpty()){
+        if (ylTask.lstBox != null && ylTask.lstBox.size()>0){
             for (int i = 0 ; i < ylTask.lstBox.size();i++){
                 if (ylTask.lstBox.get(i).getSiteID().equals(siteID)){
                     Box box = new Box();
@@ -532,8 +532,8 @@ public class box extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-        //DisPlayBoxListView(box_tv_titel.getTag().toString());
-        adapterbox(ylTask.getLstBox());
+        DisPlayBoxListView(box_tv_titel.getTag().toString());
+        //adapterbox(ylTask.getLstBox());
         super.onPostResume();
     }
 }

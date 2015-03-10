@@ -103,11 +103,70 @@ public class Login extends ActionBarActivity {
                 uid = manager.inventory_14443A();
                 if(uid != null){
                     //editUid.setText(Tools.Bytes2HexString(uid, uid.length));
-                    EmpDBSer empDBSer = new EmpDBSer(getApplicationContext());
-                    //User user = empDBSer.GetUser(Tools.Bytes2HexString(uid, uid.length));
+                    singleThreadExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/LoginByHF";//网址
+                                HttpPost post = new HttpPost(url);
+                                //添加数值到User类
 
-                    Toast.makeText(getApplicationContext(),Tools.Bytes2HexString(uid, uid.length)
-                    ,Toast.LENGTH_SHORT).show();
+                                User user = new User();
+                                user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
+                                //user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
+                                Gson gson = new Gson();
+                                //设置POST请求中的参数
+                                JSONObject p = new JSONObject();
+                                p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+                                post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                                post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                                HttpClient client = new DefaultHttpClient();
+                                HttpResponse response = client.execute(post);
+                                if (response.getStatusLine().getStatusCode() == 200) {
+                                    String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
+                                    User getjsonuser = gson.fromJson(content, new TypeToken<User>() {
+                                    }.getType());
+                                    Log.d("jutest", content);//打印到logcat
+                                    if (getjsonuser.getServerReturn().equals("1")){
+
+                                        getjsonuser.setISWIFI("1");
+                                        YLSystem.setUser(getjsonuser);
+
+                                        Intent intent = new Intent();
+                                        intent.setClass(Login.this, Task.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("AName","Kim");
+                                        intent.putExtras(bundle);
+                                        startActivity(intent);
+                                        message= "登录成功";
+                                        mh.sendEmptyMessage(0);
+                                    }
+                                    else {
+                                        message= "登录失败";
+                                        mh.sendEmptyMessage(0);
+                                    }
+
+                                }
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            } catch (ClientProtocolException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+
+
+
+
+
+
                 }else{
                     Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
                 }
