@@ -135,4 +135,15 @@
         android:layout_below="@+id/text_all"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取版本号"
+        android:onClick="getvision"
+        android:id="@+id/button3"
+        android:layout_x="150dp"
+        android:layout_y="77dp"
+        android:layout_above="@+id/select_all"
+        android:layout_alignStart="@+id/button5" />
+
 </RelativeLayout>

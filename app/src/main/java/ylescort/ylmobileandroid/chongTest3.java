@@ -41,6 +41,7 @@ import TaskClass.BaseSite;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
+import TaskClass.Vision;
 import TaskClass.YLTask;
 
 
@@ -387,6 +388,7 @@ public class chongTest3 extends ActionBarActivity {
                     B1.BoxType="款箱";//款箱，卡箱，凭证
                     B1.TradeAction="收";//收，送
                     B1.TimeID="1" ;//到达时间ID
+                    B1.BoxCount="20";//20个无标签箱，默认读卡的是1个。
                     //添加site类
                     Site SI1 = new Site();
                     SI1.TaskID="6112" ;
@@ -488,6 +490,62 @@ public class chongTest3 extends ActionBarActivity {
 
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new ArrayAdapter<String>(chongTest3.this, android.R.layout.simple_expandable_list_item_1, listViewdata));
+
+    }
+    public void getvision(View view) throws ClassNotFoundException{
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //添加数值到User类
+                    User s1 = new User();
+                    s1.EmpNO = "200097";
+                    s1.Name = "徐竞航";
+                    s1.Pass = "8c4d6ed1b2688b2373bcac4137fab1e6";
+                    s1.DeviceID = "NH008";
+                    s1.ISWIFI = "1";
+                    //以上是测试数据可以修改============================================================================
+
+
+
+                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetVision";//网址
+                    HttpPost post = new HttpPost(url);
+                    //添加数值到User类
+                    Gson gson = new Gson();
+                    //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+                    JSONObject p = new JSONObject();
+
+                    p.put("DeviceID", s1.DeviceID);//手持机号=====================自定义。。。。。
+                    p.put("ISWIFI", s1.ISWIFI);//是否用WIFI=====================自定义。。。。。
+
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
+                        Vision vision = gson.fromJson(content, new TypeToken<Vision>() {
+                        }.getType());
+                        Log.d("WCF",  "ok");//打印到logcat
+
+                        mh.sendEmptyMessage(0);
+
+
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 }
