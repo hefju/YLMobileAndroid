@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -183,10 +184,67 @@ public class WebService {
         return webcontent;
     }
 
+    public static  void CacheData(final Context ctx) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
+        final String servertime="";
+
+       final Integer finish=0;
+        Handler  mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+
+                String content ;
+                switch (msg.what) {
+                    case 20:
+                        break;
+                    case 21:
+                        content = (String) msg.obj;
+                        finish++;
+                        break;
+                    case 22:
+                        content = (String) msg.obj;
+                        servertime=content;
+                        break;
+                    case 100:
+//                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//                        String date = sDateFormat.format(new java.util.Date());
+                        String date = servertime;
+                        //测试不开
+                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+                        SharedPreferences.Editor edit = settings.edit();
+                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+                        edit.apply();
+                        break;
+                }
+
+
+                super.handleMessage(msg);
+            }
+        };
+        GetBaseEmp( ctx, mHandler,  timeLastUpdate) ;
+        GetBaseClient( ctx, mHandler,  timeLastUpdate) ;
+        GetBaseSite( ctx, mHandler,  timeLastUpdate) ;
+        GetBaseBox( ctx, mHandler,  timeLastUpdate) ;
+        int count=0;
+        while (count<10){
+            try {
+                Thread.sleep(1000*5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (  finish==4  ){
+                Message msg = mHandler.obtainMessage(100);
+                mHandler.sendMessage(msg);
+                break;
+            }
+        }
+
+    }
     public static void GetBaseEmp(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
+                String url =LocalSetting.webserviceaddress+ "GetBaseEmp";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -225,6 +283,12 @@ public class WebService {
                             msg = mHandler.obtainMessage(21);
                             msg.obj = "BaseEmp更新完毕";
                             mHandler.sendMessage(msg);
+
+                            if(ListBaseEmp.size()>0) {
+                                msg = mHandler.obtainMessage(22);
+                                msg.obj = ListBaseEmp.get(0).ServerTime;
+                                mHandler.sendMessage(msg);
+                            }
                         }
                     }
                 } catch (JSONException e) {
@@ -241,7 +305,7 @@ public class WebService {
     public static void GetBaseClient(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseClient";//网址
+                String url =LocalSetting.webserviceaddress+ "GetBaseClient";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -280,6 +344,12 @@ public class WebService {
                             msg = mHandler.obtainMessage(21);
                             msg.obj ="BaseClient更新完毕";
                             mHandler.sendMessage(msg);
+
+                            if(ListBase.size()>0) {
+                                msg = mHandler.obtainMessage(22);
+                                msg.obj = ListBase.get(0).ServerTime;
+                                mHandler.sendMessage(msg);
+                            }
                         }
                     }
                 } catch (JSONException e) {
@@ -296,7 +366,7 @@ public class WebService {
     public static void GetBaseSite(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseSite";//网址
+                String url =LocalSetting.webserviceaddress+ "GetBaseSite";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -335,6 +405,12 @@ public class WebService {
                             msg = mHandler.obtainMessage(21);
                             msg.obj = "BaseSite更新完毕";
                             mHandler.sendMessage(msg);
+
+                            if(ListBase.size()>0) {
+                                msg = mHandler.obtainMessage(22);
+                                msg.obj = ListBase.get(0).ServerTime;
+                                mHandler.sendMessage(msg);
+                            }
                         }
                     }
                 } catch (JSONException e) {
@@ -351,7 +427,7 @@ public class WebService {
     public static void GetBaseBox(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseBox";//网址
+                String url =LocalSetting.webserviceaddress+ "GetBaseBox";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -390,6 +466,12 @@ public class WebService {
                             msg = mHandler.obtainMessage(21);
                             msg.obj = "BaseBox更新完毕";
                             mHandler.sendMessage(msg);
+
+                            if(ListBase.size()>0) {
+                                msg = mHandler.obtainMessage(22);
+                                msg.obj = ListBase.get(0).ServerTime;
+                                mHandler.sendMessage(msg);
+                            }
                         }
                     }
                 } catch (JSONException e) {
