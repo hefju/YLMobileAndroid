@@ -145,7 +145,7 @@ public class Scan1DService extends Service {
                     mSerialPort.scaner_trigon();  //触发读卡
 
                 }
-            }, 0, 800);
+            }, 0, 400);
 
         }
         return 0;

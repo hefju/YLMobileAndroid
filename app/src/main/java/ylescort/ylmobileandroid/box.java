@@ -211,8 +211,16 @@ public class box extends ActionBarActivity {
 
     private void YLBoxMediaPlay(String mediavoice) {
         mPlayer = new MediaPlayer();
+
+        if (mediavoice.equals("success")){
+            mPlayer = MediaPlayer.create(box.this, R.raw.msg);
+            if(mPlayer.isPlaying()){
+                return;
+            }
+            mPlayer.start();
+        }else {
         try {
-            mPlayer.setDataSource(mediavoice);  //选用系统声音文件
+            mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
             mPlayer.prepare();
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
@@ -226,6 +234,7 @@ public class box extends ActionBarActivity {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
         }
         mPlayer.start();
     }
@@ -387,9 +396,9 @@ public class box extends ActionBarActivity {
     private void PutDatatoListView(String boxnumber,String boxcount){
         baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
         if (CheckBoxNumber(boxnumber)){
-            String mediavoice = "/system/media/audio/notifications/Zirconium.ogg";
+            //String mediavoice = "/system/media/audio/notifications/Zirconium.ogg";
             //媒体播放
-            YLBoxMediaPlay(mediavoice);
+            YLBoxMediaPlay("failed");
             return;}
         Box box = new Box();
         int count= ScanboxList.size();
@@ -407,9 +416,9 @@ public class box extends ActionBarActivity {
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
-        String mediavoice = "/system/media/audio/ui/VideoRecord.ogg";
+        //String mediavoice = "/system/media/audio/ui/VideoRecord.ogg";
         //媒体播放
-        YLBoxMediaPlay(mediavoice);
+        YLBoxMediaPlay("success");
         scrollMyListViewToBottom();
     }
 

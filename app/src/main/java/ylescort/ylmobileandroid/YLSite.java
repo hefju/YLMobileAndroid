@@ -163,7 +163,8 @@ public class YLSite extends ActionBarActivity {
                     ylTask.setTaskState("已上传");
 
                     tasksManager.SaveTask(getApplicationContext());
-
+                    Toast.makeText(getApplicationContext(),"已完成上传",Toast.LENGTH_LONG).show();
+                    finish();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (ClientProtocolException e) {
