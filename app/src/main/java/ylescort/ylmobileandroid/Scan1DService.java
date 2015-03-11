@@ -130,39 +130,27 @@ public class Scan1DService extends Service {
             run_scan100ms = true;
             scan100ms.cancel();
             scan100ms = new Timer();
-//            scan100ms.schedule(new TimerTask() {  //开始Timer任务，每100ms扫描一次
-//                @Override
-//                public void run() {
-//                    if(mSerialPort.scaner_trig_stat()){
-//                        mSerialPort.scaner_trigoff();
-//                    }
-//                    mSerialPort.scaner_trigon();  //触发扫描
-//                }
-//            }, 0, 100);
-//            singleThreadExecutor.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    while (run_scan100ms){
-//                        try {
-//
-//                            if(mSerialPort.scaner_trig_stat()){
-//                                mSerialPort.scaner_trigoff();
-//                                Thread.sleep(100);
-//                            }
-//                            mSerialPort.scaner_trigon();  //触发扫描
-//
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            });
+            scan100ms.schedule(new TimerTask() {  //��ʼTimer����ÿ100msɨ��һ��
+                @Override
+                public void run() {
+                    if(mSerialPort.scaner_trig_stat() == true){//判断是否正在开红外
+                        mSerialPort.scaner_trigoff();  //关红外读头
+                        try{
+                            Thread.sleep(50);
+                        }catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                    mSerialPort.scaner_trigon();  //触发读卡
+
+                }
+            }, 0, 800);
 
         }
         return 0;
     }
 
-    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     @Override
     public void onDestroy() {
