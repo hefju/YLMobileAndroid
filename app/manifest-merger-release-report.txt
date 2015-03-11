@@ -73,67 +73,73 @@ ADDED from AndroidManifest.xml:31:17
 	android:name
 		ADDED from AndroidManifest.xml:31:25
 category#android.intent.category.DEFAULT
-ADDED from AndroidManifest.xml:32:17
+ADDED from AndroidManifest.xml:33:17
 	android:name
-		ADDED from AndroidManifest.xml:32:27
+		ADDED from AndroidManifest.xml:33:27
 activity#ylescort.ylmobileandroid.boxlist
-ADDED from AndroidManifest.xml:35:9
+ADDED from AndroidManifest.xml:36:9
 	android:label
+		ADDED from AndroidManifest.xml:38:13
+	android:name
 		ADDED from AndroidManifest.xml:37:13
-	android:name
-		ADDED from AndroidManifest.xml:36:13
 activity#ylescort.ylmobileandroid.setup
-ADDED from AndroidManifest.xml:39:9
+ADDED from AndroidManifest.xml:40:9
 	android:label
+		ADDED from AndroidManifest.xml:42:13
+	android:name
 		ADDED from AndroidManifest.xml:41:13
-	android:name
-		ADDED from AndroidManifest.xml:40:13
 activity#ylescort.ylmobileandroid.Taskitem
-ADDED from AndroidManifest.xml:43:9
+ADDED from AndroidManifest.xml:44:9
 	android:label
+		ADDED from AndroidManifest.xml:46:13
+	android:name
 		ADDED from AndroidManifest.xml:45:13
-	android:name
-		ADDED from AndroidManifest.xml:44:13
 activity#ylescort.ylmobileandroid.SettingsActivity
-ADDED from AndroidManifest.xml:47:9
+ADDED from AndroidManifest.xml:48:9
 	android:label
+		ADDED from AndroidManifest.xml:50:13
+	android:name
 		ADDED from AndroidManifest.xml:49:13
-	android:name
-		ADDED from AndroidManifest.xml:48:13
 service#ylescort.ylmobileandroid.Scan1DService
-ADDED from AndroidManifest.xml:52:9
+ADDED from AndroidManifest.xml:53:9
 	android:name
-		ADDED from AndroidManifest.xml:52:18
+		ADDED from AndroidManifest.xml:53:18
 activity#ylescort.ylmobileandroid.YLSite
-ADDED from AndroidManifest.xml:54:9
+ADDED from AndroidManifest.xml:55:9
 	android:label
+		ADDED from AndroidManifest.xml:57:13
+	android:name
 		ADDED from AndroidManifest.xml:56:13
-	android:name
-		ADDED from AndroidManifest.xml:55:13
 activity#ylescort.ylmobileandroid.YLsiteitem
-ADDED from AndroidManifest.xml:58:9
+ADDED from AndroidManifest.xml:59:9
 	android:label
+		ADDED from AndroidManifest.xml:61:13
+	android:name
 		ADDED from AndroidManifest.xml:60:13
-	android:name
-		ADDED from AndroidManifest.xml:59:13
 activity#ylescort.ylmobileandroid.util.CacheDataView
-ADDED from AndroidManifest.xml:62:9
+ADDED from AndroidManifest.xml:63:9
 	android:label
+		ADDED from AndroidManifest.xml:65:13
+	android:name
 		ADDED from AndroidManifest.xml:64:13
-	android:name
-		ADDED from AndroidManifest.xml:63:13
 activity#ylescort.ylmobileandroid.YLBoxEdit
-ADDED from AndroidManifest.xml:66:9
+ADDED from AndroidManifest.xml:67:9
 	android:label
+		ADDED from AndroidManifest.xml:69:13
+	android:name
 		ADDED from AndroidManifest.xml:68:13
-	android:name
-		ADDED from AndroidManifest.xml:67:13
 activity#ylescort.ylmobileandroid.chongTest3
-ADDED from AndroidManifest.xml:70:9
+ADDED from AndroidManifest.xml:71:9
 	android:label
-		ADDED from AndroidManifest.xml:72:13
+		ADDED from AndroidManifest.xml:73:13
 	android:name
-		ADDED from AndroidManifest.xml:71:13
+		ADDED from AndroidManifest.xml:72:13
+activity#ylescort.ylmobileandroid.YLBoxScan
+ADDED from AndroidManifest.xml:75:9
+	android:label
+		ADDED from AndroidManifest.xml:77:13
+	android:name
+		ADDED from AndroidManifest.xml:76:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5

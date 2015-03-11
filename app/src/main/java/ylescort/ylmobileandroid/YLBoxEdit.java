@@ -197,7 +197,7 @@ public class YLBoxEdit extends ActionBarActivity {
                 }
             }
         }
-
+        YLBoxEdit.this.setTitle("款箱编辑: "+YLSystem.getUser().getName());
         ReLoadData();
     }
 

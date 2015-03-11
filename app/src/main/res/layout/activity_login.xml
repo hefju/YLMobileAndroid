@@ -4,96 +4,90 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".Login">
-
-
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="100sp"
+    android:id="@+id/Logic_LL_title"
+    android:gravity="center">
     <TextView
         android:text="@string/app_name"
         android:id="@+id/Log_TV_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
+        android:textSize="30sp" />
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/Logic_LL_user"
+    android:layout_below="@+id/Logic_LL_title">
     <TextView
         android:text="@string/UserName"
         android:id="@+id/Log_TV_Name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_alignBaseline="@+id/Log_ET_Name"
-        android:layout_alignBottom="@+id/Log_ET_Name"
-        android:layout_alignParentStart="true"/>
+        android:textSize="25sp"/>
+
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="150sp"
         android:layout_height="wrap_content"
         android:id="@+id/Log_ET_Name"
-        android:text="600241"
         android:inputType="number"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="100dp"
-        android:textSize="30dp"
-        android:layout_toEndOf="@+id/Log_TV_Name" />
-    <TextView
-        android:text="@string/UserPassword"
-        android:id="@+id/Log_TV_PassWord"
+        android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_below="@+id/Log_TV_Name"
-        android:layout_alignParentStart="true" />
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Log_ET_PassWord"
-        android:inputType="numberPassword"
-        android:text="600241"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="150dp"
-        android:textSize="30dp"
-        android:layout_toEndOf="@+id/Log_TV_Name" />
+        android:id="@+id/Logic_LL_pass"
+        android:layout_below="@+id/Logic_LL_user">
+        <TextView
+            android:text="@string/UserPassword"
+            android:id="@+id/Log_TV_PassWord"
+            android:layout_width="102sp"
+            android:layout_height="wrap_content"
+            android:textSize="25sp" />
+        <EditText
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Log_ET_PassWord"
+            android:inputType="numberPassword"
+            android:textSize="25sp" />
+        </LinearLayout>
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_below="@+id/Logic_LL_pass">
     <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/Log_BN_Ent"
         android:text="@string/Log_Ent"
-        android:onClick="LoginEnter"
-        android:layout_below="@+id/Log_ET_PassWord"
-        android:layout_alignStart="@+id/Log_TV_Title"/>
+        android:onClick="LoginEnter"/>
     <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/Log_BN_HF"
         android:text="读卡"
-        android:onClick="ScanHF"
-        android:layout_toRightOf="@+id/Log_BN_Ent"
-        android:layout_below="@+id/Log_ET_PassWord"/>
+        android:onClick="ScanHF"/>
     <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/Log_BN_Cal"
-        android:text="@string/Log_Can"
-        android:layout_toRightOf="@+id/Log_BN_HF"
-        android:layout_below="@+id/Log_ET_PassWord"/>
+        android:text="@string/Log_Can"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnTest1"
         android:text="巨测试1"
-        android:visibility="invisible"
-        android:layout_alignTop="@+id/btnTest2"
-        android:layout_alignStart="@+id/Log_BN_Ent" />
+        android:visibility="invisible" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnTest2"
         android:text="巨测试2"
-        android:layout_below="@+id/Log_BN_Cal"
         android:visibility="invisible"
-        android:layout_toEndOf="@+id/btnTest1"
         android:layout_marginTop="49dp" />
 
     <Button
@@ -102,9 +96,6 @@
         android:text="翀测试1"
         android:visibility="invisible"
         android:id="@+id/button2"
-        android:layout_below="@+id/btnTest1"
-        android:onClick="chongtest"
-        android:layout_alignParentStart="true" />
-
-
+        android:onClick="chongtest" />
+    </LinearLayout>
 </RelativeLayout>

@@ -64,7 +64,7 @@ public class YLSite extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylsite);
-
+        YLSite.this.setTitle("任务网点: "+YLSystem.getUser().getName());
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         if(!ylTask.getTaskState().equals("有更新")){
@@ -163,7 +163,6 @@ public class YLSite extends ActionBarActivity {
                     ylTask.setTaskState("已上传");
 
                     tasksManager.SaveTask(getApplicationContext());
-                    Toast.makeText(getApplicationContext(),"已完成上传",Toast.LENGTH_LONG).show();
                     finish();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();

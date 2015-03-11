@@ -81,7 +81,7 @@ public class Task extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
-
+        Task.this.setTitle("任务管理: "+YLSystem.getUser().getName());
         tasksManager=YLSystem.getTasksManager();//获取任务管理类
 
         txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);//显示当前日期

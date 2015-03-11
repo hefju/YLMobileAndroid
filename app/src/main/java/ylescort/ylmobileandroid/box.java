@@ -91,6 +91,7 @@ public class box extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
+        box.this.setTitle("款箱操作: "+YLSystem.getUser().getName());
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
 
