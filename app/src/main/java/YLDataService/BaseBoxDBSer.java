@@ -59,7 +59,7 @@ public class BaseBoxDBSer {
         BaseBox b=new BaseBox();
         if (cursor.getCount()< 1){
            b.BoxBCNo = BCNo;
-           b.BoxName = "";
+           b.BoxName = "无标签";
             sdb.close(); //关闭数据库
             return b;
         }else {

@@ -50,6 +50,7 @@ public class YLBoxAdapter extends BaseAdapter {
         TextView ylboxStatus = null;
         TextView ylboxType = null;
         TextView ylboxcount = null;
+        TextView ylboxTaskType = null;
 
         if (convertView == null){
             convertView = inflater.inflate(resource,null);
@@ -59,6 +60,7 @@ public class YLBoxAdapter extends BaseAdapter {
             ylboxStatus = (TextView)convertView.findViewById(R.id.boxlv_tv_Status);
             ylboxType = (TextView)convertView.findViewById(R.id.boxlv_tv_type);
             ylboxcount = (TextView)convertView.findViewById(R.id.boxlv_tv_count);
+            ylboxTaskType= (TextView)convertView.findViewById(R.id.boxlv_tv_tasktype);
             ViewCache viewCache = new ViewCache();
             viewCache.ylboxorderview = ylboxorder;
             viewCache.ylboxidview = ylboxnameorid;
@@ -66,6 +68,7 @@ public class YLBoxAdapter extends BaseAdapter {
             viewCache.ylboxStatusview = ylboxStatus;
             viewCache.ylboxTypeview = ylboxType;
             viewCache.ylboxcountview = ylboxcount;
+            viewCache.ylboxTaskTypeview = ylboxTaskType;
             convertView.setTag(viewCache);
         }else {
             ViewCache viewCache = (ViewCache)convertView.getTag();
@@ -75,6 +78,7 @@ public class YLBoxAdapter extends BaseAdapter {
             ylboxStatus = viewCache.ylboxStatusview;
             ylboxType = viewCache.ylboxTypeview;
             ylboxcount = viewCache.ylboxcountview;
+            ylboxTaskType = viewCache.ylboxTaskTypeview;
         }
         Box box = boxList.get(position);
         ylboxorder.setText(box.BoxOrder);
@@ -83,6 +87,7 @@ public class YLBoxAdapter extends BaseAdapter {
         ylboxStatus.setText(box.BoxStatus);
         ylboxType.setText(box.BoxType);
         ylboxcount.setText(box.BoxCount);
+        ylboxTaskType.setText(box.BoxTaskType);
 
         return convertView;
     }
@@ -94,6 +99,7 @@ public class YLBoxAdapter extends BaseAdapter {
         public TextView ylboxStatusview ;
         public TextView ylboxTypeview ;
         public TextView ylboxcountview ;
+        public TextView ylboxTaskTypeview ;
 
     }
 }

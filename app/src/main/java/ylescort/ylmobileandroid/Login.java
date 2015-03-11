@@ -49,6 +49,7 @@ public class Login extends ActionBarActivity {
     private EditText Log_Name;
     private EditText Log_PassWord;
     private Button Log_BN_HF;
+    private Button Log_BN_Cal;
     private String message;
     private NFCcmdManager manager ;
     private byte[] uid ;
@@ -96,6 +97,13 @@ public class Login extends ActionBarActivity {
     private void InitHF() {
 
         Log_BN_HF = (Button)findViewById(R.id.Log_BN_HF);
+        Log_BN_Cal = (Button)findViewById(R.id.Log_BN_Cal);
+        Log_BN_Cal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         Log_BN_HF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,17 +169,12 @@ public class Login extends ActionBarActivity {
                             }
                         }
                     });
-
-
-
-
-
-
                 }else{
                     Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
     }
 //    private    Button btnju1;

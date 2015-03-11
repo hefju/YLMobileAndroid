@@ -63,6 +63,7 @@ public class box extends ActionBarActivity {
     private Switch box_swh_TradeAction; //收送
     private Switch box_swh_Status; //空实
     private Switch box_swh_singleormore;//单多
+    private Switch box_swh_BoxTaskType;//普通中调
 
     private RadioButton  box_rbtn_moneyboxs;//款箱
     private RadioButton  box_rbtn_cardbox;//卡箱
@@ -98,7 +99,12 @@ public class box extends ActionBarActivity {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void LoadData() throws ClassNotFoundException {
@@ -112,6 +118,7 @@ public class box extends ActionBarActivity {
         box_swh_TradeAction = (Switch)findViewById(R.id.box_swh_TradeAction);
         box_swh_Status = (Switch)findViewById(R.id.box_swh_Status);
         box_swh_singleormore = (Switch)findViewById(R.id.box_swh_singleormore);
+        box_swh_BoxTaskType = (Switch)findViewById(R.id.box_swh_BoxTaskType);
 
         box_rbtn_moneyboxs = (RadioButton)findViewById(R.id.box_rbtn_moneyboxs);
         box_rbtn_cardbox = (RadioButton)findViewById(R.id.box_rbtn_cardbox);
@@ -158,7 +165,7 @@ public class box extends ActionBarActivity {
     }
 
     private void init(){
-        Log.e(TAG, "on start");
+       Log.e(TAG, "on start");
         myBroad = new MyBroadcast();
         IntentFilter filter = new IntentFilter();
         filter.addAction("ylescort.ylmobileandroid.box");
@@ -196,29 +203,31 @@ public class box extends ActionBarActivity {
                     e1.printStackTrace();
                 }
             }
-                //媒体播放
-                mPlayer = new MediaPlayer();
-                try {
-                    mPlayer.setDataSource("/system/media/audio/ui/VideoRecord.ogg");  //选用系统声音文件
-                    mPlayer.prepare();
-                } catch (IllegalArgumentException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (SecurityException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IllegalStateException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                //mPlayer.start();
 				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
 
 
+    }
+
+    private void YLBoxMediaPlay(String mediavoice) {
+        mPlayer = new MediaPlayer();
+        try {
+            mPlayer.setDataSource(mediavoice);  //选用系统声音文件
+            mPlayer.prepare();
+        } catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        mPlayer.start();
     }
 
     public  String replaceBlank(String str) {
@@ -232,24 +241,24 @@ public class box extends ActionBarActivity {
     }
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
     public void ScanOnClick (View view ) throws ClassNotFoundException{
-
-        if (!box_swh_singleormore.isChecked()){
-            sendCmd();   //发送指令到服务
-        }else {
-            singleThreadExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    while (box_swh_singleormore.isChecked()) {
-                        try {
-                            sendCmd();   //发送指令到服务
-                            Thread.sleep(500);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
-        }
+        sendCmd();
+//        if (!box_swh_singleormore.isChecked()){
+//            sendCmd();   //发送指令到服务
+//        }else {
+//            singleThreadExecutor.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    while (box_swh_singleormore.isChecked()) {
+//                        try {
+//                            sendCmd();   //发送指令到服务
+//                            Thread.sleep(500);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//            });
+//        }
     }
 
     public void NoLableIns(View view){
@@ -344,8 +353,8 @@ public class box extends ActionBarActivity {
     }
 
     private String GetCurrTime(){
-        SimpleDateFormat    sDateFormat    =   new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String    date    =    sDateFormat.format(new    java.util.Date());
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = sDateFormat.format(new java.util.Date());
         return date;
     }
 
@@ -377,7 +386,11 @@ public class box extends ActionBarActivity {
 
     private void PutDatatoListView(String boxnumber,String boxcount){
         baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
-        if (CheckBoxNumber(boxnumber)){return;}
+        if (CheckBoxNumber(boxnumber)){
+            String mediavoice = "/system/media/audio/notifications/Zirconium.ogg";
+            //媒体播放
+            YLBoxMediaPlay(mediavoice);
+            return;}
         Box box = new Box();
         int count= ScanboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
@@ -387,12 +400,16 @@ public class box extends ActionBarActivity {
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
+        box.setBoxTaskType(GetBoxStuat("t"));
         box.setBoxCount(boxcount);
         box.setTimeID(arriveTime.getTimeID());
         box.setActionTime(GetCurrTime());
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
+        String mediavoice = "/system/media/audio/ui/VideoRecord.ogg";
+        //媒体播放
+        YLBoxMediaPlay(mediavoice);
         scrollMyListViewToBottom();
     }
 
@@ -409,12 +426,13 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-        if (boxnumber.length()!=10){
-            checkthebox = true;
-            return checkthebox ;}
+
         for (int i = 0 ; i< ScanboxList.size();i++){
             String boxid = ScanboxList.get(i).BoxID;
             if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
+                if (boxnumber.length()!=10){
+                    checkthebox = true;
+                    return checkthebox ;}
                 checkthebox = true;
                 break;
             }else {
@@ -438,6 +456,13 @@ public class box extends ActionBarActivity {
         }else {
             boxstuat ="空";
         }}
+        else if (getboxstuat.equals("t")){
+            if (box_swh_BoxTaskType.isChecked()){
+                boxstuat ="中";
+            }else{
+                boxstuat ="普";
+            }
+        }
         else if (getboxstuat.equals("s")){
         if (box_rbtn_cardbox.isChecked()){
             boxstuat ="卡箱";
@@ -454,19 +479,19 @@ public class box extends ActionBarActivity {
      * 发送指令
      */
     private void sendCmd() {
-        // 给服务发送广播，内容为com.example.scandemo.MainActivity
+        // 给服务发送广播，内容为ylescort.ylmobileandroid.box
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
         ac.putExtra("activity", activity);
         sendBroadcast(ac);
         Log.e(TAG, "send broadcast");
 
-//        if (box_swh_singleormore.isChecked()){
-//            cmd = "toscan100ms";
-//        }else {
-//            cmd = "scan";
-//        }
-        cmd = "scan";
+        if (box_swh_singleormore.isChecked()){
+            cmd = "toscan100ms";
+        }else {
+            cmd = "scan";
+        }
+        //cmd = "scan";
         Intent sendToservice = new Intent(box.this, Scan1DService.class); // 用于发送指令
         sendToservice.putExtra("cmd", cmd);
         this.startService(sendToservice); // 发送指令

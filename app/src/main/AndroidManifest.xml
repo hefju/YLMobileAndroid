@@ -29,7 +29,8 @@
             android:label="@string/title_activity_box" >
             <intent-filter>
                 <action android:name="ylescort.ylmobileandroid.box" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -70,6 +71,10 @@
         <activity
             android:name=".chongTest3"
             android:label="@string/title_activity_chong__test" >
+        </activity>
+        <activity
+            android:name=".YLBoxScan"
+            android:label="@string/title_activity_ylbox_scan" >
         </activity>
     </application>
 

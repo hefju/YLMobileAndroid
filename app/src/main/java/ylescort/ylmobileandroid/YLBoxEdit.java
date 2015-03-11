@@ -30,6 +30,7 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private Switch boxedi_sw_gog;
     private Switch boxedi_sw_eof;
+    private Switch boxedi_sw_tasktype;
 
     private RadioGroup boxedi_radioGroup;
     private RadioButton boxedi_rb_money;
@@ -69,6 +70,17 @@ public class YLBoxEdit extends ActionBarActivity {
                 ReLoadData();
             }
         });
+
+        boxedi_sw_tasktype.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Box box = boxList.get(listpostion);
+                box.setBoxTaskType(GetBoxStuat("t"));
+                boxList.set(listpostion,box);
+                ReLoadData();
+            }
+        });
+
         boxedi_sw_eof.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +103,7 @@ public class YLBoxEdit extends ActionBarActivity {
             }
         });
 
+
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -107,6 +120,13 @@ public class YLBoxEdit extends ActionBarActivity {
             }else {
                 boxstuat ="空";
             }}
+        else if (getboxstuat.equals("t")){
+            if (boxedi_sw_tasktype.isChecked()){
+                boxstuat ="中";
+            }else{
+                boxstuat ="普";
+            }
+        }
         else if (getboxstuat.equals("s")){
             if (boxedi_rb_money.isChecked()){
                 boxstuat ="款箱";
@@ -152,10 +172,14 @@ public class YLBoxEdit extends ActionBarActivity {
     private void init() {
         boxedi_sw_gog = (Switch)findViewById(R.id.boxedi_sw_gog);
         boxedi_sw_eof = (Switch)findViewById(R.id.boxedi_sw_eof);
+        boxedi_sw_tasktype = (Switch)findViewById(R.id.boxedi_sw_tasktype);
+
         boxedi_rb_money = (RadioButton)findViewById(R.id.boxedi_rb_money);
         boxedi_rb_card = (RadioButton)findViewById(R.id.boxedi_rb_card);
         boxedi_rb_Voucher = (RadioButton)findViewById(R.id.boxedi_rb_Voucher);
+
         boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
+
         boxedi_radioGroup= (RadioGroup)findViewById(R.id.boxedi_radioGroup);
 
         boxListEdi = new ArrayList<>();

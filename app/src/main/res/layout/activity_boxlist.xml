@@ -12,7 +12,7 @@
         android:id="@+id/boxlv_tv_order"
         android:text="@string/boxitem_order"/>
     <TextView
-        android:layout_width="110dp"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:id="@+id/boxlv_tv_Boxid"
         android:text="@string/boxitem_Boxid"
@@ -30,15 +30,21 @@
         android:text="@string/boxitem_Status"
         android:layout_toRightOf="@+id/boxlv_tv_TradeAction"/>
     <TextView
-        android:layout_width="40dp"
+    android:layout_width="35dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/boxlv_tv_type"
+    android:text="@string/boxitem_type"
+    android:layout_toRightOf="@+id/boxlv_tv_Status"/>
+    <TextView
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:id="@+id/boxlv_tv_type"
-        android:text="@string/boxitem_type"
-        android:layout_toRightOf="@+id/boxlv_tv_Status"/>
+        android:id="@+id/boxlv_tv_tasktype"
+        android:text="@string/boxitem_tasktype"
+        android:layout_toRightOf="@+id/boxlv_tv_type"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/boxlv_tv_count"
         android:text="数量"
-        android:layout_toRightOf="@+id/boxlv_tv_type"/>
+        android:layout_toRightOf="@+id/boxlv_tv_tasktype"/>
 </RelativeLayout>

@@ -1,170 +1,161 @@
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="ylescort.ylmobileandroid.box">
 
-    <RelativeLayout
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/box_tv_title"
+        android:text="标题"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/box_LL_title"
+        android:layout_below="@+id/box_tv_title"
+        android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:text="标题"
-            android:id="@+id/box_tv_title"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="@string/boxitem_order"
             android:id="@+id/box_tv_order"
-            android:layout_below="@+id/box_tv_title"/>
+            android:text="@string/boxitem_order" />
         <TextView
             android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:text="@string/boxitem_Boxid"
             android:id="@+id/box_tv_Boxid"
-            android:layout_below="@+id/box_tv_title"
-            android:layout_toRightOf="@+id/box_tv_order"/>
+            android:text="@string/boxitem_Boxid"/>
         <TextView
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:text="@string/boxitem_TradeAction"
             android:id="@+id/box_tv_TradeAction"
-            android:layout_below="@+id/box_tv_title"
-            android:layout_toRightOf="@+id/box_tv_Boxid"/>
+            android:text="@string/boxitem_TradeAction"/>
         <TextView
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:text="@string/boxitem_Status"
             android:id="@+id/box_tv_Status"
-            android:layout_below="@+id/box_tv_title"
-            android:layout_toRightOf="@+id/box_tv_TradeAction"/>
+            android:text="@string/boxitem_Status"/>
         <TextView
             android:layout_width="35dp"
             android:layout_height="wrap_content"
-            android:text="@string/boxitem_type"
             android:id="@+id/box_tv_type"
-            android:layout_below="@+id/box_tv_title"
-            android:layout_toRightOf="@+id/box_tv_Status"/>
+            android:text="@string/boxitem_type"/>
+        <TextView
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/box_tv_tasktype"
+            android:text="@string/boxitem_tasktype"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/boxitem_count"
             android:id="@+id/box_tv_count"
-            android:layout_below="@+id/box_tv_title"
-            android:layout_toRightOf="@+id/box_tv_type"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="10dp"
-        android:layout_y="250dp"
-        android:id="@+id/box_rel_staut">
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/boxitem_TradeAction"
-        android:id="@+id/box_swh_TradeAction"
-        android:layout_above="@+id/box_swh_Status"
-        android:layout_alignParentStart="true"
-        android:textOn="送"
-        android:textOff="收"/>
+            android:text="@string/boxitem_count"/>
+    </LinearLayout>
 
-    <Switch
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/boxitem_Status"
-        android:id="@+id/box_swh_Status"
-        android:layout_above="@+id/box_swh_singleormore"
-        android:layout_alignParentStart="true"
-        android:textOn="实"
-        android:textOff="空"/>
+        android:layout_height="200dp"
+        android:id="@+id/box_LL_listview"
+        android:layout_below="@+id/box_LL_title">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/boxlistview"></ListView>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/box_LL_switch"
+        android:layout_below="@+id/box_LL_listview"
+        android:orientation="vertical">
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="单/多"
+            android:id="@+id/box_swh_BoxTaskType"
+            android:text="普/中"
+            android:textOn="中"
+            android:textOff="普"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/box_swh_Status"
+            android:text="@string/boxitem_Status"
+            android:textOn="实"
+            android:textOff="空"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/box_swh_TradeAction"
+            android:text="@string/boxitem_TradeAction"
+            android:textOn="送"
+            android:textOff="收"/>
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/box_swh_singleormore"
-            android:layout_alignBottom="@+id/box_rg"
-            android:layout_alignParentStart="true"
-            android:checked="true"
+            android:text="单/多"
             android:textOn="多"
-            android:textOff="单"/>
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/box_rg"
-    android:layout_toRightOf="@+id/box_swh_TradeAction">
-    <RadioButton
+            android:textOff="单"
+            android:checked="true"/>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/boxitem_monenybox"
-        android:id="@+id/box_rbtn_moneyboxs"
-        android:checked="true"/>
+        android:id="@+id/box_LL_radiobutton"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/box_LL_switch"
+        android:layout_below="@+id/box_LL_listview">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_moneyboxs"
+                android:text="@string/boxitem_monenybox"
+                android:checked="true"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_cardbox"
+                android:text="@string/boxitem_cardbox"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_Voucher"
+                android:text="@string/boxitem_Voucherbox"/>
+        </RadioGroup>
+    </LinearLayout>
 
-    <RadioButton
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/boxitem_cardbox"
-        android:id="@+id/box_rbtn_cardbox"/>
-
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/boxitem_Voucherbox"
-        android:id="@+id/box_rbtn_Voucher"/>
-
-</RadioGroup>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_x="0dp"
-        android:layout_y="360dp"
-        android:layout_below="@+id/box_rel_staut"
-        android:layout_alignParentStart="true">
-
+        android:layout_below="@+id/box_LL_switch">
         <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="扫描"
         android:id="@+id/box_btn_scan"
-        android:onClick="ScanOnClick"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:onClick="ScanOnClick" />
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="无标签"
             android:onClick="NoLableIns"
-            android:id="@+id/box_btn_nonelable"
-            android:layout_toRightOf="@+id/box_btn_scan"/>
+            android:id="@+id/box_btn_nonelable"/>
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="到达"
             android:onClick="boxlistent"
-            android:id="@+id/box_btn_ent"
-            android:layout_toRightOf="@+id/box_btn_nonelable"/>
+            android:id="@+id/box_btn_ent"/>
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_x="0dp"
-        android:layout_y="30dp" >
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/boxlistview"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-    </RelativeLayout>
-
-
-</AbsoluteLayout>
+</RelativeLayout>
