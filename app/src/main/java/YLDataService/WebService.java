@@ -187,9 +187,9 @@ public class WebService {
     public static  void CacheData(final Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
-        final String servertime="";
+        final String[] servertime = {""};
 
-       final Integer finish=0;
+        final Integer[] finish = {0};
         Handler  mHandler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
@@ -200,16 +200,16 @@ public class WebService {
                         break;
                     case 21:
                         content = (String) msg.obj;
-                        finish++;
+                        finish[0]++;
                         break;
                     case 22:
                         content = (String) msg.obj;
-                        servertime=content;
+                        servertime[0] =content;
                         break;
                     case 100:
 //                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //                        String date = sDateFormat.format(new java.util.Date());
-                        String date = servertime;
+                        String date = servertime[0];
                         //测试不开
                         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
                         SharedPreferences.Editor edit = settings.edit();
@@ -233,7 +233,7 @@ public class WebService {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (  finish==4  ){
+            if (  finish[0] ==4  ){
                 Message msg = mHandler.obtainMessage(100);
                 mHandler.sendMessage(msg);
                 break;
