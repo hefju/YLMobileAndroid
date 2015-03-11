@@ -16,8 +16,16 @@ public class Box {
     public String ActionTime ;//钱箱操作时间
     public String TimeID ;//到达时间ID
     public String BoxCount;//箱数量
+    public String BoxTaskType;//箱任务类型---中调或普通
     public String BoxOrder;//箱序号
 
+    public String getBoxTaskType() {
+        return BoxTaskType;
+    }
+
+    public void setBoxTaskType(String boxTaskType) {
+        BoxTaskType = boxTaskType;
+    }
 
     public String getTimeID() {
         return TimeID;
