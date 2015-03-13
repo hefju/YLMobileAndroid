@@ -148,36 +148,12 @@ public class YLSite extends ActionBarActivity {
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     public void YLSite_UpDate(View view){
+
         //ylTask.lstSite = siteList;
-        singleThreadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    YLTask t1 = ylTask;
-                    t1.lstSite=ylTask.lstSite;
-                    t1.lstBox=ylTask.lstBox;
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
-                    HttpPost post = new HttpPost(url);
-                    UpDataToService(t1, YLSystem.getUser(), post);
 
-                    ylTask.setTaskState("已上传");
+        dialog();
 
-                    tasksManager.SaveTask(getApplicationContext());
-                    finish();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private void UpDataToService(YLTask t1, User s1, HttpPost post) throws JSONException, IOException {
@@ -208,6 +184,56 @@ public class YLSite extends ActionBarActivity {
         YLSiteAdapter ylSiteAdapter = new YLSiteAdapter(this,siteList,R.layout.activity_ylsiteitem);
         listView.setAdapter(ylSiteAdapter);
 
+    }
+
+
+    protected void dialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLSite.this);
+        builder.setMessage("确认到达吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                singleThreadExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            YLTask t1 = ylTask;
+                            t1.lstSite=ylTask.lstSite;
+                            t1.lstBox=ylTask.lstBox;
+                            String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                            HttpPost post = new HttpPost(url);
+                            UpDataToService(t1, YLSystem.getUser(), post);
+
+                            ylTask.setTaskState("已上传");
+
+                            tasksManager.SaveTask(getApplicationContext());
+                            finish();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (ClientProtocolException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
 

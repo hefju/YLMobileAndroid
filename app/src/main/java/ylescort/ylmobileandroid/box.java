@@ -110,7 +110,6 @@ public class box extends ActionBarActivity {
 
     private String radiobutton = "";
 
-
     private FunkeyListener funkeyReceive; //功能键广播接收者
 
 
@@ -325,9 +324,9 @@ public class box extends ActionBarActivity {
     }
 
     public void ScanOnClick (View view ) throws ClassNotFoundException {
-        if(CheckRadioButton()){
-            Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
-            return;}
+//        if(CheckRadioButton()){
+//            Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
+//            return;}
         sendCmd();
     }
 
@@ -620,6 +619,10 @@ public class box extends ActionBarActivity {
     private void sendCmd() {
         // 给服务发送广播，内容为ylescort.ylmobileandroid.box
 
+        if(CheckRadioButton()){
+            Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
+            return;}
+
         String scan = box_btn_scan.getText().toString().toString();
 
         Intent ac = new Intent();
@@ -730,6 +733,7 @@ public class box extends ActionBarActivity {
         stopService.putExtra("stopflag", true);
         sendBroadcast(stopService);  //给服务发送广播,令服务停止
         Log.e(TAG, "send stop");
+        unregisterReceiver(funkeyReceive);
         super.onDestroy();
     }
 

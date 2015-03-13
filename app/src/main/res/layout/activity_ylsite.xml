@@ -20,48 +20,52 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ylsite_LL_Title"
         android:id="@+id/ylsite_LL_itemtitle">
 <TextView
-    android:layout_width="70dp"
+    android:layout_width="70sp"
     android:layout_height="wrap_content"
-    android:textSize="15dp"
+    android:textSize="20sp"
     android:id="@+id/ylsite_Num"
     android:text="类型"
     />
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:textSize="20sp"
         android:id="@+id/ylsite_Name"
-        android:layout_toRightOf="@+id/ylsite_Num"
         android:text="名称"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="15dp"
+        android:textSize="20sp"
         android:id="@+id/ylsite_state"
-        android:layout_toRightOf="@+id/ylsite_Name"
         android:text="状态"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300sp"
         android:layout_below="@+id/ylsite_LL_itemtitle"
         android:id="@+id/linearLayout2">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ylsite_lv_MainView"></ListView>
+            android:id="@+id/ylsite_lv_MainView">
+            </ListView>
         </LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Site_Update"
-        android:text="上传"
-        android:onClick="YLSite_UpDate"
-        android:layout_above="@+id/ylsite_LL_itemtitle"
-        android:layout_alignEnd="@+id/linearLayout2"/>
+        android:layout_below="@+id/linearLayout2"
+        android:gravity="right">
+        <Button
+            android:layout_width="90sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Site_Update"
+            android:text="上传"
+            android:onClick="YLSite_UpDate"/>
+        </LinearLayout>
+
 </RelativeLayout>
