@@ -343,6 +343,10 @@ public class box extends ActionBarActivity {
         if (!box_rbtn_moneyboxs.isChecked()&!box_rbtn_cardbox.isChecked()&!box_rbtn_Voucher.isChecked()){
             radiobutton = "箱类未选";
             return true;}
+        if (!box_btn_scan.isEnabled()){
+            radiobutton= "未到达不能扫描";
+            return true;
+        }
         return false;
     }
 
@@ -360,7 +364,7 @@ public class box extends ActionBarActivity {
                             Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
                         } else {
                             PutDatatoListView("无标签",input);
-                            Toast.makeText(getApplicationContext(), input, Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getApplicationContext(), input, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).setNegativeButton("取消", null).show();
@@ -473,12 +477,13 @@ public class box extends ActionBarActivity {
  */
 
     private void PutDatatoListView(String boxnumber,String boxcount){
-        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
+//        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
+        if (!boxnumber.equals("无标签")){
         if (CheckBoxNumber(boxnumber)){
-            //String mediavoice = "/system/media/audio/notifications/Zirconium.ogg";
             //媒体播放
             YLBoxMediaPlay("failed");
-            return;}
+            return;}}else{
+            baseBox.BoxName = "无标签";}
         Box box = new Box();
         int count= ScanboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
@@ -556,7 +561,7 @@ public class box extends ActionBarActivity {
             @Override
             public void run() {
                 // Select the last row so it will scroll into view...
-                listView.setSelection(yltaskboxList.size() - 1);
+                listView.setSelection(ScanboxList.size() - 1);
             }
         });
     }
@@ -564,20 +569,31 @@ public class box extends ActionBarActivity {
     private boolean CheckBoxNumber(String boxnumber) {
 
         boolean checkthebox = false;
-
-        for (int i = 0 ; i< ScanboxList.size();i++){
+        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
+        if (baseBox.BoxBCNo.length()!=10 ||baseBox.BoxName.equals("无数据")){
+            checkthebox = true;
+            return checkthebox;}
+        for (int i = 0 ; i <ScanboxList.size();i++){
             String boxid = ScanboxList.get(i).BoxID;
-            if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
-                if (boxnumber.length()!=10){
-                    checkthebox = true;
-                    return checkthebox ;}
+            if (boxid.equals(boxnumber)){
                 checkthebox = true;
-                break;
-            }else {
-                checkthebox = false;
+                return checkthebox;
             }
         }
-       return checkthebox;
+        return checkthebox;
+
+//        for (int i = 0 ; i< ScanboxList.size();i++){
+//            String boxid = ScanboxList.get(i).BoxID;
+//            if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
+//                if (boxnumber.length()!=10){
+//                    checkthebox = true;
+//                    return checkthebox ;}
+//                checkthebox = true;
+//                break;
+//            }else {
+//                checkthebox = false;
+//            }
+//        }
     }
 
     private String GetBoxStuat(String getboxstuat ){
