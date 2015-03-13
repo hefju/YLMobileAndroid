@@ -55,8 +55,9 @@
             android:textSize="25sp" />
         </LinearLayout>
 <LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id = "@+id/Logic_LL_Operbtn"
     android:layout_below="@+id/Logic_LL_pass">
     <Button
         android:layout_width="100dp"
@@ -75,13 +76,17 @@
         android:layout_height="wrap_content"
         android:id="@+id/Log_BN_Cal"
         android:text="@string/Log_Can"/>
-
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Logic_LL_Operbtn">
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnTest1"
-        android:text="巨测试1"
-        android:visibility="invisible" />
+        android:text="清数据"
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

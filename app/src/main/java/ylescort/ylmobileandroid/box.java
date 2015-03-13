@@ -15,10 +15,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,14 +63,35 @@ public class box extends ActionBarActivity {
     private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
     private boolean keyDownFlag = false;
 
-    private Switch box_swh_TradeAction; //收送
-    private Switch box_swh_Status; //空实
+//    private Switch box_swh_TradeAction; //收送
+//    private Switch box_swh_Status; //空实
     private Switch box_swh_singleormore;//单多
-    private Switch box_swh_BoxTaskType;//普通中调
+//    private Switch box_swh_BoxTaskType;//普通中调
+
+    private Spinner box_sp_stype;//交接类型
+
+    private RadioButton box_rbtn_general;//普通箱
+    private TextView box_tv_general;//普通箱统计
+    private RadioButton box_rbtn_transfer;//中调箱
+    private TextView box_tv_transfer;//中调箱统计
+    private RadioButton box_rbtn_empty;//空箱
+    private TextView box_tv_empty;//空箱统计
+    private RadioButton box_rbtn_full;//实箱
+    private TextView box_tv_full;//实箱统计
+    private RadioButton box_rbtn_get;//收箱
+    private TextView box_tv_get;//收箱统计
+    private RadioButton box_rbtn_give;//送箱
+    private TextView box_tv_give;//送箱统计
+
+    private TextView box_tv_total;//操作统计
 
     private RadioButton  box_rbtn_moneyboxs;//款箱
     private RadioButton  box_rbtn_cardbox;//卡箱
     private RadioButton  box_rbtn_Voucher;//凭证
+
+    private TextView box_tv_moneyboxs;//款箱统计
+    private TextView box_tv_cardbox;//卡箱统计
+    private TextView box_tv_voucher;//凭证统计
 
     private Button box_btn_ent;//确认
     private Button box_btn_scan;//扫描
@@ -84,7 +108,10 @@ public class box extends ActionBarActivity {
     private BaseBoxDBSer baseBoxDBSer;
     private BaseBox baseBox;
 
+    private String radiobutton = "";
 
+
+    private FunkeyListener funkeyReceive; //功能键广播接收者
 
 
     @Override
@@ -102,10 +129,20 @@ public class box extends ActionBarActivity {
         }
         try {
             init();
+            KeyBroad();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void KeyBroad() {
+
+        funkeyReceive  = new FunkeyListener();
+        //代码注册功能键广播接收者
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.FUN_KEY");
+        registerReceiver(funkeyReceive, filter);
     }
 
     public void LoadData() throws ClassNotFoundException {
@@ -115,15 +152,32 @@ public class box extends ActionBarActivity {
 
         listView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
-
-        box_swh_TradeAction = (Switch)findViewById(R.id.box_swh_TradeAction);
-        box_swh_Status = (Switch)findViewById(R.id.box_swh_Status);
         box_swh_singleormore = (Switch)findViewById(R.id.box_swh_singleormore);
-        box_swh_BoxTaskType = (Switch)findViewById(R.id.box_swh_BoxTaskType);
+
+        box_sp_stype = (Spinner)findViewById(R.id.box_sp_stype);
+
+        box_rbtn_general = (RadioButton)findViewById(R.id.box_rbtn_general);
+        box_tv_general = (TextView)findViewById(R.id.box_tv_general);
+        box_rbtn_transfer = (RadioButton)findViewById(R.id.box_rbtn_transfer);
+        box_tv_transfer = (TextView)findViewById(R.id.box_tv_transfer);
+        box_rbtn_empty = (RadioButton)findViewById(R.id.box_rbtn_empty);
+        box_tv_empty = (TextView)findViewById(R.id.box_tv_empty);
+        box_rbtn_full = (RadioButton)findViewById(R.id.box_rbtn_full);
+        box_tv_full = (TextView)findViewById(R.id.box_tv_full);
+        box_rbtn_get = (RadioButton)findViewById(R.id.box_rbtn_get);
+        box_tv_get = (TextView)findViewById(R.id.box_tv_get);
+        box_rbtn_give = (RadioButton)findViewById(R.id.box_rbtn_give);
+        box_tv_give = (TextView)findViewById(R.id.box_tv_give);
+
+        box_tv_total = (TextView)findViewById(R.id.box_tv_total);
 
         box_rbtn_moneyboxs = (RadioButton)findViewById(R.id.box_rbtn_moneyboxs);
         box_rbtn_cardbox = (RadioButton)findViewById(R.id.box_rbtn_cardbox);
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
+
+        box_tv_moneyboxs = (TextView)findViewById(R.id.box_tv_moneyboxs);
+        box_tv_cardbox = (TextView)findViewById(R.id.box_tv_cardbox);
+        box_tv_voucher = (TextView)findViewById(R.id.box_tv_voucher);
 
         box_btn_ent = (Button)findViewById(R.id.box_btn_ent);
         box_btn_scan = (Button)findViewById(R.id.box_btn_scan);
@@ -132,6 +186,24 @@ public class box extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
+//        String[] m={"A型","B型","O型","AB型","其他"};
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
+//
+//        box_sp_stype.setAdapter(adapter);
+//
+//       box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//           @Override
+//           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//               Toast.makeText(getApplicationContext(),
+//                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
+//           }
+//
+//           @Override
+//           public void onNothingSelected(AdapterView<?> parent) {
+//
+//           }
+//       });
 
 
         Bundle bundle = this.getIntent().getExtras();
@@ -156,6 +228,7 @@ public class box extends ActionBarActivity {
             }
         }
         adapterbox(yltaskboxList);
+        TallyBox(yltaskboxList);//统计数据
     }
 
     private void adapterbox(List<Box> adapterboxlist){
@@ -175,6 +248,7 @@ public class box extends ActionBarActivity {
         //启动服务
         Intent start = new Intent(box.this, Scan1DService.class);
         box.this.startService(start);
+
     }
 
     /**
@@ -249,26 +323,28 @@ public class box extends ActionBarActivity {
         }
         return dest;
     }
-    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-    public void ScanOnClick (View view ) throws ClassNotFoundException{
+
+    public void ScanOnClick (View view ) throws ClassNotFoundException {
+        if(CheckRadioButton()){
+            Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
+            return;}
         sendCmd();
-//        if (!box_swh_singleormore.isChecked()){
-//            sendCmd();   //发送指令到服务
-//        }else {
-//            singleThreadExecutor.execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    while (box_swh_singleormore.isChecked()) {
-//                        try {
-//                            sendCmd();   //发送指令到服务
-//                            Thread.sleep(500);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            });
-//        }
+    }
+
+    private boolean CheckRadioButton() {
+
+        if (!box_rbtn_general.isChecked()&!box_rbtn_transfer.isChecked()){
+            radiobutton = "类型未选";
+            return true;}
+        if (!box_rbtn_empty.isChecked()&!box_rbtn_full.isChecked()){
+            radiobutton = "空实未选";
+            return true;}
+        if (!box_rbtn_get.isChecked()&!box_rbtn_give.isChecked()){
+            radiobutton = "收送未选";}
+        if (!box_rbtn_moneyboxs.isChecked()&!box_rbtn_cardbox.isChecked()&!box_rbtn_Voucher.isChecked()){
+            radiobutton = "箱类未选";
+            return true;}
+        return false;
     }
 
     public void NoLableIns(View view){
@@ -393,6 +469,9 @@ public class box extends ActionBarActivity {
             }
         }
     }
+/*
+扫描数据录入
+ */
 
     private void PutDatatoListView(String boxnumber,String boxcount){
         baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
@@ -420,7 +499,57 @@ public class box extends ActionBarActivity {
         //String mediavoice = "/system/media/audio/ui/VideoRecord.ogg";
         //媒体播放
         YLBoxMediaPlay("success");
+
+            TallyBox(ScanboxList);//统计数据
         scrollMyListViewToBottom();
+    }
+
+    private void TallyBox(List<Box> boxList) {
+        String until = "个";
+        int general = 0;
+        int transfer = 0;
+        int emptybox = 0;
+        int fullbox = 0;
+        int getbox = 0;
+        int givebox = 0;
+        int moneybox = 0;
+        int cardbox = 0;
+        int voucher =0;
+        int total = 0;
+        for (Box box :boxList){
+         if (box.getTradeAction().equals("收")){
+             getbox++;}else{
+             givebox++;
+         }
+            if (box.getBoxStatus().equals("空")){
+                emptybox++;
+            }else {
+                fullbox++;
+            }
+            if (box.getBoxTaskType().equals("普")){
+                general++;
+            }else {
+                transfer++;
+            }
+            if (box.getBoxType().equals("款箱")){
+                moneybox++;
+            }else if (box.getBoxType().equals("卡箱")){
+                cardbox++;
+            }else {
+                voucher++;
+            }
+        }
+        total = moneybox+cardbox+voucher;
+        box_tv_general.setText(general+until);
+        box_tv_transfer.setText(transfer+until);
+        box_tv_empty.setText(emptybox+until);
+        box_tv_full.setText(fullbox+until);
+        box_tv_get.setText(getbox+until);
+        box_tv_give.setText(givebox+until);
+        box_tv_moneyboxs.setText(moneybox+until);
+        box_tv_cardbox.setText(cardbox+until);
+        box_tv_voucher.setText(voucher+until);
+        box_tv_total.setText("总数:"+total+until);
     }
 
     private void scrollMyListViewToBottom() {
@@ -455,19 +584,19 @@ public class box extends ActionBarActivity {
     private String GetBoxStuat(String getboxstuat ){
         String boxstuat = "";
         if (getboxstuat.equals("g")){
-        if (box_swh_TradeAction.isChecked()){
+        if (box_rbtn_give.isChecked()){
             boxstuat = "送";
         }else {
             boxstuat = "收";
         }}
         else if (getboxstuat.equals("f")){
-        if (box_swh_Status.isChecked()){
+        if (box_rbtn_full.isChecked()){
             boxstuat ="实";
         }else {
             boxstuat ="空";
         }}
         else if (getboxstuat.equals("t")){
-            if (box_swh_BoxTaskType.isChecked()){
+            if (box_rbtn_transfer.isChecked()){
                 boxstuat ="中";
             }else{
                 boxstuat ="普";
@@ -490,16 +619,23 @@ public class box extends ActionBarActivity {
      */
     private void sendCmd() {
         // 给服务发送广播，内容为ylescort.ylmobileandroid.box
+
+        String scan = box_btn_scan.getText().toString().toString();
+
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
         ac.putExtra("activity", activity);
         sendBroadcast(ac);
         Log.e(TAG, "send broadcast");
 
-        if (box_swh_singleormore.isChecked()){
+        if (box_swh_singleormore.isChecked()&scan.equals("扫描")){
             cmd = "toscan100ms";
-        }else {
+            box_btn_scan.setText("停止");
+        }else if(scan.equals("扫描")) {
             cmd = "scan";
+        }else if (scan.equals("停止")){
+            cmd = "stopscan";
+            box_btn_scan.setText("扫描");
         }
         //cmd = "scan";
         Intent sendToservice = new Intent(box.this, Scan1DService.class); // 用于发送指令
@@ -523,6 +659,38 @@ public class box extends ActionBarActivity {
             finish();
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private class FunkeyListener extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean defaultdown=false;
+            int keycode = intent.getIntExtra("keycode", 0);
+            boolean keydown = intent.getBooleanExtra("keydown", defaultdown);
+            Log.i("ServiceDemo", "receiver:keycode="+keycode+"keydown="+keydown);
+
+            //左侧下按键
+            if(keycode == 133 && keydown){
+                sendCmd();
+            }
+            //右侧按键
+            if(keycode == 134 && keydown){
+                sendCmd();
+            }
+
+            if(keycode == 131 && keydown){
+//	        	Toast.makeText(getApplicationContext(), "这是F1按键", 0).show();
+                sendCmd();
+            }
+
+            if(keycode == 132 && keydown){
+//	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
+                sendCmd();
+            }
+
+        }
+
     }
 
     @Override

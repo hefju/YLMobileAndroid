@@ -59,42 +59,167 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:id="@+id/box_LL_listview"
         android:layout_below="@+id/box_LL_title">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxlistview"></ListView>
+            android:id="@+id/boxlistview">
+
+            </ListView>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="180dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/box_LL_switch"
         android:layout_below="@+id/box_LL_listview"
         android:orientation="vertical">
-        <Switch
+       <RadioGroup
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           >
+           <RadioButton
+               android:layout_width="80sp"
+               android:layout_height="wrap_content"
+               android:id= "@+id/box_rbtn_general"
+               android:text="@string/box_tv_general"
+               android:checked="true"
+               android:visibility="invisible"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/box_tv_general"
+               android:text="@string/box_tv_amount"
+               android:visibility="invisible"/>
+           <RadioButton
+               android:layout_width="80sp"
+               android:layout_height="wrap_content"
+               android:id="@+id/box_rbtn_transfer"
+               android:text="@string/box_tv_transfer"
+               android:visibility="invisible"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/box_tv_transfer"
+               android:text="@string/box_tv_amount"
+               android:visibility="invisible"/>
+           </RadioGroup>
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/box_swh_BoxTaskType"
-            android:text="普/中"
-            android:textOn="中"
-            android:textOff="普"/>
-        <Switch
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="80sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_get"
+                android:text="@string/box_tv_get"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_get"
+                android:text="@string/box_tv_amount"/>
+            <RadioButton
+                android:layout_width="80sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_give"
+                android:text="@string/box_tv_give"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_give"
+                android:text="@string/box_tv_amount"/>
+        </RadioGroup>
+
+
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/box_swh_Status"
-            android:text="@string/boxitem_Status"
-            android:textOn="实"
-            android:textOff="空"/>
-        <Switch
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="80sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_empty"
+                android:text="@string/box_tv_empty"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_empty"
+                android:text="@string/box_tv_amount"/>
+            <RadioButton
+                android:layout_width="80sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_full"
+                android:text="@string/box_tv_full"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_full"
+                android:text="@string/box_tv_amount"/>
+            </RadioGroup>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/box_LL_radiobutton"
+        android:orientation="horizontal"
+        android:layout_below="@+id/box_LL_switch">
+        <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/box_swh_TradeAction"
-            android:text="@string/boxitem_TradeAction"
-            android:textOn="送"
-            android:textOff="收"/>
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="65sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_moneyboxs"
+                android:text="@string/boxitem_monenybox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_moneyboxs"
+                android:text="@string/box_tv_amount"/>
+            <RadioButton
+                android:layout_width="65sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_cardbox"
+                android:text="@string/boxitem_cardbox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_cardbox"
+                android:text="@string/box_tv_amount"/>
+            <RadioButton
+                android:layout_width="65sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_Voucher"
+                android:text="@string/boxitem_Voucherbox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_voucher"
+                android:text="@string/box_tv_amount"/>
+        </RadioGroup>
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/box_count"
+    android:layout_below="@+id/box_LL_radiobutton">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/box_tv_total"
+        android:text="@string/box_tv_total"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/box_read"
+        android:layout_below="@+id/box_count">
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -103,41 +228,19 @@
             android:textOn="多"
             android:textOff="单"
             android:checked="true"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/box_LL_radiobutton"
-        android:orientation="vertical"
-        android:layout_toRightOf="@+id/box_LL_switch"
-        android:layout_below="@+id/box_LL_listview">
-        <RadioGroup
+        <Spinner
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_moneyboxs"
-                android:text="@string/boxitem_monenybox"
-                android:checked="true"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_cardbox"
-                android:text="@string/boxitem_cardbox"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_Voucher"
-                android:text="@string/boxitem_Voucherbox"/>
-        </RadioGroup>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/box_sp_stype"
+            android:spinnerMode="dialog"
+            android:visibility="invisible">
 
-
+            </Spinner>
+        </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/box_LL_switch">
+        android:layout_below="@+id/box_read">
         <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"

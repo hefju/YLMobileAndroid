@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.app.Application;
+import android.content.Context;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
@@ -12,10 +13,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.EmpDBSer;
 import YLDataService.TaskDBSer;
+import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
 import YLSystem.YLSystem;
@@ -25,6 +28,8 @@ import YLWebService.YLWebService;
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>
  */
 public class ApplicationTest extends ApplicationTestCase<Application> {
+    private Context applicationContext;
+
     public ApplicationTest() { super(Application.class); }
 
     private static final String TAG = "YLtest";
@@ -96,10 +101,17 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         manager.readerPowerOn();
 
     }
+    private TasksManager tasksManager = null;//任务管理类
 
-    public void testDeltask(){
-
+    public void testDeltask() {
+        tasksManager = new TasksManager();
+        tasksManager.TaskDate = "2015-03-12";
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+        tasksManagerDBSer.DeleteTasksManager(tasksManager);
     }
 
 
+    public Context getApplicationContext() {
+        return applicationContext;
+    }
 }

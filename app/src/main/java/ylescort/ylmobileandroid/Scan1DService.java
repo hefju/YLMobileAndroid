@@ -143,10 +143,15 @@ public class Scan1DService extends Service {
                         }
                     }
                     mSerialPort.scaner_trigon();  //触发读卡
-
                 }
-            }, 0, 400);
-
+            }, 0, 500);
+        }else if ("stopscan".equals(cmd_arr)){
+            if(timeout != null){
+                timeout.cancel();
+            }
+            scan100ms.cancel();   //取消Timer任务
+            run_scan100ms = false;
+            mSerialPort.scaner_trigoff();  //关红外读头
         }
         return 0;
     }

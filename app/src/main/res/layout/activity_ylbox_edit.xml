@@ -70,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_sw_tasktype"
+            android:visibility="invisible"
             android:text="普/中"
             android:textOn="中"
             android:textOff="普"/>

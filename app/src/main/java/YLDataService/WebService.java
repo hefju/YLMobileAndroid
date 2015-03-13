@@ -495,8 +495,8 @@ public class WebService {
 
                     User user=YLSystem.getUser();
                     //测试数据
-                    user.DeviceID = "NH008";
-                    user.TaskDate = "2014-08-07";
+                    user.DeviceID = YLSystem.getUser().getDeviceID();
+                    user.TaskDate = "2015-03-12";
 
                     Gson gson = new Gson();
                     //设置POST请求中的参数
