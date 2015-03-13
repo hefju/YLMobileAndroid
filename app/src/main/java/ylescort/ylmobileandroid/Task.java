@@ -243,10 +243,18 @@ public class Task extends ActionBarActivity {
                 }
             }
 
-            for (YLTask l:lstlocal){
-                if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null)
-                    l.setTaskState("已删除");
+            //删除客户端有,服务器端没有的任务.  如果不要"已删除"状态, 这个方法就不是这样写了.
+            int max=lstlocal.size();
+            for (int i=max-1;i>=0;i--){
+                YLTask l=lstlocal.get(i);
+                if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null){
+                    lstlocal.remove(i);
+                }
             }
+//            for (YLTask l:lstlocal){
+//                if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null)
+//                    l.setTaskState("已删除");
+//            }
         }
     }
 
