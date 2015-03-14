@@ -186,7 +186,9 @@ public class YLBoxEdit extends ActionBarActivity {
         boxList = new ArrayList<>();
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
-        boxListEdi =ylTask.getLstBox();
+        //boxListEdi =ylTask.getLstBox();
+        boxListEdi =YLSystem.getEdiboxList();
+
         Bundle bundle = this.getIntent().getExtras();
         currSiteID = bundle.getString("siteid");
 
@@ -237,7 +239,8 @@ public class YLBoxEdit extends ActionBarActivity {
                     box = boxList.get(i);
                     boxListEdi.add(box);
                 }
-                ylTask.setLstBox(boxListEdi);
+                //ylTask.setLstBox(boxListEdi);
+                YLSystem.setEdiboxList(boxListEdi);
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
             }

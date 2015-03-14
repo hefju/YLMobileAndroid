@@ -54,8 +54,6 @@ public class box extends ActionBarActivity {
     private TextView box_tv_titel;
     private ListView listView;
     private String cmd = "scan";
-    private List<Map<String, Object>> mlist;
-    //用于保存扫描次数
     private FileOutputStream fos;
     private MyBroadcast myBroad;  //广播接收者
     private String activity = "ylescort.ylmobileandroid.box";
@@ -70,10 +68,10 @@ public class box extends ActionBarActivity {
 
     private Spinner box_sp_stype;//交接类型
 
-    private RadioButton box_rbtn_general;//普通箱
-    private TextView box_tv_general;//普通箱统计
-    private RadioButton box_rbtn_transfer;//中调箱
-    private TextView box_tv_transfer;//中调箱统计
+//    private RadioButton box_rbtn_general;//普通箱
+//    private TextView box_tv_general;//普通箱统计
+//    private RadioButton box_rbtn_transfer;//中调箱
+//    private TextView box_tv_transfer;//中调箱统计
     private RadioButton box_rbtn_empty;//空箱
     private TextView box_tv_empty;//空箱统计
     private RadioButton box_rbtn_full;//实箱
@@ -123,10 +121,6 @@ public class box extends ActionBarActivity {
 
         try {
             LoadData();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
             init();
             KeyBroad();
         } catch (Exception e) {
@@ -155,10 +149,10 @@ public class box extends ActionBarActivity {
 
         box_sp_stype = (Spinner)findViewById(R.id.box_sp_stype);
 
-        box_rbtn_general = (RadioButton)findViewById(R.id.box_rbtn_general);
-        box_tv_general = (TextView)findViewById(R.id.box_tv_general);
-        box_rbtn_transfer = (RadioButton)findViewById(R.id.box_rbtn_transfer);
-        box_tv_transfer = (TextView)findViewById(R.id.box_tv_transfer);
+//        box_rbtn_general = (RadioButton)findViewById(R.id.box_rbtn_general);
+//        box_tv_general = (TextView)findViewById(R.id.box_tv_general);
+//        box_rbtn_transfer = (RadioButton)findViewById(R.id.box_rbtn_transfer);
+//        box_tv_transfer = (TextView)findViewById(R.id.box_tv_transfer);
         box_rbtn_empty = (RadioButton)findViewById(R.id.box_rbtn_empty);
         box_tv_empty = (TextView)findViewById(R.id.box_tv_empty);
         box_rbtn_full = (RadioButton)findViewById(R.id.box_rbtn_full);
@@ -185,7 +179,7 @@ public class box extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
-        String[] m={"早送","晚收","人行","库内中调","夜间中调"};
+        String[] m={"早送","晚收","区内中调","跨区中调","库内区内中调","库内跨区中调","夜间周转","人行"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -196,8 +190,8 @@ public class box extends ActionBarActivity {
        box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               Toast.makeText(getApplicationContext(),
-                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
+//               Toast.makeText(getApplicationContext(),
+//                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
            }
 
            @Override
@@ -333,9 +327,9 @@ public class box extends ActionBarActivity {
 
     private boolean CheckRadioButton() {
 
-        if (!box_rbtn_general.isChecked()&!box_rbtn_transfer.isChecked()){
-            radiobutton = "类型未选";
-            return true;}
+//        if (!box_rbtn_general.isChecked()&!box_rbtn_transfer.isChecked()){
+//            radiobutton = "类型未选";
+//            return true;}
         if (!box_rbtn_empty.isChecked()&!box_rbtn_full.isChecked()){
             radiobutton = "空实未选";
             return true;}
@@ -388,6 +382,7 @@ public class box extends ActionBarActivity {
                 box = ScanboxList.get(i);
                 ylTask.lstBox.add(box);
             }
+            YLSystem.setEdiboxList(new ArrayList<Box>());
 
             arriveTime.setTradeEnd(GetCurrTime());
             arriveTime.setTradeState("1");
@@ -426,6 +421,8 @@ public class box extends ActionBarActivity {
 
                 ScanboxList = new ArrayList<Box>();
                 adapterbox(ScanboxList);
+
+                YLSystem.setEdiboxList(ScanboxList);
 
                 dialog.dismiss();
             }
@@ -501,11 +498,13 @@ public class box extends ActionBarActivity {
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
         listView.setAdapter(ylBoxAdapter);
-        //String mediavoice = "/system/media/audio/ui/VideoRecord.ogg";
-        //媒体播放
+
         YLBoxMediaPlay("success");
 
-            TallyBox(ScanboxList);//统计数据
+        TallyBox(ScanboxList);//统计数据
+
+        YLSystem.setEdiboxList(ScanboxList);
+
         scrollMyListViewToBottom();
     }
 
@@ -545,8 +544,8 @@ public class box extends ActionBarActivity {
             }
         }
         total = moneybox+cardbox+voucher;
-        box_tv_general.setText(general+until);
-        box_tv_transfer.setText(transfer+until);
+//        box_tv_general.setText(general+until);
+//        box_tv_transfer.setText(transfer+until);
         box_tv_empty.setText(emptybox+until);
         box_tv_full.setText(fullbox+until);
         box_tv_get.setText(getbox+until);
@@ -598,13 +597,13 @@ public class box extends ActionBarActivity {
         }else {
             boxstuat ="空";
         }}
-        else if (getboxstuat.equals("t")){
-            if (box_rbtn_transfer.isChecked()){
-                boxstuat ="中";
-            }else{
-                boxstuat ="普";
-            }
-        }
+//        else if (getboxstuat.equals("t")){
+//            if (box_rbtn_transfer.isChecked()){
+//                boxstuat ="中";
+//            }else{
+//                boxstuat ="普";
+//            }
+//        }
         else if (getboxstuat.equals("s")){
         if (box_rbtn_cardbox.isChecked()){
             boxstuat ="卡箱";
@@ -743,8 +742,9 @@ public class box extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-        DisPlayBoxListView(box_tv_titel.getTag().toString());
+        //DisPlayBoxListView(box_tv_titel.getTag().toString());
         //adapterbox(ylTask.getLstBox());
+        adapterbox(YLSystem.getEdiboxList());
         super.onPostResume();
     }
 }

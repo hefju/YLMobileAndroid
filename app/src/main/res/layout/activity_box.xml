@@ -76,37 +76,25 @@
         android:id="@+id/box_LL_switch"
         android:layout_below="@+id/box_LL_listview"
         android:orientation="vertical">
-       <RadioGroup
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           >
-           <RadioButton
-               android:layout_width="80sp"
-               android:layout_height="wrap_content"
-               android:id= "@+id/box_rbtn_general"
-               android:text="@string/box_tv_general"
-               android:checked="true"
-               android:visibility="invisible"/>
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/box_tv_general"
-               android:text="@string/box_tv_amount"
-               android:visibility="invisible"/>
-           <RadioButton
-               android:layout_width="80sp"
-               android:layout_height="wrap_content"
-               android:id="@+id/box_rbtn_transfer"
-               android:text="@string/box_tv_transfer"
-               android:visibility="invisible"/>
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:id="@+id/box_tv_transfer"
-               android:text="@string/box_tv_amount"
-               android:visibility="invisible"/>
-           </RadioGroup>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="交接类型"
+        android:textSize="20sp"/>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="30sp"
+        android:id="@+id/box_sp_stype"
+        android:background="@color/abc_search_url_text_normal"
+        android:minHeight="30sp"
+        android:spinnerMode="dialog">
+    </Spinner>
+
+    </LinearLayout>
+
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -228,14 +216,6 @@
             android:textOn="多"
             android:textOff="单"
             android:checked="true"/>
-        <Spinner
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_sp_stype"
-            android:background="@color/abc_search_url_text_normal"
-            android:minHeight="30sp"
-            android:spinnerMode="dialog">
-        </Spinner>
         </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

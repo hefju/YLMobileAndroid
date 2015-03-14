@@ -157,7 +157,7 @@ public class Login extends ActionBarActivity {
                                         YLSystem.setUser(getjsonuser);
 
                                         Intent intent = new Intent();
-                                        intent.setClass(Login.this, YLBoxOperate.class);
+                                        intent.setClass(Login.this, Task.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putString("AName","Kim");
                                         intent.putExtras(bundle);
@@ -171,7 +171,6 @@ public class Login extends ActionBarActivity {
                                         YLBoxMediaPlay("faile");
                                         mh.sendEmptyMessage(0);
                                     }
-
                                 }
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
