@@ -185,24 +185,26 @@ public class box extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
-//        String[] m={"A型","B型","O型","AB型","其他"};
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
-//
-//        box_sp_stype.setAdapter(adapter);
-//
-//       box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//           @Override
-//           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//               Toast.makeText(getApplicationContext(),
-//                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
-//           }
-//
-//           @Override
-//           public void onNothingSelected(AdapterView<?> parent) {
-//
-//           }
-//       });
+        String[] m={"早送","晚收","人行","库内中调","夜间中调"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        box_sp_stype.setAdapter(adapter);
+        box_sp_stype.setPrompt("交接类型");
+
+       box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               Toast.makeText(getApplicationContext(),
+                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
+           }
+
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
+
+           }
+       });
 
 
         Bundle bundle = this.getIntent().getExtras();
@@ -291,7 +293,6 @@ public class box extends ActionBarActivity {
             if(mPlayer.isPlaying()){
                 return;
             }
-            mPlayer.start();
         }else {
         try {
             mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
@@ -310,7 +311,7 @@ public class box extends ActionBarActivity {
             e.printStackTrace();
         }
         }
-        mPlayer.start();
+        //mPlayer.start();
     }
 
     public  String replaceBlank(String str) {
@@ -581,19 +582,6 @@ public class box extends ActionBarActivity {
             }
         }
         return checkthebox;
-
-//        for (int i = 0 ; i< ScanboxList.size();i++){
-//            String boxid = ScanboxList.get(i).BoxID;
-//            if (boxid.equals(boxnumber) &!boxid.equals("无标签")){
-//                if (boxnumber.length()!=10){
-//                    checkthebox = true;
-//                    return checkthebox ;}
-//                checkthebox = true;
-//                break;
-//            }else {
-//                checkthebox = false;
-//            }
-//        }
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -639,7 +627,7 @@ public class box extends ActionBarActivity {
             Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
             return;}
 
-        String scan = box_btn_scan.getText().toString().toString();
+        String scan = box_btn_scan.getText().toString();
 
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");

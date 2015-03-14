@@ -93,7 +93,7 @@ public class Login extends ActionBarActivity {
 临时清除数据
  **/
                 tasksManager = new TasksManager();
-                tasksManager.TaskDate = "2015-03-12";
+                tasksManager.TaskDate = "2015-03-13";
                 TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
                 tasksManagerDBSer.DeleteTasksManager(tasksManager);
                 YLSystem.setTasksManager(tasksManager);
@@ -157,7 +157,7 @@ public class Login extends ActionBarActivity {
                                         YLSystem.setUser(getjsonuser);
 
                                         Intent intent = new Intent();
-                                        intent.setClass(Login.this, Task.class);
+                                        intent.setClass(Login.this, YLBoxOperate.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putString("AName","Kim");
                                         intent.putExtras(bundle);
@@ -367,7 +367,6 @@ public class Login extends ActionBarActivity {
             if(mPlayer.isPlaying()){
                 return;
             }
-            mPlayer.start();
         }else {
             try {
                 mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
@@ -386,7 +385,7 @@ public class Login extends ActionBarActivity {
                 e.printStackTrace();
             }
         }
-        mPlayer.start();
+        //mPlayer.start();
     }
 
     @Override

@@ -11,7 +11,7 @@
         android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:textSize="28dp" />
 
     <EditText
@@ -22,7 +22,7 @@
         android:id="@+id/txt_setup_Pwd"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textAlignment="center" />
 
     <Button

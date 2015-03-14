@@ -146,9 +146,9 @@ public class Scan1DService extends Service {
                 }
             }, 0, 500);
         }else if ("stopscan".equals(cmd_arr)){
-            if(timeout != null){
-                timeout.cancel();
-            }
+//            if(timeout != null){
+//                timeout.cancel();
+//            }
             scan100ms.cancel();   //取消Timer任务
             run_scan100ms = false;
             mSerialPort.scaner_trigoff();  //关红外读头

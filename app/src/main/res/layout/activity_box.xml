@@ -59,7 +59,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="100dp"
         android:id="@+id/box_LL_listview"
         android:layout_below="@+id/box_LL_title">
         <ListView
@@ -232,10 +232,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/box_sp_stype"
-            android:spinnerMode="dialog"
-            android:visibility="invisible">
-
-            </Spinner>
+            android:background="@color/abc_search_url_text_normal"
+            android:minHeight="30sp"
+            android:spinnerMode="dialog">
+        </Spinner>
         </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -259,6 +259,7 @@
             android:text="到达"
             android:onClick="boxlistent"
             android:id="@+id/box_btn_ent"/>
+
     </LinearLayout>
 
 </RelativeLayout>

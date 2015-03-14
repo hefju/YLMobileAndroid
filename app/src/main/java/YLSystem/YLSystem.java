@@ -12,7 +12,10 @@ import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
+import TaskClass.BaseBox;
+import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import YLDataService.WebService;
@@ -26,6 +29,15 @@ public class YLSystem {
     private static TasksManager tasksManager;//任务管理类
     private static User user; //登录到系统的用户
     private static String appversion;//软件版本号
+    private static List<Box> ediboxList;//编辑中的箱数组
+
+    public static List<Box> getEdiboxList() {
+        return ediboxList;
+    }
+
+    public static void setEdiboxList(List<Box> ediboxList) {
+        YLSystem.ediboxList = ediboxList;
+    }
 
     //endregion
 
