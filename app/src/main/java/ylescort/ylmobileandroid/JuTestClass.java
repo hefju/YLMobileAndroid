@@ -23,10 +23,12 @@ public class JuTestClass {
 //      int taskNum=  tasksManager.lstLatestTask.size();
 //        Toast.makeText(ctx.getApplicationContext(),"任务数量:"+taskNum, Toast.LENGTH_SHORT).show();
 
-        tasksManager.TaskDate="2015-02-28";//"2014-08-07";
-        TasksManagerDBSer dbSer=new TasksManagerDBSer(ctx);
-        dbSer.DeleteTasksManager(tasksManager);
-        Toast.makeText(ctx.getApplicationContext(),"删除任务:"+tasksManager.TaskDate, Toast.LENGTH_SHORT).show();
+//        tasksManager.TaskDate="2015-02-28";//"2014-08-07";
+//        TasksManagerDBSer dbSer=new TasksManagerDBSer(ctx);
+//        dbSer.DeleteTasksManager(tasksManager);
+//        Toast.makeText(ctx.getApplicationContext(),"删除任务:"+tasksManager.TaskDate, Toast.LENGTH_SHORT).show();
+//
+
 //        Intent intent=new Intent();
 //        intent.setClass(ctx, CacheDataView.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -68,28 +68,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Logic_LL_Operbtn">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnTest1"
-        android:visibility="invisible"
-        android:text="清数据"
-        />
-    <Button
+
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnTest2"
         android:text="巨测试2"
         android:visibility="invisible"
-        android:layout_marginTop="49dp" />
+        android:layout_marginTop="50dp" />
 
-    <Button
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="翀测试1"
         android:visibility="invisible"
         android:id="@+id/button2"
         android:onClick="chongtest" />
+
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="50sp"
+            android:layout_marginTop="90sp"
+            android:id="@+id/btnTest1"
+            android:text="版本更新"
+            />
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

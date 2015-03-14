@@ -49,6 +49,7 @@ import YLDataService.EmpDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLSystem.YLSystem;
 import TaskClass.User;
+import YLWebService.UpdateManager;
 
 
 public class Login extends ActionBarActivity {
@@ -92,11 +93,14 @@ public class Login extends ActionBarActivity {
 /**
 临时清除数据
  **/
-                tasksManager = new TasksManager();
-                tasksManager.TaskDate = "2015-03-13";
-                TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-                tasksManagerDBSer.DeleteTasksManager(tasksManager);
-                YLSystem.setTasksManager(tasksManager);
+//                tasksManager = new TasksManager();
+//                tasksManager.TaskDate = "2015-03-13";
+//                TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+//                tasksManagerDBSer.DeleteTasksManager(tasksManager);
+//                YLSystem.setTasksManager(tasksManager);
+
+                UpdateManager um=new UpdateManager(Login.this);
+                um.check();
             }
         });
         btnju2.setOnClickListener(new View.OnClickListener() {
