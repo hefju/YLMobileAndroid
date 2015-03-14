@@ -110,6 +110,7 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_sp_tasktype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (boxList.size()<1)return;
                 Box box = boxList.get(listpostion);
                 box.setBoxTaskType(parent.getItemAtPosition(position).toString());
                 boxList.set(listpostion,box);

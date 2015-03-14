@@ -72,6 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnTest1"
+        android:visibility="invisible"
         android:text="清数据"
         />
     <Button

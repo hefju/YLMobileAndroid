@@ -181,14 +181,6 @@ public class box extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
-//        String[] m={"早送","晚收","区内中调","跨区中调","库内区内中调","库内跨区中调","夜间周转","人行"};
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//        box_sp_stype.setAdapter(adapter);
-//        box_sp_stype.setPrompt("交接类型");
-
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tasktype
                 ,android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -197,8 +189,6 @@ public class box extends ActionBarActivity {
        box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//               Toast.makeText(getApplicationContext(),
-//                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
                box_sp_text = parent.getItemAtPosition(position).toString();
            }
 
@@ -319,7 +309,7 @@ public class box extends ActionBarActivity {
             e.printStackTrace();
         }
         }
-        //mPlayer.start();
+        mPlayer.start();
     }
 
     public  String replaceBlank(String str) {
@@ -383,39 +373,7 @@ public class box extends ActionBarActivity {
     public void boxlistent(View view){
         String Entbtn =  box_btn_ent.getText().toString();
         if (Entbtn.equals("确定")){
-            for (int i = 0 ;i<ylTask.lstSite.size();i++){
-                if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
-                    ylTask.lstSite.get(i).setStatus("已完成");
-                }
-            }
-            if (ylTask.lstBox== null){
-                ylTask.lstBox = new ArrayList<>();
-            }
-            for (int i = 0 ;i < ScanboxList.size();i++){
-                Box box = new Box();
-                box = ScanboxList.get(i);
-                ylTask.lstBox.add(box);
-            }
-            YLSystem.setEdiboxList(new ArrayList<Box>());
-
-            arriveTime.setTradeEnd(GetCurrTime());
-            arriveTime.setTradeState("1");
-
-            for (int i = 0 ; i < ylTask.lstSite.size();i++){
-                if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
-                    Site site = ylTask.lstSite.get(i);
-                    List<ArriveTime> getArrTiemList =  site.getLstArriveTime();
-                    if (getArrTiemList == null){
-                        getArrTiemList = new ArrayList<>();
-                        getArrTiemList.add(arriveTime);
-                    }else {
-                        getArrTiemList.add(arriveTime);
-                    }
-                    site.setLstArriveTime(getArrTiemList);
-                    ylTask.lstSite.set(i,site);
-                }
-            }
-            this.finish();
+            dialog2();
         }else{
             dialog();
         }
@@ -452,6 +410,64 @@ public class box extends ActionBarActivity {
         });
         builder.create().show();
     }
+
+    protected void dialog2() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(box.this);
+        builder.setMessage("确认完成吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                for (int i = 0 ;i<ylTask.lstSite.size();i++){
+                    if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
+                        ylTask.lstSite.get(i).setStatus("已完成");
+                    }
+                }
+                if (ylTask.lstBox== null){
+                    ylTask.lstBox = new ArrayList<>();
+                }
+                for (int i = 0 ;i < ScanboxList.size();i++){
+                    Box box = new Box();
+                    box = ScanboxList.get(i);
+                    ylTask.lstBox.add(box);
+                }
+                YLSystem.setEdiboxList(new ArrayList<Box>());
+
+                arriveTime.setTradeEnd(GetCurrTime());
+                arriveTime.setTradeState("1");
+
+                for (int i = 0 ; i < ylTask.lstSite.size();i++){
+                    if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
+                        Site site = ylTask.lstSite.get(i);
+                        List<ArriveTime> getArrTiemList =  site.getLstArriveTime();
+                        if (getArrTiemList == null){
+                            getArrTiemList = new ArrayList<>();
+                            getArrTiemList.add(arriveTime);
+                        }else {
+                            getArrTiemList.add(arriveTime);
+                        }
+                        site.setLstArriveTime(getArrTiemList);
+                        ylTask.lstSite.set(i,site);
+                    }
+                }
+                box.this.finish();
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
+    }
+
+
 
     private String GetCurrTime(){
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

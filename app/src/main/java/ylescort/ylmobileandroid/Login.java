@@ -384,7 +384,7 @@ public class Login extends ActionBarActivity {
                 e.printStackTrace();
             }
         }
-        //mPlayer.start();
+        mPlayer.start();
     }
 
     @Override
