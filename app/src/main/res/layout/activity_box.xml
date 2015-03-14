@@ -12,56 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/box_tv_title"
-        android:text="标题"/>
+        android:text="标题"
+        android:textSize="25sp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/box_LL_title"
-        android:layout_below="@+id/box_tv_title"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_order"
-            android:text="@string/boxitem_order" />
-        <TextView
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_Boxid"
-            android:text="@string/boxitem_Boxid"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_TradeAction"
-            android:text="@string/boxitem_TradeAction"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_Status"
-            android:text="@string/boxitem_Status"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_type"
-            android:text="@string/boxitem_type"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_tasktype"
-            android:text="@string/boxitem_tasktype"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_tv_count"
-            android:text="@string/boxitem_count"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:id="@+id/box_LL_listview"
-        android:layout_below="@+id/box_LL_title">
+        android:layout_below="@+id/box_tv_title">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +35,7 @@
         android:layout_below="@+id/box_LL_listview"
         android:orientation="vertical">
 <LinearLayout
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
@@ -96,61 +54,70 @@
     </LinearLayout>
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RadioButton
-                android:layout_width="80sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_get"
-                android:text="@string/box_tv_get"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_get"
+                android:text="@string/box_tv_get"
+                android:textSize="30sp"/>
+            <TextView
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
                 android:id="@+id/box_tv_get"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="20sp"/>
             <RadioButton
-                android:layout_width="80sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_give"
-                android:text="@string/box_tv_give"/>
+                android:text="@string/box_tv_give"
+                android:textSize="30sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_give"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="20sp"/>
         </RadioGroup>
 
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="15sp">
             <RadioButton
-                android:layout_width="80sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_empty"
-                android:text="@string/box_tv_empty"/>
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_empty"
+                android:text="@string/box_tv_empty"
+                android:textSize="30sp"/>
+            <TextView
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
                 android:id="@+id/box_tv_empty"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="20sp"/>
             <RadioButton
-                android:layout_width="80sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_full"
-                android:text="@string/box_tv_full"/>
+                android:text="@string/box_tv_full"
+                android:textSize="30sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_full"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="20sp"/>
             </RadioGroup>
 
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/box_LL_radiobutton"
         android:orientation="horizontal"
@@ -158,37 +125,44 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="15sp">
             <RadioButton
-                android:layout_width="65sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_moneyboxs"
-                android:text="@string/boxitem_monenybox"/>
+                android:text="@string/boxitem_monenybox"
+                android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_moneyboxs"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
             <RadioButton
-                android:layout_width="65sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_cardbox"
-                android:text="@string/boxitem_cardbox"/>
+                android:text="@string/boxitem_cardbox"
+                android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_cardbox"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
             <RadioButton
-                android:layout_width="65sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_Voucher"
-                android:text="@string/boxitem_Voucherbox"/>
+                android:text="@string/boxitem_Voucherbox"
+                android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_voucher"
-                android:text="@string/box_tv_amount"/>
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
         </RadioGroup>
     </LinearLayout>
 <LinearLayout
@@ -200,27 +174,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/box_tv_total"
-        android:text="@string/box_tv_total"/>
+        android:text="@string/box_tv_total"
+        android:textSize="20sp"/>
+    <Switch
+        android:layout_width="20sp"
+        android:layout_height="10sp"
+        android:id="@+id/box_swh_singleormore"
+        android:visibility="invisible"
+        android:text="单/多"
+        android:textOn="多"
+        android:textOff="单"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/box_read"
-        android:layout_below="@+id/box_count">
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/box_swh_singleormore"
-            android:text="单/多"
-            android:textOn="多"
-            android:textOff="单"
-            android:checked="true"/>
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/box_read">
+        android:layout_below="@+id/box_count"
+        android:layout_marginTop="15sp">
         <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"

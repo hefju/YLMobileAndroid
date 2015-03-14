@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tasktype">
+        <item>早送</item>
+        <item>晚收</item>
+        <item>区内中调</item>
+        <item>跨区中调</item>
+        <item>库内区内中调</item>
+        <item>库内跨区中调</item>
+        <item>夜间周转</item>
+        <item>人行</item>
+    </string-array>
+</resources>

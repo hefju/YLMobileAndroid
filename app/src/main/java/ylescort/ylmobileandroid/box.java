@@ -110,6 +110,8 @@ public class box extends ActionBarActivity {
 
     private FunkeyListener funkeyReceive; //功能键广播接收者
 
+    private String box_sp_text ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,19 +181,25 @@ public class box extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
-        String[] m={"早送","晚收","区内中调","跨区中调","库内区内中调","库内跨区中调","夜间周转","人行"};
+//        String[] m={"早送","晚收","区内中调","跨区中调","库内区内中调","库内跨区中调","夜间周转","人行"};
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//        box_sp_stype.setAdapter(adapter);
+//        box_sp_stype.setPrompt("交接类型");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,m);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        box_sp_stype.setAdapter(adapter);
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tasktype
+                ,android.R.layout.simple_spinner_item);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        box_sp_stype.setAdapter(arrayAdapter);
         box_sp_stype.setPrompt("交接类型");
-
        box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
            @Override
            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //               Toast.makeText(getApplicationContext(),
 //                       parent.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
+               box_sp_text = parent.getItemAtPosition(position).toString();
            }
 
            @Override
@@ -200,6 +208,12 @@ public class box extends ActionBarActivity {
            }
        });
 
+        String tasktype = ylTask.getTaskType();
+        if (tasktype.equals("早送")){
+            box_sp_stype.setSelection(0);
+        }else {
+            box_sp_stype.setSelection(1);
+        }
 
         Bundle bundle = this.getIntent().getExtras();
         String SiteName = bundle.getString("sitename");
@@ -491,7 +505,7 @@ public class box extends ActionBarActivity {
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
-        box.setBoxTaskType(GetBoxStuat("t"));
+        box.setBoxTaskType(box_sp_text);
         box.setBoxCount(boxcount);
         box.setTimeID(arriveTime.getTimeID());
         box.setActionTime(GetCurrTime());
@@ -522,25 +536,25 @@ public class box extends ActionBarActivity {
         int total = 0;
         for (Box box :boxList){
          if (box.getTradeAction().equals("收")){
-             getbox++;}else{
-             givebox++;
+             getbox +=Integer.parseInt(box.getBoxCount()) ;}else{
+             givebox+=Integer.parseInt(box.getBoxCount());
          }
             if (box.getBoxStatus().equals("空")){
-                emptybox++;
+                emptybox+=Integer.parseInt(box.getBoxCount());
             }else {
-                fullbox++;
+                fullbox+=Integer.parseInt(box.getBoxCount());
             }
             if (box.getBoxTaskType().equals("普")){
-                general++;
+                general+=Integer.parseInt(box.getBoxCount());
             }else {
-                transfer++;
+                transfer+=Integer.parseInt(box.getBoxCount());
             }
             if (box.getBoxType().equals("款箱")){
-                moneybox++;
+                moneybox+=Integer.parseInt(box.getBoxCount());
             }else if (box.getBoxType().equals("卡箱")){
-                cardbox++;
+                cardbox+=Integer.parseInt(box.getBoxCount());
             }else {
-                voucher++;
+                voucher+=Integer.parseInt(box.getBoxCount());
             }
         }
         total = moneybox+cardbox+voucher;
@@ -550,9 +564,9 @@ public class box extends ActionBarActivity {
         box_tv_full.setText(fullbox+until);
         box_tv_get.setText(getbox+until);
         box_tv_give.setText(givebox+until);
-        box_tv_moneyboxs.setText(moneybox+until);
-        box_tv_cardbox.setText(cardbox+until);
-        box_tv_voucher.setText(voucher+until);
+        box_tv_moneyboxs.setText(moneybox+"");
+        box_tv_cardbox.setText(cardbox+"");
+        box_tv_voucher.setText(voucher+"");
         box_tv_total.setText("总数:"+total+until);
     }
 

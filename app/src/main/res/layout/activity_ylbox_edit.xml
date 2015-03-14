@@ -11,49 +11,41 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/boxedi_rtl_title">
-        <TextView
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_order"
-            android:text="@string/boxitem_order"/>
-        <TextView
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_Number"
-            android:text="@string/boxitem_Boxid"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_gog"
-            android:text="@string/boxitem_TradeAction"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_eof"
-            android:text="@string/boxitem_Status"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_stype"
-            android:text="@string/boxitem_type"/>
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_taskstype"
-            android:text="@string/boxitem_tasktype"/>
+        android:id="@+id/boxedi_ll_title">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxedi_count"
-            android:text="@string/boxitem_count"/>
+            android:text="序号"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="箱名"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收/送"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="空/实"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="箱型"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="交接类型"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="数量"/>
         </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="250dp"
         android:id="@+id/boxedi_rtl_boxlistview"
-        android:layout_below="@+id/boxedi_rtl_title"
-        >
+        android:layout_below="@+id/boxedi_ll_title">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,14 +58,24 @@
         android:id="@+id/boxedi_rtl_EdiGourp"
         android:orientation="vertical"
         android:layout_below="@+id/boxedi_rtl_boxlistview">
-        <Switch
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxedi_sw_tasktype"
-            android:visibility="invisible"
-            android:text="普/中"
-            android:textOn="中"
-            android:textOff="普"/>
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="类型:  "
+                android:textSize="20sp"/>
+            <Spinner
+                android:layout_width="90sp"
+                android:layout_height="30sp"
+                android:id="@+id/boxedi_sp_tasktype"
+                android:spinnerMode="dialog"
+                android:background="@color/abc_search_url_text_normal"
+                android:minHeight="30sp">
+                </Spinner>
+            </LinearLayout>
         <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
