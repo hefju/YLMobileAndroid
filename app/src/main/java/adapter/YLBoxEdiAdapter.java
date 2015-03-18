@@ -1,6 +1,7 @@
 package adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,19 @@ public class YLBoxEdiAdapter extends BaseAdapter {
     private List<Box> boxList;
     private  int resource;
     private LayoutInflater inflater;
+    private int selectItem = 0;
     public YLBoxEdiAdapter(Context context,List<Box> boxList,int resource){
         this.boxList = boxList;
         this.resource = resource;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public int getSelectItem() {
+        return selectItem;
+    }
+
+    public void setSelectItem(int selectItem) {
+        this.selectItem = selectItem;
     }
 
     @Override
@@ -87,6 +97,12 @@ public class YLBoxEdiAdapter extends BaseAdapter {
         ylboxType.setText(box.BoxType);
         ylboxcount.setText(box.BoxCount);
         ylboxTaskType.setText(box.BoxTaskType);
+        if(position == selectItem){
+            convertView.setBackgroundColor(Color.CYAN);
+        } else {
+            convertView.setBackgroundColor(Color.TRANSPARENT);
+        }
+
 
         return convertView;
     }

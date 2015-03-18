@@ -72,14 +72,6 @@
             android:name=".chongTest3"
             android:label="@string/title_activity_chong__test" >
         </activity>
-        <activity
-            android:name=".YLBoxScan"
-            android:label="@string/title_activity_ylbox_scan" >
-        </activity>
-        <activity
-            android:name=".YLBoxOperate"
-            android:label="@string/title_activity_ylbox_operate" >
-        </activity>
     </application>
 
 </manifest>

@@ -62,6 +62,7 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = (Box)listView.getItemAtPosition(position);
                 listpostion = position;
                 EditBox(box);
+                ReLoadData();
             }
         });
         boxedi_sw_gog.setOnClickListener(new View.OnClickListener() {
@@ -252,6 +253,7 @@ public class YLBoxEdit extends ActionBarActivity {
 //        boxedi_listview.setSelection(listpostion);
 
         YLBoxEdiAdapter ylBoxEdiAdapter = new YLBoxEdiAdapter(this,boxList,R.layout.activity_boxedititem);
+        ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
         boxedi_listview.setSelection(listpostion);
     }
