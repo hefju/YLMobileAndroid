@@ -42,13 +42,13 @@ import YLSystem.YLSystem;
 
 /**
  * Created by Administrator on 2015/1/28.
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseClient
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseSite
- * http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseBox
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/Login
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetTask
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetTaskStie
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseEmp
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseClient
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseSite
+ * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseBox
  */
 public class WebService {
     public static String webserviceaddress = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/";
@@ -244,7 +244,7 @@ public class WebService {
     public static void GetBaseEmp(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url =LocalSetting.webserviceaddress+ "GetBaseEmp";//网址
+                String url =YLSystem.GetBaseUrl(ctx)+ "GetBaseEmp";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -305,7 +305,7 @@ public class WebService {
     public static void GetBaseClient(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url =LocalSetting.webserviceaddress+ "GetBaseClient";//网址
+                String url =YLSystem.GetBaseUrl(ctx)+ "GetBaseClient";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -366,7 +366,7 @@ public class WebService {
     public static void GetBaseSite(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url =LocalSetting.webserviceaddress+ "GetBaseSite";//网址
+                String url =YLSystem.GetBaseUrl(ctx)+ "GetBaseSite";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -427,7 +427,7 @@ public class WebService {
     public static void GetBaseBox(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {
         new Thread() {
             public void run() {
-                String url =LocalSetting.webserviceaddress+ "GetBaseBox";//网址
+                String url =YLSystem.GetBaseUrl(ctx)+ "GetBaseBox";//网址
                 HttpPost post = new HttpPost(url);
 //                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
 //                String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -490,7 +490,7 @@ public class WebService {
         new Thread() {
             public void run() {
                 try {
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    String url = YLSystem.GetBaseUrl(ctx)+"GetTask1";
                     HttpPost post = new HttpPost(url);
 
                     User user=YLSystem.getUser();
@@ -545,7 +545,7 @@ public class WebService {
         new Thread() {
             public void run() {
                 try {
-                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie";
+                    String url =  YLSystem.GetBaseUrl(ctx)+"GetTaskStie";
                     HttpPost post = new HttpPost(url);
 
                     User user=YLSystem.getUser();

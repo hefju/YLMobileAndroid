@@ -101,6 +101,13 @@ public class YLSystem {
         return isWifiActive(context);
     }
 
+    public static String GetBaseUrl(Context context)
+    {
+        isWifiActive(context);
+        return LocalSetting.webserviceaddress;
+    }
+
+
     public static String isWifiActive(Context icontext){
        Context context = icontext.getApplicationContext();
         ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
