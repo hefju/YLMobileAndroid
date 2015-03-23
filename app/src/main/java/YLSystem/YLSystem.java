@@ -18,6 +18,7 @@ import TaskClass.BaseBox;
 import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.User;
+import YLDataService.LocalSetting;
 import YLDataService.WebService;
 
 /**
@@ -101,20 +102,25 @@ public class YLSystem {
     }
 
     public static String isWifiActive(Context icontext){
-//        Context context = icontext.getApplicationContext();
-//        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo[] info;
-//        if (connectivity != null) {
-//            info = connectivity.getAllNetworkInfo();
-//            if (info != null) {
-//                for (int i = 0; i < info.length; i++) {
-//                    if (info[i].getTypeName().equals("WIFI") && info[i].isConnected()) {
-//                        return "1";
-//                    }
-//                }
-//            }
-//        }
-        return "1";// return "0";
+       Context context = icontext.getApplicationContext();
+        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+       NetworkInfo[] info;
+        if (connectivity != null) {
+            info = connectivity.getAllNetworkInfo();
+           if (info != null) {
+               for (int i = 0; i < info.length; i++) {
+                   if (info[i].getTypeName().equals("WIFI") && info[i].isConnected()) {
+                       //用wifi的时候自动改用内网访问。
+                       LocalSetting.webserviceaddress=LocalSetting.webserviceaddresstempLocal;
+                       return "1";
+                   }
+               }
+            }
+        }
+         //没有用wifi的时候自动转换成外网访问。。。
+         LocalSetting.webserviceaddress=LocalSetting.webserviceaddresstempWeb;
+         return "0";
+        // return "1";
     }
 
     public static String md5(String string) {
