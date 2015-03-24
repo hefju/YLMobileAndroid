@@ -12,6 +12,9 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import TaskClass.User;
+import YLSystem.YLSystem;
+
 /**
  * Created by Administrator on 2015/3/24.
  */
@@ -27,17 +30,22 @@ public class YLNetWorkStateService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-                Log.d(tag, "网络状态已经改变");
-                Toast.makeText(context,"网络状态已经改变",Toast.LENGTH_SHORT).show();
+//                Log.d(tag, "网络状态已经改变");
+//                Toast.makeText(context,"网络状态已经改变",Toast.LENGTH_SHORT).show();
                 connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
                 info = connectivityManager.getActiveNetworkInfo();
                 if(info != null && info.isAvailable()) {
                     String name = info.getTypeName();
-                    Log.d(tag, "当前网络名称：" + name);
-                    Toast.makeText(context,"当前网络名称"+ name,Toast.LENGTH_SHORT).show();
+                    if (name.equals("mobile")){
+                        YLSystem.setNetWorkState("0");
+                    }else {
+                        YLSystem.setNetWorkState("1");
+                    }
+//                    Log.d(tag, "当前网络名称：" + name);
+//                    Toast.makeText(context,"当前网络名称"+ name,Toast.LENGTH_SHORT).show();
                     //doSomething()
                 } else {
-                    Log.d(tag, "没有可用网络");
+//                    Log.d(tag, "没有可用网络");
                     Toast.makeText(context,"没有可用网络",Toast.LENGTH_SHORT).show();
                     //doSomething()
                 }

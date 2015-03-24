@@ -65,6 +65,10 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
+
+        /*
+        增加对网络接入判断
+         */
         Intent i=new Intent(getApplicationContext(),YLNetWorkStateService.class);
         startService(i);
 
@@ -155,7 +159,7 @@ public class Login extends ActionBarActivity {
                                     Log.d("jutest", content);//打印到logcat
                                     if (getjsonuser.getServerReturn().equals("1")){
 
-                                        getjsonuser.setISWIFI("1");
+                                        getjsonuser.setISWIFI(YLSystem.getNetWorkState());
                                         YLSystem.setUser(getjsonuser);
 
                                         Intent intent = new Intent();

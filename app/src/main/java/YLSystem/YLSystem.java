@@ -31,6 +31,15 @@ public class YLSystem {
     private static User user; //登录到系统的用户
     private static String appversion;//软件版本号
     private static List<Box> ediboxList;//编辑中的箱数组
+    private static String NetWorkState;//网络状态
+
+    public static String getNetWorkState() {
+        return NetWorkState;
+    }
+
+    public static void setNetWorkState(String netWorkState) {
+        NetWorkState = netWorkState;
+    }
 
     public static List<Box> getEdiboxList() {
         return ediboxList;
