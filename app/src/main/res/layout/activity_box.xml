@@ -177,11 +177,11 @@
         android:text="@string/box_tv_total"
         android:textSize="20sp"/>
     <Switch
-        android:layout_width="20sp"
-        android:layout_height="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/box_swh_singleormore"
-        android:visibility="invisible"
         android:text="单/多"
+        android:checked="true"
         android:textOn="多"
         android:textOff="单"/>
     </LinearLayout>

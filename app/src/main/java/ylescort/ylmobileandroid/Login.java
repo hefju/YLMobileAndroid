@@ -1,11 +1,9 @@
 package ylescort.ylmobileandroid;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -44,9 +41,6 @@ import java.util.concurrent.Executors;
 
 import TaskClass.TasksManager;
 import TaskClass.Vision;
-import TaskClass.YLTask;
-import YLDataService.EmpDBSer;
-import YLDataService.TasksManagerDBSer;
 import YLSystem.YLSystem;
 import TaskClass.User;
 import YLWebService.UpdateManager;
@@ -71,6 +65,9 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
+        Intent i=new Intent(getApplicationContext(),YLNetWorkStateService.class);
+        startService(i);
+
 
         try{
             manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
@@ -135,7 +132,8 @@ public class Login extends ActionBarActivity {
                         @Override
                         public void run() {
                             try {
-                                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/LoginByHF";//网址
+//                                String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/LoginByHF";//网址
+                                String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
                                 HttpPost post = new HttpPost(url);
                                 //添加数值到User类
 
@@ -167,12 +165,12 @@ public class Login extends ActionBarActivity {
                                         intent.putExtras(bundle);
                                         startActivity(intent);
                                         message= "登录成功";
-                                        YLBoxMediaPlay("success");
+                                        YLMediaPlay("success");
                                         mh.sendEmptyMessage(0);
                                     }
                                     else {
                                         message= "登录失败";
-                                        YLBoxMediaPlay("faile");
+                                        YLMediaPlay("faile");
                                         mh.sendEmptyMessage(0);
                                     }
                                 }
@@ -234,7 +232,10 @@ public class Login extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login1";//网址
+//                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login1";//网址
+
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
+
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
 
@@ -302,7 +303,10 @@ public class Login extends ActionBarActivity {
                     //添加数值到User类
                     User s1 = new User();
                     s1 = YLSystem.getUser();
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetVision";//网址
+                    //String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetVision";//网址
+
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetVision";
+
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -362,7 +366,7 @@ public class Login extends ActionBarActivity {
         return version;
     }
 
-    private void YLBoxMediaPlay(String mediavoice) {
+    private void YLMediaPlay(String mediavoice) {
         mPlayer = new MediaPlayer();
 
         if (mediavoice.equals("success")){
