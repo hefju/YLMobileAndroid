@@ -32,9 +32,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,29 +46,15 @@ import YLSystem.YLSystem;
 import adapter.YLBoxAdapter;
 
 
-public class box extends ActionBarActivity {
+public class YLBoxScan extends ActionBarActivity {
 
+    /**
+     * 款箱扫描控件
+     */
     private TextView box_tv_titel;
     private ListView listView;
-    private String cmd = "scan";
-    private FileOutputStream fos;
-    private MyBroadcast myBroad;  //广播接收者
-    private String activity = "ylescort.ylmobileandroid.box";
-    public String TAG = "MainActivity";  //Debug
-    private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
-    private boolean keyDownFlag = false;
-
-//    private Switch box_swh_TradeAction; //收送
-//    private Switch box_swh_Status; //空实
     private Switch box_swh_singleormore;//单多
-//    private Switch box_swh_BoxTaskType;//普通中调
-
     private Spinner box_sp_stype;//交接类型
-
-//    private RadioButton box_rbtn_general;//普通箱
-//    private TextView box_tv_general;//普通箱统计
-//    private RadioButton box_rbtn_transfer;//中调箱
-//    private TextView box_tv_transfer;//中调箱统计
     private RadioButton box_rbtn_empty;//空箱
     private TextView box_tv_empty;//空箱统计
     private RadioButton box_rbtn_full;//实箱
@@ -80,70 +63,62 @@ public class box extends ActionBarActivity {
     private TextView box_tv_get;//收箱统计
     private RadioButton box_rbtn_give;//送箱
     private TextView box_tv_give;//送箱统计
-
     private TextView box_tv_total;//操作统计
-
     private RadioButton  box_rbtn_moneyboxs;//款箱
     private RadioButton  box_rbtn_cardbox;//卡箱
     private RadioButton  box_rbtn_Voucher;//凭证
-
     private TextView box_tv_moneyboxs;//款箱统计
     private TextView box_tv_cardbox;//卡箱统计
     private TextView box_tv_voucher;//凭证统计
-
     private Button box_btn_ent;//确认
     private Button box_btn_scan;//扫描
     private Button box_btn_nonelable;//无标签
-
-    private List<Box> yltaskboxList;//内存内款数据
+    /**
+     * 红外扫描注册广播
+     */
+    private String cmd = "scan";
+    private FileOutputStream fos;
+    private MyBroadcast myBroad;  //广播接收者
+    private String activity = "ylescort.ylmobileandroid.box";
+    public String TAG = "MainActivity";  //Debug
+    private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
+    /**
+     * 热键广播
+     */
+    private boolean keyDownFlag = false;
+    private FunkeyListener funkeyReceive; //功能键广播接收者
+    /**
+     * 款箱处理数据
+     */
+    //private List<Box> yltaskboxList;//内存内款数据
     private List<Box> ScanboxList;//扫描数据
     private ArriveTime arriveTime;
-
-
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
-
     private BaseBoxDBSer baseBoxDBSer;
     private BaseBox baseBox;
-
     private String radiobutton = "";
-
-    private FunkeyListener funkeyReceive; //功能键广播接收者
-
     private String box_sp_text ;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
-        box.this.setTitle("款箱操作: "+YLSystem.getUser().getName());
+        YLBoxScan.this.setTitle("款箱操作: "+YLSystem.getUser().getName());
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
 
         try {
-            LoadData();
-            init();
-            KeyBroad();
+            GetYLBoxLayoutControl();//获取界面控件
+            LoadYLBoxBaseData();    //获取初始数据
+            YLBoxScaninit();        //初始化红外扫描
+            KeyBroad();             //初始化热键
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    private void KeyBroad() {
-
-        funkeyReceive  = new FunkeyListener();
-        //代码注册功能键广播接收者
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.FUN_KEY");
-        registerReceiver(funkeyReceive, filter);
-    }
-
-    public void LoadData() throws ClassNotFoundException {
-
-        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
-        baseBox = new BaseBox();
+    public void GetYLBoxLayoutControl() throws ClassNotFoundException {
 
         listView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
@@ -151,10 +126,6 @@ public class box extends ActionBarActivity {
 
         box_sp_stype = (Spinner)findViewById(R.id.box_sp_stype);
 
-//        box_rbtn_general = (RadioButton)findViewById(R.id.box_rbtn_general);
-//        box_tv_general = (TextView)findViewById(R.id.box_tv_general);
-//        box_rbtn_transfer = (RadioButton)findViewById(R.id.box_rbtn_transfer);
-//        box_tv_transfer = (TextView)findViewById(R.id.box_tv_transfer);
         box_rbtn_empty = (RadioButton)findViewById(R.id.box_rbtn_empty);
         box_tv_empty = (TextView)findViewById(R.id.box_tv_empty);
         box_rbtn_full = (RadioButton)findViewById(R.id.box_rbtn_full);
@@ -181,23 +152,38 @@ public class box extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
+    } //获取界面控件
+
+    private void LoadYLBoxBaseData() {
+
+        /**
+         * 基础数据
+         */
+        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
+        baseBox = new BaseBox();
+
+        /**
+         * 初始化多选项数据
+         */
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tasktype
                 ,android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         box_sp_stype.setAdapter(arrayAdapter);
         box_sp_stype.setPrompt("交接类型");
-       box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-           @Override
-           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               box_sp_text = parent.getItemAtPosition(position).toString();
-           }
+        box_sp_stype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                box_sp_text = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-           @Override
-           public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
-           }
-       });
-
+        /**
+         * 根据任务匹配多选项
+         */
         String tasktype = ylTask.getTaskType();
         if (tasktype.equals("早送")){
             box_sp_stype.setSelection(0);
@@ -205,24 +191,54 @@ public class box extends ActionBarActivity {
             box_sp_stype.setSelection(1);
         }
 
+        /**
+         * 获取网点传入数据并赋值标题
+         */
         Bundle bundle = this.getIntent().getExtras();
         String SiteName = bundle.getString("sitename");
         String SiteID = bundle.getString("siteid");
         box_tv_titel.setText(SiteName);
         box_tv_titel.setTag(SiteID);
 
+        /**
+         * 根据网点读取数据
+         */
         DisPlayBoxListView(SiteID);
 
-    }
+    } //获取初始数据
+
+    private void YLBoxScaninit(){
+        Log.e(TAG, "on start");
+        myBroad = new MyBroadcast();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ylescort.ylmobileandroid.box");
+        registerReceiver(myBroad, filter);
+        Log.e(TAG, "register Receiver");
+        //启动服务
+        Intent start = new Intent(YLBoxScan.this, Scan1DService.class);
+        YLBoxScan.this.startService(start);
+
+    } //初始化红外扫描
+
+    private void KeyBroad() {
+
+        funkeyReceive  = new FunkeyListener();
+        //代码注册功能键广播接收者
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.FUN_KEY");
+        registerReceiver(funkeyReceive, filter);
+    } //初始化热键
+
+
 
     private void DisPlayBoxListView(String siteID) {
-        yltaskboxList =new ArrayList<>();
+        List<Box> yltaskboxList =new ArrayList<>();
         if (ylTask.lstBox != null && ylTask.lstBox.size()>0){
             for (int i = 0 ; i < ylTask.lstBox.size();i++){
                 if (ylTask.lstBox.get(i).getSiteID().equals(siteID)){
-                    Box box = new Box();
-                    box = ylTask.lstBox.get(i);
-                    yltaskboxList.add(box);
+//                    Box box = new Box();
+//                    box = ylTask.lstBox.get(i);
+                    yltaskboxList.add(ylTask.lstBox.get(i));
                 }
             }
         }
@@ -237,19 +253,6 @@ public class box extends ActionBarActivity {
         }
     }
 
-    private void init(){
-       Log.e(TAG, "on start");
-        myBroad = new MyBroadcast();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("ylescort.ylmobileandroid.box");
-        registerReceiver(myBroad, filter);
-        Log.e(TAG, "register Receiver");
-        //启动服务
-        Intent start = new Intent(box.this, Scan1DService.class);
-        box.this.startService(start);
-
-    }
-
     /**
      *  广播接收者,接收服务发送过来的数据，并更新UI
      * @author Administrator
@@ -260,7 +263,7 @@ public class box extends ActionBarActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-                fos = box.this.openFileOutput("count.txt", Context.MODE_PRIVATE);
+                fos = YLBoxScan.this.openFileOutput("count.txt", Context.MODE_PRIVATE);
             } catch (FileNotFoundException e1) {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
@@ -279,15 +282,13 @@ public class box extends ActionBarActivity {
             }
 				//Selection.setSelection(receive_data.getEditableText(), 0);  //让光标保持在最前面
             }
-
-
     }
 
     private void YLBoxMediaPlay(String mediavoice) {
         mPlayer = new MediaPlayer();
 
         if (mediavoice.equals("success")){
-            mPlayer = MediaPlayer.create(box.this, R.raw.msg);
+            mPlayer = MediaPlayer.create(YLBoxScan.this, R.raw.msg);
             if(mPlayer.isPlaying()){
                 return;
             }
@@ -380,7 +381,7 @@ public class box extends ActionBarActivity {
     }
 
     protected void dialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(box.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
         builder.setMessage("确认到达吗?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
@@ -412,7 +413,7 @@ public class box extends ActionBarActivity {
     }
 
     protected void dialog2() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(box.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
         builder.setMessage("确认完成吗?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
@@ -450,8 +451,8 @@ public class box extends ActionBarActivity {
                         ylTask.lstSite.set(i,site);
                     }
                 }
-                box.this.finish();
                 dialog.dismiss();
+                YLBoxScan.this.finish();
             }
 
         });
@@ -464,8 +465,6 @@ public class box extends ActionBarActivity {
         });
         builder.create().show();
     }
-
-
 
     private String GetCurrTime(){
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -498,9 +497,6 @@ public class box extends ActionBarActivity {
             }
         }
     }
-/*
-扫描数据录入
- */
 
     private void PutDatatoListView(String boxnumber,String boxcount){
 //        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
@@ -671,8 +667,7 @@ public class box extends ActionBarActivity {
             cmd = "stopscan";
             box_btn_scan.setText("扫描");
         }
-        //cmd = "scan";
-        Intent sendToservice = new Intent(box.this, Scan1DService.class); // 用于发送指令
+        Intent sendToservice = new Intent(YLBoxScan.this, Scan1DService.class); // 用于发送指令
         sendToservice.putExtra("cmd", cmd);
         this.startService(sendToservice); // 发送指令
     }
@@ -702,7 +697,7 @@ public class box extends ActionBarActivity {
             boolean defaultdown=false;
             int keycode = intent.getIntExtra("keycode", 0);
             boolean keydown = intent.getBooleanExtra("keydown", defaultdown);
-            Log.i("ServiceDemo", "receiver:keycode="+keycode+"keydown="+keydown);
+            //Log.i("ServiceDemo", "receiver:keycode="+keycode+"keydown="+keydown);
 
             //左侧下按键
             if(keycode == 133 && keydown){

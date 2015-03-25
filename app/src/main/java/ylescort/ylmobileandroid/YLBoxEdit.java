@@ -243,7 +243,6 @@ public class YLBoxEdit extends ActionBarActivity {
         ReLoadData();
     }
 
-
     private void ReLoadData(){
         if (boxList==null){
             return;
@@ -259,9 +258,7 @@ public class YLBoxEdit extends ActionBarActivity {
     }
 
     public void boxedi_ent(View view){
-
         dialog();
-
     }
 
     protected void dialog() {

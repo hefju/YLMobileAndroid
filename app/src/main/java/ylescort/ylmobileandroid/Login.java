@@ -66,12 +66,11 @@ public class Login extends ActionBarActivity {
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
 
-        /*
+        /**
         增加对网络接入判断
          */
         Intent i=new Intent(getApplicationContext(),YLNetWorkStateService.class);
         startService(i);
-
 
         try{
             manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
@@ -100,6 +99,7 @@ public class Login extends ActionBarActivity {
 //                tasksManagerDBSer.DeleteTasksManager(tasksManager);
 //                YLSystem.setTasksManager(tasksManager);
 
+                if (!YLSystem.getNetWorkState().equals("1"))return;
                 UpdateManager um=new UpdateManager(Login.this);
                 um.check();
             }

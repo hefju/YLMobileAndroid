@@ -19,6 +19,8 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
+import YLDataService.LocalSetting;
+
 
 /**
  * Android AutoUpdate.
@@ -40,7 +42,7 @@ public class UpdateManager {
     private String currentTempFilePath = "";
     private String fileEx = "";
     private String fileNa = "";
-    private String strURL = "http://58.252.75.149:8055/YLMobile.apk";
+    private String strURL = LocalSetting.webupdateappaddress;
 
     private static final String savePath = "/sdcard/updatedemo/";
     private static final String saveFileName = savePath + "YLMobile.apk";

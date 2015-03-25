@@ -3,14 +3,12 @@ package ylescort.ylmobileandroid;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -33,18 +31,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import TaskClass.ArriveTime;
-import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
-import YLDataService.SiteDBSer;
 import YLDataService.WebService;
 import YLSystem.YLSystem;
 import adapter.YLSiteAdapter;
@@ -137,7 +131,7 @@ public class YLSite extends ActionBarActivity {
 //        siteList.add(site);
 
         Intent intent = new Intent();
-        intent.setClass(this, box.class);
+        intent.setClass(this, YLBoxScan.class);
         Bundle bundle = new Bundle();
         bundle.putString("siteid",site.getSiteID());
         bundle.putString("sitename",site.getSiteName());
@@ -150,10 +144,7 @@ public class YLSite extends ActionBarActivity {
     public void YLSite_UpDate(View view){
 
         //ylTask.lstSite = siteList;
-
         dialog();
-
-
     }
 
     private void UpDataToService(YLTask t1, User s1, HttpPost post) throws JSONException, IOException {
