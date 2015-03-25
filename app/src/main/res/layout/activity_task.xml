@@ -41,72 +41,20 @@
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/LisViewLin"
-        android:layout_alignParentStart="true">
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="刷新"
-                    android:id="@+id/Task_btn_refresh"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Large Text"
-                    android:id="@+id/txt_Date_Task"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="32dp" />
-            </RelativeLayout>
-
-
-        </LinearLayout>
-
-
-
-
-        <CalendarView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/calendarViewTask"
-            android:layout_gravity="center_horizontal" />
-
-
-        <LinearLayout
-            android:id="@+id/pnlDownMenu_Task"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-            android:visibility="gone">
+        android:layout_below="@+id/LisViewLin">
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="120sp"
+            android:calendarViewShown="false"
+            android:id="@+id/yltask_datepicker">
+            </DatePicker>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消"
-            android:id="@+id/btnCancel_Task" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="下 载"
-            android:id="@+id/btnDownload_Task" />
+            android:layout_height="fill_parent"
+            android:id="@+id/Task_btn_refresh"
+            android:text="刷新"
+            android:textSize="20sp"/>
         </LinearLayout>
-    </LinearLayout>
-
-
 </RelativeLayout>

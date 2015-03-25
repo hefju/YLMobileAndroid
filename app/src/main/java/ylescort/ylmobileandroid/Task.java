@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,6 +45,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Handler;
@@ -72,7 +74,7 @@ public class Task extends ActionBarActivity {
     private LinearLayout pnlDownMenu_Task;
     private Button btnCancel_Task;  //从网上下载任务数据
     private Button btnDownload_Task;  //从网上下载任务数据
-
+    private DatePicker yltask_datepicker;//日期控件
 
     android.os.Handler mHandler; //消息处理
 
@@ -83,46 +85,46 @@ public class Task extends ActionBarActivity {
         setContentView(R.layout.activity_task);
         Task.this.setTitle("任务管理: "+YLSystem.getUser().getName());
         tasksManager=YLSystem.getTasksManager();//获取任务管理类
+        yltask_datepicker = (DatePicker)findViewById(R.id.yltask_datepicker);
+//        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);//显示当前日期
+//        calendarView=(CalendarView)findViewById(R.id.calendarViewTask);
+//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+//                month=month+1;
+//                txt_Date_Task.setText( "日期:"+year+"年"+month+"月"+dayOfMonth+"日");
+//                //txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
+////                Log.d("jutest","月:"+ String.valueOf(month));
+////                if(dayOfMonth==28){
+////                    Log.d("jutest","onSelectedDayChange:28");
+////                    calendarView.setVisibility(View.GONE);
+////                    pnlDownMenu_Task.setVisibility(View.VISIBLE);
+////                }
+//            }
+//        });
+//        Calendar cal = Calendar.getInstance();
+//        long now=cal.getTimeInMillis();
+//        cal.set(2000,1,1);
+//        long tmpTime=cal.getTimeInMillis();
+//        calendarView.setDate(tmpTime);
+//        calendarView.setDate(now);
 
-        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);//显示当前日期
-        calendarView=(CalendarView)findViewById(R.id.calendarViewTask);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                month=month+1;
-                txt_Date_Task.setText( "日期:"+year+"年"+month+"月"+dayOfMonth+"日");
-                //txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
-//                Log.d("jutest","月:"+ String.valueOf(month));
-//                if(dayOfMonth==28){
-//                    Log.d("jutest","onSelectedDayChange:28");
-//                    calendarView.setVisibility(View.GONE);
-//                    pnlDownMenu_Task.setVisibility(View.VISIBLE);
-//                }
-            }
-        });
-        Calendar cal = Calendar.getInstance();
-        long now=cal.getTimeInMillis();
-        cal.set(2000,1,1);
-        long tmpTime=cal.getTimeInMillis();
-        calendarView.setDate(tmpTime);
-        calendarView.setDate(now);
-
-        pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);//操作菜单
-        btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);//关闭操作菜单
-        btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);//下载任务
-        btnCancel_Task.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pnlDownMenu_Task.setVisibility(View.GONE);
-                calendarView.setVisibility(View.VISIBLE);
-            }
-        });
-        btnDownload_Task.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("jutest","btnDownload_Task:click");
-            }
-        });
+//        pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);//操作菜单
+//        btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);//关闭操作菜单
+//        btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);//下载任务
+//        btnCancel_Task.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pnlDownMenu_Task.setVisibility(View.GONE);
+//                calendarView.setVisibility(View.VISIBLE);
+//            }
+//        });
+//        btnDownload_Task.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("jutest","btnDownload_Task:click");
+//            }
+//        });
 
         //刷新按钮
         Task_btn_refresh =(Button)findViewById(R.id.Task_btn_refresh);//刷新任务列表
@@ -282,8 +284,13 @@ public class Task extends ActionBarActivity {
     }
 
     private  String GetCalendarViewTime(){
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        int year         = yltask_datepicker.getYear();
+        int monthOfYear  = yltask_datepicker.getMonth();
+        int dayOfMonth   = yltask_datepicker.getDayOfMonth();
+        calendar.set(year,monthOfYear,dayOfMonth);
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        String time=  format.format(calendarView.getDate());//用户选中的日期
+        String time=format.format(calendar.getTime());
         return  time;
     }
 
