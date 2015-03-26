@@ -184,6 +184,13 @@ public class WebService {
         return webcontent;
     }
 
+    private  static  void  SetLastUpdateTime(final Context ctx,String date)
+    {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor edit = settings.edit();
+        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+        edit.apply();
+    }
     public static  void CacheData(final Context ctx) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
@@ -205,13 +212,13 @@ public class WebService {
                     case 22:
 //                        content = (String) msg.obj;
 //                        servertime[0] =content;
-                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                        String date = sDateFormat.format(new java.util.Date());
-                        //测试不开
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
-                        SharedPreferences.Editor edit = settings.edit();
-                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
-                        edit.apply();
+//                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//                        String date = sDateFormat.format(new java.util.Date());
+//                        //测试不开
+//                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+//                        SharedPreferences.Editor edit = settings.edit();
+//                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+//                        edit.apply();
                         break;
                     case 100:
 ////                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -276,7 +283,7 @@ public class WebService {
                         String content = EntityUtils.toString(response.getEntity());
                         ListBaseEmp = gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
                         }.getType());
-                        Log.d("jutest", "GetBaseEmp:" + ListBaseEmp.size() + " 时间:" + timeLastUpdate);//打印到logcat
+                        Log.d("jutest", "GetBaseEmp:" + ListBaseEmp.size() + " timeLastUpdate:" + timeLastUpdate);//打印到logcat
 
                         Message msg =null;
                         if(mHandler!=null) {
@@ -292,9 +299,14 @@ public class WebService {
                             mHandler.sendMessage(msg);
 
                             if(ListBaseEmp.size()>0) {
-                                msg = mHandler.obtainMessage(22);
-                                msg.obj = ListBaseEmp.get(0).ServerTime;
-                                mHandler.sendMessage(msg);
+//                                msg = mHandler.obtainMessage(22);
+//                                msg.obj = ListBaseEmp.get(0).ServerTime;
+//                                mHandler.sendMessage(msg);
+                                if(ListBaseEmp.get(0).ServerReturn.equals("1")) {
+                                    Thread.sleep(2000);
+                                    SetLastUpdateTime(ctx, ListBaseEmp.get(0).ServerTime);
+                                    Log.d("jutest", "GetBaseEmp:时间:" + ListBaseEmp.get(0).ServerTime);
+                                }
                             }
                         }
                     }
@@ -303,6 +315,8 @@ public class WebService {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -353,9 +367,14 @@ public class WebService {
                             mHandler.sendMessage(msg);
 
                             if(ListBase.size()>0) {
-                                msg = mHandler.obtainMessage(22);
-                                msg.obj = ListBase.get(0).ServerTime;
-                                mHandler.sendMessage(msg);
+//                                msg = mHandler.obtainMessage(22);
+//                                msg.obj = ListBase.get(0).ServerTime;
+//                                mHandler.sendMessage(msg);
+                                if (ListBase.get(0).ServerReturn.equals("1")) {
+                                    Thread.sleep(2000);
+                                    SetLastUpdateTime(ctx, ListBase.get(0).ServerTime);
+                                    Log.d("jutest", "GetBaseClient:时间:" + ListBase.get(0).ServerTime);
+                                }
                             }
                         }
                     }
@@ -364,6 +383,8 @@ public class WebService {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -414,9 +435,14 @@ public class WebService {
                             mHandler.sendMessage(msg);
 
                             if(ListBase.size()>0) {
-                                msg = mHandler.obtainMessage(22);
-                                msg.obj = ListBase.get(0).ServerTime;
-                                mHandler.sendMessage(msg);
+//                                msg = mHandler.obtainMessage(22);
+//                                msg.obj = ListBase.get(0).ServerTime;
+//                                mHandler.sendMessage(msg);
+                                if (ListBase.get(0).ServerReturn.equals("1")) {
+                                    Thread.sleep(2000);
+                                    SetLastUpdateTime(ctx, ListBase.get(0).ServerTime);
+                                    Log.d("jutest", "GetBaseSite时间:" + ListBase.get(0).ServerTime);
+                                }
                             }
                         }
                     }
@@ -425,6 +451,8 @@ public class WebService {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -475,9 +503,14 @@ public class WebService {
                             mHandler.sendMessage(msg);
 
                             if(ListBase.size()>0) {
-                                msg = mHandler.obtainMessage(22);
-                                msg.obj = ListBase.get(0).ServerTime;
-                                mHandler.sendMessage(msg);
+//                                msg = mHandler.obtainMessage(22);
+//                                msg.obj = ListBase.get(0).ServerTime;
+//                                mHandler.sendMessage(msg);
+                                if (ListBase.get(0).ServerReturn.equals("1")) {
+                                    Thread.sleep(2000);
+                                    SetLastUpdateTime(ctx, ListBase.get(0).ServerTime);
+                                    Log.d("jutest", "GetBaseBox:时间:" + ListBase.get(0).ServerTime);//打印到logcat
+                                }
                             }
                         }
                     }
@@ -486,6 +519,8 @@ public class WebService {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
