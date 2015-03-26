@@ -203,18 +203,25 @@ public class WebService {
                         finish[0]++;
                         break;
                     case 22:
-                        content = (String) msg.obj;
-                        servertime[0] =content;
-                        break;
-                    case 100:
-//                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-//                        String date = sDateFormat.format(new java.util.Date());
-                        String date = servertime[0];
+//                        content = (String) msg.obj;
+//                        servertime[0] =content;
+                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        String date = sDateFormat.format(new java.util.Date());
                         //测试不开
                         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
                         SharedPreferences.Editor edit = settings.edit();
                         edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
                         edit.apply();
+                        break;
+                    case 100:
+////                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+////                        String date = sDateFormat.format(new java.util.Date());
+//                        String date = servertime[0];
+//                        //测试不开
+//                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(ctx);
+//                        SharedPreferences.Editor edit = settings.edit();
+//                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+//                        edit.apply();
                         break;
                 }
 
@@ -226,19 +233,19 @@ public class WebService {
         GetBaseClient( ctx, mHandler,  timeLastUpdate) ;
         GetBaseSite( ctx, mHandler,  timeLastUpdate) ;
         GetBaseBox( ctx, mHandler,  timeLastUpdate) ;
-        int count=0;
-        while (count<10){
-            try {
-                Thread.sleep(1000*5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (  finish[0] ==4  ){
-                Message msg = mHandler.obtainMessage(100);
-                mHandler.sendMessage(msg);
-                break;
-            }
-        }
+//        int count=0;
+//        while (count<10){
+//            try {
+//                Thread.sleep(1000*5);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            if (  finish[0] ==4  ){
+//                Message msg = mHandler.obtainMessage(100);
+//                mHandler.sendMessage(msg);
+//                break;
+//            }
+//        }
 
     }
     public static void GetBaseEmp(final Context ctx, final Handler mHandler,  final String timeLastUpdate) {

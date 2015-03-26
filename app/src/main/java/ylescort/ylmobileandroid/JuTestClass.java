@@ -53,11 +53,12 @@ public class JuTestClass {
 
     public  void goahead2(Context ctx){
 //        android.util.Log.d("jutest", "goahead2");
-        Intent intent = new Intent();
-        intent.setClass(ctx, SettingsActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ctx. startActivity(intent);
 
+//        Intent intent = new Intent();
+//        intent.setClass(ctx, SettingsActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        ctx. startActivity(intent);
+        WebService.CacheData(ctx);
 //        ContextWrapper wrapper=new ContextWrapper(ctx);
 //        SharedPreferences settings =  wrapper.getSharedPreferences("ju", wrapper.MODE_PRIVATE);
 //        SharedPreferences.Editor edit=settings.edit();
