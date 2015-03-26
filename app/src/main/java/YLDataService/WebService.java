@@ -51,7 +51,7 @@ import YLSystem.YLSystem;
  * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseBox
  */
 public class WebService {
-    public static String webserviceaddress = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/";
+    public static String webserviceaddress = "http://68.252.175.149:8059/YLMobileServiceAndroid.svc/";
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
