@@ -48,5 +48,6 @@ public class YLSQLHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("ALTER TABLE person ADD amount integer");
+        db.execSQL("ALTER TABLE TasksManager ADD EMPID varchar(50)");
     }
 }

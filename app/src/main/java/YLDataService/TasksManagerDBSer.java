@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import TaskClass.TasksManager;
+import YLSystem.YLSystem;
 
 /**
  * Created by rush on 2015-02-27.
@@ -22,7 +23,7 @@ import TaskClass.TasksManager;
 
     public TasksManager GetTasksManager(String TaskDate) {
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
-        Cursor cursor = sdb.rawQuery("SELECT * FROM TasksManager WHERE TaskDate = ?",new String[]{TaskDate});
+        Cursor cursor = sdb.rawQuery("SELECT * FROM TasksManager WHERE TaskDate = ? and EMPID=?",new String[]{TaskDate,YLSystem.getUser().getEmpID()});
         TasksManager tasksManager=null;
         while (cursor.moveToNext()){
             String content=cursor.getString(cursor.getColumnIndex("Data"));
@@ -43,8 +44,8 @@ import TaskClass.TasksManager;
         try {
             Gson gson = new Gson();
             String content=gson.toJson(tasksManager);
-                sdb.execSQL("INSERT INTO TasksManager(TaskDate , Data) VALUES (?,?)",
-                        new Object[]{tasksManager.TaskDate,content} );
+                sdb.execSQL("INSERT INTO TasksManager(TaskDate , Data,EMPID) VALUES (?,?,?)",
+                        new Object[]{tasksManager.TaskDate,content,YLSystem.getUser().getEmpID()} );
         }
         finally {
             sdb.setTransactionSuccessful();
