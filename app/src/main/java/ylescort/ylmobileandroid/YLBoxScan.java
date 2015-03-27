@@ -332,9 +332,6 @@ public class YLBoxScan extends ActionBarActivity {
 
     private boolean CheckRadioButton() {
 
-//        if (!box_rbtn_general.isChecked()&!box_rbtn_transfer.isChecked()){
-//            radiobutton = "类型未选";
-//            return true;}
         if (!box_rbtn_empty.isChecked()&!box_rbtn_full.isChecked()){
             radiobutton = "空实未选";
             return true;}
@@ -364,7 +361,6 @@ public class YLBoxScan extends ActionBarActivity {
                             Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
                         } else {
                             PutDatatoListView("无标签",input);
-                            //Toast.makeText(getApplicationContext(), input, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }).setNegativeButton("取消", null).show();

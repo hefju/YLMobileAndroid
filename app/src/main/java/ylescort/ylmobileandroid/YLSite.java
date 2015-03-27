@@ -114,7 +114,7 @@ public class YLSite extends ActionBarActivity {
 
         ListView listView1 = (ListView) parent;
         Site site = (Site) listView1.getItemAtPosition(position);
-        Toast.makeText(this, site.getSiteName(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, site.getSiteName(), Toast.LENGTH_SHORT).show();
 
 //        String time="19:10";
 //        ArriveTime arriveTime = new ArriveTime();
@@ -180,7 +180,7 @@ public class YLSite extends ActionBarActivity {
 
     protected void dialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLSite.this);
-        builder.setMessage("确认到达吗?");
+        builder.setMessage("确认上传吗?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
