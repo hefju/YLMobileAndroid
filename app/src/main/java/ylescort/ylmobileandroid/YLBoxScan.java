@@ -52,7 +52,7 @@ public class YLBoxScan extends ActionBarActivity {
      * 款箱扫描控件
      */
     private TextView box_tv_titel;
-    private ListView listView;
+    private ListView YLScanBoxlistView;
     private Switch box_swh_singleormore;//单多
     private Spinner box_sp_stype;//交接类型
     private RadioButton box_rbtn_empty;//空箱
@@ -100,6 +100,11 @@ public class YLBoxScan extends ActionBarActivity {
     private String radiobutton = "";
     private String box_sp_text ;
 
+
+    private YLBoxAdapter ylBoxAdapter;
+    private int listpostion;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +125,7 @@ public class YLBoxScan extends ActionBarActivity {
 
     public void GetYLBoxLayoutControl() throws ClassNotFoundException {
 
-        listView = (ListView) findViewById(R.id.boxlistview);
+        YLScanBoxlistView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
         box_swh_singleormore = (Switch)findViewById(R.id.box_swh_singleormore);
 
@@ -152,7 +157,167 @@ public class YLBoxScan extends ActionBarActivity {
         box_btn_scan.setEnabled(false);
         box_btn_nonelable.setEnabled(false);
 
+        YLScanBoxlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView) parent;
+                listpostion= position;
+                Box box = (Box) listView.getItemAtPosition(position);
+                PutBoxTolayout(box);
+            }
+        });
+
+        //YLBoxScanlayoutOnClick();
+
     } //获取界面控件
+
+    private String GetBoxScanStuat(String getboxstuat ){
+        String boxstuat = "";
+        if (getboxstuat.equals("g")){
+            if (box_rbtn_give .isChecked()){
+                boxstuat = "送";
+            }else {
+                boxstuat = "收";
+            }}
+        else if (getboxstuat.equals("f")){
+            if (box_rbtn_full.isChecked()){
+                boxstuat ="实";
+            }else {
+                boxstuat ="空";
+            }}
+        else if (getboxstuat.equals("s")){
+            if (box_rbtn_moneyboxs.isChecked()){
+                boxstuat ="款箱";
+            }else if (box_rbtn_cardbox.isChecked()){
+                boxstuat ="卡箱";
+            }else if (box_rbtn_Voucher.isChecked()){
+                boxstuat ="凭证";
+            }}
+        return boxstuat;
+    }
+
+
+    //界面空间点击事件
+    public void YLBoxScanlayoutOnClick(View view ) throws ClassNotFoundException {
+
+      if(ScanboxList == null || ScanboxList.size() ==0)return;
+        Box box = ScanboxList.get(listpostion);
+        box.setTradeAction(GetBoxScanStuat("g"));
+        box.setBoxStatus(GetBoxScanStuat("f"));
+        box.setBoxType(GetBoxScanStuat("s"));
+        ScanboxList.set(listpostion,box);
+        adapterbox(ScanboxList);
+
+        //ylBoxAdapter.notifyDataSetChanged();
+
+//        box_rbtn_get.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setTradeAction("收");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        box_rbtn_give.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setTradeAction("送");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        box_rbtn_full.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setBoxStatus("实");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        box_rbtn_empty.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setBoxStatus("空");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        box_rbtn_moneyboxs.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setBoxType("款箱");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        box_rbtn_cardbox.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setBoxType("卡箱");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+//
+//        box_rbtn_Voucher.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Box box = ScanboxList.get(listpostion);
+//                box.setBoxType("凭证");
+//                ScanboxList.set(listpostion,box);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+    }
+
+    //款箱属性数据加载至插件
+    private void PutBoxTolayout(Box box) {
+        if (box.getTradeAction().equals("收")){
+            box_rbtn_get.setChecked(true);
+        }else {
+            box_rbtn_give.setChecked(true);
+        }
+        if (box.getBoxStatus().equals("实")){
+            box_rbtn_full.setChecked(true);
+        }else {
+            box_rbtn_empty.setChecked(true);
+        }
+        if (box.getBoxType().equals("款箱")){
+            box_rbtn_moneyboxs.setChecked(true);
+        }else if (box.getBoxType().equals("卡箱")){
+            box_rbtn_cardbox.setChecked(true);
+        }else if (box.getBoxType().equals("凭证")){
+            box_rbtn_Voucher.setChecked(true);
+        }
+        if (box.getBoxTaskType().equals("早送")){
+            box_sp_stype.setSelection(0);
+        }else  if (box.getBoxTaskType().equals("晚收")){
+            box_sp_stype.setSelection(1);
+        }else  if (box.getBoxTaskType().equals("区内中调")){
+            box_sp_stype.setSelection(2);
+        }else  if (box.getBoxTaskType().equals("跨区中调")){
+            box_sp_stype.setSelection(3);
+        }else  if (box.getBoxTaskType().equals("库内区内中调")){
+            box_sp_stype.setSelection(4);
+        }else  if (box.getBoxTaskType().equals("库内跨区中调")){
+            box_sp_stype.setSelection(5);
+        }else  if (box.getBoxTaskType().equals("夜间周转")){
+            box_sp_stype.setSelection(6);
+        }else  if (box.getBoxTaskType().equals("人行")){
+            box_sp_stype.setSelection(7);
+        }
+    }
 
     private void LoadYLBoxBaseData() {
 
@@ -229,8 +394,6 @@ public class YLBoxScan extends ActionBarActivity {
         registerReceiver(funkeyReceive, filter);
     } //初始化热键
 
-
-
     private void DisPlayBoxListView(String siteID) {
         List<Box> yltaskboxList =new ArrayList<>();
         if (ylTask.lstBox != null && ylTask.lstBox.size()>0){
@@ -248,8 +411,9 @@ public class YLBoxScan extends ActionBarActivity {
 
     private void adapterbox(List<Box> adapterboxlist){
         if (adapterboxlist !=null){
-            YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
-            listView.setAdapter(ylBoxAdapter);
+            ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
+            YLScanBoxlistView.setAdapter(ylBoxAdapter);
+            YLScanBoxlistView.setSelection(listpostion);
         }
     }
 
@@ -462,6 +626,28 @@ public class YLBoxScan extends ActionBarActivity {
         builder.create().show();
     }
 
+    protected void dialog3() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
+        builder.setMessage("未完成确认退出吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                YLBoxScan.this.finish();
+            }
+
+        });
+
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
     private String GetCurrTime(){
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = sDateFormat.format(new java.util.Date());
@@ -471,7 +657,7 @@ public class YLBoxScan extends ActionBarActivity {
     private void AddArriveTime() {
         List<ArriveTime> arriveTimeList = new ArrayList<>();
         for (int i = 0 ; i < ylTask.lstSite.size();i++){
-            if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
+             if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
                 Site site = ylTask.lstSite.get(i);
                 arriveTimeList =  site.getLstArriveTime();
 
@@ -517,7 +703,7 @@ public class YLBoxScan extends ActionBarActivity {
         box.setActionTime(GetCurrTime());
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
-        listView.setAdapter(ylBoxAdapter);
+        YLScanBoxlistView.setAdapter(ylBoxAdapter);
 
         YLBoxMediaPlay("success");
 
@@ -577,11 +763,11 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void scrollMyListViewToBottom() {
-        listView.post(new Runnable() {
+        YLScanBoxlistView.post(new Runnable() {
             @Override
             public void run() {
                 // Select the last row so it will scroll into view...
-                listView.setSelection(ScanboxList.size() - 1);
+                YLScanBoxlistView.setSelection(ScanboxList.size() - 1);
             }
         });
     }
@@ -681,7 +867,13 @@ public class YLBoxScan extends ActionBarActivity {
         }
         if(keyCode  == KeyEvent.KEYCODE_BACK){
             Log.e(TAG, "KEY CODE BACK");
-            finish();
+            if (box_btn_ent.getText().equals("确定")){
+                dialog3();
+            }else{
+                finish();
+            }
+
+
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -713,7 +905,6 @@ public class YLBoxScan extends ActionBarActivity {
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
                 sendCmd();
             }
-
         }
 
     }
@@ -737,8 +928,10 @@ public class YLBoxScan extends ActionBarActivity {
             Intent intent = new Intent();
             intent.setClass(this, YLBoxEdit.class);
 
+            String box_btn_ent_text = box_btn_ent.getText().toString();
             Bundle bundle = new Bundle();
             bundle.putString("siteid",box_tv_titel.getTag().toString());
+            bundle.putString("box_btn_ent_text",box_btn_ent_text);
             intent.putExtras(bundle);
             startActivity(intent);
             return true;
@@ -755,7 +948,6 @@ public class YLBoxScan extends ActionBarActivity {
         stopService.putExtra("stopflag", true);
         sendBroadcast(stopService);  //给服务发送广播,令服务停止
         Log.e(TAG, "send stop");
-        unregisterReceiver(funkeyReceive);
         super.onDestroy();
     }
 
@@ -763,7 +955,18 @@ public class YLBoxScan extends ActionBarActivity {
     protected void onPostResume() {
         //DisPlayBoxListView(box_tv_titel.getTag().toString());
         //adapterbox(ylTask.getLstBox());
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.FUN_KEY");
+        registerReceiver(funkeyReceive, filter);
+
         adapterbox(YLSystem.getEdiboxList());
         super.onPostResume();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(funkeyReceive);
+        super.onStop();
     }
 }

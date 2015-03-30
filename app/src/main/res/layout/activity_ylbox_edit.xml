@@ -43,7 +43,7 @@
         </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:id="@+id/boxedi_rtl_boxlistview"
         android:layout_below="@+id/boxedi_ll_title">
         <ListView
@@ -52,14 +52,15 @@
             android:id="@+id/boxedi_listview">
             </ListView>
         </LinearLayout>
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/boxedi_rtl_EdiGourp"
         android:orientation="vertical"
         android:layout_below="@+id/boxedi_rtl_boxlistview">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
@@ -74,53 +75,114 @@
                 android:spinnerMode="dialog"
                 android:background="@color/abc_search_url_text_normal"
                 android:minHeight="30sp">
-                </Spinner>
-            </LinearLayout>
-        <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/boxedi_sw_gog"
-        android:text="@string/boxitem_TradeAction"
-        android:textOn="送"
-        android:textOff="收"/>
-        <Switch android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/boxedi_sw_eof"
-            android:text="@string/boxitem_Status"
-            android:textOn="实"
-            android:textOff="空"/>
+            </Spinner>
         </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/boxedi_rtl_RadioGourp"
-        android:layout_below="@+id/boxedi_rtl_boxlistview"
-        android:layout_toRightOf="@+id/boxedi_rtl_EdiGourp">
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_rbtn_get"
+                android:text="@string/box_tv_get"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_get"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_rbtn_give"
+                android:text="@string/box_tv_give"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_give"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
+        </RadioGroup>
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_rbtn_empty"
+                android:text="@string/box_tv_empty"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_empty"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_rbtn_full"
+                android:text="@string/box_tv_full"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_full"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
+        </RadioGroup>
+
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxedi_radioGroup">
+            android:orientation="horizontal">
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/boxedi_rb_money"
-                android:text="@string/boxitem_monenybox"/>
+                android:id="@+id/boxedi_rbtn_moneyboxs"
+                android:text="@string/boxitem_monenybox"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_moneyboxs"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/boxedi_rb_card"
-                android:text="@string/boxitem_cardbox"/>
+                android:id="@+id/boxedi_rbtn_cardbox"
+                android:text="@string/boxitem_cardbox"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_cardbox"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/boxedi_rb_Voucher"
-                android:text="@string/boxitem_Voucherbox"/>
+                android:id="@+id/boxedi_rbtn_Voucher"
+                android:text="@string/boxitem_Voucherbox"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_voucher"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
         </RadioGroup>
         </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/boxedi_rtl_RadioGourp"
+        android:layout_below="@+id/boxedi_rtl_EdiGourp"
         android:gravity="right">
         <Button
             android:layout_width="100dp"

@@ -69,6 +69,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/Logic_LL_Operbtn">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/log_tv_vision"
+            android:textSize="30sp"/>
+
         <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

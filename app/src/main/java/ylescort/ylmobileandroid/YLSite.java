@@ -108,6 +108,15 @@ public class YLSite extends ActionBarActivity {
                 super.handleMessage(msg);
             }
         };
+
+        //增加载入自动更新0330kim
+        if(ylTask.getTaskState()!="有更新") {
+            Toast.makeText(getApplicationContext(),"已经是最新.",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
+        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+
     }
 
     private void OpenBoxAct(ListView parent, int position) {

@@ -23,7 +23,9 @@
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxlistview">
+            android:id="@+id/boxlistview"
+            android:longClickable="false"
+            android:smoothScrollbar="false">
 
             </ListView>
     </LinearLayout>
@@ -62,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_get"
                 android:text="@string/box_tv_get"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
@@ -74,7 +77,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_give"
                 android:text="@string/box_tv_give"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +98,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_empty"
                 android:text="@string/box_tv_empty"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
@@ -106,7 +111,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_full"
                 android:text="@string/box_tv_full"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,7 +138,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_moneyboxs"
                 android:text="@string/boxitem_monenybox"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,7 +151,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_cardbox"
                 android:text="@string/boxitem_cardbox"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -156,7 +164,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_Voucher"
                 android:text="@string/boxitem_Voucherbox"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
     <color name="black_overlay">#66000000</color>
@@ -12,6 +13,7 @@
     <drawable name="gray">#808080ff</drawable>
     <drawable name="magenta">#ff6699ff</drawable>
     <drawable name="cyan">#66ffffff</drawable>
+    <drawable name="powderblue">#B0E0E6</drawable><!--粉蓝色 -->
 
     <color name="white">#FFFFFF</color><!--白色 -->
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
@@ -86,7 +88,6 @@
     <color name="mediumorchid">#BA55D3</color><!--中粉紫色 -->
     <color name="darkgoldenrod">#B8860B</color><!--暗金黄色 -->
     <color name="firebrick">#B22222</color><!--火砖色 -->
-    <color name="powderblue">#B0E0E6</color><!--粉蓝色 -->
     <color name="lightsteelblue">#B0C4DE</color><!--亮钢兰色 -->
     <color name="paleturquoise">#AFEEEE</color><!--苍宝石绿 -->
     <color name="greenyellow">#ADFF2F</color><!--黄绿色 -->

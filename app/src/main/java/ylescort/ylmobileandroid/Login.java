@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
@@ -54,6 +56,7 @@ public class Login extends ActionBarActivity {
 
     private EditText Log_Name;
     private EditText Log_PassWord;
+    private TextView log_tv_vision;
     private Button Log_BN_HF;
     private Button Log_BN_Cal;
     private String message;
@@ -70,6 +73,18 @@ public class Login extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         Log_Name = (EditText) findViewById(R.id.Log_ET_Name);
         Log_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
+        log_tv_vision = (TextView) findViewById(R.id.log_tv_vision);
+
+        try {
+
+            int b =  getResources().getColor(R.color.lightblue);//得到配置文件里的颜色
+            String ylvision = getVersionName();
+            //log_tv_vision.setTextColor(b);
+            log_tv_vision.setText(ylvision);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         /**
