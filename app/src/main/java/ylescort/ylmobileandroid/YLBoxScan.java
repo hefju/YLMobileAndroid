@@ -634,6 +634,7 @@ public class YLBoxScan extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                ScanboxList.clear();
                 YLBoxScan.this.finish();
             }
 
@@ -898,11 +899,13 @@ public class YLBoxScan extends ActionBarActivity {
 
             if(keycode == 131 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F1按键", 0).show();
+                box_rbtn_empty.setChecked(true);
                 sendCmd();
             }
 
             if(keycode == 132 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
+                box_rbtn_full.setChecked(true);
                 sendCmd();
             }
         }

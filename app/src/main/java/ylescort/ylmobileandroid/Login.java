@@ -77,10 +77,10 @@ public class Login extends ActionBarActivity {
 
         try {
 
-            int b =  getResources().getColor(R.color.lightblue);//得到配置文件里的颜色
+            int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
             String ylvision = getVersionName();
-            //log_tv_vision.setTextColor(b);
-            log_tv_vision.setText(ylvision);
+            log_tv_vision.setTextColor(b);
+            log_tv_vision.setText("版本号:"+ylvision);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,7 +172,6 @@ public class Login extends ActionBarActivity {
                 @Override
                 public void run() {
                     try {
-//                      String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/LoginByHF";//网址
                         String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
                         HttpPost post = new HttpPost(url);
                         //添加数值到User类

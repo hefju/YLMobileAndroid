@@ -183,7 +183,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/boxedi_rtl_EdiGourp"
-        android:gravity="right">
+        android:gravity="right"
+        android:layout_marginTop="20sp">
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"

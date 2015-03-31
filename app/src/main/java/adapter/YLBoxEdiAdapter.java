@@ -99,7 +99,7 @@ public class YLBoxEdiAdapter extends BaseAdapter {
         ylboxTaskType.setText(box.BoxTaskType);
 
         if(position == selectItem){
-            convertView.setBackgroundColor(R.color.lightblue);
+            convertView.setBackgroundColor(-5383962);
         } else {
             convertView.setBackgroundColor(Color.TRANSPARENT);
         }

@@ -105,13 +105,13 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private void RadioClick() {
 
+        if (boxList == null || boxList.size() ==0)return;
         boxedi_rbtn_get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Box box = boxList.get(listpostion);
                 box.setTradeAction(GetBoxStuat("g"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
@@ -122,7 +122,6 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxList.get(listpostion);
                 box.setTradeAction(GetBoxStuat("g"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
@@ -133,7 +132,6 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxList.get(listpostion);
                 box.setBoxStatus(GetBoxStuat("f"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
@@ -144,7 +142,6 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxList.get(listpostion);
                 box.setBoxStatus(GetBoxStuat("f"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
@@ -155,7 +152,6 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxList.get(listpostion);
                 box.setBoxType(GetBoxStuat("s"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
@@ -166,7 +162,6 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxList.get(listpostion);
                 box.setBoxType(GetBoxStuat("s"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
@@ -177,45 +172,9 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxList.get(listpostion);
                 box.setBoxType(GetBoxStuat("s"));
                 boxList.set(listpostion,box);
-                //ReLoadData();
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
-
-
-
-//        boxedi_sw_gog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //收/送
-//                Box box = boxList.get(listpostion);
-//                box.setTradeAction(GetBoxStuat("g"));
-//                boxList.set(listpostion,box);
-//                ReLoadData();
-//            }
-//        });
-//
-//        boxedi_sw_eof.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //空/实
-//                Box box = boxList.get(listpostion);
-//                box.setBoxStatus(GetBoxStuat("f"));
-//                boxList.set(listpostion,box);
-//                ReLoadData();
-//            }
-//        });
-//
-//        boxedi_radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                //箱类型
-//                Box box = boxList.get(listpostion);
-//                box.setBoxType(GetBoxStuat("s"));
-//                boxList.set(listpostion, box);
-//                ReLoadData();
-//            }
-//        });
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -258,27 +217,20 @@ public class YLBoxEdit extends ActionBarActivity {
         String boxtasktype = box.getBoxTaskType();
 
         if (boxtradaction.equals("收")){
-            //boxedi_sw_gog.setChecked(false);
             boxedi_rbtn_get.setChecked(true);
         }else {
-            //boxedi_sw_gog.setChecked(true);
             boxedi_rbtn_give.setChecked(true);
         }
         if (boxstatus.equals("空")){
-            //boxedi_sw_eof.setChecked(false);
             boxedi_rbtn_empty.setChecked(true);
         }else {
-            //boxedi_sw_eof.setChecked(true);
             boxedi_rbtn_full.setChecked(true);
         }
         if (boxtype.equals("款箱")){
-            //boxedi_rb_money.setChecked(true);
             boxedi_rbtn_moneyboxs.setChecked(true);
         }else if (boxtype.equals("卡箱")){
-            //boxedi_rb_card.setChecked(true);
             boxedi_rbtn_cardbox.setChecked(true);
         }else if (boxtype.equals("凭证")){
-            //boxedi_rb_Voucher.setChecked(true);
             boxedi_rbtn_Voucher.setChecked(true);
         }
         if (boxtasktype.equals("早送")){
@@ -322,15 +274,6 @@ public class YLBoxEdit extends ActionBarActivity {
          boxedi_tv_voucher = (TextView)findViewById(R.id.boxedi_tv_voucher);
 
 
-
-
-//        boxedi_sw_gog = (Switch)findViewById(R.id.boxedi_sw_gog);
-//        boxedi_sw_eof = (Switch)findViewById(R.id.boxedi_sw_eof);
-//        boxedi_rb_money = (RadioButton)findViewById(R.id.boxedi_rb_money);
-//        boxedi_rb_card = (RadioButton)findViewById(R.id.boxedi_rb_card);
-//        boxedi_rb_Voucher = (RadioButton)findViewById(R.id.boxedi_rb_Voucher);
-//        boxedi_radioGroup= (RadioGroup)findViewById(R.id.boxedi_radioGroup);
-
         boxListEdi = new ArrayList<>();
         boxList = new ArrayList<>();
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
@@ -366,12 +309,9 @@ public class YLBoxEdit extends ActionBarActivity {
         if (boxList==null){
             return;
         }
-//        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this,boxList,R.layout.activity_boxlist);
-//        boxedi_listview.setAdapter(ylBoxAdapter);
-//        boxedi_listview.setSelection(listpostion);
 
         ylBoxEdiAdapter = new YLBoxEdiAdapter(this,boxList,R.layout.activity_boxedititem);
-        //ylBoxEdiAdapter.setSelectItem(listpostion);
+        ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
         boxedi_listview.setSelection(listpostion);
     }
