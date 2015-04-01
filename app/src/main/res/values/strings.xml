@@ -29,7 +29,6 @@
     <string name="title_activity_cache_data_view">CacheDataView</string>
     <string name="title_activity_ylbox_edit">款箱明细</string>
     <string name="title_activity_ylbox_scan">数量</string>
-
     <string name="boxitem_monenybox">款箱</string>
     <string name="boxitem_cardbox">卡箱</string>
     <string name="boxitem_Voucherbox">凭证</string>
@@ -40,7 +39,6 @@
     <string name="boxitem_type">箱类</string>
     <string name="boxitem_tasktype">类型</string>
     <string name="boxitem_count">数量</string>
-
     <string name="box_tv_amount">0个</string>
     <string name="box_tv_general">普通</string>
     <string name="box_tv_transfer">中调</string>
@@ -51,5 +49,6 @@
     <string name="box_tv_total">总数:</string>
     <string name="title_activity_ylbox_operate">YLBoxOperate</string>
     <string name="title_activity_ylatmlist">YLATMList</string>
+    <string name="title_activity_ylatmdetail">YLATMDetail</string>
 
 </resources>

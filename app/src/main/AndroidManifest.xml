@@ -81,6 +81,10 @@
             android:name=".YLATMList"
             android:label="@string/title_activity_ylatmlist" >
         </activity>
+        <activity
+            android:name=".YLATMDetail"
+            android:label="@string/title_activity_ylatmdetail" >
+        </activity>
     </application>
 
 </manifest>
