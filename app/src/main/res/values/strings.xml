@@ -50,5 +50,6 @@
     <string name="box_tv_give">送箱</string>
     <string name="box_tv_total">总数:</string>
     <string name="title_activity_ylbox_operate">YLBoxOperate</string>
+    <string name="title_activity_ylatmlist">YLATMList</string>
 
 </resources>
