@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,33 +13,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLSystem.YLSystem;
-import adapter.YLBoxAdapter;
 import adapter.YLBoxEdiAdapter;
 
 
 public class YLBoxEdit extends ActionBarActivity {
-
-
-//    private Switch boxedi_sw_gog;
-//    private Switch boxedi_sw_eof;
-//    private RadioGroup boxedi_radioGroup;
-//    private RadioButton boxedi_rb_money;
-//    private RadioButton boxedi_rb_card;
-//    private RadioButton boxedi_rb_Voucher;
 
     private RadioButton boxedi_rbtn_get;
     private RadioButton boxedi_rbtn_give;
@@ -56,11 +45,20 @@ public class YLBoxEdit extends ActionBarActivity {
     private TextView boxedi_tv_voucher;
 
     private Spinner boxedi_sp_tasktype;
+    private Spinner boxedi_sp_TimeID;
+
+
     private ListView boxedi_listview;
-    private List<Box> boxList;
-    private List<Box> boxListEdi;
+
+    private List<Box> boxSiteListAll;//所有网点款箱数据
+    private List<Box> boxEditListEdit;//在编辑的数据
+    private List<Box> boxEditListAll;//网点所有款箱数据
     private int listpostion;
     private String currSiteID;
+    private String currTimeID;
+
+    private String boxscanstate;
+
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
@@ -71,7 +69,7 @@ public class YLBoxEdit extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylbox_edit);
-        init();
+        initlayout();
         boxedi_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -79,22 +77,39 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = (Box)listView.getItemAtPosition(position);
                 listpostion = position;
                 EditBox(box);
-                ReLoadData();
+                LoadBoxData(boxEditListEdit);
             }
         });
 
-        RadioClick();
+        //RadioClick();
 
         boxedi_sp_tasktype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (boxList.size()<1)return;
-                Box box = boxList.get(listpostion);
+                if (boxEditListEdit.size()<1)return;
+                Box box = boxEditListEdit.get(listpostion);
                 box.setBoxTaskType(parent.getItemAtPosition(position).toString());
-                boxList.set(listpostion,box);
-                ReLoadData();
+                boxEditListEdit.set(listpostion, box);
+                LoadBoxData(boxEditListEdit);
             }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        GetTimeIDtoSp();
+
+        //TimeID 变更
+        boxedi_sp_TimeID.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //if (boxEditListAll.size()<1)return;
+                String TimeID = parent.getItemAtPosition(position).toString();
+                currTimeID = TimeID;
+                ListGroup(TimeID);
+                LoadBoxData(boxEditListEdit);
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -103,78 +118,64 @@ public class YLBoxEdit extends ActionBarActivity {
 
     }
 
-    private void RadioClick() {
+    private void ListGroup(String timeID) {
 
-        if (boxList == null || boxList.size() ==0)return;
-        boxedi_rbtn_get.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setTradeAction(GetBoxStuat("g"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
+        if (timeID.equals("全部")|| boxEditListEdit.size() == 0){
+           for (int i = 0 ;i <boxEditListAll.size();i++){
+               boxEditListEdit.add(boxEditListAll.get(i));
+           }
+            boxEditListAll.clear();
+        }else {
+            for (int i = 0; i < boxEditListEdit.size();i++){
+                boxEditListAll.add(boxEditListEdit.get(i));
             }
-        });
+            boxEditListEdit.clear();
+            for (int i = 0 ; i < boxEditListAll.size();i++){
+                if (boxEditListAll.get(i).getTimeID().equals(timeID)){
+                    boxEditListEdit.add(boxEditListAll.get(i));
+                }
+            }
+            for (int i = 0 ; i < boxEditListAll.size();i++){
+                if (boxEditListAll.get(i).getTimeID().equals(timeID)){
+                    boxEditListAll.remove(i);
+                    --i;
+                }
+            }
+        }
+    }
 
-        boxedi_rbtn_give.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setTradeAction(GetBoxStuat("g"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
+    //将TimeID
+    private void GetTimeIDtoSp() {
+       if (boxEditListAll.size()==0){
+           return;
+       }
+        ArrayList<String> TimeIDlist = new ArrayList<>();
+        String Timeid = "全部";
+       TimeIDlist.add(Timeid);
+        for (int i = 0 ; i< boxEditListAll.size();i++){
+            if (Timeid.equals(boxEditListAll.get(i).getTimeID())){
+                Timeid =  boxEditListAll.get(i).getTimeID();
+            }else {
+                Timeid =  boxEditListAll.get(i).getTimeID();
+                TimeIDlist.add(Timeid);
             }
-        });
+        }
 
-        boxedi_rbtn_full.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setBoxStatus(GetBoxStuat("f"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
-            }
-        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this,android.R.layout.simple_spinner_item,TimeIDlist);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        boxedi_sp_TimeID.setAdapter(adapter);
+        boxedi_sp_TimeID.setPrompt("交接类型");
 
-        boxedi_rbtn_empty.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setBoxStatus(GetBoxStuat("f"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
-            }
-        });
+    }
 
-        boxedi_rbtn_moneyboxs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setBoxType(GetBoxStuat("s"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
-            }
-        });
-
-        boxedi_rbtn_cardbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setBoxType(GetBoxStuat("s"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
-            }
-        });
-
-        boxedi_rbtn_Voucher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Box box = boxList.get(listpostion);
-                box.setBoxType(GetBoxStuat("s"));
-                boxList.set(listpostion,box);
-                ylBoxEdiAdapter.notifyDataSetChanged();
-            }
-        });
+    public void RadioClick(View view) throws ClassNotFoundException {
+        if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
+        Box box = boxEditListEdit.get(listpostion);
+        box.setTradeAction(GetBoxStuat("g"));
+        box.setBoxStatus(GetBoxStuat("f"));
+        box.setBoxType(GetBoxStuat("s"));
+        LoadBoxData(boxEditListEdit);
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -199,18 +200,17 @@ public class YLBoxEdit extends ActionBarActivity {
             }else if (boxedi_rbtn_Voucher.isChecked()){
                 boxstuat ="凭证";
             }}
-
         return boxstuat;
     }
 
     public void boxedi_del(View view){
-        if (boxList.size()!=0){
-            boxList.remove(listpostion);ReLoadData();
+        if (boxEditListEdit.size()!=0){
+            boxEditListEdit.remove(listpostion);
+            LoadBoxData(boxEditListEdit);//ReLoadData();
         }
     }
 
     private void EditBox(Box box) {
-
         String boxtradaction = box.getTradeAction();
         String boxstatus = box.getBoxStatus();
         String boxtype = box.getBoxType();
@@ -226,35 +226,39 @@ public class YLBoxEdit extends ActionBarActivity {
         }else {
             boxedi_rbtn_full.setChecked(true);
         }
-        if (boxtype.equals("款箱")){
-            boxedi_rbtn_moneyboxs.setChecked(true);
-        }else if (boxtype.equals("卡箱")){
-            boxedi_rbtn_cardbox.setChecked(true);
-        }else if (boxtype.equals("凭证")){
-            boxedi_rbtn_Voucher.setChecked(true);
+
+        switch (boxtype){
+            case "款箱":boxedi_rbtn_moneyboxs.setChecked(true);
+                break;
+            case "卡箱":boxedi_rbtn_cardbox.setChecked(true);
+                break;
+            case "凭证":boxedi_rbtn_Voucher.setChecked(true);
+                break;
         }
-        if (boxtasktype.equals("早送")){
-            boxedi_sp_tasktype.setSelection(0);
-        }else if (boxtasktype.equals("晚收")){
-            boxedi_sp_tasktype.setSelection(1);
-        }else if (boxtasktype.equals("区内中调")){
-            boxedi_sp_tasktype.setSelection(2);
-        }else if (boxtasktype.equals("跨区中调")){
-            boxedi_sp_tasktype.setSelection(3);
-        }else if (boxtasktype.equals("库内区内中调")){
-            boxedi_sp_tasktype.setSelection(4);
-        }else if (boxtasktype.equals("库内跨区中调")){
-            boxedi_sp_tasktype.setSelection(5);
-        }else if (boxtasktype.equals("夜间周转")){
-            boxedi_sp_tasktype.setSelection(6);
-        }else if (boxtasktype.equals("人行")){
-            boxedi_sp_tasktype.setSelection(7);
+        switch (boxtasktype){
+            case "早送":boxedi_sp_tasktype.setSelection(0);
+                break;
+            case "晚收":boxedi_sp_tasktype.setSelection(1);
+                break;
+            case "区内中调":boxedi_sp_tasktype.setSelection(2);
+                break;
+            case "跨区中调":boxedi_sp_tasktype.setSelection(3);
+                break;
+            case "库内区内中调":boxedi_sp_tasktype.setSelection(4);
+                break;
+            case "库内跨区中调":boxedi_sp_tasktype.setSelection(5);
+                break;
+            case "夜间周转":boxedi_sp_tasktype.setSelection(6);
+                break;
+            case "人行":boxedi_sp_tasktype.setSelection(7);
+                break;
         }
     }
 
-    private void init() {
+    private void initlayout() {
 
         boxedi_sp_tasktype = (Spinner)findViewById(R.id.boxedi_sp_tasktype);
+        boxedi_sp_TimeID = (Spinner)findViewById(R.id.boxedi_sp_TimeID);
         boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
 
          boxedi_rbtn_get = (RadioButton)findViewById(R.id.boxedi_rbtn_get);
@@ -273,54 +277,61 @@ public class YLBoxEdit extends ActionBarActivity {
          boxedi_tv_cardbox = (TextView)findViewById(R.id.boxedi_tv_cardbox);
          boxedi_tv_voucher = (TextView)findViewById(R.id.boxedi_tv_voucher);
 
-
-        boxListEdi = new ArrayList<>();
-        boxList = new ArrayList<>();
-        tasksManager= YLSystem.getTasksManager();//获取任务管理类
-        ylTask=tasksManager.CurrentTask;//当前选中的任务
-        //boxListEdi =ylTask.getLstBox();
-        boxListEdi =YLSystem.getEdiboxList();
-
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tasktype
                 ,android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boxedi_sp_tasktype.setAdapter(arrayAdapter);
         boxedi_sp_tasktype.setPrompt("交接类型");
 
-        Bundle bundle = this.getIntent().getExtras();
-        currSiteID = bundle.getString("siteid");
-        String boxscanstate = bundle.getString("box_btn_ent_text");
-        if (boxscanstate.equals("到达")){
-            boxListEdi = ylTask.getLstBox();
-        }
-
-        if (boxListEdi != null){
-            for (int i = 0 ;i<boxListEdi.size();i++){
-                if (boxListEdi.get(i).getSiteID().equals(currSiteID)){
-                    boxList.add(boxListEdi.get(i));
-                }
-            }
-        }
+        InitBoxData();
         YLBoxEdit.this.setTitle("款箱编辑: "+YLSystem.getUser().getName());
-        ReLoadData();
+        //ReLoadData();
     }
 
-    private void ReLoadData(){
-        if (boxList==null){
-            return;
+    private void InitBoxData() {
+
+        tasksManager= YLSystem.getTasksManager();//获取任务管理类
+        ylTask=tasksManager.CurrentTask;//当前选中的任务
+
+        boxEditListAll = new ArrayList<>();
+        boxEditListEdit = new ArrayList<>();
+        boxSiteListAll = new ArrayList<>();
+
+        Bundle bundle = this.getIntent().getExtras();
+        currSiteID = bundle.getString("siteid");
+        boxscanstate = bundle.getString("box_btn_ent_text");
+        if (boxscanstate.equals("到达")){
+            if (ylTask.getLstBox() != null && ylTask.getLstBox().size() != 0){
+                boxSiteListAll = ylTask.getLstBox();
+
+                for (int i = 0 ;i < ylTask.getLstBox().size();i++){
+                    Box box = ylTask.getLstBox().get(i);
+                    if (box.getSiteID().equals(currSiteID)){
+                        boxEditListAll.add(box);
+                    }
+                }
+            }
+        }else{
+            boxEditListAll = YLSystem.getEdiboxList();
         }
 
-        ylBoxEdiAdapter = new YLBoxEdiAdapter(this,boxList,R.layout.activity_boxedititem);
+        LoadBoxData(boxEditListAll);
+    }
+
+
+    private void LoadBoxData(List<Box> boxList){
+        if (boxList ==null)return;
+        ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
         boxedi_listview.setSelection(listpostion);
     }
 
     public void boxedi_ent(View view){
-        dialog();
+        SaveBoxlistData();
     }
 
-    protected void dialog() {
+    protected void SaveBoxlistData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxEdit.this);
         builder.setMessage("确认保存吗?");
         builder.setTitle("提示");
@@ -328,20 +339,21 @@ public class YLBoxEdit extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                for (int i = 0;i < boxListEdi.size();i++){
-                    if (boxListEdi.get(i).getSiteID().equals(currSiteID)){
-                        boxListEdi.remove(i);
+                ListGroup("全部");
+                if (boxscanstate.equals("确定")){
+                    YLSystem.setEdiboxList(boxEditListEdit);
+                }else {
+                    //删除所属网点款箱
+                for (int i = 0;i < boxSiteListAll.size();i++){
+                    if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)){
+                        boxSiteListAll.remove(i);
                         --i;
                     }
                 }
-
-                for (int i = 0 ;i <boxList.size();i++){
-                    Box box = new Box();
-                    box = boxList.get(i);
-                    boxListEdi.add(box);
+                    for (int i = 0;i < boxEditListEdit.size();i++){
+                        boxSiteListAll.add(boxEditListEdit.get(i));
+                    }
                 }
-                //ylTask.setLstBox(boxListEdi);
-                YLSystem.setEdiboxList(boxListEdi);
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
             }
@@ -349,17 +361,63 @@ public class YLBoxEdit extends ActionBarActivity {
         builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
-
             }
         });
         builder.create().show();
     }
 
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.e("aaaaaaaaaaaaaaaaaaaaaa", keyCode + "");
+        if( keyCode == KeyEvent.KEYCODE_HOME){
 
+            return super.onKeyDown(keyCode, event);
+        }
+        if(keyCode  == KeyEvent.KEYCODE_BACK){
+            NoSaveBoxListDialog();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
+    private void NoSaveBoxListDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxEdit.this);
+        builder.setMessage("是否保存后退出?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                ListGroup("全部");
+                if (boxscanstate.equals("确定")){
+                    YLSystem.setEdiboxList(boxEditListEdit);
+                }else {
+                    //删除所属网点款箱
+                    for (int i = 0;i < boxSiteListAll.size();i++){
+                        if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)){
+                            boxSiteListAll.remove(i);
+                            --i;
+                        }
+                    }
+                    for (int i = 0;i < boxEditListEdit.size();i++){
+                        boxSiteListAll.add(boxEditListEdit.get(i));
+                    }
+                }
+                dialog.dismiss();
+                YLBoxEdit.this.finish();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                YLSystem.setEdiboxList(boxEditListEdit);
+                YLBoxEdit.this.finish();
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -48,9 +48,10 @@
         android:layout_width="wrap_content"
         android:layout_height="30sp"
         android:id="@+id/box_sp_stype"
-        android:background="@color/abc_search_url_text_normal"
+        android:background="@color/lightblue"
         android:minHeight="30sp"
-        android:spinnerMode="dialog">
+        android:spinnerMode="dialog"
+        >
     </Spinner>
 
     </LinearLayout>

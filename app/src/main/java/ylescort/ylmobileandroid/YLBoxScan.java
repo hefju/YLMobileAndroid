@@ -79,7 +79,7 @@ public class YLBoxScan extends ActionBarActivity {
     private String cmd = "scan";
     private FileOutputStream fos;
     private MyBroadcast myBroad;  //广播接收者
-    private String activity = "ylescort.ylmobileandroid.box";
+    //private String activity = "ylescort.ylmobileandroid.box";
     public String TAG = "MainActivity";  //Debug
     private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
     /**
@@ -167,6 +167,18 @@ public class YLBoxScan extends ActionBarActivity {
             }
         });
 
+//        box_sp_stype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (ScanboxList.size()<1)return;
+//                Box box = ScanboxList.get(listpostion);
+//                box.setBoxTaskType(parent.getItemAtPosition(position).toString());
+//                ScanboxList.set(listpostion,box);
+//                BoxScanAdapter(ScanboxList);
+//                ylBoxAdapter.notifyDataSetChanged();
+//            }
+//        });
+
         //YLBoxScanlayoutOnClick();
 
     } //获取界面控件
@@ -196,8 +208,7 @@ public class YLBoxScan extends ActionBarActivity {
         return boxstuat;
     }
 
-
-    //界面空间点击事件
+    //界面控件点击事件
     public void YLBoxScanlayoutOnClick(View view ) throws ClassNotFoundException {
 
       if(ScanboxList == null || ScanboxList.size() ==0)return;
@@ -205,8 +216,9 @@ public class YLBoxScan extends ActionBarActivity {
         box.setTradeAction(GetBoxScanStuat("g"));
         box.setBoxStatus(GetBoxScanStuat("f"));
         box.setBoxType(GetBoxScanStuat("s"));
+        box.setBoxTaskType(box_sp_stype.getSelectedItem().toString());
         ScanboxList.set(listpostion,box);
-        adapterbox(ScanboxList);
+        BoxScanAdapter(ScanboxList);
 
         //ylBoxAdapter.notifyDataSetChanged();
 
@@ -293,36 +305,39 @@ public class YLBoxScan extends ActionBarActivity {
         }else {
             box_rbtn_empty.setChecked(true);
         }
-        if (box.getBoxType().equals("款箱")){
-            box_rbtn_moneyboxs.setChecked(true);
-        }else if (box.getBoxType().equals("卡箱")){
-            box_rbtn_cardbox.setChecked(true);
-        }else if (box.getBoxType().equals("凭证")){
-            box_rbtn_Voucher.setChecked(true);
+
+        switch (box.getBoxType()){
+            case "款箱":box_rbtn_moneyboxs.setChecked(true);
+                break;
+            case "卡箱":box_rbtn_cardbox.setChecked(true);
+                break;
+            case "凭证":box_rbtn_Voucher.setChecked(true);
+                break;
         }
-        if (box.getBoxTaskType().equals("早送")){
-            box_sp_stype.setSelection(0);
-        }else  if (box.getBoxTaskType().equals("晚收")){
-            box_sp_stype.setSelection(1);
-        }else  if (box.getBoxTaskType().equals("区内中调")){
-            box_sp_stype.setSelection(2);
-        }else  if (box.getBoxTaskType().equals("跨区中调")){
-            box_sp_stype.setSelection(3);
-        }else  if (box.getBoxTaskType().equals("库内区内中调")){
-            box_sp_stype.setSelection(4);
-        }else  if (box.getBoxTaskType().equals("库内跨区中调")){
-            box_sp_stype.setSelection(5);
-        }else  if (box.getBoxTaskType().equals("夜间周转")){
-            box_sp_stype.setSelection(6);
-        }else  if (box.getBoxTaskType().equals("人行")){
-            box_sp_stype.setSelection(7);
+        switch (box.getBoxTaskType()){
+            case "早送":box_sp_stype.setSelection(0);
+                break;
+            case "晚收":box_sp_stype.setSelection(1);
+                break;
+            case "区内中调":box_sp_stype.setSelection(2);
+                break;
+            case "跨区中调":box_sp_stype.setSelection(3);
+                break;
+            case "库内区内中调":box_sp_stype.setSelection(4);
+                break;
+            case "库内跨区中调":box_sp_stype.setSelection(5);
+                break;
+            case "夜间周转":box_sp_stype.setSelection(6);
+                break;
+            case "人行":box_sp_stype.setSelection(7);
+                break;
         }
     }
 
     private void LoadYLBoxBaseData() {
 
         /**
-         * 基础数据
+         * 数据库基础数据
          */
         baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
         baseBox = new BaseBox();
@@ -395,21 +410,21 @@ public class YLBoxScan extends ActionBarActivity {
     } //初始化热键
 
     private void DisPlayBoxListView(String siteID) {
-        List<Box> yltaskboxList =new ArrayList<>();
-        if (ylTask.lstBox != null && ylTask.lstBox.size()>0){
-            for (int i = 0 ; i < ylTask.lstBox.size();i++){
-                if (ylTask.lstBox.get(i).getSiteID().equals(siteID)){
-//                    Box box = new Box();
-//                    box = ylTask.lstBox.get(i);
-                    yltaskboxList.add(ylTask.lstBox.get(i));
-                }
-            }
-        }
-        adapterbox(yltaskboxList);
-        TallyBox(yltaskboxList);//统计数据
+//        List<Box> yltaskboxList =new ArrayList<>();
+//        if (ylTask.lstBox != null && ylTask.lstBox.size()>0){
+//            for (int i = 0 ; i < ylTask.lstBox.size();i++){
+//                if (ylTask.lstBox.get(i).getSiteID().equals(siteID)){
+////                    Box box = new Box();
+////                    box = ylTask.lstBox.get(i);
+//                    yltaskboxList.add(ylTask.lstBox.get(i));
+//                }
+//            }
+//        }
+//        BoxScanAdapter(yltaskboxList);
+//        TallyBox(yltaskboxList);//统计数据
     }
 
-    private void adapterbox(List<Box> adapterboxlist){
+    private void BoxScanAdapter(List<Box> adapterboxlist){
         if (adapterboxlist !=null){
             ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             YLScanBoxlistView.setAdapter(ylBoxAdapter);
@@ -422,6 +437,7 @@ public class YLBoxScan extends ActionBarActivity {
      * @author Administrator
      *
      */
+
     private class MyBroadcast extends BroadcastReceiver {
 
         @Override
@@ -449,7 +465,7 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void YLBoxMediaPlay(String mediavoice) {
-        mPlayer = new MediaPlayer();
+         mPlayer = new MediaPlayer();
 
         if (mediavoice.equals("success")){
             mPlayer = MediaPlayer.create(YLBoxScan.this, R.raw.msg);
@@ -474,7 +490,7 @@ public class YLBoxScan extends ActionBarActivity {
             e.printStackTrace();
         }
         }
-        mPlayer.start();
+        //mPlayer.start();
     }
 
     public  String replaceBlank(String str) {
@@ -534,13 +550,13 @@ public class YLBoxScan extends ActionBarActivity {
     public void boxlistent(View view){
         String Entbtn =  box_btn_ent.getText().toString();
         if (Entbtn.equals("确定")){
-            dialog2();
+            AchieveDialog();
         }else{
-            dialog();
+            ArrEnterDialog();
         }
     }
 
-    protected void dialog() {
+    protected void ArrEnterDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
         builder.setMessage("确认到达吗?");
         builder.setTitle("提示");
@@ -553,7 +569,7 @@ public class YLBoxScan extends ActionBarActivity {
                 AddArriveTime();
 
                 ScanboxList = new ArrayList<Box>();
-                adapterbox(ScanboxList);
+                BoxScanAdapter(ScanboxList);
 
                 YLSystem.setEdiboxList(ScanboxList);
 
@@ -572,7 +588,7 @@ public class YLBoxScan extends ActionBarActivity {
         builder.create().show();
     }
 
-    protected void dialog2() {
+    protected void AchieveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
         builder.setMessage("确认完成吗?");
         builder.setTitle("提示");
@@ -626,7 +642,7 @@ public class YLBoxScan extends ActionBarActivity {
         builder.create().show();
     }
 
-    protected void dialog3() {
+    protected void LeaveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
         builder.setMessage("未完成确认退出吗?");
         builder.setTitle("提示");
@@ -635,6 +651,7 @@ public class YLBoxScan extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 ScanboxList.clear();
+                YLSystem.setEdiboxList(ScanboxList);
                 YLBoxScan.this.finish();
             }
 
@@ -670,7 +687,6 @@ public class YLBoxScan extends ActionBarActivity {
                 }
 
                 arriveTime = new ArriveTime();
-
                 arriveTime.setServerReturn("1");
                 arriveTime.setEmpID(YLSystem.getUser().getEmpID());
                 arriveTime.setATime(GetCurrTime());
@@ -834,7 +850,7 @@ public class YLBoxScan extends ActionBarActivity {
             return;}
 
         String scan = box_btn_scan.getText().toString();
-
+        String activity = "ylescort.ylmobileandroid.box";
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
         ac.putExtra("activity", activity);
@@ -869,7 +885,7 @@ public class YLBoxScan extends ActionBarActivity {
         if(keyCode  == KeyEvent.KEYCODE_BACK){
             Log.e(TAG, "KEY CODE BACK");
             if (box_btn_ent.getText().equals("确定")){
-                dialog3();
+                LeaveDialog();
             }else{
                 finish();
             }
@@ -957,13 +973,13 @@ public class YLBoxScan extends ActionBarActivity {
     @Override
     protected void onPostResume() {
         //DisPlayBoxListView(box_tv_titel.getTag().toString());
-        //adapterbox(ylTask.getLstBox());
+        //BoxScanAdapter(ylTask.getLstBox());
 
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.FUN_KEY");
         registerReceiver(funkeyReceive, filter);
 
-        adapterbox(YLSystem.getEdiboxList());
+        BoxScanAdapter(YLSystem.getEdiboxList());
         super.onPostResume();
     }
 

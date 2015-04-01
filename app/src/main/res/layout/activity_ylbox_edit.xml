@@ -60,22 +60,35 @@
         android:orientation="vertical"
         android:layout_below="@+id/boxedi_rtl_boxlistview">
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="类型:  "
+                android:text="类型:"
                 android:textSize="20sp"/>
             <Spinner
-                android:layout_width="90sp"
+                android:layout_width="110sp"
                 android:layout_height="30sp"
                 android:id="@+id/boxedi_sp_tasktype"
                 android:spinnerMode="dialog"
-                android:background="@color/abc_search_url_text_normal"
+                android:background="@color/lightblue"
                 android:minHeight="30sp">
             </Spinner>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="顺序:"
+                android:textSize="20sp"/>
+            <Spinner
+                android:layout_width="70sp"
+                android:layout_height="30sp"
+                android:id="@+id/boxedi_sp_TimeID"
+                android:spinnerMode="dialog"
+                android:background="@color/lightblue"
+                android:minHeight="30sp">
+                </Spinner>
         </LinearLayout>
         <RadioGroup
             android:layout_width="fill_parent"
@@ -86,7 +99,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_get"
                 android:text="@string/box_tv_get"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
@@ -98,7 +112,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_give"
                 android:text="@string/box_tv_give"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,7 +130,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_empty"
                 android:text="@string/box_tv_empty"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="50sp"
                 android:layout_height="wrap_content"
@@ -127,7 +143,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_full"
                 android:text="@string/box_tv_full"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,7 +162,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_moneyboxs"
                 android:text="@string/boxitem_monenybox"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,7 +175,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_cardbox"
                 android:text="@string/boxitem_cardbox"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -169,7 +188,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_Voucher"
                 android:text="@string/boxitem_Voucherbox"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:onClick="RadioClick"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
