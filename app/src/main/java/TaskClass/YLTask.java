@@ -23,6 +23,7 @@ public class YLTask {
 
     public List<Site> lstSite;
     public List<Box> lstBox;
+    public List<YLATM> lstATM;
 
     public List<Site> getLstSite() {
         return lstSite;
