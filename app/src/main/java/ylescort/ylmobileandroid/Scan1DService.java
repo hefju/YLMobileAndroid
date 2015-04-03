@@ -80,8 +80,6 @@ public class Scan1DService extends Service {
         mReadThread = new ReadThread();
         mReadThread.start(); // 开启读线程
         Log.e(TAG, "start thread");
-
-
     }
 
     @Override
@@ -133,7 +131,7 @@ public class Scan1DService extends Service {
             scan100ms.schedule(new TimerTask() {  //��ʼTimer����ÿ100msɨ��һ��
                 @Override
                 public void run() {
-                    if(mSerialPort.scaner_trig_stat() == true){//判断是否正在开红外
+                    if(mSerialPort.scaner_trig_stat()){//判断是否正在开红外
                         mSerialPort.scaner_trigoff();  //关红外读头
                         try{
                             Thread.sleep(50);
@@ -195,9 +193,8 @@ public class Scan1DService extends Service {
                         //activity="ylescort.ylmobileandroid.box";
                         if(data_buffer != null && data_buffer.length() != 0 && activity != null){
                             Log.e("ScanService data", data_buffer.toString());
-
                             Intent serviceIntent = new Intent();
-                            serviceIntent.setAction("ylescort.ylmobileandroid.box");
+                            serviceIntent.setAction(activity);
                             serviceIntent.putExtra("result", data_buffer.toString());
                             data_buffer.setLength(0);  //清空缓存数据
                             Log.e(TAG, "result");

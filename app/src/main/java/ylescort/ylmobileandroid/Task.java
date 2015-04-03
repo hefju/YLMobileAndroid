@@ -160,11 +160,19 @@ public class Task extends ActionBarActivity {
 
                  ListView listView1 = (ListView)parent;
                  YLTask ylTask = (YLTask)listView1.getItemAtPosition(position);
+                 String tasktype =  ylTask.getTaskType();
+
 //                 Toast.makeText(Task.this,ylTask.getTaskID().toString(),Toast.LENGTH_SHORT).show();
+
                 tasksManager.SetCurrentTask(ylTask.getTaskID());//设置选中的任务
 
                  Intent intent = new Intent();
-                 intent.setClass(Task.this,YLSite.class);
+                 if (tasktype.equals("ATM清机")){
+                     intent.setClass(Task.this,YLATMList.class);
+                 }else {
+                     intent.setClass(Task.this,YLSite.class);
+                 }
+
 //                 Bundle bundle = new Bundle();
 //                 bundle.putString("taskid",ylTask.getTaskID().toString());
 //                 intent.putExtras(bundle);
@@ -441,7 +449,6 @@ public class Task extends ActionBarActivity {
                         String webcontent = EntityUtils.toString(response.getEntity());
                         List<YLTask> ylTaskList = new ArrayList<YLTask>();
                         ylTaskList = gson.fromJson(webcontent,new TypeToken<List<YLTask>>(){}.getType());
-
 
                         for (YLTask ylTask:ylTaskList){
                             if (ylTask.getServerReturn().equals("没有任务。")){

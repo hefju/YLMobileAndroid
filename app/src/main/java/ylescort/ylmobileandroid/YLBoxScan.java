@@ -118,10 +118,28 @@ public class YLBoxScan extends ActionBarActivity {
             LoadYLBoxBaseData();    //获取初始数据
             YLBoxScaninit();        //初始化红外扫描
             KeyBroad();             //初始化热键
+//            GetScreen();//备用
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void GetScreen() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mBatlnfoReceiver,intentFilter);
+    }
+
+    private BroadcastReceiver mBatlnfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)){
+                box_btn_scan.setText("停止");
+                sendCmd();}
+        }
+    };
 
     public void GetYLBoxLayoutControl() throws ClassNotFoundException {
 
@@ -383,7 +401,7 @@ public class YLBoxScan extends ActionBarActivity {
         /**
          * 根据网点读取数据
          */
-        DisPlayBoxListView(SiteID);
+        //DisPlayBoxListView(SiteID);
 
     } //获取初始数据
 
@@ -490,7 +508,7 @@ public class YLBoxScan extends ActionBarActivity {
             e.printStackTrace();
         }
         }
-        //mPlayer.start();
+        mPlayer.start();
     }
 
     public  String replaceBlank(String str) {
@@ -842,6 +860,7 @@ public class YLBoxScan extends ActionBarActivity {
     /**
      * 发送指令
      */
+
     private void sendCmd() {
         // 给服务发送广播，内容为ylescort.ylmobileandroid.box
 

@@ -80,6 +80,10 @@
         <activity
             android:name=".YLATMList"
             android:label="@string/title_activity_ylatmlist" >
+            <intent-filter>
+                <action android:name="ylescort.ylmobileandroid.YLATMList" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".YLATMDetail"
