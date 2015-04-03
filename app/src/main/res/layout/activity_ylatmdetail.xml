@@ -18,13 +18,14 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="开始时间"
-                android:id="@+id/textView3"
-                android:layout_column="0" />
+            <Button
+                android:layout_width="120sp"
+                android:layout_height="60sp"
+                android:text="开始读卡"
+                android:id="@+id/button11"
+                android:layout_above="@+id/button13"
+                android:layout_alignStart="@+id/button13" />
+
 
             <EditText
                 android:layout_width="wrap_content"
@@ -39,13 +40,13 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="结束时间"
-                android:id="@+id/textView4"
-                android:layout_column="0" />
+            <Button
+                android:layout_width="120sp"
+                android:layout_height="60sp"
+                android:text="完成读卡"
+                android:id="@+id/button13"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true" />
 
             <EditText
                 android:layout_width="wrap_content"
@@ -85,27 +86,20 @@
             android:textAlignment="center" />
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120sp"
+            android:layout_height="60sp"
             android:text="+1"
             android:id="@+id/button12"
             android:layout_column="3" />
     </LinearLayout>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="开始读卡"
-        android:id="@+id/button11"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="完成读卡"
-        android:id="@+id/button13"
+        android:layout_width="150sp"
+        android:layout_height="60sp"
+        android:text="完成"
+        android:id="@+id/button4"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/linearLayout3" />
+
 
 </RelativeLayout>
