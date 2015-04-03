@@ -98,8 +98,8 @@
         android:layout_height="60sp"
         android:text="完成"
         android:id="@+id/button4"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/linearLayout3" />
+        android:layout_below="@+id/linearLayout3"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
