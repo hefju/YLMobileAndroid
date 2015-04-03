@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,9 @@ public class YLATMList extends ActionBarActivity {
     private FileOutputStream fos;
 
     private NFCcmdManager HFmanager ;
+
+    private String Dialogtype;
+    private boolean Dialogflag;
 
 
     @Override
@@ -161,14 +165,17 @@ public class YLATMList extends ActionBarActivity {
     }
 
     public void ATMScan1D(View view){
+        Dialogtype = "ATMScan1D";
         SendScan1Dcmd();
     }
 
     public void ATMListHFTaskstartClick(View view) {
+        Dialogtype = "ATMListHFTaskstartClick";
         ATMListHFreader("taskstart");
     }
 
     public void ATMListHFTaskendClick(View view) {
+        Dialogtype = "ATMListHFTaskendClick";
         ATMListHFreader("taskend");
     }
 
@@ -242,48 +249,21 @@ public class YLATMList extends ActionBarActivity {
     }
 
     public void ATMListUpData(View view){
+       Dialogtype = "ATMListUpData";
        UpDataDialog();
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     private void UpDataDialog() {
+        Dialogflag = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLATMList.this);
-        builder.setMessage("确认上传吗?");
+        builder.setMessage("是否确认?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                singleThreadExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            YLTask t1 = ylTask;
-                            t1.lstSite=ylTask.lstSite;
-                            t1.lstBox=ylTask.lstBox;
-                            String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
-                            HttpPost post = new HttpPost(url);
-                            UpDataToService(t1, YLSystem.getUser(), post);
-
-                            ylTask.setTaskState("已上传");
-
-                            tasksManager.SaveTask(getApplicationContext());
-                            finish();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (ClientProtocolException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                ButtonMethod();
                 dialog.dismiss();
             }
         });
@@ -294,6 +274,53 @@ public class YLATMList extends ActionBarActivity {
             }
         });
         builder.create().show();
+    }
+
+    private void ButtonMethod() {
+        switch (Dialogtype){
+            case "ATMScan1D":SendScan1Dcmd();
+                break;
+            case "ATMListHFTaskstartClick":ATMListHFreader("taskstart");
+                break;
+            case "ATMListHFTaskendClick":ATMListHFreader("taskend");
+                break;
+            case "ATMListUpData":UpDataDialog();
+                break;
+        }
+        Dialogflag = false;
+    }
+
+    private void UpATMTask() {
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    YLTask t1 = ylTask;
+                    t1.lstSite=ylTask.lstSite;
+                    t1.lstBox=ylTask.lstBox;
+                    //String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
+                    HttpPost post = new HttpPost(url);
+                    UpDataToService(t1, YLSystem.getUser(), post);
+
+                    ylTask.setTaskState("已上传");
+
+                    tasksManager.SaveTask(getApplicationContext());
+                    finish();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void UpDataToService(YLTask t1, User s1, HttpPost post) throws JSONException, IOException {
@@ -319,7 +346,12 @@ public class YLATMList extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == 131){
-            SendScan1Dcmd();}
+            if (Dialogflag){
+                ButtonMethod();
+            }else {
+                UpDataDialog();
+            }
+            }
         else if (keyCode == 133){
             ATMListHFreader("taskstart");
         }
