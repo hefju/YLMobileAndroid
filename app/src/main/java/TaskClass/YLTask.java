@@ -25,6 +25,14 @@ public class YLTask {
     public List<Box> lstBox;
     public List<YLATM> lstATM;
 
+    public List<YLATM> getLstATM() {
+        return lstATM;
+    }
+
+    public void setLstATM(List<YLATM> lstATM) {
+        this.lstATM = lstATM;
+    }
+
     public List<Site> getLstSite() {
         return lstSite;
     }

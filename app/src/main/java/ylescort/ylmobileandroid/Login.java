@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,7 +46,7 @@ import java.util.concurrent.Executors;
 import TaskClass.TasksManager;
 import TaskClass.Vision;
 import YLDataService.WebService;
-import YLSystem.YLSystem;
+import YLSystemDate.YLSystem;
 import TaskClass.User;
 import YLWebService.UpdateManager;
 

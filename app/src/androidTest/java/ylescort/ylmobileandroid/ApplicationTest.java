@@ -10,7 +10,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import TaskClass.TasksManager;
@@ -21,8 +20,7 @@ import YLDataService.TaskDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
 import YLDataService.YLSQLHelper;
-import YLSystem.YLSystem;
-import YLWebService.YLWebService;
+import YLSystemDate.YLSystem;
 
 /**
  * <a href="http://d.android.com/tools/testing/testing_android.html">Testing Fundamentals</a>

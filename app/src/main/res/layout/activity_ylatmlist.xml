@@ -17,15 +17,17 @@
         android:layout_height="60sp"
         android:id="@+id/ATMlist_btn_Start"
         android:textSize="30sp"
-        android:onClick="ATMListHFreaderonClick"
+        android:onClick="ATMListHFTaskstartClick"
         android:text="开始"
         />
+
     <Button
         android:layout_width="120sp"
         android:layout_height="60sp"
         android:id="@+id/ATMlist_btn_End"
         android:textSize="30sp"
         android:text="结束"
+        android:onClick="ATMListHFTaskendClick"
         android:layout_marginStart="30sp"
         />
     </LinearLayout>
@@ -33,13 +35,26 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/Atmlist_LL_title"
-    android:layout_below="@+id/ATMlist_LL_buttonBar">
+    android:layout_below="@+id/ATMlist_LL_buttonBar"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ATMlist_tv_starttime"
+        android:text="任务开始: "
+        android:textSize="15sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ATMlist_tv_endtime"
+        android:text="任务结束: "
+        android:textSize="15sp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ATMlist_tv_title"
         android:text="ATM清机任务"
-        android:textSize="30sp"/>
+        android:textSize="25sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -73,6 +88,7 @@
             android:id="@+id/ATMlist_btn_UpDateatm"
             android:textSize="30sp"
             android:text="上传"
+            android:onClick="ATMListUpData"
             android:layout_marginStart="30sp"
             />
     </LinearLayout>

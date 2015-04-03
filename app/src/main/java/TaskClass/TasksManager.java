@@ -2,14 +2,11 @@ package TaskClass;
 
 //import java.sql.Date;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import YLDataService.TaskDBSer;
 import YLDataService.TasksManagerDBSer;
-import YLSystem.YLSystem;
 
 /**
  * Created by asus on 2015/1/29.

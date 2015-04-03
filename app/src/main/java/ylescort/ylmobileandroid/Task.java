@@ -1,7 +1,6 @@
 package ylescort.ylmobileandroid;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -9,14 +8,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -39,17 +34,13 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
 
 import TaskClass.Site;
 import TaskClass.TasksManager;
@@ -58,7 +49,7 @@ import TaskClass.YLTask;
 import YLDataService.SiteDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.WebService;
-import YLSystem.YLSystem;
+import YLSystemDate.YLSystem;
 import adapter.YLTaskAdapter;
 
 

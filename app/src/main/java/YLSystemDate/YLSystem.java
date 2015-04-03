@@ -1,4 +1,4 @@
-package YLSystem;
+package YLSystemDate;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,14 +7,12 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import TaskClass.BaseBox;
 import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.User;

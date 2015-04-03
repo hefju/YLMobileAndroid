@@ -1,7 +1,9 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
@@ -11,24 +13,45 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
-import com.android.hdhe.uhf.reader.Tools;
+import com.google.gson.Gson;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import TaskClass.Box;
+import TaskClass.Site;
 import TaskClass.TasksManager;
+import TaskClass.User;
 import TaskClass.YLTask;
-import YLSystem.YLSystem;
-import ylescort.ylmobileandroid.R;
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLSystem;
+import adapter.YLSiteAdapter;
 
 public class YLATMList extends ActionBarActivity {
 
@@ -38,10 +61,12 @@ public class YLATMList extends ActionBarActivity {
     private Button ATMlist_btn_UpDateatm;//上传按钮
 
     private TextView ATMlist_tv_title;//标题
+    private TextView ATMlist_tv_starttime;//任务开始
+    private TextView ATMlist_tv_endtime;//任务结束
 
     private ListView ATMlist_listview;//列表
 
-    private List<YLSite> ylSiteList;//网点列表
+    private List<Site> ylATMSiteList;//网点列表
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
@@ -84,9 +109,32 @@ public class YLATMList extends ActionBarActivity {
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-                Toast.makeText(getApplicationContext(),replaceBlank(recivedata),Toast.LENGTH_SHORT).show();
-            }
+                GetATMsite(recivedata);}
         }
+    }
+
+    private void GetATMsite(String recivedata) {
+        if (ylATMSiteList == null){
+            ylATMSiteList = new ArrayList<>();
+        }
+        Site site = new Site();
+        site.setId(1);
+        site.setServerReturn("1");
+        site.setTaskID(ylTask.getTaskID());
+        site.setSiteID("222");
+        site.setSiteName("思密达");
+        site.setSiteManager("思密达");
+        site.setSiteManagerPhone("6666666666");
+        site.setSiteType("ATM点");
+        site.setStatus("未交接");
+        ylATMSiteList.add(site);
+        DisplayATMSite(ylATMSiteList);
+    }
+
+    private void DisplayATMSite(List<Site> ylATMSiteList) {
+        if (ylATMSiteList == null || ylATMSiteList.size() < 1)return;
+        YLSiteAdapter ylSiteAdapter = new YLSiteAdapter(this,ylATMSiteList,R.layout.activity_ylsiteitem);
+        ATMlist_listview.setAdapter(ylSiteAdapter);
     }
 
     public  String replaceBlank(String str) {
@@ -116,17 +164,39 @@ public class YLATMList extends ActionBarActivity {
         SendScan1Dcmd();
     }
 
-    public void ATMListHFreaderonClick(View view) {
-        ATMListHFreader();
+    public void ATMListHFTaskstartClick(View view) {
+        ATMListHFreader("taskstart");
     }
 
-    private void ATMListHFreader() {
+    public void ATMListHFTaskendClick(View view) {
+        ATMListHFreader("taskend");
+    }
+
+    private void ATMListHFreader(String TaskStartEnd) {
         byte[] uid ;
         HFmanager.init_14443A();
         uid = HFmanager.inventory_14443A();
         if (uid != null){
-            Toast.makeText(getApplicationContext(),
-                    Tools.Bytes2HexString(uid, uid.length), Toast.LENGTH_SHORT).show();
+            String taskstarttime;
+            String taskendttime;
+            if (TaskStartEnd.equals("taskstart")){
+                if (ylTask.getTaskATMBeginTime() == null){
+                ylTask.setTaskATMBeginTime(GetCurrDateTime("date"));}
+            }else {
+                if (ylTask.getTaskATMEndTime() == null){
+                ylTask.setTaskATMEndTime(GetCurrDateTime("date"));}
+            }
+            taskstarttime = "任务开始:"+ylTask.getTaskATMBeginTime();
+            taskendttime = "任务结束:"+ylTask.getTaskATMEndTime();
+
+            if (taskstarttime.equals("任务开始:null")){
+                taskstarttime = "任务开始:";
+            }
+            if (taskendttime.equals("任务结束:null")){
+                taskendttime = "任务结束:";
+            }
+            ATMlist_tv_starttime.setText(taskstarttime);
+            ATMlist_tv_endtime.setText(taskendttime);
         }
     }
 
@@ -137,12 +207,113 @@ public class YLATMList extends ActionBarActivity {
         ATMlist_btn_UpDateatm = (Button) findViewById(R.id.ATMlist_btn_UpDateatm);
 
         ATMlist_tv_title = (TextView) findViewById(R.id.ATMlist_tv_title);
+        ATMlist_tv_starttime = (TextView) findViewById(R.id.ATMlist_tv_starttime);
+        ATMlist_tv_endtime = (TextView) findViewById(R.id.ATMlist_tv_endtime);
         ATMlist_listview = (ListView) findViewById(R.id.ATMlist_listview);
+
+        ATMlist_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView)parent;
+                Site site = (Site)listView.getItemAtPosition(position);
+                YLEditData.setSite(site);
+                Intent intent = new Intent();
+                intent.setClass(YLATMList.this,YLATMDetail.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void InitData() {
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
+        ATMlist_tv_title.setText(ylTask.getLine());
+    }
+
+    private String GetCurrDateTime(String dort){
+        String datetimeformat;
+        if (dort.equals("date")){
+            datetimeformat = "yyyy-MM-dd HH:mm:ss";
+        }else {
+            datetimeformat = "HH:mm";
+        }
+        SimpleDateFormat sDateFormat = new SimpleDateFormat(datetimeformat, Locale.CHINA);
+        return sDateFormat.format(new java.util.Date());
+    }
+
+    public void ATMListUpData(View view){
+       UpDataDialog();
+    }
+
+    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+    private void UpDataDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLATMList.this);
+        builder.setMessage("确认上传吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                singleThreadExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            YLTask t1 = ylTask;
+                            t1.lstSite=ylTask.lstSite;
+                            t1.lstBox=ylTask.lstBox;
+                            String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                            HttpPost post = new HttpPost(url);
+                            UpDataToService(t1, YLSystem.getUser(), post);
+
+                            ylTask.setTaskState("已上传");
+
+                            tasksManager.SaveTask(getApplicationContext());
+                            finish();
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        } catch (ClientProtocolException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void UpDataToService(YLTask t1, User s1, HttpPost post) throws JSONException, IOException {
+        //添加数值到User类
+        Gson gson = new Gson();
+        //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
+        JSONObject p = new JSONObject();
+        p.put("STask",gson.toJson(t1));//整个任务=====================自定义。。。。。
+        p.put("empid", s1.EmpID);//人员id=====================自定义。。。。。
+        p.put("deviceID", s1.DeviceID);//手持机号=====================自定义。。。。。
+        p.put("ISWIFI", s1.ISWIFI);//是否用WIFI=====================自定义。。。。。
+
+        post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+        post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+        HttpClient client = new DefaultHttpClient();
+        HttpResponse response = client.execute(post);
+        if (response.getStatusLine().getStatusCode() == 200) {
+            String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
+            Log.d("WCF", content);//打印到logcat
+        }
     }
 
     @Override
@@ -150,7 +321,7 @@ public class YLATMList extends ActionBarActivity {
         if (keyCode == 131){
             SendScan1Dcmd();}
         else if (keyCode == 133){
-            ATMListHFreader();
+            ATMListHFreader("taskstart");
         }
         return super.onKeyDown(keyCode, event);
     }
