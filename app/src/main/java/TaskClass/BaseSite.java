@@ -18,6 +18,7 @@ public class BaseSite //网点类
     public String SiteName;//网点名称
     public String SiteType;//网点类型
     public String ClientID;//客户ID
+    public String SiteBCNo;//条形码
     public String Mark ;//标记添加=1、修改=2、删除=3
     public String ServerTime;//服务器时间。
 

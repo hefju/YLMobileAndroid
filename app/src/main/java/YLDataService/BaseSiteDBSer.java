@@ -30,6 +30,7 @@ public class BaseSiteDBSer {
             String SiteName = cursor.getString(cursor.getColumnIndex("SiteName"));
             String SiteType = cursor.getString(cursor.getColumnIndex("SiteType"));
             String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
+            String SiteBCNo = cursor.getString(cursor.getColumnIndex("SiteBCNo"));
 
             BaseSite b=new BaseSite();
             b.Id=Id;
@@ -38,6 +39,7 @@ public class BaseSiteDBSer {
             b.SiteName=SiteName;
             b.SiteType=SiteType;
             b.ClientID=ClientID;
+            b.SiteBCNo=SiteBCNo;
 
             lstBaseSite.add(b);
         }
@@ -51,9 +53,9 @@ public class BaseSiteDBSer {
         sdb.beginTransaction();
         try {
             for (BaseSite x : lst) {
-                sdb.execSQL("INSERT INTO BaseSite ( ServerReturn, SiteID, SiteName, SiteType, ClientID)\n" +
-                                "VALUES     (?,?,?,?,?)",
-                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,
+                sdb.execSQL("INSERT INTO BaseSite ( ServerReturn, SiteID, SiteName, SiteType, ClientID,SiteBCNo)\n" +
+                                "VALUES     (?,?,?,?,?,?)",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo
                         });
 
             }
@@ -72,8 +74,9 @@ public class BaseSiteDBSer {
         sdb.beginTransaction();
         try {
             for (BaseSite x : lst) {
-                sdb.execSQL("UPDATE    BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?, ClientID =? where Id=?",
-                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID, x.Id});
+                sdb.execSQL("UPDATE    BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?," +
+                                " ClientID =?,SiteBCNo=? where Id=?",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo, x.Id});
 
             }
         }
@@ -90,8 +93,8 @@ public class BaseSiteDBSer {
         try {
             for (BaseSite x : lst) {
                 sdb.execSQL("UPDATE BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?, " +
-                                "ClientID =? where SiteID=?",
-                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID, x.SiteID});
+                                "ClientID =?,SiteBCNo=? where SiteID=?",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo, x.SiteID});
 
             }
         }
