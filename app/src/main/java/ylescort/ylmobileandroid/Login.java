@@ -419,11 +419,9 @@ public class Login extends ActionBarActivity {
 
             //左侧下按键
             if(keycode == 133 && keydown){
-
             }
             //右侧按键
             if(keycode == 134 && keydown){
-
             }
 
             if(keycode == 131 && keydown){

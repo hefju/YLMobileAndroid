@@ -1,7 +1,5 @@
 package TaskClass;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 2015/4/1.
  */
@@ -15,7 +13,15 @@ public class YLATM {
     public String TradeBegin ;//交易开始时间
     public String TradeEnd ;//交易结束时间
     public String ATMCount ;//ATM数目
+    public Integer TimeID ;//到达次数
 
+    public Integer getTimeID() {
+        return TimeID;
+    }
+
+    public void setTimeID(Integer timeID) {
+        TimeID = timeID;
+    }
 
     public String getATMCount() {
         return ATMCount;

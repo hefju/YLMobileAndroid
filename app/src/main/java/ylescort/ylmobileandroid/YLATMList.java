@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +49,11 @@ import java.util.regex.Pattern;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
+import TaskClass.YLATM;
 import TaskClass.YLTask;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
+import adapter.YLATMSiteAdapter;
 import adapter.YLSiteAdapter;
 
 public class YLATMList extends ActionBarActivity {
@@ -59,14 +62,13 @@ public class YLATMList extends ActionBarActivity {
     private Button ATMlist_btn_End;//结束按钮
     private Button ATMlist_btn_Addatm;//添加按钮
     private Button ATMlist_btn_UpDateatm;//上传按钮
+    private ListView ATMlist_listview;//列表
 
     private TextView ATMlist_tv_title;//标题
     private TextView ATMlist_tv_starttime;//任务开始
     private TextView ATMlist_tv_endtime;//任务结束
 
-    private ListView ATMlist_listview;//列表
-
-    private List<Site> ylATMSiteList;//网点列表
+    private List<YLATM> ylatmList;
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
@@ -74,6 +76,12 @@ public class YLATMList extends ActionBarActivity {
     private FileOutputStream fos;
 
     private NFCcmdManager HFmanager ;
+
+    private String Dialogtype;
+    private boolean Dialogflag;
+
+    private FunkeyListener funkeyReceive; //功能键广播接收者
+
 
 
     @Override
@@ -84,6 +92,7 @@ public class YLATMList extends ActionBarActivity {
         InitData();
         InitHFreader();
         InitReciveScan1D();
+        KeyBroad();
     }
 
     private void InitHFreader() {
@@ -114,27 +123,29 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void GetATMsite(String recivedata) {
-        if (ylATMSiteList == null){
-            ylATMSiteList = new ArrayList<>();
+        if (ylatmList == null){
+            ylatmList = new ArrayList<>();
         }
-        Site site = new Site();
-        site.setId(1);
-        site.setServerReturn("1");
-        site.setTaskID(ylTask.getTaskID());
-        site.setSiteID("222");
-        site.setSiteName("思密达");
-        site.setSiteManager("思密达");
-        site.setSiteManagerPhone("6666666666");
-        site.setSiteType("ATM点");
-        site.setStatus("未交接");
-        ylATMSiteList.add(site);
-        DisplayATMSite(ylATMSiteList);
+
+        YLATM ylatm = new YLATM();
+        ylatm.setId(1);
+        ylatm.setServerReturn("1");
+        ylatm.setTaskID("1");
+        ylatm.setSiteID("1");
+        ylatm.setSiteName("思密达");
+        ylatm.setSiteType("未交接");
+        ylatm.setTradeBegin("");
+        ylatm.setTradeEnd("");
+        ylatm.setATMCount("1");
+        ylatm.setTimeID(0);
+        ylatmList.add(ylatm);
+        DisplayATMSite(ylatmList);
     }
 
-    private void DisplayATMSite(List<Site> ylATMSiteList) {
-        if (ylATMSiteList == null || ylATMSiteList.size() < 1)return;
-        YLSiteAdapter ylSiteAdapter = new YLSiteAdapter(this,ylATMSiteList,R.layout.activity_ylsiteitem);
-        ATMlist_listview.setAdapter(ylSiteAdapter);
+    private void DisplayATMSite(List<YLATM> ylatmList) {
+        if (ylatmList == null || ylatmList.size() < 1)return;
+        YLATMSiteAdapter ylatmSiteAdapter = new YLATMSiteAdapter(this,ylatmList,R.layout.activity_atmsiteitem);
+        ATMlist_listview.setAdapter(ylatmSiteAdapter);
     }
 
     public  String replaceBlank(String str) {
@@ -161,14 +172,17 @@ public class YLATMList extends ActionBarActivity {
     }
 
     public void ATMScan1D(View view){
+        Dialogtype = "ATMScan1D";
         SendScan1Dcmd();
     }
 
     public void ATMListHFTaskstartClick(View view) {
+        Dialogtype = "ATMListHFTaskstartClick";
         ATMListHFreader("taskstart");
     }
 
     public void ATMListHFTaskendClick(View view) {
+        Dialogtype = "ATMListHFTaskendClick";
         ATMListHFreader("taskend");
     }
 
@@ -215,8 +229,8 @@ public class YLATMList extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView listView = (ListView)parent;
-                Site site = (Site)listView.getItemAtPosition(position);
-                YLEditData.setSite(site);
+                YLATM ylatm = (YLATM)listView.getItemAtPosition(position);
+                YLEditData.setYlatm(ylatm);
                 Intent intent = new Intent();
                 intent.setClass(YLATMList.this,YLATMDetail.class);
                 startActivity(intent);
@@ -242,48 +256,21 @@ public class YLATMList extends ActionBarActivity {
     }
 
     public void ATMListUpData(View view){
+       Dialogtype = "ATMListUpData";
        UpDataDialog();
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
     private void UpDataDialog() {
+        Dialogflag = true;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLATMList.this);
-        builder.setMessage("确认上传吗?");
+        builder.setMessage("是否确认?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                singleThreadExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            YLTask t1 = ylTask;
-                            t1.lstSite=ylTask.lstSite;
-                            t1.lstBox=ylTask.lstBox;
-                            String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
-                            HttpPost post = new HttpPost(url);
-                            UpDataToService(t1, YLSystem.getUser(), post);
-
-                            ylTask.setTaskState("已上传");
-
-                            tasksManager.SaveTask(getApplicationContext());
-                            finish();
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (ClientProtocolException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                ButtonMethod();
                 dialog.dismiss();
             }
         });
@@ -294,6 +281,53 @@ public class YLATMList extends ActionBarActivity {
             }
         });
         builder.create().show();
+    }
+
+    private void ButtonMethod() {
+        switch (Dialogtype){
+            case "ATMScan1D":SendScan1Dcmd();
+                break;
+            case "ATMListHFTaskstartClick":ATMListHFreader("taskstart");
+                break;
+            case "ATMListHFTaskendClick":ATMListHFreader("taskend");
+                break;
+            case "ATMListUpData":UpDataDialog();
+                break;
+        }
+        Dialogflag = false;
+    }
+
+    private void UpATMTask() {
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    YLTask t1 = ylTask;
+                    t1.lstSite=ylTask.lstSite;
+                    t1.lstBox=ylTask.lstBox;
+                    //String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
+                    HttpPost post = new HttpPost(url);
+                    UpDataToService(t1, YLSystem.getUser(), post);
+
+                    ylTask.setTaskState("已上传");
+
+                    tasksManager.SaveTask(getApplicationContext());
+                    finish();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (ClientProtocolException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void UpDataToService(YLTask t1, User s1, HttpPost post) throws JSONException, IOException {
@@ -316,15 +350,49 @@ public class YLATMList extends ActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == 131){
-            SendScan1Dcmd();}
-        else if (keyCode == 133){
-            ATMListHFreader("taskstart");
+    private class FunkeyListener extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean defaultdown=false;
+            int keycode = intent.getIntExtra("keycode", 0);
+            boolean keydown = intent.getBooleanExtra("keydown", defaultdown);
+
+            //左侧下按键
+            if(keycode == 133 && keydown){
+                Log.d("hotkey", "133");
+
+            }
+            //右侧按键
+            if(keycode == 134 && keydown){
+                Log.d("hotkey", "134");
+
+            }
+
+            if(keycode == 131 && keydown){
+//	        	Toast.makeText(getApplicationContext(), "这是F1按键", 0).show();
+                Log.d("hotkey", "131");
+                GetATMsite("");
+            }
+
+            if(keycode == 132 && keydown){
+//	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
+                Log.d("hotkey", "132");
+
+            }
+
         }
-        return super.onKeyDown(keyCode, event);
+
     }
+
+    private void KeyBroad() {
+
+        funkeyReceive  = new FunkeyListener();
+        //代码注册功能键广播接收者
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.FUN_KEY");
+        registerReceiver(funkeyReceive, filter);
+    } //初始化热键
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -356,5 +424,19 @@ public class YLATMList extends ActionBarActivity {
         stopService.putExtra("stopflag", true);
         sendBroadcast(stopService);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(funkeyReceive);
+        super.onStop();
+    }
+
+    @Override
+    protected void onPostResume() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.FUN_KEY");
+        registerReceiver(funkeyReceive, filter);
+        super.onPostResume();
     }
 }

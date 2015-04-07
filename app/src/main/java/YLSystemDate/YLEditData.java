@@ -1,18 +1,29 @@
 package YLSystemDate;
 
-import TaskClass.Site;
+import java.util.List;
+
+import TaskClass.YLATM;
 
 /**
  * Created by Administrator on 2015/4/3.
  */
 public class YLEditData {
-    public static Site site;
+    public static YLATM ylatm;
+    public static List<YLATM> ylatmList;
 
-    public static Site getSite() {
-        return site;
+    public static List<YLATM> getYlatmList() {
+        return ylatmList;
     }
 
-    public static void setSite(Site site) {
-        YLEditData.site = site;
+    public static void setYlatmList(List<YLATM> ylatmList) {
+        YLEditData.ylatmList = ylatmList;
+    }
+
+    public static YLATM getYlatm() {
+        return ylatm;
+    }
+
+    public static void setYlatm(YLATM ylatm) {
+        YLEditData.ylatm = ylatm;
     }
 }
