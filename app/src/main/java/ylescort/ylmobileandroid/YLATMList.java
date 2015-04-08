@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -51,6 +54,7 @@ import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLATM;
 import TaskClass.YLTask;
+import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 import adapter.YLATMSiteAdapter;
@@ -82,8 +86,6 @@ public class YLATMList extends ActionBarActivity {
 
     private FunkeyListener funkeyReceive; //功能键广播接收者
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +95,7 @@ public class YLATMList extends ActionBarActivity {
         InitHFreader();
         InitReciveScan1D();
         KeyBroad();
+        //GetATMSite();
     }
 
     private void InitHFreader() {
@@ -123,23 +126,33 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void GetATMsite(String recivedata) {
-        if (ylatmList == null){
+        if (YLEditData.getYlatmList() == null ){
             ylatmList = new ArrayList<>();
-        }
+            YLEditData.setYlatmList(ylatmList);}
 
         YLATM ylatm = new YLATM();
-        ylatm.setId(1);
+        ylatm.setId(YLEditData.getYlatmList().size()+1);
         ylatm.setServerReturn("1");
-        ylatm.setTaskID("1");
+        ylatm.setTaskID(ylTask.getTaskID());
         ylatm.setSiteID("1");
         ylatm.setSiteName("思密达");
         ylatm.setSiteType("未交接");
         ylatm.setTradeBegin("");
         ylatm.setTradeEnd("");
         ylatm.setATMCount("1");
-        ylatm.setTimeID(0);
-        ylatmList.add(ylatm);
-        DisplayATMSite(ylatmList);
+        ylatm.setTimeID(GetTimeID(ylatm.getSiteID()));
+        YLEditData.ylatmList.add(ylatm);
+        DisplayATMSite(YLEditData.ylatmList);
+    }
+
+    private Integer GetTimeID(String siteID) {
+        int SiteTimeID = 1;
+        for (int i = 0 ; i< YLEditData.getYlatmList().size();i++){
+            YLATM ylatm  = YLEditData.getYlatmList().get(i);
+            if (ylatm.getSiteID().equals(siteID)){
+                SiteTimeID ++;}
+        }
+        return SiteTimeID;
     }
 
     private void DisplayATMSite(List<YLATM> ylatmList) {
@@ -165,9 +178,7 @@ public class YLATMList extends ActionBarActivity {
         ac.putExtra("activity", activity);
         sendBroadcast(ac);
         Intent sendToservice = new Intent(YLATMList.this, Scan1DService.class); // 用于发送指令
-
         sendToservice.putExtra("cmd", "scan");
-
         this.startService(sendToservice); // 发送指令
     }
 
@@ -239,9 +250,12 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void InitData() {
+
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         ATMlist_tv_title.setText(ylTask.getLine());
+        GetATMSite();
+
     }
 
     private String GetCurrDateTime(String dort){
@@ -261,6 +275,74 @@ public class YLATMList extends ActionBarActivity {
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+    private void GetATMSite(){
+        singleThreadExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                String url = YLSystem.GetBaseUrl(getApplicationContext()) + "GetTaskStie";
+                HttpPost post = new HttpPost(url);
+                User user = YLSystem.getUser();
+                //添加数值到User类
+                Gson gson = new Gson();
+                //设置POST请求中的参数
+                JSONObject p = new JSONObject();
+                try {
+                    p.put("taskID", ylTask.getTaskID());
+                    p.put("deviceID", user.getDeviceID());
+                    p.put("empid", user.getEmpID());
+                    p.put("ISWIFI", user.getISWIFI());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = null;
+                try {
+                    response = client.execute(post);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String content = null;
+                    try {
+                        content = EntityUtils.toString(response.getEntity());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
+                    }.getType());
+                    String result = lstSite.get(0).ServerReturn;
+                    if (result.equals("1")) {
+                        ylTask.setLstSite(lstSite);
+                        List<YLATM> ylatms = new ArrayList<YLATM>();
+                        for (int i = 0; i <ylTask.getLstSite().size();i++){
+                            Site site = ylTask.getLstSite().get(i);
+                            YLATM ylatm = new YLATM();
+                            ylatm.setId(i+1);
+                            ylatm.setServerReturn("1");
+                            ylatm.setTaskID(ylTask.getTaskID());
+                            ylatm.setSiteID(site.getSiteID());
+                            ylatm.setSiteName(site.getSiteName());
+                            ylatm.setSiteType("未交接");
+                            ylatm.setTradeBegin("");
+                            ylatm.setTradeEnd("");
+                            ylatm.setATMCount("1");
+                            ylatm.setTimeID(1);
+                            ylatms.add(ylatm);
+                        }
+                        YLEditData.setYlatmList(ylatms);
+                        DisplayATMSite(YLEditData.getYlatmList());
+                    }
+                }
+            }
+        });
+    }
 
     private void UpDataDialog() {
         Dialogflag = true;
@@ -434,6 +516,9 @@ public class YLATMList extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
+        if (YLEditData.getYlatmList().size() > 0 ){
+            DisplayATMSite(YLEditData.getYlatmList());
+        }
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.FUN_KEY");
         registerReceiver(funkeyReceive, filter);

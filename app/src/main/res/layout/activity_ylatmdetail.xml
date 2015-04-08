@@ -7,99 +7,82 @@
     tools:context="ylescort.ylmobileandroid.YLATMDetail">
 
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/tableLayout">
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                android:layout_width="120sp"
-                android:layout_height="60sp"
-                android:text="开始读卡"
-                android:id="@+id/button11"
-                android:layout_above="@+id/button13"
-                android:layout_alignStart="@+id/button13" />
-
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:ems="10"
-                android:id="@+id/editText"
-                android:layout_column="2" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                android:layout_width="120sp"
-                android:layout_height="60sp"
-                android:text="完成读卡"
-                android:id="@+id/button13"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="time"
-                android:ems="10"
-                android:id="@+id/editText2"
-                android:layout_column="2" />
-        </TableRow>
-
-    </TableLayout>
-
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tableLayout"
-        android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout3">
-
+        android:id="@+id/ylatmdetail_ll_startime">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始:"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="ATM数量"
-            android:id="@+id/textView6"
-            android:layout_column="0" />
-
-        <EditText
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:id="@+id/editText4"
-            android:layout_column="2"
-            android:text="1"
-            android:inputType="number"
-            android:textAlignment="center" />
-
+            android:text="2015-11-11 11:11:11"
+            android:textSize="20sp"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ylatmdetail_ll_endtime"
+        android:layout_below="@+id/ylatmdetail_ll_startime"
+        android:layout_marginTop="30sp">
         <Button
-            android:layout_width="120sp"
-            android:layout_height="60sp"
-            android:text="+1"
-            android:id="@+id/button12"
-            android:layout_column="3" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结束:"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2015-11-11 11:11:11"
+            android:textSize="20sp"/>
     </LinearLayout>
-
-    <Button
-        android:layout_width="150sp"
-        android:layout_height="60sp"
-        android:text="完成"
-        android:id="@+id/button4"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_centerHorizontal="true" />
-
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ylatmdetail_ll_endtime"
+        android:id="@+id/ylatmdetail_ll_atmcounttitle"
+        android:layout_marginTop="30sp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ATM数量:"
+            android:textSize="30sp"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ylatmdetail_ll_atmcount"
+        android:layout_below="@+id/ylatmdetail_ll_atmcounttitle"
+        android:gravity="center"
+        android:layout_marginTop="30sp">
+        <Button
+            android:layout_width="90sp"
+            android:layout_height="60sp"
+            android:text="-1"/>
+        <EditText
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+        <Button
+            android:layout_width="90sp"
+            android:layout_height="60sp"
+            android:text="+1"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ylatmdetail_ll_atmcount"
+        android:layout_marginTop="60sp"
+        android:gravity="center">
+        <Button
+            android:layout_width="110sp"
+            android:layout_height="60sp"
+            android:text="确认"/>
+        <Button
+            android:layout_width="110sp"
+            android:layout_height="60sp"
+            android:layout_marginStart="20sp"
+            android:text="取消"/>
+        </LinearLayout>
 </RelativeLayout>

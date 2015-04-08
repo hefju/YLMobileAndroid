@@ -12,7 +12,7 @@
             android:textSize="20sp"
             android:text="序号"/>
         <TextView
-            android:layout_width="150sp"
+            android:layout_width="180sp"
             android:layout_height="wrap_content"
             android:id="@+id/ATMSiteitem_Name"
             android:layout_marginStart="30sp"

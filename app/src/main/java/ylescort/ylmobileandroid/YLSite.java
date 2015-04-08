@@ -111,7 +111,7 @@ public class YLSite extends ActionBarActivity {
 
         //增加载入自动更新0330kim
         if(ylTask.getTaskState()!="有更新") {
-            Toast.makeText(getApplicationContext(),"已经是最新.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"已经最新.",Toast.LENGTH_SHORT).show();
             return;
         }
         WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
