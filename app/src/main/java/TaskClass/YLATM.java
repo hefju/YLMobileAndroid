@@ -14,15 +14,6 @@ public class YLATM {
     public String TradeEnd ;//交易结束时间
     public String ATMCount ;//ATM数目
     public Integer TimeID ;//到达次数
-    public String EmpID;//交接人员ID;
-
-    public String getEmpID() {
-        return EmpID;
-    }
-
-    public void setEmpID(String empID) {
-        EmpID = empID;
-    }
 
     public Integer getTimeID() {
         return TimeID;
