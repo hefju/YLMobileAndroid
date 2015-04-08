@@ -141,7 +141,8 @@ public class YLATMList extends ActionBarActivity {
             ylatm.setTaskID(ylTask.getTaskID());
             ylatm.setSiteID(baseSite.SiteID);
             ylatm.setSiteName(baseSite.SiteName);
-            ylatm.setSiteType("未交接");
+            ylatm.setSiteType(baseSite.SiteType);
+            ylatm.setTradeState("未交接");
             ylatm.setTimeID(GetTimeID(ylatm.getSiteID()));
             ylatm.setEmpID(YLSystem.getUser().getEmpID());
             YLEditData.setYlatm(ylatm);
@@ -285,8 +286,9 @@ public class YLATMList extends ActionBarActivity {
     }
 
     public void ATMListUpData(View view){
-       Dialogtype = "ATMListUpData";
-       UpDataDialog();
+//       Dialogtype = "ATMListUpData";
+//       UpDataDialog();
+        UpATMTask();
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -352,7 +354,8 @@ public class YLATMList extends ActionBarActivity {
                 ylatm.setTaskID(ylTask.getTaskID());
                 ylatm.setSiteID(site.getSiteID());
                 ylatm.setSiteName(site.getSiteName());
-                ylatm.setSiteType("未交接");
+                ylatm.setTradeState("未交接");
+                ylatm.setSiteType(site.getSiteType());
                 ylatm.setTradeBegin("");
                 ylatm.setTradeEnd("");
                 ylatm.setATMCount("0");
@@ -466,7 +469,7 @@ public class YLATMList extends ActionBarActivity {
                 break;
             case "ATMListHFTaskendClick":ATMListHFreader("taskend");
                 break;
-            case "ATMListUpData":UpDataDialog();
+            case "ATMListUpData":UpATMTask();
                 break;
         }
     }
@@ -477,9 +480,10 @@ public class YLATMList extends ActionBarActivity {
             public void run() {
                 try {
                     YLTask t1 = ylTask;
-                    t1.lstSite=ylTask.lstSite;
+//                    t1.lstSite=ylTask.lstSite;
+                    t1.lstSite.clear();
                     t1.lstBox=ylTask.lstBox;
-                    //String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                    t1.lstATM = YLEditData.getYlatmList();
                     String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
                     HttpPost post = new HttpPost(url);
                     UpDataToService(t1, YLSystem.getUser(), post);

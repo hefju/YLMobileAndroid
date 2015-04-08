@@ -15,6 +15,15 @@ public class YLATM {
     public String ATMCount ;//ATM数目
     public Integer TimeID ;//到达次数
     public String EmpID;
+    public String TradeState;//交易状态 0或1
+
+    public String getTradeState() {
+        return TradeState;
+    }
+
+    public void setTradeState(String tradeState) {
+        TradeState = tradeState;
+    }
 
     public String getEmpID() {
         return EmpID;

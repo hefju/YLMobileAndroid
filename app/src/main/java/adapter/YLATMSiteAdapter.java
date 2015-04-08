@@ -68,7 +68,7 @@ public class YLATMSiteAdapter extends BaseAdapter {
         YLATM ylatm = ylatmList.get(position);
         atmsitenum.setText(ylatm.getId()+"");
         atmsitename.setText(ylatm.getSiteName());
-        atmsitestate.setText(ylatm.getSiteType());
+        atmsitestate.setText(ylatm.getTradeState());
 
         return convertView;
     }

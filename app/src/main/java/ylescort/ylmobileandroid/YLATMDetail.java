@@ -149,7 +149,7 @@ public class YLATMDetail extends ActionBarActivity {
             ylatm.setATMCount(ylatmdetail_et_atmcount.getText()+"");
             ylatm.setTradeBegin(ylatmdetail_tv_start.getText()+"");
             ylatm.setTradeEnd(ylatmdetail_tv_end.getText()+"");
-            ylatm.setSiteType("已完成");
+            ylatm.setTradeState("已完成");
             for (int i = 0; i <YLEditData.getYlatmList().size();i++){
                 if (YLEditData.getYlatmList().get(i).getSiteID().equals(ylatm.getSiteID())&&
                         YLEditData.getYlatmList().get(i).getTimeID().equals(ylatm.getTimeID())){
@@ -162,7 +162,7 @@ public class YLATMDetail extends ActionBarActivity {
             ylatm.setATMCount(ylatmdetail_et_atmcount.getText()+"");
             ylatm.setTradeBegin(ylatmdetail_tv_start.getText()+"");
             ylatm.setTradeEnd(ylatmdetail_tv_end.getText()+"");
-            ylatm.setSiteType("已完成");
+            ylatm.setTradeState("已完成");
             YLEditData.ylatmList.add(ylatm);
         }
         this.finish();
