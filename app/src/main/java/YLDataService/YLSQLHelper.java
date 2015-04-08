@@ -40,7 +40,7 @@ public class YLSQLHelper extends SQLiteOpenHelper {
                 " EmpID varchar(50), EmpName varchar(50), EmpNo varchar(50), EmpHFNo varchar(50)," +
                 " EmpWorkState varchar(50), EmpJJNo varchar(50))");
         db.execSQL("CREATE TABLE BaseSite (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50)," +
-                " SiteID varchar(50), SiteName varchar(50), SiteType varchar(50), ClientID varchar(50))");
+                " SiteID varchar(50), SiteName varchar(50), SiteType varchar(50), ClientID varchar(50),SiteBCNo varchar(50))");
 
         db.execSQL("CREATE TABLE TasksManager (Id INTEGER PRIMARY KEY autoincrement NOT NULL, TaskDate varchar(50),Data TEXT,EMPID varchar(50))");
 

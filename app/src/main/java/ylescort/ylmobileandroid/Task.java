@@ -227,31 +227,30 @@ public class Task extends ActionBarActivity {
                 l.setTaskState("有更新");
             }
             tasksManager.lstLatestTask = (ArrayList) lstYLTask;
-        }
-        else{
-            for(YLTask remote: lstYLTask) {
-                YLTask local=GetRemoteYLTask(remote.getTaskID(),lstlocal);
-                if(local!=null){
-                    int v0=Integer.parseInt(local.getServerVersion());
-                    int v1=Integer.parseInt(remote.getServerVersion());
-                    if(v1>v0){
+        }else {
+            for (YLTask remote : lstYLTask) {
+                YLTask local = GetRemoteYLTask(remote.getTaskID(), lstlocal);
+                if (local != null) {
+                    int v0 = Integer.parseInt(local.getServerVersion());
+                    int v1 = Integer.parseInt(remote.getServerVersion());
+                    if (v1 > v0) {
                         local.setTaskState("有更新");
-                       // local设置状态
+                        // local设置状态
                     }
-                }else{
+                } else {
                     remote.setTaskState("有更新");
                     lstlocal.add(remote);
                 }
             }
 
             //删除客户端有,服务器端没有的任务.  如果不要"已删除"状态, 这个方法就不是这样写了.
-            int max=lstlocal.size();
-            for (int i=max-1;i>=0;i--){
-                YLTask l=lstlocal.get(i);
-                if (l.getTaskType().equals("ATM清机")){//atm不删除网点
-                    continue;
-                }
-                if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null){
+            int max = lstlocal.size();
+            for (int i = max - 1; i >= 0; i--) {
+                YLTask l = lstlocal.get(i);
+//                if (l.getTaskType().equals("ATM清机")) {//atm不删除网点
+//                    continue;
+//                }
+                if (GetRemoteYLTask(l.getTaskID(), lstYLTask) == null) {
                     lstlocal.remove(i);
                 }
             }

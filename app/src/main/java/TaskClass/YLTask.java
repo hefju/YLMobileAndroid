@@ -1,5 +1,6 @@
 package TaskClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class YLTask {
     public List<Box> lstBox;
     public List<YLATM> lstATM;
 
+    //public List<Site> lstDeleteSite;//被删除的网点(包含atm)
+
     public List<YLATM> getLstATM() {
         return lstATM;
     }
@@ -41,7 +44,10 @@ public class YLTask {
         this.lstSite = lstSite;
     }
 
-    public YLTask(){}
+    public YLTask(){
+
+        //lstDeleteSite=new ArrayList<>();
+    }
 
     public YLTask(Integer id, String ServerVersion, String TaskVersion, String TaskID, String TaskType,
                   String Handset, String TaskDate, String Line, String TaskManager, String TaskATMBeginTime,
