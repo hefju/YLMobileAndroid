@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -95,7 +96,6 @@ public class YLATMList extends ActionBarActivity {
         InitHFreader();
         InitReciveScan1D();
         KeyBroad();
-        //GetATMSite();
     }
 
     private void InitHFreader() {
@@ -156,9 +156,9 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void DisplayATMSite(List<YLATM> ylatmList) {
-        if (ylatmList == null || ylatmList.size() < 1)return;
+        if (ylatmList != null && ylatmList.size() > 1){
         YLATMSiteAdapter ylatmSiteAdapter = new YLATMSiteAdapter(this,ylatmList,R.layout.activity_atmsiteitem);
-        ATMlist_listview.setAdapter(ylatmSiteAdapter);
+        ATMlist_listview.setAdapter(ylatmSiteAdapter);}
     }
 
     public  String replaceBlank(String str) {
@@ -244,7 +244,11 @@ public class YLATMList extends ActionBarActivity {
                 YLEditData.setYlatm(ylatm);
                 Intent intent = new Intent();
                 intent.setClass(YLATMList.this,YLATMDetail.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("EdiOrIns","Edit");
+                intent.putExtras(bundle);
                 startActivity(intent);
+
             }
         });
     }
@@ -254,7 +258,9 @@ public class YLATMList extends ActionBarActivity {
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         ATMlist_tv_title.setText(ylTask.getLine());
-        GetATMSite();
+        String url = YLSystem.GetBaseUrl(getApplicationContext()) + "GetTaskStie";
+        GetATMSite2 getATMSite2 = new GetATMSite2();
+        getATMSite2.execute(url);
 
     }
 
@@ -275,6 +281,80 @@ public class YLATMList extends ActionBarActivity {
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+
+    public class GetATMSite2 extends AsyncTask<String,Integer,List<Site>>{
+        @Override
+        protected List<Site> doInBackground(String... params) {
+
+            HttpPost post = new HttpPost(params[0]);
+            User user = YLSystem.getUser();
+            //添加数值到User类
+            Gson gson = new Gson();
+            //设置POST请求中的参数
+            JSONObject p = new JSONObject();
+            try {
+                p.put("taskID", ylTask.getTaskID());
+                p.put("deviceID", user.getDeviceID());
+                p.put("empid", user.getEmpID());
+                p.put("ISWIFI", user.getISWIFI());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response = null;
+            try {
+                response = client.execute(post);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (response.getStatusLine().getStatusCode() == 200) {
+                String content = null;
+                try {
+                    content = EntityUtils.toString(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
+                }.getType());
+                String result = lstSite.get(0).ServerReturn;
+                if (result.equals("1")) {
+                    return lstSite;
+
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<Site> sites) {
+            ylTask.setLstSite(sites);
+            List<YLATM> ylatms = new ArrayList<YLATM>();
+            for (int i = 0; i <ylTask.getLstSite().size();i++){
+                Site site = ylTask.getLstSite().get(i);
+                YLATM ylatm = new YLATM();
+                ylatm.setId(i+1);
+                ylatm.setServerReturn("1");
+                ylatm.setTaskID(ylTask.getTaskID());
+                ylatm.setSiteID(site.getSiteID());
+                ylatm.setSiteName(site.getSiteName());
+                ylatm.setSiteType("未交接");
+                ylatm.setTradeBegin("");
+                ylatm.setTradeEnd("");
+                ylatm.setATMCount("1");
+                ylatm.setTimeID(1);
+                ylatms.add(ylatm);
+            }
+            YLEditData.setYlatmList(ylatms);
+            DisplayATMSite(YLEditData.getYlatmList());
+            super.onPostExecute(sites);
+        }
+    }
 
     private void GetATMSite(){
         singleThreadExecutor.execute(new Runnable() {
@@ -337,11 +417,13 @@ public class YLATMList extends ActionBarActivity {
                             ylatms.add(ylatm);
                         }
                         YLEditData.setYlatmList(ylatms);
-                        DisplayATMSite(YLEditData.getYlatmList());
+
                     }
                 }
+                DisplayATMSite(YLEditData.getYlatmList());
             }
         });
+
     }
 
     private void UpDataDialog() {
@@ -516,9 +598,9 @@ public class YLATMList extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-        if (YLEditData.getYlatmList().size() > 0 ){
+
             DisplayATMSite(YLEditData.getYlatmList());
-        }
+
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.FUN_KEY");
         registerReceiver(funkeyReceive, filter);
