@@ -220,7 +220,7 @@ public class Task extends ActionBarActivity {
             x.setTaskDate(GetCalendarViewTime());
         }
         //测试代码结束
-        //Log.d("jutest",)
+
         List<YLTask> lstlocal=tasksManager.lstLatestTask;
         if(lstlocal==null) {
             for (YLTask l:lstYLTask){
@@ -248,6 +248,9 @@ public class Task extends ActionBarActivity {
             int max=lstlocal.size();
             for (int i=max-1;i>=0;i--){
                 YLTask l=lstlocal.get(i);
+                if (l.getTaskType().equals("ATM清机")){//atm不删除网点
+                    continue;
+                }
                 if(GetRemoteYLTask(l.getTaskID(),lstYLTask)==null){
                     lstlocal.remove(i);
                 }
