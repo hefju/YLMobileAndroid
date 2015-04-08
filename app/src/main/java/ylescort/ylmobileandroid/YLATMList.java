@@ -50,11 +50,13 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import TaskClass.BaseSite;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLATM;
 import TaskClass.YLTask;
+import YLDataService.BaseSiteDBSer;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
@@ -86,6 +88,7 @@ public class YLATMList extends ActionBarActivity {
     private boolean Dialogflag;
 
     private FunkeyListener funkeyReceive; //功能键广播接收者
+    private BaseSiteDBSer baseSiteDBSer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,20 +132,28 @@ public class YLATMList extends ActionBarActivity {
         if (YLEditData.getYlatmList() == null ){
             ylatmList = new ArrayList<>();
             YLEditData.setYlatmList(ylatmList);}
-
-        YLATM ylatm = new YLATM();
-        ylatm.setId(YLEditData.getYlatmList().size()+1);
-        ylatm.setServerReturn("1");
-        ylatm.setTaskID(ylTask.getTaskID());
-        ylatm.setSiteID("1");
-        ylatm.setSiteName("思密达");
-        ylatm.setSiteType("未交接");
-        ylatm.setTradeBegin("");
-        ylatm.setTradeEnd("");
-        ylatm.setATMCount("1");
-        ylatm.setTimeID(GetTimeID(ylatm.getSiteID()));
-        YLEditData.ylatmList.add(ylatm);
-        DisplayATMSite(YLEditData.ylatmList);
+        List<BaseSite> baseSiteList = baseSiteDBSer.GetBaseSites("where SiteBCNo ="+replaceBlank(recivedata));
+        if (baseSiteList.size()>0){
+            BaseSite baseSite = baseSiteList.get(0);
+            YLATM ylatm = new YLATM();
+            ylatm.setId(YLEditData.getYlatmList().size()+1);
+            ylatm.setServerReturn("1");
+            ylatm.setTaskID(ylTask.getTaskID());
+            ylatm.setSiteID(baseSite.SiteID);
+            ylatm.setSiteName(baseSite.SiteName);
+            ylatm.setSiteType("未交接");
+            ylatm.setTimeID(GetTimeID(ylatm.getSiteID()));
+            ylatm.setEmpID(YLSystem.getUser().getEmpID());
+            YLEditData.setYlatm(ylatm);
+            Intent intent = new Intent();
+            intent.setClass(YLATMList.this,YLATMDetail.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("EdiOrIns","Ins");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }else {
+            Toast.makeText(getApplicationContext(),"网点码无效",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private Integer GetTimeID(String siteID) {
@@ -245,23 +256,21 @@ public class YLATMList extends ActionBarActivity {
                 Intent intent = new Intent();
                 intent.setClass(YLATMList.this,YLATMDetail.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("EdiOrIns","Edit");
+                bundle.putString("EdiOrIns","Edi");
                 intent.putExtras(bundle);
                 startActivity(intent);
-
             }
         });
     }
 
     private void InitData() {
-
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         ATMlist_tv_title.setText(ylTask.getLine());
         String url = YLSystem.GetBaseUrl(getApplicationContext()) + "GetTaskStie";
         GetATMSite2 getATMSite2 = new GetATMSite2();
         getATMSite2.execute(url);
-
+        baseSiteDBSer = new BaseSiteDBSer(getApplicationContext());
     }
 
     private String GetCurrDateTime(String dort){
@@ -346,8 +355,9 @@ public class YLATMList extends ActionBarActivity {
                 ylatm.setSiteType("未交接");
                 ylatm.setTradeBegin("");
                 ylatm.setTradeEnd("");
-                ylatm.setATMCount("1");
+                ylatm.setATMCount("0");
                 ylatm.setTimeID(1);
+                ylatm.setEmpID(YLSystem.getUser().getEmpID());
                 ylatms.add(ylatm);
             }
             YLEditData.setYlatmList(ylatms);
@@ -448,6 +458,7 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void ButtonMethod() {
+        if (Dialogflag)return;
         switch (Dialogtype){
             case "ATMScan1D":SendScan1Dcmd();
                 break;
@@ -458,7 +469,6 @@ public class YLATMList extends ActionBarActivity {
             case "ATMListUpData":UpDataDialog();
                 break;
         }
-        Dialogflag = false;
     }
 
     private void UpATMTask() {
@@ -525,28 +535,30 @@ public class YLATMList extends ActionBarActivity {
             //左侧下按键
             if(keycode == 133 && keydown){
                 Log.d("hotkey", "133");
-
+                //UpDataDialog();
             }
             //右侧按键
             if(keycode == 134 && keydown){
                 Log.d("hotkey", "134");
-
+                //UpDataDialog();
             }
 
             if(keycode == 131 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F1按键", 0).show();
                 Log.d("hotkey", "131");
-                GetATMsite("");
+                Dialogtype= "ATMScan1D";
+                UpDataDialog();
+                Dialogflag = true;
             }
 
             if(keycode == 132 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
                 Log.d("hotkey", "132");
-
+                Dialogtype= "ATMListUpData-";
+                UpDataDialog();
             }
 
         }
-
     }
 
     private void KeyBroad() {
@@ -576,7 +588,6 @@ public class YLATMList extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -598,9 +609,7 @@ public class YLATMList extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-
-            DisplayATMSite(YLEditData.getYlatmList());
-
+        DisplayATMSite(YLEditData.getYlatmList());
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.FUN_KEY");
         registerReceiver(funkeyReceive, filter);

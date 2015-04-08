@@ -17,6 +17,9 @@ import com.android.hdhe.nfc.NFCcmdManager;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import TaskClass.YLATM;
+import YLSystemDate.YLEditData;
+
 
 public class YLATMDetail extends ActionBarActivity {
 
@@ -36,6 +39,8 @@ public class YLATMDetail extends ActionBarActivity {
     private NFCcmdManager HFmanager ;
 
     private String readtimeflag;
+
+    private String OperStuat;
 
 
     @Override
@@ -59,6 +64,16 @@ public class YLATMDetail extends ActionBarActivity {
     private void GetInterString() {
         Bundle bundle = this.getIntent().getExtras();
         String Name = bundle.getString("EdiOrIns");
+        if (Name.equals("Edi")){
+            OperStuat ="--编辑";
+            ylatmdetail_et_atmcount.setText(YLEditData.getYlatm().ATMCount);
+            ylatmdetail_tv_start.setText(YLEditData.getYlatm().getTradeBegin());
+            ylatmdetail_tv_end.setText(YLEditData.getYlatm().getTradeEnd());
+
+        }else {
+            OperStuat = "--新增";
+        }
+        ylsite_tv_sitename.setText(YLEditData.getYlatm().getSiteName()+OperStuat);
     }
 
     private void InitLayout() {
@@ -78,7 +93,6 @@ public class YLATMDetail extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 readtimeflag = "start";
-                //GetTimeByHF("start");
                 ReadStartTimeDialog();
             }
         });
@@ -87,7 +101,6 @@ public class YLATMDetail extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 readtimeflag = "end";
-                //GetTimeByHF("end");
                 ReadStartTimeDialog();
             }
         });
@@ -126,11 +139,33 @@ public class YLATMDetail extends ActionBarActivity {
     }
 
     private void ylatmCancel() {
-
+        this.finish();
     }
 
     private void ylatmEnter() {
-
+        if (OperStuat.equals("--编辑")){
+            YLATM ylatm;
+            ylatm = YLEditData.getYlatm();
+            ylatm.setATMCount(ylatmdetail_et_atmcount.getText()+"");
+            ylatm.setTradeBegin(ylatmdetail_tv_start.getText()+"");
+            ylatm.setTradeEnd(ylatmdetail_tv_end.getText()+"");
+            ylatm.setSiteType("已完成");
+            for (int i = 0; i <YLEditData.getYlatmList().size();i++){
+                if (YLEditData.getYlatmList().get(i).getSiteID().equals(ylatm.getSiteID())&&
+                        YLEditData.getYlatmList().get(i).getTimeID().equals(ylatm.getTimeID())){
+                    YLEditData.ylatmList.set(i,ylatm);
+                }
+            }
+        }else {
+            YLATM ylatm;
+            ylatm = YLEditData.getYlatm();
+            ylatm.setATMCount(ylatmdetail_et_atmcount.getText()+"");
+            ylatm.setTradeBegin(ylatmdetail_tv_start.getText()+"");
+            ylatm.setTradeEnd(ylatmdetail_tv_end.getText()+"");
+            ylatm.setSiteType("已完成");
+            YLEditData.ylatmList.add(ylatm);
+        }
+        this.finish();
     }
 
     private void GetTimeByHF(String startorend) {
