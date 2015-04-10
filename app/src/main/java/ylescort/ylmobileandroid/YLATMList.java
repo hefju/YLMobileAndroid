@@ -286,8 +286,6 @@ public class YLATMList extends ActionBarActivity {
     }
 
     public void ATMListUpData(View view){
-//       Dialogtype = "ATMListUpData";
-//       UpDataDialog();
         UpATMTask();
     }
 
@@ -324,19 +322,21 @@ public class YLATMList extends ActionBarActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (response.getStatusLine().getStatusCode() == 200) {
-                String content = null;
-                try {
-                    content = EntityUtils.toString(response.getEntity());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
-                }.getType());
-                String result = lstSite.get(0).ServerReturn;
-                if (result.equals("1")) {
-                    return lstSite;
+            if (response != null) {
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String content = null;
+                    try {
+                        content = EntityUtils.toString(response.getEntity());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
+                    }.getType());
+                    String result = lstSite.get(0).ServerReturn;
+                    if (result.equals("1")) {
+                        return lstSite;
 
+                    }
                 }
             }
             return null;
@@ -369,78 +369,8 @@ public class YLATMList extends ActionBarActivity {
         }
     }
 
-    private void GetATMSite(){
-        singleThreadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                String url = YLSystem.GetBaseUrl(getApplicationContext()) + "GetTaskStie";
-                HttpPost post = new HttpPost(url);
-                User user = YLSystem.getUser();
-                //添加数值到User类
-                Gson gson = new Gson();
-                //设置POST请求中的参数
-                JSONObject p = new JSONObject();
-                try {
-                    p.put("taskID", ylTask.getTaskID());
-                    p.put("deviceID", user.getDeviceID());
-                    p.put("empid", user.getEmpID());
-                    p.put("ISWIFI", user.getISWIFI());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-                HttpClient client = new DefaultHttpClient();
-                HttpResponse response = null;
-                try {
-                    response = client.execute(post);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    String content = null;
-                    try {
-                        content = EntityUtils.toString(response.getEntity());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
-                    }.getType());
-                    String result = lstSite.get(0).ServerReturn;
-                    if (result.equals("1")) {
-                        ylTask.setLstSite(lstSite);
-                        List<YLATM> ylatms = new ArrayList<YLATM>();
-                        for (int i = 0; i <ylTask.getLstSite().size();i++){
-                            Site site = ylTask.getLstSite().get(i);
-                            YLATM ylatm = new YLATM();
-                            ylatm.setId(i+1);
-                            ylatm.setServerReturn("1");
-                            ylatm.setTaskID(ylTask.getTaskID());
-                            ylatm.setSiteID(site.getSiteID());
-                            ylatm.setSiteName(site.getSiteName());
-                            ylatm.setSiteType("未交接");
-                            ylatm.setTradeBegin("");
-                            ylatm.setTradeEnd("");
-                            ylatm.setATMCount("1");
-                            ylatm.setTimeID(1);
-                            ylatms.add(ylatm);
-                        }
-                        YLEditData.setYlatmList(ylatms);
-
-                    }
-                }
-                DisplayATMSite(YLEditData.getYlatmList());
-            }
-        });
-
-    }
-
     private void UpDataDialog() {
-        Dialogflag = true;
+        if (Dialogflag)return;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLATMList.this);
         builder.setMessage("是否确认?");
         builder.setTitle("提示");
@@ -448,12 +378,14 @@ public class YLATMList extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ButtonMethod();
+                Dialogflag = false;
                 dialog.dismiss();
             }
         });
         builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Dialogflag = false;
                 dialog.dismiss();
             }
         });
@@ -461,7 +393,7 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void ButtonMethod() {
-        if (Dialogflag)return;
+
         switch (Dialogtype){
             case "ATMScan1D":SendScan1Dcmd();
                 break;
@@ -480,28 +412,20 @@ public class YLATMList extends ActionBarActivity {
             public void run() {
                 try {
                     YLTask t1 = ylTask;
-//                    t1.lstSite=ylTask.lstSite;
                     t1.lstSite.clear();
                     t1.lstBox=ylTask.lstBox;
                     t1.lstATM = YLEditData.getYlatmList();
                     String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
                     HttpPost post = new HttpPost(url);
                     UpDataToService(t1, YLSystem.getUser(), post);
-
                     ylTask.setTaskState("已上传");
-
                     tasksManager.SaveTask(getApplicationContext());
                     finish();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    // TODO Auto-generated catch block
+                } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-
-                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -558,7 +482,7 @@ public class YLATMList extends ActionBarActivity {
             if(keycode == 132 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
                 Log.d("hotkey", "132");
-                Dialogtype= "ATMListUpData-";
+                Dialogtype= "ATMListUpData";
                 UpDataDialog();
             }
 

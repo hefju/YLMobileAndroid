@@ -44,11 +44,11 @@ public class YLNetWorkStateService extends Service {
                     String name = info.getTypeName();
                     if (name.equals("mobile")){
                         YLSystem.setNetWorkState("0");
-                        Log.d("ping", "0");
+                        //Log.d("ping", "0");
 
                     }else {
                         YLSystem.setNetWorkState("1");
-                        Log.d("ping", "1");
+                        //Log.d("ping", "1");
                     }
 
 //                    String str = new NetPing().doInBackground();
@@ -57,6 +57,7 @@ public class YLNetWorkStateService extends Service {
 //                    }
                     //doSomething()
                 } else {
+                    YLSystem.setNetWorkState("2");
                     Toast.makeText(context,"没有可用网络",Toast.LENGTH_SHORT).show();
                     //doSomething()
                 }

@@ -128,19 +128,6 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/boxedi_rbtn_empty"
-                android:text="@string/box_tv_empty"
-                android:textSize="20sp"
-                android:onClick="RadioClick"/>
-            <TextView
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/boxedi_tv_empty"
-                android:text="@string/box_tv_amount"
-                android:textSize="15sp"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_full"
                 android:text="@string/box_tv_full"
                 android:textSize="20sp"
@@ -151,6 +138,20 @@
                 android:id="@+id/boxedi_tv_full"
                 android:text="@string/box_tv_amount"
                 android:textSize="15sp"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_rbtn_empty"
+                android:text="@string/box_tv_empty"
+                android:textSize="20sp"
+                android:onClick="RadioClick"/>
+            <TextView
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/boxedi_tv_empty"
+                android:text="@string/box_tv_amount"
+                android:textSize="15sp"/>
+
         </RadioGroup>
 
         <RadioGroup

@@ -165,7 +165,7 @@ public class YLBoxEdit extends ActionBarActivity {
                 (this,android.R.layout.simple_spinner_item,TimeIDlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boxedi_sp_TimeID.setAdapter(adapter);
-        boxedi_sp_TimeID.setPrompt("交接类型");
+        boxedi_sp_TimeID.setPrompt("到达顺序");
 
     }
 
