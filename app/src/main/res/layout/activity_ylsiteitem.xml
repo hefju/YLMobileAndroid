@@ -13,21 +13,18 @@
         android:layout_height="wrap_content"
         android:textSize="15sp"
         android:id="@+id/ylsiteitem_Num"
-        android:text="类型"
         />
     <TextView
-        android:layout_width="180dp"
+        android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/ylsiteitem_Name"
         android:layout_toEndOf="@+id/ylsiteitem_Num"
-        android:text="名称"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ylsiteitem_state"
-        android:layout_toEndOf="@+id/ylsiteitem_Name"
-        android:text="状态"/>
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

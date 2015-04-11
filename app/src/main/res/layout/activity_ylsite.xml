@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ylsite_tv_title"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:text="标题"/>
     </LinearLayout>
     <LinearLayout
@@ -59,9 +59,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout2"
-        android:gravity="right">
+        android:gravity="end">
         <Button
-            android:layout_width="90sp"
+            android:layout_width="100sp"
             android:layout_height="wrap_content"
             android:id="@+id/Site_Update"
             android:text="上传"

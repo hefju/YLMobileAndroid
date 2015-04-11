@@ -211,8 +211,7 @@ public class Login extends ActionBarActivity {
                                 else {
                                     message= "登录失败";
                                     YLMediaPlay("faile");
-                                    mh.sendEmptyMessage(0);
-                                    //Log_BN_HF.setEnabled(true);
+                                    mh.sendEmptyMessage(1);
                                 }
                             }
                         } catch (UnsupportedEncodingException e) {
@@ -273,7 +272,11 @@ public class Login extends ActionBarActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            if (msg.what == 1){
+                Log_BN_HF.setEnabled(true);
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+
         }
     };
     public void chongtest(View view){
