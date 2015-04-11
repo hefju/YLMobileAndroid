@@ -90,6 +90,8 @@ public class YLATMList extends ActionBarActivity {
     private FunkeyListener funkeyReceive; //功能键广播接收者
     private BaseSiteDBSer baseSiteDBSer;
 
+    android.os.Handler mHandler; //消息处理
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -268,9 +270,19 @@ public class YLATMList extends ActionBarActivity {
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         ATMlist_tv_title.setText(ylTask.getLine());
-        String url = YLSystem.GetBaseUrl(getApplicationContext()) + "GetTaskStie";
-        GetATMSite2 getATMSite2 = new GetATMSite2();
-        getATMSite2.execute(url);
+
+
+        if(ylTask.getTaskState().equals("有更新")){
+            ATMlist_tv_title.setText("获取任务中");
+            String url = YLSystem.GetBaseUrl(getApplicationContext()) + "GetTaskStie";
+            GetATMSite2 getATMSite2 = new GetATMSite2();
+            getATMSite2.execute(url);
+        }else {
+            ylTask.setTaskState("进行中");
+            YLEditData.setYlatmList(ylTask.getLstATM());
+            DisplayATMSite(ylTask.getLstATM());
+        }
+
         baseSiteDBSer = new BaseSiteDBSer(getApplicationContext());
     }
 
@@ -365,6 +377,7 @@ public class YLATMList extends ActionBarActivity {
             }
             YLEditData.setYlatmList(ylatms);
             DisplayATMSite(YLEditData.getYlatmList());
+            ATMlist_tv_title.setText(ylTask.getLine());
             super.onPostExecute(sites);
         }
     }
