@@ -213,6 +213,9 @@ public class Login extends ActionBarActivity {
                                     YLMediaPlay("faile");
                                     mh.sendEmptyMessage(1);
                                 }
+                            }else {
+                                message= "登录失败";
+                                mh.sendEmptyMessage(1);
                             }
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
@@ -227,7 +230,8 @@ public class Login extends ActionBarActivity {
                             e.printStackTrace();
                         }
                     }
-                });
+                }
+                );Log_BN_HF.setEnabled(true);
             }else {
                 String userNo = Tools.Bytes2HexString(uid, uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
