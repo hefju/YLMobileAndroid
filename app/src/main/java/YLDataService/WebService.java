@@ -40,16 +40,9 @@ import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2015/1/28.
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/Login
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetTask
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetTaskStie
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseEmp
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseClient
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseSite
- * http://68.252.175.149:8059/YLMobileServiceAndroid.svc/GetBaseBox
  */
 public class WebService {
-    public static String webserviceaddress = "http://68.252.175.149:8059/YLMobileServiceAndroid.svc/";
+    public static String webserviceaddress = "";
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
@@ -129,7 +122,7 @@ public class WebService {
             @Override
             public void run() {
                 try {
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    String url = "";
                     //String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTask1";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
