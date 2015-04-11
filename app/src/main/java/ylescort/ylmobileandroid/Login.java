@@ -233,7 +233,7 @@ public class Login extends ActionBarActivity {
                 String userNo = Tools.Bytes2HexString(uid, uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
                 List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
-                if (baseEmpList.size()>1){
+                if (baseEmpList.size()>0){
                     BaseEmp baseEmp = baseEmpList.get(0);
 
                     User user = new User();
@@ -251,6 +251,9 @@ public class Login extends ActionBarActivity {
 //                                bundle.putString("AName","Kim");
 //                                intent.putExtras(bundle);
                     startActivity(intent);
+                }else {
+                    Log_BN_HF.setEnabled(true);
+                    Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -258,7 +261,7 @@ public class Login extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
             Log_BN_HF.setEnabled(true);
         }
-        Log_BN_HF.setEnabled(true);
+        //Log_BN_HF.setEnabled(true);
     }
 //    private    Button btnju1;
 //    private Button btnju2;

@@ -12,9 +12,11 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.BaseEmp;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.BaseEmpDBSer;
 import YLDataService.EmpDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.TasksManagerDBSer;
@@ -104,12 +106,20 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     public void testDeltask() {
         tasksManager = new TasksManager();
         tasksManager.TaskDate = "2015-03-12";
-        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManager(tasksManager);
+        //TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+        //tasksManagerDBSer.DeleteTasksManager(tasksManager);
     }
 
 
-    public Context getApplicationContext() {
-        return applicationContext;
+//    public Context getApplicationContext() {
+//        return getApplicationContext();
+//    }
+
+    public void testgetbaseemp(){
+        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
+        String userNo = "A0EAD8A6";
+        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
+        Log.e(TAG,baseEmpList.get(0).EmpHFNo);
     }
+
 }

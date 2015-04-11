@@ -45,7 +45,7 @@
         android:text="状态"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="300sp"
         android:layout_below="@+id/ylsite_LL_itemtitle"
         android:id="@+id/linearLayout2">
