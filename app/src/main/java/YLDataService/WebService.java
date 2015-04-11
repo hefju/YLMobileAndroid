@@ -130,6 +130,7 @@ public class WebService {
             public void run() {
                 try {
                     String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    //String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTask1";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     User user = new User();

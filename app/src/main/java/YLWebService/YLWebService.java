@@ -36,9 +36,6 @@ public class YLWebService {
   private static Map map = new HashMap();
     public YLWebService()
     {
-        map.put("Login",   "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login");
-        map.put("TaskList","http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask");
-        map.put("SiteList","http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie");
     }
 
     //获取网点列表
@@ -127,7 +124,6 @@ public class YLWebService {
     public boolean Login(String EmpNO,String UserName,String pwd,String DeviceID, String ISWIFI)
     {
         try {
-           // String url = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/Login";//网址
             String url=map.get("Login").toString();
             HttpPost post = new HttpPost(url);
 

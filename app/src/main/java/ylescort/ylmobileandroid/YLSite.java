@@ -202,7 +202,7 @@ public class YLSite extends ActionBarActivity {
                             YLTask t1 = ylTask;
                             t1.lstSite=ylTask.lstSite;
                             t1.lstBox=ylTask.lstBox;
-                            String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                            String url= YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
                             HttpPost post = new HttpPost(url);
                             UpDataToService(t1, YLSystem.getUser(), post);
 

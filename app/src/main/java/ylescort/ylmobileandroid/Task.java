@@ -367,7 +367,7 @@ public class Task extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTaskStie";
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTaskStie";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -426,7 +426,7 @@ public class Task extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-                    String url =  "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetTask1";
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTask1";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
 

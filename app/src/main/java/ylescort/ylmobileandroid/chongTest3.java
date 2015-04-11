@@ -43,6 +43,7 @@ import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.Vision;
 import TaskClass.YLTask;
+import YLSystemDate.YLSystem;
 
 
 public class chongTest3 extends ActionBarActivity {
@@ -104,7 +105,7 @@ public class chongTest3 extends ActionBarActivity {
                     s1.ISWIFI = "1";
                     //以上是测试数据可以修改============================================================================
 
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseEmp";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseEmp";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -172,7 +173,8 @@ public class chongTest3 extends ActionBarActivity {
                     s1.ISWIFI = "1";
                     //以上是测试数据可以修改============================================================================
 
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseClient";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseClient";
+
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -240,7 +242,7 @@ public class chongTest3 extends ActionBarActivity {
                     s1.ISWIFI = "1";
                     //以上是测试数据可以修改============================================================================
 
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseSite";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseSite";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -309,7 +311,7 @@ public class chongTest3 extends ActionBarActivity {
                     s1.ISWIFI = "1";
                     //以上是测试数据可以修改============================================================================
 
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetBaseBox";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseBox";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -432,9 +434,7 @@ public class chongTest3 extends ActionBarActivity {
                     s1.ISWIFI = "1";
                     //以上是测试数据可以修改============================================================================
 
-
-
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/UpLoad";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
@@ -507,8 +507,7 @@ public class chongTest3 extends ActionBarActivity {
                     //以上是测试数据可以修改============================================================================
 
 
-
-                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/GetVision";//网址
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetVision";
                     HttpPost post = new HttpPost(url);
                     //添加数值到User类
                     Gson gson = new Gson();
