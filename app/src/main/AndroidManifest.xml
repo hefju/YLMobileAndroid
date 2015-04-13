@@ -82,12 +82,17 @@
             android:label="@string/title_activity_ylatmlist" >
             <intent-filter>
                 <action android:name="ylescort.ylmobileandroid.YLATMList" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".YLATMDetail"
             android:label="@string/title_activity_ylatmdetail" >
+        </activity>
+        <activity
+            android:name=".KimTest"
+            android:label="@string/title_activity_kim_test" >
         </activity>
     </application>
 

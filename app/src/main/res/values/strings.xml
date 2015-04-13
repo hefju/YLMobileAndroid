@@ -50,5 +50,6 @@
     <string name="title_activity_ylbox_operate">YLBoxOperate</string>
     <string name="title_activity_ylatmlist">ATM列表</string>
     <string name="title_activity_ylatmdetail">ATM明细</string>
+    <string name="title_activity_kim_test">KimTest</string>
 
 </resources>

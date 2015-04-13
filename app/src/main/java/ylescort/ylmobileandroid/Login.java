@@ -137,9 +137,12 @@ public class Login extends ActionBarActivity {
         btnju2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JuTestClass mytest=new JuTestClass();
-                mytest.goahead2(getApplicationContext());
+//                JuTestClass mytest=new JuTestClass();
+//                mytest.goahead2(getApplicationContext());
                // Toast.makeText(getApplicationContext(), "启动测试2", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.setClass(Login.this, KimTest.class);
+                startActivity(intent);
             }
         });
 

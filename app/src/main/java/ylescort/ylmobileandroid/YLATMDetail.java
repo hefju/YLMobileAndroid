@@ -172,7 +172,7 @@ public class YLATMDetail extends ActionBarActivity {
         byte[] uid ;
         if (HFmanager.readerPowerOff()){
             HFmanager.readerPowerOn();
-        }
+        }HFmanager.readerPowerOff();
         HFmanager.init_14443A();
         uid = HFmanager.inventory_14443A();
         if (uid != null){
