@@ -213,6 +213,9 @@ public class YLATMList extends ActionBarActivity {
 
     private void ATMListHFreader(String TaskStartEnd) {
         byte[] uid ;
+        if (HFmanager.readerPowerOff()){
+            HFmanager.readerPowerOn();
+        }
         HFmanager.init_14443A();
         uid = HFmanager.inventory_14443A();
         if (uid != null){
@@ -237,6 +240,7 @@ public class YLATMList extends ActionBarActivity {
             ATMlist_tv_starttime.setText(taskstarttime);
             ATMlist_tv_endtime.setText(taskendttime);
         }
+        HFmanager.readerPowerOff();
     }
 
     private void InitLayout() {

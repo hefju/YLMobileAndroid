@@ -264,6 +264,7 @@ public class Login extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
             Log_BN_HF.setEnabled(true);
         }
+        manager.readerPowerOff();
         //Log_BN_HF.setEnabled(true);
     }
 //    private    Button btnju1;
@@ -553,5 +554,10 @@ public class Login extends ActionBarActivity {
     protected void onStop() {
         unregisterReceiver(funkeyReceive);
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
