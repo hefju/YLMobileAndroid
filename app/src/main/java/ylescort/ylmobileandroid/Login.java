@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -161,114 +162,178 @@ public class Login extends ActionBarActivity {
         Log_BN_HF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoginByHF();
+
+                try {
+                    LoginByHF();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
 
-    private void LoginByHF() {
+    private void LoginByHF() throws ExecutionException, InterruptedException {
+//        Log_BN_HF.setEnabled(false);
+//        manager.init_14443A();
+//        uid = manager.inventory_14443A();
+//        if(uid != null){
+//            if (!YLSystem.getNetWorkState().equals("2")){
+//                singleThreadExecutor.execute(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
+//                            HttpPost post = new HttpPost(url);
+//                            //添加数值到User类
+//
+//                            User user = new User();
+//                            user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
+//                            //user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
+//                            Gson gson = new Gson();
+//                            //设置POST请求中的参数
+//                            JSONObject p = new JSONObject();
+//                            p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+//                            post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+//                            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+//                            HttpClient client = new DefaultHttpClient();
+//                            HttpResponse response = client.execute(post);
+//                            if (response.getStatusLine().getStatusCode() == 200) {
+//                                String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
+//                                User getjsonuser = gson.fromJson(content, new TypeToken<User>() {
+//                                }.getType());
+//                                Log.d("jutest", content);//打印到logcat
+//                                if (getjsonuser.getServerReturn().equals("1")){
+//
+//                                    getjsonuser.setISWIFI(YLSystem.getNetWorkState());
+//                                    YLSystem.setUser(getjsonuser);
+//                                    Intent intent = new Intent();
+//                                    intent.setClass(Login.this, Task.class);
+////                                Bundle bundle = new Bundle();
+////                                bundle.putString("AName","Kim");
+////                                intent.putExtras(bundle);
+//                                    startActivity(intent);
+//                                    message= "登录成功";
+//                                    YLMediaPlay("success");
+//                                    mh.sendEmptyMessage(0);
+//
+//                                }
+//                                else {
+//                                    message= "登录失败";
+//                                    YLMediaPlay("faile");
+//                                    mh.sendEmptyMessage(1);
+//                                }
+//                            }else {
+//                                message= "登录失败";
+//                                mh.sendEmptyMessage(1);
+//                            }
+//                        } catch (UnsupportedEncodingException e) {
+//                            e.printStackTrace();
+//                        } catch (ClientProtocolException e) {
+//                            // TODO Auto-generated catch block
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            // TODO Auto-generated catch block
+//                            e.printStackTrace();
+//                        } catch (JSONException e) {
+//                            // TODO Auto-generated catch block
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//                );Log_BN_HF.setEnabled(true);
+//            }else {
+//                String userNo = Tools.Bytes2HexString(uid, uid.length);
+//                BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+//                List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
+//                if (baseEmpList.size()>0){
+//                    BaseEmp baseEmp = baseEmpList.get(0);
+//
+//                    User user = new User();
+//                    user.setEmpNO(baseEmp.EmpNo);
+//                    user.setEmpID(baseEmp.EmpID);
+//                    user.setPass("");
+//                    user.setName(baseEmp.EmpName);
+//                    user.setISWIFI("0");
+//                    user.setTaskDate("");
+//                    YLSystem.setUser(user);
+//
+//                    Intent intent = new Intent();
+//                    intent.setClass(Login.this, Task.class);
+////                                Bundle bundle = new Bundle();
+////                                bundle.putString("AName","Kim");
+////                                intent.putExtras(bundle);
+//                    startActivity(intent);
+//                }else {
+//                    Log_BN_HF.setEnabled(true);
+//                    Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//        }else{
+//            Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
+//            Log_BN_HF.setEnabled(true);
+//        }
+//        manager.readerPowerOff();
+        if (!Log_BN_HF.isEnabled()){
+            return;
+        }
         Log_BN_HF.setEnabled(false);
+        if (manager.readerPowerOff()){
+            manager.readerPowerOn();
+        }
         manager.init_14443A();
         uid = manager.inventory_14443A();
-        if(uid != null){
-            if (!YLSystem.getNetWorkState().equals("2")){
-                singleThreadExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
-                            HttpPost post = new HttpPost(url);
-                            //添加数值到User类
-
+                if(uid != null){
+                    if (!YLSystem.getNetWorkState().equals("2")){
+                        String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
+                        User user = new User();
+                        user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
+                        WebService webService = new WebService();
+                        User userfromweb = webService.LogicByHF(user,url);
+                        if (userfromweb.getServerReturn().equals("1")){
+                            userfromweb.setISWIFI(YLSystem.getNetWorkState());
+                            YLSystem.setUser(userfromweb);
+                            Intent intent = new Intent();
+                            intent.setClass(Login.this, Task.class);
+                            startActivity(intent);
+                            YLMediaPlay("success");
+                            Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
+                        }else {
+                            YLMediaPlay("faile");
+                            Log_BN_HF.setEnabled(true);
+                            Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
+                        }
+                    }else {
+                        String userNo = Tools.Bytes2HexString(uid, uid.length);
+                        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+                        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
+                        if (baseEmpList.size()>0){
+                            BaseEmp baseEmp = baseEmpList.get(0);
                             User user = new User();
-                            user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
-                            //user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
-                            Gson gson = new Gson();
-                            //设置POST请求中的参数
-                            JSONObject p = new JSONObject();
-                            p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
-                            post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-                            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-                            HttpClient client = new DefaultHttpClient();
-                            HttpResponse response = client.execute(post);
-                            if (response.getStatusLine().getStatusCode() == 200) {
-                                String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
-                                User getjsonuser = gson.fromJson(content, new TypeToken<User>() {
-                                }.getType());
-                                Log.d("jutest", content);//打印到logcat
-                                if (getjsonuser.getServerReturn().equals("1")){
+                            user.setEmpNO(baseEmp.EmpNo);
+                            user.setEmpID(baseEmp.EmpID);
+                            user.setPass("");
+                            user.setName(baseEmp.EmpName);
+                            user.setISWIFI("0");
+                            user.setTaskDate("");
+                            YLSystem.setUser(user);
+                            Intent intent = new Intent();
+                            intent.setClass(Login.this, Task.class);
+                            startActivity(intent);
 
-                                    getjsonuser.setISWIFI(YLSystem.getNetWorkState());
-                                    YLSystem.setUser(getjsonuser);
-                                    Intent intent = new Intent();
-                                    intent.setClass(Login.this, Task.class);
-//                                Bundle bundle = new Bundle();
-//                                bundle.putString("AName","Kim");
-//                                intent.putExtras(bundle);
-                                    startActivity(intent);
-                                    message= "登录成功";
-                                    YLMediaPlay("success");
-                                    mh.sendEmptyMessage(0);
-
-                                }
-                                else {
-                                    message= "登录失败";
-                                    YLMediaPlay("faile");
-                                    mh.sendEmptyMessage(1);
-                                }
-                            }else {
-                                message= "登录失败";
-                                mh.sendEmptyMessage(1);
-                            }
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        } catch (ClientProtocolException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                        }else {
+                            Log_BN_HF.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
                         }
                     }
-                }
-                );Log_BN_HF.setEnabled(true);
-            }else {
-                String userNo = Tools.Bytes2HexString(uid, uid.length);
-                BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
-                List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
-                if (baseEmpList.size()>0){
-                    BaseEmp baseEmp = baseEmpList.get(0);
-
-                    User user = new User();
-                    user.setEmpNO(baseEmp.EmpNo);
-                    user.setEmpID(baseEmp.EmpID);
-                    user.setPass("");
-                    user.setName(baseEmp.EmpName);
-                    user.setISWIFI("0");
-                    user.setTaskDate("");
-                    YLSystem.setUser(user);
-
-                    Intent intent = new Intent();
-                    intent.setClass(Login.this, Task.class);
-//                                Bundle bundle = new Bundle();
-//                                bundle.putString("AName","Kim");
-//                                intent.putExtras(bundle);
-                    startActivity(intent);
                 }else {
+                    Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
                     Log_BN_HF.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-        }else{
-            Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
-            Log_BN_HF.setEnabled(true);
-        }
         manager.readerPowerOff();
-        //Log_BN_HF.setEnabled(true);
     }
 //    private    Button btnju1;
 //    private Button btnju2;
@@ -473,7 +538,13 @@ public class Login extends ActionBarActivity {
 
             if(keycode == 132 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
-                LoginByHF();
+                try {
+                    LoginByHF();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
         }

@@ -1,5 +1,7 @@
 package YLWebService;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import TaskClass.Site;
 import TaskClass.YLTask;
@@ -34,6 +37,10 @@ import YLSystemDate.YLSystem;
  */
 public class YLWebService {
   private static Map map = new HashMap();
+
+    private User userfromser;
+    private Context context;
+
     public YLWebService()
     {
     }
@@ -172,5 +179,59 @@ public class YLWebService {
         return false;
     }
 
+
+    public User LogicUser (String url){
+        //userfromser = new User();
+        GetUserFormServer getUserFormServer = new GetUserFormServer();
+        getUserFormServer.execute(url);
+        try {
+            return getUserFormServer.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+        //return userfromser;
+    }
+    public class GetUserFormServer extends AsyncTask<String,Integer, User>{
+
+        @Override
+        protected User doInBackground(String... params) {
+            //String url = YLSystem.GetBaseUrl(this)+"Login1";
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            User user = new User();
+            user.setEmpNO("710161");
+            user.setPass(YLSystem.md5("710161"));
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("user",gson.toJson(user));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            HttpClient client = new DefaultHttpClient();
+            try {
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    User getjsonuser = new User();
+                    getjsonuser =  gson.fromJson(content, new TypeToken<User>() {
+                    }.getType());
+                    return getjsonuser;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
 }

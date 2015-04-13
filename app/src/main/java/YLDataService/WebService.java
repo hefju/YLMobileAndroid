@@ -2,6 +2,7 @@ package YLDataService;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -633,6 +635,47 @@ public class WebService {
         }. start();
     }
 
+    public User LogicByHF(User loguser,String url) throws ExecutionException, InterruptedException {
+        GetUserFormServer getUserFormServer = new GetUserFormServer();
+        getUserFormServer.execute(url,loguser.getEmpNO());
+        return getUserFormServer.get();
+    }
 
+    public class GetUserFormServer extends AsyncTask<String,Integer,User>{
+        @Override
+        protected User doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            User user = new User();
+            user.setEmpNO(params[1]);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("user",gson.toJson(user));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            HttpClient client = new DefaultHttpClient();
+            try {
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    User getjsonuser = new User();
+                    getjsonuser =  gson.fromJson(content, new TypeToken<User>() {
+                    }.getType());
+                    return getjsonuser;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
 }
