@@ -28,16 +28,18 @@ public class BaseClient_HF_DBSer {
             int Id = cursor.getInt(cursor.getColumnIndex("Id"));
             String ServerReturn = cursor.getString(cursor.getColumnIndex("ServerReturn"));
             String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
-            String ClientName = cursor.getString(cursor.getColumnIndex("ClientName"));
-            String ClientType = cursor.getString(cursor.getColumnIndex("ClientType"));
+            String HFNo = cursor.getString(cursor.getColumnIndex("HFNo"));
+            String Mark = cursor.getString(cursor.getColumnIndex("Mark"));
+            String ServerTime = cursor.getString(cursor.getColumnIndex("ServerTime"));
 
 
             BaseClient_HF b=new BaseClient_HF();
             b.Id=Id;
             b.ServerReturn=ServerReturn;
             b.ClientID=ClientID;
-//            b.HFNo=HFNo;
-//            b.Mark=Mark;
+            b.HFNo=HFNo;
+            b.Mark=Mark;
+            b.ServerTime=ServerTime;
 
             lstBaseClient_HF.add(b);
         }
@@ -51,9 +53,9 @@ public class BaseClient_HF_DBSer {
         sdb.beginTransaction();
         try {
             for (BaseClient_HF x : lst) {
-                sdb.execSQL("INSERT INTO BaseClient_HF (ServerReturn, ClientID, ClientName, ClientType)\n" +
-                                "VALUES     (?,?,?,?)",
-                        new Object[]{x.ServerReturn,x.ClientID,x.HFNo,x.Mark });
+                sdb.execSQL("INSERT INTO BaseClient_HF (ServerReturn, ClientID, HFNo, Mark,ServerTime)\n" +
+                                "VALUES     (?,?,?,?,?)",
+                        new Object[]{x.ServerReturn,x.ClientID,x.HFNo,x.Mark,x.ServerTime });
 
             }
         }
@@ -71,9 +73,9 @@ public class BaseClient_HF_DBSer {
         sdb.beginTransaction();
         try {
             for (BaseClient_HF x : lst) {
-                sdb.execSQL("UPDATE BaseClient_HF SET ServerReturn =?, ClientID =?, ClientName =?," +
-                                " ClientType =? where Id=?",
-                        new Object[]{x.ServerReturn,x.ClientID,x.HFNo,x.Mark, x.Id});
+                sdb.execSQL("UPDATE BaseClient_HF SET ServerReturn =?, ClientID =?, HFNo =?," +
+                                " Mark =?,ServerTime=? where Id=?",
+                        new Object[]{x.ServerReturn,x.ClientID,x.HFNo,x.Mark, x.ServerTime,x.Id});
 
             }
         }
@@ -84,14 +86,14 @@ public class BaseClient_HF_DBSer {
         }
 
     }
-    public void UpdateBaseClient_HFByEmpID(List<BaseClient_HF> lst) {
+    public void UpdateBaseClient_HFByHFNo(List<BaseClient_HF> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
             for (BaseClient_HF x : lst) {
-                sdb.execSQL("UPDATE BaseClient_HF SET ServerReturn =?, ClientID =?, ClientName =?," +
-                                " ClientType =? where ClientID=?",
-                        new Object[]{x.ServerReturn,x.ClientID,x.HFNo,x.HFNo, x.ClientID});
+                sdb.execSQL("UPDATE BaseClient_HF SET ServerReturn =?, ClientID =?, " +
+                                " Mark =?,ServerTime=? where HFNo=?",
+                        new Object[]{x.ServerReturn,x.ClientID,x.Mark, x.ServerTime,x.HFNo});
 
             }
         }
@@ -119,12 +121,12 @@ public class BaseClient_HF_DBSer {
         }
 
     }
-    public void DeleteBaseClient_HFByEmpID(List<BaseClient_HF> lst) {
+    public void DeleteBaseClient_HFByHFNo(List<BaseClient_HF> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
             for (BaseClient_HF x : lst) {
-                sdb.execSQL("DELETE FROM BaseClient_HF where ClientID=?", new Object[]{x.ClientID});
+                sdb.execSQL("DELETE FROM BaseClient_HF where HFNo=?", new Object[]{x.HFNo});
 
             }
         }
