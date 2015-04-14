@@ -240,17 +240,21 @@ public class YLBoxEdit extends ActionBarActivity {
                 break;
             case "晚收":boxedi_sp_tasktype.setSelection(1);
                 break;
-            case "区内中调":boxedi_sp_tasktype.setSelection(2);
+            case "日间区内中调":boxedi_sp_tasktype.setSelection(2);
                 break;
-            case "跨区中调":boxedi_sp_tasktype.setSelection(3);
+            case "日间跨区中调":boxedi_sp_tasktype.setSelection(3);
                 break;
             case "库内区内中调":boxedi_sp_tasktype.setSelection(4);
                 break;
             case "库内跨区中调":boxedi_sp_tasktype.setSelection(5);
                 break;
-            case "夜间周转":boxedi_sp_tasktype.setSelection(6);
+            case "夜间基地周转":boxedi_sp_tasktype.setSelection(6);
                 break;
-            case "人行":boxedi_sp_tasktype.setSelection(7);
+            case "佛山人行":boxedi_sp_tasktype.setSelection(7);
+                break;
+            case "寄库":boxedi_sp_tasktype.setSelection(8);
+                break;
+            case "企业上门收款":boxedi_sp_tasktype.setSelection(9);
                 break;
         }
     }

@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Administrator on 2015/1/19.
  */
 public class YLSQLHelper extends SQLiteOpenHelper {
-    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,1);}
+    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,2);}
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Employee (ID integer primary key autoincrement,EmpID varchar(20),EmpNO varchar(20),Pass varchar(20),\n" +
@@ -36,11 +36,6 @@ public class YLSQLHelper extends SQLiteOpenHelper {
                 "ServerReturn varchar(50), ClientID varchar(50), ClientName varchar(50)," +
                 " ClientType varchar(50), HFNo varchar(50))");
 
-        db.execSQL("CREATE TABLE BaseClient_HF (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
-                "ServerReturn varchar(50), ClientID varchar(50), HFNo varchar(50)," +
-                " Mark varchar(50)), ServerTime varchar(50)");
-
-
         db.execSQL("CREATE TABLE BaseEmp (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50)," +
                 " EmpID varchar(50), EmpName varchar(50), EmpNo varchar(50), EmpHFNo varchar(50)," +
                 " EmpWorkState varchar(50), EmpJJNo varchar(50))");
@@ -53,6 +48,9 @@ public class YLSQLHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL("ALTER TABLE person ADD amount integer");
-        //db.execSQL("ALTER TABLE TasksManager ADD EMPID varchar(50)");
+        db.execSQL("CREATE TABLE BaseClient_HF (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                "ServerReturn varchar(50), ClientID varchar(50), HFNo varchar(50)," +
+                " Mark varchar(50), ServerTime varchar(50))");
+        db.execSQL("ALTER TABLE BaseClient ADD HFNo varchar(50)");
     }
 }

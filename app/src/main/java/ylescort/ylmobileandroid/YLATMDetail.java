@@ -171,8 +171,7 @@ public class YLATMDetail extends ActionBarActivity {
     private void GetTimeByHF(String startorend) {
         byte[] uid ;
         if (HFmanager.readerPowerOff()){
-            HFmanager.readerPowerOn();
-        }HFmanager.readerPowerOff();
+            HFmanager.readerPowerOn();}
         HFmanager.init_14443A();
         uid = HFmanager.inventory_14443A();
         if (uid != null){

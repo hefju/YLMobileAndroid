@@ -78,7 +78,6 @@ public class Login extends ActionBarActivity {
         log_tv_vision = (TextView) findViewById(R.id.log_tv_vision);
 
         try {
-
             int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
@@ -380,8 +379,6 @@ public class Login extends ActionBarActivity {
             @Override
             public void run() {
                 try {
-//                    String url = "http://58.252.75.149:8055/YLMobileServiceAndroid.svc/Login1";//网址
-
                     String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
 
                     HttpPost post = new HttpPost(url);

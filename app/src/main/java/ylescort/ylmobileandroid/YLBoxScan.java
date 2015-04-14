@@ -337,17 +337,21 @@ public class YLBoxScan extends ActionBarActivity {
                 break;
             case "晚收":box_sp_stype.setSelection(1);
                 break;
-            case "区内中调":box_sp_stype.setSelection(2);
+            case "日间区内中调":box_sp_stype.setSelection(2);
                 break;
-            case "跨区中调":box_sp_stype.setSelection(3);
+            case "日间跨区中调":box_sp_stype.setSelection(3);
                 break;
             case "库内区内中调":box_sp_stype.setSelection(4);
                 break;
             case "库内跨区中调":box_sp_stype.setSelection(5);
                 break;
-            case "夜间周转":box_sp_stype.setSelection(6);
+            case "夜间基地周转":box_sp_stype.setSelection(6);
                 break;
-            case "人行":box_sp_stype.setSelection(7);
+            case "佛山人行":box_sp_stype.setSelection(7);
+                break;
+            case "寄库":box_sp_stype.setSelection(8);
+                break;
+            case "企业上门收款":box_sp_stype.setSelection(9);
                 break;
         }
     }
@@ -567,7 +571,7 @@ public class YLBoxScan extends ActionBarActivity {
 
     public void boxlistent(View view){
         String Entbtn =  box_btn_ent.getText().toString();
-        if (Entbtn.equals("确定")){
+        if (Entbtn.equals("完成交接")){
             AchieveDialog();
         }else{
             ArrEnterDialog();
@@ -581,7 +585,7 @@ public class YLBoxScan extends ActionBarActivity {
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                box_btn_ent.setText("确定");
+                box_btn_ent.setText("完成交接");
                 box_btn_scan.setEnabled(true);
                 box_btn_nonelable.setEnabled(true);
                 AddArriveTime();
@@ -876,14 +880,14 @@ public class YLBoxScan extends ActionBarActivity {
         sendBroadcast(ac);
         Log.e(TAG, "send broadcast");
 
-        if (box_swh_singleormore.isChecked()&scan.equals("扫描")){
+        if (box_swh_singleormore.isChecked()&scan.equals("扫描(F1)")){
             cmd = "toscan100ms";
-            box_btn_scan.setText("停止");
-        }else if(scan.equals("扫描")) {
+            box_btn_scan.setText("停止(F1)");
+        }else if(scan.equals("扫描(F1)")) {
             cmd = "scan";
-        }else if (scan.equals("停止")){
+        }else if (scan.equals("停止(F1)")){
             cmd = "stopscan";
-            box_btn_scan.setText("扫描");
+            box_btn_scan.setText("扫描(F1)");
         }
         Intent sendToservice = new Intent(YLBoxScan.this, Scan1DService.class); // 用于发送指令
         sendToservice.putExtra("cmd", cmd);

@@ -23,4 +23,14 @@
 
     <style name="ButtonBarButton" />
 
+    <!--
+    buttonsharpstype
+    -->
+    <style name="YLbutton">
+        <item name="android:shape">rectangle</item>
+        <item name="android:background">#4169E1</item>
+    </style>
+
+    
+
 </resources>

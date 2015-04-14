@@ -3,11 +3,13 @@
     <string-array name="tasktype">
         <item>早送</item>
         <item>晚收</item>
-        <item>区内中调</item>
-        <item>跨区中调</item>
+        <item>日间区内中调</item>
+        <item>日间跨区中调</item>
         <item>库内区内中调</item>
         <item>库内跨区中调</item>
-        <item>夜间周转</item>
-        <item>人行</item>
+        <item>夜间基地周转</item>
+        <item>佛山人行</item>
+        <item>寄库</item>
+        <item>企业上门收款</item>
     </string-array>
 </resources>

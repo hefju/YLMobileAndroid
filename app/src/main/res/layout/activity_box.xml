@@ -204,7 +204,7 @@
         <Button
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:text="扫描"
+        android:text="扫描(F1)"
         android:id="@+id/box_btn_scan"
         android:onClick="ScanOnClick" />
         <Button

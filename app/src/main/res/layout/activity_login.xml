@@ -49,19 +49,18 @@
     android:gravity="center"
     android:layout_below="@+id/Logic_LL_pass">
     <Button
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
         android:id="@+id/Log_BN_Ent"
         android:text="@string/Log_Ent"
         android:textSize="30sp"
         android:onClick="LoginEnter"/>
     <Button
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="130dp"
+        android:layout_height="80dp"
         android:id="@+id/Log_BN_HF"
         android:textSize="30sp"
-        android:text="读卡"
-        android:onClick="ScanHF"/>
+        android:text="读卡"/>
 
 </LinearLayout>
     <LinearLayout
