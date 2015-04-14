@@ -102,13 +102,13 @@ public class Login extends ActionBarActivity {
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"HF初始化失败",Toast.LENGTH_SHORT).show();
         }
-        try{
-            if (YLSystem.getNetWorkState().equals("1")){
-                WebService.CacheData(getApplicationContext());
-            }
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"更新缓存失败",Toast.LENGTH_SHORT).show();
-        }
+//        try{
+//            if (YLSystem.getNetWorkState().equals("1")){
+//                WebService.CacheData(getApplicationContext());
+//            }
+//        }catch (Exception e){
+//            Toast.makeText(getApplicationContext(),"更新缓存失败",Toast.LENGTH_SHORT).show();
+//        }
 
         //Log_Name.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         //GetVisionFromSer();
@@ -293,6 +293,9 @@ public class Login extends ActionBarActivity {
                         WebService webService = new WebService();
                         User userfromweb = webService.LogicByHF(user,url);
                         if (userfromweb.getServerReturn().equals("1")){
+                            //更新缓存
+                            WebService.CacheData(getApplicationContext());
+
                             userfromweb.setISWIFI(YLSystem.getNetWorkState());
                             YLSystem.setUser(userfromweb);
                             Intent intent = new Intent();

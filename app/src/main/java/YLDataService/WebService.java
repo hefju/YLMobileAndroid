@@ -636,12 +636,12 @@ public class WebService {
     }
 
     public User LogicByHF(User loguser,String url) throws ExecutionException, InterruptedException {
-        GetUserFormServer getUserFormServer = new GetUserFormServer();
+        GetUserFormServerbyHF getUserFormServer = new GetUserFormServerbyHF();
         getUserFormServer.execute(url,loguser.getEmpNO());
         return getUserFormServer.get();
     }
 
-    public class GetUserFormServer extends AsyncTask<String,Integer,User>{
+    public class GetUserFormServerbyHF extends AsyncTask<String,Integer,User>{
         @Override
         protected User doInBackground(String... params) {
             String url = params[0];
@@ -678,4 +678,47 @@ public class WebService {
         }
     }
 
+    public User LogicBypassword(User loguser,String url)throws Exception{
+        GetUserFormServerbypassword getUserFormServerbypassword = new GetUserFormServerbypassword();
+        getUserFormServerbypassword.execute(url,loguser.getEmpNO(),loguser.getPass());
+        return getUserFormServerbypassword.get();
+    }
+
+    public class GetUserFormServerbypassword extends AsyncTask<String,Integer,User>{
+        @Override
+        protected User doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            User user = new User();
+            user.setEmpNO(params[1]);
+            user.setPass(params[2]);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("user",gson.toJson(user));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            HttpClient client = new DefaultHttpClient();
+            try {
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    User getjsonuser = new User();
+                    getjsonuser =  gson.fromJson(content, new TypeToken<User>() {
+                    }.getType());
+                    return getjsonuser;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
