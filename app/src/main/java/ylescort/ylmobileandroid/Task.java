@@ -290,7 +290,7 @@ public class Task extends ActionBarActivity {
         int monthOfYear  = yltask_datepicker.getMonth();
         int dayOfMonth   = yltask_datepicker.getDayOfMonth();
         calendar.set(year,monthOfYear,dayOfMonth);
-        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
         String time=format.format(calendar.getTime());
         return  time;
     }

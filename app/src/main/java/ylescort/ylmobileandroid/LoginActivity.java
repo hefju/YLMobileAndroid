@@ -1,5 +1,7 @@
 package ylescort.ylmobileandroid;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -40,6 +42,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private TextView log_tv_vision;
     private Button Log_BN_HF;
     private NFCcmdManager manager ;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setTitle("提示");
+        progressDialog.setMessage("系统登陆中");
+        progressDialog.setIcon(R.drawable.ylescort);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setButton("返回",new CanButton());
     }
 
     private String getVersionName() throws Exception{
@@ -73,8 +85,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private void InitHFreader() {
         try{
             manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
-            //manager.readerPowerOn();
-
+            manager.readerPowerOn();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
         }
@@ -214,9 +225,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             return;
         }
         Log_BN_HF.setEnabled(false);
-        if (manager.readerPowerOff()){
-            manager.readerPowerOn();
-        }
         manager.init_14443A();
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
@@ -269,7 +277,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
             Log_BN_HF.setEnabled(true);
         }
-        manager.readerPowerOff();
     }
 
     private void UpDataAPK() {
@@ -305,5 +312,24 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }
         }
         mPlayer.start();
+    }
+
+    private class CanButton implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        manager.readerPowerOff();
+        super.onStop();
+    }
+
+    @Override
+    protected void onPostResume() {
+        manager.readerPowerOn();
+        super.onPostResume();
     }
 }
