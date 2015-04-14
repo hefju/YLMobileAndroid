@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import TaskClass.BaseEmp;
 import TaskClass.TasksManager;
@@ -114,11 +115,18 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 //        return getApplicationContext();
 //    }
 
-    public void testgetbaseemp(){
-        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
-        String userNo = "A0EAD8A6";
-        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
-        Log.e(TAG,baseEmpList.get(0).EmpHFNo);
+    public void testgetbaseemp() throws ExecutionException, InterruptedException {
+//        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
+//        String userNo = "A0EAD8A6";
+//        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
+//        Log.e(TAG,baseEmpList.get(0).EmpHFNo);
+        String url = YLSystem.GetBaseUrl(getContext())+"LoginByHF";
+        User user = new User();
+        user.setEmpNO("A0EAD8A6");
+        WebService webService = new WebService();
+        User userfromweb = webService.LogicByHF(user,url);
+        Log.e(TAG,userfromweb.toString());
+
     }
 
 }

@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import TaskClass.User;
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLSystem;
 
 
 public class KimTest extends ActionBarActivity implements View.OnClickListener {
@@ -57,5 +78,72 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private void GetDataFromServer() {
 
+        kim_test2.setText("11");
+        kim_test2.setEnabled(false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(3000);
+                    GetUserFormServer getUserFormServer = new GetUserFormServer();
+                    getUserFormServer.execute("");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }).start();
+    }
+
+    public class GetUserFormServer extends AsyncTask<String,Integer, User>{
+
+        @Override
+        protected User doInBackground(String... params) {
+            String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
+            HttpPost post = new HttpPost(url);
+            User user = new User();
+            user.setEmpNO("710161");
+            user.setPass(YLSystem.md5("710161"));
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("user",gson.toJson(user));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            HttpClient client = new DefaultHttpClient();
+            try {
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    User getjsonuser = new User();
+                    getjsonuser =  gson.fromJson(content, new TypeToken<User>() {
+                    }.getType());
+                    return getjsonuser;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+
+            if (user.getServerReturn().equals("1")){
+                kim_test2.setText("22");
+                kim_test2.setEnabled(true);
+            }else {
+                kim_test2.setText("33");
+                kim_test2.setEnabled(true);
+            }
+            super.onPostExecute(user);
+        }
     }
 }
