@@ -29,7 +29,7 @@ public class BaseClientDBSer {
             String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
             String ClientName = cursor.getString(cursor.getColumnIndex("ClientName"));
             String ClientType = cursor.getString(cursor.getColumnIndex("ClientType"));
-
+            String HFNo = cursor.getString(cursor.getColumnIndex("HFNo"));
 
             BaseClient b=new BaseClient();
             b.Id=Id;
@@ -37,6 +37,7 @@ public class BaseClientDBSer {
             b.ClientID=ClientID;
             b.ClientName=ClientName;
             b.ClientType=ClientType;
+            b.HFNo=HFNo;
 
             lstBaseClient.add(b);
         }
@@ -50,9 +51,9 @@ public class BaseClientDBSer {
         sdb.beginTransaction();
         try {
             for (BaseClient x : lst) {
-                sdb.execSQL("INSERT INTO BaseClient (ServerReturn, ClientID, ClientName, ClientType)\n" +
-                                "VALUES     (?,?,?,?)",
-                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType });
+                sdb.execSQL("INSERT INTO BaseClient (ServerReturn, ClientID, ClientName, ClientType,HFNo)\n" +
+                                "VALUES     (?,?,?,?,?)",
+                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType,x.HFNo });
 
             }
         }
@@ -71,8 +72,8 @@ public class BaseClientDBSer {
         try {
             for (BaseClient x : lst) {
                 sdb.execSQL("UPDATE BaseClient SET ServerReturn =?, ClientID =?, ClientName =?," +
-                                " ClientType =? where Id=?",
-                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType, x.Id});
+                                " ClientType =?,HFNo=? where Id=?",
+                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType,x.HFNo, x.Id});
 
             }
         }
@@ -89,8 +90,8 @@ public class BaseClientDBSer {
         try {
             for (BaseClient x : lst) {
                 sdb.execSQL("UPDATE BaseClient SET ServerReturn =?, ClientID =?, ClientName =?," +
-                                " ClientType =? where ClientID=?",
-                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType, x.ClientID});
+                                " ClientType =?,HFNo=? where ClientID=?",
+                        new Object[]{x.ServerReturn,x.ClientID,x.ClientName,x.ClientType,x.HFNo, x.ClientID});
 
             }
         }

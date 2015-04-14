@@ -34,7 +34,7 @@ public class YLSQLHelper extends SQLiteOpenHelper {
                 "BoxType varchar(50), ClientID varchar(50), SiteID varchar(50) NULL)");
         db.execSQL("CREATE TABLE BaseClient (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
                 "ServerReturn varchar(50), ClientID varchar(50), ClientName varchar(50)," +
-                " ClientType varchar(50))");
+                " ClientType varchar(50), HFNo varchar(50))");
 
         db.execSQL("CREATE TABLE BaseClient_HF (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
                 "ServerReturn varchar(50), ClientID varchar(50), HFNo varchar(50)," +
