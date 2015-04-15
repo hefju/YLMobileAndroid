@@ -97,19 +97,6 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_empty"
-                android:text="@string/box_tv_empty"
-                android:textSize="30sp"
-                android:onClick="YLBoxScanlayoutOnClick"/>
-            <TextView
-                android:layout_width="50sp"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_tv_empty"
-                android:text="@string/box_tv_amount"
-                android:textSize="20sp"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/box_rbtn_full"
                 android:text="@string/box_tv_full"
                 android:textSize="30sp"
@@ -120,6 +107,20 @@
                 android:id="@+id/box_tv_full"
                 android:text="@string/box_tv_amount"
                 android:textSize="20sp"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_rbtn_empty"
+                android:text="@string/box_tv_empty"
+                android:textSize="30sp"
+                android:onClick="YLBoxScanlayoutOnClick"/>
+            <TextView
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/box_tv_empty"
+                android:text="@string/box_tv_amount"
+                android:textSize="20sp"/>
+
             </RadioGroup>
 
     </LinearLayout>

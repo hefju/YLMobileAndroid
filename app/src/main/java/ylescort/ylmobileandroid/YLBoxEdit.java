@@ -344,7 +344,7 @@ public class YLBoxEdit extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 ListGroup("全部");
-                if (boxscanstate.equals("确定")){
+                if (boxscanstate.equals("完成交接")){
                     YLSystem.setEdiboxList(boxEditListEdit);
                 }else {
                     //删除所属网点款箱
@@ -394,7 +394,7 @@ public class YLBoxEdit extends ActionBarActivity {
             public void onClick(DialogInterface dialog, int which) {
 
                 ListGroup("全部");
-                if (boxscanstate.equals("确定")){
+                if (boxscanstate.equals("完成交接")){
                     YLSystem.setEdiboxList(boxEditListEdit);
                 }else {
                     //删除所属网点款箱

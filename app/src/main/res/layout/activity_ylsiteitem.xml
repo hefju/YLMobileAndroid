@@ -15,7 +15,7 @@
         android:id="@+id/ylsiteitem_Num"
         />
     <TextView
-        android:layout_width="170dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:id="@+id/ylsiteitem_Name"

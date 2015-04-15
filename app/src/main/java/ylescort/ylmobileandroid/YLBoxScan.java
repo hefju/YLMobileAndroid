@@ -226,8 +226,11 @@ public class YLBoxScan extends ActionBarActivity {
         return boxstuat;
     }
 
+    public void YLBoxScanlayoutOnClick(View view ) throws ClassNotFoundException{}
+
+
     //界面控件点击事件
-    public void YLBoxScanlayoutOnClick(View view ) throws ClassNotFoundException {
+    public void YLBoxScanlayoutOnClicks(View view ) throws ClassNotFoundException {
 
       if(ScanboxList == null || ScanboxList.size() ==0)return;
         Box box = ScanboxList.get(listpostion);
@@ -551,6 +554,8 @@ public class YLBoxScan extends ActionBarActivity {
 
     public void NoLableIns(View view){
 
+        if(CheckRadioButton())return;
+
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         new AlertDialog.Builder(this).setTitle("数量:")
@@ -767,7 +772,8 @@ public class YLBoxScan extends ActionBarActivity {
         int total = 0;
         for (Box box :boxList){
          if (box.getTradeAction().equals("收")){
-             getbox +=Integer.parseInt(box.getBoxCount()) ;}else{
+             getbox +=Integer.parseInt(box.getBoxCount()) ;}
+         else{
              givebox+=Integer.parseInt(box.getBoxCount());
          }
             if (box.getBoxStatus().equals("空")){

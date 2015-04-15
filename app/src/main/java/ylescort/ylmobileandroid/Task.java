@@ -285,6 +285,13 @@ public class Task extends ActionBarActivity {
     }
 
     private  String GetCalendarViewTime(){
+//        String SerTime = YLSystem.getUser().getTime();
+//        int SerYear =Integer.parseInt(SerTime.substring(0,4)) ;
+//        int SerMon =Integer.parseInt(SerTime.substring(5,6)) ;
+//        int SerDay =Integer.parseInt(SerTime.substring(7,8)) ;
+//
+//        yltask_datepicker.init(SerYear,SerMon,SerDay,null);
+
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
         int year         = yltask_datepicker.getYear();
         int monthOfYear  = yltask_datepicker.getMonth();

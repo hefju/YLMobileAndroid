@@ -27,7 +27,6 @@ public class YLTaskAdapter extends BaseAdapter {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
     }
 
-
     @Override
     public int getCount() {
         return ylTaskList.size();
