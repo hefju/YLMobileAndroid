@@ -104,9 +104,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         Log_BN_HF = (Button) findViewById(R.id.Log_BN_HF);
         Button Log_BN_Ent = (Button) findViewById(R.id.Log_BN_Ent);
         Button btnTest1 = (Button) findViewById(R.id.btnTest1);
+        Button btnTest2 = (Button) findViewById(R.id.btnTest2);
         Log_BN_HF.setOnClickListener(this);
         Log_BN_Ent.setOnClickListener(this);
         btnTest1.setOnClickListener(this);
+        btnTest2.setOnClickListener(this);
     }
 
     @Override
@@ -170,6 +172,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 break;
             case R.id.btnTest1:UpDataAPK();
                 break;
+            case R.id.btnTest2:
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this, KimTest.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -220,7 +227,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
-    private void LoginByHF() throws ExecutionException, InterruptedException  {
+    private void LoginByHF() throws Exception {
         if (!Log_BN_HF.isEnabled()){
             return;
         }
@@ -285,7 +292,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         um.check();
     }
 
-    private void YLMediaPlay(String mediavoice) {
+    private void YLMediaPlay(String mediavoice) throws Exception{
         MediaPlayer mPlayer = new MediaPlayer();
 
         if (mediavoice.equals("success")){
@@ -294,22 +301,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 return;
             }
         }else {
-            try {
-                mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
-                mPlayer.prepare();
-            } catch (IllegalArgumentException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (SecurityException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IllegalStateException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
+            mPlayer.prepare();
         }
         mPlayer.start();
     }

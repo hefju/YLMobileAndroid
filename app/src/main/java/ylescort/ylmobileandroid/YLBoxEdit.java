@@ -55,15 +55,13 @@ public class YLBoxEdit extends ActionBarActivity {
     private List<Box> boxEditListAll;//网点所有款箱数据
     private int listpostion;
     private String currSiteID;
-    private String currTimeID;
-
     private String boxscanstate;
 
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
 
-    private YLBoxEdiAdapter ylBoxEdiAdapter;
+    //private YLBoxEdiAdapter ylBoxEdiAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +104,7 @@ public class YLBoxEdit extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //if (boxEditListAll.size()<1)return;
                 String TimeID = parent.getItemAtPosition(position).toString();
-                currTimeID = TimeID;
+                String currTimeID = TimeID;
                 ListGroup(TimeID);
                 LoadBoxData(boxEditListEdit);
             }
@@ -169,6 +167,46 @@ public class YLBoxEdit extends ActionBarActivity {
 
     }
 
+    private void TallyBox(List<Box> boxList) {
+        if (boxList == null)return;
+        String until = "个";
+        int emptybox = 0;
+        int fullbox = 0;
+        int getbox = 0;
+        int givebox = 0;
+        int moneybox = 0;
+        int cardbox = 0;
+        int voucher =0;
+        int total;
+        for (Box box :boxList){
+            if (box.getTradeAction().equals("收")){
+                getbox +=Integer.parseInt(box.getBoxCount()) ;}
+            else{
+                givebox+=Integer.parseInt(box.getBoxCount());
+            }
+            if (box.getBoxStatus().equals("空")){
+                emptybox+=Integer.parseInt(box.getBoxCount());
+            }else {
+                fullbox+=Integer.parseInt(box.getBoxCount());
+            }
+            if (box.getBoxType().equals("款箱")){
+                moneybox+=Integer.parseInt(box.getBoxCount());
+            }else if (box.getBoxType().equals("卡箱")){
+                cardbox+=Integer.parseInt(box.getBoxCount());
+            }else {
+                voucher+=Integer.parseInt(box.getBoxCount());
+            }
+        }
+        //total = moneybox+cardbox+voucher;
+        boxedi_tv_empty.setText(emptybox+until);
+        boxedi_tv_full.setText(fullbox+until);
+        boxedi_tv_get.setText(getbox+until);
+        boxedi_tv_give.setText(givebox+until);
+        boxedi_tv_moneyboxs.setText(moneybox+"");
+        boxedi_tv_cardbox.setText(cardbox+"");
+        boxedi_tv_voucher.setText(voucher+"");
+    }
+
     public void RadioClick(View view) throws ClassNotFoundException {
         if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
         Box box = boxEditListEdit.get(listpostion);
@@ -176,6 +214,7 @@ public class YLBoxEdit extends ActionBarActivity {
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         LoadBoxData(boxEditListEdit);
+
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -325,10 +364,11 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private void LoadBoxData(List<Box> boxList){
         if (boxList ==null)return;
-        ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
+        YLBoxEdiAdapter ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
         boxedi_listview.setSelection(listpostion);
+        TallyBox(boxList);
     }
 
     public void boxedi_ent(View view){

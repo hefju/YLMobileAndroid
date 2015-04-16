@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -42,6 +44,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLDataService.BaseBoxDBSer;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 import adapter.YLBoxAdapter;
 
@@ -73,6 +76,11 @@ public class YLBoxScan extends ActionBarActivity {
     private Button box_btn_ent;//确认
     private Button box_btn_scan;//扫描
     private Button box_btn_nonelable;//无标签
+
+    /**
+     * 对话框
+     */
+    private AlertDialog.Builder builder;
     /**
      * 红外扫描注册广播
      */
@@ -118,7 +126,7 @@ public class YLBoxScan extends ActionBarActivity {
             LoadYLBoxBaseData();    //获取初始数据
             YLBoxScaninit();        //初始化红外扫描
             KeyBroad();             //初始化热键
-//            GetScreen();//备用
+//            GetScreen();          //备用屏幕关闭时事件
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -558,6 +566,10 @@ public class YLBoxScan extends ActionBarActivity {
 
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+        inputManager.showSoftInput(et,0);
+
         new AlertDialog.Builder(this).setTitle("数量:")
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setView(et)
@@ -571,7 +583,6 @@ public class YLBoxScan extends ActionBarActivity {
                         }
                     }
                 }).setNegativeButton("取消", null).show();
-
     }
 
     public void boxlistent(View view){
@@ -630,6 +641,7 @@ public class YLBoxScan extends ActionBarActivity {
                 if (ylTask.lstBox== null){
                     ylTask.lstBox = new ArrayList<>();
                 }
+                ScanboxList= YLSystem.getEdiboxList();
                 for (int i = 0 ;i < ScanboxList.size();i++){
                     Box box = new Box();
                     box = ScanboxList.get(i);
@@ -759,9 +771,8 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void TallyBox(List<Box> boxList) {
+        if (boxList == null)return;
         String until = "个";
-        int general = 0;
-        int transfer = 0;
         int emptybox = 0;
         int fullbox = 0;
         int getbox = 0;
@@ -769,7 +780,7 @@ public class YLBoxScan extends ActionBarActivity {
         int moneybox = 0;
         int cardbox = 0;
         int voucher =0;
-        int total = 0;
+        int total;
         for (Box box :boxList){
          if (box.getTradeAction().equals("收")){
              getbox +=Integer.parseInt(box.getBoxCount()) ;}
@@ -781,11 +792,6 @@ public class YLBoxScan extends ActionBarActivity {
             }else {
                 fullbox+=Integer.parseInt(box.getBoxCount());
             }
-            if (box.getBoxTaskType().equals("普")){
-                general+=Integer.parseInt(box.getBoxCount());
-            }else {
-                transfer+=Integer.parseInt(box.getBoxCount());
-            }
             if (box.getBoxType().equals("款箱")){
                 moneybox+=Integer.parseInt(box.getBoxCount());
             }else if (box.getBoxType().equals("卡箱")){
@@ -795,8 +801,6 @@ public class YLBoxScan extends ActionBarActivity {
             }
         }
         total = moneybox+cardbox+voucher;
-//        box_tv_general.setText(general+until);
-//        box_tv_transfer.setText(transfer+until);
         box_tv_empty.setText(emptybox+until);
         box_tv_full.setText(fullbox+until);
         box_tv_get.setText(getbox+until);
@@ -995,7 +999,7 @@ public class YLBoxScan extends ActionBarActivity {
         stopService.setAction("ylescort.ylmobileandroid.Scan1DService");
         stopService.putExtra("stopflag", true);
         sendBroadcast(stopService);  //给服务发送广播,令服务停止
-        Log.e(TAG, "send stop");
+        YLSystem.getEdiboxList().clear();
         super.onDestroy();
     }
 
@@ -1008,7 +1012,10 @@ public class YLBoxScan extends ActionBarActivity {
         filter.addAction("android.intent.action.FUN_KEY");
         registerReceiver(funkeyReceive, filter);
 
+        if (!box_btn_ent.getText().equals("到达")){
         BoxScanAdapter(YLSystem.getEdiboxList());
+        TallyBox(YLSystem.getEdiboxList());}
+
         super.onPostResume();
     }
 

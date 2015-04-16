@@ -26,18 +26,14 @@ import YLSystemDate.YLSystem;
  */
 public class YLNetWorkStateService extends Service {
 
-    private static final String tag="tag";
-    private ConnectivityManager connectivityManager;
-    private NetworkInfo info;
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-                connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-                info = connectivityManager.getActiveNetworkInfo();
+                ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo info = connectivityManager.getActiveNetworkInfo();
 
                 if(info != null && info.isAvailable()) {
 

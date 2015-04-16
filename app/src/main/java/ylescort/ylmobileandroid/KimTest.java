@@ -1,12 +1,17 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Switch;
 
 import com.google.gson.Gson;
@@ -34,17 +39,34 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private Button kim_test1;
     private Button kim_test2;
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kim_test);
+        //NolableDialog();
         kim_test1 = (Button) findViewById(R.id.kim_test1);
         kim_test2 = (Button) findViewById(R.id.kim_test2);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
     }
 
+
+    private void NolableDialog() {
+
+        final EditText et = new EditText(this);
+        et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        et.requestFocus();
+        et.setText("1");
+//        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        //imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+//        inputManager.showSoftInput(et,0);
+        new AlertDialog.Builder(this).setTitle("请输入").setIcon
+                (android.R.drawable.ic_dialog_info).setView(et).setPositiveButton("确定", null)
+                .setNegativeButton("取消", null).show();
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,7 +93,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.kim_test1:GetDataFromServer();
+            case R.id.kim_test1:NolableDialog();
                 break;
         }
     }

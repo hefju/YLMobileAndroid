@@ -635,7 +635,7 @@ public class WebService {
         }. start();
     }
 
-    public User LogicByHF(User loguser,String url) throws ExecutionException, InterruptedException {
+    public User LogicByHF(User loguser,String url) throws Exception {
         GetUserFormServerbyHF getUserFormServer = new GetUserFormServerbyHF();
         getUserFormServer.execute(url,loguser.getEmpNO());
         return getUserFormServer.get();

@@ -161,20 +161,16 @@ public class Login extends ActionBarActivity {
         Log_BN_HF.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 try {
                     LoginByHF();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
             }
         });
     }
 
-    private void LoginByHF() throws ExecutionException, InterruptedException {
+    private void LoginByHF() throws Exception {
 //        Log_BN_HF.setEnabled(false);
 //        manager.init_14443A();
 //        uid = manager.inventory_14443A();
@@ -540,9 +536,7 @@ public class Login extends ActionBarActivity {
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
                 try {
                     LoginByHF();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

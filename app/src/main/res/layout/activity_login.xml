@@ -63,7 +63,7 @@
 
 </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Logic_LL_Operbtn">
 
@@ -73,12 +73,17 @@
             android:id="@+id/log_tv_vision"
             android:textSize="20sp"
             android:text="版本号:"/>
-
+        <Button
+            android:layout_width="1sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Log_BN_Cal"
+            android:text="@string/Log_Can"
+            android:visibility="invisible"/>
         <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnTest2"
-        android:text="巨测试2"
+        android:text="测试---"
         android:layout_marginTop="50dp"
         android:visibility="invisible"/>
         <Button
@@ -89,18 +94,13 @@
             android:text="版本更新"
             />
         <Button
-        android:layout_width="wrap_content"
+        android:layout_width="1sp"
         android:layout_height="wrap_content"
         android:text="翀测试1"
         android:visibility="invisible"
         android:id="@+id/button2"
         android:onClick="chongtest" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/Log_BN_Cal"
-            android:text="@string/Log_Can"
-            android:visibility="invisible"/>
+
     </LinearLayout>
 </RelativeLayout>
