@@ -126,7 +126,7 @@ public class YLBoxScan extends ActionBarActivity {
             LoadYLBoxBaseData();    //获取初始数据
             YLBoxScaninit();        //初始化红外扫描
             KeyBroad();             //初始化热键
-//            GetScreen();          //备用屏幕关闭时事件
+            GetScreen();          //备用屏幕关闭时事件
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,7 +144,7 @@ public class YLBoxScan extends ActionBarActivity {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (Intent.ACTION_SCREEN_OFF.equals(action)){
-                box_btn_scan.setText("停止");
+                box_btn_scan.setText("停止(F1)");
                 sendCmd();}
         }
     };
@@ -235,7 +235,6 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     public void YLBoxScanlayoutOnClick(View view ) throws ClassNotFoundException{}
-
 
     //界面控件点击事件
     public void YLBoxScanlayoutOnClicks(View view ) throws ClassNotFoundException {
@@ -633,6 +632,11 @@ public class YLBoxScan extends ActionBarActivity {
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                if(ScanboxList.size()< 1){
+                    dialog.dismiss();
+                    YLBoxScan.this.finish();
+                    return;
+                }
                 for (int i = 0 ;i<ylTask.lstSite.size();i++){
                     if (ylTask.lstSite.get(i).getSiteID().equals(box_tv_titel.getTag().toString())){
                         ylTask.lstSite.get(i).setStatus("已完成");
@@ -675,6 +679,7 @@ public class YLBoxScan extends ActionBarActivity {
         builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 dialog.dismiss();
             }
         });
@@ -935,7 +940,6 @@ public class YLBoxScan extends ActionBarActivity {
             boolean defaultdown=false;
             int keycode = intent.getIntExtra("keycode", 0);
             boolean keydown = intent.getBooleanExtra("keydown", defaultdown);
-            //Log.i("ServiceDemo", "receiver:keycode="+keycode+"keydown="+keydown);
 
             //左侧下按键
             if(keycode == 133 && keydown){
@@ -948,13 +952,13 @@ public class YLBoxScan extends ActionBarActivity {
 
             if(keycode == 131 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F1按键", 0).show();
-                box_rbtn_empty.setChecked(true);
+                box_rbtn_full.setChecked(true);
                 sendCmd();
             }
 
             if(keycode == 132 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
-                box_rbtn_full.setChecked(true);
+                box_rbtn_empty.setChecked(true);
                 sendCmd();
             }
         }
@@ -1005,17 +1009,12 @@ public class YLBoxScan extends ActionBarActivity {
 
     @Override
     protected void onPostResume() {
-        //DisPlayBoxListView(box_tv_titel.getTag().toString());
-        //BoxScanAdapter(ylTask.getLstBox());
-
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.intent.action.FUN_KEY");
         registerReceiver(funkeyReceive, filter);
-
         if (!box_btn_ent.getText().equals("到达")){
         BoxScanAdapter(YLSystem.getEdiboxList());
         TallyBox(YLSystem.getEdiboxList());}
-
         super.onPostResume();
     }
 

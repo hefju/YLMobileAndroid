@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -55,17 +56,15 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private void NolableDialog() {
 
-        final EditText et = new EditText(this);
-        et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
-        et.requestFocus();
-        et.setText("1");
+//        final EditText et = new EditText(this);
+//        et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+//        et.requestFocus();
 //        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //        //imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
 //        inputManager.showSoftInput(et,0);
-        new AlertDialog.Builder(this).setTitle("请输入").setIcon
-                (android.R.drawable.ic_dialog_info).setView(et).setPositiveButton("确定", null)
-                .setNegativeButton("取消", null).show();
-
+//        new AlertDialog.Builder(this).setTitle("请输入").setIcon
+//                (android.R.drawable.ic_dialog_info).setView(et).setPositiveButton("确定", null)
+//                .setNegativeButton("取消", null).show();
     }
 
     @Override

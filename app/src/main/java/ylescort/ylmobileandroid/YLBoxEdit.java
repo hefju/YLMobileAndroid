@@ -56,6 +56,7 @@ public class YLBoxEdit extends ActionBarActivity {
     private int listpostion;
     private String currSiteID;
     private String boxscanstate;
+    private String currTimeID;
 
 
     private TasksManager tasksManager = null;//任务管理类
@@ -104,7 +105,7 @@ public class YLBoxEdit extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //if (boxEditListAll.size()<1)return;
                 String TimeID = parent.getItemAtPosition(position).toString();
-                String currTimeID = TimeID;
+                currTimeID = TimeID;
                 ListGroup(TimeID);
                 LoadBoxData(boxEditListEdit);
             }
@@ -246,6 +247,8 @@ public class YLBoxEdit extends ActionBarActivity {
         if (boxEditListEdit.size()!=0){
             boxEditListEdit.remove(listpostion);
             LoadBoxData(boxEditListEdit);//ReLoadData();
+        }else {
+
         }
     }
 
@@ -346,7 +349,6 @@ public class YLBoxEdit extends ActionBarActivity {
         if (boxscanstate.equals("到达")){
             if (ylTask.getLstBox() != null && ylTask.getLstBox().size() != 0){
                 boxSiteListAll = ylTask.getLstBox();
-
                 for (int i = 0 ;i < ylTask.getLstBox().size();i++){
                     Box box = ylTask.getLstBox().get(i);
                     if (box.getSiteID().equals(currSiteID)){
@@ -357,7 +359,6 @@ public class YLBoxEdit extends ActionBarActivity {
         }else{
             boxEditListAll = YLSystem.getEdiboxList();
         }
-
         LoadBoxData(boxEditListAll);
     }
 

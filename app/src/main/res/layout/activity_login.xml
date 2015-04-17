@@ -84,8 +84,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnTest2"
         android:text="测试---"
-        android:layout_marginTop="50dp"
-        android:visibility="invisible"/>
+        android:layout_marginTop="50dp"/>
         <Button
             android:layout_width="120sp"
             android:layout_height="50sp"
