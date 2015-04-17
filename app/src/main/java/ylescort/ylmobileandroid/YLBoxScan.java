@@ -940,6 +940,7 @@ public class YLBoxScan extends ActionBarActivity {
             boolean defaultdown=false;
             int keycode = intent.getIntExtra("keycode", 0);
             boolean keydown = intent.getBooleanExtra("keydown", defaultdown);
+            //Log.i("ServiceDemo", "receiver:keycode="+keycode+"keydown="+keydown);
 
             //左侧下按键
             if(keycode == 133 && keydown){
@@ -1015,6 +1016,7 @@ public class YLBoxScan extends ActionBarActivity {
         if (!box_btn_ent.getText().equals("到达")){
         BoxScanAdapter(YLSystem.getEdiboxList());
         TallyBox(YLSystem.getEdiboxList());}
+        ScanboxList = YLSystem.getEdiboxList();
         super.onPostResume();
     }
 

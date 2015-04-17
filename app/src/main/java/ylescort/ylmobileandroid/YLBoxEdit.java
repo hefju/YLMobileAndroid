@@ -433,7 +433,6 @@ public class YLBoxEdit extends ActionBarActivity {
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 ListGroup("全部");
                 if (boxscanstate.equals("完成交接")){
                     YLSystem.setEdiboxList(boxEditListEdit);

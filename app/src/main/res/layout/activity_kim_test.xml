@@ -20,4 +20,14 @@
         android:layout_below="@+id/kim_test1"
         android:text="结果"/>
 
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberSigned"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_below="@+id/kim_test2"
+        android:layout_marginTop="90dp"
+        android:editable="false"/>
+
 </RelativeLayout>
