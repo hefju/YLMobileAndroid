@@ -1,7 +1,6 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,9 +43,8 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLDataService.BaseBoxDBSer;
-import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
-import adapter.YLBoxAdapter;
+import YLAdapter.YLBoxAdapter;
 
 
 public class YLBoxScan extends ActionBarActivity {
@@ -670,6 +668,7 @@ public class YLBoxScan extends ActionBarActivity {
                         ylTask.lstSite.set(i,site);
                     }
                 }
+                tasksManager.SaveTask(getApplicationContext());
                 dialog.dismiss();
                 YLBoxScan.this.finish();
             }
@@ -1000,11 +999,14 @@ public class YLBoxScan extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         unregisterReceiver(myBroad);
+        unregisterReceiver(mBatlnfoReceiver);
         Intent stopService = new Intent();
         stopService.setAction("ylescort.ylmobileandroid.Scan1DService");
         stopService.putExtra("stopflag", true);
         sendBroadcast(stopService);  //给服务发送广播,令服务停止
-        YLSystem.getEdiboxList().clear();
+        if (YLSystem.getEdiboxList()!=null){
+            YLSystem.getEdiboxList().clear();
+        }
         super.onDestroy();
     }
 

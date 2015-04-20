@@ -41,7 +41,7 @@ import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.WebService;
 import YLSystemDate.YLSystem;
-import adapter.YLSiteAdapter;
+import YLAdapter.YLSiteAdapter;
 
 
 public class YLSite extends ActionBarActivity {

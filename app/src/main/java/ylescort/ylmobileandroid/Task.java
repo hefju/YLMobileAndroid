@@ -50,7 +50,7 @@ import YLDataService.SiteDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.WebService;
 import YLSystemDate.YLSystem;
-import adapter.YLTaskAdapter;
+import YLAdapter.YLTaskAdapter;
 
 
 public class Task extends ActionBarActivity {

@@ -115,7 +115,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 //        return getApplicationContext();
 //    }
 
-    public void testgetbaseemp() throws ExecutionException, InterruptedException {
+    public void testgetbaseemp() throws Exception {
 //        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
 //        String userNo = "A0EAD8A6";
 //        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );

@@ -7,19 +7,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +24,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -57,11 +52,9 @@ import TaskClass.User;
 import TaskClass.YLATM;
 import TaskClass.YLTask;
 import YLDataService.BaseSiteDBSer;
-import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
-import adapter.YLATMSiteAdapter;
-import adapter.YLSiteAdapter;
+import YLAdapter.YLATMSiteAdapter;
 
 public class YLATMList extends ActionBarActivity {
 

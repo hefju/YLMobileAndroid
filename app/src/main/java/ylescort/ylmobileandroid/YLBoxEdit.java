@@ -23,7 +23,7 @@ import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLSystemDate.YLSystem;
-import adapter.YLBoxEdiAdapter;
+import YLAdapter.YLBoxEdiAdapter;
 
 
 public class YLBoxEdit extends ActionBarActivity {

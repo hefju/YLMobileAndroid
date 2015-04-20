@@ -31,6 +31,7 @@ import TaskClass.TasksManager;
 import TaskClass.User;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.WebService;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLWebService.UpdateManager;
 
@@ -61,6 +62,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
             log_tv_vision.setText("版本号:"+ylvision);
+            log_tv_vision.setText(YLSysTime.getServertime().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,8 +82,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         PackageManager packageManager = getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
         PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
-        String version = packInfo.versionName;
-        return version;
+        return packInfo.versionName;
     }
 
     private void InitHFreader() {
@@ -231,8 +232,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void LoginByHF() throws Exception {
         if (!Log_BN_HF.isEnabled()){
-            return;
-        }
+            return;}
         Log_BN_HF.setEnabled(false);
         manager.init_14443A();
         byte[] uid = manager.inventory_14443A();
@@ -276,7 +276,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, Task.class);
                     startActivity(intent);
-
+                    Log_BN_HF.setEnabled(true);
                 }else {
                     Log_BN_HF.setEnabled(true);
                     Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();

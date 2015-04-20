@@ -2,25 +2,17 @@ package ylescort.ylmobileandroid.util;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.AndroidCharacter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.BaseEmp;
-import TaskClass.User;
-import TaskClass.YLTask;
 import YLDataService.BaseEmpDBSer;
-import YLDataService.EmpDBSer;
-import adapter.YLTaskAdapter;
 import ylescort.ylmobileandroid.R;
 
 public class CacheDataView extends ActionBarActivity {
