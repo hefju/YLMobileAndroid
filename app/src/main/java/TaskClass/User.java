@@ -30,7 +30,7 @@ public class User {
         ServerReturn = serverReturn;
     }
 
-    public User(){};
+    public User(){}
 
     public String getEmpID() {
         return EmpID;

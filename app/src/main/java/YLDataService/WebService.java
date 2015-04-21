@@ -609,7 +609,7 @@ public class WebService {
                         }.getType());
                         String result = lstSite.get(0).ServerReturn;
                         if (result.equals("1")) {
-                            Log.d("jutest", "GetTaskSite:" + lstSite.size());
+                            Log.d("jutest", "GetTaskSite:" + lstSite.toString());
                             Message msg = mHandler.obtainMessage(20);
                             msg.obj = lstSite;
                             mHandler.sendMessage(msg);

@@ -27,8 +27,9 @@
     buttonsharpstype
     -->
     <style name="YLbutton">
-        <item name="android:shape">rectangle</item>
+        <item name="android:shape">oval</item>
         <item name="android:background">#4169E1</item>
+        <item name="android:radius">20dp</item>
     </style>
 
     

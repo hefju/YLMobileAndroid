@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -197,7 +198,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 userfromweb.setISWIFI(YLSystem.getNetWorkState());
                 YLSystem.setUser(userfromweb);
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, Task.class);
+                String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
+                if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
+                    intent.setClass(LoginActivity.this, VaultInOrOut.class);
+                }else {
+                    intent.setClass(LoginActivity.this, Task.class);
+                }
                 startActivity(intent);
                 YLMediaPlay("success");
                 Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
@@ -220,7 +226,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 user.setTaskDate("");
                 YLSystem.setUser(user);
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, Task.class);
+                if (baseEmp.EmpWorkState.equals("金库主管")||baseEmp.EmpWorkState.equals("库管员")){
+                    intent.setClass(LoginActivity.this, VaultInOrOut.class);
+                }else {
+                    intent.setClass(LoginActivity.this, Task.class);}
                 startActivity(intent);
 
             }else {
@@ -250,7 +259,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     userfromweb.setISWIFI(YLSystem.getNetWorkState());
                     YLSystem.setUser(userfromweb);
                     Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this, Task.class);
+                    String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
+                    if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
+                        intent.setClass(LoginActivity.this, VaultInOrOut.class);
+                    }else {
+                        intent.setClass(LoginActivity.this, Task.class);
+                    }
                     startActivity(intent);
                     YLMediaPlay("success");
                     Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
@@ -274,7 +288,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     user.setTaskDate("");
                     YLSystem.setUser(user);
                     Intent intent = new Intent();
-                    intent.setClass(LoginActivity.this, Task.class);
+                    if (baseEmp.EmpWorkState.equals("金库主管")||baseEmp.EmpWorkState.equals("库管员")){
+                        intent.setClass(LoginActivity.this, VaultInOrOut.class);
+                    }else {
+                    intent.setClass(LoginActivity.this, Task.class);}
                     startActivity(intent);
                     Log_BN_HF.setEnabled(true);
                 }else {
@@ -292,6 +309,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         if (!YLSystem.getNetWorkState().equals("1"))return;
         UpdateManager um=new UpdateManager(LoginActivity.this);
         um.check();
+    }
+
+    private String GetEmpPost(String EmpID){
+        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpID='"+EmpID+"'");
+        if (!baseEmpList.toString().equals("[]")){
+            return  baseEmpList.get(0).EmpWorkState;
+        }else {
+            return "none";
+        }
     }
 
     private void YLMediaPlay(String mediavoice) throws Exception{

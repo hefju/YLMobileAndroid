@@ -51,5 +51,9 @@
     <string name="title_activity_ylatmlist">ATM列表</string>
     <string name="title_activity_ylatmdetail">ATM明细</string>
     <string name="title_activity_kim_test">KimTest</string>
+    <!--出入库管理-->
+    <string name="title_activity_vault_in_or_out">出入库</string>
+    <string name="vaultinorout_btn_in">入库(F1)</string>
+    <string name="vaultinorout_btn_out">出库(F2)</string>
 
 </resources>

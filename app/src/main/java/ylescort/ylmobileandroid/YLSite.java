@@ -241,7 +241,7 @@ public class YLSite extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ylsite, menu);
-        if(ylTask.getTaskState()!="有更新"){
+        if(!ylTask.getTaskState().equals("有更新")){
             menu.removeItem(0);//为什么不生效?
         }
         return true;
