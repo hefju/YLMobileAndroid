@@ -23,6 +23,7 @@ import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -62,7 +63,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
             log_tv_vision.setText("版本号:"+ylvision);
-            log_tv_vision.setText(YLSysTime.getServertime().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -534,9 +534,6 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     public void ScanOnClick (View view ) throws ClassNotFoundException {
-//        if(CheckRadioButton()){
-//            Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
-//            return;}
         sendCmd();
     }
 
@@ -625,7 +622,7 @@ public class YLBoxScan extends ActionBarActivity {
 
     protected void AchieveDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxScan.this);
-        builder.setMessage("确认完成吗?");
+        builder.setMessage("确认完成交接吗?");
         builder.setTitle("提示");
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
@@ -678,7 +675,6 @@ public class YLBoxScan extends ActionBarActivity {
         builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
             }
         });
@@ -741,7 +737,6 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){
-//        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
         if (!boxnumber.equals("无标签")){
         if (CheckBoxNumber(boxnumber)){
             //媒体播放
@@ -983,7 +978,6 @@ public class YLBoxScan extends ActionBarActivity {
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
             intent.setClass(this, YLBoxEdit.class);
-
             String box_btn_ent_text = box_btn_ent.getText().toString();
             Bundle bundle = new Bundle();
             bundle.putString("siteid",box_tv_titel.getTag().toString());

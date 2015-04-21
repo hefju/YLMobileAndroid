@@ -12,6 +12,9 @@ public class YLSysTime {
     private static Date Servertime;
 
     public static Date getServertime() {
+        if (Servertime== null){
+            Servertime = new Date();
+        }
         return Servertime;
     }
 
@@ -19,14 +22,19 @@ public class YLSysTime {
         Servertime = servertime;
     }
 
-    private String DateToStr(Date date)throws Exception{
+    public static String DateToStr(Date date)throws Exception{
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         return sDateFormat.format(date);
     }
 
-    private Date StrToDate(String str )throws Exception{
+    public static Date StrToDate(String str )throws Exception{
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         return sDateFormat.parse(str);
+    }
+
+    public static String GetCurrentTime(){
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        return sDateFormat.format(new java.util.Date());
     }
 
 }
