@@ -201,6 +201,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
                 if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
                     intent.setClass(LoginActivity.this, VaultInOrOut.class);
+
                 }else {
                     intent.setClass(LoginActivity.this, Task.class);
                 }

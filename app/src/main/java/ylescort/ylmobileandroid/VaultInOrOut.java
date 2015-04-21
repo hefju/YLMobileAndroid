@@ -53,12 +53,15 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()){
             case R.id.vaultinorout_btn_in:
-
+                intent.setClass(VaultInOrOut.this,vault_in_operate.class);
+                startActivity(intent);
                 break;
             case R.id.vaultinorout_btn_out:
-
+                intent.setClass(VaultInOrOut.this,vault_out_operate.class);
+                startActivity(intent);
                 break;
         }
     }

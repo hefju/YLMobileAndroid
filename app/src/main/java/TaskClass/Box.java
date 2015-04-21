@@ -18,6 +18,15 @@ public class Box {
     public String BoxCount;//箱数量
     public String BoxTaskType;//箱任务类型---中调或普通
     public String BoxOrder;//箱序号
+    public String Valutcheck;//金库检查--多/符合/缺
+
+    public String getValutcheck() {
+        return Valutcheck;
+    }
+
+    public void setValutcheck(String valutcheck) {
+        Valutcheck = valutcheck;
+    }
 
     public String getBoxTaskType() {
         return BoxTaskType;
