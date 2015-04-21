@@ -55,5 +55,9 @@
     <string name="title_activity_vault_in_or_out">出入库</string>
     <string name="vaultinorout_btn_in">入库(F1)</string>
     <string name="vaultinorout_btn_out">出库(F2)</string>
+    <string name="title_activity_vault_out_operate">vault_out_operate</string>
+    <string name="title_activity_vault_out_detail">vault_out_detail</string>
+    <string name="title_activity_vault_in_detail">vault_in_detail</string>
+    <string name="title_activity_vault_in_operate">vault_in_operate</string>
 
 </resources>

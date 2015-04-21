@@ -1,38 +1,24 @@
 package ylescort.ylmobileandroid;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 
-public class VaultInOrOut extends ActionBarActivity implements View.OnClickListener {
-
-    Button vaultinorout_btn_in;
-    Button vaultinorout_btn_out;
+public class vault_in_detail extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vault_in_or_out);
-        IninLayout();
-    }
-
-    private void IninLayout() {
-        vaultinorout_btn_in = (Button) findViewById(R.id.vaultinorout_btn_in);
-        vaultinorout_btn_out = (Button)findViewById(R.id.vaultinorout_btn_out);
-        vaultinorout_btn_in.setOnClickListener(this);
-        vaultinorout_btn_out.setOnClickListener(this);
+        setContentView(R.layout.activity_vault_in_detail);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_vault_in_or_out, menu);
+        getMenuInflater().inflate(R.menu.menu_vault_in_detail, menu);
         return true;
     }
 
@@ -49,17 +35,5 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.vaultinorout_btn_in:
-
-                break;
-            case R.id.vaultinorout_btn_out:
-
-                break;
-        }
     }
 }

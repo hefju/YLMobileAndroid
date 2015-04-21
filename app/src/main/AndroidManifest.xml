@@ -99,6 +99,22 @@
             android:name=".VaultInOrOut"
             android:label="@string/title_activity_vault_in_or_out" >
         </activity>
+        <activity
+            android:name=".vault_out_operate"
+            android:label="@string/title_activity_vault_out_operate" >
+        </activity>
+        <activity
+            android:name=".vault_out_detail"
+            android:label="@string/title_activity_vault_out_detail" >
+        </activity>
+        <activity
+            android:name=".vault_in_detail"
+            android:label="@string/title_activity_vault_in_detail" >
+        </activity>
+        <activity
+            android:name=".vault_in_operate"
+            android:label="@string/title_activity_vault_in_operate" >
+        </activity>
     </application>
 
 </manifest>
