@@ -64,9 +64,22 @@
     <string name="vault_out_operate_tv_taskstaut">状态</string>
     <!--出库明细-->
     <string name="title_activity_vault_out_detail">出库明细</string>
+    <string name="vault_out_detail_tv_taskname">任务名称</string>
+    <string name="vault_out_detail_btn_readcard">读卡</string>
+    <string name="vault_out_detail_tv_boxname">箱名</string>
+    <string name="vault_out_detail_tv_boxstaut">状态</string>
+    <string name="vault_out_detail_tv_boxstype">类型</string>
+    <string name="vault_out_detail_tv_boxtasktype">任务类型</string>
+    <string name="vault_out_detail_btn_sacan1d">扫描</string>
+    <string name="vault_out_detail_btn_stop">停止</string>
+    <string name="vault_out_detail_btn_enter">确认</string>
+    <string name="vault_out_detail_btn_save">保存</string>
     <!--入库管理-->
     <string name="title_activity_vault_in_operate">入库管理</string>
+    <string name="vault_in_operate_btn_readcard">读卡</string>
     <!--入库明细-->
     <string name="title_activity_vault_in_detail">入库明细</string>
+    <string name="vault_in_detail_tv_check">汇总:</string>
+    <string name="vault_in_detail_tv_tolly">统计:</string>
 
 </resources>

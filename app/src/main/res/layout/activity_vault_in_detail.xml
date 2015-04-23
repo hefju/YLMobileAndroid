@@ -7,10 +7,79 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="ylescort.ylmobileandroid.vault_in_detail">
-
-    <TextView
-        android:text="@string/hello_world"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_in_detail_LL_info">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_tv_taskname"
+            android:text="@string/vault_out_detail_tv_taskname"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_in_detail_LL_listtital"
+        android:layout_below="@+id/vault_in_detail_LL_info">
+        <TextView
+            android:layout_width="80sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxname"/>
+        <TextView
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxstaut"/>
+        <TextView
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxstype"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxtasktype"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="300sp"
+        android:id="@+id/vault_in_detail_LL_listview"
+        android:layout_below="@+id/vault_in_detail_LL_listtital">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_listview">
+            </ListView>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_in_detail_LL_tolly"
+        android:layout_below="@+id/vault_in_detail_LL_listview"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_tv_tolly"
+            android:text="@string/vault_in_detail_tv_tolly"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_tv_check"
+            android:text="@string/vault_in_detail_tv_check"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vault_in_detail_LL_tolly">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_btn_scan1d"
+            android:text="@string/vault_out_detail_btn_sacan1d"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_btn_enter"
+            android:text="@string/vault_out_detail_btn_enter"/>
+        </LinearLayout>
 </RelativeLayout>

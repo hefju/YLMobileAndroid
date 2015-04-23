@@ -7,10 +7,68 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="ylescort.ylmobileandroid.vault_out_detail">
-
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_out_detail_LL_Info">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_tv_taskname"
+            android:text="@string/vault_out_detail_tv_taskname"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_btn_readcard"
+            android:text="@string/vault_out_detail_btn_readcard"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_out_detail_LL_listtitle"
+        android:layout_below="@+id/vault_out_detail_LL_Info">
+        <TextView
+            android:layout_width="80sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxname"/>
+        <TextView
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxstaut"/>
+        <TextView
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxstype"/>
+        <TextView
+            android:layout_width="60sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_boxtasktype"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="300sp"
+        android:id="@+id/vault_out_detail_LL_listview"
+        android:layout_below="@+id/vault_out_detail_LL_listtitle">
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/vault_out_detail_lv">
+            </ListView>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_out_detail_LL_operate"
+        android:layout_below="@+id/vault_out_detail_LL_listview">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_btn_scan1d"
+            android:text="@string/vault_out_detail_btn_sacan1d"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_btn_enter"
+            android:text="@string/vault_out_detail_btn_enter"/>
+        </LinearLayout>
 </RelativeLayout>
