@@ -1,5 +1,6 @@
 package YLSystemDate;
 
+import java.util.Date;
 import java.util.List;
 
 import TaskClass.YLATM;
@@ -10,6 +11,16 @@ import TaskClass.YLATM;
 public class YLEditData {
     public static YLATM ylatm;
     public static List<YLATM> ylatmList;
+
+    public static Date DatePick;
+
+    public static Date getDatePick() {
+        return DatePick;
+    }
+
+    public static void setDatePick(Date datePick) {
+        DatePick = datePick;
+    }
 
     public static List<YLATM> getYlatmList() {
         return ylatmList;
