@@ -851,13 +851,6 @@ public class YLBoxScan extends ActionBarActivity {
         }else {
             boxstuat ="空";
         }}
-//        else if (getboxstuat.equals("t")){
-//            if (box_rbtn_transfer.isChecked()){
-//                boxstuat ="中";
-//            }else{
-//                boxstuat ="普";
-//            }
-//        }
         else if (getboxstuat.equals("s")){
         if (box_rbtn_cardbox.isChecked()){
             boxstuat ="卡箱";
@@ -921,8 +914,6 @@ public class YLBoxScan extends ActionBarActivity {
             }else{
                 finish();
             }
-
-
         }
         return super.onKeyDown(keyCode, event);
     }

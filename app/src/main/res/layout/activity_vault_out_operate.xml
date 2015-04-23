@@ -7,10 +7,53 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="ylescort.ylmobileandroid.vault_out_operate">
-
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_out_operate_LL_search">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_operate_tv_text"/>
+        <EditText
+            android:layout_width="80sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_operate_ET_taskname"
+            android:labelFor="@+id/vault_out_operate_ET_taskname"
+            android:inputType="number"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_operate_btn_search"
+            android:text="@string/vault_out_operate_btn_search"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_operate_btn_readcard"
+            android:text="@string/vault_out_operate_btn_readcard"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_out_operate_LL_tasklist"
+        android:layout_below="@+id/vault_out_operate_LL_search">
+        <TextView
+            android:layout_width="180sp"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_operate_tv_taskname"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_operate_tv_taskstaut"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vault_out_operate_LL_tasklist">
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/vault_out_operate_lv_tasklist">
+            </ListView>
+        </LinearLayout>
 </RelativeLayout>
