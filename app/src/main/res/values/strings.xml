@@ -76,7 +76,7 @@
     <string name="vault_out_detail_btn_save">保存</string>
     <!--入库管理-->
     <string name="title_activity_vault_in_operate">入库管理</string>
-    <string name="vault_in_operate_btn_readcard">读卡</string>
+    <string name="vault_in_operate_btn_readcard">读卡(F1/F2)</string>
     <!--入库明细-->
     <string name="title_activity_vault_in_detail">入库明细</string>
     <string name="vault_in_detail_tv_check">汇总:</string>

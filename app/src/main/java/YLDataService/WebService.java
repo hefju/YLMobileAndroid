@@ -38,6 +38,8 @@ import TaskClass.BaseSite;
 import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -549,7 +551,7 @@ public class WebService {
                         }.getType());
                         String result = lstYLTask.get(0).ServerReturn;
                         if (result.equals("1")) {
-                            Log.d("jutest", "GetTaskList:" + lstYLTask.size());
+                            Log.d("jutest", "GetTaskList:" + content);
                             Message msg = mHandler.obtainMessage(20);
                             msg.obj = lstYLTask;
                             mHandler.sendMessage(msg);
@@ -721,4 +723,52 @@ public class WebService {
             return null;
         }
     }
+
+    public List<YLTask> GetHandovermanTask(User user,String url)throws Exception{
+        GetHandovermanTaskAsyncTask getHandovermanTaskAsyncTask = new
+                GetHandovermanTaskAsyncTask();
+        getHandovermanTaskAsyncTask.execute(url,user.getEmpNO());
+        return getHandovermanTaskAsyncTask.get();
+    }
+
+    public class GetHandovermanTaskAsyncTask extends AsyncTask<String,Integer,List<YLTask>>{
+        @Override
+        protected List<YLTask> doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            User user = new User();
+            user.setEmpNO(params[1]);
+            try {
+                user.setTaskDate(YLSysTime.DateToStr(YLEditData.getDatePick()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("user",gson.toJson(user));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            HttpClient client = new DefaultHttpClient();
+            try {
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                      return gson.fromJson(content, new TypeToken<List<YLTask>>() {
+                    }.getType());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
+

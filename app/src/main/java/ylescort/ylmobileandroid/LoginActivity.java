@@ -67,7 +67,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setTitle("提示");
@@ -117,7 +116,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         switch (keyCode){
             case 131:
                 try {
@@ -192,52 +190,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             user.setPass(YLSystem.md5(Log_ET_PassWord.getText().toString()));
             WebService webService = new WebService();
             User userfromweb = webService.LogicBypassword(user, url);
-            if (userfromweb.getServerReturn().equals("1")){
-                //更新缓存
-                WebService.CacheData(getApplicationContext());
-                userfromweb.setISWIFI(YLSystem.getNetWorkState());
-                YLSystem.setUser(userfromweb);
-                Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
-                startService(TimeSerintent);
-                Intent intent = new Intent();
-                String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
-                if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
-                    intent.setClass(LoginActivity.this, VaultInOrOut.class);
-                }else {
-                    intent.setClass(LoginActivity.this, Task.class);
-                }
-                startActivity(intent);
-                YLMediaPlay("success");
-                Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-            }else {
-                YLMediaPlay("faile");
-                Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
-            }
+            GetEmpByServer(userfromweb);
         }else {
             String userNo = Log_ET_Name.getText().toString();
             BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
             List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpNo ='"+userNo+"'" );
-            if (baseEmpList.size()>0){
-                BaseEmp baseEmp = baseEmpList.get(0);
-                User user = new User();
-                user.setEmpNO(baseEmp.EmpNo);
-                user.setEmpID(baseEmp.EmpID);
-                user.setPass("");
-                user.setName(baseEmp.EmpName);
-                user.setISWIFI("0");
-                user.setTaskDate("");
-                YLSystem.setUser(user);
-                Intent intent = new Intent();
-                if (baseEmp.EmpWorkState.equals("金库主管")||baseEmp.EmpWorkState.equals("库管员")){
-                    intent.setClass(LoginActivity.this, VaultInOrOut.class);
-                }else {
-                    intent.setClass(LoginActivity.this, Task.class);}
-                startActivity(intent);
-
-            }else {
-                Log_BN_HF.setEnabled(true);
-                Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
-            }
+            FindEmpByLocal(baseEmpList);
         }
     }
 
@@ -254,59 +212,65 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
                 WebService webService = new WebService();
                 User userfromweb = webService.LogicByHF(user,url);
-                if (userfromweb.getServerReturn().equals("1")){
-                    //更新缓存
-                    WebService.CacheData(getApplicationContext());
-                    Log_BN_HF.setEnabled(true);
-                    userfromweb.setISWIFI(YLSystem.getNetWorkState());
-                    YLSystem.setUser(userfromweb);
-                    Log.d("kim",userfromweb.toString());
-                    Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
-                    startService(TimeSerintent);
-                    Intent intent = new Intent();
-                    String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
-                    if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
-                        intent.setClass(LoginActivity.this, VaultInOrOut.class);
-                    }else {
-                        intent.setClass(LoginActivity.this, Task.class);
-                    }
-                    startActivity(intent);
-                    YLMediaPlay("success");
-                    Toast.makeText(getApplicationContext(),"登录成功",Toast.LENGTH_SHORT).show();
-                }else {
-                    YLMediaPlay("faile");
-                    Log_BN_HF.setEnabled(true);
-                    Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
-                }
+                GetEmpByServer(userfromweb);
             }else {
                 String userNo = Tools.Bytes2HexString(uid, uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
                 List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
-                if (baseEmpList.size()>0){
-                    BaseEmp baseEmp = baseEmpList.get(0);
-                    User user = new User();
-                    user.setEmpNO(baseEmp.EmpNo);
-                    user.setEmpID(baseEmp.EmpID);
-                    user.setPass("");
-                    user.setName(baseEmp.EmpName);
-                    user.setISWIFI("0");
-                    user.setTaskDate("");
-                    YLSystem.setUser(user);
-                    Intent intent = new Intent();
-                    if (baseEmp.EmpWorkState.equals("金库主管")||baseEmp.EmpWorkState.equals("库管员")){
-                        intent.setClass(LoginActivity.this, VaultInOrOut.class);
-                    }else {
-                    intent.setClass(LoginActivity.this, Task.class);}
-                    startActivity(intent);
-                    Log_BN_HF.setEnabled(true);
-                }else {
-                    Log_BN_HF.setEnabled(true);
-                    Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
-                }
+                FindEmpByLocal(baseEmpList);
             }
         }else {
             Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
             Log_BN_HF.setEnabled(true);
+        }
+    }
+
+    private void GetEmpByServer(User userfromweb) throws Exception {
+        if (userfromweb.getServerReturn().equals("1")){
+            WebService.CacheData(getApplicationContext());
+            Log_BN_HF.setEnabled(true);
+            userfromweb.setISWIFI(YLSystem.getNetWorkState());
+            YLSystem.setUser(userfromweb);
+            Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
+            startService(TimeSerintent);
+            Intent intent = new Intent();
+            String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
+            if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
+                intent.setClass(LoginActivity.this, VaultInOrOut.class);
+            }else {
+                intent.setClass(LoginActivity.this, Task.class);
+            }
+            startActivity(intent);
+            YLMediaPlay("success");
+            Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
+        }else {
+            YLMediaPlay("faile");
+            Log_BN_HF.setEnabled(true);
+            Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void FindEmpByLocal(List<BaseEmp> baseEmpList) {
+        if (baseEmpList.size()>0){
+            BaseEmp baseEmp = baseEmpList.get(0);
+            User user = new User();
+            user.setEmpNO(baseEmp.EmpNo);
+            user.setEmpID(baseEmp.EmpID);
+            user.setPass("");
+            user.setName(baseEmp.EmpName);
+            user.setISWIFI("0");
+            user.setTaskDate("");
+            YLSystem.setUser(user);
+            Intent intent = new Intent();
+            if (baseEmp.EmpWorkState.equals("金库主管")||baseEmp.EmpWorkState.equals("库管员")){
+                intent.setClass(LoginActivity.this, VaultInOrOut.class);
+            }else {
+            intent.setClass(LoginActivity.this, Task.class);}
+            startActivity(intent);
+            Log_BN_HF.setEnabled(true);
+        }else {
+            Log_BN_HF.setEnabled(true);
+            Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -328,7 +292,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void YLMediaPlay(String mediavoice) throws Exception{
         MediaPlayer mPlayer = new MediaPlayer();
-
         if (mediavoice.equals("success")){
             mPlayer = MediaPlayer.create(LoginActivity.this, R.raw.msg);
             if(mPlayer.isPlaying()){
