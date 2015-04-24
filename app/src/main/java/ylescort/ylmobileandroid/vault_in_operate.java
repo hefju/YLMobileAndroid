@@ -5,6 +5,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Date;
+
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLSysTime;
+import YLSystemDate.YLSystem;
+
 
 public class vault_in_operate extends ActionBarActivity {
 
@@ -12,8 +18,14 @@ public class vault_in_operate extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault_in_operate);
+        try {
+            Date date = YLEditData.getDatePick();
+            String time = YLSysTime.DateToStr(YLEditData.getDatePick());
+            vault_in_operate.this.setTitle("出入库操作员: "+time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -12,9 +12,6 @@ public class YLSysTime {
     private static Date Servertime;
 
     public static Date getServertime() {
-        if (Servertime== null){
-            Servertime = new Date();
-        }
         return Servertime;
     }
 
@@ -22,12 +19,22 @@ public class YLSysTime {
         Servertime = servertime;
     }
 
-    public static String DateToStr(Date date)throws Exception{
+    public static String TimeToStr(Date date)throws Exception{
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         return sDateFormat.format(date);
     }
 
+    public static String DateToStr(Date date)throws Exception{
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return sDateFormat.format(date);
+    }
+
     public static Date StrToDate(String str )throws Exception{
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return sDateFormat.parse(str);
+    }
+
+    public static Date StrToTime(String str )throws Exception{
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         return sDateFormat.parse(str);
     }

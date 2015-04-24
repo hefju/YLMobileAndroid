@@ -88,6 +88,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        GetDatePickerDate();
         Intent intent = new Intent();
         switch (v.getId()){
             case R.id.vaultinorout_btn_in:
