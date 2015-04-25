@@ -44,4 +44,8 @@ public class YLSysTime {
         return sDateFormat.format(new java.util.Date());
     }
 
+    public static String GetSercurTime() throws Exception {
+        return TimeToStr(Servertime);
+    }
+
 }

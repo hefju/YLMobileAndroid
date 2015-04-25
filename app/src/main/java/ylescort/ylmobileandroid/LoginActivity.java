@@ -231,8 +231,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             Log_BN_HF.setEnabled(true);
             userfromweb.setISWIFI(YLSystem.getNetWorkState());
             YLSystem.setUser(userfromweb);
-            Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
-            startService(TimeSerintent);
+            if (YLSysTime.getServertime() == null){
+                Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
+                startService(TimeSerintent);
+            }
             Intent intent = new Intent();
             String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
             if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){

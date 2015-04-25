@@ -32,6 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +44,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLDataService.BaseBoxDBSer;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLBoxAdapter;
 
@@ -648,7 +650,11 @@ public class YLBoxScan extends ActionBarActivity {
                 }
                 YLSystem.setEdiboxList(new ArrayList<Box>());
 
-                arriveTime.setTradeEnd(GetCurrTime());
+                try {
+                    arriveTime.setTradeEnd(GetCurrTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 arriveTime.setTradeState("1");
 
                 for (int i = 0 ; i < ylTask.lstSite.size();i++){
@@ -705,10 +711,9 @@ public class YLBoxScan extends ActionBarActivity {
         builder.create().show();
     }
 
-    private String GetCurrTime(){
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = sDateFormat.format(new java.util.Date());
-        return date;
+    private String GetCurrTime() throws Exception {
+        Date date = YLSysTime.getServertime();
+        return YLSysTime.TimeToStr(date);
     }
 
     private void AddArriveTime() {
@@ -728,9 +733,13 @@ public class YLBoxScan extends ActionBarActivity {
                 arriveTime = new ArriveTime();
                 arriveTime.setServerReturn("1");
                 arriveTime.setEmpID(YLSystem.getUser().getEmpID());
-                arriveTime.setATime(GetCurrTime());
-                arriveTime.setTimeID(TimeID+"");
-                arriveTime.setTradeBegin(GetCurrTime());
+                 try {
+                     arriveTime.setATime(GetCurrTime());
+                     arriveTime.setTradeBegin(GetCurrTime());
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+                 arriveTime.setTimeID(TimeID + "");
                 arriveTime.setSiteID(box_tv_titel.getTag().toString());
             }
         }
@@ -755,7 +764,11 @@ public class YLBoxScan extends ActionBarActivity {
         box.setBoxTaskType(box_sp_text);
         box.setBoxCount(boxcount);
         box.setTimeID(arriveTime.getTimeID());
-        box.setActionTime(GetCurrTime());
+        try {
+            box.setActionTime(GetCurrTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ScanboxList.add(box);
         YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
         YLScanBoxlistView.setAdapter(ylBoxAdapter);
