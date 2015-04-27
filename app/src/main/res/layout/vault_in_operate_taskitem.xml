@@ -3,6 +3,10 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60sp"
+        android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -14,6 +18,7 @@
             android:layout_height="wrap_content"
             android:textSize="25sp"
             android:id="@+id/vault_in_operate_taskitme_handoverman"
+            android:layout_marginLeft="20sp"
             android:text="执行人"/>
         <TextView
             android:layout_width="wrap_content"
@@ -21,4 +26,5 @@
             android:textSize="25sp"
             android:id="@+id/vault_in_operate_taskitme_taskstaut"
             android:text="执行状态"/>
+    </LinearLayout>
 </LinearLayout>

@@ -159,13 +159,11 @@ public class YLBoxEdit extends ActionBarActivity {
                 TimeIDlist.add(Timeid);
             }
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<String>
                 (this,android.R.layout.simple_spinner_item,TimeIDlist);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boxedi_sp_TimeID.setAdapter(adapter);
         boxedi_sp_TimeID.setPrompt("到达顺序");
-
     }
 
     private void TallyBox(List<Box> boxList) {

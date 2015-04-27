@@ -220,7 +220,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 FindEmpByLocal(baseEmpList);
             }
         }else {
-            Toast.makeText(getApplicationContext(), "未寻到卡", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "未找到卡", Toast.LENGTH_SHORT).show();
             Log_BN_HF.setEnabled(true);
         }
     }

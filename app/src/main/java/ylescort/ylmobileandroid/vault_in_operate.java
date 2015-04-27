@@ -3,6 +3,7 @@ package ylescort.ylmobileandroid;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,10 +16,15 @@ import com.android.hdhe.uhf.reader.Tools;
 
 import java.util.List;
 
+import TaskClass.BaseEmp;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValuttaskitemAdapter;
+import YLDataService.BaseEmpDBSer;
 import YLDataService.WebService;
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 
@@ -27,6 +33,7 @@ public class vault_in_operate extends ActionBarActivity {
     Button vault_in_operate_btn_readcard;
     ListView vault_in_operate_lv;
     private NFCcmdManager manager ;
+    private YLMediaPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,14 @@ public class vault_in_operate extends ActionBarActivity {
         setContentView(R.layout.activity_vault_in_operate);
         vault_in_operate.this.setTitle("入库操作员: "+YLSystem.getUser().getName());
         InitHFreader();
+        InitData();
         InitView();
 
+
+    }
+
+    private void InitData() {
+        player = new YLMediaPlayer();
     }
 
     private void InitHFreader() {
@@ -53,32 +66,43 @@ public class vault_in_operate extends ActionBarActivity {
         vault_in_operate_btn_readcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetHanderovermanTask();
+                try {
+                    GetHanderovermanTask();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void GetHanderovermanTask(){
+    private void GetHanderovermanTask() throws Exception{
         manager.init_14443A();
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
             if (!YLSystem.getNetWorkState().equals("2")){
                 String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTask1";
                 User user = new User();
-                user.setEmpNO(Tools.Bytes2HexString(uid,uid.length));
-                /*
-                * 将员工HF卡查找数据库获取新User;
-                * */
-                WebService webService = new WebService();
-                try {
+                String EmpHF = Tools.Bytes2HexString(uid,uid.length);
+                BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+                List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+EmpHF+"'" );
+                if (baseEmpList.size()>0){
+                    BaseEmp baseEmp = baseEmpList.get(0);
+                    user.setEmpNO(baseEmp.EmpNo);
+                    String pickdate = YLSysTime.DateToStr(YLEditData.getDatePick());
+                    user.setTaskDate(pickdate);
+                    WebService webService = new WebService();
                     List<YLTask> ylTaskList = webService.GetHandovermanTask(user,url);
-                    //显示任务列表
-                    Log.e("yltask",ylTaskList.toString());
                     DisplayTaskList(ylTaskList);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    player.SuccessOrFailMidia("success",getApplicationContext());
+                }else {
+                    player.SuccessOrFailMidia("fail",getApplicationContext());
+                    Toast.makeText(getApplicationContext(),"数据库未有人,请更新缓存",Toast.LENGTH_SHORT).show();
                 }
+
             }
+        }else {
+            player.SuccessOrFailMidia("fail",getApplicationContext());
+            Toast.makeText(getApplicationContext(), "未找到卡", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -87,6 +111,18 @@ public class vault_in_operate extends ActionBarActivity {
         YLValuttaskitemAdapter ylValuttaskitemAdapter =
                 new YLValuttaskitemAdapter(this,ylTaskList,R.layout.vault_in_operate_taskitem);
         vault_in_operate_lv.setAdapter(ylValuttaskitemAdapter);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode== 131 || keyCode == 132){
+            try {
+                GetHanderovermanTask();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

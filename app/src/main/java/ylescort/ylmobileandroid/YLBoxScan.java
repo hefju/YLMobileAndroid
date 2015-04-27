@@ -712,7 +712,8 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private String GetCurrTime() throws Exception {
-        Date date = YLSysTime.getServertime();
+        Date date =new Date();
+        date =  YLSysTime.getServertime();
         return YLSysTime.TimeToStr(date);
     }
 
@@ -729,7 +730,6 @@ public class YLBoxScan extends ActionBarActivity {
                 }else {
                     TimeID = arriveTimeList.size()+1;
                 }
-
                 arriveTime = new ArriveTime();
                 arriveTime.setServerReturn("1");
                 arriveTime.setEmpID(YLSystem.getUser().getEmpID());
