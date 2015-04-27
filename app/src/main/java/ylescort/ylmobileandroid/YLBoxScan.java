@@ -247,78 +247,6 @@ public class YLBoxScan extends ActionBarActivity {
         box.setBoxTaskType(box_sp_stype.getSelectedItem().toString());
         ScanboxList.set(listpostion,box);
         BoxScanAdapter(ScanboxList);
-
-        //ylBoxAdapter.notifyDataSetChanged();
-
-//        box_rbtn_get.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setTradeAction("收");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        box_rbtn_give.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setTradeAction("送");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        box_rbtn_full.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setBoxStatus("实");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        box_rbtn_empty.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setBoxStatus("空");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        box_rbtn_moneyboxs.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setBoxType("款箱");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        box_rbtn_cardbox.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setBoxType("卡箱");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
-//
-//        box_rbtn_Voucher.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Box box = ScanboxList.get(listpostion);
-//                box.setBoxType("凭证");
-//                ScanboxList.set(listpostion,box);
-//                ylBoxAdapter.notifyDataSetChanged();
-//            }
-//        });
     }
 
     //款箱属性数据加载至插件
@@ -433,7 +361,6 @@ public class YLBoxScan extends ActionBarActivity {
     } //初始化红外扫描
 
     private void KeyBroad() {
-
         funkeyReceive  = new FunkeyListener();
         //代码注册功能键广播接收者
         IntentFilter filter = new IntentFilter();

@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -66,17 +68,26 @@ public class vault_in_operate extends ActionBarActivity {
         vault_in_operate_btn_readcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    GetHanderovermanTask();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                try {GetHanderovermanTask();}
+                catch (Exception e) { e.printStackTrace(); }
+            }
+        });
+        vault_in_operate_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListView listView = (ListView)parent;
+                YLTask ylTask = (YLTask) listView.getItemAtPosition(position);
+                YLEditData.setYlTask(ylTask);
+                Intent intent = new Intent();
+                intent.setClass(vault_in_operate.this,vault_in_detail.class);
+                startActivity(intent);
             }
         });
     }
 
     private void GetHanderovermanTask() throws Exception{
         manager.init_14443A();
+        manager.readerPowerOn();
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
             if (!YLSystem.getNetWorkState().equals("2")){
@@ -104,6 +115,7 @@ public class vault_in_operate extends ActionBarActivity {
             player.SuccessOrFailMidia("fail",getApplicationContext());
             Toast.makeText(getApplicationContext(), "未找到卡", Toast.LENGTH_SHORT).show();
         }
+        manager.readerPowerOff();
     }
 
     private void DisplayTaskList(List<YLTask> ylTaskList){

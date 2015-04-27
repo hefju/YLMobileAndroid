@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import TaskClass.YLATM;
+import TaskClass.YLTask;
 
 /**
  * Created by Administrator on 2015/4/3.
@@ -13,6 +14,15 @@ public class YLEditData {
     public static List<YLATM> ylatmList;
 
     public static Date DatePick;
+    public static YLTask ylTask;
+
+    public static YLTask getYlTask() {
+        return ylTask;
+    }
+
+    public static void setYlTask(YLTask ylTask) {
+        YLEditData.ylTask = ylTask;
+    }
 
     public static Date getDatePick() {
         return DatePick;

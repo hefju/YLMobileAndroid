@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import TaskClass.BaseEmp;
+import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
@@ -22,6 +23,7 @@ import YLDataService.EmpDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
+import YLDataService.YLBoxScanCheck;
 import YLDataService.YLSQLHelper;
 import YLSystemDate.YLSystem;
 
@@ -32,7 +34,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public ApplicationTest() { super(Application.class); }
 
-    private static final String TAG = "YLtest";
+    private static final String TAG = "kim";
 
     public void testCreateDB() throws Exception{
         YLSQLHelper ylsqlHelper = new YLSQLHelper(getContext());
@@ -124,6 +126,17 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         }else {
             Log.e(TAG,baseEmpList.toString());
         }
+    }
+
+    public void testbasebox()throws Exception{
+        Box box= YLBoxScanCheck.CheckBox("011410624",getContext());
+        if (box == null){
+            Log.e(TAG,"11");
+        }else {
+            Log.e(TAG,box.toString()
+            );
+        }
+
     }
 
 }

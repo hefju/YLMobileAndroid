@@ -355,6 +355,7 @@ public class YLATMList extends ActionBarActivity {
         protected void onPostExecute(List<Site> sites) {
             ylTask.setLstSite(sites);
             List<YLATM> ylatms = new ArrayList<YLATM>();
+            if (ylTask.getLstSite() !=null){
             for (int i = 0; i <ylTask.getLstSite().size();i++){
                 Site site = ylTask.getLstSite().get(i);
                 YLATM ylatm = new YLATM();
@@ -370,7 +371,7 @@ public class YLATMList extends ActionBarActivity {
                 ylatm.setATMCount("0");
                 ylatm.setTimeID(1);
                 ylatm.setEmpID(YLSystem.getUser().getEmpID());
-                ylatms.add(ylatm);
+                ylatms.add(ylatm);}
             }
             YLEditData.setYlatmList(ylatms);
             DisplayATMSite(YLEditData.getYlatmList());
@@ -451,14 +452,12 @@ public class YLATMList extends ActionBarActivity {
         p.put("empid", s1.EmpID);//人员id=====================自定义。。。。。
         p.put("deviceID", s1.DeviceID);//手持机号=====================自定义。。。。。
         p.put("ISWIFI", s1.ISWIFI);//是否用WIFI=====================自定义。。。。。
-
         post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
         post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
         HttpClient client = new DefaultHttpClient();
         HttpResponse response = client.execute(post);
         if (response.getStatusLine().getStatusCode() == 200) {
             String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
-            Log.d("WCF", content);//打印到logcat
         }
     }
 
