@@ -1,19 +1,13 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Switch;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,7 +26,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import TaskClass.User;
-import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
 
@@ -124,7 +117,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             HttpPost post = new HttpPost(url);
             User user = new User();
             user.setEmpNO("710161");
-            user.setPass(YLSystem.md5("710161"));
+            user.setPass(YLSystem.SetMD5("710161"));
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {

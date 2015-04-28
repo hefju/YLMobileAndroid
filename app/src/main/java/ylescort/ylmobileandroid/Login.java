@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -186,7 +185,7 @@ public class Login extends ActionBarActivity {
 //
 //                            User user = new User();
 //                            user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
-//                            //user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
+//                            //user.setPass(YLSystem.SetMD5(Log_PassWord.getText().toString()));
 //                            Gson gson = new Gson();
 //                            //设置POST请求中的参数
 //                            JSONObject p = new JSONObject();
@@ -385,7 +384,7 @@ public class Login extends ActionBarActivity {
 
                     User user = new User();
                     user.setEmpNO(Log_Name.getText().toString());
-                    user.setPass(YLSystem.md5(Log_PassWord.getText().toString()));
+                    user.setPass(YLSystem.SetMD5(Log_PassWord.getText().toString()));
                     Gson gson = new Gson();
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();

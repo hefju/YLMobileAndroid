@@ -3,7 +3,6 @@ package ylescort.ylmobileandroid;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,16 +95,19 @@ public class vault_in_operate extends ActionBarActivity {
                 List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+EmpHF+"'" );
                 if (baseEmpList.size()>0){
                     BaseEmp baseEmp = baseEmpList.get(0);
-                    user.setEmpNO(baseEmp.EmpNo);
+                    user.setEmpNO(baseEmp.EmpHFNo);
+                    user.setEmpHFNo(baseEmp.EmpNo);
                     String pickdate = YLSysTime.DateToStr(YLEditData.getDatePick());
                     user.setTaskDate(pickdate);
+                    user.setDeviceID(YLSystem.getHandsetIMEI());
+                    user.setEmpID(YLSystem.getUser().getEmpID());
                     WebService webService = new WebService();
                     List<YLTask> ylTaskList = webService.GetHandovermanTask(user,url);
                     DisplayTaskList(ylTaskList);
                     player.SuccessOrFailMidia("success",getApplicationContext());
                 }else {
                     player.SuccessOrFailMidia("fail",getApplicationContext());
-                    Toast.makeText(getApplicationContext(),"数据库未有人,请更新缓存",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"本地数据未有资料,请更新缓存",Toast.LENGTH_SHORT).show();
                 }
             }
         }else {

@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,12 +34,9 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
-import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
-import YLSystemDate.YLEditData;
-import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -134,7 +130,7 @@ public class WebService {
                     User user = new User();
                     user.EmpNO = "600241";
                     user.Name = "杨磊";
-                    user.Pass = YLSystem.md5("600241");
+                    user.Pass = YLSystem.SetMD5("600241");
                     user.DeviceID = "NH008";
                     user.ISWIFI = "1";
                     user.EmpID = "2703";
@@ -728,7 +724,8 @@ public class WebService {
     public List<YLTask> GetHandovermanTask(User user,String url)throws Exception{
         GetHandovermanTaskAsyncTask getHandovermanTaskAsyncTask = new
                 GetHandovermanTaskAsyncTask();
-        getHandovermanTaskAsyncTask.execute(url,user.getEmpNO());
+        getHandovermanTaskAsyncTask.execute(url,user.getEmpHFNo(), user.getEmpNO()
+                ,user.getTaskDate(),user.getDeviceID(), user.getEmpID());
         return getHandovermanTaskAsyncTask.get();
     }
 
@@ -737,42 +734,31 @@ public class WebService {
         protected List<YLTask> doInBackground(String... params) {
             String url = params[0];
             HttpPost post = new HttpPost(url);
-            User user = new User();
-            user.setEmpNO(params[1]);
-            try {
-                user.setTaskDate(YLSysTime.DateToStr(YLEditData.getDatePick()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
-                p.put("user",gson.toJson(user));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
+                p.put("HFNo",gson.toJson(params[1]));
+                p.put("EmpNo",gson.toJson(params[2]));
+                p.put("DataTime",gson.toJson(params[3]));
+                p.put("deviceID",gson.toJson(params[4]));
+                p.put("empid",gson.toJson(params[5]));
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            HttpClient client = new DefaultHttpClient();
-            try {
+                HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                      return gson.fromJson(content, new TypeToken<List<YLTask>>() {
-                    }.getType());
+                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
         }
     }
 
-    public List<Box> Getvaultinbox(User user,String url)throws Exception{
+    public List<YLTask> GetVaultInTask(User user,String url)throws Exception{
+
         return null;
     }
 }

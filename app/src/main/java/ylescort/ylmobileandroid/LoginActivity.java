@@ -15,7 +15,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,13 +23,9 @@ import android.widget.Toast;
 import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 
-import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import TaskClass.BaseEmp;
-import TaskClass.TasksManager;
 import TaskClass.User;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.WebService;
@@ -197,7 +192,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
             User user = new User();
             user.setEmpNO(Log_ET_Name.getText().toString());
-            user.setPass(YLSystem.md5(Log_ET_PassWord.getText().toString()));
+            user.setPass(YLSystem.SetMD5(Log_ET_PassWord.getText().toString()));
             WebService webService = new WebService();
             User userfromweb = webService.LogicBypassword(user, url);
             GetEmpByServer(userfromweb);

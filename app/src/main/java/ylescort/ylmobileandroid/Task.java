@@ -348,7 +348,7 @@ public class Task extends ActionBarActivity {
 //        final User user = new User();
 //        user.EmpNO="600241";
 //        user.Name="杨磊";
-//        user.Pass= YLSystem.md5("600241");
+//        user.Pass= YLSystem.SetMD5("600241");
 //        user.DeviceID="NH008";
 //        user.ISWIFI="1";
 //        user.EmpID="2703";

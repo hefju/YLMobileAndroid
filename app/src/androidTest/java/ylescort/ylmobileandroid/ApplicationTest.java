@@ -1,7 +1,6 @@
 package ylescort.ylmobileandroid;
 
 import android.app.Application;
-import android.content.Context;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
@@ -11,7 +10,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import TaskClass.BaseEmp;
 import TaskClass.Box;
@@ -21,7 +19,6 @@ import TaskClass.YLTask;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.EmpDBSer;
 import YLDataService.TaskDBSer;
-import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLDataService.YLSQLHelper;
@@ -57,7 +54,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         WebService webService = new WebService();
         User user = new User();
         user.setEmpNO("600241");
-        user.setPass( YLSystem.md5("600241"));
+        user.setPass( YLSystem.SetMD5("600241"));
         String mather = "Login1";
          String webcontent =  webService.UserWebContent(mather,user);
         Log.d(TAG,webcontent);
@@ -69,7 +66,7 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         User user = new User();
         user.EmpNO="600241";
         user.Name="杨磊";
-        user.Pass= YLSystem.md5("600241");
+        user.Pass= YLSystem.SetMD5("600241");
         user.DeviceID="NH008";
         user.ISWIFI="1";
         user.EmpID="2703";
@@ -133,10 +130,17 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         String url = YLSystem.GetBaseUrl(getContext())+"Login1";
         User user = new User();
         user.setEmpNO("520037");
-        user.setPass(YLSystem.md5("520037"));
+        user.setPass(YLSystem.SetMD5("520037"));
         WebService webService = new WebService();
         User userfromweb = webService.LogicBypassword(user, url);
         Log.e(TAG,userfromweb.toString());
+    }
+
+    public void testAnyTaskVaultTask()throws Exception{
+        User user = new User();
+
+        WebService webService = new WebService();
+
     }
 
 }

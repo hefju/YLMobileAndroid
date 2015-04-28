@@ -45,6 +45,7 @@ public class BaseEmpDBSer {
 
             lstBaseEmp.add(b);
         }
+        cursor.close();
         sdb.close(); //关闭数据库
         return lstBaseEmp;
     }

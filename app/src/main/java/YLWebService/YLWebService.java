@@ -203,7 +203,7 @@ public class YLWebService {
             HttpPost post = new HttpPost(url);
             User user = new User();
             user.setEmpNO("710161");
-            user.setPass(YLSystem.md5("710161"));
+            user.setPass(YLSystem.SetMD5("710161"));
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
