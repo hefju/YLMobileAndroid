@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -67,6 +68,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        /**
+         * 获取手机IMEI码
+         */
+        String srvName = Context.TELEPHONY_SERVICE;
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
+        String IMEI = telephonyManager.getDeviceId();
+        YLSystem.setHandsetIMEI(IMEI);
+
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setTitle("提示");
@@ -230,7 +240,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             WebService.CacheData(getApplicationContext());
             Log_BN_HF.setEnabled(true);
             userfromweb.setISWIFI(YLSystem.getNetWorkState());
+            userfromweb.setDeviceID(YLSystem.getHandsetIMEI());
             YLSystem.setUser(userfromweb);
+            Log.e("kim",YLSystem.getUser().toString());
             if (YLSysTime.getServertime() == null){
                 Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
                 startService(TimeSerintent);

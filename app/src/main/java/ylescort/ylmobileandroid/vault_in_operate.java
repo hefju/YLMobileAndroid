@@ -45,8 +45,6 @@ public class vault_in_operate extends ActionBarActivity {
         InitHFreader();
         InitData();
         InitView();
-
-
     }
 
     private void InitData() {
@@ -109,7 +107,6 @@ public class vault_in_operate extends ActionBarActivity {
                     player.SuccessOrFailMidia("fail",getApplicationContext());
                     Toast.makeText(getApplicationContext(),"数据库未有人,请更新缓存",Toast.LENGTH_SHORT).show();
                 }
-
             }
         }else {
             player.SuccessOrFailMidia("fail",getApplicationContext());

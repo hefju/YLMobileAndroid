@@ -490,7 +490,6 @@ public class YLBoxScan extends ActionBarActivity {
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        //imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
         inputManager.showSoftInput(et,0);
 
         new AlertDialog.Builder(this).setTitle("数量:")
@@ -761,20 +760,16 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private boolean CheckBoxNumber(String boxnumber) {
-
-        boolean checkthebox = false;
         baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
         if (baseBox.BoxBCNo.length()!=10 ||baseBox.BoxName.equals("无数据")){
-            checkthebox = true;
-            return checkthebox;}
+            return true;}
         for (int i = 0 ; i <ScanboxList.size();i++){
             String boxid = ScanboxList.get(i).BoxID;
             if (boxid.equals(boxnumber)){
-                checkthebox = true;
-                return checkthebox;
+                return true;
             }
         }
-        return checkthebox;
+        return false;
     }
 
     private String GetBoxStuat(String getboxstuat ){

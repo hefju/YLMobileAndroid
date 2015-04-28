@@ -112,11 +112,6 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
         //tasksManagerDBSer.DeleteTasksManager(tasksManager);
     }
 
-
-//    public Context getApplicationContext() {
-//        return getApplicationContext();
-//    }
-
     public void testgetbaseemp() throws Exception {
         BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
         String userNo = "123";
@@ -129,14 +124,19 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testbasebox()throws Exception{
-        Box box= YLBoxScanCheck.CheckBox("011410624",getContext());
-        if (box == null){
-            Log.e(TAG,"11");
-        }else {
-            Log.e(TAG,box.toString()
-            );
-        }
+        String number = "0\t\n";
+        Box box= YLBoxScanCheck.CheckBox(number,getContext());
+        Log.e(TAG,box.toString());
+    }
 
+    public void testAnyTaskgetuser()throws Exception{
+        String url = YLSystem.GetBaseUrl(getContext())+"Login1";
+        User user = new User();
+        user.setEmpNO("520037");
+        user.setPass(YLSystem.md5("520037"));
+        WebService webService = new WebService();
+        User userfromweb = webService.LogicBypassword(user, url);
+        Log.e(TAG,userfromweb.toString());
     }
 
 }

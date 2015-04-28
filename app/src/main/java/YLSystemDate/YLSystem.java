@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
+import android.telephony.TelephonyManager;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -30,6 +31,15 @@ public class YLSystem {
     private static String appversion;//软件版本号
     private static List<Box> ediboxList;//编辑中的箱数组
     private static String NetWorkState;//网络状态
+    private static String handsetIMEI;//手持机IMEI
+
+    public static String getHandsetIMEI() {
+        return handsetIMEI;
+    }
+
+    public static void setHandsetIMEI(String handsetIMEI) {
+        YLSystem.handsetIMEI = handsetIMEI;
+    }
 
     public static String getNetWorkState() {
         return NetWorkState;

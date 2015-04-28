@@ -35,6 +35,7 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
+import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
@@ -769,6 +770,10 @@ public class WebService {
             }
             return null;
         }
+    }
+
+    public List<Box> Getvaultinbox(User user,String url)throws Exception{
+        return null;
     }
 }
 

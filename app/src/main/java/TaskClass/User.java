@@ -98,6 +98,8 @@ public class User {
                 ", DeviceID='" + DeviceID + '\'' +
                 ", ISWIFI='" + ISWIFI + '\'' +
                 ", Time='" + Time + '\'' +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", TaskDate='" + TaskDate + '\'' +
                 '}';
     }
 }
