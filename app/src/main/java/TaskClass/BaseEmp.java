@@ -48,4 +48,20 @@ public class BaseEmp//员工类
         if(lstAdd.size()>0)
         dbSer.InsertBaseEmp(lstAdd);
     }
+
+    @Override
+    public String toString() {
+        return "BaseEmp{" +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", EmpID='" + EmpID + '\'' +
+                ", EmpName='" + EmpName + '\'' +
+                ", EmpNo='" + EmpNo + '\'' +
+                ", EmpHFNo='" + EmpHFNo + '\'' +
+                ", EmpWorkState='" + EmpWorkState + '\'' +
+                ", EmpJJNo='" + EmpJJNo + '\'' +
+                ", Mark='" + Mark + '\'' +
+                ", ServerTime='" + ServerTime + '\'' +
+                '}';
+    }
 }

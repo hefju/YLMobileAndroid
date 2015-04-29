@@ -109,6 +109,7 @@ public class User {
                 ", Time='" + Time + '\'' +
                 ", ServerReturn='" + ServerReturn + '\'' +
                 ", TaskDate='" + TaskDate + '\'' +
+                ", EmpHFNo='" + EmpHFNo + '\'' +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package ylescort.ylmobileandroid;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -88,15 +89,15 @@ public class vault_in_operate extends ActionBarActivity {
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
             if (!YLSystem.getNetWorkState().equals("2")){
-                String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTask1";
+                String url = YLSystem.GetBaseUrl(getApplicationContext())+"StoreInGetTask";
                 User user = new User();
                 String EmpHF = Tools.Bytes2HexString(uid,uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
                 List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+EmpHF+"'" );
                 if (baseEmpList.size()>0){
                     BaseEmp baseEmp = baseEmpList.get(0);
-                    user.setEmpNO(baseEmp.EmpHFNo);
-                    user.setEmpHFNo(baseEmp.EmpNo);
+                    user.setEmpNO(baseEmp.EmpNo);
+                    user.setEmpHFNo(baseEmp.EmpHFNo);
                     String pickdate = YLSysTime.DateToStr(YLEditData.getDatePick());
                     user.setTaskDate(pickdate);
                     user.setDeviceID(YLSystem.getHandsetIMEI());

@@ -724,8 +724,7 @@ public class WebService {
     public List<YLTask> GetHandovermanTask(User user,String url)throws Exception{
         GetHandovermanTaskAsyncTask getHandovermanTaskAsyncTask = new
                 GetHandovermanTaskAsyncTask();
-        getHandovermanTaskAsyncTask.execute(url,user.getEmpHFNo(), user.getEmpNO()
-                ,user.getTaskDate(),user.getDeviceID(), user.getEmpID());
+        getHandovermanTaskAsyncTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),user.getDeviceID(),user.getEmpID());
         return getHandovermanTaskAsyncTask.get();
     }
 
@@ -737,11 +736,11 @@ public class WebService {
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
-                p.put("HFNo",gson.toJson(params[1]));
-                p.put("EmpNo",gson.toJson(params[2]));
-                p.put("DataTime",gson.toJson(params[3]));
-                p.put("deviceID",gson.toJson(params[4]));
-                p.put("empid",gson.toJson(params[5]));
+                p.put("HFNo",params[1]);
+                p.put("EmpNo",params[2]);
+                p.put("DataTime",params[3]);
+                p.put("deviceID",params[4]);
+                p.put("empid",params[5]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();

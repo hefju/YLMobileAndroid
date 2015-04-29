@@ -145,4 +145,10 @@ public class vault_in_detail extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(vaultindetailscan1DRecive);
+        super.onDestroy();
+    }
 }
