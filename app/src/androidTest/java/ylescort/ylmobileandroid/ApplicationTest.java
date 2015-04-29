@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import TaskClass.BaseEmp;
@@ -22,6 +23,7 @@ import YLDataService.TaskDBSer;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLDataService.YLSQLHelper;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -137,9 +139,8 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     }
 
     public void testAnyTaskVaultTask()throws Exception{
-        User user = new User();
-
-        WebService webService = new WebService();
+        YLSysTime.setServertime(new Date());
+        Log.e(TAG,YLSysTime.getServertime().toString());
 
     }
 

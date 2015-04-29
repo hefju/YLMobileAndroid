@@ -54,7 +54,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         InitData();
     }
 
-    private void InitData() {
+    private void InitData()  {
         try {
             int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
             String ylvision = getVersionName();

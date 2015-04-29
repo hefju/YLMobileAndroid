@@ -1,5 +1,8 @@
 package YLSystemDate;
 
+import android.util.Log;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -11,7 +14,13 @@ public class YLSysTime {
 
     private static Date Servertime;
 
-    public static Date getServertime() {
+    public static Date getServertime()throws Exception{
+        Date date = new Date();
+        if (Servertime== null||Servertime.compareTo(date)==0){
+            Log.e("kim",Servertime+"1");
+            Servertime = GetDateCurrentTime();
+            Log.e("kim",Servertime+"2");
+        }
         return Servertime;
     }
 
@@ -39,9 +48,13 @@ public class YLSysTime {
         return sDateFormat.parse(str);
     }
 
-    public static String GetCurrentTime(){
+    public static String GetStrCurrentTime(){
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         return sDateFormat.format(new java.util.Date());
+    }
+
+    public static Date GetDateCurrentTime()throws Exception{
+        return new Date();
     }
 
     public static String GetSercurTime() throws Exception {
