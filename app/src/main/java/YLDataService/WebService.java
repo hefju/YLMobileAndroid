@@ -34,6 +34,7 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
+import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
@@ -640,7 +641,7 @@ public class WebService {
         return getUserFormServer.get();
     }
 
-    public class GetUserFormServerbyHF extends AsyncTask<String,Integer,User>{
+    private class GetUserFormServerbyHF extends AsyncTask<String,Integer,User>{
         @Override
         protected User doInBackground(String... params) {
             String url = params[0];
@@ -683,7 +684,7 @@ public class WebService {
         return getUserFormServerbypassword.get();
     }
 
-    public class GetUserFormServerbypassword extends AsyncTask<String,Integer,User>{
+    private class GetUserFormServerbypassword extends AsyncTask<String,Integer,User>{
         @Override
         protected User doInBackground(String... params) {
             String url = params[0];
@@ -728,7 +729,7 @@ public class WebService {
         return getHandovermanTaskAsyncTask.get();
     }
 
-    public class GetHandovermanTaskAsyncTask extends AsyncTask<String,Integer,List<YLTask>>{
+    private class GetHandovermanTaskAsyncTask extends AsyncTask<String,Integer,List<YLTask>>{
         @Override
         protected List<YLTask> doInBackground(String... params) {
             String url = params[0];
@@ -756,9 +757,71 @@ public class WebService {
         }
     }
 
-    public List<YLTask> GetVaultInTask(User user,String url)throws Exception{
+    public List<Box> GetVaultInBoxList(String TaskID,String deviceID,String EmpID,String url)throws Exception{
+        GetVaultInBoxListAsycnTask getVaultInBoxListAsycnTask = new GetVaultInBoxListAsycnTask();
+        getVaultInBoxListAsycnTask.execute(url,TaskID,deviceID,EmpID);
+        return getVaultInBoxListAsycnTask.get();
+    }
 
-        return null;
+    private class GetVaultInBoxListAsycnTask extends  AsyncTask<String,Integer,List<Box>>{
+        @Override
+        protected List<Box> doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID",params[1]);
+                p.put("deviceID",params[2]);
+                p.put("empid",params[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public List<YLTask> GetVaultOutTask(User user,String url)throws Exception{
+        GetVaultOutTaskAsycnTask getVaultOutTaskAsycnTask = new GetVaultOutTaskAsycnTask();
+        getVaultOutTaskAsycnTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),
+                user.getDeviceID(),user.getEmpID());
+        return getVaultOutTaskAsycnTask.get();
+    }
+
+    private class GetVaultOutTaskAsycnTask extends AsyncTask<String,Integer,List<YLTask>>{
+        @Override
+        protected List<YLTask> doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("HFNo",params[1]);
+                p.put("EmpNo",params[2]);
+                p.put("DataTime",params[3]);
+                p.put("deviceID",params[4]);
+                p.put("empid",params[5]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
 

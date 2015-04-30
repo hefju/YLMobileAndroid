@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import TaskClass.Box;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.WebService;
@@ -30,4 +31,21 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         List<YLTask> ylTaskList = webService.GetHandovermanTask(user, url);
         Log.e(TAG,ylTaskList.toString());
     }
+
+    public void testValutinBox()throws Exception{
+        WebService webService = new WebService();
+        String url = YLSystem.GetBaseUrl(getContext())+"StoreGetBoxByTaskID";
+        List<Box> boxList = webService.GetVaultInBoxList("91610x","1","3166",url);
+        Log.e(TAG,boxList.toString()+"");
+    }
+
+    public void testValultOutTask()throws Exception{
+        WebService webService = new WebService();
+        String url = YLSystem.GetBaseUrl(getContext())+"StoreGetBoxByTaskID";
+        User user = new User();
+        List<YLTask> ylTaskList= webService.GetVaultOutTask(user,url);
+        Log.e(TAG,ylTaskList.toString());
+    }
+
+
 }

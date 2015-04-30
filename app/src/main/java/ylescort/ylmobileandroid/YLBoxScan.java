@@ -860,8 +860,6 @@ public class YLBoxScan extends ActionBarActivity {
             boolean defaultdown=false;
             int keycode = intent.getIntExtra("keycode", 0);
             boolean keydown = intent.getBooleanExtra("keydown", defaultdown);
-            //Log.i("ServiceDemo", "receiver:keycode="+keycode+"keydown="+keydown);
-
             //左侧下按键
             if(keycode == 133 && keydown){
                 sendCmd();
@@ -870,16 +868,15 @@ public class YLBoxScan extends ActionBarActivity {
             if(keycode == 134 && keydown){
                 sendCmd();
             }
-
             if(keycode == 131 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F1按键", 0).show();
-                box_rbtn_full.setChecked(true);
+                //box_rbtn_full.setChecked(true);
                 sendCmd();
             }
 
             if(keycode == 132 && keydown){
 //	        	Toast.makeText(getApplicationContext(), "这是F2按键", 0).show();
-                box_rbtn_empty.setChecked(true);
+                //box_rbtn_empty.setChecked(true);
                 sendCmd();
             }
         }

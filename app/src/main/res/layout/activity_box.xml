@@ -192,9 +192,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/box_swh_singleormore"
         android:text="单/多"
-        android:checked="true"
+        android:checked="false"
         android:textOn="多"
-        android:textOff="单"/>
+        android:textOff="单"
+        android:visibility="invisible"/>
     </LinearLayout>
 
     <LinearLayout
