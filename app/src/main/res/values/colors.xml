@@ -124,7 +124,7 @@
     <color name="olivedrab">#6B8E23</color><!--深绿褐色 -->
     <color name="slateblue">#6A5ACD</color><!--石蓝色 -->
     <color name="dimgray">#696969</color><!--暗灰色 -->
-    <color name="dimgrey">#696969</color><!--暗灰色 -->
+    <color name="dimgrey">#FFCC66</color><!--淡绿色 -->
     <color name="mediumaquamarine">#66CDAA</color><!--中绿色 -->
     <color name="cornflowerblue">#6495ED</color><!--菊兰色 -->
     <color name="cadetblue">#5F9EA0</color><!--军兰色 -->
@@ -136,7 +136,7 @@
     <color name="royalblue">#4169E1</color><!--皇家蓝 -->
     <color name="turquoise">#40E0D0</color><!--青绿色 -->
     <color name="mediumseagreen">#3CB371</color><!--中海蓝 -->
-    <color name="limegreen">#32CD32</color><!--橙绿色 -->
+    <color name="limegreen">#80DF88</color><!--橙绿色 -->
     <color name="darkslategray">#2F4F4F</color><!--暗瓦灰色 -->
     <color name="darkslategrey">#2F4F4F</color><!--暗瓦灰色 -->
     <color name="seagreen">#2E8B57</color><!--海绿色 -->

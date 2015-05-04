@@ -6,24 +6,30 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.YLTask;
 import YLAdapter.YLBoxEdiAdapter;
+import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSystem;
 
 
-public class vault_in_detail extends ActionBarActivity {
+public class vault_in_detail extends ActionBarActivity implements View.OnClickListener {
 
     private TextView vault_in_detail_tv_taskname;
     private ListView vault_in_detail_listview;
@@ -36,20 +42,32 @@ public class vault_in_detail extends ActionBarActivity {
     private Scan1DRecive vaultindetailscan1DRecive;
     private YLMediaPlayer ylMediaPlayer;
 
+    private List<Box> homlistbox;
+    private List<Box> Scanlistbox;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault_in_detail);
-        InitView();
-        InitDate();
-        InitReciveScan1D();
+        try {
+            InitView();
+            InitDate();
+            InitReciveScan1D();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void InitDate() {
+    private void InitDate()throws Exception{
         ylTask = YLEditData.getYlTask();
         String title ="任务:"+ ylTask.getLine()+"   执行人:"+ ylTask.getTaskManager();
         vault_in_detail_tv_taskname.setText(title);
         ylMediaPlayer = new YLMediaPlayer();
+        WebService webService = new WebService();
+        homlistbox = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
+                YLSystem.getUser().getEmpID(),getApplicationContext());
+        DisPlayBoxlistAdapter(homlistbox);
+        StatisticalBoxList(homlistbox);
     }
 
     private void InitView(){
@@ -59,6 +77,9 @@ public class vault_in_detail extends ActionBarActivity {
         vault_in_detail_tv_check = (TextView) findViewById(R.id.vault_in_detail_tv_check);
         vault_in_detail_btn_scan1d = (Button) findViewById(R.id.vault_in_detail_btn_scan1d);
         vault_in_detail_btn_enter = (Button) findViewById(R.id.vault_in_detail_btn_enter);
+
+        vault_in_detail_btn_scan1d.setOnClickListener(this);
+        vault_in_detail_btn_enter.setOnClickListener(this);
     }
 
     private void InitReciveScan1D() {
@@ -70,31 +91,83 @@ public class vault_in_detail extends ActionBarActivity {
         vault_in_detail.this.startService(start);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.vault_in_detail_btn_scan1d:Scan1DCmd();
+                break;
+            case R.id.vault_in_detail_btn_enter:ConfirmData();
+                break;
+        }
+    }
+
     private class Scan1DRecive extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
                 Box box= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
-                GetBoxToListView(box);
-                }
+                GetBoxToListView(box);}
         }
     }
 
     private void GetBoxToListView(Box box) {
         if (!box.getBoxName().equals("illegalbox") ||!box.getBoxName().equals("无数据")){
             try {
-
-                ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+                if (homlistbox.size()<1)return;
+                boolean boxcheck = true;
+                for (int i = 0 ; i <homlistbox.size();i++){
+                    Box hombox = homlistbox.get(i);
+                    if (hombox.getBoxID().equals(box.getBoxID())){
+                        if (hombox.getValutcheck()==null){
+                        hombox.setValutcheck("√");
+                        homlistbox.set(i,hombox);
+                        boxcheck = false;
+                        break;}
+                        else if (hombox.getValutcheck().equals("多")
+                                ||hombox.getValutcheck().equals("√") ){
+                            ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                            return;
+                        }
+                    }
+                }
+                if (boxcheck){
+                    box.setValutcheck("多");
+                    box.setBoxCount("1");
+                    homlistbox.add(box);
+                }
+                DisPlayBoxlistAdapter(homlistbox);
+                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                StatisticalBoxList(homlistbox);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
+    private void StatisticalBoxList(List<Box> boxList){
+
+        if (boxList == null || boxList.size() < 1)return;
+        int homstr = 0,vaulter= 0;
+        for (Box box :boxList){
+            if (box.getValutcheck() == null){
+                homstr +=1;
+            }else if (box.getValutcheck().equals("√")){
+                vaulter +=1;
+                homstr +=1;
+            }else if (box.getValutcheck().equals("多")){
+                vaulter +=1;
+            }
+        }
+        vault_in_detail_tv_tolly.setText("业务员上传数量:"+homstr+"个");
+        vault_in_detail_tv_check.setText("库管员扫描数量"+vaulter+"个");
+    }
+
     private void DisPlayBoxlistAdapter(List<Box> boxList){
         if (boxList != null && boxList.size()>0){
-
+            YLValutboxitemAdapter ylValutboxitemAdapter =
+                    new YLValutboxitemAdapter(getApplicationContext(),boxList,R.layout.vault_in_detail_boxitem);
+            vault_in_detail_listview.setAdapter(ylValutboxitemAdapter);
         }
     }
 

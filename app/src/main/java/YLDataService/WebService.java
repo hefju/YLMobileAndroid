@@ -722,7 +722,8 @@ public class WebService {
         }
     }
 
-    public List<YLTask> GetHandovermanTask(User user,String url)throws Exception{
+    public List<YLTask> GetHandovermanTask(User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreInGetTask";
         GetHandovermanTaskAsyncTask getHandovermanTaskAsyncTask = new
                 GetHandovermanTaskAsyncTask();
         getHandovermanTaskAsyncTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),user.getDeviceID(),user.getEmpID());
@@ -757,7 +758,8 @@ public class WebService {
         }
     }
 
-    public List<Box> GetVaultInBoxList(String TaskID,String deviceID,String EmpID,String url)throws Exception{
+    public List<Box> GetVaultInBoxList(String TaskID,String deviceID,String EmpID,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskID";
         GetVaultInBoxListAsycnTask getVaultInBoxListAsycnTask = new GetVaultInBoxListAsycnTask();
         getVaultInBoxListAsycnTask.execute(url,TaskID,deviceID,EmpID);
         return getVaultInBoxListAsycnTask.get();
@@ -789,7 +791,8 @@ public class WebService {
         }
     }
 
-    public List<YLTask> GetVaultOutTask(User user,String url)throws Exception{
+    public List<YLTask> GetVaultOutTask(User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskID";
         GetVaultOutTaskAsycnTask getVaultOutTaskAsycnTask = new GetVaultOutTaskAsycnTask();
         getVaultOutTaskAsycnTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),
                 user.getDeviceID(),user.getEmpID());

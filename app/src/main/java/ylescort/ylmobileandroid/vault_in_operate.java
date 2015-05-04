@@ -103,7 +103,7 @@ public class vault_in_operate extends ActionBarActivity {
                     user.setDeviceID(YLSystem.getHandsetIMEI());
                     user.setEmpID(YLSystem.getUser().getEmpID());
                     WebService webService = new WebService();
-                    List<YLTask> ylTaskList = webService.GetHandovermanTask(user,url);
+                    List<YLTask> ylTaskList = webService.GetHandovermanTask(user,getApplicationContext());
                     DisplayTaskList(ylTaskList);
                     player.SuccessOrFailMidia("success",getApplicationContext());
                 }else {
@@ -128,11 +128,8 @@ public class vault_in_operate extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode== 131 || keyCode == 132){
-            try {
-                GetHanderovermanTask();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            try {GetHanderovermanTask();}
+            catch (Exception e) {e.printStackTrace();}
         }
         return super.onKeyDown(keyCode, event);
     }

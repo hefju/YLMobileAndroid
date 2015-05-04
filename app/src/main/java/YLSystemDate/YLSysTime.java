@@ -15,13 +15,7 @@ public class YLSysTime {
     private static Date Servertime;
 
     public static Date getServertime()throws Exception{
-        Date date = new Date();
-        if (Servertime== null||Servertime.compareTo(date)==0){
-            Log.e("kim",Servertime+"1");
-            Servertime = GetDateCurrentTime();
-            Log.e("kim",Servertime+"2");
-        }
-        return Servertime;
+        return  new Date();
     }
 
     public static void setServertime(Date servertime) {

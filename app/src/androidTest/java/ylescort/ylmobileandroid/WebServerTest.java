@@ -28,14 +28,13 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         user.setTaskDate("2015-04-27");
         user.setDeviceID("123");
         user.setEmpID("3166");
-        List<YLTask> ylTaskList = webService.GetHandovermanTask(user, url);
+        List<YLTask> ylTaskList = webService.GetHandovermanTask(user, getContext());
         Log.e(TAG,ylTaskList.toString());
     }
 
     public void testValutinBox()throws Exception{
         WebService webService = new WebService();
-        String url = YLSystem.GetBaseUrl(getContext())+"StoreGetBoxByTaskID";
-        List<Box> boxList = webService.GetVaultInBoxList("91610x","1","3166",url);
+        List<Box> boxList = webService.GetVaultInBoxList("91610x","1","3166",getContext());
         Log.e(TAG,boxList.toString()+"");
     }
 
@@ -43,7 +42,7 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         WebService webService = new WebService();
         String url = YLSystem.GetBaseUrl(getContext())+"StoreGetBoxByTaskID";
         User user = new User();
-        List<YLTask> ylTaskList= webService.GetVaultOutTask(user,url);
+        List<YLTask> ylTaskList= webService.GetVaultOutTask(user,getContext());
         Log.e(TAG,ylTaskList.toString());
     }
 

@@ -60,6 +60,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
             log_tv_vision.setText("版本号:"+ylvision);
+            Log.e("kim",b+"");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -237,11 +238,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             userfromweb.setISWIFI(YLSystem.getNetWorkState());
             userfromweb.setDeviceID(YLSystem.getHandsetIMEI());
             YLSystem.setUser(userfromweb);
-            Log.e("kim",YLSystem.getUser().toString());
-            if (YLSysTime.getServertime() == null){
-                Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
-                startService(TimeSerintent);
-            }
+//            if (YLSysTime.getServertime() == null){
+//                Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
+//                startService(TimeSerintent);
+//            }
             Intent intent = new Intent();
             String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
             if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){

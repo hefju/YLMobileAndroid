@@ -144,4 +144,9 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     }
 
+    public void testColors()throws Exception{
+        //int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
+    }
+
+
 }

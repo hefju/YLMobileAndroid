@@ -81,5 +81,8 @@
     <string name="title_activity_vault_in_detail">入库明细</string>
     <string name="vault_in_detail_tv_check">汇总:</string>
     <string name="vault_in_detail_tv_tolly">统计:</string>
+    <string name="vault_in_detail_correct">√</string>
+    <string name="vault_in_detail_more">多</string>
+    <string name="vault_in_detail_lack">缺</string>
 
 </resources>
