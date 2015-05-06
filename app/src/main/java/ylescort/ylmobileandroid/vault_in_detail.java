@@ -1,7 +1,9 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
@@ -11,9 +13,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +84,69 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
         vault_in_detail_btn_scan1d.setOnClickListener(this);
         vault_in_detail_btn_enter.setOnClickListener(this);
+
+        vault_in_detail_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (homlistbox.size() < 1) return;
+                Box box = homlistbox.get(position);
+                if (box.getValutcheck() == null) return;
+                if (box.getValutcheck().equals("多")) {
+                    ShowMultChoice(position);
+                }
+            }
+        });
+
+
+    }
+
+    private void ShowMultChoice(final int position) {
+        new AlertDialog.Builder(this).setTitle("请选择类型").setIcon
+                (android.R.drawable.ic_dialog_info).setSingleChoiceItems(R.array.ylboxvalut, 0,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Box box = homlistbox.get(position);
+                        switch (which) {
+                            case 0:
+                                box.setBoxStatus("实");
+                                box.setBoxType("款箱");
+                                break;
+                            case 1:
+                                box.setBoxStatus("实");
+                                box.setBoxType("卡箱");
+                                break;
+                            case 2:
+                                box.setBoxStatus("实");
+                                box.setBoxType("凭证");
+                                break;
+                            case 3:
+                                box.setBoxStatus("空");
+                                box.setBoxType("款箱");
+                                break;
+                            case 4:
+                                box.setBoxStatus("空");
+                                box.setBoxType("卡箱");
+                                break;
+                            case 5:
+                                box.setBoxStatus("空");
+                                box.setBoxType("凭证");
+                                break;
+                            case 6:
+                                homlistbox.remove(position);
+                                break;
+                        }
+                        if (homlistbox.size() == position + 1) {
+                            homlistbox.set(position, box);
+                            DisPlayBoxlistAdapter(homlistbox);
+                            vault_in_detail_listview.setSelection(position+1);
+                        } else {
+                            DisPlayBoxlistAdapter(homlistbox);
+                            vault_in_detail_listview.setSelection(position);
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     private void InitReciveScan1D() {
@@ -116,17 +183,20 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             try {
                 if (homlistbox.size()<1)return;
                 boolean boxcheck = true;
+                int position=0;
                 for (int i = 0 ; i <homlistbox.size();i++){
                     Box hombox = homlistbox.get(i);
                     if (hombox.getBoxID().equals(box.getBoxID())){
                         if (hombox.getValutcheck()==null){
                         hombox.setValutcheck("√");
-                        homlistbox.set(i,hombox);
+                        homlistbox.set(i, hombox);
                         boxcheck = false;
+                            position = i;
                         break;}
                         else if (hombox.getValutcheck().equals("多")
                                 ||hombox.getValutcheck().equals("√") ){
                             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                            Thread.sleep(1000);
                             return;
                         }
                     }
@@ -134,9 +204,16 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 if (boxcheck){
                     box.setValutcheck("多");
                     box.setBoxCount("1");
+                    box.setBoxStatus("无");
+                    box.setBoxType("无");
+                    box.setBoxTaskType(ylTask.getTaskType());
                     homlistbox.add(box);
                 }
                 DisPlayBoxlistAdapter(homlistbox);
+                if (position == 0){
+                    position = homlistbox.size();
+                }
+                vault_in_detail_listview.setSelection(position);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                 StatisticalBoxList(homlistbox);
             } catch (Exception e) {
@@ -146,21 +223,25 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void StatisticalBoxList(List<Box> boxList){
-
+        int homstr = 0,vaulter= 0,correct = 0 ;
         if (boxList == null || boxList.size() < 1)return;
-        int homstr = 0,vaulter= 0;
         for (Box box :boxList){
             if (box.getValutcheck() == null){
                 homstr +=1;
             }else if (box.getValutcheck().equals("√")){
                 vaulter +=1;
+                correct +=1;
                 homstr +=1;
             }else if (box.getValutcheck().equals("多")){
                 vaulter +=1;
             }
         }
-        vault_in_detail_tv_tolly.setText("业务员上传数量:"+homstr+"个");
-        vault_in_detail_tv_check.setText("库管员扫描数量"+vaulter+"个");
+
+        int lackbox = homstr - correct;
+        String hom = "业务员上传:"+homstr+"个";
+        String vault = "库管员扫描:"+vaulter+"个, 符合:"+correct+"个 缺少:"+lackbox+"个";
+        vault_in_detail_tv_tolly.setText(hom);
+        vault_in_detail_tv_check.setText(vault);
     }
 
     private void DisPlayBoxlistAdapter(List<Box> boxList){
@@ -183,7 +264,45 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void ConfirmData() {
-
+       AlertDialog.Builder builder = new AlertDialog.Builder(vault_in_detail.this);
+        builder.setMessage("是否确认上传数据");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (homlistbox.size() < 1) return;
+                boolean boxcheck = false;
+                for (Box box : homlistbox) {
+                    if (box.getValutcheck() != null) {
+                        if (box.getBoxType().equals("无")) {
+                            boxcheck = true;
+                            break;
+                        }
+                    }
+                }
+                if (boxcheck) {
+                    new AlertDialog.Builder(vault_in_detail.this).setTitle("提示")
+                            .setMessage("有款箱未状态设置\r\n请完成设置")
+                            .setPositiveButton("确定", null).show();
+                }else {
+                    //更新数据未完成
+                    try {
+                        WebService webService = new WebService();
+                        webService.PostVaultInBoxList("",YLSystem.getUser(),getApplicationContext());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void Scan1DCmd() {

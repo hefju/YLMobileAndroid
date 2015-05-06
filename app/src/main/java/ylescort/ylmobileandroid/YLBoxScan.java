@@ -638,9 +638,7 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private String GetCurrTime() throws Exception {
-//        Date date =new Date();
-//        date =  YLSysTime.getServertime();
-        return YLSysTime.TimeToStr(new Date());
+        return YLSysTime.GetStrCurrentTime();
     }
 
     private void AddArriveTime() {

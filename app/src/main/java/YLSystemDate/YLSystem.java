@@ -32,6 +32,12 @@ public class YLSystem {
     private static List<Box> ediboxList;//编辑中的箱数组
     private static String NetWorkState;//网络状态
     private static String handsetIMEI;//手持机IMEI
+    private static String kimTag;
+
+    public static String getKimTag() {
+        return "kim";
+    }
+
 
     public static String getHandsetIMEI() {
         return handsetIMEI;

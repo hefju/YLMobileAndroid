@@ -5,35 +5,42 @@
               android:layout_height="match_parent">
 <LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="35sp"
+    android:gravity="center">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="90sp"
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_boxitme_boxname"
-        android:text="@string/boxitem_Boxid"/>
+        android:text="@string/boxitem_Boxid"
+        android:textSize="20sp"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="30sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
+        android:layout_marginStart="10sp"
         android:id="@+id/vault_in_detail_boxitme_boxstaut"
-        android:text="@string/boxitem_Boxid"/>
+        android:text="@string/boxitem_Boxid"
+        android:textSize="20sp"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="60sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
+        android:layout_marginStart="10sp"
         android:id="@+id/vault_in_detail_boxitme_boxtype"
-        android:text="@string/boxitem_Boxid"/>
+        android:text="@string/boxitem_Boxid"
+        android:textSize="20sp"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="50sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
+        android:layout_marginStart="10sp"
         android:id="@+id/vault_in_detail_boxitme_boxtask"
-        android:text="@string/boxitem_Boxid"/>
+        android:text="@string/boxitem_Boxid"
+        android:textSize="20sp"/>
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
+        android:layout_marginStart="10sp"
         android:id="@+id/vault_in_detail_boxitme_boxcheck"
-        android:text="@string/boxitem_Boxid"/>
+        android:text="@string/boxitem_Boxid"
+        android:textSize="15sp"/>
     </LinearLayout>
 </LinearLayout>

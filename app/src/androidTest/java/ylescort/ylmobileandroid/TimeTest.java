@@ -20,4 +20,9 @@ public class TimeTest extends ApplicationTestCase<Application> {
         Log.e(TAG,settime);
     }
 
+     public void testStrDate()throws Exception{
+         String strdate = YLSysTime.GetStrCurrentTime();
+         Log.e(TAG,strdate);
+     }
+
 }

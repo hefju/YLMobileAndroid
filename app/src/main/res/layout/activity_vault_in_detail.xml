@@ -41,9 +41,10 @@
         </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="300sp"
+        android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_LL_listview"
-        android:layout_below="@+id/vault_in_detail_LL_listtital">
+        android:layout_below="@+id/vault_in_detail_LL_listtital"
+        android:layout_above="@+id/vault_in_detail_LL_tolly">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +55,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_LL_tolly"
-        android:layout_below="@+id/vault_in_detail_LL_listview"
+        android:layout_above="@+id/vault_in_detail_LL_button"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -71,7 +72,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_below="@+id/vault_in_detail_LL_tolly">
+        android:id="@+id/vault_in_detail_LL_button"
+        android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

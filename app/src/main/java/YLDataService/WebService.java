@@ -635,9 +635,17 @@ public class WebService {
         }. start();
     }
 
+    /**
+     * 根据HF登陆界面
+     * @param loguser HF编号
+     * @param url webServer API
+     * @return User
+     * @throws Exception
+     */
+
     public User LogicByHF(User loguser,String url) throws Exception {
         GetUserFormServerbyHF getUserFormServer = new GetUserFormServerbyHF();
-        getUserFormServer.execute(url,loguser.getEmpNO());
+        getUserFormServer.execute(url, loguser.getEmpNO());
         return getUserFormServer.get();
     }
 
@@ -677,6 +685,14 @@ public class WebService {
             return null;
         }
     }
+
+    /**
+     * 根据用户名及密码登陆
+     * @param loguser 用户编号,用户密码
+     * @param url webServer API
+     * @return User
+     * @throws Exception
+     */
 
     public User LogicBypassword(User loguser,String url)throws Exception{
         GetUserFormServerbypassword getUserFormServerbypassword = new GetUserFormServerbypassword();
@@ -722,6 +738,14 @@ public class WebService {
         }
     }
 
+    /**
+     * 根据用户HF或EmpID及日期获取入库任务列表
+     * @param user 业务员EmpHF,业务员编号,任务日期,手持机IMEI,库管员EmpID
+     * @param context context
+     * @return list<YLStask>
+     * @throws Exception
+     */
+
     public List<YLTask> GetHandovermanTask(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreInGetTask";
         GetHandovermanTaskAsyncTask getHandovermanTaskAsyncTask = new
@@ -758,6 +782,16 @@ public class WebService {
         }
     }
 
+    /**
+     * 根据任务获取入库箱数
+     * @param TaskID 任务ID
+     * @param deviceID 手持机IMEI
+     * @param EmpID 库管员EmpID
+     * @param context context
+     * @return list<Box>
+     * @throws Exception
+     */
+
     public List<Box> GetVaultInBoxList(String TaskID,String deviceID,String EmpID,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskID";
         GetVaultInBoxListAsycnTask getVaultInBoxListAsycnTask = new GetVaultInBoxListAsycnTask();
@@ -790,6 +824,54 @@ public class WebService {
             return null;
         }
     }
+
+
+    /**
+     * 上传金库入库箱列表
+     * @param TaskID 任务ID
+     * @param user 用户
+     * @param context context
+     * @throws Exception
+     */
+    public void PostVaultInBoxList(String TaskID,User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"上传地址API";
+        PostVaultInBoxListAsycnTask postVaultInBoxListAsycnTask = new PostVaultInBoxListAsycnTask();
+        postVaultInBoxListAsycnTask.execute(url,TaskID);
+    }
+
+    private class PostVaultInBoxListAsycnTask  extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID",params[1]);
+                p.put("deviceID",gson.toJson(YLSystem.getEdiboxList()) );
+                p.put("empid",params[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 根据业务员HF或ID获取出库任务列表
+     * @param user 业务员HF,业务员编号,任务日期,手持机IMEI,库管员EmpID
+     * @param context context
+     * @return list<YLTask>
+     * @throws Exception
+     */
 
     public List<YLTask> GetVaultOutTask(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskID";

@@ -12,4 +12,13 @@
         <item>寄库</item>
         <item>企业上门收款</item>
     </string-array>
+    <string-array name="ylboxvalut">
+        <item>实款箱</item>
+        <item>实卡箱</item>
+        <item>实凭证</item>
+        <item>空款箱</item>
+        <item>空卡箱</item>
+        <item>空凭证</item>
+        <item>"删  除"</item>
+    </string-array>
 </resources>
