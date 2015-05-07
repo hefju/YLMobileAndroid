@@ -867,17 +867,23 @@ public class WebService {
 
     /**
      * 根据业务员HF或ID获取出库任务列表
-     * @param user 业务员HF,业务员编号,任务日期,手持机IMEI,库管员EmpID
+     * @param user 业务员IC卡卡号,业务员编号,任务日期,手持机IMEI,库管员EmpID,线路编号
      * @param context context
      * @return list<YLTask>
      * @throws Exception
      */
+    /// <param name="HFNo">业务员IC卡卡号002DE3A6</param>
+    /// <param name="EmpNo">业务员员工号520037</param>
+    /// <param name="DataTime">任务日期2015-05-04</param>
+    /// <param name="deviceID">金库手持机号NHJ01</param>
+    /// <param name="empid">金库库管员ID 3361</param>
+    /// <param name="Line">线路号3位数 033</param>
 
     public List<YLTask> GetVaultOutTask(User user,Context context)throws Exception{
-        String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskID";
+        String url = YLSystem.GetBaseUrl(context)+"StoreOutGetTask";
         GetVaultOutTaskAsycnTask getVaultOutTaskAsycnTask = new GetVaultOutTaskAsycnTask();
         getVaultOutTaskAsycnTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),
-                user.getDeviceID(),user.getEmpID());
+                user.getDeviceID(),user.getEmpID(),user.getName());
         return getVaultOutTaskAsycnTask.get();
     }
 
@@ -894,6 +900,7 @@ public class WebService {
                 p.put("DataTime",params[3]);
                 p.put("deviceID",params[4]);
                 p.put("empid",params[5]);
+                p.put("Line",params[6]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();

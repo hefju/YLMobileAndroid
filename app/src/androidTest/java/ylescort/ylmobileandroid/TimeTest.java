@@ -25,4 +25,10 @@ public class TimeTest extends ApplicationTestCase<Application> {
          Log.e(TAG,strdate);
      }
 
+    public void testInttoString()throws Exception{
+        int i = 0,j = 2;
+        String string ="0"+ i+j;
+        Log.e(TAG,string);
+    }
+
 }

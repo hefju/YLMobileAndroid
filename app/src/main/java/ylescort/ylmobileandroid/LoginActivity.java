@@ -60,7 +60,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
             log_tv_vision.setText("版本号:"+ylvision);
-            Log.e("kim",b+"");
         } catch (Exception e) {
             e.printStackTrace();
         }

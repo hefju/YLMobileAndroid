@@ -25,7 +25,7 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         User user = new User();
         user.setEmpHFNo("002DE3A6");
         user.setEmpNO("520037");
-        user.setTaskDate("2015-04-27");
+        user.setTaskDate("2015-05-04");
         user.setDeviceID("123");
         user.setEmpID("3166");
         List<YLTask> ylTaskList = webService.GetHandovermanTask(user, getContext());
@@ -34,17 +34,28 @@ public class WebServerTest extends ApplicationTestCase<Application> {
 
     public void testValutinBox()throws Exception{
         WebService webService = new WebService();
-        List<Box> boxList = webService.GetVaultInBoxList("91610x","1","3166",getContext());
+        List<Box> boxList = webService.GetVaultInBoxList("91610x", "1", "3166", getContext());
         Log.e(TAG,boxList.toString()+"");
     }
 
-    public void testValultOutTask()throws Exception{
+    public void testValultinBox()throws Exception{
         WebService webService = new WebService();
-        String url = YLSystem.GetBaseUrl(getContext())+"StoreGetBoxByTaskID";
         User user = new User();
-        List<YLTask> ylTaskList= webService.GetVaultOutTask(user,getContext());
+        List<YLTask> ylTaskList= webService.GetHandovermanTask(user, getContext());
         Log.e(TAG,ylTaskList.toString());
     }
 
+    public void testValultoutTask()throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        user.setEmpHFNo("");
+        user.setEmpNO("");
+        user.setTaskDate("2015-05-04");
+        user.setDeviceID("231");
+        user.setEmpID("3361");
+        user.setName("033");//借用user类传入线路编号
+        List<YLTask> ylTaskList = webService.GetVaultOutTask(user,getContext());
+        Log.e(TAG,ylTaskList.toString());
+    }
 
 }

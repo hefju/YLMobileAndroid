@@ -99,7 +99,8 @@
         </activity>
         <activity
             android:name=".vault_out_operate"
-            android:label="@string/title_activity_vault_out_operate" >
+            android:label="@string/title_activity_vault_out_operate"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".vault_out_detail"

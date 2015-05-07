@@ -57,9 +57,9 @@
     <string name="vaultinorout_btn_out">出库(F2)</string>
     <!--出库管理-->
     <string name="title_activity_vault_out_operate">出库管理</string>
-    <string name="vault_out_operate_tv_text">任务名称:</string>
-    <string name="vault_out_operate_btn_search">查找</string>
-    <string name="vault_out_operate_btn_readcard">读卡</string>
+    <string name="vault_out_operate_tv_text">任务线路:</string>
+    <string name="vault_out_operate_btn_search">查找/F1</string>
+    <string name="vault_out_operate_btn_readcard">读卡/F2</string>
     <string name="vault_out_operate_tv_taskname">任务名称</string>
     <string name="vault_out_operate_tv_taskstaut">状态</string>
     <!--出库明细-->
