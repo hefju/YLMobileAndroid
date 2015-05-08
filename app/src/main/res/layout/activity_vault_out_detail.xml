@@ -7,7 +7,7 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="ylescort.ylmobileandroid.vault_out_detail">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_Info">
@@ -15,51 +15,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_tv_taskname"
+            android:layout_centerVertical="true"
             android:text="@string/vault_out_detail_tv_taskname"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_btn_readcard"
+            android:layout_alignParentEnd="true"
             android:text="@string/vault_out_detail_btn_readcard"/>
-        </LinearLayout>
+        </RelativeLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_listtitle"
         android:layout_below="@+id/vault_out_detail_LL_Info">
         <TextView
-            android:layout_width="80sp"
-            android:layout_height="wrap_content"
-            android:text="@string/vault_out_detail_tv_boxname"/>
-        <TextView
             android:layout_width="60sp"
             android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_tv_boxstaut"
             android:text="@string/vault_out_detail_tv_boxstaut"/>
         <TextView
             android:layout_width="60sp"
             android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_tv_type"
             android:text="@string/vault_out_detail_tv_boxstype"/>
-        <TextView
-            android:layout_width="60sp"
-            android:layout_height="wrap_content"
-            android:text="@string/vault_out_detail_tv_boxtasktype"/>
         </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="300sp"
         android:id="@+id/vault_out_detail_LL_listview"
-        android:layout_below="@+id/vault_out_detail_LL_listtitle">
+        android:layout_below="@+id/vault_out_detail_LL_listtitle"
+        >
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/vault_out_detail_lv">
             </ListView>
-        </LinearLayout>
-    <LinearLayout
+        </RelativeLayout>
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_operate"
-        android:layout_below="@+id/vault_out_detail_LL_listview">
+        android:layout_below="@+id/vault_out_detail_LL_listview"
+        android:layout_alignParentEnd="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +66,14 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_btn_boxtype"
+            android:layout_centerHorizontal="true"
+            android:text="@string/vault_out_detail_btn_boxtype"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_btn_enter"
+            android:layout_alignParentEnd="true"
             android:text="@string/vault_out_detail_btn_enter"/>
-        </LinearLayout>
+        </RelativeLayout>
 </RelativeLayout>

@@ -74,6 +74,7 @@
     <string name="vault_out_detail_btn_stop">停止</string>
     <string name="vault_out_detail_btn_enter">确认</string>
     <string name="vault_out_detail_btn_save">保存</string>
+    <string name="vault_out_detail_btn_boxtype">类型</string>
     <!--入库管理-->
     <string name="title_activity_vault_in_operate">入库管理</string>
     <string name="vault_in_operate_btn_readcard">读卡(F1/F2)</string>
