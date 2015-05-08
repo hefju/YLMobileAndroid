@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.WebService;
@@ -54,8 +55,19 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         user.setDeviceID("231");
         user.setEmpID("3361");
         user.setName("033");//借用user类传入线路编号
-        List<YLTask> ylTaskList = webService.GetVaultOutTask(user,getContext());
+        List<YLTask> ylTaskList = webService.GetVaultOutTask(user, getContext());
         Log.e(TAG,ylTaskList.toString());
+    }
+
+    public void testUploadvaultinbox()throws Exception{
+        TasksManager tasksManager = new TasksManager();
+        YLSystem.setTasksManager(tasksManager);
+        WebService webService = new WebService();
+        User user = new User();
+        user.setEmpID("3361");
+        user.setDeviceID("123");
+        String get = webService.PostVaultInBoxList(user,getContext());
+        Log.e(TAG,get+"");
     }
 
 }

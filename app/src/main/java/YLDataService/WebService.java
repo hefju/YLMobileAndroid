@@ -828,15 +828,16 @@ public class WebService {
 
     /**
      * 上传金库入库箱列表
-     * @param TaskID 任务ID
-     * @param user 用户
+
+     * @param user 用户 empid 库管员ID,deviceID 手持机号
      * @param context context
      * @throws Exception
      */
-    public void PostVaultInBoxList(String TaskID,User user,Context context)throws Exception{
-        String url = YLSystem.GetBaseUrl(context)+"上传地址API";
+    public String PostVaultInBoxList(User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreUploadBox";
         PostVaultInBoxListAsycnTask postVaultInBoxListAsycnTask = new PostVaultInBoxListAsycnTask();
-        postVaultInBoxListAsycnTask.execute(url,TaskID);
+        postVaultInBoxListAsycnTask.execute(url,user.getEmpID(),user.getDeviceID());
+        return postVaultInBoxListAsycnTask.get();
     }
 
     private class PostVaultInBoxListAsycnTask  extends AsyncTask<String,Integer,String>{
@@ -846,17 +847,17 @@ public class WebService {
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
+            YLTask ylTask = new YLTask();
             try {
-                p.put("TaskID",params[1]);
-                p.put("deviceID",gson.toJson(YLSystem.getEdiboxList()) );
-                p.put("empid",params[3]);
-                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                p.put("STask", gson.toJson(ylTask));
+                p.put("empid", params[1]);
+                p.put("deviceID", params[2]);
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200){
-                    String content = EntityUtils.toString(response.getEntity());
-                    return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    return EntityUtils.toString(response.getEntity());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -867,18 +868,11 @@ public class WebService {
 
     /**
      * 根据业务员HF或ID获取出库任务列表
-     * @param user 业务员IC卡卡号,业务员编号,任务日期,手持机IMEI,库管员EmpID,线路编号
+     * @param user HFNo 业务员IC卡卡号, EmpNo业务员员工号,DataTime 任务日期,deviceID 手持机IMEI,empid 库管员EmpID,Line 线路编号
      * @param context context
      * @return list<YLTask>
      * @throws Exception
      */
-    /// <param name="HFNo">业务员IC卡卡号002DE3A6</param>
-    /// <param name="EmpNo">业务员员工号520037</param>
-    /// <param name="DataTime">任务日期2015-05-04</param>
-    /// <param name="deviceID">金库手持机号NHJ01</param>
-    /// <param name="empid">金库库管员ID 3361</param>
-    /// <param name="Line">线路号3位数 033</param>
-
     public List<YLTask> GetVaultOutTask(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreOutGetTask";
         GetVaultOutTaskAsycnTask getVaultOutTaskAsycnTask = new GetVaultOutTaskAsycnTask();

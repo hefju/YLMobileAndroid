@@ -288,7 +288,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     //更新数据未完成
                     try {
                         WebService webService = new WebService();
-                        webService.PostVaultInBoxList("",YLSystem.getUser(),getApplicationContext());
+                        //webService.PostVaultInBoxList("",YLSystem.getUser(),getApplicationContext());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
