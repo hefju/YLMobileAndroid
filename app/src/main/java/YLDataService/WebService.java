@@ -38,6 +38,7 @@ import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
 /**
@@ -828,7 +829,6 @@ public class WebService {
 
     /**
      * 上传金库入库箱列表
-
      * @param user 用户 empid 库管员ID,deviceID 手持机号
      * @param context context
      * @throws Exception
@@ -847,9 +847,8 @@ public class WebService {
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
-            YLTask ylTask = new YLTask();
             try {
-                p.put("STask", gson.toJson(ylTask));
+                p.put("STask", gson.toJson(YLEditData.getYlTask()));
                 p.put("empid", params[1]);
                 p.put("deviceID", params[2]);
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));

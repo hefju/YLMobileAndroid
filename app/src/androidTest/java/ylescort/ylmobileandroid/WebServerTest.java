@@ -11,6 +11,7 @@ import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.WebService;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
 /**
@@ -60,8 +61,8 @@ public class WebServerTest extends ApplicationTestCase<Application> {
     }
 
     public void testUploadvaultinbox()throws Exception{
-        TasksManager tasksManager = new TasksManager();
-        YLSystem.setTasksManager(tasksManager);
+        YLTask ylTask = new YLTask();
+        YLEditData.setYlTask(ylTask);
         WebService webService = new WebService();
         User user = new User();
         user.setEmpID("3361");
@@ -69,5 +70,4 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         String get = webService.PostVaultInBoxList(user,getContext());
         Log.e(TAG,get+"");
     }
-
 }

@@ -89,7 +89,6 @@ public class vault_in_operate extends ActionBarActivity {
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
             if (!YLSystem.getNetWorkState().equals("2")){
-                String url = YLSystem.GetBaseUrl(getApplicationContext())+"StoreInGetTask";
                 User user = new User();
                 String EmpHF = Tools.Bytes2HexString(uid,uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());

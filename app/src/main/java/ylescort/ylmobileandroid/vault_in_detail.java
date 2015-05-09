@@ -47,7 +47,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private YLMediaPlayer ylMediaPlayer;
 
     private List<Box> homlistbox;
-    private List<Box> Scanlistbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -284,11 +283,18 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     new AlertDialog.Builder(vault_in_detail.this).setTitle("提示")
                             .setMessage("有款箱未状态设置\r\n请完成设置")
                             .setPositiveButton("确定", null).show();
-                }else {
-                    //更新数据未完成
+                } else {
                     try {
+                        ylTask.setLstBox(homlistbox);
+                        YLEditData.setYlTask(ylTask);
+                        Log.e(YLSystem.getKimTag(), homlistbox.toString());
                         WebService webService = new WebService();
-                        //webService.PostVaultInBoxList("",YLSystem.getUser(),getApplicationContext());
+                        String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
+                        if (returstr.contains("0")){
+                            Log.e(YLSystem.getKimTag(),"0");
+                        }else if (returstr.contains("1")){
+                            Log.e(YLSystem.getKimTag(),"1");
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

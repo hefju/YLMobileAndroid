@@ -34,10 +34,11 @@ public class YLSystem {
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
 
+
+
     public static String getKimTag() {
         return "kim";
     }
-
 
     public static String getHandsetIMEI() {
         return handsetIMEI;

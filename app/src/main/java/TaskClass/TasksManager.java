@@ -17,6 +17,30 @@ public class TasksManager {
    // public ArrayList<YLTask> lstAllTask;//全部任务列表
     public ArrayList<YLTask> lstLatestTask;//最新的任务
 
+    public ArrayList<YLTask> getLstLatestTask() {
+        return lstLatestTask;
+    }
+
+    public void setLstLatestTask(ArrayList<YLTask> lstLatestTask) {
+        this.lstLatestTask = lstLatestTask;
+    }
+
+    public YLTask getCurrentTask() {
+        return CurrentTask;
+    }
+
+    public void setCurrentTask(YLTask currentTask) {
+        CurrentTask = currentTask;
+    }
+
+    public String getTaskDate() {
+        return TaskDate;
+    }
+
+    public void setTaskDate(String taskDate) {
+        TaskDate = taskDate;
+    }
+
     public TasksManager(){
         TaskDate="";
        // CurrentTask=null;
