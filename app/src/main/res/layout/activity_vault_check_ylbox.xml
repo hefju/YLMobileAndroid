@@ -46,7 +46,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/vault_check_btn_confrom"
+            android:id="@+id/vault_check_btn_conFirm"
             android:layout_alignParentEnd="true"
             android:text="@string/vault_check_ylbox_comfrom"/>
     </RelativeLayout>
