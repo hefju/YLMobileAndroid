@@ -86,6 +86,11 @@
     <string name="vault_in_detail_correct">√</string>
     <string name="vault_in_detail_more">多</string>
     <string name="vault_in_detail_lack">缺</string>
-    <string name="title_activity_vault_check_ylbox">vault_check_ylbox</string>
+    <!--盘库-->
+    <string name="title_activity_vault_check_ylbox">金库盘库</string>
+    <string name="vault_check_ylbox_boxname">箱名</string>
+    <string name="vault_check_ylbox_basename">基地名称</string>
+    <string name="vault_check_ylbox_Scan1d">扫描</string>
+    <string name="vault_check_ylbox_comfrom">确认</string>
 
 </resources>

@@ -7,5 +7,47 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 tools:context="ylescort.ylmobileandroid.vault_check_ylbox">
-
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_check_rl_title">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_check_ylbox_boxname"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_check_ylbox_basename"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_check_rl_listview"
+        android:layout_below="@+id/vault_check_rl_title"
+        android:layout_above="@+id/vault_check_rl_operate">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_check_lv">
+        </ListView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_check_rl_operate"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_check_btn_scan"
+            android:text="@string/vault_check_ylbox_Scan1d"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_check_btn_confrom"
+            android:layout_alignParentEnd="true"
+            android:text="@string/vault_check_ylbox_comfrom"/>
+    </RelativeLayout>
 </RelativeLayout>

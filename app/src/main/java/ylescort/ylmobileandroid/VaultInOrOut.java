@@ -67,7 +67,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case 134:
-                intent.setClass(VaultInOrOut.this, vault_out_operate.class);
+                intent.setClass(VaultInOrOut.this, vault_check_ylbox.class);
                 GetDatePickerDate();
                 startActivity(intent);
                 break;
@@ -111,7 +111,8 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.vaultinorout_btn_CheckVault:
-                intent.setClass(VaultInOrOut.this,vault_out_operate.class);
+                intent.setClass(VaultInOrOut.this,vault_check_ylbox.class);
+                startActivity(intent);
                 break;
         }
     }
