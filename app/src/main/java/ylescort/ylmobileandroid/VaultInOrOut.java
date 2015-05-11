@@ -22,6 +22,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
 
     Button vaultinorout_btn_in;
     Button vaultinorout_btn_out;
+    Button vaultinorout_btn_CheckVault;
     DatePicker vaultinorout_datepicker;
 
     @Override
@@ -35,9 +36,11 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
     private void IninLayout() {
         vaultinorout_btn_in = (Button) findViewById(R.id.vaultinorout_btn_in);
         vaultinorout_btn_out = (Button)findViewById(R.id.vaultinorout_btn_out);
+        vaultinorout_btn_CheckVault = (Button)findViewById(R.id.vaultinorout_btn_CheckVault);
         vaultinorout_datepicker = (DatePicker)findViewById(R.id.vaultinorout_datepicker);
         vaultinorout_btn_in.setOnClickListener(this);
         vaultinorout_btn_out.setOnClickListener(this);
+        vaultinorout_btn_CheckVault.setOnClickListener(this);
     }
 
     private void GetDatePickerDate(){
@@ -52,14 +55,22 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Intent intent = new Intent();
-        if (keyCode == 131){
-            intent.setClass(VaultInOrOut.this,vault_in_operate.class);
-            GetDatePickerDate();
-            startActivity(intent);
-        }else if (keyCode ==132){
-            intent.setClass(VaultInOrOut.this,vault_out_operate.class);
-            GetDatePickerDate();
-            startActivity(intent);
+        switch (keyCode){
+            case 131:
+                intent.setClass(VaultInOrOut.this, vault_in_operate.class);
+                GetDatePickerDate();
+                startActivity(intent);
+                break;
+            case 132:
+                intent.setClass(VaultInOrOut.this, vault_out_operate.class);
+                GetDatePickerDate();
+                startActivity(intent);
+                break;
+            case 134:
+                intent.setClass(VaultInOrOut.this, vault_out_operate.class);
+                GetDatePickerDate();
+                startActivity(intent);
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -96,8 +107,11 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.vaultinorout_btn_out:
-                intent.setClass(VaultInOrOut.this,vault_out_operate.class);
+                intent.setClass(VaultInOrOut.this, vault_out_operate.class);
                 startActivity(intent);
+                break;
+            case R.id.vaultinorout_btn_CheckVault:
+                intent.setClass(VaultInOrOut.this,vault_out_operate.class);
                 break;
         }
     }

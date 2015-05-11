@@ -30,6 +30,10 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 //            newnamelist.add(get+"N");
 //        }
 
+        for (int i = namelist.size()-1;i>=0;i--){
+            String get = namelist.get(i);
+            newnamelist.add(get);
+        }
 
         Log.e(TAG,newnamelist.toString());
     }
