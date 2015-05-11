@@ -13,8 +13,15 @@ public class ArriveTime {
     public String TradeEnd ;//交易结束时间
     public String TradeState ;//这次到达完成交易了么？1为完成，0为未完成
     public String SiteID ;    //网点ID
+    public String ClientHFNO;//客户交接HF卡
 
+    public String getClientHFNO() {
+        return ClientHFNO;
+    }
 
+    public void setClientHFNO(String clientHFNO) {
+        ClientHFNO = clientHFNO;
+    }
 
     public String getSiteID() {
         return SiteID;

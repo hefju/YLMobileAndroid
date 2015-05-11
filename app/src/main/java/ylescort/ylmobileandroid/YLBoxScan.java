@@ -801,8 +801,6 @@ public class YLBoxScan extends ActionBarActivity {
      */
 
     private void sendCmd() {
-        // 给服务发送广播，内容为ylescort.ylmobileandroid.box
-
         if(CheckRadioButton()){
             Toast.makeText(getApplicationContext(),radiobutton,Toast.LENGTH_SHORT).show();
             return;}

@@ -183,8 +183,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 if (homlistbox.size()<1)return;
                 boolean boxcheck = true;
                 int position=0;
+                int listcount = homlistbox.size()-1;
                 for (int i = 0; i < homlistbox.size(); i++) {
-                    Box hombox = homlistbox.get(i);
+                    Box hombox = homlistbox.get(listcount-i);
                     if (hombox.getBoxID().equals(box.getBoxID())) {
                         if (hombox.getValutcheck() == null) {
                             hombox.setValutcheck("√");
@@ -195,7 +196,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         } else if (hombox.getValutcheck().equals("多")
                                 || hombox.getValutcheck().equals("√")) {
                             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-                            Thread.sleep(1000);
                             return;
                         }
                     }

@@ -208,7 +208,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 YLBoxScan1D();
                 break;
             case R.id.vault_out_detail_btn_boxtype:
-                YLBoxchangeType("settype",0);
+                YLBoxchangeType("settype", 0);
                 break;
             case R.id.vault_out_detail_btn_enter:
                 YLBoxEnter();
@@ -249,17 +249,16 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         if (!box.getBoxName().equals("illegalbox") ||!box.getBoxName().equals("无数据")){
             try{
                 boolean boxcheck = true;
+                int listcount = vaulteroutboxlist.size()-1;
                 for (int i = 0;i<vaulteroutboxlist.size();i++){
-                    Box scanbox = vaulteroutboxlist.get(i);
-                    Log.e(YLSystem.getKimTag(),scanbox.getBoxID());
-                    Log.e(YLSystem.getKimTag(),box.getBoxID());
+                    Box scanbox = vaulteroutboxlist.get(listcount-i);
                     if (scanbox.getBoxID().equals(box.getBoxID())){
                         ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
                         boxcheck = false;
-                        Thread.sleep(1000);
                         break;
                     }
                 }
+
                 if (boxcheck){
                     box.setBoxType(vault_out_detail_tv_type.getText().toString());
                     box.setBoxStatus(vault_out_detail_tv_boxstaut.getText().toString());
