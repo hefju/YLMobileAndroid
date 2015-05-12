@@ -295,8 +295,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     private void Scan1DCmd(String cmd) {
         if (vault_out_detail_tv_boxstaut.getText().equals("状态")& !cmd.equals("stopscan")){
             Toast.makeText(getApplicationContext(),"未设置状态",Toast.LENGTH_SHORT).show();
-            return;
-        }
+            return;}
+
         String activity = "ylescort.ylmobileandroid.vault_out_detail";
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");

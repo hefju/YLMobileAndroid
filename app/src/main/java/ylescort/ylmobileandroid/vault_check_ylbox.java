@@ -110,13 +110,23 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
 
     private void Scan1DCmd() {
+
+        String cmd ;
+        if (vault_check_btn_scan.getText().equals("扫描")){
+            vault_check_btn_scan.setText("停止");
+            cmd = "toscan100ms";
+        }else {
+            vault_check_btn_scan.setText("扫描");
+            cmd = "stopscan";
+        }
+
         String activity = "ylescort.ylmobileandroid.vault_check_ylbox";
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
         ac.putExtra("activity", activity);
         sendBroadcast(ac);
         Intent sendToservice = new Intent(vault_check_ylbox.this, Scan1DService.class);
-        sendToservice.putExtra("cmd", "scan");
+        sendToservice.putExtra("cmd", cmd);
         this.startService(sendToservice);
     }
 
