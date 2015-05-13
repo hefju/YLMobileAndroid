@@ -35,6 +35,7 @@ public class YLBoxEdit extends ActionBarActivity {
     private RadioButton boxedi_rbtn_moneyboxs;
     private RadioButton boxedi_rbtn_cardbox;
     private RadioButton boxedi_rbtn_Voucher;
+    private RadioButton boxedi_rbtn_Voucherbag;
 
     private TextView boxedi_tv_get;
     private TextView boxedi_tv_give;
@@ -43,6 +44,7 @@ public class YLBoxEdit extends ActionBarActivity {
     private TextView boxedi_tv_full;
     private TextView boxedi_tv_cardbox;
     private TextView boxedi_tv_voucher;
+    private TextView boxedi_tv_voucherbag;
 
     private Spinner boxedi_sp_tasktype;
     private Spinner boxedi_sp_TimeID;
@@ -176,6 +178,7 @@ public class YLBoxEdit extends ActionBarActivity {
         int moneybox = 0;
         int cardbox = 0;
         int voucher =0;
+        int voucherbag =0;
         int total;
         for (Box box :boxList){
             if (box.getTradeAction().equals("收")){
@@ -192,8 +195,10 @@ public class YLBoxEdit extends ActionBarActivity {
                 moneybox+=Integer.parseInt(box.getBoxCount());
             }else if (box.getBoxType().equals("卡箱")){
                 cardbox+=Integer.parseInt(box.getBoxCount());
-            }else {
+            }else if (box.getBoxType().equals("凭证箱")){
                 voucher+=Integer.parseInt(box.getBoxCount());
+            }else if (box.getBoxType().equals("凭证袋")){
+                voucherbag +=Integer.parseInt(box.getBoxCount());
             }
         }
         //total = moneybox+cardbox+voucher;
@@ -204,6 +209,7 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_tv_moneyboxs.setText(moneybox+"");
         boxedi_tv_cardbox.setText(cardbox+"");
         boxedi_tv_voucher.setText(voucher+"");
+        boxedi_tv_voucherbag.setText(voucherbag+"");
     }
 
     public void RadioClick(View view) throws ClassNotFoundException {
@@ -236,7 +242,9 @@ public class YLBoxEdit extends ActionBarActivity {
             }else if (boxedi_rbtn_cardbox.isChecked()){
                 boxstuat ="卡箱";
             }else if (boxedi_rbtn_Voucher.isChecked()){
-                boxstuat ="凭证";
+                boxstuat ="凭证箱";
+            }else if (boxedi_rbtn_Voucherbag.isChecked()){
+                boxstuat ="凭证袋";
             }}
         return boxstuat;
     }
@@ -272,7 +280,9 @@ public class YLBoxEdit extends ActionBarActivity {
                 break;
             case "卡箱":boxedi_rbtn_cardbox.setChecked(true);
                 break;
-            case "凭证":boxedi_rbtn_Voucher.setChecked(true);
+            case "凭证箱":boxedi_rbtn_Voucher.setChecked(true);
+                break;
+            case "凭证袋":boxedi_rbtn_Voucherbag.setChecked(true);
                 break;
         }
         switch (boxtasktype){
@@ -301,34 +311,36 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private void initlayout() {
 
-        boxedi_sp_tasktype = (Spinner)findViewById(R.id.boxedi_sp_tasktype);
-        boxedi_sp_TimeID = (Spinner)findViewById(R.id.boxedi_sp_TimeID);
-        boxedi_listview = (ListView)findViewById(R.id.boxedi_listview);
+        boxedi_sp_tasktype = (Spinner) findViewById(R.id.boxedi_sp_tasktype);
+        boxedi_sp_TimeID = (Spinner) findViewById(R.id.boxedi_sp_TimeID);
+        boxedi_listview = (ListView) findViewById(R.id.boxedi_listview);
 
-         boxedi_rbtn_get = (RadioButton)findViewById(R.id.boxedi_rbtn_get);
-         boxedi_rbtn_give = (RadioButton)findViewById(R.id.boxedi_rbtn_give);
-         boxedi_rbtn_empty = (RadioButton)findViewById(R.id.boxedi_rbtn_empty);
-         boxedi_rbtn_full = (RadioButton)findViewById(R.id.boxedi_rbtn_full);
-         boxedi_rbtn_moneyboxs = (RadioButton)findViewById(R.id.boxedi_rbtn_moneyboxs);
-         boxedi_rbtn_cardbox = (RadioButton)findViewById(R.id.boxedi_rbtn_cardbox);
-         boxedi_rbtn_Voucher = (RadioButton)findViewById(R.id.boxedi_rbtn_Voucher);
+        boxedi_rbtn_get = (RadioButton) findViewById(R.id.boxedi_rbtn_get);
+        boxedi_rbtn_give = (RadioButton) findViewById(R.id.boxedi_rbtn_give);
+        boxedi_rbtn_empty = (RadioButton) findViewById(R.id.boxedi_rbtn_empty);
+        boxedi_rbtn_full = (RadioButton) findViewById(R.id.boxedi_rbtn_full);
+        boxedi_rbtn_moneyboxs = (RadioButton) findViewById(R.id.boxedi_rbtn_moneyboxs);
+        boxedi_rbtn_cardbox = (RadioButton) findViewById(R.id.boxedi_rbtn_cardbox);
+        boxedi_rbtn_Voucher = (RadioButton) findViewById(R.id.boxedi_rbtn_Voucher);
+        boxedi_rbtn_Voucherbag = (RadioButton) findViewById(R.id.boxedi_rbtn_Voucherbag);
 
-         boxedi_tv_get = (TextView)findViewById(R.id.boxedi_tv_get);
-         boxedi_tv_give = (TextView)findViewById(R.id.boxedi_tv_give);
-         boxedi_tv_empty = (TextView)findViewById(R.id.boxedi_tv_empty);
-         boxedi_tv_moneyboxs = (TextView)findViewById(R.id.boxedi_tv_moneyboxs);
-         boxedi_tv_full = (TextView)findViewById(R.id.boxedi_tv_full);
-         boxedi_tv_cardbox = (TextView)findViewById(R.id.boxedi_tv_cardbox);
-         boxedi_tv_voucher = (TextView)findViewById(R.id.boxedi_tv_voucher);
+        boxedi_tv_get = (TextView) findViewById(R.id.boxedi_tv_get);
+        boxedi_tv_give = (TextView) findViewById(R.id.boxedi_tv_give);
+        boxedi_tv_empty = (TextView) findViewById(R.id.boxedi_tv_empty);
+        boxedi_tv_moneyboxs = (TextView) findViewById(R.id.boxedi_tv_moneyboxs);
+        boxedi_tv_full = (TextView) findViewById(R.id.boxedi_tv_full);
+        boxedi_tv_cardbox = (TextView) findViewById(R.id.boxedi_tv_cardbox);
+        boxedi_tv_voucher = (TextView) findViewById(R.id.boxedi_tv_voucher);
+        boxedi_tv_voucherbag = (TextView) findViewById(R.id.boxedi_tv_voucherbag);
 
-        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tasktype
-                ,android.R.layout.simple_spinner_item);
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.tasktype
+                , android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boxedi_sp_tasktype.setAdapter(arrayAdapter);
         boxedi_sp_tasktype.setPrompt("交接类型");
 
         InitBoxData();
-        YLBoxEdit.this.setTitle("款箱编辑: "+YLSystem.getUser().getName());
+        YLBoxEdit.this.setTitle("款箱编辑: " + YLSystem.getUser().getName());
         //ReLoadData();
     }
 

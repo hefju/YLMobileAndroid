@@ -6,7 +6,8 @@
     <string name="action_settings">系统设置</string>
     <string name="UserName">用户名：</string>
     <string name="UserPassword">密码：</string>
-    <string name="Log_Ent">登陆</string>
+    <string name="Log_Ent">登陆/F1</string>
+    <string name="Log_readcard">读卡/F2</string>
     <string name="Log_Can">取消</string>
     <string name="Log_Update">更新</string>
     <string name="title_activity_task_">任务管理</string>
@@ -31,7 +32,8 @@
     <string name="title_activity_ylbox_scan">数量</string>
     <string name="boxitem_monenybox">款箱</string>
     <string name="boxitem_cardbox">卡箱</string>
-    <string name="boxitem_Voucherbox">凭证</string>
+    <string name="boxitem_Voucherbox">凭证箱</string>
+    <string name="boxitem_Voucherboxbag">凭证袋</string>
     <string name="boxitem_order">序号</string>
     <string name="boxitem_Boxid">箱名</string>
     <string name="boxitem_TradeAction">收/送</string>

@@ -38,14 +38,15 @@
         android:orientation="vertical">
 <LinearLayout
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="交接类型"
+        android:text="交接类型:"
         android:textSize="20sp"/>
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="30sp"
         android:id="@+id/box_sp_stype"
         android:background="@color/lightblue"
@@ -68,7 +69,7 @@
                 android:textSize="25sp"
                 android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
-                android:layout_width="50sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_get"
                 android:text="@string/box_tv_amount"
@@ -124,84 +125,92 @@
             </RadioGroup>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/box_LL_radiobutton"
-        android:orientation="horizontal"
-        android:layout_below="@+id/box_LL_switch">
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10sp">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_moneyboxs"
-                android:text="@string/boxitem_monenybox"
-                android:textSize="20sp"
-                android:onClick="YLBoxScanlayoutOnClick"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_tv_moneyboxs"
-                android:text="@string/box_tv_amount"
-                android:textSize="15sp"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_cardbox"
-                android:text="@string/boxitem_cardbox"
-                android:textSize="20sp"
-                android:onClick="YLBoxScanlayoutOnClick"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_tv_cardbox"
-                android:text="@string/box_tv_amount"
-                android:textSize="15sp"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_rbtn_Voucher"
-                android:text="@string/boxitem_Voucherbox"
-                android:textSize="20sp"
-                android:onClick="YLBoxScanlayoutOnClick"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/box_tv_voucher"
-                android:text="@string/box_tv_amount"
-                android:textSize="15sp"/>
-        </RadioGroup>
-    </LinearLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/box_count"
-    android:layout_below="@+id/box_LL_radiobutton">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/box_tv_total"
-        android:text="@string/box_tv_total"
-        android:textSize="20sp"/>
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/box_swh_singleormore"
-        android:text="单/多"
-        android:checked="false"
-        android:textOn="多"
-        android:textOff="单"
-        android:visibility="invisible"/>
-    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/box_LL_radiobutton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/box_LL_switch">
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/box_rbtn_moneyboxs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_marginTop="10px"
+                android:text="@string/boxitem_monenybox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/box_tv_amount"
+                android:id="@+id/box_tv_moneyboxs"
+                android:layout_marginStart="90sp"
+                android:layout_marginTop="-30px"/>
+            <RadioButton
+                android:id="@+id/box_rbtn_cardbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120sp"
+                android:layout_marginTop="-45px"
+                android:textSize="25sp"
+                android:text="@string/boxitem_cardbox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/box_tv_amount"
+                android:id="@+id/box_tv_cardbox"
+                android:layout_marginStart="210sp"
+                android:layout_marginTop="-30px"/>
+            <RadioButton
+                android:id="@+id/box_rbtn_Voucher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="@string/boxitem_Voucherbox"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/box_tv_amount"
+                android:id="@+id/box_tv_voucher"
+                android:layout_marginStart="100sp"
+                android:layout_marginTop="-35px"/>
+            <RadioButton
+                android:id="@+id/box_rbtn_Voucherbag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="140sp"
+                android:textSize="20sp"
+                android:layout_marginTop="-40px"
+                android:text="@string/boxitem_Voucherboxbag"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/box_tv_amount"
+                android:id="@+id/box_tv_voucherbag"
+                android:layout_marginStart="250sp"
+                android:layout_marginTop="-35px"/>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/box_count"
+        android:layout_below="@+id/box_LL_radiobutton">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/box_tv_total"
+            android:text="@string/box_tv_total"
+            android:textSize="20sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="10sp">
         <Button
         android:layout_width="100dp"

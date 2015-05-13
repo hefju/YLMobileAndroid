@@ -7,6 +7,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.Box;
+import YLDataService.YLBoxScanCheck;
+
 /**
  * Created by Administrator on 2015/5/11.
  */
@@ -36,6 +39,11 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         }
 
         Log.e(TAG,newnamelist.toString());
+    }
+
+    public void testBoxDataServer()throws Exception{
+        Box box= YLBoxScanCheck.CheckBox("0114106238", getContext());
+        Log.e(TAG,box.toString());
     }
 
 }

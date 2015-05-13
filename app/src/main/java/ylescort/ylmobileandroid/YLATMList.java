@@ -73,7 +73,6 @@ public class YLATMList extends ActionBarActivity {
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
     private Scan1DRecive ATMscan1DRecive;  //广播接收者
-    private FileOutputStream fos;
 
     private NFCcmdManager HFmanager ;
 
@@ -82,8 +81,6 @@ public class YLATMList extends ActionBarActivity {
 
     private FunkeyListener funkeyReceive; //功能键广播接收者
     private BaseSiteDBSer baseSiteDBSer;
-
-    android.os.Handler mHandler; //消息处理
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -344,7 +341,6 @@ public class YLATMList extends ActionBarActivity {
                     String result = lstSite.get(0).ServerReturn;
                     if (result.equals("1")) {
                         return lstSite;
-
                     }
                 }
             }

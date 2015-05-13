@@ -69,10 +69,12 @@ public class YLBoxScan extends ActionBarActivity {
     private TextView box_tv_total;//操作统计
     private RadioButton  box_rbtn_moneyboxs;//款箱
     private RadioButton  box_rbtn_cardbox;//卡箱
-    private RadioButton  box_rbtn_Voucher;//凭证
+    private RadioButton  box_rbtn_Voucher;//凭证箱
+    private RadioButton  box_rbtn_Voucherbag;//凭证袋
     private TextView box_tv_moneyboxs;//款箱统计
     private TextView box_tv_cardbox;//卡箱统计
     private TextView box_tv_voucher;//凭证统计
+    private TextView box_tv_voucherbag;//凭证袋统计
     private Button box_btn_ent;//确认
     private Button box_btn_scan;//扫描
     private Button box_btn_nonelable;//无标签
@@ -153,7 +155,7 @@ public class YLBoxScan extends ActionBarActivity {
 
         YLScanBoxlistView = (ListView) findViewById(R.id.boxlistview);
         box_tv_titel = (TextView)findViewById(R.id.box_tv_title);
-        box_swh_singleormore = (Switch)findViewById(R.id.box_swh_singleormore);
+        //box_swh_singleormore = (Switch)findViewById(R.id.box_swh_singleormore);
 
         box_sp_stype = (Spinner)findViewById(R.id.box_sp_stype);
 
@@ -171,10 +173,12 @@ public class YLBoxScan extends ActionBarActivity {
         box_rbtn_moneyboxs = (RadioButton)findViewById(R.id.box_rbtn_moneyboxs);
         box_rbtn_cardbox = (RadioButton)findViewById(R.id.box_rbtn_cardbox);
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
+        box_rbtn_Voucherbag = (RadioButton)findViewById(R.id.box_rbtn_Voucherbag);
 
         box_tv_moneyboxs = (TextView)findViewById(R.id.box_tv_moneyboxs);
         box_tv_cardbox = (TextView)findViewById(R.id.box_tv_cardbox);
         box_tv_voucher = (TextView)findViewById(R.id.box_tv_voucher);
+        box_tv_voucherbag = (TextView)findViewById(R.id.box_tv_voucherbag);
 
         box_btn_ent = (Button)findViewById(R.id.box_btn_ent);
         box_btn_scan = (Button)findViewById(R.id.box_btn_scan);
@@ -229,7 +233,9 @@ public class YLBoxScan extends ActionBarActivity {
             }else if (box_rbtn_cardbox.isChecked()){
                 boxstuat ="卡箱";
             }else if (box_rbtn_Voucher.isChecked()){
-                boxstuat ="凭证";
+                boxstuat ="凭证箱";
+            }else if (box_rbtn_Voucherbag.isChecked()){
+                boxstuat ="凭证袋";
             }}
         return boxstuat;
     }
@@ -267,7 +273,9 @@ public class YLBoxScan extends ActionBarActivity {
                 break;
             case "卡箱":box_rbtn_cardbox.setChecked(true);
                 break;
-            case "凭证":box_rbtn_Voucher.setChecked(true);
+            case "凭证箱":box_rbtn_Voucher.setChecked(true);
+                break;
+            case "凭证袋":box_rbtn_Voucherbag.setChecked(true);
                 break;
         }
         switch (box.getBoxTaskType()){
@@ -473,7 +481,8 @@ public class YLBoxScan extends ActionBarActivity {
             return true;}
         if (!box_rbtn_get.isChecked()&!box_rbtn_give.isChecked()){
             radiobutton = "收送未选";}
-        if (!box_rbtn_moneyboxs.isChecked()&!box_rbtn_cardbox.isChecked()&!box_rbtn_Voucher.isChecked()){
+        if (!box_rbtn_moneyboxs.isChecked()&!box_rbtn_cardbox.isChecked()
+                &!box_rbtn_Voucher.isChecked()&!box_rbtn_Voucherbag.isChecked()){
             radiobutton = "箱类未选";
             return true;}
         if (!box_btn_scan.isEnabled()){
@@ -716,6 +725,7 @@ public class YLBoxScan extends ActionBarActivity {
         int moneybox = 0;
         int cardbox = 0;
         int voucher =0;
+        int voucherbag = 0;
         int total;
         for (Box box :boxList){
          if (box.getTradeAction().equals("收")){
@@ -728,15 +738,26 @@ public class YLBoxScan extends ActionBarActivity {
             }else {
                 fullbox+=Integer.parseInt(box.getBoxCount());
             }
-            if (box.getBoxType().equals("款箱")){
-                moneybox+=Integer.parseInt(box.getBoxCount());
-            }else if (box.getBoxType().equals("卡箱")){
-                cardbox+=Integer.parseInt(box.getBoxCount());
-            }else {
-                voucher+=Integer.parseInt(box.getBoxCount());
+//            if (box.getBoxType().equals("款箱")){
+//                moneybox+=Integer.parseInt(box.getBoxCount());
+//            }else if (box.getBoxType().equals("卡箱")){
+//                cardbox+=Integer.parseInt(box.getBoxCount());
+//            }else {
+//                voucher+=Integer.parseInt(box.getBoxCount());
+//            }
+
+            switch (box.getBoxType()){
+                case "款箱":moneybox+=Integer.parseInt(box.getBoxCount());
+                    break;
+                case "卡箱":cardbox+=Integer.parseInt(box.getBoxCount());
+                    break;
+                case "凭证箱":voucher+=Integer.parseInt(box.getBoxCount());
+                    break;
+                case "凭证袋":voucherbag+=Integer.parseInt(box.getBoxCount());
+                    break;
             }
         }
-        total = moneybox+cardbox+voucher;
+        total = moneybox+cardbox+voucher+voucherbag;
         box_tv_empty.setText(emptybox+until);
         box_tv_full.setText(fullbox+until);
         box_tv_get.setText(getbox+until);
@@ -744,6 +765,7 @@ public class YLBoxScan extends ActionBarActivity {
         box_tv_moneyboxs.setText(moneybox+"");
         box_tv_cardbox.setText(cardbox+"");
         box_tv_voucher.setText(voucher+"");
+        box_tv_voucherbag.setText(voucherbag+"");
         box_tv_total.setText("总数:"+total+until);
     }
 
@@ -790,7 +812,9 @@ public class YLBoxScan extends ActionBarActivity {
         }else if (box_rbtn_moneyboxs.isChecked()){
             boxstuat ="款箱";
         }else if (box_rbtn_Voucher.isChecked()){
-            boxstuat ="凭证";
+            boxstuat ="凭证箱";
+        }else if (box_rbtn_Voucherbag.isChecked()){
+            boxstuat ="凭证袋";
         }}
 
         return boxstuat;
@@ -813,10 +837,11 @@ public class YLBoxScan extends ActionBarActivity {
         sendBroadcast(ac);
         Log.e(TAG, "send broadcast");
 
-        if (box_swh_singleormore.isChecked()&scan.equals("扫描(F1)")){
-            cmd = "toscan100ms";
-            box_btn_scan.setText("停止(F1)");
-        }else if(scan.equals("扫描(F1)")) {
+//        if (box_swh_singleormore.isChecked()&scan.equals("扫描(F1)")){
+//            cmd = "toscan100ms";
+//            box_btn_scan.setText("停止(F1)");
+//        }else
+        if(scan.equals("扫描(F1)")) {
             cmd = "scan";
         }else if (scan.equals("停止(F1)")){
             cmd = "stopscan";

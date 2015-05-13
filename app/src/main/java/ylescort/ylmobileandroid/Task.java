@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -77,6 +78,16 @@ public class Task extends ActionBarActivity {
         Task.this.setTitle("任务管理: "+YLSystem.getUser().getName());
         tasksManager=YLSystem.getTasksManager();//获取任务管理类
         yltask_datepicker = (DatePicker)findViewById(R.id.yltask_datepicker);
+
+        yltask_datepicker.init(yltask_datepicker.getYear(), yltask_datepicker.getMonth(), yltask_datepicker.getDayOfMonth(),
+                new DatePicker.OnDateChangedListener() {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        List<YLTask> taskList = new ArrayList<>();
+                        DisplayTaskList(taskList);
+                    }
+                });
+
 //        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);//显示当前日期
 //        calendarView=(CalendarView)findViewById(R.id.calendarViewTask);
 //        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -208,7 +219,7 @@ public class Task extends ActionBarActivity {
 
     //显示本地任务列表
     private void DisplayTaskList( List<YLTask> lstYLTask) {
-        if(lstYLTask==null || lstYLTask.size()<1)return;
+        if(lstYLTask==null)return;
         YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,lstYLTask,R.layout.activity_taskitem);
         listView.setAdapter(ylTaskAdapter);
     }

@@ -1,106 +1,117 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".LoginActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".LoginActivity">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/Logic_LL_user">
-    <TextView
-        android:text="@string/UserName"
-        android:id="@+id/Log_TV_Name"
+    <LinearLayout
+        android:id="@+id/Logic_LL_user"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="30sp"/>
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="150sp"
-        android:layout_height="wrap_content"
-        android:id="@+id/Log_ET_Name"
-        android:inputType="number"
-        android:textSize="30sp" />
+        <TextView
+            android:id="@+id/Log_TV_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/UserName"
+            android:textSize="30sp"/>
+
+        <EditText
+            android:id="@+id/Log_ET_Name"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="30sp"/>
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/Logic_LL_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/Logic_LL_pass"
         android:layout_below="@+id/Logic_LL_user">
+
         <TextView
-            android:text="@string/UserPassword"
             android:id="@+id/Log_TV_PassWord"
             android:layout_width="119sp"
             android:layout_height="wrap_content"
-            android:textSize="30sp" />
+            android:text="@string/UserPassword"
+            android:textSize="30sp"/>
+
         <EditText
+            android:id="@+id/Log_ET_PassWord"
             android:layout_width="150sp"
             android:layout_height="wrap_content"
-            android:id="@+id/Log_ET_PassWord"
             android:inputType="numberPassword"
-            android:textSize="30sp" />
-        </LinearLayout>
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:id = "@+id/Logic_LL_Operbtn"
-    android:gravity="center"
-    android:layout_below="@+id/Logic_LL_pass">
-    <Button
-        android:layout_width="130dp"
-        android:layout_height="80dp"
-        android:id="@+id/Log_BN_Ent"
-        android:text="@string/Log_Ent"
-        android:textSize="30sp"/>
-    <Button
-        android:layout_width="130dp"
-        android:layout_height="80dp"
-        android:id="@+id/Log_BN_HF"
-        android:textSize="30sp"
-        android:text="读卡"/>
+            android:textSize="30sp"/>
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/Logic_LL_Operbtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Logic_LL_pass"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/Log_BN_Ent"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:text="@string/Log_Ent"
+            android:textSize="25sp"/>
+
+        <Button
+            android:id="@+id/Log_BN_HF"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:text="@string/Log_readcard"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Logic_LL_Operbtn">
 
         <TextView
+            android:id="@+id/log_tv_vision"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/log_tv_vision"
-            android:textSize="20sp"
-            android:text="版本号:"/>
+            android:text="版本号:"
+            android:textSize="20sp"/>
+
         <Button
+            android:id="@+id/Log_BN_Cal"
             android:layout_width="1sp"
             android:layout_height="wrap_content"
-            android:id="@+id/Log_BN_Cal"
             android:text="@string/Log_Can"
             android:visibility="invisible"/>
+
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnTest2"
-        android:text="测试---"
-        android:layout_marginTop="50dp"
-        android:visibility="invisible"/>
+            android:id="@+id/btnTest2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:text="测试-"
+            android:visibility="invisible"/>
+
         <Button
+            android:id="@+id/button2"
+            android:layout_width="1sp"
+            android:layout_height="wrap_content"
+            android:onClick="chongtest"
+            android:text="翀测试1"
+            android:visibility="invisible"/>
+        <Button
+            android:id="@+id/btnTest1"
             android:layout_width="120sp"
             android:layout_height="50sp"
             android:layout_marginTop="90sp"
-            android:id="@+id/btnTest1"
-            android:text="版本更新"
+            android:text="@string/Log_Update"
             />
-        <Button
-        android:layout_width="1sp"
-        android:layout_height="wrap_content"
-        android:text="翀测试1"
-        android:visibility="invisible"
-        android:id="@+id/button2"
-        android:onClick="chongtest" />
-
-
     </LinearLayout>
 </RelativeLayout>

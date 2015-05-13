@@ -865,6 +865,38 @@ public class WebService {
         }
     }
 
+    public String PostVaultCheckBox(User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"盘库上传方法";
+        PostVaultCheckBoxAsycnTask postVaultCheckBoxAsycnTask = new PostVaultCheckBoxAsycnTask();
+        postVaultCheckBoxAsycnTask.execute(url,user.getEmpID(),user.getDeviceID());
+        return postVaultCheckBoxAsycnTask.get();
+    }
+
+    private class PostVaultCheckBoxAsycnTask extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("STask", gson.toJson(YLEditData.getYlTask()));
+                p.put("empid", params[1]);
+                p.put("deviceID", params[2]);
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    return EntityUtils.toString(response.getEntity());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     /**
      * 根据业务员HF或ID获取出库任务列表
      * @param user HFNo 业务员IC卡卡号, EmpNo业务员员工号,DataTime 任务日期,deviceID 手持机IMEI,empid 库管员EmpID,Line 线路编号

@@ -1,7 +1,9 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
@@ -14,9 +16,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import TaskClass.Box;
+import YLAdapter.YLVaultcheckboxAdapter;
+import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSystem;
 
 
@@ -25,15 +34,24 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     private ListView vault_check_lv;
     private Button vault_check_btn_scan;
     private Button vault_check_btn_conFirm;
+    private TextView vault_check_tv_statistics;
 
     private Scan1DRecive scan1DRecive;
+    private List<Box> boxList;
+    private YLMediaPlayer ylMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault_check_ylbox);
         InitView();
+        InitData();
         InitReciveScan1D();
+    }
+
+    private void InitData() {
+        boxList = new ArrayList<>();
+        ylMediaPlayer = new YLMediaPlayer();
     }
 
 
@@ -41,6 +59,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         vault_check_lv = (ListView)findViewById(R.id.vault_check_lv);
         vault_check_btn_scan = (Button)findViewById(R.id.vault_check_btn_scan);
         vault_check_btn_conFirm = (Button)findViewById(R.id.vault_check_btn_conFirm);
+        vault_check_tv_statistics = (TextView)findViewById(R.id.vault_check_tv_statistics);
 
         vault_check_btn_scan.setOnClickListener(this);
         vault_check_btn_conFirm.setOnClickListener(this);
@@ -50,6 +69,8 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
             }
         });
+
+        vault_check_tv_statistics.setText("总计: 0 个");
     }
 
     private void InitReciveScan1D() {
@@ -104,8 +125,28 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         return super.onKeyDown(keyCode, event);
     }
 
-    private void ConFirm() {
-
+    private void ConFirm(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_check_ylbox.this);
+        builder.setMessage("是否确认上传数据");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    WebService webService = new WebService();
+                    webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
 
@@ -141,7 +182,49 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     }
 
     private void GetBoxToListView(Box box) {
-        Log.e(YLSystem.getKimTag(),box.BoxName);
+
+        if (!box.getBoxName().equals("illegalbox")|| !box.getBoxName().equals("无数据")){
+            try {
+                boolean boxcheck = true;
+                int boxcount = boxList.size()-1;
+                for (int i = 0;i <boxList.size();i++){
+                    if (box.getBoxName().equals(boxList.get(boxcount-i).getBoxName())){
+                        boxcheck = false;
+                        ylMediaPlayer.SuccessOrFailMidia("faile",getApplicationContext());
+                        break;
+                    }
+                }
+                if (boxcheck){
+                    boxList.add(box);
+                    vault_check_tv_statistics.setText("总计:"+boxList.size()+"个");
+                    DisplayYLBox(boxList);
+                    ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+                }
+
+            }catch (Exception e ){
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void DisplayYLBox(List<Box> boxList) {
+        if (boxList.size()< 1)return;
+        YLVaultcheckboxAdapter ylVaultcheckboxAdapter =
+                new YLVaultcheckboxAdapter(this,boxList,R.layout.vault_check_ylboxitem);
+        vault_check_lv.setAdapter(ylVaultcheckboxAdapter);
+        scrollMyListViewToBottom();
+    }
+
+
+    private void scrollMyListViewToBottom() {
+        vault_check_lv.post(new Runnable() {
+            @Override
+            public void run() {
+                // Select the last row so it will scroll into view...
+                vault_check_lv.setSelection(boxList.size() - 1);
+            }
+        });
     }
 
     @Override
