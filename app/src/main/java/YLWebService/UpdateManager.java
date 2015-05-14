@@ -73,24 +73,26 @@ public class UpdateManager {
         }
     }
     public void showUpdateDialog() {
-        @SuppressWarnings("unused")
-        AlertDialog alert = new AlertDialog.Builder(this.activity)
-                .setTitle("软件更新")
-                        //.setIcon(R.drawable.icon)
-                .setMessage("是否现在更新?")
-                .setPositiveButton("更新",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                downloadTheFile(strURL);
-                                showWaitDialog();
-                            }
-                        })
-                .setNegativeButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).show();
+//        @SuppressWarnings("unused")
+//        AlertDialog alert = new AlertDialog.Builder(this.activity)
+//                .setTitle("软件更新")
+//                        //.setIcon(R.drawable.icon)
+//                .setMessage("是否现在更新?")
+//                .setPositiveButton("更新",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                downloadTheFile(strURL);
+//                                showWaitDialog();
+//                            }
+//                        })
+//                .setNegativeButton("取消",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.cancel();
+//                            }
+//                        }).show();
+        downloadTheFile(strURL);
+        showWaitDialog();
     }
     public void showWaitDialog() {
         dialog = new ProgressDialog(activity);

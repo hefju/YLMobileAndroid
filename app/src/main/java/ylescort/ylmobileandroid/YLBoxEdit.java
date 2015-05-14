@@ -370,6 +370,11 @@ public class YLBoxEdit extends ActionBarActivity {
             boxEditListAll = YLSystem.getEdiboxList();
         }
         LoadBoxData(boxEditListAll);
+        ///增加
+        if (boxEditListAll.size()> 0){
+            Box box = boxEditListAll.get(0);
+            EditBox(box);
+        }
     }
 
 

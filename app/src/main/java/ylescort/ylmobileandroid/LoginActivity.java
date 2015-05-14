@@ -1,11 +1,13 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.hardware.input.InputManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +17,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -284,8 +288,21 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void UpDataAPK() {
         if (!YLSystem.getNetWorkState().equals("1"))return;
-        UpdateManager um=new UpdateManager(LoginActivity.this);
-        um.check();
+        final EditText editText = new EditText(this);
+        editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(editText,0);
+        new AlertDialog.Builder(this).setTitle("数量")
+                .setIcon(android.R.drawable.ic_dialog_info).setView(editText)
+                .setPositiveButton("升级", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editText.getText().toString().equals("9")) {
+                            UpdateManager um = new UpdateManager(LoginActivity.this);
+                            um.check();
+                        }
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
     private String GetEmpPost(String EmpID){

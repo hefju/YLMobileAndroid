@@ -116,7 +116,7 @@
                 android:textSize="25sp"
                 android:onClick="YLBoxScanlayoutOnClick"/>
             <TextView
-                android:layout_width="50sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/box_tv_empty"
                 android:text="@string/box_tv_amount"
