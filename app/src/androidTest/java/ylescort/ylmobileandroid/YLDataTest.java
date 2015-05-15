@@ -46,4 +46,8 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         Log.e(TAG,box.toString());
     }
 
+    public void testColorInt()throws Exception{
+        int color = R.color.orange;
+        Log.e(TAG,color+"");
+    }
 }

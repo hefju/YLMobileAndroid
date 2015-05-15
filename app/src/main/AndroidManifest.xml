@@ -72,9 +72,9 @@
             android:label="@string/title_activity_cache_data_view" >
         </activity>
         <activity
-            android:name=".YLBoxEdit"
-            android:label="@string/title_activity_ylbox_edit" >
-        </activity>
+        android:name=".YLBoxEdit"
+        android:label="@string/title_activity_ylbox_edit" >
+    </activity>
         <activity
             android:name=".chongTest3"
             android:label="@string/title_activity_chong__test" >
