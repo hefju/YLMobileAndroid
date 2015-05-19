@@ -107,7 +107,6 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             Scan1DCmd("stopscan");
             vault_out_detail_btn_scan1d.setText("扫描");
         }
-
     }
 
     private void YLBoxchangeType(final String type, final int position ) {
@@ -126,22 +125,30 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                                 box.setBoxStatus("实");
                                 break;
                             case 2:
-                                box.setBoxType("凭证");
+                                box.setBoxType("凭证箱");
                                 box.setBoxStatus("实");
                                 break;
                             case 3:
+                                box.setBoxType("凭证袋");
+                                box.setBoxStatus("实");
+                                break;
+                            case 4:
                                 box.setBoxType("款箱");
                                 box.setBoxStatus("空");
                                 break;
-                            case 4:
+                            case 5:
                                 box.setBoxType("卡箱");
                                 box.setBoxStatus("空");
                                 break;
-                            case 5:
-                                box.setBoxType("凭证");
+                            case 6:
+                                box.setBoxType("凭证箱");
                                 box.setBoxStatus("空");
                                 break;
-                            case 6:
+                            case 7:
+                                box.setBoxType("凭证袋");
+                                box.setBoxStatus("空");
+                                break;
+                            case 8:
                                 box.setBoxType("删除");
                                 box.setBoxStatus("删除");
                                 break;

@@ -117,21 +117,29 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                 break;
                             case 2:
                                 box.setBoxStatus("实");
-                                box.setBoxType("凭证");
+                                box.setBoxType("凭证箱");
                                 break;
                             case 3:
-                                box.setBoxStatus("空");
-                                box.setBoxType("款箱");
+                                box.setBoxStatus("实");
+                                box.setBoxType("凭证袋");
                                 break;
                             case 4:
                                 box.setBoxStatus("空");
-                                box.setBoxType("卡箱");
+                                box.setBoxType("款箱");
                                 break;
                             case 5:
                                 box.setBoxStatus("空");
-                                box.setBoxType("凭证");
+                                box.setBoxType("卡箱");
                                 break;
                             case 6:
+                                box.setBoxStatus("空");
+                                box.setBoxType("凭证");
+                                break;
+                            case 7:
+                                box.setBoxStatus("空");
+                                box.setBoxType("凭证袋");
+                                break;
+                            case 8:
                                 homlistbox.remove(position);
                                 break;
                         }
