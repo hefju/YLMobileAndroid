@@ -1,4 +1,5 @@
 package YLAdapter;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ public class YLBoxEdiAdapter extends BaseAdapter {
         this.resource = resource;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+
 
     public int getSelectItem() {
         return selectItem;

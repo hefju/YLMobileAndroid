@@ -70,6 +70,11 @@ public class YLSiteAdapter extends BaseAdapter {
         sitename.setText(site.getSiteName());
         sitestate.setText(site.getStatus());
 
+        if (sitestate.getText().equals("已完成")){
+            sitestate.setTextColor(-14774017);
+        }else {
+            sitestate.setTextColor(-23296);
+        }
         return convertView;
     }
 

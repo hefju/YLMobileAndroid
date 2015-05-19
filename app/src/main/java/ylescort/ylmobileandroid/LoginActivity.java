@@ -63,6 +63,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
+            Log.e(YLSystem.getKimTag(),b+"");
             log_tv_vision.setText("版本号:"+ylvision);
         } catch (Exception e) {
             e.printStackTrace();

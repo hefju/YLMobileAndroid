@@ -1,14 +1,24 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.android.hdhe.nfc.NFCcmdManager;
+import com.android.hdhe.uhf.reader.Tools;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -24,8 +34,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
+import TaskClass.Box;
 import TaskClass.User;
+import YLFragment.YLBoxEditFragment;
 import YLSystemDate.YLSystem;
 
 
@@ -33,17 +47,70 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private Button kim_test1;
     private Button kim_test2;
-    private AlertDialog.Builder builder;
+
+    private Scan1DRecive ScanTest;
+    private NFCcmdManager manager ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kim_test);
-        //NolableDialog();
+
+//        PushBoxList();
+//        FragmentManager manager = getFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        YLBoxEditFragment ylBoxEditFragment = new YLBoxEditFragment();
+//        transaction.replace(R.id.kim_test_ll_listview,ylBoxEditFragment);
+//        transaction.commit();
         kim_test1 = (Button) findViewById(R.id.kim_test1);
         kim_test2 = (Button) findViewById(R.id.kim_test2);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
+        InitReciveScan1D();
+
+        InitHFreader();
+    }
+
+    private class Scan1DRecive extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String recivedata = intent.getStringExtra("result");
+            Log.e(YLSystem.getKimTag(),recivedata);
+            if (recivedata != null){
+                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    private void InitHFreader() {
+        try{
+            manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
+            manager.readerPowerOn();
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void InitReciveScan1D() {
+        ScanTest = new Scan1DRecive();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ylescort.ylmobileandroid.KimTest");
+        registerReceiver(ScanTest, filter);
+        Intent start = new Intent(KimTest.this,Scan1DService.class);
+        KimTest.this.startService(start);
+    }
+
+    private void Scan1DCmd (){
+        String activity = "ylescort.ylmobileandroid.KimTest";
+        Intent ac = new Intent();
+        ac.setAction("ylescort.ylmobileandroid.Scan1DService");
+        ac.putExtra("activity", activity);
+        sendBroadcast(ac);
+        Intent sendToservice = new Intent(KimTest.this, Scan1DService.class); // 用于发送指令
+        sendToservice.putExtra("cmd", "scan");
+        this.startService(sendToservice); // 发送指令
     }
 
 
@@ -85,9 +152,38 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.kim_test1:NolableDialog();
+            case R.id.kim_test1:Scan1DCmd();
                 break;
+            case R.id.kim_test2:TestHF();
         }
+    }
+
+    private void TestHF() {
+        manager.init_14443A();
+        manager.readerPowerOn();
+        byte[] uid = manager.inventory_14443A();
+        if(uid != null){
+            String EmpHF = Tools.Bytes2HexString(uid, uid.length);
+            Toast.makeText(getApplicationContext(), EmpHF, Toast.LENGTH_SHORT).show();
+            manager.readerPowerOff();
+        }
+    }
+
+    private void TestScan1D() {
+
+    }
+
+    private void PushBoxList() {
+
+        List<Box> boxList = new ArrayList<>();
+        for (int i = 0 ; i < 10;i++){
+            Box box = new Box();
+            box.setBoxName("测试箱名"+i);
+            box.setBoxID("测试箱编号" + i);
+            box.setBoxType("实箱");
+            boxList.add(box);
+        }
+        YLSystem.setEdiboxList(boxList);
     }
 
     private void GetDataFromServer() {

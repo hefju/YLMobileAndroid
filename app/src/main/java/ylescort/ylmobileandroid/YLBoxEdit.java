@@ -60,11 +60,12 @@ public class YLBoxEdit extends ActionBarActivity {
     private String boxscanstate;
     private String currTimeID;
 
+    private YLBoxEdiAdapter ylBoxEdiAdapter;
+
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
 
-    //private YLBoxEdiAdapter ylBoxEdiAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,11 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = (Box)listView.getItemAtPosition(position);
                 listpostion = position;
                 EditBox(box);
-                LoadBoxData(boxEditListEdit);
+                //LoadBoxData(boxEditListEdit);
+                //boxedi_listview.setSelection(position);
+                ylBoxEdiAdapter.setSelectItem(position);
+                ylBoxEdiAdapter.notifyDataSetInvalidated();
+                //boxedi_listview.deferNotifyDataSetChanged();
             }
         });
 
@@ -91,7 +96,8 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = boxEditListEdit.get(listpostion);
                 box.setBoxTaskType(parent.getItemAtPosition(position).toString());
                 boxEditListEdit.set(listpostion, box);
-                LoadBoxData(boxEditListEdit);
+                //LoadBoxData(boxEditListEdit);
+                ylBoxEdiAdapter.notifyDataSetInvalidated();
             }
 
             @Override
@@ -218,8 +224,10 @@ public class YLBoxEdit extends ActionBarActivity {
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
-        LoadBoxData(boxEditListEdit);
-
+        boxEditListEdit.set(listpostion,box);
+        ylBoxEdiAdapter.notifyDataSetInvalidated();
+        //LoadBoxData(boxEditListEdit);
+        TallyBox(boxEditListEdit);
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -252,7 +260,8 @@ public class YLBoxEdit extends ActionBarActivity {
     public void boxedi_del(View view){
         if (boxEditListEdit.size()!=0){
             boxEditListEdit.remove(listpostion);
-            LoadBoxData(boxEditListEdit);//ReLoadData();
+            //LoadBoxData(boxEditListEdit);
+            ylBoxEdiAdapter.notifyDataSetInvalidated();
         }else {
 
         }
@@ -380,10 +389,10 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private void LoadBoxData(List<Box> boxList){
         if (boxList ==null)return;
-        YLBoxEdiAdapter ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
+        ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
-        boxedi_listview.setSelection(listpostion);
+        //boxedi_listview.setSelection(listpostion);
         TallyBox(boxList);
     }
 
