@@ -9,7 +9,7 @@
         android:id="@+id/vault_in_detail_boxitme_boxname"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
-<LinearLayout
+<RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:minHeight="35sp"
@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10sp"
         android:id="@+id/vault_in_detail_boxitme_boxtype"
+        android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxstaut"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
     <TextView
@@ -34,13 +35,16 @@
         android:layout_marginStart="10sp"
         android:id="@+id/vault_in_detail_boxitme_boxtask"
         android:text="@string/boxitem_Boxid"
+        android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtype"
         android:textSize="20sp"/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10sp"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtask"
         android:id="@+id/vault_in_detail_boxitme_boxcheck"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

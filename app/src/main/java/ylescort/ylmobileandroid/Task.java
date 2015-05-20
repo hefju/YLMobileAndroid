@@ -460,9 +460,12 @@ public class Task extends ActionBarActivity {
                         String webcontent = EntityUtils.toString(response.getEntity());
                         List<YLTask> ylTaskList = new ArrayList<YLTask>();
                         ylTaskList = gson.fromJson(webcontent,new TypeToken<List<YLTask>>(){}.getType());
-
+                        Log.e(YLSystem.getKimTag(), "测试节点1");
                         for (YLTask ylTask:ylTaskList){
                             if (ylTask.getServerReturn().equals("没有任务。")){
+                                Log.e(YLSystem.getKimTag(), "测试节点2");
+                                List<YLTask> taskList = new ArrayList<>();
+                                DisplayTaskList(taskList);
                                 continue;
                             }
                             TaskDBSer taskDBSer = new TaskDBSer(getApplicationContext());

@@ -48,6 +48,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private List<Box> homlistbox;
 
+    private YLValutboxitemAdapter ylValutboxitemAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,7 +218,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     box.setBoxTaskType(ylTask.getTaskType());
                     homlistbox.add(box);
                 }
-                DisPlayBoxlistAdapter(homlistbox);
+                //DisPlayBoxlistAdapter(homlistbox);
+                ylValutboxitemAdapter.notifyDataSetInvalidated();
                 if (position == 0){
                     position = homlistbox.size();
                 }
@@ -253,8 +256,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private void DisPlayBoxlistAdapter(List<Box> boxList){
         if (boxList != null && boxList.size()>0){
-            YLValutboxitemAdapter ylValutboxitemAdapter =
-                    new YLValutboxitemAdapter(getApplicationContext(),boxList,R.layout.vault_in_detail_boxitem);
+            ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext(),boxList,R.layout.vault_in_detail_boxitem);
             vault_in_detail_listview.setAdapter(ylValutboxitemAdapter);
         }
     }

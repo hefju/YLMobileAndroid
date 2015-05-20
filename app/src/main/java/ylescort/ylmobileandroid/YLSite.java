@@ -52,6 +52,7 @@ public class YLSite extends ActionBarActivity {
     private YLTask ylTask;//当前选中的任务
     android.os.Handler mHandler; //消息处理
     private List<Site> siteList;
+    private YLSiteAdapter ylSiteAdapter;
 
 
     @Override
@@ -181,7 +182,7 @@ public class YLSite extends ActionBarActivity {
 //        List<Site> siteList = siteDBSer.GetSites("WHERE TaskID = '"+taskid+"'");
        // List<Site> siteList =ylTask.lstSite;
         if (siteList==null||siteList.size()<1)return;
-        YLSiteAdapter ylSiteAdapter = new YLSiteAdapter(this,siteList,R.layout.activity_ylsiteitem);
+        ylSiteAdapter = new YLSiteAdapter(this,siteList,R.layout.activity_ylsiteitem);
         listView.setAdapter(ylSiteAdapter);
 
     }
@@ -269,7 +270,7 @@ public class YLSite extends ActionBarActivity {
     }
     @Override
     protected void onResume() {
-        DisplayTaskSite(ylTask.lstSite);
+        ylSiteAdapter.notifyDataSetInvalidated();
         super.onResume();
     }
 
