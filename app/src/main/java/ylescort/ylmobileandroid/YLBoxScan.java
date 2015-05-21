@@ -59,22 +59,22 @@ public class YLBoxScan extends ActionBarActivity {
     private Switch box_swh_singleormore;//单多
     private Spinner box_sp_stype;//交接类型
     private RadioButton box_rbtn_empty;//空箱
-    private TextView box_tv_empty;//空箱统计
+//    private TextView box_tv_empty;//空箱统计
     private RadioButton box_rbtn_full;//实箱
-    private TextView box_tv_full;//实箱统计
+//    private TextView box_tv_full;//实箱统计
     private RadioButton box_rbtn_get;//收箱
-    private TextView box_tv_get;//收箱统计
+//    private TextView box_tv_get;//收箱统计
     private RadioButton box_rbtn_give;//送箱
-    private TextView box_tv_give;//送箱统计
+//    private TextView box_tv_give;//送箱统计
     private TextView box_tv_total;//操作统计
     private RadioButton  box_rbtn_moneyboxs;//款箱
     private RadioButton  box_rbtn_cardbox;//卡箱
     private RadioButton  box_rbtn_Voucher;//凭证箱
     private RadioButton  box_rbtn_Voucherbag;//凭证袋
-    private TextView box_tv_moneyboxs;//款箱统计
-    private TextView box_tv_cardbox;//卡箱统计
-    private TextView box_tv_voucher;//凭证统计
-    private TextView box_tv_voucherbag;//凭证袋统计
+//    private TextView box_tv_moneyboxs;//款箱统计
+//    private TextView box_tv_cardbox;//卡箱统计
+//    private TextView box_tv_voucher;//凭证统计
+//    private TextView box_tv_voucherbag;//凭证袋统计
     private Button box_btn_ent;//确认
     private Button box_btn_scan;//扫描
     private Button box_btn_nonelable;//无标签
@@ -160,13 +160,13 @@ public class YLBoxScan extends ActionBarActivity {
         box_sp_stype = (Spinner)findViewById(R.id.box_sp_stype);
 
         box_rbtn_empty = (RadioButton)findViewById(R.id.box_rbtn_empty);
-        box_tv_empty = (TextView)findViewById(R.id.box_tv_empty);
+//        box_tv_empty = (TextView)findViewById(R.id.box_tv_empty);
         box_rbtn_full = (RadioButton)findViewById(R.id.box_rbtn_full);
-        box_tv_full = (TextView)findViewById(R.id.box_tv_full);
+//        box_tv_full = (TextView)findViewById(R.id.box_tv_full);
         box_rbtn_get = (RadioButton)findViewById(R.id.box_rbtn_get);
-        box_tv_get = (TextView)findViewById(R.id.box_tv_get);
+//        box_tv_get = (TextView)findViewById(R.id.box_tv_get);
         box_rbtn_give = (RadioButton)findViewById(R.id.box_rbtn_give);
-        box_tv_give = (TextView)findViewById(R.id.box_tv_give);
+//        box_tv_give = (TextView)findViewById(R.id.box_tv_give);
 
         box_tv_total = (TextView)findViewById(R.id.box_tv_total);
 
@@ -175,10 +175,10 @@ public class YLBoxScan extends ActionBarActivity {
         box_rbtn_Voucher = (RadioButton)findViewById(R.id.box_rbtn_Voucher);
         box_rbtn_Voucherbag = (RadioButton)findViewById(R.id.box_rbtn_Voucherbag);
 
-        box_tv_moneyboxs = (TextView)findViewById(R.id.box_tv_moneyboxs);
-        box_tv_cardbox = (TextView)findViewById(R.id.box_tv_cardbox);
-        box_tv_voucher = (TextView)findViewById(R.id.box_tv_voucher);
-        box_tv_voucherbag = (TextView)findViewById(R.id.box_tv_voucherbag);
+//        box_tv_moneyboxs = (TextView)findViewById(R.id.box_tv_moneyboxs);
+//        box_tv_cardbox = (TextView)findViewById(R.id.box_tv_cardbox);
+//        box_tv_voucher = (TextView)findViewById(R.id.box_tv_voucher);
+//        box_tv_voucherbag = (TextView)findViewById(R.id.box_tv_voucherbag);
 
         box_btn_ent = (Button)findViewById(R.id.box_btn_ent);
         box_btn_scan = (Button)findViewById(R.id.box_btn_scan);
@@ -253,6 +253,31 @@ public class YLBoxScan extends ActionBarActivity {
         box.setBoxTaskType(box_sp_stype.getSelectedItem().toString());
         ScanboxList.set(listpostion,box);
         BoxScanAdapter(ScanboxList);
+    }
+
+    public void boxtyperbtn(View view){
+        switch (view.getId()) {
+            case R.id.box_rbtn_moneyboxs:
+                box_rbtn_cardbox.setChecked(false);
+                box_rbtn_Voucher.setChecked(false);
+                box_rbtn_Voucherbag.setChecked(false);
+                break;
+            case R.id.box_rbtn_cardbox:
+                box_rbtn_moneyboxs.setChecked(false);
+                box_rbtn_Voucher.setChecked(false);
+                box_rbtn_Voucherbag.setChecked(false);
+                break;
+            case R.id.box_rbtn_Voucher:
+                box_rbtn_moneyboxs.setChecked(false);
+                box_rbtn_cardbox.setChecked(false);
+                box_rbtn_Voucherbag.setChecked(false);
+                break;
+            case R.id.box_rbtn_Voucherbag:
+                box_rbtn_moneyboxs.setChecked(false);
+                box_rbtn_cardbox.setChecked(false);
+                box_rbtn_Voucher.setChecked(false);
+                break;
+        }
     }
 
     //款箱属性数据加载至插件
@@ -738,13 +763,6 @@ public class YLBoxScan extends ActionBarActivity {
             }else {
                 fullbox+=Integer.parseInt(box.getBoxCount());
             }
-//            if (box.getBoxType().equals("款箱")){
-//                moneybox+=Integer.parseInt(box.getBoxCount());
-//            }else if (box.getBoxType().equals("卡箱")){
-//                cardbox+=Integer.parseInt(box.getBoxCount());
-//            }else {
-//                voucher+=Integer.parseInt(box.getBoxCount());
-//            }
 
             switch (box.getBoxType()){
                 case "款箱":moneybox+=Integer.parseInt(box.getBoxCount());
@@ -758,14 +776,22 @@ public class YLBoxScan extends ActionBarActivity {
             }
         }
         total = moneybox+cardbox+voucher+voucherbag;
-        box_tv_empty.setText(emptybox+until);
-        box_tv_full.setText(fullbox+until);
-        box_tv_get.setText(getbox+until);
-        box_tv_give.setText(givebox+until);
-        box_tv_moneyboxs.setText(moneybox+"");
-        box_tv_cardbox.setText(cardbox+"");
-        box_tv_voucher.setText(voucher+"");
-        box_tv_voucherbag.setText(voucherbag+"");
+//        box_tv_empty.setText(emptybox+until);
+//        box_tv_full.setText(fullbox+until);
+//        box_tv_get.setText(getbox+until);
+//        box_tv_give.setText(givebox+until);
+//        box_tv_moneyboxs.setText(moneybox+"");
+//        box_tv_cardbox.setText(cardbox+"");
+//        box_tv_voucher.setText(voucher+"");
+//        box_tv_voucherbag.setText(voucherbag+"");
+        box_rbtn_get.setText("收箱-"+getbox);
+        box_rbtn_give.setText("送箱-"+givebox);
+        box_rbtn_full.setText("实箱-"+fullbox);
+        box_rbtn_empty.setText("空箱-"+emptybox);
+        box_rbtn_moneyboxs.setText("款箱-"+moneybox);
+        box_rbtn_cardbox.setText("卡箱-"+cardbox);
+        box_rbtn_Voucher.setText("凭证箱-"+voucher);
+        box_rbtn_Voucherbag.setText("凭证袋-"+voucherbag);
         box_tv_total.setText("总数:"+total+until);
     }
 

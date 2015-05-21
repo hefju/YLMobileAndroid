@@ -32,6 +32,11 @@
         <item name="android:radius">20dp</item>
     </style>
 
-    
+    <style name="TextSize20">
+        <item name="android:textSize">20sp</item>
+    </style>
 
+    <style name="TextSize25">
+        <item name="android:textSize">25sp</item>
+    </style>
 </resources>
