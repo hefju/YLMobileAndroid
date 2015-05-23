@@ -1,49 +1,60 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:layout_height="match_parent"
                 tools:context="ylescort.ylmobileandroid.boxlist">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="20sp"
         android:layout_height="wrap_content"
-        android:id="@+id/boxediitem_tv_order"
-        android:text="序号"/>
+        android:minHeight="50sp"
+        android:gravity="center">
         <TextView
-            android:layout_width="80sp"
+            android:id="@+id/boxediitem_tv_order"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="序号"/>
+        <TextView
             android:id="@+id/boxediitem_tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/boxediitem_tv_order"
+            android:layout_marginStart="10sp"
             android:text="箱名"/>
         <TextView
-            android:layout_width="30sp"
-            android:layout_height="wrap_content"
             android:id="@+id/boxediitem_tv_gog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/boxediitem_tv_eof"
+            android:layout_marginStart="10sp"
             android:text="送"/>
         <TextView
-            android:layout_width="30sp"
-            android:layout_height="wrap_content"
             android:id="@+id/boxediitem_tv_eof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/boxediitem_tv_boxtype"
+            android:layout_marginStart="5sp"
             android:text="实"/>
         <TextView
-            android:layout_width="40sp"
-            android:layout_height="wrap_content"
             android:id="@+id/boxediitem_tv_boxtype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/boxediitem_tv_tasktype"
+            android:layout_marginStart="5sp"
             android:text="箱型"/>
         <TextView
+            android:id="@+id/boxediitem_tv_tasktype"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxediitem_tv_tasktype"
+            android:layout_toStartOf="@+id/boxediitem_tv_count"
+            android:layout_marginStart="10sp"
             android:text="交接类型"/>
         <TextView
+            android:id="@+id/boxediitem_tv_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/boxediitem_tv_count"
+            android:layout_marginStart="10sp"
+            android:layout_marginEnd="5sp"
+            android:layout_alignParentEnd="true"
             android:text="数量"/>
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

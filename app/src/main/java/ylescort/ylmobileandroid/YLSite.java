@@ -270,7 +270,9 @@ public class YLSite extends ActionBarActivity {
     }
     @Override
     protected void onResume() {
-        ylSiteAdapter.notifyDataSetInvalidated();
+        if (ylTask.lstSite != null){
+            ylSiteAdapter.notifyDataSetInvalidated();
+        }
         super.onResume();
     }
 

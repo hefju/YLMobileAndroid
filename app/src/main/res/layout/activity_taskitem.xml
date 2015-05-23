@@ -6,28 +6,29 @@
     tools:context=".MainActivity" >
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="60sp"
+        android:layout_height="wrap_content"
+        android:minHeight="60sp"
         android:id="@+id/linearLayout"
         android:gravity="center">
         <TextView
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/Task_taskname"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="texview1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Task_taskstype"
             android:layout_marginStart="10sp"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="texview1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Task_taskstaut"
             android:layout_marginStart="10sp"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:text="texview3"/>
 
         </LinearLayout>

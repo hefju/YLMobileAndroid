@@ -417,10 +417,14 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void BoxScanAdapter(List<Box> adapterboxlist){
-        if (adapterboxlist !=null){
+        if (adapterboxlist !=null && adapterboxlist.size()==1){
             ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             YLScanBoxlistView.setAdapter(ylBoxAdapter);
-            YLScanBoxlistView.setSelection(listpostion);
+            Log.e(YLSystem.getKimTag(),"fristboxlist");
+            //YLScanBoxlistView.setSelection(listpostion);
+        }else if (adapterboxlist !=null && adapterboxlist.size()>1){
+            ylBoxAdapter.notifyDataSetChanged();
+            Log.e(YLSystem.getKimTag(), "secondboxlist");
         }
     }
 
@@ -728,8 +732,11 @@ public class YLBoxScan extends ActionBarActivity {
             e.printStackTrace();
         }
         ScanboxList.add(box);
-        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
-        YLScanBoxlistView.setAdapter(ylBoxAdapter);
+
+        BoxScanAdapter(ScanboxList);
+
+//        YLBoxAdapter ylBoxAdapter = new YLBoxAdapter(this, ScanboxList,R.layout.activity_boxlist);
+//        YLScanBoxlistView.setAdapter(ylBoxAdapter);
 
         YLBoxMediaPlay("success");
 

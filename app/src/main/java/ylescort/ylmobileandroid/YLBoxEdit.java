@@ -37,14 +37,14 @@ public class YLBoxEdit extends ActionBarActivity {
     private RadioButton boxedi_rbtn_Voucher;
     private RadioButton boxedi_rbtn_Voucherbag;
 
-    private TextView boxedi_tv_get;
-    private TextView boxedi_tv_give;
-    private TextView boxedi_tv_empty;
-    private TextView boxedi_tv_moneyboxs;
-    private TextView boxedi_tv_full;
-    private TextView boxedi_tv_cardbox;
-    private TextView boxedi_tv_voucher;
-    private TextView boxedi_tv_voucherbag;
+//    private TextView boxedi_tv_get;
+//    private TextView boxedi_tv_give;
+//    private TextView boxedi_tv_empty;
+//    private TextView boxedi_tv_moneyboxs;
+//    private TextView boxedi_tv_full;
+//    private TextView boxedi_tv_cardbox;
+//    private TextView boxedi_tv_voucher;
+//    private TextView boxedi_tv_voucherbag;
 
     private Spinner boxedi_sp_tasktype;
     private Spinner boxedi_sp_TimeID;
@@ -207,18 +207,49 @@ public class YLBoxEdit extends ActionBarActivity {
                 voucherbag +=Integer.parseInt(box.getBoxCount());
             }
         }
-        //total = moneybox+cardbox+voucher;
-        boxedi_tv_empty.setText(emptybox+until);
-        boxedi_tv_full.setText(fullbox+until);
-        boxedi_tv_get.setText(getbox+until);
-        boxedi_tv_give.setText(givebox+until);
-        boxedi_tv_moneyboxs.setText(moneybox+"");
-        boxedi_tv_cardbox.setText(cardbox+"");
-        boxedi_tv_voucher.setText(voucher+"");
-        boxedi_tv_voucherbag.setText(voucherbag+"");
+//        total = moneybox+cardbox+voucher;
+//        boxedi_tv_empty.setText(emptybox+until);
+//        boxedi_tv_full.setText(fullbox+until);
+//        boxedi_tv_get.setText(getbox+until);
+//        boxedi_tv_give.setText(givebox+until);
+//        boxedi_tv_moneyboxs.setText(moneybox+"");
+//        boxedi_tv_cardbox.setText(cardbox+"");
+//        boxedi_tv_voucher.setText(voucher+"");
+//        boxedi_tv_voucherbag.setText(voucherbag+"");
+        boxedi_rbtn_get.setText("收箱"+getbox);
+        boxedi_rbtn_give.setText("送箱"+givebox);
+        boxedi_rbtn_full.setText("实箱"+fullbox);
+        boxedi_rbtn_empty.setText("空箱"+emptybox);
+        boxedi_rbtn_moneyboxs.setText("款箱"+moneybox);
+        boxedi_rbtn_cardbox.setText("卡箱"+cardbox);
+        boxedi_rbtn_Voucher.setText("凭证箱"+voucher);
+        boxedi_rbtn_Voucherbag.setText("凭证袋"+voucherbag);
+
     }
 
     public void RadioClick(View view) throws ClassNotFoundException {
+        switch (view.getId()){
+            case R.id.boxedi_rbtn_moneyboxs:
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
+                break;
+            case R.id.boxedi_rbtn_cardbox:
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
+                break;
+            case R.id.boxedi_rbtn_Voucher:
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
+                break;
+            case R.id.boxedi_rbtn_Voucherbag:
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                break;
+        }
         if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
         Box box = boxEditListEdit.get(listpostion);
         box.setTradeAction(GetBoxStuat("g"));
@@ -262,8 +293,6 @@ public class YLBoxEdit extends ActionBarActivity {
             boxEditListEdit.remove(listpostion);
             //LoadBoxData(boxEditListEdit);
             ylBoxEdiAdapter.notifyDataSetInvalidated();
-        }else {
-
         }
     }
 
@@ -285,13 +314,29 @@ public class YLBoxEdit extends ActionBarActivity {
         }
 
         switch (boxtype){
-            case "款箱":boxedi_rbtn_moneyboxs.setChecked(true);
+            case "款箱":
+                boxedi_rbtn_moneyboxs.setChecked(true);
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
                 break;
-            case "卡箱":boxedi_rbtn_cardbox.setChecked(true);
+            case "卡箱":
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_cardbox.setChecked(true);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
                 break;
-            case "凭证箱":boxedi_rbtn_Voucher.setChecked(true);
+            case "凭证箱":
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(true);
+                boxedi_rbtn_Voucherbag.setChecked(false);
                 break;
-            case "凭证袋":boxedi_rbtn_Voucherbag.setChecked(true);
+            case "凭证袋":
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(true);
                 break;
         }
         switch (boxtasktype){
@@ -333,14 +378,14 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_rbtn_Voucher = (RadioButton) findViewById(R.id.boxedi_rbtn_Voucher);
         boxedi_rbtn_Voucherbag = (RadioButton) findViewById(R.id.boxedi_rbtn_Voucherbag);
 
-        boxedi_tv_get = (TextView) findViewById(R.id.boxedi_tv_get);
-        boxedi_tv_give = (TextView) findViewById(R.id.boxedi_tv_give);
-        boxedi_tv_empty = (TextView) findViewById(R.id.boxedi_tv_empty);
-        boxedi_tv_moneyboxs = (TextView) findViewById(R.id.boxedi_tv_moneyboxs);
-        boxedi_tv_full = (TextView) findViewById(R.id.boxedi_tv_full);
-        boxedi_tv_cardbox = (TextView) findViewById(R.id.boxedi_tv_cardbox);
-        boxedi_tv_voucher = (TextView) findViewById(R.id.boxedi_tv_voucher);
-        boxedi_tv_voucherbag = (TextView) findViewById(R.id.boxedi_tv_voucherbag);
+//        boxedi_tv_get = (TextView) findViewById(R.id.boxedi_tv_get);
+//        boxedi_tv_give = (TextView) findViewById(R.id.boxedi_tv_give);
+//        boxedi_tv_empty = (TextView) findViewById(R.id.boxedi_tv_empty);
+//        boxedi_tv_moneyboxs = (TextView) findViewById(R.id.boxedi_tv_moneyboxs);
+//        boxedi_tv_full = (TextView) findViewById(R.id.boxedi_tv_full);
+//        boxedi_tv_cardbox = (TextView) findViewById(R.id.boxedi_tv_cardbox);
+//        boxedi_tv_voucher = (TextView) findViewById(R.id.boxedi_tv_voucher);
+//        boxedi_tv_voucherbag = (TextView) findViewById(R.id.boxedi_tv_voucherbag);
 
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.tasktype
                 , android.R.layout.simple_spinner_item);
@@ -397,7 +442,14 @@ public class YLBoxEdit extends ActionBarActivity {
     }
 
     public void boxedi_ent(View view){
-        SaveBoxlistData();
+        switch (view.getId()){
+            case R.id.boxedi_btn_ent:SaveBoxlistData();
+                break;
+            case R.id.boxedi_btn_black:
+                YLSystem.setEdiboxList(boxEditListEdit);
+                YLBoxEdit.this.finish();
+                break;
+        }
     }
 
     protected void SaveBoxlistData() {
