@@ -11,6 +11,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_check_rl_title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/vault_check_tv_statistics"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,12 +51,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/vault_check_btn_scan"
             android:text="@string/vault_check_ylbox_Scan1d"/>
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/vault_check_btn_basedep"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:id="@+id/vault_check_tv_statistics"/>
+            android:text="@string/vault_check_ylbox_changbase"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

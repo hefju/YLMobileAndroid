@@ -22,6 +22,7 @@ import java.util.List;
 import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLBoxEdiAdapter;
 
@@ -55,13 +56,15 @@ public class YLBoxEdit extends ActionBarActivity {
     private List<Box> boxSiteListAll;//所有网点款箱数据
     private List<Box> boxEditListEdit;//在编辑的数据
     private List<Box> boxEditListAll;//网点所有款箱数据
+
+    private List<Box> boxnosave;
+
     private int listpostion;
     private String currSiteID;
     private String boxscanstate;
     private String currTimeID;
 
     private YLBoxEdiAdapter ylBoxEdiAdapter;
-
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
@@ -71,6 +74,7 @@ public class YLBoxEdit extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylbox_edit);
+        boxnosave = new ArrayList<>();
         initlayout();
         boxedi_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -255,7 +259,9 @@ public class YLBoxEdit extends ActionBarActivity {
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
-        boxEditListEdit.set(listpostion,box);
+        boxEditListEdit.set(listpostion, box);
+        boxnosave = YLEditData.getYlboxnosave();
+        Log.e(YLSystem.getKimTag(),boxnosave+ "编辑中");
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         //LoadBoxData(boxEditListEdit);
         TallyBox(boxEditListEdit);
@@ -417,12 +423,15 @@ public class YLBoxEdit extends ActionBarActivity {
                     Box box = ylTask.getLstBox().get(i);
                     if (box.getSiteID().equals(currSiteID)){
                         boxEditListAll.add(box);
+
                     }
                 }
             }
         }else{
             boxEditListAll = YLSystem.getEdiboxList();
         }
+        YLEditData.ylboxnosave = boxEditListAll;
+        Log.e(YLSystem.getKimTag(),YLEditData.ylboxnosave.toString()+"初始化");
         LoadBoxData(boxEditListAll);
         ///增加
         if (boxEditListAll.size()> 0){
@@ -446,6 +455,9 @@ public class YLBoxEdit extends ActionBarActivity {
             case R.id.boxedi_btn_ent:SaveBoxlistData();
                 break;
             case R.id.boxedi_btn_black:
+
+                boxnosave = YLEditData.getYlboxnosave();
+                Log.e(YLSystem.getKimTag(),boxnosave.toString()+"返回");
                 YLSystem.setEdiboxList(boxEditListEdit);
                 YLBoxEdit.this.finish();
                 break;

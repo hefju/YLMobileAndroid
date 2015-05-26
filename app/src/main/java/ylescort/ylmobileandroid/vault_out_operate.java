@@ -35,6 +35,7 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
     private NumberPicker vault_out_operate_numberpicktens;
     private NumberPicker vault_out_operate_numberpickunits;
     private TasksManager tasksManager ;
+    private YLValuttaskitemAdapter ylValuttaskitemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +106,14 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
 
     private void DisplayYLTaskAdapter(List<YLTask> ylTaskList) {
         if (ylTaskList == null || ylTaskList.size()<1)return;
-        YLValuttaskitemAdapter ylValuttaskitemAdapter =
-                new YLValuttaskitemAdapter(this,ylTaskList,R.layout.vault_in_operate_taskitem);
-        vault_out_operate_lv_tasklist.setAdapter(ylValuttaskitemAdapter);
+        if (ylTaskList.size()== 1){
+            ylValuttaskitemAdapter =
+                    new YLValuttaskitemAdapter(this,ylTaskList,R.layout.vault_in_operate_taskitem);
+            vault_out_operate_lv_tasklist.setAdapter(ylValuttaskitemAdapter);
+        }else {
+            ylValuttaskitemAdapter.notifyDataSetChanged();
+        }
+
     }
 
     @Override

@@ -48,6 +48,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private Button Log_BN_HF;
     private NFCcmdManager manager ;
     private ProgressDialog progressDialog;
+    private boolean buttonflag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             e.printStackTrace();
         }
 
+        buttonflag = false;
         /**
          * 获取手机IMEI码
          */
@@ -193,6 +195,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void LoginByPassword() throws Exception{
+        if (buttonflag){
+            buttonflag= true;
+            return;
+        }
         if (!YLSystem.getNetWorkState().equals("2")){
             String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
             User user = new User();
@@ -210,7 +216,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void LoginByHF() throws Exception {
-        if (!Log_BN_HF.isEnabled()){
+        if (buttonflag){
+            buttonflag= true;
             return;}
         Log_BN_HF.setEnabled(false);
         manager.init_14443A();
@@ -231,6 +238,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }
         }else {
             Toast.makeText(getApplicationContext(), "未找到卡", Toast.LENGTH_SHORT).show();
+            buttonflag= false;
             Log_BN_HF.setEnabled(true);
         }
     }
@@ -258,6 +266,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
         }else {
             YLMediaPlay("faile");
+            buttonflag= false;
             Log_BN_HF.setEnabled(true);
             Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
         }
@@ -280,8 +289,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }else {
             intent.setClass(LoginActivity.this, Task.class);}
             startActivity(intent);
+            buttonflag= false;
             Log_BN_HF.setEnabled(true);
         }else {
+            buttonflag= false;
             Log_BN_HF.setEnabled(true);
             Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
         }

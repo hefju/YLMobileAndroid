@@ -3,6 +3,7 @@ package YLSystemDate;
 import java.util.Date;
 import java.util.List;
 
+import TaskClass.Box;
 import TaskClass.YLATM;
 import TaskClass.YLTask;
 
@@ -12,9 +13,18 @@ import TaskClass.YLTask;
 public class YLEditData {
     public static YLATM ylatm;
     public static List<YLATM> ylatmList;
+    public static List<Box> ylboxnosave;
 
     public static Date DatePick;
     public static YLTask ylTask;
+
+    public static List<Box> getYlboxnosave() {
+        return ylboxnosave;
+    }
+
+    public static void setYlboxnosave(List<Box> ylboxnosave) {
+        YLEditData.ylboxnosave = ylboxnosave;
+    }
 
     public static YLTask getYlTask() {
         return ylTask;

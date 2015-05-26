@@ -215,11 +215,14 @@ public class Task extends ActionBarActivity {
                 super.handleMessage(msg);
             }
         };
+        Task_btn_refresh.performClick();
     }
 
     //显示本地任务列表
     private void DisplayTaskList( List<YLTask> lstYLTask) {
-        if(lstYLTask==null)return;
+        if(lstYLTask==null){
+            lstYLTask = new ArrayList<>();
+        }
         YLTaskAdapter ylTaskAdapter =  new YLTaskAdapter(this,lstYLTask,R.layout.activity_taskitem);
         listView.setAdapter(ylTaskAdapter);
     }

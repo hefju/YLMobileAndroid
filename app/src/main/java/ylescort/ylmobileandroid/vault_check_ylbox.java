@@ -34,11 +34,14 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     private ListView vault_check_lv;
     private Button vault_check_btn_scan;
     private Button vault_check_btn_conFirm;
+    private Button vault_check_btn_basedep;
     private TextView vault_check_tv_statistics;
 
     private Scan1DRecive scan1DRecive;
     private List<Box> boxList;
     private YLMediaPlayer ylMediaPlayer;
+
+    private YLVaultcheckboxAdapter ylVaultcheckboxAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,16 +62,22 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         vault_check_lv = (ListView)findViewById(R.id.vault_check_lv);
         vault_check_btn_scan = (Button)findViewById(R.id.vault_check_btn_scan);
         vault_check_btn_conFirm = (Button)findViewById(R.id.vault_check_btn_conFirm);
+        vault_check_btn_basedep = (Button)findViewById(R.id.vault_check_btn_basedep);
         vault_check_tv_statistics = (TextView)findViewById(R.id.vault_check_tv_statistics);
 
         vault_check_btn_scan.setOnClickListener(this);
         vault_check_btn_conFirm.setOnClickListener(this);
+        vault_check_btn_basedep.setOnClickListener(this);
+
         vault_check_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
         });
+
+        vault_check_btn_scan.setEnabled(false);
+        vault_check_btn_conFirm.setEnabled(false);
 
         vault_check_tv_statistics.setText("总计: 0 个");
     }
@@ -111,7 +120,31 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 break;
             case R.id.vault_check_btn_conFirm:ConFirm();
                 break;
+            case R.id.vault_check_btn_basedep:GetBaseDepartment();
+                break;
         }
+    }
+
+    private void GetBaseDepartment() {
+        new AlertDialog.Builder(this).setTitle("请选择基地").setIcon(android.R.drawable.ic_dialog_info)
+                .setSingleChoiceItems(R.array.basedepartment, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:vault_check_btn_basedep.setText("南海基地");
+                                break;
+                            case 1:vault_check_btn_basedep.setText("大良基地");
+                                break;
+                            case 2:vault_check_btn_basedep.setText("乐从基地");
+                                break;
+                            case 3:vault_check_btn_basedep.setText("三水基地");
+                                break;
+                        }
+                        vault_check_btn_scan.setEnabled(true);
+                        vault_check_btn_conFirm.setEnabled(true);
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     @Override
@@ -210,9 +243,16 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
     private void DisplayYLBox(List<Box> boxList) {
         if (boxList.size()< 1)return;
-        YLVaultcheckboxAdapter ylVaultcheckboxAdapter =
-                new YLVaultcheckboxAdapter(this,boxList,R.layout.vault_check_ylboxitem);
-        vault_check_lv.setAdapter(ylVaultcheckboxAdapter);
+        if (boxList.size() == 1){
+             ylVaultcheckboxAdapter =
+                    new YLVaultcheckboxAdapter(this,boxList,R.layout.vault_check_ylboxitem);
+            vault_check_lv.setAdapter(ylVaultcheckboxAdapter);
+        }else {
+            ylVaultcheckboxAdapter.notifyDataSetChanged();
+        }
+
+
+
         scrollMyListViewToBottom();
     }
 

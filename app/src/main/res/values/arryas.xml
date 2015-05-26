@@ -23,4 +23,10 @@
         <item>空凭证袋</item>
         <item>"删  除"</item>
     </string-array>
+    <string-array name="basedepartment">
+        <item>南海基地</item>
+        <item>大良基地</item>
+        <item>乐从基地</item>
+        <item>三水基地</item>
+    </string-array>
 </resources>
