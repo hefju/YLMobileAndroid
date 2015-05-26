@@ -89,8 +89,8 @@ public class YLBoxEidter extends ActionBarActivity implements View.OnClickListen
         }else{
             boxEditListAll = YLSystem.getEdiboxList();
         }
-        YLEditData.ylboxnosave = boxEditListAll;
-        Log.e(YLSystem.getKimTag(),YLEditData.ylboxnosave.toString()+"初始化");
+//        YLEditData.ylboxnosave = boxEditListAll;
+//        Log.e(YLSystem.getKimTag(),YLEditData.ylboxnosave.toString()+"初始化");
         LoadBoxData(boxEditListAll);
         ///增加
         if (boxEditListAll.size()> 0){
@@ -338,7 +338,7 @@ public class YLBoxEidter extends ActionBarActivity implements View.OnClickListen
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         boxEditListEdit.set(listpostion, box);
-        boxnosave = YLEditData.getYlboxnosave();
+//        boxnosave = YLEditData.getYlboxnosave();
         Log.e(YLSystem.getKimTag(), boxnosave + "编辑中");
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         //LoadBoxData(boxEditListEdit);

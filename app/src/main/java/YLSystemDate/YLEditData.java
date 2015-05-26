@@ -13,7 +13,7 @@ import TaskClass.YLTask;
 public class YLEditData {
     public static YLATM ylatm;
     public static List<YLATM> ylatmList;
-    public static List<Box> ylboxnosave;
+    public static  List<Box> ylboxnosave;
 
     public static Date DatePick;
     public static YLTask ylTask;

@@ -98,15 +98,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_get"
                 android:text="@string/box_tv_get"
-                style="@style/TextSize25"
-                android:onClick="RadioClick"/>
+                style="@style/TextSize25"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_give"
                 android:text="@string/box_tv_give"
-                style="@style/TextSize25"
-                android:onClick="RadioClick"/>
+                style="@style/TextSize25"/>
 
         </RadioGroup>
     </LinearLayout>
@@ -124,15 +122,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_full"
                 android:text="@string/box_tv_full"
-                style="@style/TextSize25"
-                android:onClick="RadioClick"/>
+                style="@style/TextSize25"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/boxedi_rbtn_empty"
                 android:text="@string/box_tv_empty"
-                style="@style/TextSize25"
-                android:onClick="RadioClick"/>
+                style="@style/TextSize25"/>
         </RadioGroup>
     </LinearLayout>
 
@@ -147,24 +143,21 @@
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_rbtn_moneyboxs"
             android:text="@string/boxitem_monenybox"
-            style="@style/TextSize25"
-            android:onClick="RadioClick"/>
+            style="@style/TextSize25"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/boxedi_rbtn_moneyboxs"
             android:id="@+id/boxedi_rbtn_cardbox"
             android:text="@string/boxitem_cardbox"
-            style="@style/TextSize25"
-            android:onClick="RadioClick"/>
+            style="@style/TextSize25"/>
         <RadioButton
             android:layout_width="160sp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/boxedi_rbtn_moneyboxs"
             android:id="@+id/boxedi_rbtn_Voucher"
             android:text="@string/boxitem_Voucherbox"
-            style="@style/TextSize25"
-            android:onClick="RadioClick"/>
+            style="@style/TextSize25"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -172,8 +165,7 @@
             android:layout_below="@+id/boxedi_rbtn_cardbox"
             android:id="@+id/boxedi_rbtn_Voucherbag"
             android:text="@string/boxitem_Voucherboxbag"
-            style="@style/TextSize25"
-            android:onClick="RadioClick"/>
+            style="@style/TextSize25"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -185,20 +177,17 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_btn_ent"
-            android:text="确定"
-            android:onClick="boxedi_ent"/>
+            android:text="确定"/>
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_btn_black"
-            android:text="返回"
-            android:onClick="boxedi_ent"/>
+            android:text="返回"/>
         <Button
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:id="@+id/boxedi_btn_del"
-            android:text="删除"
-            android:onClick="boxedi_del"/>
+            android:text="删除"/>
 
 
     </LinearLayout>

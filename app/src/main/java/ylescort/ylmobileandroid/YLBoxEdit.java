@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import YLSystemDate.YLSystem;
 import YLAdapter.YLBoxEdiAdapter;
 
 
-public class YLBoxEdit extends ActionBarActivity {
+public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener {
 
     private RadioButton boxedi_rbtn_get;
     private RadioButton boxedi_rbtn_give;
@@ -38,18 +38,12 @@ public class YLBoxEdit extends ActionBarActivity {
     private RadioButton boxedi_rbtn_Voucher;
     private RadioButton boxedi_rbtn_Voucherbag;
 
-//    private TextView boxedi_tv_get;
-//    private TextView boxedi_tv_give;
-//    private TextView boxedi_tv_empty;
-//    private TextView boxedi_tv_moneyboxs;
-//    private TextView boxedi_tv_full;
-//    private TextView boxedi_tv_cardbox;
-//    private TextView boxedi_tv_voucher;
-//    private TextView boxedi_tv_voucherbag;
+    private Button boxedi_btn_ent;
+    private Button boxedi_btn_black;
+    private Button boxedi_btn_del;
 
     private Spinner boxedi_sp_tasktype;
     private Spinner boxedi_sp_TimeID;
-
 
     private ListView boxedi_listview;
 
@@ -57,12 +51,14 @@ public class YLBoxEdit extends ActionBarActivity {
     private List<Box> boxEditListEdit;//在编辑的数据
     private List<Box> boxEditListAll;//网点所有款箱数据
 
-    private List<Box> boxnosave;
+    public YLEditData ylEditData;
 
     private int listpostion;
     private String currSiteID;
     private String boxscanstate;
     private String currTimeID;
+
+    private boolean editflag;
 
     private YLBoxEdiAdapter ylBoxEdiAdapter;
 
@@ -74,7 +70,8 @@ public class YLBoxEdit extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylbox_edit);
-        boxnosave = new ArrayList<>();
+//        boxnosave = new ArrayList<>();
+        editflag = true;
         initlayout();
         boxedi_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,15 +80,10 @@ public class YLBoxEdit extends ActionBarActivity {
                 Box box = (Box)listView.getItemAtPosition(position);
                 listpostion = position;
                 EditBox(box);
-                //LoadBoxData(boxEditListEdit);
-                //boxedi_listview.setSelection(position);
                 ylBoxEdiAdapter.setSelectItem(position);
                 ylBoxEdiAdapter.notifyDataSetInvalidated();
-                //boxedi_listview.deferNotifyDataSetChanged();
             }
         });
-
-        //RadioClick();
 
         boxedi_sp_tasktype.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -180,7 +172,6 @@ public class YLBoxEdit extends ActionBarActivity {
 
     private void TallyBox(List<Box> boxList) {
         if (boxList == null)return;
-        String until = "个";
         int emptybox = 0;
         int fullbox = 0;
         int getbox = 0;
@@ -189,7 +180,6 @@ public class YLBoxEdit extends ActionBarActivity {
         int cardbox = 0;
         int voucher =0;
         int voucherbag =0;
-        int total;
         for (Box box :boxList){
             if (box.getTradeAction().equals("收")){
                 getbox +=Integer.parseInt(box.getBoxCount()) ;}
@@ -211,60 +201,28 @@ public class YLBoxEdit extends ActionBarActivity {
                 voucherbag +=Integer.parseInt(box.getBoxCount());
             }
         }
-//        total = moneybox+cardbox+voucher;
-//        boxedi_tv_empty.setText(emptybox+until);
-//        boxedi_tv_full.setText(fullbox+until);
-//        boxedi_tv_get.setText(getbox+until);
-//        boxedi_tv_give.setText(givebox+until);
-//        boxedi_tv_moneyboxs.setText(moneybox+"");
-//        boxedi_tv_cardbox.setText(cardbox+"");
-//        boxedi_tv_voucher.setText(voucher+"");
-//        boxedi_tv_voucherbag.setText(voucherbag+"");
-        boxedi_rbtn_get.setText("收箱"+getbox);
-        boxedi_rbtn_give.setText("送箱"+givebox);
-        boxedi_rbtn_full.setText("实箱"+fullbox);
-        boxedi_rbtn_empty.setText("空箱"+emptybox);
-        boxedi_rbtn_moneyboxs.setText("款箱"+moneybox);
-        boxedi_rbtn_cardbox.setText("卡箱"+cardbox);
-        boxedi_rbtn_Voucher.setText("凭证箱"+voucher);
-        boxedi_rbtn_Voucherbag.setText("凭证袋"+voucherbag);
+
+        boxedi_rbtn_get.setText("收箱-"+getbox);
+        boxedi_rbtn_give.setText("送箱-"+givebox);
+        boxedi_rbtn_full.setText("实箱-" + fullbox);
+        boxedi_rbtn_empty.setText("空箱-" + emptybox);
+        boxedi_rbtn_moneyboxs.setText("款箱-" + moneybox);
+        boxedi_rbtn_cardbox.setText("卡箱-" + cardbox);
+        boxedi_rbtn_Voucher.setText("凭证箱-" + voucher);
+        boxedi_rbtn_Voucherbag.setText("凭证袋-" + voucherbag);
 
     }
 
-    public void RadioClick(View view) throws ClassNotFoundException {
-        switch (view.getId()){
-            case R.id.boxedi_rbtn_moneyboxs:
-                boxedi_rbtn_cardbox.setChecked(false);
-                boxedi_rbtn_Voucher.setChecked(false);
-                boxedi_rbtn_Voucherbag.setChecked(false);
-                break;
-            case R.id.boxedi_rbtn_cardbox:
-                boxedi_rbtn_moneyboxs.setChecked(false);
-                boxedi_rbtn_Voucher.setChecked(false);
-                boxedi_rbtn_Voucherbag.setChecked(false);
-                break;
-            case R.id.boxedi_rbtn_Voucher:
-                boxedi_rbtn_cardbox.setChecked(false);
-                boxedi_rbtn_moneyboxs.setChecked(false);
-                boxedi_rbtn_Voucherbag.setChecked(false);
-                break;
-            case R.id.boxedi_rbtn_Voucherbag:
-                boxedi_rbtn_cardbox.setChecked(false);
-                boxedi_rbtn_Voucher.setChecked(false);
-                boxedi_rbtn_moneyboxs.setChecked(false);
-                break;
-        }
+    private void GetandSetBoxtolist() {
         if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
         Box box = boxEditListEdit.get(listpostion);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         boxEditListEdit.set(listpostion, box);
-        boxnosave = YLEditData.getYlboxnosave();
-        Log.e(YLSystem.getKimTag(),boxnosave+ "编辑中");
         ylBoxEdiAdapter.notifyDataSetInvalidated();
-        //LoadBoxData(boxEditListEdit);
         TallyBox(boxEditListEdit);
+
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -292,14 +250,6 @@ public class YLBoxEdit extends ActionBarActivity {
                 boxstuat ="凭证袋";
             }}
         return boxstuat;
-    }
-
-    public void boxedi_del(View view){
-        if (boxEditListEdit.size()!=0){
-            boxEditListEdit.remove(listpostion);
-            //LoadBoxData(boxEditListEdit);
-            ylBoxEdiAdapter.notifyDataSetInvalidated();
-        }
     }
 
     private void EditBox(Box box) {
@@ -384,14 +334,23 @@ public class YLBoxEdit extends ActionBarActivity {
         boxedi_rbtn_Voucher = (RadioButton) findViewById(R.id.boxedi_rbtn_Voucher);
         boxedi_rbtn_Voucherbag = (RadioButton) findViewById(R.id.boxedi_rbtn_Voucherbag);
 
-//        boxedi_tv_get = (TextView) findViewById(R.id.boxedi_tv_get);
-//        boxedi_tv_give = (TextView) findViewById(R.id.boxedi_tv_give);
-//        boxedi_tv_empty = (TextView) findViewById(R.id.boxedi_tv_empty);
-//        boxedi_tv_moneyboxs = (TextView) findViewById(R.id.boxedi_tv_moneyboxs);
-//        boxedi_tv_full = (TextView) findViewById(R.id.boxedi_tv_full);
-//        boxedi_tv_cardbox = (TextView) findViewById(R.id.boxedi_tv_cardbox);
-//        boxedi_tv_voucher = (TextView) findViewById(R.id.boxedi_tv_voucher);
-//        boxedi_tv_voucherbag = (TextView) findViewById(R.id.boxedi_tv_voucherbag);
+        boxedi_btn_ent = (Button)findViewById(R.id.boxedi_btn_ent);
+        boxedi_btn_black = (Button)findViewById(R.id.boxedi_btn_black);
+        boxedi_btn_del = (Button)findViewById(R.id.boxedi_btn_del);
+
+        boxedi_rbtn_get.setOnClickListener(this);
+        boxedi_rbtn_give.setOnClickListener(this);
+        boxedi_rbtn_empty.setOnClickListener(this);
+        boxedi_rbtn_full.setOnClickListener(this);
+        boxedi_rbtn_moneyboxs.setOnClickListener(this);
+        boxedi_rbtn_cardbox.setOnClickListener(this);
+        boxedi_rbtn_Voucher.setOnClickListener(this);
+        boxedi_rbtn_Voucherbag.setOnClickListener(this);
+
+        boxedi_btn_ent.setOnClickListener(this);
+        boxedi_btn_black.setOnClickListener(this);
+        boxedi_btn_del.setOnClickListener(this);
+
 
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.tasktype
                 , android.R.layout.simple_spinner_item);
@@ -401,7 +360,63 @@ public class YLBoxEdit extends ActionBarActivity {
 
         InitBoxData();
         YLBoxEdit.this.setTitle("款箱编辑: " + YLSystem.getUser().getName());
-        //ReLoadData();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (editflag){
+            ylEditData.setYlboxnosave(boxEditListEdit);
+            Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "onclick");
+        }
+
+        switch (v.getId()){
+            case R.id.boxedi_rbtn_moneyboxs:
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
+                GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_cardbox:
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
+                GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_Voucher:
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                boxedi_rbtn_Voucherbag.setChecked(false);
+                GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_Voucherbag:
+                boxedi_rbtn_cardbox.setChecked(false);
+                boxedi_rbtn_Voucher.setChecked(false);
+                boxedi_rbtn_moneyboxs.setChecked(false);
+                GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_get:GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_give:GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_empty:GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_rbtn_full:GetandSetBoxtolist();
+                break;
+            case R.id.boxedi_btn_ent:SaveBoxlistData();
+                break;
+            case R.id.boxedi_btn_black:
+                YLSystem.setEdiboxList(ylEditData.getYlboxnosave());
+                Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "nosave");
+                YLBoxEdit.this.finish();
+                break;
+            case R.id.boxedi_btn_del:
+                if (boxEditListEdit.size()!=0){
+                    boxEditListEdit.remove(listpostion);
+                    ylBoxEdiAdapter.notifyDataSetInvalidated();
+                }
+                break;
+        }
+        editflag = false;
     }
 
     private void InitBoxData() {
@@ -423,15 +438,16 @@ public class YLBoxEdit extends ActionBarActivity {
                     Box box = ylTask.getLstBox().get(i);
                     if (box.getSiteID().equals(currSiteID)){
                         boxEditListAll.add(box);
-
                     }
                 }
             }
         }else{
             boxEditListAll = YLSystem.getEdiboxList();
         }
-        YLEditData.ylboxnosave = boxEditListAll;
-        Log.e(YLSystem.getKimTag(),YLEditData.ylboxnosave.toString()+"初始化");
+
+        ylEditData.setYlboxnosave(boxEditListAll);
+        Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "初始化");
+
         LoadBoxData(boxEditListAll);
         ///增加
         if (boxEditListAll.size()> 0){
@@ -446,44 +462,29 @@ public class YLBoxEdit extends ActionBarActivity {
         ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
-        //boxedi_listview.setSelection(listpostion);
         TallyBox(boxList);
-    }
-
-    public void boxedi_ent(View view){
-        switch (view.getId()){
-            case R.id.boxedi_btn_ent:SaveBoxlistData();
-                break;
-            case R.id.boxedi_btn_black:
-
-                boxnosave = YLEditData.getYlboxnosave();
-                Log.e(YLSystem.getKimTag(),boxnosave.toString()+"返回");
-                YLSystem.setEdiboxList(boxEditListEdit);
-                YLBoxEdit.this.finish();
-                break;
-        }
     }
 
     protected void SaveBoxlistData() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxEdit.this);
         builder.setMessage("确认保存吗?");
         builder.setTitle("提示");
-        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
                 ListGroup("全部");
-                if (boxscanstate.equals("完成交接")){
+                if (boxscanstate.equals("完成交接")) {
                     YLSystem.setEdiboxList(boxEditListEdit);
-                }else {
+                } else {
                     //删除所属网点款箱
-                for (int i = 0;i < boxSiteListAll.size();i++){
-                    if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)){
-                        boxSiteListAll.remove(i);
-                        --i;
+                    for (int i = 0; i < boxSiteListAll.size(); i++) {
+                        if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)) {
+                            boxSiteListAll.remove(i);
+                            --i;
+                        }
                     }
-                }
-                    for (int i = 0;i < boxEditListEdit.size();i++){
+                    for (int i = 0; i < boxEditListEdit.size(); i++) {
                         boxSiteListAll.add(boxEditListEdit.get(i));
                     }
                 }
@@ -491,13 +492,14 @@ public class YLBoxEdit extends ActionBarActivity {
                 YLBoxEdit.this.finish();
             }
         });
-        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
         });
         builder.create().show();
+        Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "保存");
     }
 
 
@@ -572,4 +574,6 @@ public class YLBoxEdit extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
