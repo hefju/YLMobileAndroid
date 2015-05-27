@@ -23,8 +23,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSystem;
 
@@ -45,6 +47,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private List<Box> vaulteroutboxlist ;
     private YLMediaPlayer ylMediaPlayer;
+
+    private YLTask ylTask;
 
 
     @Override
@@ -88,6 +92,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     private void InitData() {
         vaulteroutboxlist = new ArrayList<>();
         ylMediaPlayer = new YLMediaPlayer();
+        //ylTask = new YLTask();
+        ylTask = YLEditData.getYlTask();
     }
 
     private void InitReciveScan1D() {
@@ -100,12 +106,12 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void YLBoxScan1D() {
-        if (vault_out_detail_btn_scan1d.getText().equals("扫描")){
-             Scan1DCmd("toscan100ms");
-            vault_out_detail_btn_scan1d.setText("停止");
+        if (vault_out_detail_btn_scan1d.getText().equals("扫描/F1")){
+            Scan1DCmd("toscan100ms");
+            vault_out_detail_btn_scan1d.setText("停止/F1");
         }else {
             Scan1DCmd("stopscan");
-            vault_out_detail_btn_scan1d.setText("扫描");
+            vault_out_detail_btn_scan1d.setText("扫描/F1");
         }
     }
 
@@ -179,7 +185,9 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void YLBoxEnter() {
-
+        YLEditData.setYlTask(ylTask);
+        ylTask.setTaskState("已上传");
+        vault_out_detail.this.finish();
     }
 
     private void ReadHFCard(){

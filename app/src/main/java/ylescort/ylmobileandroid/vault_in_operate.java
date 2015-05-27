@@ -36,6 +36,7 @@ public class vault_in_operate extends ActionBarActivity {
     ListView vault_in_operate_lv;
     private NFCcmdManager manager ;
     private YLMediaPlayer player;
+    private YLValuttaskitemAdapter ylValuttaskitemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,7 @@ public class vault_in_operate extends ActionBarActivity {
 
     private void DisplayTaskList(List<YLTask> ylTaskList){
         if (ylTaskList == null || ylTaskList.size()<1)return;
-        YLValuttaskitemAdapter ylValuttaskitemAdapter =
+        ylValuttaskitemAdapter =
                 new YLValuttaskitemAdapter(this,ylTaskList,R.layout.vault_in_operate_taskitem);
         vault_in_operate_lv.setAdapter(ylValuttaskitemAdapter);
     }
@@ -153,5 +154,14 @@ public class vault_in_operate extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostResume() {
+        if (ylValuttaskitemAdapter!=null){
+            ylValuttaskitemAdapter.notifyDataSetChanged();
+        }
+
+        super.onPostResume();
     }
 }

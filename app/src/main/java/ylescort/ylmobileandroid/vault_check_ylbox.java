@@ -167,7 +167,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     WebService webService = new WebService();
-                    webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
+                    webService.PostVaultCheckBox(YLSystem.getUser(), getApplicationContext());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

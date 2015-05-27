@@ -68,6 +68,7 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
                 ListView listView = (ListView)parent;
                 YLTask ylTask = (YLTask)listView.getItemAtPosition(position);
                 //tasksManager.SetCurrentTask(ylTask.getTaskID());
+                YLEditData.setYlTask(ylTask);
                 Intent intent = new Intent();
                 intent.setClass(vault_out_operate.this,vault_out_detail.class);
                 startActivity(intent);
@@ -159,5 +160,13 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
             case R.id.vault_out_operate_btn_readcard:GetTaskbyReadCard();
                 break;
         }
+    }
+
+    @Override
+    protected void onPostResume() {
+        if (ylValuttaskitemAdapter != null){
+            ylValuttaskitemAdapter.notifyDataSetChanged();
+        }
+        super.onPostResume();
     }
 }

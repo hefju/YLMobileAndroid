@@ -45,6 +45,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private EditText Log_ET_Name;
     private EditText Log_ET_PassWord;
     private TextView log_tv_vision;
+    private TextView log_tv_hsimei;
     private Button Log_BN_HF;
     private NFCcmdManager manager ;
     private ProgressDialog progressDialog;
@@ -78,6 +79,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
         String IMEI = telephonyManager.getDeviceId();
         YLSystem.setHandsetIMEI(IMEI);
+
+        log_tv_hsimei.setText("机器码:"+IMEI);
 
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -116,6 +119,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         Log_ET_Name = (EditText)findViewById(R.id.Log_ET_Name);
         Log_ET_PassWord = (EditText)findViewById(R.id.Log_ET_PassWord);
         log_tv_vision = (TextView) findViewById(R.id.log_tv_vision);
+        log_tv_hsimei = (TextView) findViewById(R.id.log_tv_hsimei);
         Log_BN_HF = (Button) findViewById(R.id.Log_BN_HF);
         Button Log_BN_Ent = (Button) findViewById(R.id.Log_BN_Ent);
         Button btnTest1 = (Button) findViewById(R.id.btnTest1);
