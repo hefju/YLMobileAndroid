@@ -8,23 +8,24 @@
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_boxitme_boxname"
         android:text="@string/boxitem_Boxid"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:layout_marginStart="20sp"/>
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:minHeight="35sp"
-    android:gravity="center">
+    android:gravity="center_vertical">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
+        android:layout_marginStart="20sp"
         android:id="@+id/vault_in_detail_boxitme_boxstaut"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
+        android:layout_marginStart="20sp"
         android:id="@+id/vault_in_detail_boxitme_boxtype"
         android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxstaut"
         android:text="@string/boxitem_Boxid"
@@ -32,17 +33,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
+        android:layout_marginStart="20sp"
         android:id="@+id/vault_in_detail_boxitme_boxtask"
         android:text="@string/boxitem_Boxid"
         android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtype"
         android:textSize="20sp"/>
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10sp"
+        android:layout_marginEnd="20sp"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtask"
+        android:layout_alignParentRight="true"
         android:id="@+id/vault_in_detail_boxitme_boxcheck"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>

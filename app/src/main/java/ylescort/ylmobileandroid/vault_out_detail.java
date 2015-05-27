@@ -263,30 +263,32 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void AddYLBoxtoListView(Box box) {
-        if (!box.getBoxName().equals("illegalbox") ||!box.getBoxName().equals("无数据")){
-            try{
-                boolean boxcheck = true;
-                int listcount = vaulteroutboxlist.size()-1;
-                for (int i = 0;i<vaulteroutboxlist.size();i++){
-                    Box scanbox = vaulteroutboxlist.get(listcount-i);
-                    if (scanbox.getBoxID().equals(box.getBoxID())){
-                        ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
-                        boxcheck = false;
-                        break;
-                    }
-                }
-
-                if (boxcheck){
-                    box.setBoxType(vault_out_detail_tv_type.getTag().toString());
-                    box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
-                    vaulteroutboxlist.add(box);
-                    DisPlayBoxlistAdapter(vaulteroutboxlist);
-                    ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                    scrollMyListViewToBottom();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
+        try {
+            if (box.getBoxName().equals("illegalbox") || box.getBoxName().equals("无数据")) {
+                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                return;
             }
+
+            boolean boxcheck = true;
+            int listcount = vaulteroutboxlist.size() - 1;
+            for (int i = 0; i < vaulteroutboxlist.size(); i++) {
+                Box scanbox = vaulteroutboxlist.get(listcount - i);
+                if (scanbox.getBoxID().equals(box.getBoxID())) {
+                    ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                    boxcheck = false;
+                    break;
+                }
+            }
+            if (boxcheck) {
+                box.setBoxType(vault_out_detail_tv_type.getTag().toString());
+                box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
+                vaulteroutboxlist.add(box);
+                DisPlayBoxlistAdapter(vaulteroutboxlist);
+                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                scrollMyListViewToBottom();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -15,7 +15,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_tv_taskname"
-            android:text="@string/vault_out_detail_tv_taskname"/>
+            android:text="@string/vault_out_detail_tv_taskname"
+            android:textSize="20sp"
+            android:textColor="@color/royalblue"/>
         </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -23,21 +25,30 @@
         android:id="@+id/vault_in_detail_LL_listtital"
         android:layout_below="@+id/vault_in_detail_LL_info">
         <TextView
-            android:layout_width="80sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
             android:text="@string/vault_out_detail_tv_boxname"/>
         <TextView
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30sp"
             android:text="@string/vault_out_detail_tv_boxstaut"/>
         <TextView
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="40sp"
             android:text="@string/vault_out_detail_tv_boxstype"/>
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
             android:text="@string/vault_out_detail_tv_boxtasktype"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/vault_out_detail_tv_boxcheck"/>
         </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"

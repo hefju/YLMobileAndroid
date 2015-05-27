@@ -65,7 +65,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private void InitDate()throws Exception{
         ylTask = YLEditData.getYlTask();
-        String title ="任务:"+ ylTask.getLine()+"   执行人:"+ ylTask.getTaskManager();
+        String title ="任务:"+ ylTask.getLine()+"\r\n执行人:"+ ylTask.getTaskManager();
         vault_in_detail_tv_taskname.setText(title);
         ylMediaPlayer = new YLMediaPlayer();
         WebService webService = new WebService();
@@ -169,7 +169,16 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.vault_in_detail_btn_scan1d:Scan1DCmd();
+            case R.id.vault_in_detail_btn_scan1d:
+                String cmd = "";
+                if (vault_in_detail_btn_scan1d.getText().equals("扫描/F1")){
+                    cmd = "toscan100ms";
+                    vault_in_detail_btn_scan1d.setText("停止/F1");
+                }else {
+                    cmd = "stopscan";
+                    vault_in_detail_btn_scan1d.setText("扫描/F1");
+                }
+                Scan1DCmd(cmd);
                 break;
             case R.id.vault_in_detail_btn_enter:ConfirmData();
                 break;
@@ -187,50 +196,54 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void GetBoxToListView(Box box) {
-        if (!box.getBoxName().equals("illegalbox") ||!box.getBoxName().equals("无数据")){
-            try {
-                if (homlistbox.size()<1)return;
-                boolean boxcheck = true;
-                int position=0;
-                for (int i = 0; i < homlistbox.size(); i++) {
-                    Box hombox = homlistbox.get(i);
-                    if (hombox.getBoxID().equals(box.getBoxID())) {
-                        if (hombox.getValutcheck() == null) {
-                            hombox.setValutcheck("√");
-                            hombox.setTradeAction("出");
-                            homlistbox.set(i, hombox);
-                            Log.e(YLSystem.getKimTag(), hombox.toString());
-                            boxcheck = false;
-                            position = i;
-                            break;
-                        } else if (hombox.getValutcheck().equals("多")
-                                || hombox.getValutcheck().equals("√")) {
-                            ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-                            return;
-                        }
+        try {
+            if (box.getBoxName().equals("illegalbox") || box.getBoxName().equals("无数据")) {
+                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                return;
+            }
+
+            if (homlistbox.size() < 1) return;
+            boolean boxcheck = true;
+            int position = 0;
+            for (int i = 0; i < homlistbox.size(); i++) {
+                Box hombox = homlistbox.get(i);
+                if (hombox.getBoxID().equals(box.getBoxID())) {
+                    if (hombox.getValutcheck() == null) {
+                        hombox.setValutcheck("√");
+                        hombox.setTradeAction("出");
+                        homlistbox.set(i, hombox);
+                        Log.e(YLSystem.getKimTag(), hombox.toString());
+                        boxcheck = false;
+                        position = i;
+                        break;
+                    } else if (hombox.getValutcheck().equals("多")
+                            || hombox.getValutcheck().equals("√")) {
+                        ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                        return;
                     }
                 }
-                if (boxcheck){
-                    box.setValutcheck("多");
-                    box.setBoxCount("1");
-                    box.setBoxStatus("无");
-                    box.setBoxType("无");
-                    box.setTradeAction("出");
-                    box.setBoxTaskType(ylTask.getTaskType());
-                    homlistbox.add(box);
-                }
-
-                ylValutboxitemAdapter.notifyDataSetInvalidated();
-                if (position == 0){
-                    position = homlistbox.size();
-                }
-                vault_in_detail_listview.setSelection(position);
-                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                StatisticalBoxList(homlistbox);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            if (boxcheck) {
+                box.setValutcheck("多");
+                box.setBoxCount("1");
+                box.setBoxStatus("无");
+                box.setBoxType("无");
+                box.setTradeAction("出");
+                box.setBoxTaskType(ylTask.getTaskType());
+                homlistbox.add(box);
+            }
+
+            ylValutboxitemAdapter.notifyDataSetInvalidated();
+            if (position == 0) {
+                position = homlistbox.size();
+            }
+            vault_in_detail_listview.setSelection(position);
+            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+            StatisticalBoxList(homlistbox);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     private void StatisticalBoxList(List<Box> boxList){
@@ -265,7 +278,16 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
-            case 131:Scan1DCmd();
+            case 131:
+                String cmd = "";
+                if (vault_in_detail_btn_scan1d.getText().equals("扫描/F1")){
+                    cmd = "toscan100ms";
+                    vault_in_detail_btn_scan1d.setText("停止/F1");
+                }else {
+                    cmd = "stopscan";
+                    vault_in_detail_btn_scan1d.setText("扫描/F1");
+                }
+                Scan1DCmd(cmd);
                 break;
             case 132:ConfirmData();
                 break;
@@ -324,15 +346,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         builder.create().show();
     }
 
-    private void Scan1DCmd() {
-        String cmd = "";
-        if (vault_in_detail_btn_scan1d.getText().equals("扫描")){
-            cmd = "toscan100ms";
-            vault_in_detail_btn_scan1d.setText("停止");
-        }else {
-            cmd = "stopscan";
-            vault_in_detail_btn_scan1d.setText("扫描");
-        }
+    private void Scan1DCmd(String cmd) {
         String activity = "ylescort.ylmobileandroid.vault_in_detail";
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
@@ -368,6 +382,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         unregisterReceiver(vaultindetailscan1DRecive);
+        Scan1DCmd("stopscan");
         super.onDestroy();
     }
 }

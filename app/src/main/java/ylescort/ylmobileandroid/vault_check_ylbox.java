@@ -215,29 +215,31 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     }
 
     private void GetBoxToListView(Box box) {
-
-        if (!box.getBoxName().equals("illegalbox")|| !box.getBoxName().equals("无数据")){
-            try {
-                boolean boxcheck = true;
-                int boxcount = boxList.size()-1;
-                for (int i = 0;i <boxList.size();i++){
-                    if (box.getBoxName().equals(boxList.get(boxcount-i).getBoxName())){
-                        boxcheck = false;
-                        ylMediaPlayer.SuccessOrFailMidia("faile",getApplicationContext());
-                        break;
-                    }
-                }
-                if (boxcheck){
-                    boxList.add(box);
-                    vault_check_tv_statistics.setText("总计:"+boxList.size()+"个");
-                    DisplayYLBox(boxList);
-                    ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
-                }
-
-            }catch (Exception e ){
-                e.printStackTrace();
+        try {
+            if (box.getBoxName().equals("illegalbox") || box.getBoxName().equals("无数据")) {
+                ylMediaPlayer.SuccessOrFailMidia("faile", getApplicationContext());
+                return;
             }
+            boolean boxcheck = true;
+            int boxcount = boxList.size() - 1;
+            for (int i = 0; i < boxList.size(); i++) {
+                if (box.getBoxName().equals(boxList.get(boxcount - i).getBoxName())) {
+                    boxcheck = false;
+                    ylMediaPlayer.SuccessOrFailMidia("faile", getApplicationContext());
+                    break;
+                }
+            }
+            if (boxcheck) {
+                boxList.add(box);
+                vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
+                DisplayYLBox(boxList);
+                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
 
     }
 
