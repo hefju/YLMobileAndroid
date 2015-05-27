@@ -17,17 +17,20 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:textSize="20sp"
             android:id="@+id/vault_check_tv_statistics"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/vault_check_ylbox_boxname"/>
+            android:text="@string/vault_check_ylbox_boxname"
+            android:textSize="20sp"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vault_check_ylbox_basename"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"

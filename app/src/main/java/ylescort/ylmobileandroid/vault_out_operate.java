@@ -1,5 +1,7 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.TasksManager;
@@ -83,8 +86,6 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
 
     private void SearchYLTask() {
         try {
-            //String edittext = vault_out_operate_ET_taskname.getText().toString();
-            //if (edittext.length() < 1) return;
             int tens = vault_out_operate_numberpicktens.getValue();
             int units = vault_out_operate_numberpickunits.getValue();
             String Line = "0" + tens + units;
@@ -99,10 +100,20 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
             WebService webService = new WebService();
             List<YLTask> ylTaskList = webService.GetVaultOutTask(user, getApplication());
             Log.e(YLSystem.getKimTag(),ylTaskList.toString());
+            if (ylTaskList.size()==1 && ylTaskList.get(0).getServerReturn().equals("没有出库任务。")){
+                ShowNoTaskDialog();
+                ylTaskList = new ArrayList<>();
+            }
             DisplayYLTaskAdapter(ylTaskList);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void ShowNoTaskDialog() {
+        new AlertDialog.Builder(vault_out_operate.this).setTitle("提示")
+                .setMessage("该日期未查询到该路线任务\r\n请重新选择")
+                .setPositiveButton("确定", null).show();
     }
 
     private void DisplayYLTaskAdapter(List<YLTask> ylTaskList) {

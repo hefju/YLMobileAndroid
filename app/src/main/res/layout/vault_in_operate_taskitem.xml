@@ -14,28 +14,31 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
                 android:textSize="25sp"
                 android:id="@+id/vault_in_operate_taskitme_taskname"
                 android:text="任务名称"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:id="@+id/vault_in_operate_taskitme_handoverman"
-                android:layout_marginStart="20sp"
-                android:text="执行人"/>
+
         </LinearLayout>
-       <LinearLayout
+       <RelativeLayout
            android:layout_width="fill_parent"
            android:layout_height="wrap_content"
-           android:gravity="right">
+           >
            <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="25sp"
+               android:id="@+id/vault_in_operate_taskitme_handoverman"
+               android:layout_marginStart="20sp"
+               android:text="执行人"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="25sp"
+               android:layout_alignParentEnd="true"
                android:id="@+id/vault_in_operate_taskitme_taskstaut"
                android:text="执行状态"/>
-       </LinearLayout>
+       </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>

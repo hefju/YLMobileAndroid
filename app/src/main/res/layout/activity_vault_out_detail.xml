@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_tv_taskname"
             android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:textColor="@color/royalblue"
             android:text="@string/vault_out_detail_tv_taskname"/>
         <Button
             android:layout_width="wrap_content"
@@ -24,28 +26,32 @@
             android:layout_alignParentEnd="true"
             android:text="@string/vault_out_detail_btn_readcard"/>
         </RelativeLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_listtitle"
         android:layout_below="@+id/vault_out_detail_LL_Info">
         <TextView
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_tv_boxstaut"
+            android:textColor="@color/chocolate"
+            android:textSize="20sp"
             android:text="@string/vault_out_detail_tv_boxstaut"/>
         <TextView
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_tv_type"
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible"
             android:text="@string/vault_out_detail_tv_boxstype"/>
-        </LinearLayout>
+        </RelativeLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="300sp"
+        android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_listview"
         android:layout_below="@+id/vault_out_detail_LL_listtitle"
-        >
+        android:layout_above="@+id/vault_out_detail_LL_operate">
         <ListView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -56,8 +62,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_operate"
-        android:layout_below="@+id/vault_out_detail_LL_listview"
-        android:layout_alignParentEnd="true">
+
+        android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

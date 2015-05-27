@@ -327,11 +327,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private void Scan1DCmd() {
         String cmd = "";
         if (vault_in_detail_btn_scan1d.getText().equals("扫描")){
-//            Scan1DCmd("toscan100ms");
             cmd = "toscan100ms";
             vault_in_detail_btn_scan1d.setText("停止");
         }else {
-//            Scan1DCmd("stopscan");
             cmd = "stopscan";
             vault_in_detail_btn_scan1d.setText("扫描");
         }

@@ -92,8 +92,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     private void InitData() {
         vaulteroutboxlist = new ArrayList<>();
         ylMediaPlayer = new YLMediaPlayer();
-        //ylTask = new YLTask();
         ylTask = YLEditData.getYlTask();
+        vault_out_detail_tv_taskname.setText(ylTask.getLine());
     }
 
     private void InitReciveScan1D() {
@@ -164,8 +164,10 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                                 dialog.dismiss();
                                 return;
                             }
-                            vault_out_detail_tv_boxstaut.setText(box.getBoxStatus());
-                            vault_out_detail_tv_type.setText(box.getBoxType());
+                            String boxtype = "状态: "+box.getBoxStatus()+"  类型: "+box.getBoxType();
+                            vault_out_detail_tv_boxstaut.setText(boxtype);
+                            vault_out_detail_tv_boxstaut.setTag(box.getBoxStatus());
+                            vault_out_detail_tv_type.setTag(box.getBoxType());
                             vault_out_detail_btn_scan1d.setEnabled(true);
                             vault_out_detail_btn_enter.setEnabled(true);
                         } else {
@@ -275,8 +277,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 }
 
                 if (boxcheck){
-                    box.setBoxType(vault_out_detail_tv_type.getText().toString());
-                    box.setBoxStatus(vault_out_detail_tv_boxstaut.getText().toString());
+                    box.setBoxType(vault_out_detail_tv_type.getTag().toString());
+                    box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
                     vaulteroutboxlist.add(box);
                     DisPlayBoxlistAdapter(vaulteroutboxlist);
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());

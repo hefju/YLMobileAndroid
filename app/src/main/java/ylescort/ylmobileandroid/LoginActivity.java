@@ -308,7 +308,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.showSoftInput(editText,0);
-        new AlertDialog.Builder(this).setTitle("数量")
+        new AlertDialog.Builder(this).setTitle("请输入升级密码:")
                 .setIcon(android.R.drawable.ic_dialog_info).setView(editText)
                 .setPositiveButton("升级", new DialogInterface.OnClickListener() {
                     @Override
