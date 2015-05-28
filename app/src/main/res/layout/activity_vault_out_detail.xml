@@ -37,6 +37,7 @@
             android:id="@+id/vault_out_detail_tv_boxstaut"
             android:textColor="@color/chocolate"
             android:textSize="20sp"
+            android:visibility="invisible"
             android:text="@string/vault_out_detail_tv_boxstaut"/>
         <TextView
             android:layout_width="wrap_content"

@@ -94,12 +94,12 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void InitHFreader() {
-        try{
-            HFmanager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
-            HFmanager.readerPowerOn();
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"HF初始化失败",Toast.LENGTH_SHORT).show();
-        }
+//        try{
+//            HFmanager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
+//            HFmanager.readerPowerOn();
+//        }catch (Exception e){
+//            Toast.makeText(getApplicationContext(),"HF初始化失败",Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void InitReciveScan1D() {
@@ -160,7 +160,7 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void DisplayATMSite(List<YLATM> ylatmList) {
-        if (ylatmList != null && ylatmList.size() > 1){
+        if (ylatmList != null && ylatmList.size() > 0){
         YLATMSiteAdapter ylatmSiteAdapter = new YLATMSiteAdapter(this,ylatmList,R.layout.activity_atmsiteitem);
         ATMlist_listview.setAdapter(ylatmSiteAdapter);}
     }
@@ -202,13 +202,13 @@ public class YLATMList extends ActionBarActivity {
     }
 
     private void ATMListHFreader(String TaskStartEnd) {
-        byte[] uid ;
-        if (HFmanager.readerPowerOff()){
-            HFmanager.readerPowerOn();
-        }
-        HFmanager.init_14443A();
-        uid = HFmanager.inventory_14443A();
-        if (uid != null){
+//        byte[] uid ;
+//        if (HFmanager.readerPowerOff()){
+//            HFmanager.readerPowerOn();
+//        }
+//        HFmanager.init_14443A();
+//        uid = HFmanager.inventory_14443A();
+//        if (uid != null){
             String taskstarttime;
             String taskendttime;
             if (TaskStartEnd.equals("taskstart")){
@@ -229,8 +229,8 @@ public class YLATMList extends ActionBarActivity {
             }
             ATMlist_tv_starttime.setText(taskstarttime);
             ATMlist_tv_endtime.setText(taskendttime);
-        }
-        HFmanager.readerPowerOff();
+//        }
+//        HFmanager.readerPowerOff();
     }
 
     private void InitLayout() {
@@ -419,7 +419,8 @@ public class YLATMList extends ActionBarActivity {
             public void run() {
                 try {
                     YLTask t1 = ylTask;
-                    t1.lstSite.clear();
+                    List<Site> ylSites = new ArrayList<Site>();
+                    t1.lstSite = ylSites;
                     t1.lstBox=ylTask.lstBox;
                     t1.lstATM = YLEditData.getYlatmList();
                     String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";

@@ -30,6 +30,7 @@ import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 
@@ -210,7 +211,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 if (hombox.getBoxID().equals(box.getBoxID())) {
                     if (hombox.getValutcheck() == null) {
                         hombox.setValutcheck("√");
-                        hombox.setTradeAction("出");
+                        hombox.setTradeAction("入");
+                        hombox.setActionTime(YLSysTime.GetStrCurrentTime());
                         homlistbox.set(i, hombox);
                         Log.e(YLSystem.getKimTag(), hombox.toString());
                         boxcheck = false;
@@ -228,7 +230,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 box.setBoxCount("1");
                 box.setBoxStatus("无");
                 box.setBoxType("无");
-                box.setTradeAction("出");
+                box.setTradeAction("入");
                 box.setBoxTaskType(ylTask.getTaskType());
                 homlistbox.add(box);
             }

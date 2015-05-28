@@ -22,9 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.User;
+import TaskClass.YLTask;
 import YLAdapter.YLVaultcheckboxAdapter;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSystem;
 
@@ -39,7 +42,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
     private Scan1DRecive scan1DRecive;
     private List<Box> boxList;
+
     private YLMediaPlayer ylMediaPlayer;
+
+    private List<Box> Allboxlist;
 
     private YLVaultcheckboxAdapter ylVaultcheckboxAdapter;
 
@@ -47,13 +53,31 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault_check_ylbox);
-        InitView();
-        InitData();
-        InitReciveScan1D();
+        try {
+            InitView();
+            InitData();
+            InitReciveScan1D();
+        }catch (Exception e){
+            vault_check_btn_basedep.setEnabled(false);
+            e.printStackTrace();
+        }
+
     }
 
-    private void InitData() {
+    private void InitData() throws  Exception{
         boxList = new ArrayList<>();
+        WebService webService = new WebService();
+        User user = new User();
+        user = YLSystem.getUser();
+        user.setISWIFI(vault_check_btn_basedep.getText().toString());
+        Allboxlist = webService.GetAllBox(user, getApplicationContext());
+        Log.e(YLSystem.getKimTag(), Allboxlist.size() + "");
+//        if (Allboxlist.size()<2){
+//            new AlertDialog.Builder(vault_check_ylbox.this).setTitle("提示")
+//                    .setMessage("未从服务器获取数据\r\n请检查网络连接良好后再开启")
+//                    .setPositiveButton("确定", null).show();
+//            vault_check_btn_basedep.setEnabled(false);
+//        }
         ylMediaPlayer = new YLMediaPlayer();
     }
 
@@ -116,7 +140,14 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.vault_check_btn_scan:Scan1DCmd();
+            case R.id.vault_check_btn_scan:
+                if (vault_check_btn_scan.getText().equals("扫描")){
+                vault_check_btn_scan.setText("停止");
+                Scan1DCmd("toscan100ms");
+            }else {
+                vault_check_btn_scan.setText("扫描");
+                Scan1DCmd("stopscan");
+            }
                 break;
             case R.id.vault_check_btn_conFirm:ConFirm();
                 break;
@@ -150,7 +181,13 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
-            case 131:Scan1DCmd();
+            case 131: if (vault_check_btn_scan.getText().equals("扫描")){
+                vault_check_btn_scan.setText("停止");
+               Scan1DCmd("toscan100ms");
+            }else {
+                vault_check_btn_scan.setText("扫描");
+                Scan1DCmd("stopscan");
+            }
                 break;
             case 132:ConFirm();
                 break;
@@ -167,7 +204,16 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     WebService webService = new WebService();
-                    webService.PostVaultCheckBox(YLSystem.getUser(), getApplicationContext());
+                    User user = new User();
+                    user = YLSystem.getUser();
+                    user.setISWIFI("1");
+                    YLTask ylTask = new YLTask();
+                    ylTask.setLstBox(boxList);
+                    ylTask.setTaskState(YLEditData.getDatePick().toString());
+                    YLEditData.setYlTask(ylTask);
+                    webService.PostCheckVaultboxlist(YLSystem.getUser(), getApplicationContext());
+                    vault_check_ylbox.this.finish();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -183,17 +229,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     }
 
 
-    private void Scan1DCmd() {
-
-        String cmd ;
-        if (vault_check_btn_scan.getText().equals("扫描")){
-            vault_check_btn_scan.setText("停止");
-            cmd = "toscan100ms";
-        }else {
-            vault_check_btn_scan.setText("扫描");
-            cmd = "stopscan";
-        }
-
+    private void Scan1DCmd( String cmd ) {
         String activity = "ylescort.ylmobileandroid.vault_check_ylbox";
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
@@ -209,9 +245,30 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-                Box box= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+                Box box= CheckBox(recivedata);
                 GetBoxToListView(box);}
         }
+    }
+
+    private Box CheckBox(String recivedata ){
+        boolean getboxtof = false;
+        Box getbox = new Box();
+        if (Allboxlist.size()>1){
+        for (int i = 0; i < Allboxlist.size();i++){
+            Box box = Allboxlist.get(i);
+            if (box.getBoxID().equals(recivedata)){
+               getbox = box;
+                getboxtof = true;
+                break;
+            }
+        }
+        }else {
+            getboxtof = true;
+        }
+        if (getboxtof){
+            getbox= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+        }
+        return getbox;
     }
 
     private void GetBoxToListView(Box box) {
@@ -252,9 +309,6 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         }else {
             ylVaultcheckboxAdapter.notifyDataSetChanged();
         }
-
-
-
         scrollMyListViewToBottom();
     }
 
@@ -271,7 +325,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(scan1DRecive);
+        if (scan1DRecive != null) {
+            Scan1DCmd("stopscan");
+            unregisterReceiver(scan1DRecive);
+        }
         super.onDestroy();
     }
 }

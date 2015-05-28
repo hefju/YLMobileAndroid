@@ -940,5 +940,97 @@ public class WebService {
             return null;
         }
     }
+
+    /**
+     * 上传盘库记录。init=1就初始化所有在库箱为出库
+     * @param user 库管员
+     * @param context
+     *<param name="STask">任务类包含box类</param>
+     *<param name="empid">库管员ID 3361</param>
+     *<param name="deviceID">手持机号 NHJ01</param>
+     * <param name="init">=1就初始化所有在库箱为出库</param>
+     * @return string
+     * @throws Exception
+     */
+
+    public String PostCheckVaultboxlist(User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBoxRecord";
+        PostCheckVaultboxlistAsycnTask postCheckVaultboxlistAsycnTask =
+                new PostCheckVaultboxlistAsycnTask();
+        postCheckVaultboxlistAsycnTask.execute(url, user.getEmpID(), user.getDeviceID(), user.getISWIFI());
+        return postCheckVaultboxlistAsycnTask.get();
+    }
+
+    private class PostCheckVaultboxlistAsycnTask extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("STask",gson.toJson(YLEditData.getYlTask()));
+                p.put("empid",params[1]);
+                p.put("deviceID",params[2]);
+                p.put("init",params[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+    /**
+     * 获取金库所有款箱类
+     * <param name="BaseName">基地名称：南海基地</param>
+     * <param name="deviceID">手持机号：</param>
+     * <param name="empid">金库库管员ID：3361</param>
+     * @param user user
+     * @param context context
+     * @return list<Box>listbox</Box>
+     * @throws Exception
+     */
+    public List<Box> GetAllBox(User user,Context context) throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetNowInBoxlList";
+        GetAllBoxAsycnTask getAllBoxAsycnTask = new GetAllBoxAsycnTask();
+        getAllBoxAsycnTask.execute(url,user.getISWIFI(),user.getDeviceID(),user.getEmpID());
+        return getAllBoxAsycnTask.get();
+    }
+
+    private class GetAllBoxAsycnTask extends AsyncTask<String,Integer,List<Box>>{
+        @Override
+        protected List<Box> doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("BaseName",params[1]);
+                p.put("deviceID",params[2]);
+                p.put("empid",params[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }
 

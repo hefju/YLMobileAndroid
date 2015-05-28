@@ -53,12 +53,12 @@ public class YLATMDetail extends ActionBarActivity {
     }
 
     private void InitHFreader() {
-        try{
-            HFmanager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
-            HFmanager.readerPowerOn();
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
-        }
+//        try{
+//            HFmanager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
+//            HFmanager.readerPowerOn();
+//        }catch (Exception e){
+//            Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     private void GetInterString() {
@@ -169,19 +169,19 @@ public class YLATMDetail extends ActionBarActivity {
     }
 
     private void GetTimeByHF(String startorend) {
-        byte[] uid ;
-        if (HFmanager.readerPowerOff()){
-            HFmanager.readerPowerOn();}
-        HFmanager.init_14443A();
-        uid = HFmanager.inventory_14443A();
-        if (uid != null){
+//        byte[] uid ;
+//        if (HFmanager.readerPowerOff()){
+//            HFmanager.readerPowerOn();}
+//        HFmanager.init_14443A();
+//        uid = HFmanager.inventory_14443A();
+//        if (uid != null){
             if (startorend.equals("start")){
                 ylatmdetail_tv_start.setText(GetCurrDateTime("date"));
             }else {
                 ylatmdetail_tv_end.setText(GetCurrDateTime("date"));
             }
-        }
-        HFmanager.readerPowerOff();
+//        }
+//        HFmanager.readerPowerOff();
     }
 
     private String GetCurrDateTime(String dort){

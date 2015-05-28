@@ -260,7 +260,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 //            }
             Intent intent = new Intent();
             String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
-            if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")){
+            if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")
+                    ||userfromweb.getName().equals("吴艳")){
                 intent.setClass(LoginActivity.this, VaultInOrOut.class);
             }else {
                 intent.setClass(LoginActivity.this, Task.class);
@@ -288,7 +289,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             user.setTaskDate("");
             YLSystem.setUser(user);
             Intent intent = new Intent();
-            if (baseEmp.EmpWorkState.equals("金库主管")||baseEmp.EmpWorkState.equals("库管员")){
+            if (baseEmp.EmpWorkState.equals("金库主管")
+                    ||baseEmp.EmpWorkState.equals("库管员")
+                    ||baseEmp.EmpName.equals("吴艳")){
                 intent.setClass(LoginActivity.this, VaultInOrOut.class);
             }else {
             intent.setClass(LoginActivity.this, Task.class);}

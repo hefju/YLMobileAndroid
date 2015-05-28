@@ -67,7 +67,17 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         User user = new User();
         user.setEmpID("3361");
         user.setDeviceID("123");
-        String get = webService.PostVaultInBoxList(user,getContext());
+        String get = webService.PostVaultInBoxList(user, getContext());
         Log.e(TAG,get+"");
+    }
+
+    public void testAllBox()throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        user.setISWIFI("南海基地");
+        user.setDeviceID("1");
+        user.setEmpID("3361");
+        List<Box> list = webService.GetAllBox(user,getContext());
+        Log.e(TAG,list.size()+"");
     }
 }

@@ -25,9 +25,11 @@ import java.util.List;
 import TaskClass.Box;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 
@@ -47,6 +49,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private List<Box> vaulteroutboxlist ;
     private YLMediaPlayer ylMediaPlayer;
+    private List<Box> AllboxList;
+
 
     private YLTask ylTask;
 
@@ -55,9 +59,15 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault_out_detail);
-        InitView();
-        InitData();
-        InitReciveScan1D();
+        try{
+            InitView();
+            InitData();
+            InitReciveScan1D();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     private void InitView() {
@@ -89,11 +99,15 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         });
     }
 
-    private void InitData() {
+    private void InitData()throws  Exception {
         vaulteroutboxlist = new ArrayList<>();
         ylMediaPlayer = new YLMediaPlayer();
         ylTask = YLEditData.getYlTask();
         vault_out_detail_tv_taskname.setText(ylTask.getLine());
+
+        WebService webService = new WebService();
+        AllboxList = webService.GetAllBox(YLSystem.getUser(),getApplicationContext());
+
     }
 
     private void InitReciveScan1D() {
@@ -164,10 +178,10 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                                 dialog.dismiss();
                                 return;
                             }
-                            String boxtype = "状态: "+box.getBoxStatus()+"  类型: "+box.getBoxType();
-                            vault_out_detail_tv_boxstaut.setText(boxtype);
-                            vault_out_detail_tv_boxstaut.setTag(box.getBoxStatus());
-                            vault_out_detail_tv_type.setTag(box.getBoxType());
+//                            String boxtype = "状态: "+box.getBoxStatus()+"  类型: "+box.getBoxType();
+//                            vault_out_detail_tv_boxstaut.setText(boxtype);
+//                            vault_out_detail_tv_boxstaut.setTag(box.getBoxStatus());
+//                            vault_out_detail_tv_type.setTag(box.getBoxType());
                             vault_out_detail_btn_scan1d.setEnabled(true);
                             vault_out_detail_btn_enter.setEnabled(true);
                         } else {
@@ -256,11 +270,30 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
+//                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
+                Box box =CheckBox(recivedata);
                 AddYLBoxtoListView(box);
             }
         }
     }
+
+    private Box CheckBox(String recivedata ){
+        boolean getboxtof = false;
+        Box getbox = new Box();
+        for (int i = 0; i < AllboxList.size();i++){
+            Box box = AllboxList.get(i);
+            if (box.getBoxID().equals(recivedata)){
+                getbox = box;
+                getboxtof = true;
+                break;
+            }
+        }
+        if (getboxtof){
+            getbox= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+        }
+        return getbox;
+    }
+
 
     private void AddYLBoxtoListView(Box box) {
         try {
@@ -280,8 +313,10 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 }
             }
             if (boxcheck) {
-                box.setBoxType(vault_out_detail_tv_type.getTag().toString());
-                box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
+//                box.setBoxType(vault_out_detail_tv_type.getTag().toString());
+//                box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
+                box.setActionTime(YLSysTime.GetStrCurrentTime());
+                box.setTradeAction("出");
                 vaulteroutboxlist.add(box);
                 DisPlayBoxlistAdapter(vaulteroutboxlist);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
