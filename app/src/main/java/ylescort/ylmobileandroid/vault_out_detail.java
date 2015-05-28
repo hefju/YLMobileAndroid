@@ -107,6 +107,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
         WebService webService = new WebService();
         AllboxList = webService.GetAllBox(YLSystem.getUser(),getApplicationContext());
+        Log.e(YLSystem.getKimTag(),AllboxList.size()+"");
 
     }
 

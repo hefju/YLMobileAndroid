@@ -77,6 +77,7 @@ public class vault_in_operate extends ActionBarActivity {
                 ListView listView = (ListView)parent;
                 YLTask ylTask = (YLTask) listView.getItemAtPosition(position);
                 YLEditData.setYlTask(ylTask);
+                Log.e(YLSystem.getKimTag(),ylTask.toString());
                 Intent intent = new Intent();
                 intent.setClass(vault_in_operate.this,vault_in_detail.class);
                 startActivity(intent);

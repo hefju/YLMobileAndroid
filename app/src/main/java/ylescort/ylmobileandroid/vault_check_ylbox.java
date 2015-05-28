@@ -66,12 +66,13 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
     private void InitData() throws  Exception{
         boxList = new ArrayList<>();
-        WebService webService = new WebService();
-        User user = new User();
-        user = YLSystem.getUser();
-        user.setISWIFI(vault_check_btn_basedep.getText().toString());
-        Allboxlist = webService.GetAllBox(user, getApplicationContext());
-        Log.e(YLSystem.getKimTag(), Allboxlist.size() + "");
+        Allboxlist = new ArrayList<>();
+//        WebService webService = new WebService();
+//        User user = new User();
+//        user = YLSystem.getUser();
+//        user.setISWIFI(vault_check_btn_basedep.getText().toString());
+//        Allboxlist = webService.GetAllBox(user, getApplicationContext());
+//        Log.e(YLSystem.getKimTag(), Allboxlist.size() + "");
 //        if (Allboxlist.size()<2){
 //            new AlertDialog.Builder(vault_check_ylbox.this).setTitle("提示")
 //                    .setMessage("未从服务器获取数据\r\n请检查网络连接良好后再开启")
@@ -206,10 +207,12 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                     WebService webService = new WebService();
                     User user = new User();
                     user = YLSystem.getUser();
-                    user.setISWIFI("1");
+                    user.setISWIFI("0");
                     YLTask ylTask = new YLTask();
+                    ylTask.setTaskATMBeginTime(vault_check_btn_basedep.getText().toString());//盘库基地
+                    ylTask.setTaskATMEndTime(boxList.size()+"");//盘库数量
                     ylTask.setLstBox(boxList);
-                    ylTask.setTaskState(YLEditData.getDatePick().toString());
+                    //ylTask.setTaskState(YLEditData.getDatePick().toString());
                     YLEditData.setYlTask(ylTask);
                     webService.PostCheckVaultboxlist(YLSystem.getUser(), getApplicationContext());
                     vault_check_ylbox.this.finish();

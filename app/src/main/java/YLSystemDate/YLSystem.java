@@ -33,8 +33,16 @@ public class YLSystem {
     private static String NetWorkState;//网络状态
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
+    private static int HFport;
+    private static int UHFport;
 
+    public static int getHFport() {
+        return 12;
+    }
 
+    public static int getUHFport() {
+        return 13;
+    }
 
     public static String getKimTag() {
         return "kim";
