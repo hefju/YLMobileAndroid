@@ -12,7 +12,7 @@ public class User {
     public String ISWIFI;//是否在用wifi--登陆的时候填的
     public String Time;//时间---服务器返回的值
     public String ServerReturn;//是否访问成功，成功返回1---服务器返回的值
-    public String TaskDate;//获取当前日期的任务用到的日期---任务界面的时候填的
+    public String TaskDate;//获取当前日期的任务用到的日期---任务界面的时候填的 //所属基地
     public String EmpHFNo;//HF卡号
 
     public String getEmpHFNo() {

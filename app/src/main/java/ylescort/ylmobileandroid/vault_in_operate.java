@@ -54,7 +54,7 @@ public class vault_in_operate extends ActionBarActivity {
 
     private void InitHFreader() {
         try{
-            manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
+            manager = NFCcmdManager.getNFCcmdManager(YLSystem.getHFport(), 115200, 0);
             manager.readerPowerOn();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();

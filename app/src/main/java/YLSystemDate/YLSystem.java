@@ -33,8 +33,15 @@ public class YLSystem {
     private static String NetWorkState;//网络状态
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
+
+    /**
+     * UHF+HF+1D==> UHF:13 HF:12
+     * HF+1D ==> HF:13
+     */
     private static int HFport;
     private static int UHFport;
+    private static int baudRate;
+    private static int Flags;
 
     public static int getHFport() {
         return 12;
@@ -42,6 +49,14 @@ public class YLSystem {
 
     public static int getUHFport() {
         return 13;
+    }
+
+    public static int getBaudRate() {
+        return 115200;
+    }
+
+    public static int getFlags() {
+        return 0;
     }
 
     public static String getKimTag() {

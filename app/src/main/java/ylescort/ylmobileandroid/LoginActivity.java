@@ -102,7 +102,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void InitHFreader() {
         try{
-            manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
+            manager = NFCcmdManager.getNFCcmdManager(YLSystem.getHFport(), 115200, 0);
             manager.readerPowerOn();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
@@ -233,7 +233,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
                 WebService webService = new WebService();
                 User userfromweb = webService.LogicByHF(user,url);
-                GetEmpByServer(userfromweb);
+                if (userfromweb.getName().equals("illuser")){
+                    buttonflag= false;
+                    Log_BN_HF.setEnabled(true);
+                }else {
+                    GetEmpByServer(userfromweb);
+                }
+
             }else {
                 String userNo = Tools.Bytes2HexString(uid, uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());

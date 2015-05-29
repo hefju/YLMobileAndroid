@@ -660,7 +660,7 @@ public class WebService {
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
-                p.put("user",gson.toJson(user));
+                p.put("user", gson.toJson(user));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -673,12 +673,17 @@ public class WebService {
             HttpClient client = new DefaultHttpClient();
             try {
                 HttpResponse response = client.execute(post);
+                Log.e(YLSystem.getKimTag(), response.getStatusLine().getStatusCode()+"");
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
                     User getjsonuser = new User();
                     getjsonuser =  gson.fromJson(content, new TypeToken<User>() {
                     }.getType());
                     return getjsonuser;
+                }else {
+                    User returnuser = new User();
+                    returnuser.setName("illuser");
+                    return returnuser;
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -1002,7 +1007,7 @@ public class WebService {
     public List<Box> GetAllBox(User user,Context context) throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreGetNowInBoxlList";
         GetAllBoxAsycnTask getAllBoxAsycnTask = new GetAllBoxAsycnTask();
-        getAllBoxAsycnTask.execute(url,user.getISWIFI(),user.getDeviceID(),user.getEmpID());
+        getAllBoxAsycnTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
         return getAllBoxAsycnTask.get();
     }
 
@@ -1023,7 +1028,7 @@ public class WebService {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
+                    return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
