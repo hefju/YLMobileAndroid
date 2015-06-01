@@ -7,7 +7,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.BaseClient_HF;
+import TaskClass.BaseEmp;
 import TaskClass.Box;
+import YLDataService.BaseEmpDBSer;
 import YLDataService.YLBoxScanCheck;
 
 /**
@@ -49,5 +52,35 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     public void testColorInt()throws Exception{
         int color = R.color.orange;
         Log.e(TAG,color+"");
+    }
+
+    public void testListBoxSet() throws Exception{
+
+        List<Box> fristList = new ArrayList<>();
+        List<Box> SecondList = new ArrayList<>();
+
+        for (int i = 0 ; i <5;i++){
+            Box box = new Box();
+            box.setBoxID(i+1+"");
+            fristList.add(box);
+        }
+        for (int i = 0 ;i <fristList.size();i++){
+            Box box = fristList.get(i);
+            SecondList.add(box);
+        }
+
+//        SecondList = fristList;
+        Box box = new Box();
+        box.setBoxID("6");
+        fristList.set(0,box);
+
+        Log.e(TAG,fristList.toString()+"fristList");
+        Log.e(TAG,SecondList.toString()+"SecondList");
+    }
+
+    public void testGetEmpHFNO() throws Exception{
+        BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
+        List<BaseEmp> baseEmps = baseEmpDBSer.GetBaseEmps("where EmpNo = '2000' ");
+        Log.e(TAG,baseEmps.toString());
     }
 }

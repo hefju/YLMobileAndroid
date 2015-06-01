@@ -233,7 +233,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
                 WebService webService = new WebService();
                 User userfromweb = webService.LogicByHF(user,url);
-                if (userfromweb.getName().equals("illuser")){
+                if (userfromweb.getServerReturn().equals("没有此人或密码错误。")){
+                    YLMediaPlay("faile");
                     buttonflag= false;
                     Log_BN_HF.setEnabled(true);
                 }else {

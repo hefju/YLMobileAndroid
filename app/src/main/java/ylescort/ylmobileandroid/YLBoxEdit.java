@@ -50,6 +50,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private List<Box> boxSiteListAll;//所有网点款箱数据
     private List<Box> boxEditListEdit;//在编辑的数据
     private List<Box> boxEditListAll;//网点所有款箱数据
+    private List<Box> boxNoSave;
 
     public YLEditData ylEditData;
 
@@ -364,11 +365,8 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (editflag){
-            ylEditData.setYlboxnosave(boxEditListEdit);
-            Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "onclick");
-        }
 
+        Log.e(YLSystem.getKimTag(),boxNoSave.toString());
         switch (v.getId()){
             case R.id.boxedi_rbtn_moneyboxs:
                 boxedi_rbtn_cardbox.setChecked(false);
@@ -405,8 +403,10 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             case R.id.boxedi_btn_ent:SaveBoxlistData();
                 break;
             case R.id.boxedi_btn_black:
-                YLSystem.setEdiboxList(ylEditData.getYlboxnosave());
-                Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "nosave");
+                /**返回
+                 *
+                 */
+                YLSystem.setEdiboxList(boxNoSave);
                 YLBoxEdit.this.finish();
                 break;
             case R.id.boxedi_btn_del:
@@ -427,6 +427,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         boxEditListAll = new ArrayList<>();
         boxEditListEdit = new ArrayList<>();
         boxSiteListAll = new ArrayList<>();
+        boxNoSave = new ArrayList<>();
 
         Bundle bundle = this.getIntent().getExtras();
         currSiteID = bundle.getString("siteid");
@@ -444,9 +445,13 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         }else{
             boxEditListAll = YLSystem.getEdiboxList();
         }
-
-        ylEditData.setYlboxnosave(boxEditListAll);
-        Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "初始化");
+        /**初始化
+         *
+         *
+         */
+        for (int i = 0 ; i <boxEditListAll.size();i++){
+            boxNoSave.add(boxEditListAll.get(i));
+        }
 
         LoadBoxData(boxEditListAll);
         ///增加
@@ -499,7 +504,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             }
         });
         builder.create().show();
-        Log.e(YLSystem.getKimTag(), ylEditData.getYlboxnosave().toString() + "保存");
     }
 
 

@@ -16,15 +16,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.YLTask;
-import YLAdapter.YLBoxEdiAdapter;
 import YLAdapter.YLValutboxitemAdapter;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
@@ -43,11 +42,18 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private Button vault_in_detail_btn_scan1d;
     private Button vault_in_detail_btn_enter;
 
+    private RadioButton vault_in_detail_rbtn_allbox;
+    private RadioButton vault_in_detail_rbtn_lackbox;
+    private RadioButton vault_in_detail_rbtn_morebox;
+
     private YLTask ylTask;
     private Scan1DRecive vaultindetailscan1DRecive;
     private YLMediaPlayer ylMediaPlayer;
 
-    private List<Box> homlistbox;
+    private List<Box> Displayboxlist;
+
+    private List<Box> Allboxlist;
+    private List<Box> Baseboxlist;
 
     private YLValutboxitemAdapter ylValutboxitemAdapter;
 
@@ -65,15 +71,19 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void InitDate()throws Exception{
+
+        Baseboxlist = new ArrayList<Box>();
+        Displayboxlist = new ArrayList<Box>();
+        ylMediaPlayer = new YLMediaPlayer();
+
         ylTask = YLEditData.getYlTask();
         String title ="任务:"+ ylTask.getLine()+"\r\n执行人:"+ ylTask.getTaskManager();
         vault_in_detail_tv_taskname.setText(title);
-        ylMediaPlayer = new YLMediaPlayer();
         WebService webService = new WebService();
-        homlistbox = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
+        Allboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
-        DisPlayBoxlistAdapter(homlistbox);
-        StatisticalBoxList(homlistbox);
+        DisPlayBoxlistAdapter(Allboxlist);
+        StatisticalBoxList(Allboxlist);
     }
 
     private void InitView(){
@@ -84,14 +94,18 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_btn_scan1d = (Button) findViewById(R.id.vault_in_detail_btn_scan1d);
         vault_in_detail_btn_enter = (Button) findViewById(R.id.vault_in_detail_btn_enter);
 
+        vault_in_detail_rbtn_allbox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_allbox);
+        vault_in_detail_rbtn_lackbox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_lackbox);
+        vault_in_detail_rbtn_morebox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_morebox);
+
         vault_in_detail_btn_scan1d.setOnClickListener(this);
         vault_in_detail_btn_enter.setOnClickListener(this);
 
         vault_in_detail_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (homlistbox.size() < 1) return;
-                Box box = homlistbox.get(position);
+                if (Allboxlist.size() < 1) return;
+                Box box = Allboxlist.get(position);
                 if (box.getValutcheck() == null) return;
                 if (box.getValutcheck().equals("多")) {
                     ShowMultChoice(position);
@@ -107,7 +121,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Box box = homlistbox.get(position);
+                        Box box = Allboxlist.get(position);
                         switch (which) {
                             case 0:
                                 box.setBoxStatus("实");
@@ -142,15 +156,15 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                 box.setBoxType("凭证袋");
                                 break;
                             case 8:
-                                homlistbox.remove(position);
+                                Allboxlist.remove(position);
                                 break;
                         }
-                        if (homlistbox.size() == position + 1) {
-                            homlistbox.set(position, box);
-                            DisPlayBoxlistAdapter(homlistbox);
+                        if (Allboxlist.size() == position + 1) {
+                            Allboxlist.set(position, box);
+                            DisPlayBoxlistAdapter(Allboxlist);
                             vault_in_detail_listview.setSelection(position+1);
                         } else {
-                            DisPlayBoxlistAdapter(homlistbox);
+                            DisPlayBoxlistAdapter(Allboxlist);
                             vault_in_detail_listview.setSelection(position);
                         }
                         dialog.dismiss();
@@ -186,6 +200,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         }
     }
 
+
+
+
     private class Scan1DRecive extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -203,23 +220,23 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 return;
             }
 
-            if (homlistbox.size() < 1) return;
+            if (Allboxlist.size() < 1) return;
             boolean boxcheck = true;
             int position = 0;
-            for (int i = 0; i < homlistbox.size(); i++) {
-                Box hombox = homlistbox.get(i);
+            for (int i = 0; i < Allboxlist.size(); i++) {
+                Box hombox = Allboxlist.get(i);
                 if (hombox.getBoxID().equals(box.getBoxID())) {
                     if (hombox.getValutcheck() == null) {
-                        hombox.setValutcheck("√");
+                        hombox.setValutcheck("对");
                         hombox.setTradeAction("入");
                         hombox.setActionTime(YLSysTime.GetStrCurrentTime());
-                        homlistbox.set(i, hombox);
-                        Log.e(YLSystem.getKimTag(), hombox.toString());
+                        Allboxlist.set(i, hombox);
+                        Log.e(YLSystem.getKimTag(), hombox.toString()+"输入");
                         boxcheck = false;
                         position = i;
                         break;
                     } else if (hombox.getValutcheck().equals("多")
-                            || hombox.getValutcheck().equals("√")) {
+                            || hombox.getValutcheck().equals("对")) {
                         ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                         return;
                     }
@@ -231,17 +248,19 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 box.setBoxStatus("无");
                 box.setBoxType("无");
                 box.setTradeAction("入");
+                box.setActionTime(YLSysTime.GetStrCurrentTime());
                 box.setBoxTaskType(ylTask.getTaskType());
-                homlistbox.add(box);
+                Allboxlist.add(box);
             }
 
-            ylValutboxitemAdapter.notifyDataSetInvalidated();
+//            ylValutboxitemAdapter.notifyDataSetInvalidated();
+            DisPlayBoxlistAdapter(Allboxlist);
             if (position == 0) {
-                position = homlistbox.size();
+                position = Allboxlist.size();
             }
             vault_in_detail_listview.setSelection(position);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-            StatisticalBoxList(homlistbox);
+            StatisticalBoxList(Allboxlist);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -254,7 +273,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         for (Box box :boxList){
             if (box.getValutcheck() == null){
                 homstr +=1;
-            }else if (box.getValutcheck().equals("√")){
+            }else if (box.getValutcheck().equals("对")){
                 vaulter +=1;
                 correct +=1;
                 homstr +=1;
@@ -272,8 +291,36 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private void DisPlayBoxlistAdapter(List<Box> boxList){
         if (boxList != null && boxList.size()>0){
-            ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext(),boxList,R.layout.vault_in_detail_boxitem);
+//            FilterBoxdisplay();
+//            boxList = Displayboxlist;
+            ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext()
+                    ,boxList,R.layout.vault_in_detail_boxitem);
             vault_in_detail_listview.setAdapter(ylValutboxitemAdapter);
+        }
+    }
+
+    private void FilterBoxdisplay(){
+        if (Displayboxlist.size() >1){
+            Displayboxlist.clear();
+        }
+        if (vault_in_detail_rbtn_allbox.isChecked()){
+            Displayboxlist = Allboxlist;
+        }
+        if (vault_in_detail_rbtn_lackbox.isChecked()){
+            for (int i = 0 ; i< Allboxlist.size();i++){
+                Box box = Allboxlist.get(i);
+                if (box.getValutcheck() == null){
+                    Displayboxlist.add(box);
+                }
+            }
+        }
+        if (vault_in_detail_rbtn_morebox.isChecked()){
+            for (int i = 0 ; i < Allboxlist.size();i++){
+                Box box = Allboxlist.get(i);
+                if (box.getValutcheck().equals("多")){
+                    Displayboxlist.add(box);
+                }
+            }
         }
     }
 
@@ -304,9 +351,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (homlistbox.size() < 1) return;
+                if (Allboxlist.size() < 1) return;
                 boolean boxcheck = false;
-                for (Box box : homlistbox) {
+                for (Box box : Allboxlist) {
                     if (box.getValutcheck() != null) {
                         if (box.getBoxType().equals("无")) {
                             boxcheck = true;
@@ -320,9 +367,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                             .setPositiveButton("确定", null).show();
                 } else {
                     try {
-                        ylTask.setLstBox(homlistbox);
+                        ylTask.setLstBox(Allboxlist);
                         YLEditData.setYlTask(ylTask);
-                        Log.e(YLSystem.getKimTag(), homlistbox.toString());
+                        Log.e(YLSystem.getKimTag(), Allboxlist.toString());
                         WebService webService = new WebService();
                         String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
                         if (returstr.contains("0")){
@@ -334,6 +381,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         e.printStackTrace();
                     }
                     ylTask.setTaskState("已上传");
+                    Scan1DCmd("stopscan");
                     vault_in_detail.this.finish();
                     dialog.dismiss();
                 }
@@ -383,7 +431,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(vaultindetailscan1DRecive);
+        if (vaultindetailscan1DRecive != null){
+            unregisterReceiver(vaultindetailscan1DRecive);
+        }
         Scan1DCmd("stopscan");
         super.onDestroy();
     }

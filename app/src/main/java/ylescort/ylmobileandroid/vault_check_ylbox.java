@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     private Button vault_check_btn_conFirm;
     private Button vault_check_btn_basedep;
     private TextView vault_check_tv_statistics;
+    private RelativeLayout vault_check_rl_title;
 
     private Scan1DRecive scan1DRecive;
     private List<Box> boxList;
@@ -89,6 +91,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         vault_check_btn_conFirm = (Button)findViewById(R.id.vault_check_btn_conFirm);
         vault_check_btn_basedep = (Button)findViewById(R.id.vault_check_btn_basedep);
         vault_check_tv_statistics = (TextView)findViewById(R.id.vault_check_tv_statistics);
+        vault_check_rl_title = (RelativeLayout)findViewById(R.id.vault_check_rl_title);
 
         vault_check_btn_scan.setOnClickListener(this);
         vault_check_btn_conFirm.setOnClickListener(this);
@@ -285,6 +288,8 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             for (int i = 0; i < boxList.size(); i++) {
                 if (box.getBoxName().equals(boxList.get(boxcount - i).getBoxName())) {
                     boxcheck = false;
+                    int b =  getResources().getColor(R.color.orange);//得到配置文件里的颜色
+                    vault_check_rl_title.setBackgroundColor(b);
                     ylMediaPlayer.SuccessOrFailMidia("faile", getApplicationContext());
                     break;
                 }
@@ -293,6 +298,8 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 boxList.add(box);
                 vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
                 DisplayYLBox(boxList);
+                int b =  getResources().getColor(R.color.mediumseagreen);//得到配置文件里的颜色
+                vault_check_rl_title.setBackgroundColor(b);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
             }
 

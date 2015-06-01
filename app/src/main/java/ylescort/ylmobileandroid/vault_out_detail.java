@@ -205,6 +205,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
         ylTask.setLstBox(vaulteroutboxlist);
         YLEditData.setYlTask(ylTask);
+        Log.e(YLSystem.getKimTag(),ylTask.toString());
         WebService webService = new WebService();
         webService.PostVaultInBoxList(YLSystem.getUser(),getApplicationContext());
         ylTask.setTaskState("已上传");
@@ -265,7 +266,12 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         switch (keyCode){
             case 131:YLBoxScan1D();
                 break;
-            case 132:YLBoxScan1D();
+            case 132:
+                try {
+                    YLBoxEnter();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 break;
             case 133:YLBoxScan1D();
                 break;
@@ -283,9 +289,6 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 //                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
                 recivedata = YLBoxScanCheck.replaceBlank(recivedata);
                 Box box =CheckBox(recivedata);
-
-                Log.e(YLSystem.getKimTag(),box.toString()+"返回box");
-
                 AddYLBoxtoListView(box);
             }
         }

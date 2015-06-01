@@ -81,7 +81,7 @@ public class YLValutboxitemAdapter extends BaseAdapter {
 
         if (box.getValutcheck()!= null){
             switch (box.getValutcheck()){
-                case "√":convertView.setBackgroundColor(-5383962);
+                case "对":convertView.setBackgroundColor(-5383962);
                     break;
                 case "多":convertView.setBackgroundColor(-13210);
                     break;

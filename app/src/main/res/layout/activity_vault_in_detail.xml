@@ -66,7 +66,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_LL_tolly"
-        android:layout_above="@+id/vault_in_detail_LL_button"
+        android:layout_above="@+id/vault_in_detail_LL_boxstype"
         android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
@@ -82,6 +82,40 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/vault_in_detail_LL_boxstype"
+        android:layout_above="@+id/vault_in_detail_LL_button"
+        android:gravity="center"
+        android:visibility="invisible">
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_rbtn_allbox"
+            android:textSize="20sp"
+            android:checked="true"
+            android:text="@string/vault_out_detail_btn_Allbox"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_rbtn_lackbox"
+            android:textSize="20sp"
+            android:layout_marginStart="30sp"
+            android:text="@string/vault_out_detail_btn_Lack"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_rbtn_morebox"
+            android:textSize="20sp"
+            android:layout_marginStart="30sp"
+            android:text="@string/vault_out_detail_btn_more"/>
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/vault_in_detail_LL_button"
         android:layout_alignParentBottom="true">
@@ -93,8 +127,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="30sp"
             android:id="@+id/vault_in_detail_btn_enter"
+            android:layout_marginStart="40sp"
             android:text="@string/vault_out_detail_btn_enter"/>
         </LinearLayout>
 </RelativeLayout>

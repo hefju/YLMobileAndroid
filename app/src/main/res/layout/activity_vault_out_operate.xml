@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_operate_ET_taskname"
             android:labelFor="@+id/vault_out_operate_ET_taskname"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:visibility="invisible"/>
         <NumberPicker
         android:layout_width="wrap_content"
         android:layout_height="90sp"
@@ -50,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="50sp"
             android:id="@+id/vault_out_operate_btn_readcard"
-            android:text="@string/vault_out_operate_btn_readcard"/>
+            android:text="@string/vault_out_operate_btn_readcard" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"

@@ -118,13 +118,9 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
 
     private void DisplayYLTaskAdapter(List<YLTask> ylTaskList) {
         if (ylTaskList == null || ylTaskList.size()<1)return;
-        if (ylTaskList.size()== 1){
             ylValuttaskitemAdapter =
                     new YLValuttaskitemAdapter(this,ylTaskList,R.layout.vault_in_operate_taskitem);
             vault_out_operate_lv_tasklist.setAdapter(ylValuttaskitemAdapter);
-        }else {
-            ylValuttaskitemAdapter.notifyDataSetChanged();
-        }
 
     }
 

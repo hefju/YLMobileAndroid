@@ -77,7 +77,20 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         user.setISWIFI("南海基地");
         user.setDeviceID("1");
         user.setEmpID("3361");
-        List<Box> list = webService.GetAllBox(user,getContext());
+        List<Box> list = webService.GetAllBox(user, getContext());
         Log.e(TAG,list.size()+"");
     }
+
+    public void testGetTaskList() throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        user.setTaskDate("2015-05-29");
+        user.setEmpID("3727");
+        user.setDeviceID("123");
+        user.setName("001");
+        List<YLTask> ylTaskList = webService.GetVaultOutTask(user,getContext());
+        Log.e(TAG,ylTaskList.toString());
+    }
+
+
 }

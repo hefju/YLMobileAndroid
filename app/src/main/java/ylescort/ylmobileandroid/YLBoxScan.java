@@ -119,7 +119,7 @@ public class YLBoxScan extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_box);
-        YLBoxScan.this.setTitle("款箱操作: "+YLSystem.getUser().getName());
+        YLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
 
@@ -527,8 +527,8 @@ public class YLBoxScan extends ActionBarActivity {
 
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
-        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(et,0);
+//        InputMethodManager inputManager = (InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputManager.showSoftInput(et, 0);
 
         new AlertDialog.Builder(this).setTitle("数量:")
                 .setIcon(android.R.drawable.ic_dialog_info)

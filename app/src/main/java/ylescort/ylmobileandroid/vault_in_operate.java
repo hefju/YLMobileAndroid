@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,8 +9,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,7 +35,10 @@ import YLSystemDate.YLSystem;
 
 public class vault_in_operate extends ActionBarActivity {
 
-    Button vault_in_operate_btn_readcard;
+    private Button vault_in_operate_btn_readcard;
+    private EditText vault_in_operate_et_empno;
+    private Button vault_in_operate_btn_search;
+
     ListView vault_in_operate_lv;
     private NFCcmdManager manager ;
     private YLMediaPlayer player;
@@ -42,14 +48,18 @@ public class vault_in_operate extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vault_in_operate);
-        vault_in_operate.this.setTitle("入库操作员: "+YLSystem.getUser().getName());
+        vault_in_operate.this.setTitle("入库操作员: " + YLSystem.getUser().getName());
         InitHFreader();
         InitData();
         InitView();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void InitData() {
         player = new YLMediaPlayer();
+
+
     }
 
     private void InitHFreader() {
@@ -62,8 +72,13 @@ public class vault_in_operate extends ActionBarActivity {
     }
 
     private void InitView() {
+
+        vault_in_operate_et_empno = (EditText)findViewById(R.id.vault_in_operate_et_empno);
         vault_in_operate_btn_readcard = (Button)findViewById(R.id.vault_in_operate_btn_readcard);
+        vault_in_operate_btn_search = (Button)findViewById(R.id.vault_in_operate_btn_search);
+
         vault_in_operate_lv = (ListView)findViewById(R.id.vault_in_operate_lv);
+
         vault_in_operate_btn_readcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +86,22 @@ public class vault_in_operate extends ActionBarActivity {
                 catch (Exception e) { e.printStackTrace(); }
             }
         });
+
+        vault_in_operate_btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try{
+                String et = vault_in_operate_et_empno.getText().toString();
+                if (et.length()>0){
+                    GetHanderovermanbyEMPno(et);
+                }}catch (Exception e){
+                    e.printStackTrace();
+                }
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
+
         vault_in_operate_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -95,6 +126,7 @@ public class vault_in_operate extends ActionBarActivity {
                 String EmpHF = Tools.Bytes2HexString(uid,uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
                 List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+EmpHF+"'" );
+
                 if (baseEmpList.size()>0){
                     BaseEmp baseEmp = baseEmpList.get(0);
                     user.setEmpNO(baseEmp.EmpNo);
@@ -117,6 +149,30 @@ public class vault_in_operate extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "未找到卡", Toast.LENGTH_SHORT).show();
         }
         manager.readerPowerOff();
+    }
+
+    private void GetHanderovermanbyEMPno(String EMPNO)throws Exception{
+        if (!YLSystem.getNetWorkState().equals("2")){
+            User user = new User();
+            BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+            List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpNo ='"+EMPNO+"'" );
+            if (baseEmpList.size()>0){
+                BaseEmp baseEmp = baseEmpList.get(0);
+                user.setEmpNO(baseEmp.EmpNo);
+                user.setEmpHFNo(baseEmp.EmpHFNo);
+                String pickdate = YLSysTime.DateToStr(YLEditData.getDatePick());
+                user.setTaskDate(pickdate);
+                user.setDeviceID(YLSystem.getHandsetIMEI());
+                user.setEmpID(YLSystem.getUser().getEmpID());
+                WebService webService = new WebService();
+                List<YLTask> ylTaskList = webService.GetHandovermanTask(user,getApplicationContext());
+                DisplayTaskList(ylTaskList);
+                player.SuccessOrFailMidia("success",getApplicationContext());
+            }else {
+                player.SuccessOrFailMidia("fail",getApplicationContext());
+                Toast.makeText(getApplicationContext(),"本地数据未有资料,请更新缓存",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void DisplayTaskList(List<YLTask> ylTaskList){
