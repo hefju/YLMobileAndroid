@@ -324,6 +324,8 @@ public class YLBoxScan extends ActionBarActivity {
                 break;
             case "企业上门收款":box_sp_stype.setSelection(9);
                 break;
+            case "长途押运":box_sp_stype.setSelection(10);
+                break;
         }
     }
 
@@ -417,15 +419,16 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void BoxScanAdapter(List<Box> adapterboxlist){
-        if (adapterboxlist !=null && adapterboxlist.size()==1){
+        if (adapterboxlist !=null ){
             ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             YLScanBoxlistView.setAdapter(ylBoxAdapter);
             Log.e(YLSystem.getKimTag(),"fristboxlist");
             //YLScanBoxlistView.setSelection(listpostion);
-        }else if (adapterboxlist !=null && adapterboxlist.size()>1){
-            ylBoxAdapter.notifyDataSetChanged();
-            Log.e(YLSystem.getKimTag(), "secondboxlist");
         }
+//        else if (adapterboxlist !=null && adapterboxlist.size()>1){
+//            ylBoxAdapter.notifyDataSetChanged();
+//            Log.e(YLSystem.getKimTag(), "secondboxlist");
+//        }
     }
 
     /**

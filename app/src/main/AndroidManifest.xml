@@ -12,7 +12,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ylescort"
+        android:icon="@drawable/yllogo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <service android:name=".YLNetWorkStateService" />
@@ -114,7 +114,8 @@
         </activity>
         <activity
             android:name=".vault_in_detail"
-            android:label="@string/title_activity_vault_in_detail" >
+            android:label="@string/title_activity_vault_in_detail"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity
             android:name=".vault_in_operate"

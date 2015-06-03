@@ -92,9 +92,10 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView listView = (ListView) parent;
-                //Box box = (Box) listView.getItemAtPosition(position);
-                YLBoxchangeType("setbox", position);
-
+                Box box = (Box) listView.getItemAtPosition(position);
+                if (box.getValutcheck().equals("多")){
+                    YLBoxchangeType("setbox", position);
+                }
             }
         });
 
@@ -109,6 +110,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         vault_out_detail_tv_taskname.setText(ylTask.getLine());
         WebService webService = new WebService();
         AllboxList = webService.GetAllBox(YLSystem.getUser(),getApplicationContext());
+        Log.e(YLSystem.getKimTag(), AllboxList.toString());
     }
 
     private void InitReciveScan1D() {
@@ -190,9 +192,15 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                                 vaulteroutboxlist.remove(position);
                             } else {
                                 Box listbox = vaulteroutboxlist.get(position);
-                                box.setBoxName(listbox.getBoxName());
-                                box.setBoxID(listbox.getBoxID());
-                                vaulteroutboxlist.set(position, box);
+
+                                Box editbox = new Box();
+                                 editbox= listbox;
+                                editbox.setBoxType(box.getBoxType());
+                                editbox.setBoxStatus(box.getBoxStatus());
+                                editbox.setBoxCount("1");
+                                editbox.setBoxTaskType(ylTask.getTaskType());
+                                Log.e(YLSystem.getKimTag(),editbox.toString());
+                                vaulteroutboxlist.set(position, editbox);
                             }
                         }
                         DisPlayBoxlistAdapter(vaulteroutboxlist);
@@ -203,13 +211,32 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private void YLBoxEnter() throws Exception {
 
-        ylTask.setLstBox(vaulteroutboxlist);
-        YLEditData.setYlTask(ylTask);
-        Log.e(YLSystem.getKimTag(),ylTask.toString());
-        WebService webService = new WebService();
-        webService.PostVaultInBoxList(YLSystem.getUser(),getApplicationContext());
-        ylTask.setTaskState("已上传");
-        vault_out_detail.this.finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_out_detail.this);
+        builder.setMessage("是否确认上传数据");
+        builder.setTitle("提示");
+        builder.setPositiveButton("上传", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    ylTask.setLstBox(vaulteroutboxlist);
+                    YLEditData.setYlTask(ylTask);
+                    WebService webService = new WebService();
+                    webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
+                    ylTask.setTaskState("已上传");
+                    dialog.dismiss();
+                    vault_out_detail.this.finish();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void ReadHFCard(){
@@ -245,7 +272,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 YLBoxScan1D();
                 break;
             case R.id.vault_out_detail_btn_boxtype:
-                YLBoxchangeType("settype", 0);
+                //YLBoxchangeType("settype", 0);
                 break;
             case R.id.vault_out_detail_btn_enter:
                 try {
@@ -301,12 +328,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             Box box = AllboxList.get(i);
             if (box.getBoxID().equals(recivedata)){
                 getbox = box;
+                getbox.setValutcheck("对");
                 getboxtof = true;
                 break;
             }
         }
         if (!getboxtof){
             getbox= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+            getbox.setValutcheck("多");
         }
         return getbox;
     }
@@ -334,6 +363,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 //                box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
                 box.setActionTime(YLSysTime.GetStrCurrentTime());
                 box.setTradeAction("出");
+                box.setBoxCount("1");
                 Log.e(YLSystem.getKimTag(),box.toString());
                 vaulteroutboxlist.add(box);
                 DisPlayBoxlistAdapter(vaulteroutboxlist);

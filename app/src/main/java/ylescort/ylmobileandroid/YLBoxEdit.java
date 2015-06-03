@@ -71,7 +71,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylbox_edit);
-//        boxnosave = new ArrayList<>();
         editflag = true;
         initlayout();
         boxedi_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -223,7 +222,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         boxEditListEdit.set(listpostion, box);
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         TallyBox(boxEditListEdit);
-
     }
 
     private String GetBoxStuat(String getboxstuat ){
@@ -317,6 +315,8 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
             case "企业上门收款":boxedi_sp_tasktype.setSelection(9);
                 break;
+            case "长途押运":boxedi_sp_tasktype.setSelection(10);
+                break;
         }
     }
 
@@ -365,8 +365,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-
-        Log.e(YLSystem.getKimTag(),boxNoSave.toString());
         switch (v.getId()){
             case R.id.boxedi_rbtn_moneyboxs:
                 boxedi_rbtn_cardbox.setChecked(false);
@@ -406,8 +404,8 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 /**返回
                  *
                  */
-                YLSystem.setEdiboxList(boxNoSave);
-                YLBoxEdit.this.finish();
+                YLSystem.setEdiboxList(boxEditListEdit);
+                finish();
                 break;
             case R.id.boxedi_btn_del:
                 if (boxEditListEdit.size()!=0){
@@ -450,7 +448,9 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
          *
          */
         for (int i = 0 ; i <boxEditListAll.size();i++){
-            boxNoSave.add(boxEditListAll.get(i));
+            Box box = new Box();
+            box = boxEditListAll.get(i);
+            boxNoSave.add(box);
         }
 
         LoadBoxData(boxEditListAll);

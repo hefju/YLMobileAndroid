@@ -25,6 +25,7 @@
             android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:maxLength="6"
             android:textSize="30sp"/>
     </LinearLayout>
 
@@ -36,7 +37,7 @@
 
         <TextView
             android:id="@+id/Log_TV_PassWord"
-            android:layout_width="119sp"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:text="@string/UserPassword"
             android:textSize="30sp"/>
@@ -46,6 +47,7 @@
             android:layout_width="150sp"
             android:layout_height="wrap_content"
             android:inputType="numberPassword"
+            android:maxLength="6"
             android:textSize="30sp"/>
     </LinearLayout>
 
@@ -116,7 +118,7 @@
             android:id="@+id/btnTest1"
             android:layout_width="120sp"
             android:layout_height="50sp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="90sp"
             android:text="@string/Log_Update"
             />

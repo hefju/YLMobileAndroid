@@ -5,7 +5,7 @@ android {
     buildToolsVersion "22"
 
     defaultConfig {
-        applicationId "ylescort.ylmobileandroid"
+        applicationId "ylescort.ylandroid"
         minSdkVersion 17
         targetSdkVersion 17
         versionCode 5

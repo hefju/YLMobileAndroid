@@ -82,6 +82,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         WebService webService = new WebService();
         Allboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
+        Log.e(YLSystem.getKimTag(),Allboxlist.size()+"boxlist");
         DisPlayBoxlistAdapter(Allboxlist);
         StatisticalBoxList(Allboxlist);
     }

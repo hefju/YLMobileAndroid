@@ -52,14 +52,12 @@ public class vault_in_operate extends ActionBarActivity {
         InitHFreader();
         InitData();
         InitView();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void InitData() {
         player = new YLMediaPlayer();
-
-
     }
 
     private void InitHFreader() {
@@ -108,7 +106,6 @@ public class vault_in_operate extends ActionBarActivity {
                 ListView listView = (ListView)parent;
                 YLTask ylTask = (YLTask) listView.getItemAtPosition(position);
                 YLEditData.setYlTask(ylTask);
-                Log.e(YLSystem.getKimTag(),ylTask.toString());
                 Intent intent = new Intent();
                 intent.setClass(vault_in_operate.this,vault_in_detail.class);
                 startActivity(intent);

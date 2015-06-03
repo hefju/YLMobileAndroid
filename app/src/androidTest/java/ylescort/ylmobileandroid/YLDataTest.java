@@ -57,24 +57,28 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     public void testListBoxSet() throws Exception{
 
         List<Box> fristList = new ArrayList<>();
-        List<Box> SecondList = new ArrayList<>();
+//        List<Box> SecondList = new ArrayList<>();
 
         for (int i = 0 ; i <5;i++){
             Box box = new Box();
             box.setBoxID(i+1+"");
             fristList.add(box);
         }
-        for (int i = 0 ;i <fristList.size();i++){
-            Box box = fristList.get(i);
-            SecondList.add(box);
-        }
+//        for (int i = 0 ;i <fristList.size();i++){
+//            Box box = fristList.get(i);
+//            SecondList.add(box);
+//        }
+
+        List<Box> SecondList = new ArrayList<>(fristList);
 
 //        SecondList = fristList;
         Box box = new Box();
         box.setBoxID("6");
         fristList.set(0,box);
+//        fristList.clear();
 
-        Log.e(TAG,fristList.toString()+"fristList");
+
+        Log.e(TAG, fristList.toString() + "fristList");
         Log.e(TAG,SecondList.toString()+"SecondList");
     }
 
