@@ -10,6 +10,7 @@ import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.AnalysisBoxList;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
@@ -36,8 +37,14 @@ public class WebServerTest extends ApplicationTestCase<Application> {
 
     public void testValutinBox()throws Exception{
         WebService webService = new WebService();
-        List<Box> boxList = webService.GetVaultInBoxList("91610x", "1", "3166", getContext());
-        Log.e(TAG,boxList.toString()+"");
+        List<Box> boxList = webService.GetVaultInBoxList("91610", "1", "3166", getContext());
+
+        AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+        List<Integer> integerList =
+                analysisBoxList.AnsysisBoxList(boxList);
+        Log.e(TAG,integerList.get(0)+"");
+
+        //Log.e(TAG,boxList.toString()+"");
     }
 
     public void testValultinBox()throws Exception{
@@ -78,7 +85,11 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         user.setDeviceID("1");
         user.setEmpID("3361");
         List<Box> list = webService.GetAllBox(user, getContext());
-        Log.e(TAG,list.size()+"");
+
+        AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+        List<Integer> integerList =
+        analysisBoxList.AnsysisBoxList(list);
+        Log.e(TAG,integerList.toString()+"");
     }
 
     public void testGetTaskList() throws Exception{

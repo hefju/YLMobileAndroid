@@ -72,9 +72,9 @@
             android:label="@string/title_activity_cache_data_view" >
         </activity>
         <activity
-        android:name=".YLBoxEdit"
-        android:label="@string/title_activity_ylbox_edit" >
-    </activity>
+            android:name=".YLBoxEdit"
+            android:label="@string/title_activity_ylbox_edit" >
+        </activity>
         <activity
             android:name=".chongTest3"
             android:label="@string/title_activity_chong__test" >
@@ -84,6 +84,7 @@
             android:label="@string/title_activity_ylatmlist" >
             <intent-filter>
                 <action android:name="ylescort.ylmobileandroid.YLATMList" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -96,6 +97,7 @@
             android:label="@string/title_activity_kim_test" >
             <intent-filter>
                 <action android:name="ylescort.ylmobileandroid.KimTest" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -115,7 +117,7 @@
         <activity
             android:name=".vault_in_detail"
             android:label="@string/title_activity_vault_in_detail"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".vault_in_operate"
@@ -124,6 +126,10 @@
         <activity
             android:name=".vault_check_ylbox"
             android:label="@string/title_activity_vault_check_ylbox" >
+        </activity>
+        <activity
+            android:name=".HandovermanCheck"
+            android:label="@string/title_activity_handoverman_check" >
         </activity>
     </application>
 

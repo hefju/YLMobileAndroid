@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,8 @@ public class YLSite extends ActionBarActivity {
     private List<Site> siteList;
     private YLSiteAdapter ylSiteAdapter;
 
+    private Button Site_apply;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +78,14 @@ public class YLSite extends ActionBarActivity {
         ylsite_tv_title.setText(ylTask.getLine());
 
         listView = (ListView)findViewById(R.id.ylsite_lv_MainView);
+        Site_apply = (Button)findViewById(R.id.Site_apply);
+        Site_apply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowApplyAcivity();
+            }
+        });
+
         DisplayTaskSite(ylTask.lstSite);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,6 +93,8 @@ public class YLSite extends ActionBarActivity {
                 OpenBoxAct((ListView) parent, position);
             }
         });
+
+
 
 
         //用于回传数据更新UI
@@ -128,21 +141,6 @@ public class YLSite extends ActionBarActivity {
 
         ListView listView1 = (ListView) parent;
         Site site = (Site) listView1.getItemAtPosition(position);
-        //Toast.makeText(this, site.getSiteName(), Toast.LENGTH_SHORT).show();
-
-//        String time="19:10";
-//        ArriveTime arriveTime = new ArriveTime();
-//        arriveTime.setEmpID(YLSystem.getUser().getEmpID());
-//        arriveTime.setATime(time);
-//        arriveTime.setTimeID("1");
-//        arriveTime.setTradeBegin(time + "");
-//        arriveTime.setTradeEnd(time + "");
-//        arriveTime.setTradeState("1");
-//        arriveTime.setSiteID(site.getSiteID());
-//        List<ArriveTime> arriveTimeList = new ArrayList<ArriveTime>();
-//        arriveTimeList.add(arriveTime);
-//        site.setLstArriveTime(arriveTimeList);
-//        siteList.add(site);
 
         Intent intent = new Intent();
         intent.setClass(this, YLBoxScan.class);
@@ -159,6 +157,16 @@ public class YLSite extends ActionBarActivity {
 
         //ylTask.lstSite = siteList;
         dialog();
+    }
+
+    private void ShowApplyAcivity(){
+        Intent intent = new Intent();
+        intent.setClass(this, HandovermanCheck.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("taskid",ylTask.getTaskID());
+        bundle.putString("taskName",ylTask.getLine());
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private String UpLoadService()throws Exception{

@@ -54,6 +54,11 @@
         <Button
             android:layout_width="100sp"
             android:layout_height="wrap_content"
+            android:id="@+id/Site_apply"
+            android:text="申请"/>
+        <Button
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
             android:id="@+id/Site_Update"
             android:text="上传"
             android:onClick="YLSite_UpDate"/>

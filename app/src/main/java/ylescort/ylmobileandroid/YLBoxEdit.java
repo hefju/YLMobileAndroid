@@ -511,7 +511,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.e("aaaaaaaaaaaaaaaaaaaaaa", keyCode + "");
         if( keyCode == KeyEvent.KEYCODE_HOME){
-
             return super.onKeyDown(keyCode, event);
         }
         if(keyCode  == KeyEvent.KEYCODE_BACK){
