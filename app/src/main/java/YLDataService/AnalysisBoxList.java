@@ -1,9 +1,12 @@
 package YLDataService;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2015-06-04.
@@ -31,9 +34,9 @@ public class AnalysisBoxList {
                 case"凭证袋":voucherbag++;
                     break;
             }
-            if (box.getTradeAction().equals("收")){
-                getbox++;
-            }else {givebox++;}
+//            if (box.getTradeAction().equals("收")){
+//                getbox++;
+//            }else {givebox++;}
             if (box.getBoxStatus().equals("实")){
                 fullbox++;
             }else {emptybox++;}

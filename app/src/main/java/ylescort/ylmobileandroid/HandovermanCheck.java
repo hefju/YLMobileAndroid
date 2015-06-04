@@ -3,6 +3,7 @@ package ylescort.ylmobileandroid;
 import android.app.AlertDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,17 +85,17 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
     }
 
     private void Analysis(List<Box> boxList) {
-        if (boxList.size()==1&& boxList.get(0).getServerReturn().equals("没有入库箱。"))return;
+        if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。"))return;
         AnalysisBoxList analysisBoxList = new AnalysisBoxList();
-        List<String> integerList =  analysisBoxList.AnsysisBoxList(boxList);
-        handoverman_tv_monenybox.setText(integerList.get(0));
-        handoverman_tv_cardbox.setText(integerList.get(1));
-        handoverman_tv_voucher.setText(integerList.get(2));
-        handoverman_tv_voucherbag.setText(integerList.get(3));
-        handoverman_tv_getbox.setText(integerList.get(4));
-        handoverman_tv_givebox.setText(integerList.get(5));
-        handoverman_tv_fullbox.setText(integerList.get(6));
-        handoverman_tv_emptybox.setText(integerList.get(7));
+        List<String> stringList =  analysisBoxList.AnsysisBoxList(boxList);
+        handoverman_tv_monenybox.setText("款箱:" + stringList.get(0));
+        handoverman_tv_cardbox.setText("卡箱:"+stringList.get(1));
+        handoverman_tv_voucher.setText("凭证箱:"+stringList.get(2));
+        handoverman_tv_voucherbag.setText("凭证袋:"+stringList.get(3));
+        handoverman_tv_getbox.setText("收箱:"+stringList.get(4));
+        handoverman_tv_givebox.setText("送箱:"+stringList.get(5));
+        handoverman_tv_fullbox.setText("实箱:"+stringList.get(6));
+        handoverman_tv_emptybox.setText("空箱:"+stringList.get(7));
     }
 
     private void BoxCheckAdapter(List<Box> boxList){
