@@ -1,0 +1,106 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ylescort.ylmobileandroid.LocalCheck">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/localcheck_ll_title"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/localcheck_tv_title"
+            android:textColor="@color/darkblue"
+            android:textSize="25sp"
+            android:text="测试"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/localcheck_tv_allbox"
+            android:textSize="20sp"
+            android:text="总计"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/localcheck_ll_listview"
+        android:layout_below="@+id/localcheck_ll_title"
+        android:layout_above="@+id/localcheck_ll_gog">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/localcheck_listview">
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/localcheck_ll_gog"
+        android:gravity="center"
+        android:layout_above="@+id/localcheck_ll_box">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:id="@+id/localcheck_tv_moneybox"
+            android:text="测试" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:textSize="20sp"
+            android:id="@+id/localcheck_tv_cardbox"
+            android:text="测试" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:id="@+id/localcheck_tv_voucherbox"
+            android:textSize="20sp"
+            android:text="测试" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:id="@+id/localcheck_tv_voucherbag"
+            android:textSize="20sp"
+            android:text="测试" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/localcheck_ll_box"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:id="@+id/localcheck_tv_getbox"
+            android:text="测试" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:id="@+id/localcheck_tv_givebox"
+            android:textSize="20sp"
+            android:text="测试" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:id="@+id/localcheck_tv_fullbox"
+            android:textSize="20sp"
+            android:text="测试" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:id="@+id/localcheck_tv_emptybox"
+            android:textSize="20sp"
+            android:text="测试" />
+    </LinearLayout>
+</RelativeLayout>

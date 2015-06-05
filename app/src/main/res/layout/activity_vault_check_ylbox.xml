@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="20sp"
-            android:id="@+id/vault_check_tv_statistics"/>
+            android:id="@+id/vault_check_tv_statistics" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,7 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vault_check_ylbox_basename"
+            android:textSize="20sp"
             android:layout_alignParentEnd="true"
+            android:id="@+id/vault_check_tv_scanmimo"
             android:visibility="invisible"/>
     </RelativeLayout>
     <RelativeLayout

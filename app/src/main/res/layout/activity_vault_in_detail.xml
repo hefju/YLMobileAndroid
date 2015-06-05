@@ -89,21 +89,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_rbtn_allbox"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:checked="true"
             android:text="@string/vault_out_detail_btn_Allbox"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_rbtn_lackbox"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_marginStart="30sp"
             android:text="@string/vault_out_detail_btn_Lack"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_rbtn_morebox"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:layout_marginStart="30sp"
             android:text="@string/vault_out_detail_btn_more"/>
         </RadioGroup>
@@ -113,7 +113,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/vault_in_detail_LL_button"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="15sp">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -87,7 +87,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 Allboxlist.add(box);
             }
         }
-        Log.e(YLSystem.getKimTag(),displayboxlist.toString());
+        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
         DisPlayBoxlistAdapter(displayboxlist);
         StatisticalBoxList(displayboxlist);
     }
@@ -166,6 +166,15 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                 box.setBoxType("凭证袋");
                                 break;
                             case 8:
+                                Box removebox = displayboxlist.get(position);
+                                for (int i = 0; i < Allboxlist.size(); i++) {
+                                    Box alllistboxbox = new Box();
+                                    alllistboxbox = Allboxlist.get(i);
+                                    if (removebox.getBoxID().equals(alllistboxbox.getBoxID())){
+                                        Allboxlist.remove(i);
+                                        break;
+                                    }
+                                }
                                 displayboxlist.remove(position);
                                 break;
                         }
@@ -173,7 +182,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                             displayboxlist.set(position, box);
 //                            DisPlayBoxlistAdapter(displayboxlist);
                             ylValutboxitemAdapter.notifyDataSetChanged();
-                            vault_in_detail_listview.setSelection(position+1);
+                            vault_in_detail_listview.setSelection(position + 1);
                         } else {
 //                            DisPlayBoxlistAdapter(displayboxlist);
                             ylValutboxitemAdapter.notifyDataSetChanged();

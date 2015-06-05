@@ -112,4 +112,5 @@
     <string name="title_activity_handoverman_check">入库申请</string>
     <string name="handoverman_btn_cancel">返回</string>
     <string name="handoverman_btn_enter">确认</string>
+    <string name="title_activity_local_check">LocalCheck</string>
 </resources>

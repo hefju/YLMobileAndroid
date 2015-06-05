@@ -60,6 +60,7 @@ public class YLSite extends ActionBarActivity {
     private YLSiteAdapter ylSiteAdapter;
 
     private Button Site_apply;
+    private Button Site_check;
 
 
     @Override
@@ -79,12 +80,23 @@ public class YLSite extends ActionBarActivity {
 
         listView = (ListView)findViewById(R.id.ylsite_lv_MainView);
         Site_apply = (Button)findViewById(R.id.Site_apply);
+        Site_check =  (Button)findViewById(R.id.Site_check);
+
+
         Site_apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ShowApplyAcivity();
             }
         });
+
+        Site_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowCheckAcivity();
+            }
+        });
+
 
         DisplayTaskSite(ylTask.lstSite);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,6 +147,12 @@ public class YLSite extends ActionBarActivity {
         WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
         Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
 
+    }
+
+    private void ShowCheckAcivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, LocalCheck.class);
+        startActivity(intent);
     }
 
     private void OpenBoxAct(ListView parent, int position) {
