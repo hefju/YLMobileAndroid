@@ -215,11 +215,18 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
     private void GetandSetBoxtolist() {
         if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
+
+        Log.e(YLSystem.getKimTag(),boxNoSave.toString()+"frist");
+
         Box box = boxEditListEdit.get(listpostion);
         box.setTradeAction(GetBoxStuat("g"));
         box.setBoxStatus(GetBoxStuat("f"));
         box.setBoxType(GetBoxStuat("s"));
         boxEditListEdit.set(listpostion, box);
+
+        Log.e(YLSystem.getKimTag(), YLEditData.getYlboxnosave() + "second");
+
+
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         TallyBox(boxEditListEdit);
     }
@@ -452,6 +459,8 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             box = boxEditListAll.get(i);
             boxNoSave.add(box);
         }
+
+        YLEditData.setYlboxnosave(boxNoSave);
 
         LoadBoxData(boxEditListAll);
         ///增加

@@ -2,7 +2,6 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 tools:context="ylescort.ylmobileandroid.vault_in_detail">
     <LinearLayout
         android:layout_width="wrap_content"
@@ -81,8 +80,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_LL_boxstype"
         android:layout_above="@+id/vault_in_detail_LL_button"
-        android:gravity="center"
-        android:visibility="invisible">
+        android:gravity="center">
         <RadioGroup
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

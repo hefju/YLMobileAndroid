@@ -50,10 +50,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private Scan1DRecive vaultindetailscan1DRecive;
     private YLMediaPlayer ylMediaPlayer;
 
-    private List<Box> Displayboxlist;
-
+    private List<Box> displayboxlist;
     private List<Box> Allboxlist;
-    private List<Box> Baseboxlist;
 
     private YLValutboxitemAdapter ylValutboxitemAdapter;
 
@@ -72,19 +70,26 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private void InitDate()throws Exception{
 
-        Baseboxlist = new ArrayList<Box>();
-        Displayboxlist = new ArrayList<Box>();
+        displayboxlist = new ArrayList<Box>();
+        Allboxlist = new ArrayList<Box>();
         ylMediaPlayer = new YLMediaPlayer();
 
         ylTask = YLEditData.getYlTask();
         String title ="任务:"+ ylTask.getLine()+"\r\n执行人:"+ ylTask.getTaskManager();
         vault_in_detail_tv_taskname.setText(title);
         WebService webService = new WebService();
-        Allboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
+        displayboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
-        Log.e(YLSystem.getKimTag(),Allboxlist.size()+"boxlist");
-        DisPlayBoxlistAdapter(Allboxlist);
-        StatisticalBoxList(Allboxlist);
+        if (!displayboxlist.get(0).getBoxName().equals("无上传")){
+            for (int i = 0;i<displayboxlist.size();i++){
+                Box box = new Box();
+                box = displayboxlist.get(i);
+                Allboxlist.add(box);
+            }
+        }
+        Log.e(YLSystem.getKimTag(),displayboxlist.toString());
+        DisPlayBoxlistAdapter(displayboxlist);
+        StatisticalBoxList(displayboxlist);
     }
 
     private void InitView(){
@@ -101,18 +106,22 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
         vault_in_detail_btn_scan1d.setOnClickListener(this);
         vault_in_detail_btn_enter.setOnClickListener(this);
+        vault_in_detail_rbtn_allbox.setOnClickListener(this);
+        vault_in_detail_rbtn_lackbox.setOnClickListener(this);
+        vault_in_detail_rbtn_morebox.setOnClickListener(this);
 
         vault_in_detail_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (Allboxlist.size() < 1) return;
-                Box box = Allboxlist.get(position);
+                if (displayboxlist.size() < 1) return;
+                Box box = displayboxlist.get(position);
                 if (box.getValutcheck() == null) return;
                 if (box.getValutcheck().equals("多")) {
                     ShowMultChoice(position);
                 }
             }
         });
+
 
     }
 
@@ -122,7 +131,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Box box = Allboxlist.get(position);
+                        Box box = displayboxlist.get(position);
                         switch (which) {
                             case 0:
                                 box.setBoxStatus("实");
@@ -150,22 +159,24 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                 break;
                             case 6:
                                 box.setBoxStatus("空");
-                                box.setBoxType("凭证");
+                                box.setBoxType("凭证箱");
                                 break;
                             case 7:
                                 box.setBoxStatus("空");
                                 box.setBoxType("凭证袋");
                                 break;
                             case 8:
-                                Allboxlist.remove(position);
+                                displayboxlist.remove(position);
                                 break;
                         }
-                        if (Allboxlist.size() == position + 1) {
-                            Allboxlist.set(position, box);
-                            DisPlayBoxlistAdapter(Allboxlist);
+                        if (displayboxlist.size() == position + 1) {
+                            displayboxlist.set(position, box);
+//                            DisPlayBoxlistAdapter(displayboxlist);
+                            ylValutboxitemAdapter.notifyDataSetChanged();
                             vault_in_detail_listview.setSelection(position+1);
                         } else {
-                            DisPlayBoxlistAdapter(Allboxlist);
+//                            DisPlayBoxlistAdapter(displayboxlist);
+                            ylValutboxitemAdapter.notifyDataSetChanged();
                             vault_in_detail_listview.setSelection(position);
                         }
                         dialog.dismiss();
@@ -198,10 +209,15 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 break;
             case R.id.vault_in_detail_btn_enter:ConfirmData();
                 break;
+            case R.id.vault_in_detail_rbtn_allbox:FilterBoxdisplay();
+                break;
+            case R.id.vault_in_detail_rbtn_lackbox:FilterBoxdisplay();
+                break;
+            case R.id.vault_in_detail_rbtn_morebox:FilterBoxdisplay();
+                break;
+
         }
     }
-
-
 
 
     private class Scan1DRecive extends BroadcastReceiver {
@@ -232,7 +248,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         hombox.setTradeAction("入");
                         hombox.setActionTime(YLSysTime.GetStrCurrentTime());
                         Allboxlist.set(i, hombox);
-                        Log.e(YLSystem.getKimTag(), hombox.toString()+"输入");
                         boxcheck = false;
                         position = i;
                         break;
@@ -253,11 +268,11 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 box.setBoxTaskType(ylTask.getTaskType());
                 Allboxlist.add(box);
             }
-
+            FilterBoxdisplay();
 //            ylValutboxitemAdapter.notifyDataSetInvalidated();
-            DisPlayBoxlistAdapter(Allboxlist);
+//            DisPlayBoxlistAdapter(displayboxlist);
             if (position == 0) {
-                position = Allboxlist.size();
+                position = displayboxlist.size();
             }
             vault_in_detail_listview.setSelection(position);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
@@ -301,28 +316,38 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void FilterBoxdisplay(){
-        if (Displayboxlist.size() >1){
-            Displayboxlist.clear();
-        }
+        displayboxlist.clear();
+        //全部
         if (vault_in_detail_rbtn_allbox.isChecked()){
-            Displayboxlist = Allboxlist;
+            for (int i = 0; i<Allboxlist.size();i++){
+                Box box = new Box();
+                box = Allboxlist.get(i);
+                displayboxlist.add(box);
+            }
         }
+
+        //缺少
         if (vault_in_detail_rbtn_lackbox.isChecked()){
-            for (int i = 0 ; i< Allboxlist.size();i++){
-                Box box = Allboxlist.get(i);
+            for (int i = 0 ;i < Allboxlist.size();i++){
+                Box box = new Box();
+                box = Allboxlist.get(i);
                 if (box.getValutcheck() == null){
-                    Displayboxlist.add(box);
+                    displayboxlist.add(box);
                 }
             }
         }
+
+        //多箱
         if (vault_in_detail_rbtn_morebox.isChecked()){
-            for (int i = 0 ; i < Allboxlist.size();i++){
-                Box box = Allboxlist.get(i);
-                if (box.getValutcheck().equals("多")){
-                    Displayboxlist.add(box);
+            for (int i = 0; i<Allboxlist.size();i++){
+                Box box = new Box();
+                box = Allboxlist.get(i);
+                if (box.getValutcheck()!=null && box.getValutcheck().equals("多")){
+                    displayboxlist.add(box);
                 }
             }
         }
+        ylValutboxitemAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -352,9 +377,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (Allboxlist.size() < 1) return;
+                if (displayboxlist.size() < 1) return;
                 boolean boxcheck = false;
-                for (Box box : Allboxlist) {
+                for (Box box : displayboxlist) {
                     if (box.getValutcheck() != null) {
                         if (box.getBoxType().equals("无")) {
                             boxcheck = true;
@@ -368,9 +393,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                             .setPositiveButton("确定", null).show();
                 } else {
                     try {
-                        ylTask.setLstBox(Allboxlist);
+                        ylTask.setLstBox(displayboxlist);
                         YLEditData.setYlTask(ylTask);
-                        Log.e(YLSystem.getKimTag(), Allboxlist.toString());
+                        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
                         WebService webService = new WebService();
                         String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
                         if (returstr.contains("0")){

@@ -143,21 +143,9 @@ public class Box {
     @Override
     public String toString() {
         return "Box{" +
-                "Id=" + Id +
-                ", ServerReturn='" + ServerReturn + '\'' +
-                ", SiteID='" + SiteID + '\'' +
-                ", BoxID='" + BoxID + '\'' +
                 ", BoxName='" + BoxName + '\'' +
                 ", TradeAction='" + TradeAction + '\'' +
                 ", BoxStatus='" + BoxStatus + '\'' +
-                ", BoxType='" + BoxType + '\'' +
-                ", NextOutTime='" + NextOutTime + '\'' +
-                ", ActionTime='" + ActionTime + '\'' +
-                ", TimeID='" + TimeID + '\'' +
-                ", BoxCount='" + BoxCount + '\'' +
-                ", BoxTaskType='" + BoxTaskType + '\'' +
-                ", BoxOrder='" + BoxOrder + '\'' +
-                ", Valutcheck='" + Valutcheck + '\'' +
-                '}';
+                ", BoxType='" + BoxType + '\'';
     }
 }
