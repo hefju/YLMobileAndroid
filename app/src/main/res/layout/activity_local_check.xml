@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/localcheck_tv_allbox"
             android:textSize="20sp"
+            android:textColor="@color/darkorange"
             android:text="总计"/>
     </LinearLayout>
     <LinearLayout
@@ -26,7 +27,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/localcheck_ll_listview"
         android:layout_below="@+id/localcheck_ll_title"
-        android:layout_above="@+id/localcheck_ll_gog">
+        android:layout_above="@+id/localcheck_ll_gog"
+        android:layout_marginBottom="10sp"
+        android:layout_marginTop="10sp">
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,34 +42,32 @@
         android:layout_height="wrap_content"
         android:id="@+id/localcheck_ll_gog"
         android:gravity="center"
+        android:layout_marginBottom="10sp"
+        android:background="@color/lightskyblue"
         android:layout_above="@+id/localcheck_ll_box">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:id="@+id/localcheck_tv_moneybox"
-            android:text="测试" />
+            android:id="@+id/localcheck_tv_moneybox" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:textSize="20sp"
-            android:id="@+id/localcheck_tv_cardbox"
-            android:text="测试" />
+            android:id="@+id/localcheck_tv_cardbox" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:id="@+id/localcheck_tv_voucherbox"
-            android:textSize="20sp"
-            android:text="测试" />
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:id="@+id/localcheck_tv_voucherbag"
-            android:textSize="20sp"
-            android:text="测试" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -74,33 +75,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/localcheck_ll_box"
         android:layout_alignParentBottom="true"
+        android:background="@color/lightskyblue"
         android:gravity="center">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:id="@+id/localcheck_tv_getbox"
-            android:text="测试" />
+            android:id="@+id/localcheck_tv_getbox" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:id="@+id/localcheck_tv_givebox"
-            android:textSize="20sp"
-            android:text="测试" />
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:id="@+id/localcheck_tv_fullbox"
-            android:textSize="20sp"
-            android:text="测试" />
+            android:textSize="20sp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
             android:id="@+id/localcheck_tv_emptybox"
-            android:textSize="20sp"
-            android:text="测试" />
+            android:textSize="20sp" />
     </LinearLayout>
 </RelativeLayout>

@@ -92,6 +92,7 @@ public class LocalCheck extends ActionBarActivity {
                 localcheck_tv_givebox.setText("送箱:"+stringList.get(5));
                 localcheck_tv_fullbox.setText("实箱:"+stringList.get(6));
                 localcheck_tv_emptybox.setText("空箱:"+stringList.get(7));
+                localcheck_tv_title.setText(site.getSiteName());
             }
         });
     }
@@ -105,11 +106,12 @@ public class LocalCheck extends ActionBarActivity {
         analysisBoxList = new AnalysisBoxList();
         List<String> stringList = analysisBoxList.AnsysisBoxList(boxList);
 
-        String anaylsisbox ="总计:  款箱:"+stringList.get(0)+"卡箱:"+stringList.get(1)+"凭证箱:"+stringList.get(2)+"凭证袋:"+
-                stringList.get(3)+"\n\r"+"收箱:"+stringList.get(4)+"送箱:"+stringList.get(5)+"实箱:"+stringList.get(6)+
-                "空箱:"+stringList.get(7);
+        String anaylsisbox ="总计:收箱:"+stringList.get(4)+"送箱:"+stringList.get(5)+"实箱:"+stringList.get(6)+
+                "空箱:"+stringList.get(7)+"\n\r"+"款箱:"+stringList.get(0)+"卡箱:"+stringList.get(1)+"凭证箱:"+stringList.get(2)+"凭证袋:"+
+                stringList.get(3);
         localcheck_tv_allbox.setText(anaylsisbox);
-
+        localcheck_tv_title.setText(ylTask.getLine());
+        localcheck_tv_cardbox.setText("未选择");
     }
 
 
