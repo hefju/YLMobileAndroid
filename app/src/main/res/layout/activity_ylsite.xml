@@ -52,20 +52,20 @@
         android:layout_alignParentBottom="true"
         android:gravity="end">
         <Button
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_check"
-            android:text="统计"/>
+            android:text="任务统计"/>
         <Button
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_apply"
-            android:text="申请"/>
+            android:text="入库申请"/>
         <Button
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_Update"
-            android:text="上传"
+            android:text="任务上传"
             android:onClick="YLSite_UpDate"/>
     </LinearLayout>
 

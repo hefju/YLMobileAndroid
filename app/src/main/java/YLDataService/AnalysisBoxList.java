@@ -24,22 +24,23 @@ public class AnalysisBoxList {
         int emptybox = 0;
 
         for (Box box:boxList){
+            int count =Integer.parseInt(box.getBoxCount()) ;
             switch (box.getBoxType()){
-                case"款箱":moneybox++;
+                case"款箱":moneybox+=count;
                     break;
-                case"卡箱":cardbox++;
+                case"卡箱":cardbox+=count;
                     break;
-                case"凭证箱":voucherbox++;
+                case"凭证箱":voucherbox +=count;
                     break;
-                case"凭证袋":voucherbag++;
+                case"凭证袋":voucherbag +=count;
                     break;
             }
 //            if (box.getTradeAction().equals("收")){
-//                getbox++;
-//            }else {givebox++;}
+//                getbox+=count;
+//            }else {givebox+=count;}
             if (box.getBoxStatus().equals("实")){
-                fullbox++;
-            }else {emptybox++;}
+                fullbox+=count;
+            }else {emptybox+=count;}
         }
 
         List<String> stringList = new ArrayList<>();

@@ -466,7 +466,6 @@ public class Task extends ActionBarActivity {
                         Log.e(YLSystem.getKimTag(), "测试节点1");
                         for (YLTask ylTask:ylTaskList){
                             if (ylTask.getServerReturn().equals("没有任务。")){
-                                Log.e(YLSystem.getKimTag(), "测试节点2");
                                 List<YLTask> taskList = new ArrayList<>();
                                 DisplayTaskList(taskList);
                                 continue;

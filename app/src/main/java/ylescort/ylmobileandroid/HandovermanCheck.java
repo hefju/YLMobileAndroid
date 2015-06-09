@@ -80,6 +80,7 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         WebService webService = new WebService();
         boxList =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
                 YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
+        Log.e(YLSystem.getKimTag(),boxList.toString());
         BoxCheckAdapter(boxList);
         Analysis(boxList);
     }
@@ -100,6 +101,7 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
 
     private void BoxCheckAdapter(List<Box> boxList){
         if (boxList == null)return;
+        
         YLBoxEdiAdapter ylBoxEdiAdapter = new YLBoxEdiAdapter(getApplicationContext(),
                 boxList,R.layout.activity_boxedititem);
         handoverman_listview.setAdapter(ylBoxEdiAdapter);

@@ -23,6 +23,7 @@ import YLSystemDate.YLSystem;
 
 public class LocalCheck extends ActionBarActivity {
 
+    private TextView  localcheck_tv_line;
     private TextView  localcheck_tv_title;
     private TextView  localcheck_tv_allbox;
     private TextView  localcheck_tv_moneybox;
@@ -58,6 +59,7 @@ public class LocalCheck extends ActionBarActivity {
     }
 
     private void InitView() {
+        localcheck_tv_line = (TextView)findViewById(R.id.localcheck_tv_line);
         localcheck_tv_title = (TextView)findViewById(R.id.localcheck_tv_title);
         localcheck_tv_allbox = (TextView)findViewById(R.id.localcheck_tv_allbox);
         localcheck_tv_moneybox = (TextView)findViewById(R.id.localcheck_tv_moneybox);
@@ -110,7 +112,8 @@ public class LocalCheck extends ActionBarActivity {
                 "空箱:"+stringList.get(7)+"\n\r"+"款箱:"+stringList.get(0)+"卡箱:"+stringList.get(1)+"凭证箱:"+stringList.get(2)+"凭证袋:"+
                 stringList.get(3);
         localcheck_tv_allbox.setText(anaylsisbox);
-        localcheck_tv_title.setText(ylTask.getLine());
+        localcheck_tv_title.setText("未选择");
+        localcheck_tv_line.setText(ylTask.getLine());
         localcheck_tv_cardbox.setText("未选择");
     }
 

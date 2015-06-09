@@ -539,10 +539,11 @@ public class YLBoxScan extends ActionBarActivity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         String input = et.getText().toString();
-                        if (input.equals("")) {
+                        int intinput = Integer.parseInt(input);
+                        if (input.equals("")|| intinput ==0) {
                             Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
                         } else {
-                            PutDatatoListView("无标签",input);
+                            PutDatatoListView("无标签",intinput+"");
                         }
                     }
                 }).setNegativeButton("取消", null).show();

@@ -54,7 +54,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/box_ll_boxgog"
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="20sp"
         android:layout_above="@+id/box_ll_boxfoe"
         android:background="@drawable/border"
         >
