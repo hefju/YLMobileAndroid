@@ -160,4 +160,17 @@
     <color name="darkblue">#00008B</color><!--暗蓝色 -->
     <color name="navy">#000080</color><!--海军色 -->
     <color name="black">#000000</color><!--黑色 -->
+
+
+    <color name="androidbluel">#33B5E5</color><!--安卓浅蓝 -->
+    <color name="androidblued">#0099CC</color><!--安卓深蓝 -->
+    <color name="androidpurplel">#AA66CC</color><!--安卓浅紫 -->
+    <color name="androidpurpled">#9933CC</color><!--安卓深紫 -->
+    <color name="androidgreenl">#99CC00</color><!--安卓浅绿 -->
+    <color name="androidgreend">#669900</color><!--安卓深绿 -->
+    <color name="androidyellowl">#FFBB33</color><!--安卓浅黄 -->
+    <color name="androidyellowd">#FF8800</color><!--安卓深黄 -->
+    <color name="androidredl">#FF4444</color><!--安卓浅红 -->
+    <color name="androidredd">#CC0000</color><!--安卓深红 -->
+
 </resources>
