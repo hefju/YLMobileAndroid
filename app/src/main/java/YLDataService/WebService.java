@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -1029,6 +1030,91 @@ public class WebService {
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
                     return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    /**
+     * 业务员确认入库
+     * @param user TaskID user.getTaskDate(),empid user.getEmpID(),deviceID user.getDeviceID(),ISWIFI user.getISWIFI()
+     * @param context
+     * @return  "1";为正确，其他为出错。
+     * @throws Exception
+     */
+
+    public String ComfirmStoreIn(User user ,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"ComfirmStoreIn";
+        ConfirmStoreInAsycnTask confirmStoreInAsycnTask = new ConfirmStoreInAsycnTask();
+        confirmStoreInAsycnTask.execute(url,user.getTaskDate(),user.getEmpID(),user.getDeviceID(),user.getISWIFI());
+        return confirmStoreInAsycnTask.get();
+    }
+
+
+    private class  ConfirmStoreInAsycnTask extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID",params[1]);
+                p.put("empid",params[2]);
+                p.put("deviceID",params[3]);
+                p.put("ISWIFI",params[4]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content,String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// 获取本基地业务员已确认未入库任务
+    /// </summary>
+    /// <param name="DataTime">日期：2015-06-30</param>
+    /// <param name="deviceID">手持机硬件号:861189013980320 </param>
+    /// <param name="empid">库管员id：3280</param>
+    /// <returns>
+    ///YLTask.ServerReturn "1";为正确，其他为出错
+    public List<YLTask> StoreInGetBaseAllTask (User user,Context context) throws  Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreInGetBaseAllTask";
+        StoreInGetBaseAllTaskAsycnTask storeInGetBaseAllTaskAsycnTask =
+                new StoreInGetBaseAllTaskAsycnTask();
+        storeInGetBaseAllTaskAsycnTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
+        return storeInGetBaseAllTaskAsycnTask.get();
+    }
+
+    private class StoreInGetBaseAllTaskAsycnTask extends AsyncTask<String,Integer,List<YLTask>>{
+        @Override
+        protected List<YLTask> doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("DataTime",params[1]);
+                p.put("deviceID",params[2]);
+                p.put("empid",params[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

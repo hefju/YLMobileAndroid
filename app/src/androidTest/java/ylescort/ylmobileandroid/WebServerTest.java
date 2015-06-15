@@ -38,13 +38,7 @@ public class WebServerTest extends ApplicationTestCase<Application> {
     public void testValutinBox()throws Exception{
         WebService webService = new WebService();
         List<Box> boxList = webService.GetVaultInBoxList("91610", "1", "3166", getContext());
-
-        AnalysisBoxList analysisBoxList = new AnalysisBoxList();
-        List<Integer> integerList =
-                analysisBoxList.AnsysisBoxList(boxList);
-        Log.e(TAG,integerList.get(0)+"");
-
-        //Log.e(TAG,boxList.toString()+"");
+        Log.e(TAG,boxList.toString());
     }
 
     public void testValultinBox()throws Exception{
@@ -87,9 +81,9 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         List<Box> list = webService.GetAllBox(user, getContext());
 
         AnalysisBoxList analysisBoxList = new AnalysisBoxList();
-        List<Integer> integerList =
-        analysisBoxList.AnsysisBoxList(list);
-        Log.e(TAG,integerList.toString()+"");
+//        List<Integer> integerList =
+//        analysisBoxList.AnsysisBoxList(list);
+//        Log.e(TAG,integerList.toString()+"");
     }
 
     public void testGetTaskList() throws Exception{
@@ -103,5 +97,26 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         Log.e(TAG,ylTaskList.toString());
     }
 
+    public void testComfirmvalutin()throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        user.setTaskDate("123");
+        user.setEmpID("123");
+        user.setDeviceID("123");
+        user.setISWIFI("123");
+        String Serreturn =  webService.ComfirmStoreIn(user, getContext());
+        Log.e(TAG,Serreturn+"");
+    }
+
+    public void testVaultComfirmTask()throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        user.setTaskDate("2015-06-03");
+        user.setEmpID("123");
+        user.setDeviceID("123");
+        user.setISWIFI("123");
+        List<YLTask> ylTaskList= webService.StoreInGetBaseAllTask(user, getContext());
+        Log.e(TAG, ylTaskList.toString());
+    }
 
 }

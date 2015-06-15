@@ -80,14 +80,13 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         WebService webService = new WebService();
         displayboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
-        if (!displayboxlist.get(0).getBoxName().equals("无上传")){
+        if (displayboxlist.get(0).getServerReturn().equals("1")){
             for (int i = 0;i<displayboxlist.size();i++){
                 Box box = new Box();
                 box = displayboxlist.get(i);
                 Allboxlist.add(box);
             }
         }
-        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
         DisPlayBoxlistAdapter(displayboxlist);
         StatisticalBoxList(displayboxlist);
     }
@@ -245,8 +244,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
-
-            if (Allboxlist.size() < 1) return;
+//            if (Allboxlist.size() < 1) return;
             boolean boxcheck = true;
             int position = 0;
             for (int i = 0; i < Allboxlist.size(); i++) {

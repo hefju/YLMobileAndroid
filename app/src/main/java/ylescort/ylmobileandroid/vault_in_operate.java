@@ -23,6 +23,7 @@ import java.util.List;
 
 import TaskClass.BaseEmp;
 import TaskClass.User;
+import TaskClass.YLATM;
 import TaskClass.YLTask;
 import YLAdapter.YLValuttaskitemAdapter;
 import YLDataService.BaseEmpDBSer;
@@ -38,6 +39,7 @@ public class vault_in_operate extends ActionBarActivity {
     private Button vault_in_operate_btn_readcard;
     private EditText vault_in_operate_et_empno;
     private Button vault_in_operate_btn_search;
+    private Button vault_in_operate_btn_alltask;
 
     ListView vault_in_operate_lv;
     private NFCcmdManager manager ;
@@ -74,6 +76,7 @@ public class vault_in_operate extends ActionBarActivity {
         vault_in_operate_et_empno = (EditText)findViewById(R.id.vault_in_operate_et_empno);
         vault_in_operate_btn_readcard = (Button)findViewById(R.id.vault_in_operate_btn_readcard);
         vault_in_operate_btn_search = (Button)findViewById(R.id.vault_in_operate_btn_search);
+        vault_in_operate_btn_alltask = (Button)findViewById(R.id.vault_in_operate_btn_alltask);
 
         vault_in_operate_lv = (ListView)findViewById(R.id.vault_in_operate_lv);
 
@@ -100,6 +103,18 @@ public class vault_in_operate extends ActionBarActivity {
             }
         });
 
+        vault_in_operate_btn_alltask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    GetAllTask();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         vault_in_operate_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -111,6 +126,17 @@ public class vault_in_operate extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void GetAllTask() throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        String pickdate = YLSysTime.DateToStr(YLEditData.getDatePick());
+        user = YLSystem.getUser();
+        user.setTaskDate(pickdate);
+        List<YLTask> ylTaskList = webService.StoreInGetBaseAllTask(user, getApplicationContext());
+        Log.e(YLSystem.getKimTag(),ylTaskList.toString());
+        DisplayTaskList(ylTaskList);
     }
 
     private void GetHanderovermanTask() throws Exception{
@@ -214,6 +240,11 @@ public class vault_in_operate extends ActionBarActivity {
     protected void onPostResume() {
         if (ylValuttaskitemAdapter!=null){
             ylValuttaskitemAdapter.notifyDataSetChanged();
+            try {
+                GetAllTask();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         super.onPostResume();

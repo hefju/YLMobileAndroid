@@ -135,6 +135,14 @@
             android:name=".LocalCheck"
             android:label="@string/title_activity_local_check" >
         </activity>
+        <activity
+            android:name=".Turnover_out"
+            android:label="@string/title_activity_turnover_out" >
+        </activity>
+        <activity
+            android:name=".Turnover_in"
+            android:label="@string/title_activity_turnover_in" >
+        </activity>
     </application>
 
 </manifest>

@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.User;
 import YLAdapter.YLBoxEdiAdapter;
 import YLDataService.AnalysisBoxList;
 import YLDataService.WebService;
@@ -94,9 +96,9 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         handoverman_tv_voucher.setText("凭证箱:"+stringList.get(2));
         handoverman_tv_voucherbag.setText("凭证袋:"+stringList.get(3));
         handoverman_tv_getbox.setText("收箱:"+stringList.get(4));
-        handoverman_tv_givebox.setText("送箱:"+stringList.get(5));
-        handoverman_tv_fullbox.setText("实箱:"+stringList.get(6));
-        handoverman_tv_emptybox.setText("空箱:"+stringList.get(7));
+        handoverman_tv_givebox.setText("送箱:" + stringList.get(5));
+        handoverman_tv_fullbox.setText("实箱:" + stringList.get(6));
+        handoverman_tv_emptybox.setText("空箱:" + stringList.get(7));
     }
 
     private void BoxCheckAdapter(List<Box> boxList){
@@ -134,9 +136,29 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.handoverman_btn_enter:
+                try {
+                    ComfirmStoreIn();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.handoverman_btn_cancel:finish();
                 break;
+        }
+    }
+
+    private void ComfirmStoreIn()throws Exception{
+        WebService webService = new WebService();
+        User user = new User();
+        user = YLSystem.getUser();
+        user.setTaskDate(handoverman_tv_Title.getTag().toString());
+        String SerRetrun =  webService.ComfirmStoreIn(user, getApplicationContext());
+        Log.e(YLSystem.getKimTag(),SerRetrun+"");
+        if (SerRetrun.equals("1")){
+            Toast.makeText(getApplicationContext(),"已申请成功！",Toast.LENGTH_SHORT).show();
+            finish();
+        }else {
+            Toast.makeText(getApplicationContext(),"未能申请成功，请连接有效网络再申请",Toast.LENGTH_SHORT).show();
         }
     }
 }
