@@ -111,10 +111,10 @@ public class WebServerTest extends ApplicationTestCase<Application> {
     public void testVaultComfirmTask()throws Exception{
         WebService webService = new WebService();
         User user = new User();
-        user.setTaskDate("2015-06-03");
-        user.setEmpID("123");
+        user.setTaskDate("2015-06-16");
+        user.setEmpID("3361");
         user.setDeviceID("123");
-        user.setISWIFI("123");
+        user.setISWIFI("1");
         List<YLTask> ylTaskList= webService.StoreInGetBaseAllTask(user, getContext());
         Log.e(TAG, ylTaskList.toString());
     }

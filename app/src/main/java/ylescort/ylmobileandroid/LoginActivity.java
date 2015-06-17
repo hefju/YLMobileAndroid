@@ -1,6 +1,8 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,7 +72,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         buttonflag = false;
         /**
          * 获取手机IMEI码
@@ -78,9 +79,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         String srvName = Context.TELEPHONY_SERVICE;
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
         String IMEI = telephonyManager.getDeviceId();
+        String SIM = telephonyManager.getSimSerialNumber();
         YLSystem.setHandsetIMEI(IMEI);
 
-        log_tv_hsimei.setText("机器码:"+IMEI);
+        log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
 
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

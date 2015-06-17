@@ -41,10 +41,11 @@ public class vault_in_operate extends ActionBarActivity {
     private Button vault_in_operate_btn_search;
     private Button vault_in_operate_btn_alltask;
 
-    ListView vault_in_operate_lv;
+    private ListView vault_in_operate_lv;
     private NFCcmdManager manager ;
     private YLMediaPlayer player;
     private YLValuttaskitemAdapter ylValuttaskitemAdapter;
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,11 +81,14 @@ public class vault_in_operate extends ActionBarActivity {
 
         vault_in_operate_lv = (ListView)findViewById(R.id.vault_in_operate_lv);
 
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         vault_in_operate_btn_readcard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {GetHanderovermanTask();}
                 catch (Exception e) { e.printStackTrace(); }
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(),0);
             }
         });
 
@@ -98,8 +102,7 @@ public class vault_in_operate extends ActionBarActivity {
                 }}catch (Exception e){
                     e.printStackTrace();
                 }
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
             }
         });
 
@@ -112,6 +115,7 @@ public class vault_in_operate extends ActionBarActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
             }
         });
 
@@ -135,7 +139,7 @@ public class vault_in_operate extends ActionBarActivity {
         user = YLSystem.getUser();
         user.setTaskDate(pickdate);
         List<YLTask> ylTaskList = webService.StoreInGetBaseAllTask(user, getApplicationContext());
-        Log.e(YLSystem.getKimTag(),ylTaskList.toString());
+        Log.e(YLSystem.getKimTag(),ylTaskList.size()+" yltasksize");
         DisplayTaskList(ylTaskList);
     }
 
@@ -208,7 +212,8 @@ public class vault_in_operate extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode== 131 || keyCode == 132){
-            try {GetHanderovermanTask();}
+            try {GetHanderovermanTask();
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);}
             catch (Exception e) {e.printStackTrace();}
         }
         return super.onKeyDown(keyCode, event);
@@ -242,6 +247,7 @@ public class vault_in_operate extends ActionBarActivity {
             ylValuttaskitemAdapter.notifyDataSetChanged();
             try {
                 GetAllTask();
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
             } catch (Exception e) {
                 e.printStackTrace();
             }

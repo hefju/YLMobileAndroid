@@ -384,9 +384,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (displayboxlist.size() < 1) return;
+                if (Allboxlist.size() < 1) return;
                 boolean boxcheck = false;
-                for (Box box : displayboxlist) {
+                for (Box box : Allboxlist) {
                     if (box.getValutcheck() != null) {
                         if (box.getBoxType().equals("无")) {
                             boxcheck = true;
@@ -400,9 +400,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                             .setPositiveButton("确定", null).show();
                 } else {
                     try {
-                        ylTask.setLstBox(displayboxlist);
+                        ylTask.setLstBox(Allboxlist);
                         YLEditData.setYlTask(ylTask);
-                        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
+                        Log.e(YLSystem.getKimTag(), Allboxlist.toString());
                         WebService webService = new WebService();
                         String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
                         if (returstr.contains("0")){
