@@ -143,6 +143,10 @@
             android:name=".Turnover_in"
             android:label="@string/title_activity_turnover_in" >
         </activity>
+        <activity
+            android:name=".Valut_turnover"
+            android:label="@string/title_activity_valut_turnover" >
+        </activity>
     </application>
 
 </manifest>

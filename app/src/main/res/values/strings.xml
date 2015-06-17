@@ -117,4 +117,5 @@
     <string name="title_activity_local_check">汇总检测</string>
     <string name="title_activity_turnover_out">Turnover_out</string>
     <string name="title_activity_turnover_in">Turnover_in</string>
+    <string name="title_activity_valut_turnover">Valut_turnover</string>
 </resources>
