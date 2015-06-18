@@ -5,8 +5,51 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="ylescort.ylmobileandroid.Valut_turnover">
-
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_turnover_ll_listview"
+        android:layout_above="@+id/vault_turnover_ll_inorout">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_turnover_listview">
+        </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60sp"
+        android:id="@+id/vault_turnover_ll_inorout"
+        android:gravity="center"
+        android:layout_above="@+id/vault_turnover_ll_oper">
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="fill_parent"
+            android:id="@+id/vault_turnover_btn_vaultin"
+            android:text="@string/title_activity_valut_btn_vaultin"/>
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="fill_parent"
+            android:layout_marginStart="10sp"
+            android:id="@+id/vault_turnover_btn_vaultout"
+            android:text="@string/title_activity_valut_btn_vaultout"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60sp"
+        android:id="@+id/vault_turnover_ll_oper"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="fill_parent"
+            android:id="@+id/vault_turnover_btn_scan"
+            android:text="@string/title_activity_valut_btn_scan"/>
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="fill_parent"
+            android:id="@+id/vault_turnover_btn_upload"
+            android:layout_marginStart="10sp"
+            android:text="@string/title_activity_valut_btn_upload"/>
+    </LinearLayout>
 </RelativeLayout>

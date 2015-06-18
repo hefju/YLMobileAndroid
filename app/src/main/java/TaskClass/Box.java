@@ -19,6 +19,25 @@ public class Box {
     public String BoxTaskType;//箱任务类型---中调或普通
     public String BoxOrder;//箱序号
     public String Valutcheck;//金库检查--多/符合/缺
+    public String BaseValutOut;//出库基地
+    public String BaseValutIn;//入库基地
+
+
+    public String getBaseValutIn() {
+        return BaseValutIn;
+    }
+
+    public void setBaseValutIn(String baseValutIn) {
+        BaseValutIn = baseValutIn;
+    }
+
+    public String getBaseValutOut() {
+        return BaseValutOut;
+    }
+
+    public void setBaseValutOut(String baseValutOut) {
+        BaseValutOut = baseValutOut;
+    }
 
     public String getValutcheck() {
         return Valutcheck;
@@ -158,6 +177,8 @@ public class Box {
                 ", BoxTaskType='" + BoxTaskType + '\'' +
                 ", BoxOrder='" + BoxOrder + '\'' +
                 ", Valutcheck='" + Valutcheck + '\'' +
+                ", BaseValutOut='" + BaseValutOut + '\'' +
+                ", BaseValutIn='" + BaseValutIn + '\'' +
                 '}';
     }
 }
