@@ -42,7 +42,7 @@ public class WebServerValutturnover {
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
-                p.put("DataTime",params[1]);
+                p.put("BaseName",params[1]);
                 p.put("deviceID",params[2]);
                 p.put("empid",params[3]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
