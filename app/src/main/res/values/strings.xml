@@ -65,6 +65,7 @@
     <string name="vaultinorout_btn_in">入库(F1)</string>
     <string name="vaultinorout_btn_out">出库(F2)</string>
     <string name="vaultinorout_btn_CheckVault">盘库</string>
+    <string name="vaultinorout_btn_turnover">夜间周转</string>
     <!--出库管理-->
     <string name="title_activity_vault_out_operate">出库管理</string>
     <string name="vault_out_operate_tv_text">任务线路:</string>

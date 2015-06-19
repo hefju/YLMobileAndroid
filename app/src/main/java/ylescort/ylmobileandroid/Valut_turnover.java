@@ -2,15 +2,21 @@ package ylescort.ylmobileandroid;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.List;
+
+import TaskClass.Box;
 import TaskClass.YLTask;
+import YLDataService.WebServerValutturnover;
+import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSysTime;
-import ylescort.ylmobileandroid.R;
+import YLSystemDate.YLSystem;
 
 public class Valut_turnover extends ActionBarActivity {
 
@@ -24,6 +30,8 @@ public class Valut_turnover extends ActionBarActivity {
     private YLTask vaultoutylTask;
 
     private String PickDate;
+    private List<Box> valutoutboxList;
+    private List<Box> valutinboxList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,12 @@ public class Valut_turnover extends ActionBarActivity {
         vaultinylTask = new YLTask();
         vaultoutylTask = new YLTask();
         PickDate = YLSysTime.DateToStr(YLEditData.getDatePick());
+        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+        valutoutboxList = webServerValutturnover.ValutOutBoxList(YLSystem.getUser(),getApplicationContext());
 
+//        valutinboxList = webServerValutturnover.ValutInBoxList();
+
+        Log.e(YLSystem.getKimTag(),"入库数："+valutinboxList.size()+"出库数"+valutinboxList.size());
     }
 
     private void InitView() {

@@ -23,6 +23,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
     Button vaultinorout_btn_in;
     Button vaultinorout_btn_out;
     Button vaultinorout_btn_CheckVault;
+    Button vaultinorout_btn_turnover;
     DatePicker vaultinorout_datepicker;
 
     @Override
@@ -37,10 +38,13 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
         vaultinorout_btn_in = (Button) findViewById(R.id.vaultinorout_btn_in);
         vaultinorout_btn_out = (Button)findViewById(R.id.vaultinorout_btn_out);
         vaultinorout_btn_CheckVault = (Button)findViewById(R.id.vaultinorout_btn_CheckVault);
+        vaultinorout_btn_turnover = (Button)findViewById(R.id.vaultinorout_btn_turnover);
         vaultinorout_datepicker = (DatePicker)findViewById(R.id.vaultinorout_datepicker);
+
         vaultinorout_btn_in.setOnClickListener(this);
         vaultinorout_btn_out.setOnClickListener(this);
         vaultinorout_btn_CheckVault.setOnClickListener(this);
+        vaultinorout_btn_turnover.setOnClickListener(this);
     }
 
     private void GetDatePickerDate(){
@@ -112,6 +116,10 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.vaultinorout_btn_CheckVault:
                 intent.setClass(VaultInOrOut.this,vault_check_ylbox.class);
+                startActivity(intent);
+                break;
+            case R.id.vaultinorout_btn_turnover:
+                intent.setClass(VaultInOrOut.this,Valut_turnover.class);
                 startActivity(intent);
                 break;
         }

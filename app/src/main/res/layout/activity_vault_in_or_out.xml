@@ -10,26 +10,34 @@
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="70sp"
+        android:layout_height="60sp"
         android:text="@string/vaultinorout_btn_CheckVault"
         android:id="@+id/vaultinorout_btn_CheckVault"
         android:layout_alignParentTop="true"
         android:background="@color/chartreuse" />
+
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="70sp"
+        android:layout_height="60sp"
+        android:text="@string/vaultinorout_btn_turnover"
+        android:id="@+id/vaultinorout_btn_turnover"
+        android:layout_below="@+id/vaultinorout_btn_CheckVault"
+        android:background="@color/androidpurplel" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="60sp"
         android:text="@string/vaultinorout_btn_in"
         android:id="@+id/vaultinorout_btn_in"
-        android:layout_marginTop="100dp"
+        android:layout_below="@+id/vaultinorout_btn_turnover"
         android:layout_alignParentStart="true"
         android:background="@color/royalblue"/>
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="70sp"
+        android:layout_height="60sp"
         android:text="@string/vaultinorout_btn_out"
         android:id="@+id/vaultinorout_btn_out"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/vaultinorout_btn_in"
         android:background="@color/peru"/>
     <DatePicker
         android:layout_width="wrap_content"

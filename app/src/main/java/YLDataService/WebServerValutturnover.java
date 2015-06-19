@@ -1,5 +1,6 @@
 package YLDataService;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -17,7 +18,9 @@ import org.json.JSONObject;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.User;
 import TaskClass.YLTask;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2015-06-17.
@@ -28,9 +31,10 @@ import TaskClass.YLTask;
  */
 public class WebServerValutturnover {
 
-    public List<Box> ValutOutBoxList()throws Exception{
+    public List<Box> ValutOutBoxList(User user,Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetNowInBoxlList";
         ValutOutBoxListAsyTask valutOutBoxListAsyTask = new ValutOutBoxListAsyTask();
-        valutOutBoxListAsyTask.execute();
+        valutOutBoxListAsyTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
         return valutOutBoxListAsyTask.get();
     }
 

@@ -212,6 +212,7 @@ public class YLSite extends ActionBarActivity {
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
+                Log.e(YLSystem.getKimTag(),"箱数："+t1.getLstBox().size()+"网点数："+t1.getLstSite().size());
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
                     Log.e(YLSystem.getKimTag(),t1.lstBox.size()+"boxlist");

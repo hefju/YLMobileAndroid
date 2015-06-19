@@ -1,8 +1,24 @@
 package ylescort.ylmobileandroid;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.test.ApplicationTestCase;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -117,6 +133,80 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         user.setISWIFI("1");
         List<YLTask> ylTaskList= webService.StoreInGetBaseAllTask(user, getContext());
         Log.e(TAG, ylTaskList.toString());
+    }
+
+    public void testMaxDataUpload()throws Exception{
+        User user = new User();
+        user.setEmpID("3647");
+        YLSystem.setUser(user);
+
+        Postasytask postasytask = new Postasytask();
+        postasytask.doInBackground();
+
+    }
+
+    private class Postasytask extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... params) {
+
+                TasksManager tasksManager = new TasksManager();
+                tasksManager.Loading(getContext(), "2015-06-18");
+                YLTask ylTask = tasksManager.lstLatestTask.get(0);
+                String url = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/UpLoad";
+//            try {
+//                int tmout = 5;
+//                HttpParams httpParams = new BasicHttpParams();
+//                httpParams.setParameter("charset", "UTF-8");
+//                HttpConnectionParams.setConnectionTimeout(httpParams,tmout * 1000);  //毫秒
+//                HttpConnectionParams.setSoTimeout(httpParams, tmout * 1000);
+//                HttpClient httpClient = new DefaultHttpClient(httpParams);
+//                Gson gson = new Gson();
+//                JSONObject p = new JSONObject();
+//                YLTask t1 = ylTask;
+//                t1.lstSite=ylTask.lstSite;
+//                t1.lstBox=ylTask.lstBox;
+//                p.put("STask",gson.toJson(t1));//整个任务=====================自定义。。。。。
+//                p.put("empid", YLSystem.getUser().EmpID);//人员id=====================自定义。。。。。
+//                p.put("deviceID", YLSystem.getUser().DeviceID);//手持机号=====================自定义。。。。。
+//                p.put("ISWIFI", YLSystem.getUser().ISWIFI);//是否用WIFI=====================自定义。。。。。
+//                HttpPost httpPost = new HttpPost(url);
+//                httpPost.setEntity(new StringEntity(p.toString(), "UTF-8"));
+//                HttpResponse response;
+//                response = httpClient.execute(httpPost);
+////检验状态码，如果成功接收数据
+//                int code = response.getStatusLine().getStatusCode();
+//                Log.e(YLSystem.getKimTag(),code+"");
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                YLTask t1 = ylTask;
+                t1.lstSite=ylTask.lstSite;
+                t1.lstBox=ylTask.lstBox;
+                p.put("STask",gson.toJson(t1));//整个任务=====================自定义。。。。。
+                p.put("empid", YLSystem.getUser().EmpID);//人员id=====================自定义。。。。。
+                p.put("deviceID", YLSystem.getUser().DeviceID);//手持机号=====================自定义。。。。。
+                p.put("ISWIFI", YLSystem.getUser().ISWIFI);//是否用WIFI=====================自定义。。。。。
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                Log.e(YLSystem.getKimTag(),"箱数："+t1.getLstBox().size()+"网点数："+t1.getLstSite().size()+
+                       " 连接返回："+ response.getStatusLine().getStatusCode());
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    Log.e(YLSystem.getKimTag(),t1.lstBox.size()+"boxlist");
+                    return gson.fromJson(content,new TypeToken<String>(){}.getType()) ;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
 }
