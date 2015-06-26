@@ -2,6 +2,7 @@ package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +42,8 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
     private TasksManager tasksManager ;
     private YLValuttaskitemAdapter ylValuttaskitemAdapter;
 
+    private InputMethodManager imm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,15 +72,16 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
         vault_out_operate_lv_tasklist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListView listView = (ListView)parent;
-                YLTask ylTask = (YLTask)listView.getItemAtPosition(position);
+                ListView listView = (ListView) parent;
+                YLTask ylTask = (YLTask) listView.getItemAtPosition(position);
                 //tasksManager.SetCurrentTask(ylTask.getTaskID());
                 YLEditData.setYlTask(ylTask);
                 Intent intent = new Intent();
-                intent.setClass(vault_out_operate.this,vault_out_detail.class);
+                intent.setClass(vault_out_operate.this, vault_out_detail.class);
                 startActivity(intent);
             }
         });
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
 
@@ -86,6 +91,10 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
 
     private void SearchYLTask() {
         try {
+            imm.hideSoftInputFromWindow(vault_out_operate_numberpicktens.getWindowToken(),0);
+            imm.hideSoftInputFromWindow(vault_out_operate_numberpickunits.getWindowToken(),0);
+            vault_out_operate_numberpicktens.clearFocus();
+            vault_out_operate_numberpickunits.clearFocus();
             int tens = vault_out_operate_numberpicktens.getValue();
             int units = vault_out_operate_numberpickunits.getValue();
             String Line = "0" + tens + units;
@@ -99,7 +108,6 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
             user.setName(Line);//借用user类传入线路编号
             WebService webService = new WebService();
             List<YLTask> ylTaskList = webService.GetVaultOutTask(user, getApplication());
-            Log.e(YLSystem.getKimTag(),ylTaskList.toString());
             if (ylTaskList.size()==1 && ylTaskList.get(0).getServerReturn().equals("没有出库任务。")){
                 ShowNoTaskDialog();
                 ylTaskList = new ArrayList<>();
