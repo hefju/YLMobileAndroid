@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">粤龙保安押运安卓端</string>
+    <string name="app_name">粤龙保安押运交接端</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">系统设置</string>
     <string name="UserName">用户名：</string>

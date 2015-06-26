@@ -322,15 +322,17 @@ public class YLBoxScan extends ActionBarActivity {
                 break;
             case "库内跨行调拨":box_sp_stype.setSelection(8);
                 break;
-            case "寄库箱":box_sp_stype.setSelection(9);
+            case "长途押运":box_sp_stype.setSelection(9);
                 break;
-            case "即收即送—企业上门收款":box_sp_stype.setSelection(10);
+            case "寄库箱":box_sp_stype.setSelection(10);
                 break;
-            case "次日送—企业上门收款":box_sp_stype.setSelection(11);
+            case "即收即送—企业上门收款":box_sp_stype.setSelection(11);
                 break;
-            case "次日送—即收即送—企业上门送款":box_sp_stype.setSelection(12);
+            case "次日送—企业上门收款":box_sp_stype.setSelection(12);
                 break;
-            case "次日送—企业上门送款":box_sp_stype.setSelection(13);
+            case "即收即送—企业上门送款":box_sp_stype.setSelection(13);
+                break;
+            case "次日送—企业上门送款":box_sp_stype.setSelection(14);
                 break;
         }
     }
@@ -428,7 +430,6 @@ public class YLBoxScan extends ActionBarActivity {
         if (adapterboxlist !=null ){
             ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             YLScanBoxlistView.setAdapter(ylBoxAdapter);
-            Log.e(YLSystem.getKimTag(), "fristboxlist");
             //YLScanBoxlistView.setSelection(listpostion);
         }
 //        else if (adapterboxlist !=null && adapterboxlist.size()>1){
@@ -822,10 +823,16 @@ public class YLBoxScan extends ActionBarActivity {
         });
     }
 
+
     private boolean CheckBoxNumber(String boxnumber) {
         baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
         if (baseBox.BoxBCNo.length()!=10 ||baseBox.BoxName.equals("无数据")){
             return true;}
+
+        if (box_sp_text.contains("企业上门")){
+            return false;
+        }
+
         for (int i = 0 ; i <ScanboxList.size();i++){
             String boxid = ScanboxList.get(i).BoxID;
             if (boxid.equals(boxnumber)){

@@ -12,10 +12,10 @@
         <item>库内跨行调拨</item>
         <item>长途押运</item>
         <item>寄库箱</item>
-        <item>即收即送——企业上门收款</item>
-        <item>次日送——企业上门收款</item>
-        <item>即收即送——企业上门送款</item>
-        <item>次日送——企业上门送款</item>
+        <item>即收即送—企业上门收款</item>
+        <item>次日送—企业上门收款</item>
+        <item>即收即送—企业上门送款</item>
+        <item>次日送—企业上门送款</item>
     </string-array>
     <string-array name="ylboxvalut">
         <item>实款箱</item>
