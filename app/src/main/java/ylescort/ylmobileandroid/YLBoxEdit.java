@@ -306,23 +306,29 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
             case "晚收":boxedi_sp_tasktype.setSelection(1);
                 break;
-            case "日间区内中调":boxedi_sp_tasktype.setSelection(2);
+            case "网点日间上介中心金库":boxedi_sp_tasktype.setSelection(2);
                 break;
-            case "日间跨区中调":boxedi_sp_tasktype.setSelection(3);
+            case "日间中心金库下介网点":boxedi_sp_tasktype.setSelection(3);
                 break;
-            case "库内区内中调":boxedi_sp_tasktype.setSelection(4);
+            case "日间跨行调拨":boxedi_sp_tasktype.setSelection(4);
                 break;
-            case "库内跨区中调":boxedi_sp_tasktype.setSelection(5);
+            case "日间同行横向调拨":boxedi_sp_tasktype.setSelection(5);
                 break;
-            case "夜间基地周转":boxedi_sp_tasktype.setSelection(6);
+            case "库内上介":boxedi_sp_tasktype.setSelection(6);
                 break;
-            case "佛山人行":boxedi_sp_tasktype.setSelection(7);
+            case "库内下介":boxedi_sp_tasktype.setSelection(7);
                 break;
-            case "寄库":boxedi_sp_tasktype.setSelection(8);
+            case "库内跨行调拨":boxedi_sp_tasktype.setSelection(8);
                 break;
-            case "企业上门收款":boxedi_sp_tasktype.setSelection(9);
+            case "寄库箱":boxedi_sp_tasktype.setSelection(9);
                 break;
-            case "长途押运":boxedi_sp_tasktype.setSelection(10);
+            case "即收即送—企业上门收款":boxedi_sp_tasktype.setSelection(10);
+                break;
+            case "次日送—企业上门收款":boxedi_sp_tasktype.setSelection(11);
+                break;
+            case "次日送—即收即送—企业上门送款":boxedi_sp_tasktype.setSelection(12);
+                break;
+            case "次日送—企业上门送款":boxedi_sp_tasktype.setSelection(13);
                 break;
         }
     }

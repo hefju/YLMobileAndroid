@@ -308,23 +308,29 @@ public class YLBoxScan extends ActionBarActivity {
                 break;
             case "晚收":box_sp_stype.setSelection(1);
                 break;
-            case "日间区内中调":box_sp_stype.setSelection(2);
+            case "网点日间上介中心金库":box_sp_stype.setSelection(2);
                 break;
-            case "日间跨区中调":box_sp_stype.setSelection(3);
+            case "日间中心金库下介网点":box_sp_stype.setSelection(3);
                 break;
-            case "库内区内中调":box_sp_stype.setSelection(4);
+            case "日间跨行调拨":box_sp_stype.setSelection(4);
                 break;
-            case "库内跨区中调":box_sp_stype.setSelection(5);
+            case "日间同行横向调拨":box_sp_stype.setSelection(5);
                 break;
-            case "夜间基地周转":box_sp_stype.setSelection(6);
+            case "库内上介":box_sp_stype.setSelection(6);
                 break;
-            case "佛山人行":box_sp_stype.setSelection(7);
+            case "库内下介":box_sp_stype.setSelection(7);
                 break;
-            case "寄库":box_sp_stype.setSelection(8);
+            case "库内跨行调拨":box_sp_stype.setSelection(8);
                 break;
-            case "企业上门收款":box_sp_stype.setSelection(9);
+            case "寄库箱":box_sp_stype.setSelection(9);
                 break;
-            case "长途押运":box_sp_stype.setSelection(10);
+            case "即收即送—企业上门收款":box_sp_stype.setSelection(10);
+                break;
+            case "次日送—企业上门收款":box_sp_stype.setSelection(11);
+                break;
+            case "次日送—即收即送—企业上门送款":box_sp_stype.setSelection(12);
+                break;
+            case "次日送—企业上门送款":box_sp_stype.setSelection(13);
                 break;
         }
     }
@@ -422,7 +428,7 @@ public class YLBoxScan extends ActionBarActivity {
         if (adapterboxlist !=null ){
             ylBoxAdapter = new YLBoxAdapter(this, adapterboxlist, R.layout.activity_boxlist);
             YLScanBoxlistView.setAdapter(ylBoxAdapter);
-            Log.e(YLSystem.getKimTag(),"fristboxlist");
+            Log.e(YLSystem.getKimTag(), "fristboxlist");
             //YLScanBoxlistView.setSelection(listpostion);
         }
 //        else if (adapterboxlist !=null && adapterboxlist.size()>1){
