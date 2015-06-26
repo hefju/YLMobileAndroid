@@ -110,7 +110,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         vault_out_detail_tv_taskname.setText(ylTask.getLine());
         WebService webService = new WebService();
         AllboxList = webService.GetAllBox(YLSystem.getUser(),getApplicationContext());
-        Log.e(YLSystem.getKimTag(), AllboxList.toString());
+        Log.e(YLSystem.getKimTag(), AllboxList.size() + " 库内款箱数");
     }
 
     private void InitReciveScan1D() {
@@ -194,12 +194,12 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                                 Box listbox = vaulteroutboxlist.get(position);
 
                                 Box editbox = new Box();
-                                 editbox= listbox;
+                                editbox = listbox;
                                 editbox.setBoxType(box.getBoxType());
                                 editbox.setBoxStatus(box.getBoxStatus());
                                 editbox.setBoxCount("1");
                                 editbox.setBoxTaskType(ylTask.getTaskType());
-                                Log.e(YLSystem.getKimTag(),editbox.toString());
+                                Log.e(YLSystem.getKimTag(), editbox.toString());
                                 vaulteroutboxlist.set(position, editbox);
                             }
                         }
@@ -221,10 +221,15 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                     ylTask.setLstBox(vaulteroutboxlist);
                     YLEditData.setYlTask(ylTask);
                     WebService webService = new WebService();
-                    webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
-                    ylTask.setTaskState("已上传");
-                    dialog.dismiss();
-                    vault_out_detail.this.finish();
+                    String serreturn =
+                            webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
+                    if (serreturn.equals("1")){
+                        ylTask.setTaskState("已上传");
+                        dialog.dismiss();
+                        vault_out_detail.this.finish();
+                    }else{
+                        Toast.makeText(getApplicationContext(),"未上传数据，请检查网络后再上传",Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -324,6 +329,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     private Box CheckBox(String recivedata ){
         boolean getboxtof = false;
         Box getbox = new Box();
+
         for (int i = 0; i < AllboxList.size();i++){
             Box box = AllboxList.get(i);
             if (box.getBoxID().equals(recivedata)){

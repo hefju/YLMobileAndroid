@@ -862,7 +862,7 @@ public class WebService {
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200) {
-                    return EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(EntityUtils.toString(response.getEntity()),String.class);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -371,14 +371,15 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 }
                 Scan1DCmd(cmd);
                 break;
-            case 132:ConfirmData();
+            case 132:
+                ConfirmData();
                 break;
         }
         return super.onKeyDown(keyCode, event);
     }
 
     private void ConfirmData() {
-       AlertDialog.Builder builder = new AlertDialog.Builder(vault_in_detail.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_in_detail.this);
         builder.setMessage("是否确认上传数据");
         builder.setTitle("提示");
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
@@ -386,14 +387,16 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 if (Allboxlist.size() < 1) return;
                 boolean boxcheck = false;
-                for (Box box : Allboxlist) {
-                    if (box.getValutcheck() != null) {
-                        if (box.getBoxType().equals("无")) {
-                            boxcheck = true;
-                            break;
-                        }
-                    }
-                }
+
+                //未设置款箱状态也能上传0623kim
+//                for (Box box : Allboxlist) {
+//                    if (box.getValutcheck() != null) {
+//                        if (box.getBoxType().equals("无")) {
+//                            boxcheck = true;
+//                            break;
+//                        }
+//                    }
+//                }
                 if (boxcheck) {
                     new AlertDialog.Builder(vault_in_detail.this).setTitle("提示")
                             .setMessage("有款箱未状态设置\r\n请完成设置")
@@ -405,9 +408,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         Log.e(YLSystem.getKimTag(), Allboxlist.toString());
                         WebService webService = new WebService();
                         String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
-                        if (returstr.contains("0")){
-                            Log.e(YLSystem.getKimTag(),"0");
-                        }else if (returstr.contains("1")){
+                        if (returstr.contains("0")) {
+                            Log.e(YLSystem.getKimTag(), "0");
+                        } else if (returstr.contains("1")) {
                             Log.e(YLSystem.getKimTag(),"1");
                         }
                     } catch (Exception e) {

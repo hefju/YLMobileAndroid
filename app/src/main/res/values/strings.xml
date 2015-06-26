@@ -118,8 +118,8 @@
     <string name="title_activity_local_check">汇总检测</string>
     <!--库内中转-->
     <string name="title_activity_valut_turnover">库内中转</string>
-    <string name="title_activity_valut_btn_scan">扫描</string>
-    <string name="title_activity_valut_btn_upload">上传</string>
+    <string name="title_activity_valut_btn_scan">扫描/F1</string>
+    <string name="title_activity_valut_btn_upload">上传/F2</string>
     <string name="title_activity_valut_btn_vaultin">入库</string>
     <string name="title_activity_valut_btn_vaultout">出库</string>
 </resources>

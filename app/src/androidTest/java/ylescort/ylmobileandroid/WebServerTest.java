@@ -27,6 +27,7 @@ import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.AnalysisBoxList;
+import YLDataService.WebServerValutturnover;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
@@ -209,4 +210,46 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         }
     }
 
+
+    public void testTurnOverbaseboxlist()throws Exception{
+        User user = new User();
+        user.setTaskDate("南海基地");
+        user.setDeviceID("11");
+        user.setEmpID("3647");
+
+        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+        List<Box> boxList = webServerValutturnover.ValutOutBoxList(user, getContext());
+        Log.e(TAG,boxList.size()+"");
+    }
+
+    public void testTurnOverupload()throws Exception{
+        User user = new User();
+        user.setTaskDate("南海基地");
+        user.setDeviceID("11");
+        user.setEmpID("3647");
+        YLSystem.setUser(user);
+        TasksManager tasksManager = new TasksManager();
+        tasksManager.Loading(getContext(), "2015-06-18");
+        YLTask ylTask = tasksManager.lstLatestTask.get(0);
+        YLEditData.setYlTask(ylTask);
+        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+        String returnstring = webServerValutturnover.Valutturnoverupload(user, getContext());
+        Log.e(TAG,returnstring+"");
+    }
+
+    public void testTurnOverIn()throws Exception{
+        User user = new User();
+        user.setTaskDate("2015.06.25");
+        user.setDeviceID("11");
+        user.setEmpID("2708");
+        user.setServerReturn("乐从基地");
+        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+        List<Box> boxList =  webServerValutturnover.ValutInBoxList(user, getContext());
+        String getstring = boxList.get(0).getSiteID();
+        if (getstring == null){
+            Log.e(TAG,"123");
+        }else {
+            Log.e(TAG,getstring+"");
+        }
+    }
 }
