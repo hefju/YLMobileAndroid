@@ -35,9 +35,9 @@ public class AnalysisBoxList {
                 case"凭证袋":voucherbag +=count;
                     break;
             }
-//            if (box.getTradeAction().equals("收")){
-//                getbox+=count;
-//            }else {givebox+=count;}
+            if (box.getTradeAction().equals("收")){
+                getbox+=count;
+            }else {givebox+=count;}
             if (box.getBoxStatus().equals("实")){
                 fullbox+=count;
             }else {emptybox+=count;}

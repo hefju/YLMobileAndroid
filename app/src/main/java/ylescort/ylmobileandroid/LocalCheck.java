@@ -78,6 +78,7 @@ public class LocalCheck extends ActionBarActivity {
                 ListView listView = (ListView) parent;
                 List<Box> analysisbox = new ArrayList<Box>();
                 Site site =(Site) listView.getItemAtPosition(position);
+                if (boxList == null)return;
                 for (int i = 0 ; i < boxList.size();i++){
                     Box box = new Box();
                     box = boxList.get(i);
