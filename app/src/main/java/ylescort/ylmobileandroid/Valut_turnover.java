@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,6 +28,7 @@ import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLBoxEdiAdapter;
 import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.AnalysisBoxList;
 import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
@@ -34,6 +38,7 @@ import YLSystemDate.YLSystem;
 public class Valut_turnover extends ActionBarActivity implements View.OnClickListener {
 
     private ListView vault_turnover_listview;
+    private TextView vault_turnover_tv_title;
     private Button vault_turnover_btn_vaultin;
     private Button vault_turnover_btn_vaultout;
     private Button vault_turnover_btn_scan;
@@ -57,6 +62,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
     private String BoxOper;
 
     private User user;
+
+    private MediaPlayer mPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,6 +184,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 //                                        , getApplicationContext());
                             }
                             BoxOper = "out";
+                            vault_turnover_tv_title.setText("出库总数:0");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -197,11 +205,30 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     DisplayboxList.add(valutinboxList.get(i));
                 }
             }
+            AnalyBoxes(DisplayboxList,"in");
             ylBoxEdiAdapter.notifyDataSetChanged();
             vault_turnover_btn_vaultout.setEnabled(true);
             vault_turnover_btn_vaultin.setEnabled(false);
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    private void AnalyBoxes(List<Box> displayboxList, String inorout) {
+        if (inorout.equals("in")){
+            String intext ="入库列表数为："+ displayboxList.size();
+            int correctbox = 0;
+            for (int i = 0;i <displayboxList.size();i++){
+                Box box = displayboxList.get(i);
+                if (box.getValutcheck().equals("对")){
+                    correctbox++;
+                }
+            }
+            String correctstr = "库管员扫描正确扫描:"+correctbox;
+            vault_turnover_tv_title.setText(intext+"\r\n"+correctstr);
+        }else if (inorout.equals("out")){
+            String outstr = "出库总数："+displayboxList.size();
+            vault_turnover_tv_title.setText(outstr);
         }
     }
 
@@ -217,48 +244,55 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
     }
 
     private void PutBoxToBoxList(Box box) {
-        if (box.getBoxName().equals("illegalbox")||box.getBoxName().equals("无数据"))return;
-        boolean checkbox = true;
-        if (BoxOper.equals("out")) {
-            for (int i = 0; i < DisplayboxList.size(); i++) {
-                if (box.getBoxID().equals(DisplayboxList.get(i).getBoxID())) {
-                    checkbox = false;
-                    break;
+        try {
+            if (box.getBoxName().equals("illegalbox") || box.getBoxName().equals("无数据")) return;
+            boolean checkbox = true;
+            if (BoxOper.equals("out")) {
+                for (int i = 0; i < DisplayboxList.size(); i++) {
+                    if (box.getBoxID().equals(DisplayboxList.get(i).getBoxID())) {
+                        checkbox = false;
+                        break;
+                    }
+                }
+                if (checkbox) {
+                    if (BoxOper.equals("out")) {
+                        box.setValutcheck(InBaseName);
+                        box.setBaseValutOut(OutBaseName);
+                        box.setBaseValutIn(InBaseName);
+                        box.setTradeAction("出库");
+                        box.setTimeID("1");
+                        box.setActionTime(YLSysTime.GetStrCurrentTime());
+                        DisplayboxList.add(box);
+                        YLBoxMediaPlay("success");
+                        AnalyBoxes(DisplayboxList, "out");
+                        vault_turnover_listview.setSelection(DisplayboxList.size() - 1);
+                    }
+                }
+            } else {
+                for (int i = 0; i < DisplayboxList.size(); i++) {
+                    Box boxin = new Box();
+                    boxin = DisplayboxList.get(i);
+                    if (boxin.getBoxID().equals(box.getBoxID())) {
+                        boxin.setValutcheck("对");
+                        boxin.setTradeAction("入库");
+                        boxin.setBaseValutOut(boxin.getBaseValutOut());
+                        boxin.setTimeID("2");
+                        boxin.setActionTime(YLSysTime.GetStrCurrentTime());
+                        DisplayboxList.set(i, boxin);
+                        YLBoxMediaPlay("success");
+                        vault_turnover_listview.setSelection(i);
+                        AnalyBoxes(DisplayboxList, "in");
+                    }
                 }
             }
-            if (checkbox) {
-                if (BoxOper.equals("out")) {
-                    box.setValutcheck(InBaseName);
-                    box.setBaseValutOut(OutBaseName);
-                    box.setBaseValutIn(InBaseName);
-                    box.setTradeAction("出库");
-                    box.setTimeID("1");
-                    box.setActionTime(YLSysTime.GetStrCurrentTime());
-                    DisplayboxList.add(box);
-                    vault_turnover_listview.setSelection(DisplayboxList.size() - 1);
-                }
-            }
-
-        }else {
-            for (int i = 0;i <DisplayboxList.size();i++ ){
-                Box boxin = new Box();
-                boxin = DisplayboxList.get(i);
-                if (boxin.getBoxID().equals(box.getBoxID())){
-                    boxin.setValutcheck("对");
-                    boxin.setTradeAction("入库");
-                    boxin.setBaseValutOut(boxin.getBaseValutOut());
-                    boxin.setTimeID("2");
-                    boxin.setActionTime(YLSysTime.GetStrCurrentTime());
-                    DisplayboxList.set(i, boxin);
-                    vault_turnover_listview.setSelection(i);
-                }
-            }
+            ylBoxEdiAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        ylBoxEdiAdapter.notifyDataSetChanged();
-
     }
 
     private void InitData() throws Exception {
+        mPlayer = new MediaPlayer();
         vaultinylTask = new YLTask();
         vaultoutylTask = new YLTask();
         DisplayboxList = new ArrayList<>();
@@ -287,6 +321,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_btn_vaultout = (Button) findViewById(R.id.vault_turnover_btn_vaultout);
         vault_turnover_btn_scan = (Button) findViewById(R.id.vault_turnover_btn_scan);
         vault_turnover_btn_upload = (Button) findViewById(R.id.vault_turnover_btn_upload);
+        vault_turnover_tv_title = (TextView)findViewById(R.id.vault_turnover_tv_title);
 
         vault_turnover_btn_vaultin.setOnClickListener(this);
         vault_turnover_btn_vaultout.setOnClickListener(this);
@@ -294,7 +329,38 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_btn_upload.setOnClickListener(this);
 
         Valut_turnover.this.setTitle("未设置出入库操作");
+        vault_turnover_tv_title.setText("未设置出入库操作");
         BoxOper = "0";
+
+        vault_turnover_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                ListView listView = (ListView) parent;
+                DeleteBox(position);
+            }
+        });
+    }
+
+    private void DeleteBox(final int postion){
+        if (BoxOper.equals("in"))return;
+        AlertDialog.Builder builder = new AlertDialog.Builder(Valut_turnover.this);
+        builder.setMessage("确认删除吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DisplayboxList.remove(postion);
+                ylBoxEdiAdapter.notifyDataSetChanged();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -360,6 +426,23 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         Intent sendToservice = new Intent(Valut_turnover.this, Scan1DService.class); // 用于发送指令
         sendToservice.putExtra("cmd", cmd);
         this.startService(sendToservice); // 发送指令
+    }
+
+    private void YLBoxMediaPlay (String mediavoic)throws Exception{
+        if (mediavoic.equals("success")) {
+            mPlayer = MediaPlayer.create(Valut_turnover.this, R.raw.msg);
+            if (mPlayer.isPlaying()) {
+                return;
+            }
+        } else {
+            try {
+                mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
+                mPlayer.prepare();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        mPlayer.start();
     }
 
 }

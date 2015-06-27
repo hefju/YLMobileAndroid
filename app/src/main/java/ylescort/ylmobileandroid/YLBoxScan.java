@@ -344,6 +344,7 @@ public class YLBoxScan extends ActionBarActivity {
          */
         baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
         baseBox = new BaseBox();
+        mPlayer = new MediaPlayer();
 
         /**
          * 初始化多选项数据
@@ -471,8 +472,6 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void YLBoxMediaPlay(String mediavoice) {
-         mPlayer = new MediaPlayer();
-
         if (mediavoice.equals("success")){
             mPlayer = MediaPlayer.create(YLBoxScan.this, R.raw.msg);
             if(mPlayer.isPlaying()){
