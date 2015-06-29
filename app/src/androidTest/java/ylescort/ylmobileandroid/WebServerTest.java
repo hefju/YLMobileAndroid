@@ -258,8 +258,8 @@ public class WebServerTest extends ApplicationTestCase<Application> {
     public void testVaultturnoverout()throws Exception{
         WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
         List<Box> boxList = webServerValutturnover.VaultTrunoverOutBoxList
-                ("乐从基地", "南海基地", "123", "3361", "2015-06-24", getContext());
-//        Log.e(TAG,"款箱数量："+boxList.toString());
+                ("南海基地", "乐从基地", "123", "3361", "2015-06-21", getContext());
+        Log.e(TAG,"款箱数量："+boxList.toString());
     }
 
     public void testGetTaskSite()throws Exception{
@@ -271,6 +271,5 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         WebServerYLSite webServerYLSite = new WebServerYLSite();
         List<Site> sites =  webServerYLSite.GetYLTaskSite(user, getContext());
         Log.e(TAG,"任务网点："+sites.toString());
-
     }
 }

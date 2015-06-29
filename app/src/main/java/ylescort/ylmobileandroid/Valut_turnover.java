@@ -179,12 +179,17 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                         vault_turnover_btn_vaultout.setEnabled(false);
                         vault_turnover_btn_vaultin.setEnabled(true);
                         try {
-                            if (BoxOper.equals("in")) {
-//                                valutoutboxList = webServerValutturnover.ValutOutBoxList(YLSystem.getUser()
-//                                        , getApplicationContext());
+                            valutoutboxList = webServerValutturnover.VaultTrunoverOutBoxList(OutBaseName, InBaseName,
+                                    YLSystem.getUser().getDeviceID(), YLSystem.getUser().getEmpID()
+                                    , PickDate, getApplicationContext());
+                            if (!valutoutboxList.get(0).getServerReturn().contains("没有")) {
+                                DisplayboxList.addAll(valutoutboxList);
+                                vault_turnover_tv_title.setText("出库总数: " + valutoutboxList.size());
+                            } else {
+                                vault_turnover_tv_title.setText("出库总数:0");
                             }
                             BoxOper = "out";
-                            vault_turnover_tv_title.setText("出库总数:0");
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

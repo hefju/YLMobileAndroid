@@ -91,7 +91,7 @@ public class YLBoxScan extends ActionBarActivity {
     private MyBroadcast myBroad;  //广播接收者
     //private String activity = "ylescort.ylmobileandroid.box";
     public String TAG = "MainActivity";  //Debug
-    private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
+//    private MediaPlayer mPlayer;  //媒体播放者，用于播放提示音
     /**
      * 热键广播
      */
@@ -344,7 +344,7 @@ public class YLBoxScan extends ActionBarActivity {
          */
         baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
         baseBox = new BaseBox();
-        mPlayer = new MediaPlayer();
+//        mPlayer = new MediaPlayer();
 
         /**
          * 初始化多选项数据
@@ -471,31 +471,23 @@ public class YLBoxScan extends ActionBarActivity {
             }
     }
 
-    private void YLBoxMediaPlay(String mediavoice) {
-        if (mediavoice.equals("success")){
-            mPlayer = MediaPlayer.create(YLBoxScan.this, R.raw.msg);
-            if(mPlayer.isPlaying()){
-                return;
-            }
-        }else {
+    private void YLBoxMediaPlay(String mediavoice)  {
         try {
-            mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
-            mPlayer.prepare();
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalStateException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+            MediaPlayer mPlayer = new MediaPlayer();
+            if (mediavoice.equals("success")){
+                mPlayer = MediaPlayer.create(YLBoxScan.this, R.raw.msg);
+                if(mPlayer.isPlaying()){
+                    return;
+                }
+            }else {
+                mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
+                mPlayer.prepare();
+            }
+            mPlayer.start();
+        }catch (Exception e){
             e.printStackTrace();
         }
-        }
-        mPlayer.start();
+
     }
 
     public  String replaceBlank(String str) {
@@ -718,12 +710,15 @@ public class YLBoxScan extends ActionBarActivity {
     }
 
     private void PutDatatoListView(String boxnumber,String boxcount){
-        if (!boxnumber.equals("无标签")){
-        if (CheckBoxNumber(boxnumber)){
-            //媒体播放
-            YLBoxMediaPlay("failed");
-            return;}}else{
-            baseBox.BoxName = "无标签";}
+        if (!boxnumber.equals("无标签")) {
+            if (CheckBoxNumber(boxnumber)) {
+                //媒体播放
+                YLBoxMediaPlay("failed");
+                return;
+            }
+        } else {
+            baseBox.BoxName = "无标签";
+        }
         Box box = new Box();
         int count= ScanboxList.size();
         box.setSiteID(box_tv_titel.getTag().toString());
@@ -824,17 +819,18 @@ public class YLBoxScan extends ActionBarActivity {
 
 
     private boolean CheckBoxNumber(String boxnumber) {
-        baseBox =  baseBoxDBSer.GetBoxByBCNo(boxnumber);
-        if (baseBox.BoxBCNo.length()!=10 ||baseBox.BoxName.equals("无数据")){
-            return true;}
+        baseBox = baseBoxDBSer.GetBoxByBCNo(boxnumber);
+        if (baseBox.BoxBCNo.length() != 10 || baseBox.BoxName.equals("无数据")) {
+            return true;
+        }
 
-        if (box_sp_text.contains("企业上门")){
+        if (box_sp_text.contains("企业上门")) {
             return false;
         }
 
-        for (int i = 0 ; i <ScanboxList.size();i++){
+        for (int i = 0; i < ScanboxList.size(); i++) {
             String boxid = ScanboxList.get(i).BoxID;
-            if (boxid.equals(boxnumber)){
+            if (boxid.equals(boxnumber)) {
                 return true;
             }
         }
