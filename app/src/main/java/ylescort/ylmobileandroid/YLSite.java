@@ -43,6 +43,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -144,9 +145,27 @@ public class YLSite extends ActionBarActivity {
             Toast.makeText(getApplicationContext(),"已经最新.",Toast.LENGTH_SHORT).show();
             return;
         }
-        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
-        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+//        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
+//        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+        GetSite();
+    }
 
+    private void GetSite() {
+        WebServerYLSite webServerYLSite = new WebServerYLSite();
+        List<Site> lstSite = null;
+        try {
+            User user = new User();
+            user = YLSystem.getUser();
+            user.setTaskDate(ylTask.getTaskID());
+            lstSite = webServerYLSite.GetYLTaskSite(YLSystem.getUser(), getApplicationContext());
+            Log.e(YLSystem.getKimTag(),lstSite.toString());
+            tasksManager.MergeSite(lstSite);//同步本地的网点
+            tasksManager.CurrentTask.setTaskState("进行中");
+            DisplayTaskSite(ylTask.lstSite); //显示网点列表
+            tasksManager.SaveTask(YLSite.this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void ShowCheckAcivity() {
@@ -355,7 +374,8 @@ public class YLSite extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(),"已经是最新.",Toast.LENGTH_SHORT).show();
                 return true;
             }
-            WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
+//            WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
+            GetSite();
             Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
             return true;
         }

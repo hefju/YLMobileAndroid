@@ -23,11 +23,13 @@ import org.json.JSONObject;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.AnalysisBoxList;
 import YLDataService.WebServerValutturnover;
+import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
@@ -251,5 +253,24 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         }else {
             Log.e(TAG,getstring+"");
         }
+    }
+
+    public void testVaultturnoverout()throws Exception{
+        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+        List<Box> boxList = webServerValutturnover.VaultTrunoverOutBoxList
+                ("乐从基地", "南海基地", "123", "3361", "2015-06-24", getContext());
+//        Log.e(TAG,"款箱数量："+boxList.toString());
+    }
+
+    public void testGetTaskSite()throws Exception{
+        User user = new User();
+        user.setTaskDate("108024");
+        user.setDeviceID("11");
+        user.setEmpID("3166");
+        user.setISWIFI("1");
+        WebServerYLSite webServerYLSite = new WebServerYLSite();
+        List<Site> sites =  webServerYLSite.GetYLTaskSite(user, getContext());
+        Log.e(TAG,"任务网点："+sites.toString());
+
     }
 }

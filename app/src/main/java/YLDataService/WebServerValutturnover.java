@@ -153,10 +153,7 @@ public class WebServerValutturnover {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    Log.e(YLSystem.getKimTag(),content+"上传返回");
-//                    return gson.fromJson(content,new TypeToken<String>(){}.getType());
                     return gson.fromJson(content, String.class);
-//                    return content;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -164,4 +161,55 @@ public class WebServerValutturnover {
             return null;
         }
     }
+
+    /**
+     /// 获取库内周转出库表，出库到指定基地的箱列表，如果上传了就获取上传的列表。状态是出，目标基地是BaseName
+     /// </summary>
+     /// <param name="SourceBase">源基地：南海基地</param>
+     /// <param name="TargetBase">目标基地：乐从基地</param>
+     /// <param name="deviceID">手持机号：</param>
+     /// <param name="empid">金库库管员ID：3361</param>
+     /// <param name="TaskDate1">任务日期：2015-06-24</param>
+     */
+
+    public List<Box> VaultTrunoverOutBoxList
+    (String SourceBase, String TargetBase, String deviceID
+            , String empid, String TaskDate,Context context)throws Exception{
+        Vaulttrunoverout vaulttrunoverout  = new Vaulttrunoverout();
+        String url = YLSystem.GetBaseUrl(context)+"StoreTurnGetBoxListOut";
+        vaulttrunoverout.execute(url,SourceBase,TargetBase,deviceID,empid,TaskDate);
+        return vaulttrunoverout.get();
+    }
+
+    private class Vaulttrunoverout extends AsyncTask<String,Integer,List<Box>>{
+        @Override
+        protected List<Box> doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("SourceBase",params[1]);
+                p.put("TargetBase",params[2]);
+                p.put("deviceID",params[3]);
+                p.put("empid",params[4]);
+                p.put("TaskDate",params[5]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                Log.e(YLSystem.getKimTag(),"服务返回："+response.getStatusLine().getStatusCode());
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            return null;
+        }
+    }
+
+
 }

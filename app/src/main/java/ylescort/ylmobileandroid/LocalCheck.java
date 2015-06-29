@@ -44,7 +44,6 @@ public class LocalCheck extends ActionBarActivity {
     private YLSiteAdapter ylSiteAdapter;
     private AnalysisBoxList analysisBoxList;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +51,6 @@ public class LocalCheck extends ActionBarActivity {
         try {
             InitView();
             InitData();
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -118,13 +116,11 @@ public class LocalCheck extends ActionBarActivity {
         localcheck_tv_cardbox.setText("未选择");
     }
 
-
     private void HandOverManAdapter(List<Site> siteList){
         if (siteList == null)return;
         ylSiteAdapter =  new YLSiteAdapter(this,siteList,R.layout.activity_ylsiteitem);
         localcheck_listview.setAdapter(ylSiteAdapter);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
