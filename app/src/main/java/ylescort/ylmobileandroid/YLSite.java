@@ -158,7 +158,6 @@ public class YLSite extends ActionBarActivity {
             user = YLSystem.getUser();
             user.setTaskDate(ylTask.getTaskID());
             lstSite = webServerYLSite.GetYLTaskSite(YLSystem.getUser(), getApplicationContext());
-            Log.e(YLSystem.getKimTag(),lstSite.toString());
             tasksManager.MergeSite(lstSite);//同步本地的网点
             tasksManager.CurrentTask.setTaskState("进行中");
             DisplayTaskSite(ylTask.lstSite); //显示网点列表

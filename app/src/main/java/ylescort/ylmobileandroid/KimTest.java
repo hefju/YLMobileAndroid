@@ -39,6 +39,7 @@ import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.User;
+import YLFileOperate.DBMove;
 import YLFragment.YLBoxEditFragment;
 import YLSystemDate.YLSystem;
 
@@ -47,6 +48,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private Button kim_test1;
     private Button kim_test2;
+    private Button kim_copydb;
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
@@ -65,8 +67,10 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //        transaction.commit();
         kim_test1 = (Button) findViewById(R.id.kim_test1);
         kim_test2 = (Button) findViewById(R.id.kim_test2);
+        kim_copydb = (Button) findViewById(R.id.kim_copydb);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
+        kim_copydb.setOnClickListener(this);
         InitReciveScan1D();
 
         InitHFreader();
@@ -155,7 +159,16 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             case R.id.kim_test1:Scan1DCmd();
                 break;
             case R.id.kim_test2:TestHF();
+                break;
+            case R.id.kim_copydb:CopyDB();
         }
+    }
+
+    private void CopyDB() {
+        DBMove dbMove = new DBMove();
+        String OldFile = "/data/data/ylescort.ylmobileandroid/databases/YLDB.db";
+        String newFile = "/storage/sdcard0/YLDB.db";
+        dbMove.copyFile(OldFile,newFile);
     }
 
     private void TestHF() {
