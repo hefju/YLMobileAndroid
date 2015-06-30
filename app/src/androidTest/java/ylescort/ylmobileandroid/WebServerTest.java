@@ -140,7 +140,7 @@ public class WebServerTest extends ApplicationTestCase<Application> {
 
     public void testMaxDataUpload()throws Exception{
         User user = new User();
-        user.setEmpID("3647");
+        user.setEmpID("3915");
         YLSystem.setUser(user);
 
         Postasytask postasytask = new Postasytask();
@@ -153,9 +153,9 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         protected String doInBackground(String... params) {
 
                 TasksManager tasksManager = new TasksManager();
-                tasksManager.Loading(getContext(), "2015-06-18");
+                tasksManager.Loading(getContext(), "2015-06-29");
                 YLTask ylTask = tasksManager.lstLatestTask.get(0);
-                String url = "http://192.168.200.137:8055/YLMobileServiceAndroid.svc/UpLoad";
+                String url = "http://192.168.200.137:8052/YLMobileServiceAndroid.svc/UpLoad";
 //            try {
 //                int tmout = 5;
 //                HttpParams httpParams = new BasicHttpParams();

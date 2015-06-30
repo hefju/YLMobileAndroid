@@ -115,7 +115,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 if (displayboxlist.size() < 1) return;
                 Box box = displayboxlist.get(position);
                 if (box.getValutcheck() == null) return;
-                if (box.getValutcheck().equals("多")) {
+                if (box.getValutcheck().equals("多")||box.getValutcheck().equals("核")) {
                     ShowMultChoice(position);
                 }
             }
@@ -126,7 +126,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private void ShowMultChoice(final int position) {
         new AlertDialog.Builder(this).setTitle("请选择类型").setIcon
-                (android.R.drawable.ic_dialog_info).setSingleChoiceItems(R.array.ylboxvalut, 0,
+                (android.R.drawable.ic_dialog_info).setSingleChoiceItems(R.array.ylboxfullorempty, 0,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -134,37 +134,17 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         switch (which) {
                             case 0:
                                 box.setBoxStatus("实");
-                                box.setBoxType("款箱");
+                                box.setValutcheck("核");
+                                displayboxlist.set(position, box);
+                                FilterBoxdisplay();
                                 break;
                             case 1:
-                                box.setBoxStatus("实");
-                                box.setBoxType("卡箱");
+                                box.setBoxStatus("空");
+                                box.setValutcheck("核");
+                                displayboxlist.set(position, box);
+                                FilterBoxdisplay();
                                 break;
                             case 2:
-                                box.setBoxStatus("实");
-                                box.setBoxType("凭证箱");
-                                break;
-                            case 3:
-                                box.setBoxStatus("实");
-                                box.setBoxType("凭证袋");
-                                break;
-                            case 4:
-                                box.setBoxStatus("空");
-                                box.setBoxType("款箱");
-                                break;
-                            case 5:
-                                box.setBoxStatus("空");
-                                box.setBoxType("卡箱");
-                                break;
-                            case 6:
-                                box.setBoxStatus("空");
-                                box.setBoxType("凭证箱");
-                                break;
-                            case 7:
-                                box.setBoxStatus("空");
-                                box.setBoxType("凭证袋");
-                                break;
-                            case 8:
                                 Box removebox = displayboxlist.get(position);
                                 for (int i = 0; i < Allboxlist.size(); i++) {
                                     Box alllistboxbox = new Box();
@@ -177,16 +157,16 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                 displayboxlist.remove(position);
                                 break;
                         }
-                        if (displayboxlist.size() == position + 1) {
-                            displayboxlist.set(position, box);
-//                            DisPlayBoxlistAdapter(displayboxlist);
+//                        if (displayboxlist.size() == position + 1) {
+//                            displayboxlist.set(position, box);
+////                            DisPlayBoxlistAdapter(displayboxlist);
+//                            ylValutboxitemAdapter.notifyDataSetChanged();
+////                            vault_in_detail_listview.setSelection(position + 1);
+//                        } else {
+////                            DisPlayBoxlistAdapter(displayboxlist);
                             ylValutboxitemAdapter.notifyDataSetChanged();
-                            vault_in_detail_listview.setSelection(position + 1);
-                        } else {
-//                            DisPlayBoxlistAdapter(displayboxlist);
-                            ylValutboxitemAdapter.notifyDataSetChanged();
-                            vault_in_detail_listview.setSelection(position);
-                        }
+////                            vault_in_detail_listview.setSelection(position);
+//                        }
                         dialog.dismiss();
                     }
                 }).show();
@@ -247,10 +227,11 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 //            if (Allboxlist.size() < 1) return;
             boolean boxcheck = true;
             int position = 0;
+            Log.e(YLSystem.getKimTag(),Allboxlist.toString());
             for (int i = 0; i < Allboxlist.size(); i++) {
                 Box hombox = Allboxlist.get(i);
                 if (hombox.getBoxID().equals(box.getBoxID())) {
-                    if (hombox.getValutcheck() == null) {
+                    if (hombox.getValutcheck().equals("")) {
                         hombox.setValutcheck("对");
                         hombox.setTradeAction("入");
                         hombox.setActionTime(YLSysTime.GetStrCurrentTime());
@@ -260,7 +241,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         break;
                     } else if (hombox.getValutcheck().equals("多")
                             || hombox.getValutcheck().equals("对")) {
-                        ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                         return;
                     }
                 }
@@ -291,23 +272,43 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void StatisticalBoxList(List<Box> boxList){
-        int homstr = 0,vaulter= 0,correct = 0 ;
+        int homstr = 0,vaulter= 0,correct = 0 ,morebox = 0;
         if (boxList == null || boxList.size() < 1)return;
         for (Box box :boxList){
-            if (box.getValutcheck() == null){
-                homstr +=1;
-            }else if (box.getValutcheck().equals("对")){
-                vaulter +=1;
-                correct +=1;
-                homstr +=1;
-            }else if (box.getValutcheck().equals("多")){
-                vaulter +=1;
+//            if (box.getValutcheck().equals("")){
+//                homstr +=1;
+//            }else if (box.getValutcheck().equals("对")){
+//                vaulter +=1;
+//                correct +=1;
+//                homstr +=1;
+//            }else if (box.getValutcheck().equals("核")){
+//                vaulter +=1;
+//            }
+
+            switch (box.getValutcheck()){
+                case "":
+                    homstr +=1;
+                    break;
+                case "对":
+                    vaulter +=1;
+                    correct +=1;
+                    homstr +=1;
+                    break;
+                case "核":
+                    vaulter +=1;
+                    break;
+                case "多":
+                    vaulter +=1;
+                    morebox+=1;
+                    break;
             }
+
+
         }
 
         int lackbox = homstr - correct;
-        String hom = "业务员上传:"+homstr+"个";
-        String vault = "库管员扫描:"+vaulter+"个, 符合:"+correct+"个 缺少:"+lackbox+"个";
+        String hom = "业务员上传:"+homstr+"个"+" 符合:"+correct+"个";
+        String vault = "库管员扫描:"+vaulter+"个"+" 少:"+lackbox+"个 多："+morebox+"个";
         vault_in_detail_tv_tolly.setText(hom);
         vault_in_detail_tv_check.setText(vault);
     }

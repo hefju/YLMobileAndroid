@@ -1,8 +1,6 @@
 package YLWebService;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.webkit.URLUtil;
 import java.io.File;
@@ -20,6 +18,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import YLDataService.LocalSetting;
+import YLSystemDate.YLSystem;
 
 
 /**
@@ -42,7 +41,7 @@ public class UpdateManager {
     private String currentTempFilePath = "";
     private String fileEx = "";
     private String fileNa = "";
-    private String strURL = LocalSetting.webupdateappaddress;
+    private String strURL = "";
 
     private static final String savePath = "/sdcard/updatedemo/";
     private static final String saveFileName = savePath + "YLMobile.apk";
@@ -91,6 +90,12 @@ public class UpdateManager {
 //                                dialog.cancel();
 //                            }
 //                        }).show();
+
+        if (YLSystem.getHFport()==12){
+            strURL = LocalSetting.webupdateappaddressuhf;
+        }else {
+            strURL = LocalSetting.webupdateappaddresshf;
+        }
         downloadTheFile(strURL);
         showWaitDialog();
     }

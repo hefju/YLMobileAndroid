@@ -17,6 +17,13 @@
         <item>即收即送—企业上门送款</item>
         <item>次日送—企业上门送款</item>
     </string-array>
+
+    <array name="ylboxfullorempty">
+        <item>实箱</item>
+        <item>空箱</item>
+        <item>删除</item>
+    </array>
+
     <string-array name="ylboxvalut">
         <item>实款箱</item>
         <item>实卡箱</item>

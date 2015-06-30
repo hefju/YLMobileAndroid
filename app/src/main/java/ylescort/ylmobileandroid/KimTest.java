@@ -3,11 +3,16 @@ package ylescort.ylmobileandroid;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,6 +54,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private Button kim_test1;
     private Button kim_test2;
     private Button kim_copydb;
+    private Button kim_vibrate;
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
@@ -68,9 +74,12 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_test1 = (Button) findViewById(R.id.kim_test1);
         kim_test2 = (Button) findViewById(R.id.kim_test2);
         kim_copydb = (Button) findViewById(R.id.kim_copydb);
+        kim_vibrate = (Button)findViewById(R.id.kim_vibrate);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
         kim_copydb.setOnClickListener(this);
+        kim_vibrate.setOnClickListener(this);
+
         InitReciveScan1D();
 
         InitHFreader();
@@ -161,8 +170,70 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             case R.id.kim_test2:TestHF();
                 break;
             case R.id.kim_copydb:CopyDB();
+                break;
+            case R.id.kim_vibrate:notificactionLed();
+                break;
         }
     }
+
+    private void vibrate() {
+//        String vibratorService = Context.VIBRATOR_SERVICE;
+//        Vibrator vibrator = (Vibrator)getSystemService(vibratorService);
+//        long[] pattern = {1000,2000,4000,8000,16000};
+//        vibrator.vibrate(pattern,0);
+//        vibrator.vibrate(1000);
+//        NotificationManager manager = (NotificationManager) this
+//                .getSystemService(Context.NOTIFICATION_SERVICE);
+//        Notification notification = new Notification();
+//        notification.ledARGB= Color.RED;
+//        notification.ledOffMS= 0;
+//        notification.ledOnMS=1;
+//        notification.flags = notification.flags|Notification.FLAG_SHOW_LIGHTS;
+//        manager.notify(1,notification);
+
+        String svcName = Context.NOTIFICATION_SERVICE;
+        NotificationManager notificationManager = (NotificationManager)getSystemService(svcName);
+        Notification.Builder builder =
+                new Notification.Builder(KimTest.this);
+        builder.setSmallIcon(R.drawable.ic_launcher).setTicker("")
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_SOUND|
+                Notification.DEFAULT_VIBRATE).setLights(-13210,0,1);
+        Notification notification = builder.getNotification();
+        notificationManager.notify(1,notification);
+
+
+    }
+    private void notificactionLed() {
+        NotificationManager manager = (NotificationManager) this
+                .getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification = new Notification();
+        notification.icon = R.drawable.ic_launcher;
+        notification.tickerText = "发送灯通知";
+
+        /**
+         * To turn the LED off, pass 0 in the alpha channel for colorARGB or 0 for both ledOnMS and ledOffMS.
+         To turn the LED on, pass 1 for ledOnMS and 0 for ledOffMS.
+         To flash the LED, pass the number of milliseconds that it should be on and off to ledOnMS and ledOffMS.
+         */
+        notification.defaults = Notification.DEFAULT_LIGHTS;
+        notification.ledARGB = 0xffffffff;//控制led灯的颜色
+
+        //灯闪烁时需要设置下面两个变量
+        notification.ledOnMS = 300;
+        notification.ledOffMS = 300;
+
+        notification.flags = Notification.FLAG_SHOW_LIGHTS;
+
+        Intent intent = new Intent(this, KimTest.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                intent, PendingIntent.FLAG_ONE_SHOT);
+
+        notification.setLatestEventInfo(this, "灯测试", "led灯测试", pendingIntent);
+        manager.notify(1, notification);
+    }
+
+
 
     private void CopyDB() {
         DBMove dbMove = new DBMove();

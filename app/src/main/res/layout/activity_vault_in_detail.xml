@@ -68,11 +68,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_tv_tolly"
+            android:textSize="20sp"
             android:text="@string/vault_in_detail_tv_tolly"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_tv_check"
+            android:textSize="20sp"
             android:text="@string/vault_in_detail_tv_check"/>
         </LinearLayout>
     <LinearLayout
@@ -114,7 +116,7 @@
         android:gravity="center"
         android:id="@+id/vault_in_detail_LL_button"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="15sp">
+        android:layout_marginTop="5sp">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
