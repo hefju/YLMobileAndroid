@@ -23,8 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.AnalysisBoxList;
+import YLDataService.WebServerValutInorOut;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
@@ -51,6 +54,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     private YLMediaPlayer ylMediaPlayer;
     private List<Box> AllboxList;
 
+    private AnalysisBoxList analysisBoxList;
+    private WebServerValutInorOut webServerValutInorOut;
 
     private YLTask ylTask;
 
@@ -71,6 +76,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void InitView() {
+
         vault_out_detail_tv_taskname = (TextView)findViewById(R.id.vault_out_detail_tv_taskname);
         vault_out_detail_tv_boxstaut = (TextView)findViewById(R.id.vault_out_detail_tv_boxstaut);
         vault_out_detail_tv_type = (TextView)findViewById(R.id.vault_out_detail_tv_type);
@@ -85,17 +91,13 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         vault_out_detail_btn_boxtype.setOnClickListener(this);
         vault_out_detail_btn_enter.setOnClickListener(this);
 
-//        vault_out_detail_btn_scan1d.setEnabled(false);
-//        vault_out_detail_btn_enter.setEnabled(false);
-
         vault_out_detail_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView listView = (ListView) parent;
                 Box box = (Box) listView.getItemAtPosition(position);
-                if (box.getValutcheck().equals("多")){
-                    YLBoxchangeType("setbox", position);
-                }
+                YLBoxchangeType("setbox", position);
+
             }
         });
 
@@ -105,12 +107,30 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private void InitData()throws  Exception {
         vaulteroutboxlist = new ArrayList<>();
+        AllboxList = new ArrayList<>();
         ylMediaPlayer = new YLMediaPlayer();
         ylTask = YLEditData.getYlTask();
         vault_out_detail_tv_taskname.setText(ylTask.getLine());
-        WebService webService = new WebService();
-        AllboxList = webService.GetAllBox(YLSystem.getUser(),getApplicationContext());
-        Log.e(YLSystem.getKimTag(), AllboxList.size() + " 库内款箱数");
+        analysisBoxList = new AnalysisBoxList();
+        webServerValutInorOut = new WebServerValutInorOut();
+
+        User user = YLSystem.getUser();
+        user.setTaskDate(ylTask.getTaskID());
+
+        AllboxList= webServerValutInorOut.StoreGetBoxByTaskIDOut(user,getApplicationContext());
+        DisPlayBoxlistAdapter(AllboxList);
+        Log.e(YLSystem.getKimTag(), AllboxList.toString() + " 库内款箱数");
+        ShowBoxList();
+    }
+
+    private void ShowBoxList() {
+        if (AllboxList.size()==1)return;
+        List<String> stringList = analysisBoxList.AnsysisBoxList(AllboxList);
+        String boxtype = "款箱："+stringList.get(0)+"卡箱:"+stringList.get(1)+"凭证箱:"+stringList.get(2)+
+                "凭证袋:"+stringList.get(3);
+        String boxstaut = "实箱："+stringList.get(6)+"空箱："+stringList.get(7);
+        vault_out_detail_tv_boxstaut.setText(boxstaut);
+        vault_out_detail_tv_type.setText(boxtype);
     }
 
     private void InitReciveScan1D() {
@@ -134,79 +154,31 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private void YLBoxchangeType(final String type, final int position ) {
         new AlertDialog.Builder(this).setTitle("请选择类型").setIcon(android.R.drawable.ic_dialog_info)
-                .setSingleChoiceItems(R.array.ylboxvalut, 0, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(R.array.ylboxfullorempty, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Box box = new Box();
+                        box = AllboxList.get(position);
                         switch (which) {
                             case 0:
-                                box.setBoxType("款箱");
                                 box.setBoxStatus("实");
+                                AllboxList.set(position,box);
                                 break;
                             case 1:
-                                box.setBoxType("卡箱");
-                                box.setBoxStatus("实");
+                                box.setBoxStatus("空");
+                                AllboxList.set(position, box);
                                 break;
                             case 2:
-                                box.setBoxType("凭证箱");
-                                box.setBoxStatus("实");
-                                break;
-                            case 3:
-                                box.setBoxType("凭证袋");
-                                box.setBoxStatus("实");
-                                break;
-                            case 4:
-                                box.setBoxType("款箱");
-                                box.setBoxStatus("空");
-                                break;
-                            case 5:
-                                box.setBoxType("卡箱");
-                                box.setBoxStatus("空");
-                                break;
-                            case 6:
-                                box.setBoxType("凭证箱");
-                                box.setBoxStatus("空");
-                                break;
-                            case 7:
-                                box.setBoxType("凭证袋");
-                                box.setBoxStatus("空");
-                                break;
-                            case 8:
-                                box.setBoxType("删除");
-                                box.setBoxStatus("删除");
+                                AllboxList.remove(position);
                                 break;
                         }
-                        if (type.equals("settype")) {
-                            if (box.getBoxType().equals("删除")) {
-                                dialog.dismiss();
-                                return;
-                            }
-//                            String boxtype = "状态: "+box.getBoxStatus()+"  类型: "+box.getBoxType();
-//                            vault_out_detail_tv_boxstaut.setText(boxtype);
-//                            vault_out_detail_tv_boxstaut.setTag(box.getBoxStatus());
-//                            vault_out_detail_tv_type.setTag(box.getBoxType());
-                            vault_out_detail_btn_scan1d.setEnabled(true);
-                            vault_out_detail_btn_enter.setEnabled(true);
-                        } else {
-                            if (box.getBoxType().equals("删除")) {
-                                vaulteroutboxlist.remove(position);
-                            } else {
-                                Box listbox = vaulteroutboxlist.get(position);
-
-                                Box editbox = new Box();
-                                editbox = listbox;
-                                editbox.setBoxType(box.getBoxType());
-                                editbox.setBoxStatus(box.getBoxStatus());
-                                editbox.setBoxCount("1");
-                                editbox.setBoxTaskType(ylTask.getTaskType());
-                                Log.e(YLSystem.getKimTag(), editbox.toString());
-                                vaulteroutboxlist.set(position, editbox);
-                            }
-                        }
-                        DisPlayBoxlistAdapter(vaulteroutboxlist);
+                        DisPlayBoxlistAdapter(AllboxList);
                         dialog.dismiss();
                     }
                 }).show();
+
+
+
     }
 
     private void YLBoxEnter() throws Exception {
@@ -218,7 +190,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-                    ylTask.setLstBox(vaulteroutboxlist);
+                    ylTask.setLstBox(AllboxList);
                     YLEditData.setYlTask(ylTask);
                     WebService webService = new WebService();
                     String serreturn =
@@ -226,7 +198,13 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                     if (serreturn.equals("1")){
                         ylTask.setTaskState("已上传");
                         dialog.dismiss();
-                        vault_out_detail.this.finish();
+//                        vault_out_detail.this.finish();
+                        User user = YLSystem.getUser();
+                        user.setTaskDate(ylTask.getTaskID());
+                        WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
+                        AllboxList= webServerValutInorOut.StoreGetBoxByTaskIDOut(user,getApplicationContext());
+                        DisPlayBoxlistAdapter(AllboxList);
+                        ShowBoxList();
                     }else{
                         Toast.makeText(getApplicationContext(),"未上传数据，请检查网络后再上传",Toast.LENGTH_SHORT).show();
                     }
@@ -285,7 +263,6 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
                 break;
             case R.id.vault_out_detail_btn_readcard:
                 ReadHFCard();
@@ -318,9 +295,9 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-//                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
-                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
-                Box box =CheckBox(recivedata);
+                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
+//                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
+//                Box box =CheckBox(recivedata);
                 AddYLBoxtoListView(box);
             }
         }
@@ -355,26 +332,36 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             }
 
             boolean boxcheck = true;
-            int listcount = vaulteroutboxlist.size() - 1;
-            for (int i = 0; i < vaulteroutboxlist.size(); i++) {
-                Box scanbox = vaulteroutboxlist.get(listcount - i);
-                if (scanbox.getBoxID().equals(box.getBoxID())) {
-                    ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-                    boxcheck = false;
-                    break;
+
+            if (AllboxList.size()==1&AllboxList.get(0).getServerReturn().contains("没有出库箱")){
+                AllboxList.clear();
+                boxcheck = true;
+            }else {
+                int listcount = AllboxList.size() - 1;
+                for (int i = 0; i < AllboxList.size(); i++) {
+                    Box scanbox = AllboxList.get(listcount - i);
+                    if (scanbox.getBoxID().equals(box.getBoxID())) {
+                        ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                        boxcheck = false;
+                        break;
+                    }
                 }
             }
+
             if (boxcheck) {
+                Log.e(YLSystem.getKimTag(), AllboxList.size() + "插入数据");
 //                box.setBoxType(vault_out_detail_tv_type.getTag().toString());
 //                box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
                 box.setActionTime(YLSysTime.GetStrCurrentTime());
                 box.setTradeAction("出");
                 box.setBoxCount("1");
-                Log.e(YLSystem.getKimTag(),box.toString());
-                vaulteroutboxlist.add(box);
-                DisPlayBoxlistAdapter(vaulteroutboxlist);
+                box.setServerReturn("1");
+                box.setTimeID("1");
+                Log.e(YLSystem.getKimTag(), box.toString());
+                AllboxList.add(box);
+                DisPlayBoxlistAdapter(AllboxList);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                scrollMyListViewToBottom();
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -386,6 +373,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             YLValutboxitemAdapter ylValutboxitemAdapter =
                     new YLValutboxitemAdapter(getApplicationContext(),boxList,R.layout.vault_in_detail_boxitem);
             vault_out_detail_lv.setAdapter(ylValutboxitemAdapter);
+            scrollMyListViewToBottom();
         }
     }
 
@@ -417,7 +405,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        unregisterReceiver(YLBoxscan1DRecive);
+        if (YLBoxscan1DRecive != null){
+        unregisterReceiver(YLBoxscan1DRecive);}
         Scan1DCmd("stopscan");
         super.onDestroy();
     }

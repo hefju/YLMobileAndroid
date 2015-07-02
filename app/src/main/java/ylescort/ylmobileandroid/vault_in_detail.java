@@ -80,6 +80,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         WebService webService = new WebService();
         displayboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
+        Log.e(YLSystem.getKimTag(),displayboxlist.toString());
         if (displayboxlist.get(0).getServerReturn().equals("1")){
             for (int i = 0;i<displayboxlist.size();i++){
                 Box box = new Box();
@@ -302,8 +303,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     morebox+=1;
                     break;
             }
-
-
         }
 
         int lackbox = homstr - correct;
@@ -390,14 +389,14 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 boolean boxcheck = false;
 
                 //未设置款箱状态也能上传0623kim
-//                for (Box box : Allboxlist) {
-//                    if (box.getValutcheck() != null) {
-//                        if (box.getBoxType().equals("无")) {
-//                            boxcheck = true;
-//                            break;
-//                        }
-//                    }
-//                }
+                for (Box box : Allboxlist) {
+                    if (box.getValutcheck() != null) {
+                        if (box.getBoxStatus().equals("无")) {
+                            boxcheck = true;
+                            break;
+                        }
+                    }
+                }
                 if (boxcheck) {
                     new AlertDialog.Builder(vault_in_detail.this).setTitle("提示")
                             .setMessage("有款箱未状态设置\r\n请完成设置")

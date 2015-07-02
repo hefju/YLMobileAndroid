@@ -171,7 +171,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 break;
             case R.id.kim_copydb:CopyDB();
                 break;
-            case R.id.kim_vibrate:notificactionLed();
+            case R.id.kim_vibrate:showactivity();
                 break;
         }
     }
@@ -233,6 +233,11 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         manager.notify(1, notification);
     }
 
+    private void showactivity(){
+        Intent intent = new Intent();
+        intent.setClass(KimTest.this, HomYLBoxScan.class);
+        startActivity(intent);
+    }
 
 
     private void CopyDB() {

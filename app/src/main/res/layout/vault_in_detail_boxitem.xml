@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_detail_boxitme_boxname"
         android:text="@string/boxitem_Boxid"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:layout_marginStart="20sp"/>
 <RelativeLayout
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20sp"
         android:id="@+id/vault_in_detail_boxitme_boxstaut"
+        android:textColor="@color/black"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
     <TextView
@@ -28,6 +30,7 @@
         android:layout_marginStart="20sp"
         android:id="@+id/vault_in_detail_boxitme_boxtype"
         android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxstaut"
+        android:textColor="@color/black"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
     <TextView
@@ -36,6 +39,7 @@
         android:layout_marginStart="20sp"
         android:id="@+id/vault_in_detail_boxitme_boxtask"
         android:text="@string/boxitem_Boxid"
+        android:textColor="@color/black"
         android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtype"
         android:textSize="20sp"/>
     <TextView
@@ -43,8 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20sp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:id="@+id/vault_in_detail_boxitme_boxcheck"
+        android:textColor="@color/black"
         android:text="@string/boxitem_Boxid"
         android:textSize="20sp"/>
     </RelativeLayout>

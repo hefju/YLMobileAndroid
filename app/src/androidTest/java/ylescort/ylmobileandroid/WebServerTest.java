@@ -102,7 +102,7 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         AnalysisBoxList analysisBoxList = new AnalysisBoxList();
 //        List<Integer> integerList =
 //        analysisBoxList.AnsysisBoxList(list);
-//        Log.e(TAG,integerList.toString()+"");
+        Log.e(TAG,list.toString()+"");
     }
 
     public void testGetTaskList() throws Exception{

@@ -821,8 +821,10 @@ public class WebService {
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
+                Log.e(YLSystem.getKimTag(),response.getStatusLine().getStatusCode()+"");
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
+
                     return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
                 }
             } catch (Exception e) {

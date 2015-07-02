@@ -2,6 +2,7 @@ package YLDataService;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -82,7 +83,7 @@ public class WebServerValutInorOut {
     public List<Box> StoreGetBoxByTaskIDOut(User user,Context context) throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskIDOut";
         GetVaultkeeperoutBox getVaultkeeperoutBox = new GetVaultkeeperoutBox();
-        getVaultkeeperoutBox.execute();
+        getVaultkeeperoutBox.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
         return getVaultkeeperoutBox.get();
     }
 

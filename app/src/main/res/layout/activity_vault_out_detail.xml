@@ -26,27 +26,27 @@
             android:layout_alignParentEnd="true"
             android:text="@string/vault_out_detail_btn_readcard"/>
         </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_listtitle"
-        android:layout_below="@+id/vault_out_detail_LL_Info">
+        android:layout_below="@+id/vault_out_detail_LL_Info"
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_tv_boxstaut"
             android:textColor="@color/chocolate"
             android:textSize="20sp"
-            android:visibility="invisible"
             android:text="@string/vault_out_detail_tv_boxstaut"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_tv_type"
-            android:layout_alignParentEnd="true"
-            android:visibility="invisible"
+            android:textSize="20sp"
+            android:textColor="@color/androidgreend"
             android:text="@string/vault_out_detail_tv_boxstype"/>
-        </RelativeLayout>
+        </LinearLayout>
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -63,7 +63,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_operate"
-
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
@@ -76,7 +75,7 @@
             android:id="@+id/vault_out_detail_btn_boxtype"
             android:layout_centerHorizontal="true"
             android:visibility="invisible"
-            android:text="@string/vault_out_detail_btn_boxtype"/>
+            android:text="@string/vault_out_detail_btn_anysboxlist"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

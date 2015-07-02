@@ -23,24 +23,48 @@ public class AnalysisBoxList {
         int fullbox = 0;
         int emptybox = 0;
 
+
         for (Box box:boxList){
             int count =Integer.parseInt(box.getBoxCount()) ;
-            switch (box.getBoxType()){
-                case"款箱":moneybox+=count;
-                    break;
-                case"卡箱":cardbox+=count;
-                    break;
-                case"凭证箱":voucherbox +=count;
-                    break;
-                case"凭证袋":voucherbag +=count;
-                    break;
+            try {
+                switch (box.getBoxType()){
+                    case"款箱":moneybox+=count;
+                        break;
+                    case"卡箱":cardbox+=count;
+                        break;
+                    case"凭证箱":voucherbox +=count;
+                        break;
+                    case"凭证袋":voucherbag +=count;
+                        break;
+                }
+            }catch (Exception e){
+                moneybox += 0;
+                cardbox += 0;
+                voucherbox += 0 ;
+                voucherbag += 0;
             }
-            if (box.getTradeAction().equals("收")){
-                getbox+=count;
-            }else {givebox+=count;}
-            if (box.getBoxStatus().equals("实")){
-                fullbox+=count;
-            }else {emptybox+=count;}
+            try {
+                if (box.getTradeAction().equals("收")) {
+                    getbox += count;
+                } else {
+                    givebox += count;
+                }
+            } catch (Exception e) {
+                getbox +=0;
+                givebox +=0;
+            }
+
+            try {
+                if (box.getBoxStatus().equals("实")) {
+                    fullbox += count;
+                } else {
+                    emptybox += count;
+                }
+            }catch (Exception e){
+                fullbox += 0;
+                emptybox +=0;
+            }
+
         }
 
         List<String> stringList = new ArrayList<>();
