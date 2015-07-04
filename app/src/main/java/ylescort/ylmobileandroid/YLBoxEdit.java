@@ -226,7 +226,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
         Log.e(YLSystem.getKimTag(), YLEditData.getYlboxnosave() + "second");
 
-
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         TallyBox(boxEditListEdit);
     }
@@ -475,6 +474,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         ///增加
         if (boxEditListAll.size()> 0){
             Box box = boxEditListAll.get(0);
+            ylBoxEdiAdapter.setSelectItem(0);
             EditBox(box);
         }
     }

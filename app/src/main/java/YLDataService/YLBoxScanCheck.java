@@ -31,6 +31,11 @@ public class YLBoxScanCheck {
         }else{
             box.setBoxName(baseBox.BoxName);
             box.setBoxID(replaceboxnumber);
+            if (baseBox.BoxType.equals("普通箱")||baseBox.BoxType.equals("")){
+                box.setBoxType("款箱");
+            }else {
+                box.setBoxType(baseBox.BoxType);
+            }
             return box;
         }
     }

@@ -212,6 +212,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             user.setPass(YLSystem.SetMD5(Log_ET_PassWord.getText().toString()));
             WebService webService = new WebService();
             User userfromweb = webService.LogicBypassword(user, url);
+            YLSystem.setBaseName(userfromweb.getTaskDate());
             GetEmpByServer(userfromweb);
         }else {
             String userNo = Log_ET_Name.getText().toString();
@@ -235,6 +236,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
                 WebService webService = new WebService();
                 User userfromweb = webService.LogicByHF(user,url);
+                YLSystem.setBaseName(userfromweb.getTaskDate());
                 if (userfromweb.getServerReturn().equals("没有此人或密码错误。")){
                     YLMediaPlay("faile");
                     buttonflag= false;

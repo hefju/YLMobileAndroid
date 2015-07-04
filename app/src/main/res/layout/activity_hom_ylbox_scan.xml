@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/homylboxscan_tv_boxname"
             android:textSize="25sp"
-            android:text="@string/Log_Test"
+            android:textColor="@color/black"
             android:layout_toEndOf="@+id/homylboxscan_tv_boxname_lable"/>
         <TextView
             android:layout_width="wrap_content"
@@ -42,8 +42,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Log_Test"
             android:textSize="25sp"
+            android:textColor="@color/black"
             android:id="@+id/homylboxscan_tv_boxcount"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10sp"/>
@@ -63,8 +63,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Log_Test"
             android:textSize="25sp"
+            android:textColor="@color/black"
             android:id="@+id/homylboxscan_tv_boxaction"
             android:layout_toEndOf="@+id/homylboxscan_tv_boxaction_lable"/>
         <TextView
@@ -76,8 +76,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Log_Test"
             android:textSize="25sp"
+            android:textColor="@color/black"
             android:layout_alignParentEnd="true"
             android:id="@+id/homylboxscan_tv_boxtype"
             android:layout_marginEnd="10sp"/>
@@ -97,8 +97,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Log_Test"
+
             android:textSize="25sp"
+            android:textColor="@color/black"
             android:id="@+id/homylboxscan_tv_boxstaut"
             android:layout_toEndOf="@+id/homylboxscan_tv_boxstaut_lable"/>
         <TextView
@@ -110,8 +111,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/Log_Test"
             android:textSize="25sp"
+            android:textColor="@color/black"
             android:layout_alignParentEnd="true"
             android:id="@+id/homylboxscan_tv_tasktype"
             android:layout_marginEnd="10sp"/>

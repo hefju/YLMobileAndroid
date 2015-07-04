@@ -171,6 +171,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         dialog.dismiss();
                     }
                 }).show();
+        StatisticalBoxList(displayboxlist);
     }
 
     private void InitReciveScan1D() {

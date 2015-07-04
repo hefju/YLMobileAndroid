@@ -33,6 +33,7 @@ public class YLSystem {
     private static String NetWorkState;//网络状态
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
+    private static String BaseName;//基地名称
 
     /**
      * UHF+HF+1D==> UHF:13 HF:12
@@ -57,6 +58,14 @@ public class YLSystem {
 
     public static int getFlags() {
         return 0;
+    }
+
+    public static String getBaseName() {
+        return BaseName;
+    }
+
+    public static void setBaseName(String baseName) {
+        BaseName = baseName;
     }
 
     public static String getKimTag() {

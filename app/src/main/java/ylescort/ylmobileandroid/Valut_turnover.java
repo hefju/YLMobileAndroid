@@ -264,7 +264,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                         box.setValutcheck(InBaseName);
                         box.setBaseValutOut(OutBaseName);
                         box.setBaseValutIn(InBaseName);
-                        box.setTradeAction("出库");
+                        box.setTradeAction("出");
                         box.setTimeID("1");
                         box.setActionTime(YLSysTime.GetStrCurrentTime());
                         DisplayboxList.add(box);
@@ -279,7 +279,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     boxin = DisplayboxList.get(i);
                     if (boxin.getBoxID().equals(box.getBoxID())) {
                         boxin.setValutcheck("对");
-                        boxin.setTradeAction("入库");
+                        boxin.setTradeAction("入");
                         boxin.setBaseValutOut(boxin.getBaseValutOut());
                         boxin.setTimeID("2");
                         boxin.setActionTime(YLSysTime.GetStrCurrentTime());
@@ -301,7 +301,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vaultinylTask = new YLTask();
         vaultoutylTask = new YLTask();
         DisplayboxList = new ArrayList<>();
-        OutBaseName = YLSystem.getUser().getTaskDate();
+        OutBaseName = YLSystem.getBaseName();
         PickDate = YLSysTime.DateToStr(YLEditData.getDatePick());
         webServerValutturnover = new WebServerValutturnover();
         InBaseName = "";

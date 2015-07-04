@@ -56,6 +56,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private AnalysisBoxList analysisBoxList;
     private WebServerValutInorOut webServerValutInorOut;
+    private YLValutboxitemAdapter ylValutboxitemAdapter;
 
     private YLTask ylTask;
 
@@ -162,17 +163,24 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                         switch (which) {
                             case 0:
                                 box.setBoxStatus("实");
-                                AllboxList.set(position,box);
+                                box.setValutcheck("核");
+                                AllboxList.set(position, box);
                                 break;
                             case 1:
                                 box.setBoxStatus("空");
+                                box.setValutcheck("核");
                                 AllboxList.set(position, box);
                                 break;
                             case 2:
                                 AllboxList.remove(position);
+                                Log.e(YLSystem.getKimTag(),AllboxList.toString());
+                                if (AllboxList.size()==0) {
+                                    AllboxList = new ArrayList<Box>();
+                                }
                                 break;
                         }
-                        DisPlayBoxlistAdapter(AllboxList);
+//                        DisPlayBoxlistAdapter(AllboxList);
+                        ylValutboxitemAdapter.notifyDataSetChanged();
                         dialog.dismiss();
                     }
                 }).show();
@@ -333,7 +341,11 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
             boolean boxcheck = true;
 
-            if (AllboxList.size()==1&AllboxList.get(0).getServerReturn().contains("没有出库箱")){
+            Log.e(YLSystem.getKimTag(),AllboxList.toString());
+            if (AllboxList.size() ==0){
+                AllboxList.clear();
+                boxcheck = true;
+            }else if (AllboxList.size()==1&AllboxList.get(0).getServerReturn().contains("没有出库箱")){
                 AllboxList.clear();
                 boxcheck = true;
             }else {
@@ -370,7 +382,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     private void DisPlayBoxlistAdapter(List<Box> boxList){
         if (boxList != null ){
-            YLValutboxitemAdapter ylValutboxitemAdapter =
+            ylValutboxitemAdapter =
                     new YLValutboxitemAdapter(getApplicationContext(),boxList,R.layout.vault_in_detail_boxitem);
             vault_out_detail_lv.setAdapter(ylValutboxitemAdapter);
             scrollMyListViewToBottom();

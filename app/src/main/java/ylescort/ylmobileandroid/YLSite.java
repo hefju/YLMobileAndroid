@@ -179,7 +179,11 @@ public class YLSite extends ActionBarActivity {
         Site site = (Site) listView1.getItemAtPosition(position);
 
         Intent intent = new Intent();
-        intent.setClass(this, YLBoxScan.class);
+
+//        intent.setClass(this, YLBoxScan.class);//旧款箱扫描
+
+        intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
+
         Bundle bundle = new Bundle();
         bundle.putString("siteid",site.getSiteID());
         bundle.putString("sitename",site.getSiteName());
@@ -329,7 +333,7 @@ public class YLSite extends ActionBarActivity {
                         ylTask.setTaskState("已上传");
                         ylTask.setServerReturn(YLSysTime.GetStrCurrentTime());
                         tasksManager.SaveTask(getApplicationContext());
-                        finish();
+//                        finish();
                     }else {
                         Toast.makeText(getApplicationContext(),"未上传成功,请重新上传",Toast.LENGTH_SHORT).show();
                     }
