@@ -271,19 +271,23 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         }
                     }
                 }
-                Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
-                if (box.getBoxName().equals("无数据"))return;
-                Log.e(YLSystem.getKimTag(),box.toString());
-                if (box.getBoxName().contains("粤龙临")) {
-                    if (!checkboxsype().equals("无")) {
-                        box.setBoxType(checkboxsype());
-                    } else {
-                        Toast.makeText(getApplicationContext(), "临时标签箱类型未选", Toast.LENGTH_SHORT).show();
-                        YLBoxMediaPlay("fail");
-                        return;
+                try{
+                    Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+                    if (box.getBoxName().equals("无数据"))return;
+                    Log.e(YLSystem.getKimTag(),box.toString());
+                    if (box.getBoxName().contains("粤龙临")) {
+                        if (!checkboxsype().equals("无")) {
+                            box.setBoxType(checkboxsype());
+                        } else {
+                            Toast.makeText(getApplicationContext(), "临时标签箱类型未选", Toast.LENGTH_SHORT).show();
+                            YLBoxMediaPlay("fail");
+                            return;
+                        }
                     }
+                    PutBoxToList(box, "1", "ordin");
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
-                PutBoxToList(box, "1", "ordin");
             }
         }//注册广播
     }
