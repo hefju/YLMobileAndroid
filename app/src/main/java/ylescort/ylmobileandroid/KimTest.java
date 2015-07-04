@@ -126,6 +126,10 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         this.startService(sendToservice); // 发送指令
     }
 
+    public void testentext(){
+        Toast.makeText(getApplicationContext(),"测试基类",Toast.LENGTH_SHORT).show();
+    }
+
 
     private void NolableDialog() {
 

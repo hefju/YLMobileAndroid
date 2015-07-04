@@ -171,7 +171,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         dialog.dismiss();
                     }
                 }).show();
-        StatisticalBoxList(displayboxlist);
+
     }
 
     private void InitReciveScan1D() {
@@ -339,7 +339,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             for (int i = 0 ;i < Allboxlist.size();i++){
                 Box box = new Box();
                 box = Allboxlist.get(i);
-                if (box.getValutcheck() == null){
+                if (box.getValutcheck().equals("") ||box.getValutcheck() == null){
                     displayboxlist.add(box);
                 }
             }
@@ -350,12 +350,13 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             for (int i = 0; i<Allboxlist.size();i++){
                 Box box = new Box();
                 box = Allboxlist.get(i);
-                if (box.getValutcheck()!=null && box.getValutcheck().equals("多")){
+                if (box.getValutcheck().equals("多")){
                     displayboxlist.add(box);
                 }
             }
         }
         ylValutboxitemAdapter.notifyDataSetChanged();
+        StatisticalBoxList(Allboxlist);
     }
 
     @Override

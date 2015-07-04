@@ -425,6 +425,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             case R.id.boxedi_btn_del:
                 if (boxEditListEdit.size()!=0){
                     boxEditListEdit.remove(listpostion);
+                    ylBoxEdiAdapter.setSelectItem(0);
                     ylBoxEdiAdapter.notifyDataSetInvalidated();
                 }
                 break;

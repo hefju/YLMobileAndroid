@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.content.Context;
+import android.view.View;
 
 import TaskClass.TasksManager;
 import YLDataService.WebService;
@@ -9,7 +10,8 @@ import YLSystemDate.YLSystem;
 /**
  * Created by rush on 2015-01-31.
  */
-public class JuTestClass {
+public class JuTestClass extends KimTest {
+
 
     public  void goahead1(Context ctx){
         TasksManager tasksManager=YLSystem.getTasksManager();//获取任务管理类

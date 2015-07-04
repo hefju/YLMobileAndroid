@@ -142,6 +142,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/homylboxscan_btn_date"
+            android:visibility="invisible"
             android:text="@string/title_activity_hom_ylbox_date"
             android:textSize="20sp"/>
     </LinearLayout>
