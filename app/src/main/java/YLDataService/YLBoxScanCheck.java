@@ -19,8 +19,8 @@ public class YLBoxScanCheck {
     public static   Box CheckBox(String boxnumber ,Context context){
         Box box = new Box();
         String replaceboxnumber =replaceBlank(boxnumber);
-        if (replaceboxnumber.length() < 10){
-            box.setBoxName("illegalbox");
+        if (replaceboxnumber.length() < 10 || replaceboxnumber.length() > 10){
+            box.setBoxName("无数据");
             return box;
         }
         BaseBoxDBSer baseBoxDBSer = new BaseBoxDBSer(context);
