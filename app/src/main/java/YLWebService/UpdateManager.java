@@ -96,6 +96,7 @@ public class UpdateManager {
         }else {
             strURL = LocalSetting.webupdateappaddresshf;
         }
+//        Log.e(YLSystem.getKimTag(),strURL);
         downloadTheFile(strURL);
         showWaitDialog();
     }
@@ -145,6 +146,7 @@ public class UpdateManager {
             Log.i(TAG, "getDataSource() It's a wrong URL!");
         } else {
             URL myURL = new URL(strPath);
+            Log.e(YLSystem.getKimTag(),strPath);
             URLConnection conn = myURL.openConnection();
             conn.connect();
             InputStream is = conn.getInputStream();

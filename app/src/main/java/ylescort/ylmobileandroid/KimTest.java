@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -10,9 +11,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Vibrator;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,11 +45,17 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.User;
+import YLDataService.BaseBoxDBSer;
+import YLDataService.BaseClientDBSer;
+import YLDataService.BaseEmpDBSer;
+import YLDataService.BaseSiteDBSer;
+import YLDataService.WebService;
 import YLFileOperate.DBMove;
 import YLFragment.YLBoxEditFragment;
 import YLSystemDate.YLSystem;
@@ -175,7 +187,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 break;
             case R.id.kim_copydb:CopyDB();
                 break;
-            case R.id.kim_vibrate:showactivity();
+            case R.id.kim_vibrate:CacheData();
                 break;
         }
     }
@@ -241,6 +253,116 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         Intent intent = new Intent();
         intent.setClass(KimTest.this, HomYLBoxScan.class);
         startActivity(intent);
+    }
+    Handler mHandler;
+    private void CacheData(){
+        if (!YLSystem.getNetWorkState().equals("1")){
+            Toast.makeText(getApplicationContext(),"请在WIFI连接情况下更新缓存",Toast.LENGTH_SHORT).show();
+            return;
+        }
+//        SharedPreferences sharedPreferences = getSharedPreferences("CacheLastUpdate", Activity.MODE_PRIVATE);
+//        String string = sharedPreferences.getString("CacheLastUpdate","");
+//        Log.e(YLSystem.getKimTag(),string);
+//清除缓存时间
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        String content =  prefs.getString("CacheLastUpdate", "ALL");
+//        Log.e(YLSystem.getKimTag(),content);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("CacheLastUpdate", "ALL");
+            editor.apply();
+//        Log.e(YLSystem.getKimTag(),content);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+        try {
+            //清除数据库内容
+            (new BaseBoxDBSer(KimTest.this)).DeleteAll();
+            (new BaseClientDBSer(KimTest.this)).DeleteAll();
+            (new BaseEmpDBSer(KimTest.this)).DeleteAll();
+            (new BaseSiteDBSer(KimTest.this)).DeleteAll();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+        final String datetime="ALL";
+            new Thread()
+            {
+                public void run()
+                {
+                    try
+                    {
+//                        Cachedialog.setProgress(CacheCount++);
+                        WebService.GetBaseEmp(getApplicationContext(), mHandler, datetime);
+
+                            Thread.sleep(20);
+//                        Cachedialog.setProgress(CacheCount++);
+                        WebService.GetBaseClient(getApplicationContext(), mHandler, datetime);
+//
+                            Thread.sleep(20);
+//                        Cachedialog.setProgress(CacheCount++);
+                        WebService.GetBaseSite(getApplicationContext(), mHandler,datetime);
+//
+                            Thread.sleep(20);
+//                        Cachedialog.setProgress(CacheCount++);
+                        WebService.GetBaseBox(getApplicationContext(), mHandler,datetime);
+//
+                        Thread.sleep(20);
+
+//                        Cachedialog.cancel();
+
+                        Message msg = mHandler.obtainMessage(100);
+                        mHandler.sendMessage(msg);
+//                            Looper.prepare();
+//                            Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_SHORT).show();
+//                            Looper.loop();
+                    }
+                    catch (InterruptedException e)
+                    {
+//                        Cachedialog.cancel();
+                    }
+                }
+            }.start();
+        mHandler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+
+                //String content = (String) msg.obj;
+                switch (msg.what) {
+                    case 1:
+                        String content = (String) msg.obj;
+//                        pCacheLastUpdate.setSummary("hello world " + content);
+                        break;
+                    case 20:
+                        content = (String) msg.obj;
+//                        Cachedialog.setMessage(content);
+                        break;
+                    case 21:
+                        content = (String) msg.obj;
+//                        Cachedialog.setMessage(content);
+                        break;
+                    case 100:
+                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                        String date = sDateFormat.format(new java.util.Date());
+
+                        //测试不开
+//                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//                        SharedPreferences.Editor edit = settings.edit();
+//                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
+//                        edit.apply();
+//                        pCacheLastUpdate.setSummary(date);
+
+                        Toast.makeText(KimTest.this,"操作成功.",Toast.LENGTH_LONG).show();
+                        break;
+                }
+
+
+                super.handleMessage(msg);
+            }
+        };
     }
 
 
@@ -348,5 +470,14 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             }
             super.onPostExecute(user);
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if (ScanTest !=null){
+            unregisterReceiver(ScanTest);
+        }
+        super.onDestroy();
     }
 }

@@ -77,7 +77,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Logic_LL_Operbtn">
+        android:layout_below="@+id/Logic_LL_Operbtn"
+        android:id="@+id/Logic_LL_info">
 
         <TextView
             android:id="@+id/log_tv_vision"
@@ -123,4 +124,19 @@
             android:text="@string/Log_Update"
             />
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Logic_LL_info"
+        android:layout_marginTop="20sp"
+        android:orientation="vertical">
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logic_sw_address"
+            android:text="访问地址:      "
+            android:textSize="20sp"
+            android:textOn="测试服务"
+            android:textOff="正式服务"/>
+    </LinearLayout>
 </RelativeLayout>

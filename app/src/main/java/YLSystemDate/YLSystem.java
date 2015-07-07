@@ -34,6 +34,7 @@ public class YLSystem {
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
     private static String BaseName;//基地名称
+    private static String SerAdress;//服务地址
 
     /**
      * UHF+HF+1D==> UHF:13 HF:12
@@ -58,6 +59,14 @@ public class YLSystem {
 
     public static int getFlags() {
         return 0;
+    }
+
+    public static String getSerAdress() {
+        return SerAdress;
+    }
+
+    public static void setSerAdress(String serAdress) {
+        SerAdress = serAdress;
     }
 
     public static String getBaseName() {

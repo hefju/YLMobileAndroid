@@ -23,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private EditText Log_ET_PassWord;
     private TextView log_tv_vision;
     private TextView log_tv_hsimei;
+    private Switch logic_sw_address;
     private Button Log_BN_HF;
     private NFCcmdManager manager ;
     private ProgressDialog progressDialog;
@@ -64,6 +66,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void InitData()  {
         try {
+            String oper ="";
+            if (YLSystem.getHFport() == 13){
+                oper = "业务员端";
+            }else{
+                oper = "库管员端";
+            }
+            LoginActivity.this.setTitle("粤龙保安押运--" + oper);
             int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
@@ -123,6 +132,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         log_tv_vision = (TextView) findViewById(R.id.log_tv_vision);
         log_tv_hsimei = (TextView) findViewById(R.id.log_tv_hsimei);
         Log_BN_HF = (Button) findViewById(R.id.Log_BN_HF);
+        logic_sw_address = (Switch)findViewById(R.id.logic_sw_address);
         Button Log_BN_Ent = (Button) findViewById(R.id.Log_BN_Ent);
         Button btnTest1 = (Button) findViewById(R.id.btnTest1);
         Button btnTest2 = (Button) findViewById(R.id.btnTest2);
@@ -279,6 +289,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }
             startActivity(intent);
             YLMediaPlay("success");
+            if (logic_sw_address.isChecked()){
+                YLSystem.setSerAdress(" ");
+            }
             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
         }else {
             YLMediaPlay("faile");

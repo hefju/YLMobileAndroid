@@ -109,7 +109,7 @@ public class SettingsActivity extends PreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 clickcount++;
-                if(clickcount>5) {
+                if(clickcount>2) {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor edit = settings.edit();
                     edit.putString("CacheLastUpdate", "ALL");

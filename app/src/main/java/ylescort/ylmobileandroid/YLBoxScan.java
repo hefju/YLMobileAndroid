@@ -115,6 +115,10 @@ public class YLBoxScan extends ActionBarActivity {
     private int listpostion;
 
 
+    /**
+     * 已弃用kim
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
