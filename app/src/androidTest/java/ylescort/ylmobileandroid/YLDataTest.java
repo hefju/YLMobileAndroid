@@ -12,6 +12,7 @@ import TaskClass.BaseEmp;
 import TaskClass.Box;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2015/5/11.
@@ -86,5 +87,11 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getContext());
         List<BaseEmp> baseEmps = baseEmpDBSer.GetBaseEmps("where EmpNo = '2000' ");
         Log.e(TAG,baseEmps.toString());
+    }
+
+    public void testStringFormat()throws Exception{
+        String teststr = "123";
+        String str = String.format("%05d",3);
+        Log.e(YLSystem.getKimTag(),str);
     }
 }

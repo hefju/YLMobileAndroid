@@ -169,7 +169,7 @@ public class YLSystem {
     public static String GetBaseUrl(Context context)
     {
         isWifiActive(context);
-        return LocalSetting.webserviceaddress;
+        return LocalSetting.getWebserviceaddress();
     }
 
 
@@ -183,14 +183,16 @@ public class YLSystem {
                for (int i = 0; i < info.length; i++) {
                    if (info[i].getTypeName().equals("WIFI") && info[i].isConnected()) {
                        //用wifi的时候自动改用内网访问。
-                       LocalSetting.webserviceaddress=LocalSetting.webserviceaddresstempLocal;
+                       LocalSetting.setWebserviceaddress(LocalSetting.getWebserviceaddresstempLocal());
                        return "1";
                    }
                }
             }
         }
          //没有用wifi的时候自动转换成外网访问。。。
-         LocalSetting.webserviceaddress=LocalSetting.webserviceaddresstempWeb;
+//         LocalSetting.webserviceaddress=LocalSetting.getWebserviceaddresstempWeb();
+        LocalSetting.setWebserviceaddress(LocalSetting.getWebserviceaddresstempWeb());
+
          return "0";
         // return "1";
     }

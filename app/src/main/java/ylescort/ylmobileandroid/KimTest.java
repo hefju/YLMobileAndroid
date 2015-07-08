@@ -298,19 +298,19 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //                        Cachedialog.setProgress(CacheCount++);
                         WebService.GetBaseEmp(getApplicationContext(), mHandler, datetime);
 
-                            Thread.sleep(20);
+                            Thread.sleep(200);
 //                        Cachedialog.setProgress(CacheCount++);
                         WebService.GetBaseClient(getApplicationContext(), mHandler, datetime);
 //
-                            Thread.sleep(20);
+                            Thread.sleep(200);
 //                        Cachedialog.setProgress(CacheCount++);
                         WebService.GetBaseSite(getApplicationContext(), mHandler,datetime);
 //
-                            Thread.sleep(20);
+                            Thread.sleep(200);
 //                        Cachedialog.setProgress(CacheCount++);
                         WebService.GetBaseBox(getApplicationContext(), mHandler,datetime);
 //
-                        Thread.sleep(20);
+                        Thread.sleep(300);
 
 //                        Cachedialog.cancel();
 

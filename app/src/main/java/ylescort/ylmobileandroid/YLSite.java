@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -219,6 +220,7 @@ public class YLSite extends ActionBarActivity {
         @Override
         protected String doInBackground(String... params) {
             String url= YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
+            Log.e(YLSystem.getKimTag(),url);
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
@@ -333,6 +335,7 @@ public class YLSite extends ActionBarActivity {
                         ylTask.setTaskState("已上传");
                         ylTask.setServerReturn(YLSysTime.GetStrCurrentTime());
                         tasksManager.SaveTask(getApplicationContext());
+                        UpDataDialog();
 //                        finish();
                     }else {
                         Toast.makeText(getApplicationContext(),"未上传成功,请重新上传",Toast.LENGTH_SHORT).show();
@@ -351,6 +354,12 @@ public class YLSite extends ActionBarActivity {
             }
         });
         builder.create().show();
+    }
+
+    private void UpDataDialog() {
+        new AlertDialog.Builder(YLSite.this).setTitle("提示")
+                .setMessage("任务已上传，谢谢！")
+                .setPositiveButton("确定", null).show();
     }
 
 

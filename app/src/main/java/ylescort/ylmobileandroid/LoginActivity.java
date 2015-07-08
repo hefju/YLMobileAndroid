@@ -101,6 +101,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(false);
         progressDialog.setButton("返回",new CanButton());
+
+
+        //正式服务测试服务正式为checked为false
+        logic_sw_address.setChecked(true);
+
+        if (logic_sw_address.isChecked()){
+            YLSystem.setSerAdress("0");
+        }else {
+            YLSystem.setSerAdress("1");
+        }
     }
 
     private String getVersionName() throws Exception{
@@ -140,6 +150,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         Log_BN_Ent.setOnClickListener(this);
         btnTest1.setOnClickListener(this);
         btnTest2.setOnClickListener(this);
+        logic_sw_address.setOnClickListener(this);
     }
 
     @Override
@@ -206,6 +217,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, KimTest.class);
                 startActivity(intent);
+                break;
+            case R.id.logic_sw_address:
+                if (logic_sw_address.isChecked()){
+                    YLSystem.setSerAdress("0");
+                }else {
+                    YLSystem.setSerAdress("1");
+                }
                 break;
         }
     }
@@ -289,9 +307,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }
             startActivity(intent);
             YLMediaPlay("success");
-            if (logic_sw_address.isChecked()){
-                YLSystem.setSerAdress(" ");
-            }
             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
         }else {
             YLMediaPlay("faile");

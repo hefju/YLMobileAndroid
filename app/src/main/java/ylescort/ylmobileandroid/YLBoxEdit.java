@@ -22,6 +22,7 @@ import java.util.List;
 import TaskClass.Box;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
+import YLDataService.AnalysisBoxList;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLBoxEdiAdapter;
@@ -51,6 +52,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private List<Box> boxEditListEdit;//在编辑的数据
     private List<Box> boxEditListAll;//网点所有款箱数据
     private List<Box> boxNoSave;
+    private AnalysisBoxList analysisBoxList;
 
     public YLEditData ylEditData;
 
@@ -172,44 +174,46 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
     private void TallyBox(List<Box> boxList) {
         if (boxList == null)return;
-        int emptybox = 0;
-        int fullbox = 0;
-        int getbox = 0;
-        int givebox = 0;
-        int moneybox = 0;
-        int cardbox = 0;
-        int voucher =0;
-        int voucherbag =0;
-        for (Box box :boxList){
-            if (box.getTradeAction().equals("收")){
-                getbox +=Integer.parseInt(box.getBoxCount()) ;}
-            else{
-                givebox+=Integer.parseInt(box.getBoxCount());
-            }
-            if (box.getBoxStatus().equals("空")){
-                emptybox+=Integer.parseInt(box.getBoxCount());
-            }else {
-                fullbox+=Integer.parseInt(box.getBoxCount());
-            }
-            if (box.getBoxType().equals("款箱")){
-                moneybox+=Integer.parseInt(box.getBoxCount());
-            }else if (box.getBoxType().equals("卡箱")){
-                cardbox+=Integer.parseInt(box.getBoxCount());
-            }else if (box.getBoxType().equals("凭证箱")){
-                voucher+=Integer.parseInt(box.getBoxCount());
-            }else if (box.getBoxType().equals("凭证袋")){
-                voucherbag +=Integer.parseInt(box.getBoxCount());
-            }
-        }
+//        int emptybox = 0;
+//        int fullbox = 0;
+//        int getbox = 0;
+//        int givebox = 0;
+//        int moneybox = 0;
+//        int cardbox = 0;
+//        int voucher =0;
+//        int voucherbag =0;
+//        for (Box box :boxList){
+//            if (box.getTradeAction().equals("收")){
+//                getbox +=Integer.parseInt(box.getBoxCount()) ;}
+//            else{
+//                givebox+=Integer.parseInt(box.getBoxCount());
+//            }
+//            if (box.getBoxStatus().equals("空")){
+//                emptybox+=Integer.parseInt(box.getBoxCount());
+//            }else {
+//                fullbox+=Integer.parseInt(box.getBoxCount());
+//            }
+//            if (box.getBoxType().equals("款箱")){
+//                moneybox+=Integer.parseInt(box.getBoxCount());
+//            }else if (box.getBoxType().equals("卡箱")){
+//                cardbox+=Integer.parseInt(box.getBoxCount());
+//            }else if (box.getBoxType().equals("凭证箱")){
+//                voucher+=Integer.parseInt(box.getBoxCount());
+//            }else if (box.getBoxType().equals("凭证袋")){
+//                voucherbag +=Integer.parseInt(box.getBoxCount());
+//            }
+//        }
 
-        boxedi_rbtn_get.setText("收箱-"+getbox);
-        boxedi_rbtn_give.setText("送箱-"+givebox);
-        boxedi_rbtn_full.setText("实箱-" + fullbox);
-        boxedi_rbtn_empty.setText("空箱-" + emptybox);
-        boxedi_rbtn_moneyboxs.setText("款箱-" + moneybox);
-        boxedi_rbtn_cardbox.setText("卡箱-" + cardbox);
-        boxedi_rbtn_Voucher.setText("凭证箱-" + voucher);
-        boxedi_rbtn_Voucherbag.setText("凭证袋-" + voucherbag);
+        List<String> list =  analysisBoxList.AnsysisBoxList(boxList);
+
+        boxedi_rbtn_get.setText("收箱-"+list.get(4));
+        boxedi_rbtn_give.setText("送箱-"+list.get(5));
+        boxedi_rbtn_full.setText("实箱-" + list.get(6));
+        boxedi_rbtn_empty.setText("空箱-" + list.get(7));
+        boxedi_rbtn_moneyboxs.setText("款箱-" + list.get(0));
+        boxedi_rbtn_cardbox.setText("卡箱-" + list.get(1));
+        boxedi_rbtn_Voucher.setText("凭证箱-" + list.get(2));
+        boxedi_rbtn_Voucherbag.setText("凭证袋-" + list.get(3));
 
     }
 
@@ -437,6 +441,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
+        analysisBoxList = new AnalysisBoxList();
 
         boxEditListAll = new ArrayList<>();
         boxEditListEdit = new ArrayList<>();

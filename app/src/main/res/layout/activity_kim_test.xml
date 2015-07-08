@@ -30,5 +30,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/kim_vibrate"
         android:layout_below="@+id/kim_copydb"
-        android:text="缓存"/>
+        android:text="重新缓存"/>
 </RelativeLayout>

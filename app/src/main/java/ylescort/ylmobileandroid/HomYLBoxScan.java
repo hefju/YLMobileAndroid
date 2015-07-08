@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -26,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import TaskClass.ArriveTime;
@@ -73,6 +77,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private YLTask ylTask;//当前选中的任务
     private String box_sp_text ;
     private String YLScanMessage;
+    private String PickDate;
+    private Calendar calendar;
+
+
 
 
     @Override
@@ -110,6 +118,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 box_sp_text = parent.getItemAtPosition(position).toString();
+                if (box_sp_text.equals("寄库箱")){
+                    homylboxscan_btn_date.setEnabled(true);
+                }else {
+                    homylboxscan_btn_date.setEnabled(false);
+                    PickDate = "";
+                }
+
                 Log.e(YLSystem.getKimTag(), box_sp_text);
             }
 
@@ -136,6 +151,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_rbtn_cardbox.setText("卡箱-" + 0);
         homylboxscan_rbtn_Voucher.setText("凭证箱-" + 0);
         homylboxscan_rbtn_Voucherbag.setText("凭证袋-" + 0);
+
+        calendar = Calendar.getInstance();
 
 
     }//初始化数据
@@ -187,6 +204,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
         homylboxscan_btn_scan.setEnabled(false);
         homylboxscan_btn_nonelable.setEnabled(false);
+        homylboxscan_btn_date.setEnabled(false);
 
     }//初始化界面
 
@@ -264,8 +282,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null) {
                 if (!box_sp_text.contains("企业") &AllBoxList.size()>0){
-                    for (Box box :AllBoxList){
-                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))){
+//                    for (Box box :AllBoxList){
+//                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))){
+//                            YLBoxMediaPlay("fail");
+//                            return;
+//                        }
+                    for (int i = AllBoxList.size()-1; i > 0;i--){
+                        if (AllBoxList.get(i).getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))){
                             YLBoxMediaPlay("fail");
                             return;
                         }
@@ -275,11 +298,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
                     if (box.getBoxName().equals("无数据"))return;
                     Log.e(YLSystem.getKimTag(),box.toString());
-                    if (box.getBoxName().contains("粤龙临")) {
+                    if (box.getBoxName().contains("粤龙临")|| box.getBoxType().equals("无")) {
                         if (!checkboxsype().equals("无")) {
                             box.setBoxType(checkboxsype());
                         } else {
-                            Toast.makeText(getApplicationContext(), "临时标签箱类型未选", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
                             YLBoxMediaPlay("fail");
                             return;
                         }
@@ -358,8 +381,9 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_tv_tasktype.setText(box_sp_text);
         box.setBoxTaskType(box_sp_text);
         box.setSiteID(homylboxscan_tv_title.getTag().toString());
-        box.setBoxOrder(AllBoxList.size()+1+"");
+        box.setBoxOrder(AllBoxList.size() + 1 + "");
         box.setTimeID(arriveTime.getTimeID());
+        box.setNextOutTime(PickDate);
         try{
             box.setActionTime(YLSysTime.GetStrCurrentTime());
         }catch (Exception e){
@@ -369,7 +393,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         AllBoxList.add(box);
         YLBoxMediaPlay("success");
         YLSystem.setEdiboxList(AllBoxList);
-        Log.e(YLSystem.getKimTag(), AllBoxList.size() + "款箱数量");
+        Log.e(YLSystem.getKimTag(), AllBoxList.toString() + "款箱数量");
         TallyBox(AllBoxList);
     }//扫箱数据加载界面
 
@@ -404,7 +428,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.homylboxscan_btn_date:
+            case R.id.homylboxscan_btn_date:GetDatePick();
                 break;
             case R.id.homylboxscan_btn_scan:ScanYLBox();
                 break;
@@ -434,6 +458,37 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 break;
         }
     }//按键事件
+
+    private void GetDatePick() {
+//        for (int i = 0;i<2000;i++){
+//            Box box = new Box();
+//            box.setBoxName("测试1");
+//            box.setBoxID("011410192"+i);
+//            box.setBoxType("款箱");
+//            box.setTimeID("1");
+//            box.setTradeAction("收");
+//            box.setBoxCount("1");
+//            box.setBoxStatus("空");
+//            box.setBoxTaskType("早送");
+//            AllBoxList.add(box);
+//        }
+
+        int year = calendar.get(Calendar.YEAR);
+        int Month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(HomYLBoxScan.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        PickDate = year+"-"+String.format("%02d",(monthOfYear + 1))+"-"
+                                +String.format("%02d",(dayOfMonth));
+                        Log.e(YLSystem.getKimTag(),PickDate+"");
+                    }
+                },year,Month,day+1);
+        datePickerDialog.show();
+
+    }
 
     private void NoLableIns() {
         if (CheckRadioButton("need")) {
@@ -516,8 +571,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         box = AllBoxList.get(i);
                         ylTask.lstBox.add(box);
                     }
-                    YLSystem.setEdiboxList(new ArrayList<Box>());
-
                     try {
                         arriveTime.setTradeEnd(YLSysTime.GetStrCurrentTime());
                     } catch (Exception e) {
@@ -540,6 +593,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         }
                     }
                     tasksManager.SaveTask(getApplicationContext());
+                    AllBoxList.clear();
+                    YLSystem.setEdiboxList(AllBoxList);
                     Log.e(YLSystem.getKimTag(),ylTask.getLstBox().toString());
                     dialog.dismiss();
                     HomYLBoxScan.this.finish();
