@@ -92,11 +92,11 @@ public class UpdateManager {
 //                        }).show();
 
         if (YLSystem.getHFport()==12){
-            strURL = LocalSetting.webupdateappaddressuhf;
+            strURL = LocalSetting.getWebupdateappaddressuhf();
         }else {
-            strURL = LocalSetting.webupdateappaddresshf;
+            strURL = LocalSetting.getWebupdateappaddresshf();
         }
-//        Log.e(YLSystem.getKimTag(),strURL);
+        Log.e(YLSystem.getKimTag(),strURL);
         downloadTheFile(strURL);
         showWaitDialog();
     }
