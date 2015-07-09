@@ -3,6 +3,7 @@ package YLDataService;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +103,8 @@ public class BaseBoxDBSer {
             for (BaseBox x : lst) {
                 sdb.execSQL("INSERT INTO BaseBox (ServerReturn, BoxID, BoxName, BoxUHFNo, BoxBCNo," +
                                 " BoxType, ClientID, SiteID) VALUES     (?,?,?,?,?,?,?,?)",
-                        new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
-                                x.ClientID,x.SiteID });
+                        new Object[]{x.ServerReturn, x.BoxID, x.BoxName, x.BoxUHFNo, x.BoxBCNo, x.BoxType,
+                                x.ClientID, x.SiteID});
             }
         }
         finally {
@@ -112,6 +113,36 @@ public class BaseBoxDBSer {
             sdb.close(); //关闭数据库
         }
     }
+
+    public void InsertBox2(List<BaseBox> lst) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        try{
+            String sql = "INSERT INTO BaseBox (ServerReturn, BoxID, BoxName, BoxUHFNo, BoxBCNo," +
+                    " BoxType, ClientID, SiteID) VALUES     (?,?,?,?,?,?,?,?)";
+            SQLiteStatement sqLiteStatement = sdb.compileStatement(sql);
+            sdb.beginTransaction();
+            for (BaseBox x : lst){
+                sqLiteStatement.bindString(1,x.ServerReturn);
+                sqLiteStatement.bindString(2,x.BoxID);
+                sqLiteStatement.bindString(3,x.BoxName);
+                sqLiteStatement.bindString(4,x.BoxUHFNo);
+                sqLiteStatement.bindString(5,x.BoxBCNo);
+                sqLiteStatement.bindString(6,x.BoxType);
+                sqLiteStatement.bindString(7,x.ClientID);
+                sqLiteStatement.bindString(8,x.SiteID);
+                long result = sqLiteStatement.executeInsert();
+            }
+            sdb.setTransactionSuccessful();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            sdb.endTransaction();
+            sdb.close();
+        }
+
+    }
+
 
     //批量更新box
     public void UpdateBox(List<BaseBox> lst) {

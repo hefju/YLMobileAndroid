@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -48,13 +49,19 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import TaskClass.BaseBox;
+import TaskClass.BaseClient;
+import TaskClass.BaseEmp;
+import TaskClass.BaseSite;
 import TaskClass.Box;
 import TaskClass.User;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseClientDBSer;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.BaseSiteDBSer;
+import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
 import YLFileOperate.DBMove;
 import YLFragment.YLBoxEditFragment;
@@ -70,6 +77,11 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
+    private ProgressDialog progressDialog;
+    private BaseEmpDBSer baseEmpDBSer;
+    private BaseSiteDBSer baseSiteDBSer;
+    private BaseClientDBSer baseClientDBSer;
+    private BaseBoxDBSer baseBoxDBSer;
 
 
     @Override
@@ -187,7 +199,12 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 break;
             case R.id.kim_copydb:CopyDB();
                 break;
-            case R.id.kim_vibrate:CacheData();
+            case R.id.kim_vibrate:
+                try {
+                    AnysTaskCacheData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
         }
     }
@@ -214,7 +231,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         builder.setSmallIcon(R.drawable.ic_launcher).setTicker("")
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_SOUND|
-                Notification.DEFAULT_VIBRATE).setLights(-13210,0,1);
+                Notification.DEFAULT_VIBRATE).setLights(-13210, 0, 1);
         Notification notification = builder.getNotification();
         notificationManager.notify(1,notification);
 
@@ -254,24 +271,22 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         intent.setClass(KimTest.this, HomYLBoxScan.class);
         startActivity(intent);
     }
-    Handler mHandler;
-    private void CacheData(){
+
+
+
+    private void AnysTaskCacheData() throws Exception{
         if (!YLSystem.getNetWorkState().equals("1")){
             Toast.makeText(getApplicationContext(),"请在WIFI连接情况下更新缓存",Toast.LENGTH_SHORT).show();
             return;
         }
-//        SharedPreferences sharedPreferences = getSharedPreferences("CacheLastUpdate", Activity.MODE_PRIVATE);
-//        String string = sharedPreferences.getString("CacheLastUpdate","");
-//        Log.e(YLSystem.getKimTag(),string);
+
 //清除缓存时间
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        String content =  prefs.getString("CacheLastUpdate", "ALL");
-//        Log.e(YLSystem.getKimTag(),content);
+
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("CacheLastUpdate", "ALL");
             editor.apply();
-//        Log.e(YLSystem.getKimTag(),content);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -288,81 +303,73 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             e.printStackTrace();
             return;
         }
-        final String datetime="ALL";
-            new Thread()
-            {
-                public void run()
-                {
-                    try
-                    {
-//                        Cachedialog.setProgress(CacheCount++);
-                        WebService.GetBaseEmp(getApplicationContext(), mHandler, datetime);
-
-                            Thread.sleep(200);
-//                        Cachedialog.setProgress(CacheCount++);
-                        WebService.GetBaseClient(getApplicationContext(), mHandler, datetime);
-//
-                            Thread.sleep(200);
-//                        Cachedialog.setProgress(CacheCount++);
-                        WebService.GetBaseSite(getApplicationContext(), mHandler,datetime);
-//
-                            Thread.sleep(200);
-//                        Cachedialog.setProgress(CacheCount++);
-                        WebService.GetBaseBox(getApplicationContext(), mHandler,datetime);
-//
-                        Thread.sleep(300);
-
-//                        Cachedialog.cancel();
-
-                        Message msg = mHandler.obtainMessage(100);
-                        mHandler.sendMessage(msg);
-//                            Looper.prepare();
-//                            Toast.makeText(SettingsActivity.this,"操作成功.",Toast.LENGTH_SHORT).show();
-//                            Looper.loop();
-                    }
-                    catch (InterruptedException e)
-                    {
-//                        Cachedialog.cancel();
-                    }
-                }
-            }.start();
-        mHandler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-
-                //String content = (String) msg.obj;
-                switch (msg.what) {
-                    case 1:
-                        String content = (String) msg.obj;
-//                        pCacheLastUpdate.setSummary("hello world " + content);
-                        break;
-                    case 20:
-                        content = (String) msg.obj;
-//                        Cachedialog.setMessage(content);
-                        break;
-                    case 21:
-                        content = (String) msg.obj;
-//                        Cachedialog.setMessage(content);
-                        break;
-                    case 100:
-                        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                        String date = sDateFormat.format(new java.util.Date());
-
-                        //测试不开
-//                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//                        SharedPreferences.Editor edit = settings.edit();
-//                        edit.putString("CacheLastUpdate", date);//YLSystem.getUser().getTime()
-//                        edit.apply();
-//                        pCacheLastUpdate.setSummary(date);
-
-                        Toast.makeText(KimTest.this,"操作成功.",Toast.LENGTH_LONG).show();
-                        break;
-                }
+        GetBaseData();
+    }
 
 
-                super.handleMessage(msg);
-            }
-        };
+    private class Ansycache extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(KimTest.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("正在更新中");
+//            progressDialog.setMax(100);
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.show();
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            CacheData();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progressDialog.dismiss();
+            super.onPostExecute(s);
+        }
+    }
+
+    private void CacheData(){
+        if (!YLSystem.getNetWorkState().equals("1")){
+            Toast.makeText(getApplicationContext(),"请在WIFI连接情况下更新缓存",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+//清除缓存时间
+        try {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("CacheLastUpdate", "ALL");
+            editor.apply();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+        try {
+            //清除数据库内容
+            (new BaseBoxDBSer(KimTest.this)).DeleteAll();
+            (new BaseClientDBSer(KimTest.this)).DeleteAll();
+            (new BaseEmpDBSer(KimTest.this)).DeleteAll();
+            (new BaseSiteDBSer(KimTest.this)).DeleteAll();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
+
+        WebServerBaseData webServerBaseData = new WebServerBaseData();
+        try {
+            webServerBaseData.GetBaseData(getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -382,10 +389,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             Toast.makeText(getApplicationContext(), EmpHF, Toast.LENGTH_SHORT).show();
             manager.readerPowerOff();
         }
-    }
-
-    private void TestScan1D() {
-
     }
 
     private void PushBoxList() {
@@ -472,6 +475,127 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         }
     }
 
+    public void GetBaseData()throws Exception{
+        progressDialog = new ProgressDialog(getApplicationContext());
+        baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+        baseSiteDBSer = new BaseSiteDBSer(getApplicationContext());
+        baseClientDBSer = new BaseClientDBSer(getApplicationContext());
+        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
+        Log.e(YLSystem.getKimTag(),"开始");
+        String DeviceID = YLSystem.getHandsetIMEI();
+        String isWifi =YLSystem.getNetWorkState();
+        String empurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseEmp";
+        String Clienturl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseClient";
+        String Siteurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseSite";
+        String boxurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseBox";
+        AnysTaskGetBaseData anysTaskGetBaseData = new AnysTaskGetBaseData();
+        anysTaskGetBaseData.execute(DeviceID, isWifi, empurl, Clienturl, Siteurl, boxurl);
+//        anysTaskGetBaseData.get();
+    }
+
+    private class AnysTaskGetBaseData extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(KimTest.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("正在更新中");
+//            progressDialog.setMax(100);
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            try {
+                String url = params[2];
+                HttpPost post = new HttpPost(url);
+                Gson gson = new Gson();
+                JSONObject p = new JSONObject();
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
+                    }.getType());
+                    baseEmpDBSer.InsertBaseEmp(emps);
+
+                    Log.e(YLSystem.getKimTag(),emps.size()+"人员数据");
+                }
+
+                post = new HttpPost(params[3]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
+                    }.getType());
+                    baseClientDBSer.InsertBaseClient(baseClients);
+                    Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
+                }
+
+                post = new HttpPost(params[4]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
+                    }.getType());
+                    baseSiteDBSer.InsertBaseSite(siteList);
+                    Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
+                }
+
+                post = new HttpPost(params[5]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
+                    }.getType());
+                    baseBoxDBSer.InsertBox2(baseBoxes);
+                    Log.e(YLSystem.getKimTag(),baseBoxes.size()+"插入款箱数据");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progressDialog.dismiss();
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+            super.onProgressUpdate(values);
+        }
+    }
 
     @Override
     protected void onDestroy() {

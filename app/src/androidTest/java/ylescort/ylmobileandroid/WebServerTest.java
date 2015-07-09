@@ -28,6 +28,7 @@ import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.AnalysisBoxList;
+import YLDataService.WebServerBaseData;
 import YLDataService.WebServerValutturnover;
 import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
@@ -271,5 +272,11 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         WebServerYLSite webServerYLSite = new WebServerYLSite();
         List<Site> sites =  webServerYLSite.GetYLTaskSite(user, getContext());
         Log.e(TAG,"任务网点："+sites.toString());
+    }
+
+    public void testCache()throws Exception{
+        YLSystem.setSerAdress("0");
+        WebServerBaseData webServerBaseData = new WebServerBaseData();
+        webServerBaseData.GetBaseData(getContext());
     }
 }
