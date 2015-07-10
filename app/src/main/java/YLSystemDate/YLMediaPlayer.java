@@ -23,5 +23,6 @@ public class YLMediaPlayer {
             mPlayer.prepare();
         }
         mPlayer.start();
+        Thread.sleep(300);
     }
 }

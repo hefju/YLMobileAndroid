@@ -124,8 +124,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     homylboxscan_btn_date.setEnabled(false);
                     PickDate = "";
                 }
-
-                Log.e(YLSystem.getKimTag(), box_sp_text);
             }
 
             @Override
@@ -282,12 +280,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null) {
                 if (!box_sp_text.contains("企业") &AllBoxList.size()>0){
-//                    for (Box box :AllBoxList){
-//                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))){
+//                    for (Box box :AllBoxList) {
+//                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))) {
 //                            YLBoxMediaPlay("fail");
 //                            return;
 //                        }
-                    for (int i = AllBoxList.size()-1; i > 0;i--){
+//                    }
+                    for (int i = AllBoxList.size()-1; i >= 0;i--){
                         if (AllBoxList.get(i).getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))){
                             YLBoxMediaPlay("fail");
                             return;
@@ -296,7 +295,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 }
                 try{
                     Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
-                    if (box.getBoxName().equals("无数据"))return;
+                    if (box.getBoxName().equals("无数据")){
+                        YLBoxMediaPlay("fail");
+                        return;
+                    }
                     Log.e(YLSystem.getKimTag(),box.toString());
                     if (box.getBoxName().contains("粤龙临")|| box.getBoxType().equals("无")) {
                         if (!checkboxsype().equals("无")) {
@@ -377,22 +379,20 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         else {
             homylboxscan_tv_boxtype.setText(box.getBoxType());
         }
-
-        homylboxscan_tv_tasktype.setText(box_sp_text);
-        box.setBoxTaskType(box_sp_text);
-        box.setSiteID(homylboxscan_tv_title.getTag().toString());
-        box.setBoxOrder(AllBoxList.size() + 1 + "");
-        box.setTimeID(arriveTime.getTimeID());
-        box.setNextOutTime(PickDate);
-        try{
+        try {
+            homylboxscan_tv_tasktype.setText(box_sp_text);
+            box.setBoxTaskType(box_sp_text);
+            box.setSiteID(homylboxscan_tv_title.getTag().toString());
+            box.setBoxOrder(AllBoxList.size() + 1 + "");
+            box.setTimeID(arriveTime.getTimeID());
+            box.setNextOutTime(PickDate);
             box.setActionTime(YLSysTime.GetStrCurrentTime());
-        }catch (Exception e){
+            AllBoxList.add(box);
+            YLBoxMediaPlay("success");
+            YLSystem.setEdiboxList(AllBoxList);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        AllBoxList.add(box);
-        YLBoxMediaPlay("success");
-        YLSystem.setEdiboxList(AllBoxList);
         Log.e(YLSystem.getKimTag(), AllBoxList.toString() + "款箱数量");
         TallyBox(AllBoxList);
     }//扫箱数据加载界面
@@ -751,6 +751,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 mPlayer.prepare();
             }
             mPlayer.start();
+            Thread.sleep(300);
         }catch (Exception e){
             e.printStackTrace();
         }
