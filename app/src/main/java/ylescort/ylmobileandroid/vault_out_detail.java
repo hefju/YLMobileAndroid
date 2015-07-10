@@ -102,8 +102,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             }
         });
 
-        vault_out_detail.this.setTitle("出库明细--" + YLSystem.getUser().getName() + "--"
-                + YLSystem.getUser().getTaskDate());
+        vault_out_detail.this.setTitle("出库明细--" + YLSystem.getUser().getName());
     }
 
     private void InitData()throws  Exception {
@@ -130,6 +129,10 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         String boxtype = "款箱："+stringList.get(0)+"卡箱:"+stringList.get(1)+"凭证箱:"+stringList.get(2)+
                 "凭证袋:"+stringList.get(3);
         String boxstaut = "实箱："+stringList.get(6)+"空箱："+stringList.get(7);
+
+        String total = "扫描总数： "+AllboxList.size()+"   ";
+
+        vault_out_detail_tv_taskname.setText(total);
         vault_out_detail_tv_boxstaut.setText(boxstaut);
         vault_out_detail_tv_type.setText(boxtype);
     }
@@ -353,7 +356,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 for (int i = 0; i < AllboxList.size(); i++) {
                     Box scanbox = AllboxList.get(listcount - i);
                     if (scanbox.getBoxID().equals(box.getBoxID())) {
-                        ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFailMidia("success ", getApplicationContext());
                         boxcheck = false;
                         break;
                     }
@@ -375,6 +378,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
 
             }
+            ShowBoxList();
         } catch (Exception e) {
             e.printStackTrace();
         }

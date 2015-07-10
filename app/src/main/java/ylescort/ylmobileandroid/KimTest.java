@@ -65,6 +65,7 @@ import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
 import YLFileOperate.DBMove;
 import YLFragment.YLBoxEditFragment;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 
@@ -285,7 +286,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("CacheLastUpdate", "ALL");
+            editor.putString("CacheLastUpdate", YLSysTime.GetStrCurrentTime());
             editor.apply();
         }
         catch (Exception e){
@@ -535,7 +536,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 p.put("ISWIFI", params[1]);
                 p.put("datetime", "ALL");
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                post.setHeader(HTTP.CONTENT_TYPE, "/json");
                 client = new DefaultHttpClient();
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
