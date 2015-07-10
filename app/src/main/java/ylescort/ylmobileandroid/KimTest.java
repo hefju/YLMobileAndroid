@@ -376,9 +376,9 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private void CopyDB() {
         DBMove dbMove = new DBMove();
-        String OldFile = "/data/data/ylescort.ylmobileandroid/databases/YLDB.db";
+        String OldFile ="/data/data/ylescort.ylmobileandroid/databases/YLDB.db";
         String newFile = "/storage/sdcard0/YLDB.db";
-        dbMove.copyFile(OldFile,newFile);
+        dbMove.CopySdcardFile(OldFile, newFile);
     }
 
     private void TestHF() {

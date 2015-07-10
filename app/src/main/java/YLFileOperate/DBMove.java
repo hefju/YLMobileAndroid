@@ -4,12 +4,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Administrator on 2015-06-29.
  */
 
 public class DBMove {
+
+
+    public void CopySdcardFile(String fromFile, String toFile)
+    {
+//        File olefile = new File(fromFile);
+//        File newfile = new File(toFile);
+        copyFile(fromFile,toFile);
+    }
+
 
     /**
      * 复制单个文件

@@ -279,20 +279,21 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null) {
-                if (!box_sp_text.contains("企业") &AllBoxList.size()>0){
-//                    for (Box box :AllBoxList) {
-//                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))) {
-//                            YLBoxMediaPlay("fail");
-//                            return;
-//                        }
-//                    }
+//                if (!box_sp_text.contains("企业") &AllBoxList.size()>0){
+////                    for (Box box :AllBoxList) {
+////                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))) {
+////                            YLBoxMediaPlay("fail");
+////                            return;
+////                        }
+////                    }
                     for (int i = AllBoxList.size()-1; i >= 0;i--){
-                        if (AllBoxList.get(i).getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))){
+                        if (AllBoxList.get(i).getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))
+                                & AllBoxList.get(i).getTradeAction().equals(getboxatcion())){
                             YLBoxMediaPlay("fail");
                             return;
                         }
                     }
-                }
+//                }
                 try{
                     Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
                     if (box.getBoxName().equals("无数据")){
@@ -315,6 +316,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 }
             }
         }//注册广播
+    }
+
+    private String getboxatcion(){
+        if (homylboxscan_rbtn_get.isChecked()){
+            return "收";
+        }else {
+            return "送";
+        }
     }
 
     private String checkboxsype(){
