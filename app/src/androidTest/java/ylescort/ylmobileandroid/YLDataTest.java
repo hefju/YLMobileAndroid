@@ -91,7 +91,13 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
     public void testStringFormat()throws Exception{
         String teststr = "123";
-        String str = String.format("%05d",3);
+        String str = String.format("%05d", 3);
         Log.e(YLSystem.getKimTag(),str);
+    }
+
+    public void testreplacestr()throws Exception{
+        String str = "000000001234034120";
+        String newStr = str.replaceAll("^(0+)", "");
+        Log.e(YLSystem.getKimTag(),newStr);
     }
 }

@@ -75,14 +75,18 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private Button kim_test2;
     private Button kim_copydb;
     private Button kim_vibrate;
+    private Button kim_uhftest;
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
+    private ScanUHFRecive scanUHFRecive;
     private ProgressDialog progressDialog;
     private BaseEmpDBSer baseEmpDBSer;
     private BaseSiteDBSer baseSiteDBSer;
     private BaseClientDBSer baseClientDBSer;
     private BaseBoxDBSer baseBoxDBSer;
+    private int count = 0;
+
 
 
     @Override
@@ -100,14 +104,19 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_test2 = (Button) findViewById(R.id.kim_test2);
         kim_copydb = (Button) findViewById(R.id.kim_copydb);
         kim_vibrate = (Button)findViewById(R.id.kim_vibrate);
+        kim_uhftest = (Button)findViewById(R.id.kim_uhftest);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
         kim_copydb.setOnClickListener(this);
         kim_vibrate.setOnClickListener(this);
+        kim_uhftest.setOnClickListener(this);
 
         InitReciveScan1D();
 
+        InitReciveUHF();
+
         InitHFreader();
+
     }
 
     private class Scan1DRecive extends BroadcastReceiver{
@@ -116,7 +125,24 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             String recivedata = intent.getStringExtra("result");
             Log.e(YLSystem.getKimTag(),recivedata);
             if (recivedata != null){
-                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
+                count++;
+                kim_uhftest.setText("读取:"+count+"次数");
+//                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
+    private class ScanUHFRecive extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String recivedata = intent.getStringExtra("result");
+            Log.e(YLSystem.getKimTag(),recivedata);
+            if (recivedata != null){
+                count++;
+                kim_uhftest.setText("读取:"+count+"次数");
+//                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -140,6 +166,15 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         KimTest.this.startService(start);
     }
 
+    private void InitReciveUHF(){
+        scanUHFRecive = new ScanUHFRecive();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ylescort.ylmobileandroid.KimTest");
+        registerReceiver(ScanTest, filter);
+        Intent start = new Intent(KimTest.this,ScanUHFService.class);
+        KimTest.this.startService(start);
+    }
+
     private void Scan1DCmd (){
         String activity = "ylescort.ylmobileandroid.KimTest";
         Intent ac = new Intent();
@@ -150,6 +185,19 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         sendToservice.putExtra("cmd", "scan");
         this.startService(sendToservice); // 发送指令
     }
+
+    private void ScanUHF(String action){
+        count = 0;
+        String activity = "ylescort.ylmobileandroid.KimTest";
+        Intent ac = new Intent();
+        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
+        ac.putExtra("activity", activity);
+        sendBroadcast(ac);
+        Intent sendToservice = new Intent(KimTest.this, ScanUHFService.class); // 用于发送指令
+        sendToservice.putExtra("cmd", action);
+        this.startService(sendToservice); // 发送指令
+    }
+
 
     public void testentext(){
         Toast.makeText(getApplicationContext(),"测试基类",Toast.LENGTH_SHORT).show();
@@ -206,6 +254,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case R.id.kim_uhftest:ScanUHF("scan");
                 break;
         }
     }
@@ -266,14 +316,11 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         notification.setLatestEventInfo(this, "灯测试", "led灯测试", pendingIntent);
         manager.notify(1, notification);
     }
-
     private void showactivity(){
         Intent intent = new Intent();
         intent.setClass(KimTest.this, HomYLBoxScan.class);
         startActivity(intent);
     }
-
-
 
     private void AnysTaskCacheData() throws Exception{
         if (!YLSystem.getNetWorkState().equals("1")){
@@ -306,8 +353,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         }
         GetBaseData();
     }
-
-
     private class Ansycache extends AsyncTask<String,Integer,String>{
 
         @Override
@@ -372,7 +417,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             e.printStackTrace();
         }
     }
-
 
     private void CopyDB() {
         DBMove dbMove = new DBMove();
@@ -603,6 +647,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         if (ScanTest !=null){
             unregisterReceiver(ScanTest);
         }
+        ScanUHF("stopscan");
         super.onDestroy();
     }
 }

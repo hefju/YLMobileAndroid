@@ -19,6 +19,7 @@
         android:theme="@style/AppTheme" >
         <service android:name=".YLNetWorkStateService" />
         <service android:name=".SerTimeService" />
+        <service android:name=".ScanUHFService"/>
 
         <activity
             android:name=".LoginActivity"
