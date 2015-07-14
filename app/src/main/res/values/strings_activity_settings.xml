@@ -14,6 +14,10 @@
     <string name="pref_title_display_name">手持机ID</string>
     <string name="pref_default_display_name">NH008</string>
 
+    <string name="uhfpowername">UHF功率设置</string>
+    <string name="uhfpower">26</string>
+
+
     <string name="pref_title_add_friends_to_messages">关 于</string>
     <string-array name="pref_example_list_titles">
         <item>感谢关注</item>

@@ -7,11 +7,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.input.InputManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -52,7 +54,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private Switch logic_sw_address;
     private Button Log_BN_HF;
     private NFCcmdManager manager ;
-    private ProgressDialog progressDialog;
     private boolean buttonflag;
 
     @Override
@@ -92,16 +93,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         YLSystem.setHandsetIMEI(IMEI);
 
         log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
-
-        progressDialog = new ProgressDialog(LoginActivity.this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setTitle("提示");
-        progressDialog.setMessage("系统登陆中");
-        progressDialog.setIcon(R.drawable.ylescort);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setCancelable(false);
-        progressDialog.setButton("返回",new CanButton());
-
 
         //正式服务测试服务正式为checked为false
         logic_sw_address.setChecked(true);
@@ -385,13 +376,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             mPlayer.prepare();
         }
         mPlayer.start();
-    }
-
-    private class CanButton implements DialogInterface.OnClickListener {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            progressDialog.dismiss();
-        }
     }
 
     @Override

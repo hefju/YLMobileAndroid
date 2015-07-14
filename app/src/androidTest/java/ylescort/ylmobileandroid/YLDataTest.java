@@ -7,10 +7,13 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.BaseBox;
 import TaskClass.BaseClient_HF;
 import TaskClass.BaseEmp;
 import TaskClass.Box;
+import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseEmpDBSer;
+import YLDataService.BoxDBSer;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLSystem;
 
@@ -96,8 +99,19 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     }
 
     public void testreplacestr()throws Exception{
-        String str = "000000001234034120";
-        String newStr = str.replaceAll("^(0+)", "");
+        String str = "1234567890123456789";
+//        String newStr = str.replaceAll("^(0+)", "");
+        String newStr = str.substring(0,10);
         Log.e(YLSystem.getKimTag(),newStr);
     }
+
+    public void testSelcetBox() throws Exception{
+        String boxid = "0114108547";
+        Box box = new Box();
+//        BaseBoxDBSer baseBoxDBSer = new BaseBoxDBSer(getContext());
+        BoxDBSer boxDBSer = new BoxDBSer(getContext());
+        box =  boxDBSer.GetBoxs2(boxid);
+        Log.e(YLSystem.getKimTag(),box.toString());
+    }
+
 }

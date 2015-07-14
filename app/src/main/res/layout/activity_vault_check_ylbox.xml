@@ -47,7 +47,7 @@
         </ListView>
     </RelativeLayout>
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_check_rl_operate"
         android:layout_alignParentBottom="true">
@@ -70,5 +70,6 @@
             android:id="@+id/vault_check_btn_conFirm"
             android:layout_alignParentEnd="true"
             android:text="@string/vault_check_ylbox_comfrom"/>
+
     </RelativeLayout>
 </RelativeLayout>

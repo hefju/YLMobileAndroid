@@ -40,6 +40,21 @@ public class YLBoxScanCheck {
         }
     }
 
+    public static Box CheckBoxbyUHF(String boxnumber,Context context){
+        Box box = new Box();
+        String replaceboxnumber =replaceBlank(boxnumber);
+        if (replaceboxnumber.length() != 10){
+            box.setBoxName("无数据");
+            return box;
+        }
+        BoxDBSer boxDBSer = new BoxDBSer(context);
+        box = boxDBSer.GetBoxs2(replaceboxnumber);
+        if (box.getBoxType() == null||box.getBoxType().equals("普通箱") || box.getBoxType().equals("") ){
+            box.setBoxType("款箱");
+        }
+        return box;
+    }
+
     public static   String replaceBlank(String str) {
         String dest = "";
         if (str!=null) {

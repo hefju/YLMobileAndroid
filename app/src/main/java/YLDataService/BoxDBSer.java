@@ -105,6 +105,25 @@ public class BoxDBSer {
         return lstBox;
     }
 
+    public Box GetBoxs2(String reciveboxid){
+        SQLiteDatabase sqLiteDatabase = ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.query(true, "BaseBox", new String[]{"SiteID", "BoxBCNo"
+                , "BoxName", "BoxType"}, "BoxBCNo = ?", new String[]{reciveboxid}, null, null, "", "");
+        Box box = new Box();
+        while (cursor.moveToNext()){
+            box.setSiteID(cursor.getString(cursor.getColumnIndex("SiteID")));
+            box.setBoxID(cursor.getString(cursor.getColumnIndex("BoxBCNo")));
+            box.setBoxName(cursor.getString(cursor.getColumnIndex("BoxName")));
+            box.setBoxType(cursor.getString(cursor.getColumnIndex("BoxType")));
+        }
+        if (box.getBoxName() == null){
+            box.setBoxName("无数据");
+        }
+        return box;
+    }
+
+
+
     //批量插入box
     public void InsertBox(List<Box> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();

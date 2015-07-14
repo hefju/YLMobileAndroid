@@ -150,7 +150,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private void InitHFreader() {
         try{
-            manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
+            manager = NFCcmdManager.getNFCcmdManager(12, 115200, 0);
             manager.readerPowerOn();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
@@ -389,7 +389,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //清除缓存时间
         try {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("CacheLastUpdate", "ALL");
             editor.apply();

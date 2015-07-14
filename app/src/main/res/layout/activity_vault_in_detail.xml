@@ -126,7 +126,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_btn_enter"
-            android:layout_marginStart="40sp"
+            android:layout_marginStart="15sp"
             android:text="@string/vault_out_detail_btn_enter"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_btn_scanuhf"
+            android:layout_marginStart="15sp"
+            android:text="@string/vault_out_detail_btn_sacanuhf"/>
         </LinearLayout>
 </RelativeLayout>

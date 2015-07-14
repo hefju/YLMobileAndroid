@@ -40,6 +40,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private TextView vault_in_detail_tv_tolly;
     private TextView vault_in_detail_tv_check;
     private Button vault_in_detail_btn_scan1d;
+    private Button vault_in_detail_btn_scanuhf;
     private Button vault_in_detail_btn_enter;
 
     private RadioButton vault_in_detail_rbtn_allbox;
@@ -63,9 +64,19 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             InitView();
             InitDate();
             InitReciveScan1D();
+            InitUHFService();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void InitUHFService() {
+        vaultindetailscan1DRecive = new Scan1DRecive();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ylescort.ylmobileandroid.vault_in_detail");
+        registerReceiver(vaultindetailscan1DRecive, filter);
+        Intent start = new Intent(vault_in_detail.this,ScanUHFService.class);
+        vault_in_detail.this.startService(start);
     }
 
     private void InitDate()throws Exception{
@@ -80,7 +91,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         WebService webService = new WebService();
         displayboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
-        Log.e(YLSystem.getKimTag(),displayboxlist.toString());
+        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
         if (displayboxlist.get(0).getServerReturn().equals("1")){
             for (int i = 0;i<displayboxlist.size();i++){
                 Box box = new Box();
@@ -98,6 +109,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_tv_tolly = (TextView) findViewById(R.id.vault_in_detail_tv_tolly);
         vault_in_detail_tv_check = (TextView) findViewById(R.id.vault_in_detail_tv_check);
         vault_in_detail_btn_scan1d = (Button) findViewById(R.id.vault_in_detail_btn_scan1d);
+        vault_in_detail_btn_scanuhf = (Button) findViewById(R.id.vault_in_detail_btn_scanuhf);
         vault_in_detail_btn_enter = (Button) findViewById(R.id.vault_in_detail_btn_enter);
 
         vault_in_detail_rbtn_allbox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_allbox);
@@ -105,6 +117,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_rbtn_morebox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_morebox);
 
         vault_in_detail_btn_scan1d.setOnClickListener(this);
+        vault_in_detail_btn_scanuhf.setOnClickListener(this);
         vault_in_detail_btn_enter.setOnClickListener(this);
         vault_in_detail_rbtn_allbox.setOnClickListener(this);
         vault_in_detail_rbtn_lackbox.setOnClickListener(this);
@@ -116,7 +129,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 if (displayboxlist.size() < 1) return;
                 Box box = displayboxlist.get(position);
                 if (box.getValutcheck() == null) return;
-                if (box.getValutcheck().equals("多")||box.getValutcheck().equals("核")) {
+                if (box.getValutcheck().equals("多") || box.getValutcheck().equals("核")) {
                     ShowMultChoice(position);
                 }
             }
@@ -197,6 +210,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 }
                 Scan1DCmd(cmd);
                 break;
+            case R.id.vault_in_detail_btn_scanuhf:ScanUHF("scan");
+                break;
             case R.id.vault_in_detail_btn_enter:ConfirmData();
                 break;
             case R.id.vault_in_detail_rbtn_allbox:FilterBoxdisplay();
@@ -209,27 +224,121 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         }
     }
 
+    private void ScanUHF(String action) {
+        String activity = "ylescort.ylmobileandroid.vault_in_detail";
+        Intent ac = new Intent();
+        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
+        ac.putExtra("activity", activity);
+        sendBroadcast(ac);
+        Intent sendToservice = new Intent(vault_in_detail.this, ScanUHFService.class); // 用于发送指令
+        sendToservice.putExtra("cmd", action);
+        this.startService(sendToservice); // 发送指令
+    }
+
 
     private class Scan1DRecive extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-                Box box= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
-                GetBoxToListView(box);}
+
+                ScanBoxInListView(recivedata);
+
+//                Box box= YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+////                GetBoxToListView(box);
+//                PutBox(box);
+
+            }
         }
+    }
+
+    private void ScanBoxInListView(String recivedata) {
+        if (recivedata.length() !=10)return;
+        boolean boxrecheck = true;
+        for (int i = 0;i<Allboxlist.size();i++){
+            Box listbox = Allboxlist.get(i);
+            if (listbox.getBoxID().equals(recivedata)){
+                if (listbox.getValutcheck().equals("")){
+                    listbox.setValutcheck("对");
+                    listbox.setTradeAction("入");
+                    listbox.setActionTime(YLSysTime.GetStrCurrentTime());
+                    boxrecheck = false;
+                    Allboxlist.set(i,listbox);
+                    Log.e(YLSystem.getKimTag(), listbox.toString() + "修改");
+                    ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                    break;
+                }else {
+                    return;
+                }
+            }
+        }
+        if (boxrecheck){
+            Box box= YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+            if (box.getBoxName().equals("无数据"))return;
+            box.setValutcheck("多");
+            box.setBoxCount("1");
+            box.setBoxStatus("无");
+            box.setBoxType("无");
+            box.setTradeAction("入");
+            box.setActionTime(YLSysTime.GetStrCurrentTime());
+            box.setBoxTaskType(ylTask.getTaskType());
+            Allboxlist.add(box);
+//            Log.e(YLSystem.getKimTag(), box.toString());
+            Log.e(YLSystem.getKimTag(),Allboxlist.size()+"");
+            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+        }
+        FilterBoxdisplay();
+    }
+
+    private void PutBox(Box box) {
+        if (box.getBoxName().equals("无数据"))return;
+        boolean boxcheck = true;
+        for (int i = 0;i<Allboxlist.size();i++){
+            if (box.getBoxID().equals(Allboxlist.get(i).getBoxID())){
+                Box hombox = Allboxlist.get(i);
+                if (hombox.getBoxID().equals(box.getBoxID())) {
+                    if (hombox.getValutcheck().equals("")) {
+                        hombox.setValutcheck("对");
+                        hombox.setTradeAction("入");
+                        hombox.setActionTime(YLSysTime.GetStrCurrentTime());
+                        Allboxlist.set(i, hombox);
+                        boxcheck = false;
+//                        position = i;
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        break;
+                    } else if (hombox.getValutcheck().equals("多")
+                            || hombox.getValutcheck().equals("对")) {
+//                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        return;
+                    }
+                }
+            }
+        }
+        if (boxcheck) {
+            box.setValutcheck("多");
+            box.setBoxCount("1");
+            box.setBoxStatus("无");
+            box.setBoxType("无");
+            box.setTradeAction("入");
+            box.setActionTime(YLSysTime.GetStrCurrentTime());
+            box.setBoxTaskType(ylTask.getTaskType());
+            Allboxlist.add(box);
+            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+        }
+
+        FilterBoxdisplay();
     }
 
     private void GetBoxToListView(Box box) {
         try {
-            if (box.getBoxName().equals("illegalbox") || box.getBoxName().equals("无数据")) {
-                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+            if (box.getBoxName().equals("无数据")) {
+//                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
 //            if (Allboxlist.size() < 1) return;
             boolean boxcheck = true;
             int position = 0;
-            Log.e(YLSystem.getKimTag(),Allboxlist.toString());
+            Log.e(YLSystem.getKimTag(),Allboxlist.size()+"");
             for (int i = 0; i < Allboxlist.size(); i++) {
                 Box hombox = Allboxlist.get(i);
                 if (hombox.getBoxID().equals(box.getBoxID())) {
@@ -374,7 +483,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 Scan1DCmd(cmd);
                 break;
             case 132:
-                ConfirmData();
+//                ConfirmData();
+                ScanUHF("scan");
                 break;
         }
         return super.onKeyDown(keyCode, event);
@@ -473,6 +583,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             unregisterReceiver(vaultindetailscan1DRecive);
         }
         Scan1DCmd("stopscan");
+        ScanUHF("stopscan");
         super.onDestroy();
     }
 }

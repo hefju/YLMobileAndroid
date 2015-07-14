@@ -5,7 +5,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.hdhe.uhf.reader.Tools;
@@ -43,9 +45,14 @@ public class ScanUHFService extends Service {
     private void InitUHF() {
         try {
             reader = UhfReader.getInstance();
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
+                    (this);
+            String UHFpower = prefs.getString("UHFPower", "");
+            Integer uhf= Integer.parseInt(UHFpower);
+            Log.e(YLSystem.getKimTag(),UHFpower+"获取功率");
             if (reader != null) {
                 Thread.sleep(100);
-                reader.setOutputPower(26);
+                reader.setOutputPower(uhf);
                 Thread thread = new InventoryThread();
                 thread.start();
                 Log.e(YLSystem.getKimTag(), "uhf初始化成功");
@@ -67,7 +74,6 @@ public class ScanUHFService extends Service {
 
     private class InventoryThread extends Thread{
         private List<byte[]> epcList;
-
         @Override
         public void run() {
             super.run();
@@ -80,18 +86,24 @@ public class ScanUHFService extends Service {
 //                        Util.play(1, 0);
                         for(byte[] epc:epcList){
 //                            String epcStr = Tools.Bytes2HexString(epc, epc.length).replaceAll("^(0+)", "");
-                            String epcStr = Tools.Bytes2HexString(epc, epc.length);
+                            String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0, 10);
 //                            Intent serviceIntent = new Intent();
                             serviceIntent.setAction(activity);
 //                            String newStr = epcStr.replaceAll("^(0+)", "");
                             serviceIntent.putExtra("result", epcStr);
                             sendBroadcast(serviceIntent);
-                            Log.e(TAG,epcStr);
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+//                            Log.e(TAG,epcStr+"read");
                         }
                     }
                     epcList = null ;
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(200);
                     } catch (InterruptedException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
