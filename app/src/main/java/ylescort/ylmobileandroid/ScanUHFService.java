@@ -153,6 +153,7 @@ public class ScanUHFService extends Service {
     public void onDestroy() {
         runFlag = false;
         unregisterReceiver(myReceive);
+        Log.e(YLSystem.getKimTag(),"stopserver");
         super.onDestroy();
     }
 }

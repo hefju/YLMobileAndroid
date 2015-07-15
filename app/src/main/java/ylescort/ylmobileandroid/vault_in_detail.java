@@ -49,6 +49,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private YLTask ylTask;
     private Scan1DRecive vaultindetailscan1DRecive;
+    private Scan1DRecive vaultindetailscanUHFRecive;
     private YLMediaPlayer ylMediaPlayer;
 
     private List<Box> displayboxlist;
@@ -71,10 +72,10 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     }
 
     private void InitUHFService() {
-        vaultindetailscan1DRecive = new Scan1DRecive();
+        vaultindetailscanUHFRecive = new Scan1DRecive();
         IntentFilter filter = new IntentFilter();
         filter.addAction("ylescort.ylmobileandroid.vault_in_detail");
-        registerReceiver(vaultindetailscan1DRecive, filter);
+        registerReceiver(vaultindetailscanUHFRecive, filter);
         Intent start = new Intent(vault_in_detail.this,ScanUHFService.class);
         vault_in_detail.this.startService(start);
     }
@@ -241,13 +242,11 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-
+                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
                 ScanBoxInListView(recivedata);
-
 //                Box box= YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
 ////                GetBoxToListView(box);
 //                PutBox(box);
-
             }
         }
     }
@@ -284,48 +283,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             box.setBoxTaskType(ylTask.getTaskType());
             Allboxlist.add(box);
 //            Log.e(YLSystem.getKimTag(), box.toString());
-            Log.e(YLSystem.getKimTag(),Allboxlist.size()+"");
+            Log.e(YLSystem.getKimTag(), Allboxlist.size() + "");
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
         }
-        FilterBoxdisplay();
-    }
-
-    private void PutBox(Box box) {
-        if (box.getBoxName().equals("无数据"))return;
-        boolean boxcheck = true;
-        for (int i = 0;i<Allboxlist.size();i++){
-            if (box.getBoxID().equals(Allboxlist.get(i).getBoxID())){
-                Box hombox = Allboxlist.get(i);
-                if (hombox.getBoxID().equals(box.getBoxID())) {
-                    if (hombox.getValutcheck().equals("")) {
-                        hombox.setValutcheck("对");
-                        hombox.setTradeAction("入");
-                        hombox.setActionTime(YLSysTime.GetStrCurrentTime());
-                        Allboxlist.set(i, hombox);
-                        boxcheck = false;
-//                        position = i;
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                        break;
-                    } else if (hombox.getValutcheck().equals("多")
-                            || hombox.getValutcheck().equals("对")) {
-//                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                        return;
-                    }
-                }
-            }
-        }
-        if (boxcheck) {
-            box.setValutcheck("多");
-            box.setBoxCount("1");
-            box.setBoxStatus("无");
-            box.setBoxType("无");
-            box.setTradeAction("入");
-            box.setActionTime(YLSysTime.GetStrCurrentTime());
-            box.setBoxTaskType(ylTask.getTaskType());
-            Allboxlist.add(box);
-            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-        }
-
         FilterBoxdisplay();
     }
 
@@ -581,9 +541,14 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     protected void onDestroy() {
         if (vaultindetailscan1DRecive != null){
             unregisterReceiver(vaultindetailscan1DRecive);
+            unregisterReceiver(vaultindetailscanUHFRecive);
         }
         Scan1DCmd("stopscan");
         ScanUHF("stopscan");
+        Intent stop = new Intent(vault_in_detail.this,ScanUHFService.class);
+        getApplicationContext().stopService(stop);
+
+
         super.onDestroy();
     }
 }

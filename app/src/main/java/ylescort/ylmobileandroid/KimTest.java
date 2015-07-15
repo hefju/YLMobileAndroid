@@ -646,7 +646,10 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         if (ScanTest !=null){
             unregisterReceiver(ScanTest);
         }
-        ScanUHF("stopscan");
+        ScanUHF("descan");
+        stopService(new Intent(this, vault_in_detail.class));
         super.onDestroy();
     }
+
+
 }

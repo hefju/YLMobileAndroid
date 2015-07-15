@@ -5,6 +5,7 @@ import android.test.ApplicationTestCase;
 import android.util.Log;
 
 import com.android.hdhe.nfc.NFCcmdManager;
+import com.android.hdhe.uhf.reader.SerialPort;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -146,6 +147,15 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
 
     public void testColors()throws Exception{
         //int b =  getResources().getColor(R.color.dodgerblue);//得到配置文件里的颜色
+    }
+
+    public void testUHFPort()throws Exception{
+        SerialPort serialPort = new SerialPort(15,115200,0);
+        if (serialPort != null){
+            Log.e(YLSystem.getKimTag(),"1");
+        }else {
+            Log.e(YLSystem.getKimTag(),"0");
+        }
     }
 
 
