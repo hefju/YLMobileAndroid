@@ -121,18 +121,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_btn_scan1d"
-            android:text="@string/vault_out_detail_btn_sacan1d"/>
+            android:text="@string/vault_out_detail_btn_sacan1d"
+            android:layout_marginStart="5sp"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_btn_enter"
-            android:layout_marginStart="15sp"
+            android:layout_marginStart="5sp"
             android:text="@string/vault_out_detail_btn_enter"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_in_detail_btn_scanuhf"
-            android:layout_marginStart="15sp"
+            android:layout_marginStart="5sp"
             android:text="@string/vault_out_detail_btn_sacanuhf"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_in_detail_btn_cleanmore"
+            android:layout_marginStart="5sp"
+            android:text="@string/vault_out_detail_btn_cleanmore"/>
         </LinearLayout>
 </RelativeLayout>

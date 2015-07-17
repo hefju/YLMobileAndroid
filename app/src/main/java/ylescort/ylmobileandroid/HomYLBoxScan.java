@@ -141,14 +141,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             homylboxscan_sp_tasktype.setSelection(1);
         }
 
-        homylboxscan_rbtn_get.setText("收箱-" + 0);
-        homylboxscan_rbtn_give.setText("送箱-" + 0);
-        homylboxscan_rbtn_full.setText("实箱-" + 0);
-        homylboxscan_rbtn_empty.setText("空箱-" + 0);
-        homylboxscan_rbtn_moneyboxs.setText("款箱-" + 0);
-        homylboxscan_rbtn_cardbox.setText("卡箱-" + 0);
-        homylboxscan_rbtn_Voucher.setText("凭证箱-" + 0);
-        homylboxscan_rbtn_Voucherbag.setText("凭证袋-" + 0);
+        homylboxscan_rbtn_get.setText("收箱:" + 0);
+        homylboxscan_rbtn_give.setText("送箱:" + 0);
+        homylboxscan_rbtn_full.setText("实箱:" + 0);
+        homylboxscan_rbtn_empty.setText("空箱:" + 0);
+        homylboxscan_rbtn_moneyboxs.setText("款箱:" + 0);
+        homylboxscan_rbtn_cardbox.setText("卡箱:" + 0);
+        homylboxscan_rbtn_Voucher.setText("凭证箱:" + 0);
+        homylboxscan_rbtn_Voucherbag.setText("凭证袋:" + 0);
 
         calendar = Calendar.getInstance();
 
@@ -514,7 +514,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 .setView(et)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String input = et.getText().toString();
+                        String input = et.getText().toString().replaceAll("^(0+)", "");
                         int intinput = Integer.parseInt(input);
                         if (input.equals("")|| intinput ==0) {
                             Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
@@ -667,14 +667,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             }
         }
 //        total = moneybox+cardbox+voucher+voucherbag;
-        homylboxscan_rbtn_get.setText("收箱-"+getbox);
-        homylboxscan_rbtn_give.setText("送箱-"+givebox);
-        homylboxscan_rbtn_full.setText("实箱-"+fullbox);
-        homylboxscan_rbtn_empty.setText("空箱-"+emptybox);
-        homylboxscan_rbtn_moneyboxs.setText("款箱-"+moneybox);
-        homylboxscan_rbtn_cardbox.setText("卡箱-"+cardbox);
-        homylboxscan_rbtn_Voucher.setText("凭证箱-"+voucher);
-        homylboxscan_rbtn_Voucherbag.setText("凭证袋-"+voucherbag);
+        homylboxscan_rbtn_get.setText("收箱:"+getbox);
+        homylboxscan_rbtn_give.setText("送箱:"+givebox);
+        homylboxscan_rbtn_full.setText("实箱:"+fullbox);
+        homylboxscan_rbtn_empty.setText("空箱:"+emptybox);
+        homylboxscan_rbtn_moneyboxs.setText("款箱:"+moneybox);
+        homylboxscan_rbtn_cardbox.setText("卡箱:"+cardbox);
+        homylboxscan_rbtn_Voucher.setText("凭证箱:"+voucher);
+        homylboxscan_rbtn_Voucherbag.setText("凭证袋:"+voucherbag);
 //        homylboxscan_tv_total.setText("总数:"+total+until);
     }
 

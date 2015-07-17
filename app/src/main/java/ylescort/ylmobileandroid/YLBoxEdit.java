@@ -206,14 +206,14 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
         List<String> list =  analysisBoxList.AnsysisBoxList(boxList);
 
-        boxedi_rbtn_get.setText("收箱-"+list.get(4));
-        boxedi_rbtn_give.setText("送箱-"+list.get(5));
-        boxedi_rbtn_full.setText("实箱-" + list.get(6));
-        boxedi_rbtn_empty.setText("空箱-" + list.get(7));
-        boxedi_rbtn_moneyboxs.setText("款箱-" + list.get(0));
-        boxedi_rbtn_cardbox.setText("卡箱-" + list.get(1));
-        boxedi_rbtn_Voucher.setText("凭证箱-" + list.get(2));
-        boxedi_rbtn_Voucherbag.setText("凭证袋-" + list.get(3));
+        boxedi_rbtn_get.setText("收箱:"+list.get(4));
+        boxedi_rbtn_give.setText("送箱:"+list.get(5));
+        boxedi_rbtn_full.setText("实箱:" + list.get(6));
+        boxedi_rbtn_empty.setText("空箱:" + list.get(7));
+        boxedi_rbtn_moneyboxs.setText("款箱:" + list.get(0));
+        boxedi_rbtn_cardbox.setText("卡箱:" + list.get(1));
+        boxedi_rbtn_Voucher.setText("凭证箱:" + list.get(2));
+        boxedi_rbtn_Voucherbag.setText("凭证袋:" + list.get(3));
 
     }
 
@@ -430,6 +430,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 if (boxEditListEdit.size()!=0){
                     boxEditListEdit.remove(listpostion);
                     ylBoxEdiAdapter.setSelectItem(0);
+                    listpostion = 0;
                     ylBoxEdiAdapter.notifyDataSetInvalidated();
                 }
                 break;

@@ -82,8 +82,9 @@
     <string name="vault_out_detail_tv_boxstype">类型</string>
     <string name="vault_out_detail_tv_boxtasktype">任务类型</string>
     <string name="vault_out_detail_tv_boxcheck">核对</string>
-    <string name="vault_out_detail_btn_sacan1d">扫描/F1</string>
-    <string name="vault_out_detail_btn_sacanuhf">UHF/F2</string>
+    <string name="vault_out_detail_btn_sacan1d">扫描</string>
+    <string name="vault_out_detail_btn_sacanuhf">UHF</string>
+    <string name="vault_out_detail_btn_cleanmore">清多箱</string>
     <string name="vault_out_detail_btn_stop">停止</string>
     <string name="vault_out_detail_btn_enter">确认</string>
     <string name="vault_out_detail_btn_Allbox">全部</string>

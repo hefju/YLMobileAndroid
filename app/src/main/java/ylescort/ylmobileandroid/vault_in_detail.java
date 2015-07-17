@@ -41,6 +41,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private TextView vault_in_detail_tv_check;
     private Button vault_in_detail_btn_scan1d;
     private Button vault_in_detail_btn_scanuhf;
+    private Button vault_in_detail_btn_cleanmore;
     private Button vault_in_detail_btn_enter;
 
     private RadioButton vault_in_detail_rbtn_allbox;
@@ -111,6 +112,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_tv_check = (TextView) findViewById(R.id.vault_in_detail_tv_check);
         vault_in_detail_btn_scan1d = (Button) findViewById(R.id.vault_in_detail_btn_scan1d);
         vault_in_detail_btn_scanuhf = (Button) findViewById(R.id.vault_in_detail_btn_scanuhf);
+        vault_in_detail_btn_cleanmore = (Button)findViewById(R.id.vault_in_detail_btn_cleanmore);
         vault_in_detail_btn_enter = (Button) findViewById(R.id.vault_in_detail_btn_enter);
 
         vault_in_detail_rbtn_allbox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_allbox);
@@ -123,6 +125,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_rbtn_allbox.setOnClickListener(this);
         vault_in_detail_rbtn_lackbox.setOnClickListener(this);
         vault_in_detail_rbtn_morebox.setOnClickListener(this);
+        vault_in_detail_btn_cleanmore.setOnClickListener(this);
+        vault_in_detail_btn_scan1d.setBackgroundColor(-13388315);
+        vault_in_detail_btn_scanuhf.setBackgroundColor(-13388315);
 
         vault_in_detail_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -202,16 +207,26 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.vault_in_detail_btn_scan1d:
                 String cmd = "";
-                if (vault_in_detail_btn_scan1d.getText().equals("扫描/F1")){
+                if (vault_in_detail_btn_scan1d.getText().equals("扫描")){
+                    vault_in_detail_btn_scan1d.setBackgroundColor(-30720);
                     cmd = "toscan100ms";
-                    vault_in_detail_btn_scan1d.setText("停止/F1");
+                    vault_in_detail_btn_scan1d.setText("停止");
                 }else {
                     cmd = "stopscan";
-                    vault_in_detail_btn_scan1d.setText("扫描/F1");
+                    vault_in_detail_btn_scan1d.setBackgroundColor(-13388315);
+                    vault_in_detail_btn_scan1d.setText("扫描");
                 }
                 Scan1DCmd(cmd);
                 break;
-            case R.id.vault_in_detail_btn_scanuhf:ScanUHF("scan");
+            case R.id.vault_in_detail_btn_scanuhf:
+                if (vault_in_detail_btn_scanuhf.getText().equals("UHF")){
+                    vault_in_detail_btn_scanuhf.setBackgroundColor(-30720);
+                    vault_in_detail_btn_scanuhf.setText("停止");
+                }else {
+                    vault_in_detail_btn_scanuhf.setBackgroundColor(-13388315);
+                    vault_in_detail_btn_scanuhf.setText("UHF");
+                }
+                ScanUHF("scan");
                 break;
             case R.id.vault_in_detail_btn_enter:ConfirmData();
                 break;
@@ -221,8 +236,20 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 break;
             case R.id.vault_in_detail_rbtn_morebox:FilterBoxdisplay();
                 break;
+            case R.id.vault_in_detail_btn_cleanmore:CleanMoreBox();
 
         }
+    }
+
+    private void CleanMoreBox() {
+        if (Allboxlist.size() <1)return;
+        for (int i = 0; i< Allboxlist.size();i++){
+            if (Allboxlist.get(i).getValutcheck().equals("多")){
+                Allboxlist.remove(i);
+                --i;
+            }
+        }
+        FilterBoxdisplay();
     }
 
     private void ScanUHF(String action) {
@@ -433,17 +460,26 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         switch (keyCode){
             case 131:
                 String cmd = "";
-                if (vault_in_detail_btn_scan1d.getText().equals("扫描/F1")){
+                if (vault_in_detail_btn_scan1d.getText().equals("扫描")){
+                    vault_in_detail_btn_scan1d.setBackgroundColor(-30720);
                     cmd = "toscan100ms";
-                    vault_in_detail_btn_scan1d.setText("停止/F1");
+                    vault_in_detail_btn_scan1d.setText("停止");
                 }else {
                     cmd = "stopscan";
-                    vault_in_detail_btn_scan1d.setText("扫描/F1");
+                    vault_in_detail_btn_scan1d.setBackgroundColor(-13388315);
+                    vault_in_detail_btn_scan1d.setText("扫描");
                 }
                 Scan1DCmd(cmd);
                 break;
             case 132:
 //                ConfirmData();
+                if (vault_in_detail_btn_scanuhf.getText().equals("UHF")){
+                    vault_in_detail_btn_scanuhf.setBackgroundColor(-30720);
+                    vault_in_detail_btn_scanuhf.setText("停止");
+                }else {
+                    vault_in_detail_btn_scanuhf.setBackgroundColor(-13388315);
+                    vault_in_detail_btn_scanuhf.setText("UHF");
+                }
                 ScanUHF("scan");
                 break;
         }
