@@ -70,7 +70,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             InitView();
             InitData();
             InitReciveScan1D();
-//            InitReciveScanUHF();
+            InitReciveScanUHF();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -102,6 +102,9 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         vault_out_detail_btn_scan1d.setOnClickListener(this);
         vault_out_detail_btn_scanuhf.setOnClickListener(this);
         vault_out_detail_btn_enter.setOnClickListener(this);
+
+        vault_out_detail_btn_scan1d.setBackgroundColor(-13388315);
+        vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
 
         vault_out_detail_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -158,12 +161,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void YLBoxScan1D() {
-        if (vault_out_detail_btn_scan1d.getText().equals("扫描/F1")){
+        if (vault_out_detail_btn_scan1d.getText().equals("扫描")){
+            vault_out_detail_btn_scan1d.setBackgroundColor(-30720);
             Scan1DCmd("toscan100ms");
-            vault_out_detail_btn_scan1d.setText("停止/F1");
+            vault_out_detail_btn_scan1d.setText("停止");
         }else {
+            vault_out_detail_btn_scan1d.setBackgroundColor(-13388315);
             Scan1DCmd("stopscan");
-            vault_out_detail_btn_scan1d.setText("扫描/F1");
+            vault_out_detail_btn_scan1d.setText("扫描");
         }
     }
 
@@ -187,8 +192,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                                 break;
                             case 2:
                                 AllboxList.remove(position);
-                                Log.e(YLSystem.getKimTag(),AllboxList.toString());
-                                if (AllboxList.size()==0) {
+                                Log.e(YLSystem.getKimTag(), AllboxList.toString());
+                                if (AllboxList.size() == 0) {
                                     AllboxList = new ArrayList<Box>();
                                 }
                                 break;
@@ -278,6 +283,13 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 YLBoxScan1D();
                 break;
             case R.id.vault_out_detail_btn_scanuhf:
+                if (vault_out_detail_btn_scanuhf.getText().equals("UHF/F2")){
+                    vault_out_detail_btn_scanuhf.setBackgroundColor(-30720);
+                    vault_out_detail_btn_scanuhf.setText("停止/F2");
+                }else {
+                    vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
+                    vault_out_detail_btn_scanuhf.setText("UHF/F2");
+                }
                 ScanUHF("scan");
                 break;
             case R.id.vault_out_detail_btn_enter:
@@ -306,19 +318,25 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case 131:YLBoxScan1D();
+        switch (keyCode) {
+            case 131:
+                YLBoxScan1D();
                 break;
             case 132:
-                try {
-                    YLBoxEnter();
-                }catch (Exception e){
-                    e.printStackTrace();
+                if (vault_out_detail_btn_scanuhf.getText().equals("UHF/F2")) {
+                    vault_out_detail_btn_scanuhf.setBackgroundColor(-30720);
+                    vault_out_detail_btn_scanuhf.setText("停止/F2");
+                } else {
+                    vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
+                    vault_out_detail_btn_scanuhf.setText("UHF/F2");
                 }
+                ScanUHF("scan");
                 break;
-            case 133:YLBoxScan1D();
+            case 133:
+                YLBoxScan1D();
                 break;
-            case 134:YLBoxScan1D();
+            case 134:
+                YLBoxScan1D();
                 break;
         }
         return super.onKeyDown(keyCode, event);
@@ -329,18 +347,59 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
+//                Box box = YLBoxScanCheck.CheckBox(recivedata,getApplicationContext());
 //                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
 //                Box box =CheckBox(recivedata);
-                AddYLBoxtoListView(box);
+//                AddYLBoxtoListView(box);
 //                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
-//                ScanBoxInListView(recivedata);
+                String form = "";
+                if (recivedata.contains("UHF")) {
+                    form = "UHF";
+                    recivedata = recivedata.substring(3, 13);
+                } else {
+                    form = "1D";
+                }
+                ScanBoxInListView(recivedata,form);
             }
         }
     }
 
-    private void ScanBoxInListView(String recivedata) {
+    private void ScanBoxInListView(String recivedata,String form) {
+        if (recivedata.length() !=10)return;
+        boolean boxcheck = true;
+        if (AllboxList.size() ==0){
+            AllboxList.clear();
+            boxcheck = true;
+        }else if (AllboxList.size()==1&AllboxList.get(0).getServerReturn().contains("没有出库箱")){
+            AllboxList.clear();
+            boxcheck = true;
+        }else {
+            for (int i = AllboxList.size()-1; i>=0;i--){
+                Box listbox = AllboxList.get(i);
+                if (listbox.getBoxID().equals(recivedata)){
+                    if (form.equals("1D")){
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                    }
+                    boxcheck = false;
+                    break;
+                }
+            }
+        }
+        if (boxcheck) {
+            Log.e(YLSystem.getKimTag(), AllboxList.size() + "插入数据");
+            Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+            box.setActionTime(YLSysTime.GetStrCurrentTime());
+            box.setTradeAction("出");
+            box.setBoxCount("1");
+            box.setServerReturn("1");
+            box.setTimeID("1");
+            Log.e(YLSystem.getKimTag(), box.toString());
+            AllboxList.add(box);
+            DisPlayBoxlistAdapter(AllboxList);
+            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+        }
 
+        ShowBoxList();
     }
 
     private Box CheckBox(String recivedata ){
@@ -450,9 +509,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        if (YLBoxscan1DRecive != null){
-        unregisterReceiver(YLBoxscan1DRecive);}
+        if (YLBoxscan1DRecive != null) {
+            unregisterReceiver(YLBoxscan1DRecive);
+            unregisterReceiver(YLBoxscanUHFRecive);
+        }
         Scan1DCmd("stopscan");
+        ScanUHF("stopscan");
+        Intent stop = new Intent(vault_out_detail.this,ScanUHFService.class);
+        getApplicationContext().stopService(stop);
         super.onDestroy();
     }
 }

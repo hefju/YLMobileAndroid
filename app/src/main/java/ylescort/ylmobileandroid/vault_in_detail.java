@@ -268,9 +268,17 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         @Override
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
-            if (recivedata != null){
+            if (recivedata != null) {
 //                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
-                ScanBoxInListView(recivedata);
+                String form = "";
+                if (recivedata.contains("UHF")) {
+                    form = "UHF";
+                    recivedata = recivedata.substring(3, 13);
+                } else {
+                    form = "1D";
+                }
+
+                ScanBoxInListView(recivedata, form);
 //                Box box= YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
 ////                GetBoxToListView(box);
 //                PutBox(box);
@@ -278,7 +286,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         }
     }
 
-    private void ScanBoxInListView(String recivedata) {
+    private void ScanBoxInListView(String recivedata,String Form) {
         if (recivedata.length() !=10)return;
         boolean boxrecheck = true;
         for (int i = 0;i<Allboxlist.size();i++){
@@ -294,6 +302,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                     break;
                 }else {
+                    if (Form.equals("1D")){
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());}
                     return;
                 }
             }
@@ -592,8 +602,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         ScanUHF("stopscan");
         Intent stop = new Intent(vault_in_detail.this,ScanUHFService.class);
         getApplicationContext().stopService(stop);
-
-
         super.onDestroy();
     }
 }

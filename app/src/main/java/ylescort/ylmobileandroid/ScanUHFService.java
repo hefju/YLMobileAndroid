@@ -90,7 +90,7 @@ public class ScanUHFService extends Service {
 //                            Intent serviceIntent = new Intent();
                             serviceIntent.setAction(activity);
 //                            String newStr = epcStr.replaceAll("^(0+)", "");
-                            serviceIntent.putExtra("result", epcStr);
+                            serviceIntent.putExtra("result", "UHF"+epcStr);
                             sendBroadcast(serviceIntent);
                             try {
                                 Thread.sleep(100);

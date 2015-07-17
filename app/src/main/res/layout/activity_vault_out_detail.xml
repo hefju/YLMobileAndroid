@@ -74,7 +74,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_btn_scanuhf"
             android:layout_centerHorizontal="true"
-            android:visibility="invisible"
             android:text="@string/vault_out_detail_btn_scanuhf"/>
         <Button
             android:layout_width="wrap_content"
