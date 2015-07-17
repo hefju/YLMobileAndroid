@@ -12,12 +12,14 @@ import ylescort.ylmobileandroid.R;
  */
 public class YLMediaPlayer {
 
+    private MediaPlayer mPlayer;
+
     public void SuccessOrFailMidia(final String mediavoice, final Context context){
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    MediaPlayer mPlayer = new MediaPlayer();
+                    mPlayer = new MediaPlayer();
                     if (mediavoice.equals("success")) {
                         mPlayer = MediaPlayer.create(context, R.raw.msg);
                         if (mPlayer.isPlaying()) {
@@ -28,7 +30,7 @@ public class YLMediaPlayer {
                         mPlayer.prepare();
                     }
                     mPlayer.start();
-//                Thread.sleep(300);
+                Thread.sleep(300);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

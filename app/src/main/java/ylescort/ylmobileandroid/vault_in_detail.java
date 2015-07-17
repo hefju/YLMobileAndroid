@@ -242,7 +242,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null){
-                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
+//                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
                 ScanBoxInListView(recivedata);
 //                Box box= YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
 ////                GetBoxToListView(box);
@@ -477,21 +477,30 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     try {
                         ylTask.setLstBox(Allboxlist);
                         YLEditData.setYlTask(ylTask);
-                        Log.e(YLSystem.getKimTag(), Allboxlist.toString());
+                        Log.e(YLSystem.getKimTag(), Allboxlist.size()+"上传数量");
                         WebService webService = new WebService();
                         String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
+                        Log.e(YLSystem.getKimTag(), returstr);
                         if (returstr.contains("0")) {
                             Log.e(YLSystem.getKimTag(), "0");
                         } else if (returstr.contains("1")) {
+                            new AlertDialog.Builder(vault_in_detail.this).setTitle("提示")
+                                    .setMessage("已上传完成。")
+                                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ylTask.setTaskState("已上传");
+                                            Scan1DCmd("stopscan");
+                                            vault_in_detail.this.finish();
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
                             Log.e(YLSystem.getKimTag(),"1");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    ylTask.setTaskState("已上传");
-                    Scan1DCmd("stopscan");
-                    vault_in_detail.this.finish();
-                    dialog.dismiss();
+
                 }
             }
         });

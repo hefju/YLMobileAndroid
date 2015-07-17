@@ -286,6 +286,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 ////                            return;
 ////                        }
 ////                    }
+                Log.e(YLSystem.getKimTag(),recivedata+"1D接收数据");
                     for (int i = AllBoxList.size()-1; i >= 0;i--){
                         if (AllBoxList.get(i).getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))
                                 & AllBoxList.get(i).getTradeAction().equals(getboxatcion())){

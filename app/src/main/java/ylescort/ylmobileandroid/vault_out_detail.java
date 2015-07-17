@@ -45,10 +45,11 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     private Button vault_out_detail_btn_readcard;
     private ListView vault_out_detail_lv;
     private Button vault_out_detail_btn_scan1d;
-    private Button vault_out_detail_btn_boxtype;
+    private Button vault_out_detail_btn_scanuhf;
     private Button vault_out_detail_btn_enter;
 
     private Scan1DRecive YLBoxscan1DRecive;  //广播接收者
+    private Scan1DRecive YLBoxscanUHFRecive;
 
     private List<Box> vaulteroutboxlist ;
     private YLMediaPlayer ylMediaPlayer;
@@ -69,11 +70,21 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             InitView();
             InitData();
             InitReciveScan1D();
+//            InitReciveScanUHF();
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
+    }
+
+    private void InitReciveScanUHF() {
+        YLBoxscanUHFRecive = new Scan1DRecive();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("ylescort.ylmobileandroid.vault_in_detail");
+        registerReceiver(YLBoxscanUHFRecive, filter);
+        Intent start = new Intent(vault_out_detail.this,ScanUHFService.class);
+        vault_out_detail.this.startService(start);
     }
 
     private void InitView() {
@@ -84,12 +95,12 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         vault_out_detail_btn_readcard = (Button)findViewById(R.id.vault_out_detail_btn_readcard);
         vault_out_detail_lv = (ListView)findViewById(R.id.vault_out_detail_lv);
         vault_out_detail_btn_scan1d = (Button)findViewById(R.id.vault_out_detail_btn_scan1d);
-        vault_out_detail_btn_boxtype = (Button)findViewById(R.id.vault_out_detail_btn_boxtype);
+        vault_out_detail_btn_scanuhf = (Button)findViewById(R.id.vault_out_detail_btn_scanuhf);
         vault_out_detail_btn_enter = (Button)findViewById(R.id.vault_out_detail_btn_enter);
 
         vault_out_detail_btn_readcard.setOnClickListener(this);
         vault_out_detail_btn_scan1d.setOnClickListener(this);
-        vault_out_detail_btn_boxtype.setOnClickListener(this);
+        vault_out_detail_btn_scanuhf.setOnClickListener(this);
         vault_out_detail_btn_enter.setOnClickListener(this);
 
         vault_out_detail_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,18 +130,18 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 
         AllboxList= webServerValutInorOut.StoreGetBoxByTaskIDOut(user,getApplicationContext());
         DisPlayBoxlistAdapter(AllboxList);
-        Log.e(YLSystem.getKimTag(), AllboxList.toString() + " 库内款箱数");
+        Log.e(YLSystem.getKimTag(), AllboxList.size() + " 库内款箱数");
         ShowBoxList();
     }
 
     private void ShowBoxList() {
         if (AllboxList.size()==1)return;
         List<String> stringList = analysisBoxList.AnsysisBoxList(AllboxList);
-        String boxtype = "款箱："+stringList.get(0)+"卡箱:"+stringList.get(1)+"凭证箱:"+stringList.get(2)+
-                "凭证袋:"+stringList.get(3);
-        String boxstaut = "实箱："+stringList.get(6)+"空箱："+stringList.get(7);
+        String boxtype = "款箱："+stringList.get(0)+"  卡箱:"+stringList.get(1)+"  凭证箱:"+stringList.get(2)+
+                "  凭证袋:"+stringList.get(3);
+        String boxstaut = "实箱："+stringList.get(6)+"  空箱："+stringList.get(7);
 
-        String total = "扫描总数： "+AllboxList.size()+"   ";
+        String total = "实时扫描数： "+AllboxList.size()+"   ";
 
         vault_out_detail_tv_taskname.setText(total);
         vault_out_detail_tv_boxstaut.setText(boxstaut);
@@ -184,6 +195,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                         }
 //                        DisPlayBoxlistAdapter(AllboxList);
                         ylValutboxitemAdapter.notifyDataSetChanged();
+                        ShowBoxList();
                         dialog.dismiss();
                     }
                 }).show();
@@ -265,8 +277,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             case R.id.vault_out_detail_btn_scan1d:
                 YLBoxScan1D();
                 break;
-            case R.id.vault_out_detail_btn_boxtype:
-                //YLBoxchangeType("settype", 0);
+            case R.id.vault_out_detail_btn_scanuhf:
+                ScanUHF("scan");
                 break;
             case R.id.vault_out_detail_btn_enter:
                 try {
@@ -279,6 +291,17 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 ReadHFCard();
                 break;
         }
+    }
+
+    private void ScanUHF(String action) {
+        String activity = "ylescort.ylmobileandroid.vault_out_detail";
+        Intent ac = new Intent();
+        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
+        ac.putExtra("activity", activity);
+        sendBroadcast(ac);
+        Intent sendToservice = new Intent(vault_out_detail.this, ScanUHFService.class); // 用于发送指令
+        sendToservice.putExtra("cmd", action);
+        this.startService(sendToservice); // 发送指令
     }
 
     @Override
@@ -310,8 +333,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
 //                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
 //                Box box =CheckBox(recivedata);
                 AddYLBoxtoListView(box);
+//                recivedata = YLBoxScanCheck.replaceBlank(recivedata);
+//                ScanBoxInListView(recivedata);
             }
         }
+    }
+
+    private void ScanBoxInListView(String recivedata) {
+
     }
 
     private Box CheckBox(String recivedata ){

@@ -115,7 +115,14 @@ public class ScanUHFService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String cmd_arr = intent.getStringExtra("cmd");
+
+        String cmd_arr = "";
+        try{
+            cmd_arr = intent.getStringExtra("cmd");
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0 ;
+        }
         if (cmd_arr !=null){
             Log.e(YLSystem.getKimTag(),cmd_arr);
             switch (cmd_arr) {

@@ -17,6 +17,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/2/10.
@@ -85,7 +87,14 @@ public class Scan1DService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e(TAG, "start command");
-        String cmd_arr = intent.getStringExtra("cmd");
+        String cmd_arr = "";
+        try{
+            cmd_arr = intent.getStringExtra("cmd");
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0 ;
+        }
+
 //		Log.e(TAG, cmd_arr);
         if (cmd_arr == null)
             return 0; // 没收到命令直接返回
@@ -195,7 +204,7 @@ public class Scan1DService extends Service {
                             Log.e("ScanService data", data_buffer.toString());
                             Intent serviceIntent = new Intent();
                             serviceIntent.setAction(activity);
-                            serviceIntent.putExtra("result", data_buffer.toString());
+                            serviceIntent.putExtra("result", replaceBlank(data_buffer.toString()));
                             data_buffer.setLength(0);  //清空缓存数据
                             Log.e(TAG, "result");
                             sendBroadcast(serviceIntent);
@@ -207,6 +216,16 @@ public class Scan1DService extends Service {
                 }
             }
         }
+    }
+
+    private static   String replaceBlank(String str) {
+        String dest = "";
+        if (str!=null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
     }
 
 
