@@ -220,12 +220,12 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 break;
             case R.id.vault_in_detail_btn_scanuhf:
                 if (vault_in_detail_btn_scanuhf.getText().equals("UHF")){
-                    vault_in_detail_btn_scanuhf.setBackgroundColor(-30720);
-                    vault_in_detail_btn_scanuhf.setText("停止");
-                }else {
-                    vault_in_detail_btn_scanuhf.setBackgroundColor(-13388315);
-                    vault_in_detail_btn_scanuhf.setText("UHF");
-                }
+                vault_in_detail_btn_scanuhf.setBackgroundColor(-30720);
+                vault_in_detail_btn_scanuhf.setText("停止");
+            }else {
+                vault_in_detail_btn_scanuhf.setBackgroundColor(-13388315);
+                vault_in_detail_btn_scanuhf.setText("UHF");
+            }
                 ScanUHF("scan");
                 break;
             case R.id.vault_in_detail_btn_enter:ConfirmData();

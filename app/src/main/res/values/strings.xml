@@ -36,10 +36,10 @@
     <string name="box_btn_scan1d">扫描(F1)</string>
     <string name="box_btn_nolable">无标签</string>
     <string name="box_btn_arrive">到达</string>
-    <string name="boxitem_monenybox">款箱-0</string>
-    <string name="boxitem_cardbox">卡箱-0</string>
-    <string name="boxitem_Voucherbox">凭证箱-0</string>
-    <string name="boxitem_Voucherboxbag">凭证袋-0</string>
+    <string name="boxitem_monenybox">款箱:0</string>
+    <string name="boxitem_cardbox">卡箱:0</string>
+    <string name="boxitem_Voucherbox">凭证箱:0</string>
+    <string name="boxitem_Voucherboxbag">凭证袋:0</string>
     <string name="boxitem_order">序号</string>
     <string name="boxitem_Boxid">箱名:</string>
     <string name="boxitem_TradeAction">收/送:</string>
@@ -50,10 +50,10 @@
     <string name="box_tv_amount">0</string>
     <string name="box_tv_general">普通</string>
     <string name="box_tv_transfer">中调</string>
-    <string name="box_tv_empty">空箱-0</string>
-    <string name="box_tv_full">实箱-0</string>
-    <string name="box_tv_get">收箱-0</string>
-    <string name="box_tv_give">送箱-0</string>
+    <string name="box_tv_empty">空箱:0</string>
+    <string name="box_tv_full">实箱:0</string>
+    <string name="box_tv_get">收箱:0</string>
+    <string name="box_tv_give">送箱:0</string>
     <string name="box_tv_total">总数:</string>
     <!--出入库管理-->
     <string name="title_activity_ylbox_operate">YLBoxOperate</string>
@@ -111,8 +111,9 @@
     <string name="vault_check_ylbox_boxname">箱名列表</string>
     <string name="vault_check_ylbox_basename">基地名称</string>
     <string name="vault_check_ylbox_Scan1d">扫描</string>
+    <string name="vault_check_ylbox_uhf">UHF</string>
     <string name="vault_check_ylbox_comfrom">确认</string>
-    <string name="vault_check_ylbox_changbase">选择基地</string>
+    <string name="vault_check_ylbox_changbase">基地</string>
     <!--业务员申请-->
     <string name="title_activity_handoverman_check">入库申请</string>
     <string name="handoverman_btn_cancel">返回</string>
@@ -122,7 +123,8 @@
     <!--库内中转-->
     <string name="title_activity_valut_turnover">库内中转</string>
     <string name="title_activity_valut_btn_scan">扫描/F1</string>
-    <string name="title_activity_valut_btn_upload">上传/F2</string>
+    <string name="title_activity_valut_btn_uhf">UHF/F2</string>
+    <string name="title_activity_valut_btn_upload">上传</string>
     <string name="title_activity_valut_btn_vaultin">入库</string>
     <string name="title_activity_valut_btn_vaultout">出库</string>
     <!--库内中转-->

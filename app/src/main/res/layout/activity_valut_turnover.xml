@@ -52,12 +52,18 @@
         android:layout_alignParentBottom="true"
         android:gravity="center">
         <Button
-            android:layout_width="120sp"
+            android:layout_width="90sp"
             android:layout_height="fill_parent"
             android:id="@+id/vault_turnover_btn_scan"
             android:text="@string/title_activity_valut_btn_scan"/>
         <Button
-            android:layout_width="120sp"
+            android:layout_width="90sp"
+            android:layout_height="fill_parent"
+            android:id="@+id/vault_turnover_btn_uhf"
+            android:layout_marginStart="10sp"
+            android:text="@string/title_activity_valut_btn_uhf"/>
+        <Button
+            android:layout_width="90sp"
             android:layout_height="fill_parent"
             android:id="@+id/vault_turnover_btn_upload"
             android:layout_marginStart="10sp"

@@ -388,6 +388,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         if (boxcheck) {
             Log.e(YLSystem.getKimTag(), AllboxList.size() + "插入数据");
             Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+            if (box.getBoxName().equals("无数据"))return;
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             box.setTradeAction("出");
             box.setBoxCount("1");
