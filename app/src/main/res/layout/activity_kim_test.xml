@@ -37,4 +37,10 @@
         android:id="@+id/kim_uhftest"
         android:layout_below="@+id/kim_vibrate"
         android:text="UHF测试"/>
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kim_uhfwrite"
+        android:layout_below="@+id/kim_uhftest"
+        android:text="UHF写入"/>
 </RelativeLayout>

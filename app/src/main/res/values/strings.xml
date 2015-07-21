@@ -131,4 +131,15 @@
     <string name="title_activity_hom_ylbox_scan">款箱扫描</string>
     <string name="title_activity_hom_ylbox_tasktype">交接类型</string>
     <string name="title_activity_hom_ylbox_date">日期</string>
+    <!--超高频读写操作-->
+    <string name="title_activity_yluhfwriter">超高频读写操作</string>
+    <string name="yluhfwriter_title">红外扫描信息</string>
+    <string name="yluhfwriter_boxname">箱名：</string>
+    <string name="yluhfwriter_boxid">条码：</string>
+    <string name="yluhfwriter_uhftitle">超高频编码</string>
+    <string name="yluhfwriter_uhfno">编码：</string>
+    <string name="yluhfwriter_opertitle">读写操作</string>
+    <string name="yluhfwriter_1dread">红外扫描</string>
+    <string name="yluhfwriter_uhfread">UHF扫描</string>
+    <string name="yluhfwriter_uhfwrite">写入UHF</string>
 </resources>

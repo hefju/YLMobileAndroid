@@ -76,6 +76,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private Button kim_copydb;
     private Button kim_vibrate;
     private Button kim_uhftest;
+    private Button kim_uhfwrite;
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
@@ -105,6 +106,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_copydb = (Button) findViewById(R.id.kim_copydb);
         kim_vibrate = (Button)findViewById(R.id.kim_vibrate);
         kim_uhftest = (Button)findViewById(R.id.kim_uhftest);
+        kim_uhfwrite = (Button)findViewById(R.id.kim_uhfwrite);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
         kim_copydb.setOnClickListener(this);
@@ -255,9 +257,19 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     e.printStackTrace();
                 }
                 break;
-            case R.id.kim_uhftest:ScanUHF("scan");
+            case R.id.kim_uhftest:
+//                ScanUHF("scan");
+                UHFWriter();
+                break;
+            case R.id.kim_uhfwrite:UHFWriter();
                 break;
         }
+    }
+
+    private void UHFWriter() {
+        Intent intent = new Intent();
+        intent.setClass(KimTest.this,YLUHFWriter.class);
+        startActivity(intent);
     }
 
     private void vibrate() {

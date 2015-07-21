@@ -101,7 +101,7 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     public void testreplacestr()throws Exception{
         String str = "1234567890123456789";
 //        String newStr = str.replaceAll("^(0+)", "");
-        String newStr = str.substring(0,10);
+        String newStr = str.substring(0, 10);
         Log.e(YLSystem.getKimTag(),newStr);
     }
 
@@ -113,5 +113,13 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         box =  boxDBSer.GetBoxs2(boxid);
         Log.e(YLSystem.getKimTag(),box.toString());
     }
+
+    public void testStringTOInit()throws Exception{
+        String str = "孙恒欣";
+//        int integer =  Integer.parseInt(str, 16);
+        byte[] integer = str.getBytes();
+        Log.e(YLSystem.getKimTag(),integer.length+"");
+    }
+
 
 }
