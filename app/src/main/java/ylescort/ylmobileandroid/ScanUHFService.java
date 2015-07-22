@@ -45,6 +45,7 @@ public class ScanUHFService extends Service {
     private void InitUHF() {
         try {
             reader = UhfReader.getInstance();
+            reader.powerOn();
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                     (this);
             String UHFpower = prefs.getString("UHFPower", "");
@@ -135,6 +136,7 @@ public class ScanUHFService extends Service {
                     break;
                 case "stopscan":
                     startFlag = false;
+                    reader.powerOff();
                     break;
             }
         }

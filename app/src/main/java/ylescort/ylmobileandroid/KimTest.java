@@ -112,6 +112,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_copydb.setOnClickListener(this);
         kim_vibrate.setOnClickListener(this);
         kim_uhftest.setOnClickListener(this);
+        kim_uhfwrite.setOnClickListener(this);
 
         InitReciveScan1D();
 
@@ -258,8 +259,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.kim_uhftest:
-//                ScanUHF("scan");
-                UHFWriter();
+                ScanUHF("scan");
+//                UHFWriter();
                 break;
             case R.id.kim_uhfwrite:UHFWriter();
                 break;
@@ -658,7 +659,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         if (ScanTest !=null){
             unregisterReceiver(ScanTest);
         }
-        ScanUHF("descan");
+        ScanUHF("stopflag");
         stopService(new Intent(this, vault_in_detail.class));
         super.onDestroy();
     }

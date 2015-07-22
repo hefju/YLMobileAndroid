@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
@@ -36,6 +37,8 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     private ScanRecive scan1dRecive;
     private UhfReader reader;
     private YLMediaPlayer ylMediaPlayer;
+    private String box1did;
+    private String boxuhfid;
 
 
     @Override
@@ -50,10 +53,14 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
 
     private void InitData() {
         ylMediaPlayer = new YLMediaPlayer();
+        box1did = "";
+        boxuhfid = "";
     }
 
     private void InitUHF() {
+
         reader = UhfReader.getInstance();
+        reader.powerOn();
         reader.setOutputPower(22);
     }
 
@@ -85,7 +92,7 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
         switch (v.getId()){
             case R.id.yluhfwriter_btn_1dread:Scan1DCmd("scan");
                 break;
-            case R.id.yluhfwriter_btn_uhfread:ScanUHF();
+            case R.id.yluhfwriter_btn_uhfread:ScanUHF(1);
                 break;
             case R.id.yluhfwriter_btn_uhfwrite:WriterUHF();
                 break;
@@ -93,28 +100,45 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     }
 
     private void WriterUHF() {
+
         String Passowrd = "00000000";
         byte[]password =Tools.HexString2Bytes(Passowrd);
         int memBank = 1;
         int StartAddr = 2;
-        String boxid = yluhfwriter_tv_boxid.getText().toString();
+        String boxid = yluhfwriter_tv_boxid.getText().toString().trim();
+        if (boxid.equals("")){
+            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
+            Toast.makeText(getApplicationContext(),"未能读取红外条码",Toast.LENGTH_SHORT).show();
+            return;
+        }
         byte[] data = Tools.HexString2Bytes(boxid);
-        boolean write =  reader.writeTo6C(password,memBank,StartAddr,data.length,data);
+        boolean write =  reader.writeTo6C(password, memBank, StartAddr, data.length,data);
         if (write){
+            ScanUHF(0);
+            Toast.makeText(getApplicationContext(),"写入成功",Toast.LENGTH_SHORT).show();
             ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
         }else {
+            Toast.makeText(getApplicationContext(),"写入失败",Toast.LENGTH_SHORT).show();
             ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
         }
     }
 
-    private void ScanUHF() {
+    private void ScanUHF(int p) {
         List<byte[]> epcList;
         epcList = reader.inventoryRealTime();
         if (epcList != null && !epcList.isEmpty()){
             for(byte[] epc:epcList){
                 String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0,10);
+                boxuhfid = epcStr;
+                if (box1did.equals(boxuhfid)){
+                    yluhfwriter_tv_uhfno.setTextColor(-13388315);
+                }else {
+                    yluhfwriter_tv_uhfno.setTextColor(-30720);
+                }
                 yluhfwriter_tv_uhfno.setText(epcStr);
-                ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+                if (p == 1){
+                    ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+                }
             }
         }
         epcList = null ;
@@ -130,6 +154,12 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
                 if (box.getBoxName().equals("无数据"))return;
                 yluhfwriter_tv_boxname.setText(box.getBoxName());
                 yluhfwriter_tv_boxid.setText(box.getBoxID());
+                box1did = box.getBoxID();
+                if (box1did.equals(boxuhfid)){
+                    yluhfwriter_tv_uhfno.setTextColor(-13388315);
+                }else {
+                    yluhfwriter_tv_uhfno.setTextColor(-30720);
+                }
                 ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
             }
         }
@@ -150,9 +180,15 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
-            case 131:Scan1DCmd("scan");
+            case 131:
+                Scan1DCmd("scan");
                 break;
             case 132:
+                WriterUHF();
+                break;
+            case 133:ScanUHF(1);
+                break;
+            case 134:ScanUHF(1);
                 break;
         }
         return super.onKeyDown(keyCode, event);
@@ -178,5 +214,15 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if (scan1dRecive !=null){
+            unregisterReceiver(scan1dRecive);
+        }
+        reader.powerOff();
+        super.onDestroy();
     }
 }

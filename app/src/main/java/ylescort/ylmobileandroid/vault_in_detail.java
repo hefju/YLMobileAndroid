@@ -434,8 +434,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         //全部
         if (vault_in_detail_rbtn_allbox.isChecked()){
             for (int i = 0; i<Allboxlist.size();i++){
-                Box box = new Box();
-                box = Allboxlist.get(i);
+                Box box = Allboxlist.get(i);
                 displayboxlist.add(box);
             }
         }
@@ -443,8 +442,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         //缺少
         if (vault_in_detail_rbtn_lackbox.isChecked()){
             for (int i = 0 ;i < Allboxlist.size();i++){
-                Box box = new Box();
-                box = Allboxlist.get(i);
+                Box box = Allboxlist.get(i);
                 if (box.getValutcheck().equals("") ||box.getValutcheck() == null){
                     displayboxlist.add(box);
                 }
@@ -454,8 +452,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         //多箱
         if (vault_in_detail_rbtn_morebox.isChecked()){
             for (int i = 0; i<Allboxlist.size();i++){
-                Box box = new Box();
-                box = Allboxlist.get(i);
+                Box box = Allboxlist.get(i);
                 if (box.getValutcheck().equals("多")){
                     displayboxlist.add(box);
                 }
