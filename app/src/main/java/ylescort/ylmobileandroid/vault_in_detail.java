@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +41,17 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private ListView vault_in_detail_listview;
     private TextView vault_in_detail_tv_tolly;
     private TextView vault_in_detail_tv_check;
+    private TextView vault_in_detail_tv_boxname;
     private Button vault_in_detail_btn_scan1d;
     private Button vault_in_detail_btn_scanuhf;
     private Button vault_in_detail_btn_cleanmore;
     private Button vault_in_detail_btn_enter;
+    private Button vault_out_detail_btn_order;
 
     private RadioButton vault_in_detail_rbtn_allbox;
     private RadioButton vault_in_detail_rbtn_lackbox;
     private RadioButton vault_in_detail_rbtn_morebox;
+    private RadioButton vault_in_detail_rbtn_order;
 
     private YLTask ylTask;
     private Scan1DRecive vaultindetailscan1DRecive;
@@ -55,6 +60,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
     private List<Box> displayboxlist;
     private List<Box> Allboxlist;
+    private List<Box> OrderBoxlist;
+    private int boxorder;
 
     private YLValutboxitemAdapter ylValutboxitemAdapter;
 
@@ -85,7 +92,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
         displayboxlist = new ArrayList<Box>();
         Allboxlist = new ArrayList<Box>();
+        OrderBoxlist = new ArrayList<Box>();
         ylMediaPlayer = new YLMediaPlayer();
+        boxorder = 1;
 
         ylTask = YLEditData.getYlTask();
         String title ="任务:"+ ylTask.getLine()+"\r\n执行人:"+ ylTask.getTaskManager();
@@ -110,14 +119,17 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_listview = (ListView) findViewById(R.id.vault_in_detail_listview);
         vault_in_detail_tv_tolly = (TextView) findViewById(R.id.vault_in_detail_tv_tolly);
         vault_in_detail_tv_check = (TextView) findViewById(R.id.vault_in_detail_tv_check);
+        vault_in_detail_tv_boxname = (TextView) findViewById(R.id.vault_in_detail_tv_boxname);
         vault_in_detail_btn_scan1d = (Button) findViewById(R.id.vault_in_detail_btn_scan1d);
         vault_in_detail_btn_scanuhf = (Button) findViewById(R.id.vault_in_detail_btn_scanuhf);
         vault_in_detail_btn_cleanmore = (Button)findViewById(R.id.vault_in_detail_btn_cleanmore);
         vault_in_detail_btn_enter = (Button) findViewById(R.id.vault_in_detail_btn_enter);
+        vault_out_detail_btn_order = (Button) findViewById(R.id.vault_out_detail_btn_order);
 
         vault_in_detail_rbtn_allbox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_allbox);
         vault_in_detail_rbtn_lackbox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_lackbox);
         vault_in_detail_rbtn_morebox = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_morebox);
+        vault_in_detail_rbtn_order = (RadioButton)findViewById(R.id.vault_in_detail_rbtn_order);
 
         vault_in_detail_btn_scan1d.setOnClickListener(this);
         vault_in_detail_btn_scanuhf.setOnClickListener(this);
@@ -125,7 +137,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         vault_in_detail_rbtn_allbox.setOnClickListener(this);
         vault_in_detail_rbtn_lackbox.setOnClickListener(this);
         vault_in_detail_rbtn_morebox.setOnClickListener(this);
+        vault_in_detail_rbtn_order.setOnClickListener(this);
         vault_in_detail_btn_cleanmore.setOnClickListener(this);
+        vault_out_detail_btn_order.setOnClickListener(this);
         vault_in_detail_btn_scan1d.setBackgroundColor(-13388315);
         vault_in_detail_btn_scanuhf.setBackgroundColor(-13388315);
 
@@ -236,9 +250,18 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 break;
             case R.id.vault_in_detail_rbtn_morebox:FilterBoxdisplay();
                 break;
+            case R.id.vault_in_detail_rbtn_order:FilterBoxdisplay();
+                break;
             case R.id.vault_in_detail_btn_cleanmore:CleanMoreBox();
-
+                break;
+            case R.id.vault_out_detail_btn_order:AddBoxOrder();
+                break;
         }
+    }
+
+    private void AddBoxOrder() {
+        boxorder++;
+        vault_out_detail_btn_order.setText(boxorder + "");
     }
 
     private void CleanMoreBox() {
@@ -296,6 +319,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                     listbox.setValutcheck("对");
                     listbox.setTradeAction("入");
                     listbox.setActionTime(YLSysTime.GetStrCurrentTime());
+                    listbox.setBoxOrder(boxorder + "");
+                    vault_in_detail_tv_boxname.setText(listbox.getBoxName());
                     boxrecheck = false;
                     Allboxlist.set(i,listbox);
                     Log.e(YLSystem.getKimTag(), listbox.toString() + "修改");
@@ -318,7 +343,9 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             box.setTradeAction("入");
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             box.setBoxTaskType(ylTask.getTaskType());
+            box.setBoxOrder(boxorder + "");
             Allboxlist.add(box);
+            vault_in_detail_tv_boxname.setText(box.getBoxName());
 //            Log.e(YLSystem.getKimTag(), box.toString());
             Log.e(YLSystem.getKimTag(), Allboxlist.size() + "");
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
@@ -329,10 +356,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     private void GetBoxToListView(Box box) {
         try {
             if (box.getBoxName().equals("无数据")) {
-//                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
-//            if (Allboxlist.size() < 1) return;
             boolean boxcheck = true;
             int position = 0;
             Log.e(YLSystem.getKimTag(),Allboxlist.size()+"");
@@ -414,7 +439,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
         int lackbox = homstr - correct;
         String hom = "业务员上传:"+homstr+"个"+" 符合:"+correct+"个";
-        String vault = "库管员扫描:"+vaulter+"个"+" 少:"+lackbox+"个 多："+morebox+"个";
+        String vault = "库管员:"+vaulter+"个"+" 少:"+lackbox+"个 多："+morebox+"个";
         vault_in_detail_tv_tolly.setText(hom);
         vault_in_detail_tv_check.setText(vault);
     }
@@ -458,6 +483,39 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 }
             }
         }
+
+        if (vault_in_detail_rbtn_order.isChecked()){
+            if (Allboxlist.size()<1)return;
+            Box totalbox = new Box();
+            int allcount = Allboxlist.size();
+            totalbox.setBoxName("扫描总箱数： "+allcount +"  个");
+            displayboxlist.add(totalbox);
+            int count = 0;
+            String fristboxorder = Allboxlist.get(0).getBoxOrder();
+            for (int i = 0;i<Allboxlist.size();i++){
+                if (Allboxlist.get(i).getBoxOrder() == null)continue;
+                String boxorder = Allboxlist.get(i).getBoxOrder();
+                if (boxorder.equals(fristboxorder)){
+                    count++;
+                }else{
+                    Box box = new Box();
+                    box.setBoxName("第 "+fristboxorder+" 次扫描");
+                    box.setBoxStatus("数量: ");
+                    box.setBoxType("             " + count + "  个");
+                    count = 1;
+                    fristboxorder = boxorder;
+                    displayboxlist.add(box);
+                }
+                if (i == allcount-1){
+                    Box box = new Box();
+                    box.setBoxName("第 " + boxorder + " 次扫描");
+                    box.setBoxStatus("数量: ");
+                    box.setBoxType("             " + count + "  个");
+                    displayboxlist.add(box);
+                }
+            }
+        }
+
         ylValutboxitemAdapter.notifyDataSetChanged();
         StatisticalBoxList(Allboxlist);
     }

@@ -114,11 +114,54 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         Log.e(YLSystem.getKimTag(),box.toString());
     }
 
-    public void testStringTOInit()throws Exception{
-        String str = "孙恒欣";
-//        int integer =  Integer.parseInt(str, 16);
-        byte[] integer = str.getBytes();
-        Log.e(YLSystem.getKimTag(),integer.length+"");
+    public void testListGroup()throws Exception{
+        List<Box> boxList = new ArrayList<>();
+        List<Box> orderboxlist = new ArrayList<>();
+        for (int i = 0;i<5;i++){
+            Box box = new Box();
+            box.setBoxName(i+1+"");
+            box.setBoxOrder("顺序：1");
+            boxList.add(box);
+        }
+        for (int i = 0;i<6;i++){
+            Box box = new Box();
+            box.setBoxName(i+1+"");
+            box.setBoxOrder("顺序：2");
+            boxList.add(box);
+        }
+        for (int i = 0;i<7;i++){
+            Box box = new Box();
+            box.setBoxName(i+1+"");
+            box.setBoxOrder("顺序：3");
+            boxList.add(box);
+        }
+
+        int count =0;
+        String order = "顺序：1";
+
+        for (int i = 0; i < boxList.size(); i++) {
+            if (boxList.get(i).getBoxOrder().equals(order)) {
+                count++;
+            } else {
+                Box box = new Box();
+                box.setBoxName(order);
+                box.setBoxOrder(count + "");
+                count = 1;
+                order = boxList.get(i).getBoxOrder();
+                orderboxlist.add(box);
+            }
+            if (i == boxList.size()-1){
+                Box box = new Box();
+                box.setBoxName(order);
+                box.setBoxOrder(count + "");
+                order = boxList.get(i).getBoxOrder();
+                orderboxlist.add(box);
+            }
+        }
+
+
+        Log.e(YLSystem.getKimTag(),orderboxlist.toString());
+
     }
 
 
