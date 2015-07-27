@@ -3,19 +3,17 @@
     <string-array name="tasktype">
         <item>早送</item>
         <item>晚收</item>
-        <item>网点日间上介中心金库</item>
-        <item>日间中心金库下介网点</item>
-        <item>日间跨行调拨</item>
-        <item>日间同行横向调拨</item>
+        <item>日间上介</item>
+        <item>日间下介</item>
         <item>库内上介</item>
         <item>库内下介</item>
+        <item>日间跨行调拨</item>
+        <item>日间同行调拨</item>
         <item>库内跨行调拨</item>
+        <item>企业即收即送</item>
+        <item>企业次日送</item>
         <item>长途押运</item>
         <item>寄库箱</item>
-        <item>即收即送—企业上门收款</item>
-        <item>次日送—企业上门收款</item>
-        <item>即收即送—企业上门送款</item>
-        <item>次日送—企业上门送款</item>
     </string-array>
 
     <array name="ylboxfullorempty">
