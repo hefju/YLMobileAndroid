@@ -22,6 +22,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import TaskClass.Box;
@@ -484,40 +485,47 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             }
         }
 
+        //顺序
         if (vault_in_detail_rbtn_order.isChecked()){
             if (Allboxlist.size()<1)return;
-            Box totalbox = new Box();
-            int allcount = Allboxlist.size();
-            totalbox.setBoxName("扫描总箱数： "+allcount +"  个");
-            displayboxlist.add(totalbox);
-            int count = 0;
-            String fristboxorder = Allboxlist.get(0).getBoxOrder();
-            for (int i = 0;i<Allboxlist.size();i++){
-                if (Allboxlist.get(i).getBoxOrder() == null)continue;
-                String boxorder = Allboxlist.get(i).getBoxOrder();
-                if (boxorder.equals(fristboxorder)){
-                    count++;
-                }else{
-                    Box box = new Box();
-                    box.setBoxName("第 "+fristboxorder+" 次扫描");
-                    box.setBoxStatus("数量: ");
-                    box.setBoxType("             " + count + "  个");
-                    count = 1;
-                    fristboxorder = boxorder;
-                    displayboxlist.add(box);
+
+            List<String> orderlist = new ArrayList<>();
+            for (Box box : Allboxlist) {
+                if (box.getBoxOrder() != null){
+                    orderlist.add(box.getBoxOrder());
                 }
-                if (i == allcount-1){
-                    Box box = new Box();
-                    box.setBoxName("第 " + boxorder + " 次扫描");
-                    box.setBoxStatus("数量: ");
-                    box.setBoxType("             " + count + "  个");
-                    displayboxlist.add(box);
+            }
+            orderlist = removeDeuplicate(orderlist);
+
+
+            for (String order : orderlist){
+                int count = 0;
+                for (Box box : Allboxlist) {
+                    if (box.getBoxOrder() == null)continue;
+                    if ( box.getBoxOrder().equals(order)){
+                        count++;
+                    }
                 }
+                Box box = new Box();
+                box.setBoxName("第 " + order + " 次扫描");
+                box.setBoxStatus("数量: ");
+                box.setBoxType("             " + count + "  个");
+                displayboxlist.add(box);
             }
         }
 
         ylValutboxitemAdapter.notifyDataSetChanged();
         StatisticalBoxList(Allboxlist);
+    }
+
+    private List removeDeuplicate(List arlList)
+    {
+        HashSet h=new HashSet(arlList);
+        arlList.clear();
+        arlList.addAll(h);
+        List list=new ArrayList();
+        list=arlList;
+        return list;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.test.ApplicationTestCase;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import TaskClass.BaseBox;
@@ -162,6 +163,31 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
         Log.e(YLSystem.getKimTag(),orderboxlist.toString());
 
+    }
+
+
+    public void testhandset()throws Exception{
+        List<String> boxList = new ArrayList<>();
+        List<Box> orderboxlist = new ArrayList<>();
+
+        boxList.add("1234");
+        boxList.add("123");
+        boxList.add("14");
+        boxList.add("1234");
+
+        boxList = removeDeuplicate(boxList);
+
+        Log.e(YLSystem.getKimTag(),boxList.toString());
+    }
+
+    public List removeDeuplicate(List arlList)
+    {
+        HashSet h=new HashSet(arlList);
+        arlList.clear();
+        arlList.addAll(h);
+        List list=new ArrayList();
+        list=arlList;
+        return list;
     }
 
 
