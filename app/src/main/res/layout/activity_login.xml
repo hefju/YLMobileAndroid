@@ -129,7 +129,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/Logic_LL_info"
         android:layout_marginTop="20sp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
         <Switch
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
