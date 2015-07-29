@@ -38,6 +38,7 @@ import TaskClass.BaseEmp;
 import TaskClass.User;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.WebService;
+import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLWebService.UpdateManager;
@@ -55,6 +56,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private Button Log_BN_HF;
     private NFCcmdManager manager ;
     private boolean buttonflag;
+    private YLMediaPlayer ylMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             e.printStackTrace();
         }
         buttonflag = false;
+
+        ylMediaPlayer = new YLMediaPlayer();
+
         /**
          * 获取手机IMEI码
          */
@@ -95,7 +100,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
 
         //正式服务测试服务正式为checked为false
-//        logic_sw_address.setChecked(true);
+        logic_sw_address.setChecked(true);
 
         if (logic_sw_address.isChecked()){
             YLSystem.setSerAdress("0");
@@ -225,6 +230,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             return;
         }
         if (!YLSystem.getNetWorkState().equals("2")){
+            WebService.CacheData(getApplicationContext());
             String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
             User user = new User();
             user.setEmpNO(Log_ET_Name.getText().toString());
@@ -250,6 +256,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
             if (!YLSystem.getNetWorkState().equals("2")){
+                WebService.CacheData(getApplicationContext());
                 String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
                 User user = new User();
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
@@ -257,7 +264,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 User userfromweb = webService.LogicByHF(user,url);
                 YLSystem.setBaseName(userfromweb.getTaskDate());
                 if (userfromweb.getServerReturn().equals("没有此人或密码错误。")){
-                    YLMediaPlay("faile");
+//                    YLMediaPlay("faile");
+                    ylMediaPlayer.SuccessOrFailMidia("faile",getApplicationContext());
                     buttonflag= false;
                     Log_BN_HF.setEnabled(true);
                 }else {
@@ -279,7 +287,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void GetEmpByServer(User userfromweb) throws Exception {
         if (userfromweb.getServerReturn().equals("1")){
-            WebService.CacheData(getApplicationContext());
+
             Log_BN_HF.setEnabled(true);
             userfromweb.setISWIFI(YLSystem.getNetWorkState());
             userfromweb.setDeviceID(YLSystem.getHandsetIMEI());
@@ -297,10 +305,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 intent.setClass(LoginActivity.this, Task.class);
             }
             startActivity(intent);
-            YLMediaPlay("success");
+            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
         }else {
-            YLMediaPlay("faile");
+            ylMediaPlayer.SuccessOrFailMidia("faile", getApplicationContext());
             buttonflag= false;
             Log_BN_HF.setEnabled(true);
             Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
@@ -362,20 +370,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }else {
             return "none";
         }
-    }
-
-    private void YLMediaPlay(String mediavoice) throws Exception{
-        MediaPlayer mPlayer = new MediaPlayer();
-        if (mediavoice.equals("success")){
-            mPlayer = MediaPlayer.create(LoginActivity.this, R.raw.msg);
-            if(mPlayer.isPlaying()){
-                return;
-            }
-        }else {
-            mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
-            mPlayer.prepare();
-        }
-        mPlayer.start();
     }
 
     @Override

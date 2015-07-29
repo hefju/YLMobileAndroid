@@ -45,7 +45,7 @@ public class ScanUHFService extends Service {
     private void InitUHF() {
         try {
             reader = UhfReader.getInstance();
-            reader.powerOn();
+//            reader.powerOn();
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                     (this);
             String UHFpower = prefs.getString("UHFPower", "");
@@ -136,7 +136,7 @@ public class ScanUHFService extends Service {
                     break;
                 case "stopscan":
                     startFlag = false;
-                    reader.powerOff();
+//                    reader.powerOff();
                     break;
             }
         }
@@ -152,7 +152,8 @@ public class ScanUHFService extends Service {
                 Log.e(YLSystem.getKimTag(), ac);
             activity = ac; // 获取activity
             if (intent.getBooleanExtra("stopflag", false))
-                stopSelf(); // 收到停止服务信号
+//                stopSelf(); // 收到停止服务信号
+                runFlag = false;
             Log.e(YLSystem.getKimTag(), intent.getBooleanExtra("stopflag", false)
                     + "");
         }
