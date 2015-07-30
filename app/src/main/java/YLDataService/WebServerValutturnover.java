@@ -23,6 +23,7 @@ import TaskClass.User;
 import TaskClass.YLTask;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
+import ylescort.ylmobileandroid.YLBoxScan;
 
 /**
  * Created by Administrator on 2015-06-17.
@@ -211,5 +212,40 @@ public class WebServerValutturnover {
         }
     }
 
+    public String UpLoadPrintlalbe(Context context, User user)throws Exception{
+        UpLoadPrintlalbeAsyncTask upLoadPrintlalbeAsyncTask = new UpLoadPrintlalbeAsyncTask();
+        String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBadBoxRecord";
+        upLoadPrintlalbeAsyncTask.execute(url,user.getEmpID(),user.getDeviceID());
+        return upLoadPrintlalbeAsyncTask.get();
+    }
+
+
+    private class UpLoadPrintlalbeAsyncTask extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... params) {
+            String url = params[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("STask",gson.toJson(YLEditData.getYlTask()));
+                Log.e(YLSystem.getKimTag(),YLEditData.getYlTask().toString());
+                p.put("empid",params[1]);
+                p.put("deviceID",params[2]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+            return null;
+        }
+    }
 
 }

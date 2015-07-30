@@ -26,6 +26,7 @@ import TaskClass.Box;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLVaultcheckboxAdapter;
+import YLDataService.WebServerValutturnover;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
@@ -48,7 +49,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     private List<Box> boxList;
 
     private int oragecolor;
-    private int greencolor;
+    private int bulecolor;
 
     private YLMediaPlayer ylMediaPlayer;
 
@@ -88,7 +89,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 //            vault_check_btn_basedep.setEnabled(false);
 //        }
 
-        greencolor =  getResources().getColor(R.color.mediumseagreen);//得到配置文件里的颜色
+        bulecolor =  getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
         oragecolor =  getResources().getColor(R.color.orange);//得到配置文件里的颜色
         ylMediaPlayer = new YLMediaPlayer();
     }
@@ -167,11 +168,11 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.vault_check_btn_scan:
                 if (vault_check_btn_scan.getText().equals("扫描")) {
-                    vault_check_btn_scan.setBackgroundColor(-30720);
+                    vault_check_btn_scan.setBackgroundColor(oragecolor);
                     vault_check_btn_scan.setText("停止");
                     Scan1DCmd("toscan100ms");
                 } else {
-                    vault_check_btn_scan.setBackgroundColor(-13388315);
+                    vault_check_btn_scan.setBackgroundColor(bulecolor);
                     vault_check_btn_scan.setText("扫描");
                     Scan1DCmd("stopscan");
                 }
@@ -184,10 +185,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 break;
             case R.id.vault_check_btn_uhf:
                 if (vault_check_btn_uhf.getText().equals("UHF")){
-                    vault_check_btn_uhf.setBackgroundColor(-30720);
+                    vault_check_btn_uhf.setBackgroundColor(oragecolor);
                     vault_check_btn_uhf.setText("停止");
                 }else {
-                    vault_check_btn_uhf.setBackgroundColor(-13388315);
+                    vault_check_btn_uhf.setBackgroundColor(bulecolor);
                     vault_check_btn_uhf.setText("UHF");
                 }
                 ScanUHF("scan");
@@ -220,6 +221,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                                 break;
                             case 3:vault_check_btn_basedep.setText("三水基地");
                                 break;
+                            case 4:vault_check_btn_basedep.setText("补打标签");
                         }
                         vault_check_btn_scan.setEnabled(true);
                         vault_check_btn_uhf.setEnabled(true);
@@ -235,11 +237,11 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             case 131:
                 if (vault_check_btn_scan.isEnabled()) {
                     if (vault_check_btn_scan.getText().equals("扫描")) {
-                        vault_check_btn_scan.setBackgroundColor(-30720);
+                        vault_check_btn_scan.setBackgroundColor(oragecolor);
                         vault_check_btn_scan.setText("停止");
                         Scan1DCmd("toscan100ms");
                     } else {
-                        vault_check_btn_scan.setBackgroundColor(-13388315);
+                        vault_check_btn_scan.setBackgroundColor(bulecolor);
                         vault_check_btn_scan.setText("扫描");
                         Scan1DCmd("stopscan");
                     }
@@ -248,10 +250,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             case 132:
                 if (vault_check_btn_uhf.isEnabled()) {
                     if (vault_check_btn_uhf.getText().equals("UHF")) {
-                        vault_check_btn_uhf.setBackgroundColor(-30720);
+                        vault_check_btn_uhf.setBackgroundColor(oragecolor);
                         vault_check_btn_uhf.setText("停止");
                     } else {
-                        vault_check_btn_uhf.setBackgroundColor(-13388315);
+                        vault_check_btn_uhf.setBackgroundColor(bulecolor);
                         vault_check_btn_uhf.setText("UHF");
                     }
                     ScanUHF("scan");
@@ -269,17 +271,26 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-                    WebService webService = new WebService();
+
                     User user = new User();
                     user = YLSystem.getUser();
                     user.setISWIFI("0");
+                    Log.e(YLSystem.getKimTag(),user.toString());
                     YLTask ylTask = new YLTask();
-                    ylTask.setTaskATMBeginTime(vault_check_btn_basedep.getText().toString());//盘库基地
+                    ylTask.setTaskATMBeginTime(user.getTaskDate());//盘库基地
                     ylTask.setTaskATMEndTime(boxList.size() + "");//盘库数量
                     ylTask.setLstBox(boxList);
                     //ylTask.setTaskState(YLEditData.getDatePick().toString());
                     YLEditData.setYlTask(ylTask);
-                    webService.PostCheckVaultboxlist(YLSystem.getUser(), getApplicationContext());
+                    if (vault_check_btn_basedep.getText().toString().equals("补打标签")){
+                        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+                        String serreturn =  webServerValutturnover.UpLoadPrintlalbe(getApplicationContext(), user);
+                        Log.e(YLSystem.getKimTag(),serreturn);
+                    }else {
+                        WebService webService = new WebService();
+                        webService.PostCheckVaultboxlist(YLSystem.getUser(), getApplicationContext());
+                    }
+
                     vault_check_ylbox.this.finish();
 
                 } catch (Exception e) {
@@ -344,7 +355,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         if (box.getBoxName().equals("无数据"))return;
         boxList.add(box);
         vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
-        vault_check_rl_title.setBackgroundColor(greencolor);
+        vault_check_rl_title.setBackgroundColor(bulecolor);
         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
         DisplayYLBox(boxList);
     }
