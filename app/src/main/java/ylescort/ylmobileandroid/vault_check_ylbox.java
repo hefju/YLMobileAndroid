@@ -167,15 +167,12 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.vault_check_btn_scan:
-                if (vault_check_btn_scan.getText().equals("扫描")) {
+                if (vault_check_btn_basedep.getText().equals("补打标签")){
+                    Scan1DCmd("scan");
+                }else if (vault_check_btn_scan.getText().equals("扫描")) {
                     vault_check_btn_scan.setBackgroundColor(oragecolor);
                     vault_check_btn_scan.setText("停止");
-                    if (vault_check_btn_basedep.getText().equals("补打标签")){
-                        Scan1DCmd("scan");
-                    }else {
-                        Scan1DCmd("toscan100ms");
-                    }
-
+                    Scan1DCmd("toscan100ms");
                 } else {
                     vault_check_btn_scan.setBackgroundColor(bulecolor);
                     vault_check_btn_scan.setText("扫描");
@@ -241,14 +238,12 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         switch (keyCode){
             case 131:
                 if (vault_check_btn_scan.isEnabled()) {
-                    if (vault_check_btn_scan.getText().equals("扫描")) {
+                    if (vault_check_btn_basedep.getText().equals("补打标签")){
+                        Scan1DCmd("scan");
+                    }else if (vault_check_btn_scan.getText().equals("扫描")) {
                         vault_check_btn_scan.setBackgroundColor(oragecolor);
                         vault_check_btn_scan.setText("停止");
-                        if (vault_check_btn_basedep.getText().equals("补打标签")){
-                            Scan1DCmd("scan");
-                        }else {
-                            Scan1DCmd("toscan100ms");
-                        }
+                        Scan1DCmd("toscan100ms");
                     } else {
                         vault_check_btn_scan.setBackgroundColor(bulecolor);
                         vault_check_btn_scan.setText("扫描");
