@@ -170,7 +170,12 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 if (vault_check_btn_scan.getText().equals("扫描")) {
                     vault_check_btn_scan.setBackgroundColor(oragecolor);
                     vault_check_btn_scan.setText("停止");
-                    Scan1DCmd("toscan100ms");
+                    if (vault_check_btn_basedep.getText().equals("补打标签")){
+                        Scan1DCmd("scan");
+                    }else {
+                        Scan1DCmd("toscan100ms");
+                    }
+
                 } else {
                     vault_check_btn_scan.setBackgroundColor(bulecolor);
                     vault_check_btn_scan.setText("扫描");
@@ -239,7 +244,11 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                     if (vault_check_btn_scan.getText().equals("扫描")) {
                         vault_check_btn_scan.setBackgroundColor(oragecolor);
                         vault_check_btn_scan.setText("停止");
-                        Scan1DCmd("toscan100ms");
+                        if (vault_check_btn_basedep.getText().equals("补打标签")){
+                            Scan1DCmd("scan");
+                        }else {
+                            Scan1DCmd("toscan100ms");
+                        }
                     } else {
                         vault_check_btn_scan.setBackgroundColor(bulecolor);
                         vault_check_btn_scan.setText("扫描");

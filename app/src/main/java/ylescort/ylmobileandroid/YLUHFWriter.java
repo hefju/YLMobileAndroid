@@ -39,6 +39,8 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     private YLMediaPlayer ylMediaPlayer;
     private String box1did;
     private String boxuhfid;
+    private int oragecolor;
+    private int bulecolor;
 
 
     @Override
@@ -53,6 +55,8 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
 
     private void InitData() {
         ylMediaPlayer = new YLMediaPlayer();
+        bulecolor =  getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
+        oragecolor =  getResources().getColor(R.color.orange);//得到配置文件里的颜色
         box1did = "";
         boxuhfid = "";
     }
@@ -131,9 +135,9 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
                 String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0,10);
                 boxuhfid = epcStr;
                 if (box1did.equals(boxuhfid)){
-                    yluhfwriter_tv_uhfno.setTextColor(-13388315);
+                    yluhfwriter_tv_uhfno.setTextColor(oragecolor);
                 }else {
-                    yluhfwriter_tv_uhfno.setTextColor(-30720);
+                    yluhfwriter_tv_uhfno.setTextColor(bulecolor);
                 }
                 yluhfwriter_tv_uhfno.setText(epcStr);
                 if (p == 1){
@@ -156,9 +160,9 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
                 yluhfwriter_tv_boxid.setText(box.getBoxID());
                 box1did = box.getBoxID();
                 if (box1did.equals(boxuhfid)){
-                    yluhfwriter_tv_uhfno.setTextColor(-13388315);
+                    yluhfwriter_tv_uhfno.setTextColor(bulecolor);
                 }else {
-                    yluhfwriter_tv_uhfno.setTextColor(-30720);
+                    yluhfwriter_tv_uhfno.setTextColor(oragecolor);
                 }
                 ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
             }
