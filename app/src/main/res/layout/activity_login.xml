@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/logic_sw_address"
-
+            android:visibility="invisible"
             android:text="访问地址:      "
             android:textSize="20sp"
             android:textOn="测试服务"

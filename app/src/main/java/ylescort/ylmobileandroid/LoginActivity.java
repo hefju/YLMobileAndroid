@@ -100,7 +100,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
 
         //正式服务测试服务正式为checked为false
-        logic_sw_address.setChecked(true);
+//        logic_sw_address.setChecked(true);
 
         if (logic_sw_address.isChecked()){
             YLSystem.setSerAdress("0");
