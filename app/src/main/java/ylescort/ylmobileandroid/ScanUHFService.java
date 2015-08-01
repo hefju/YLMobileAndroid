@@ -49,8 +49,10 @@ public class ScanUHFService extends Service {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                     (this);
             String UHFpower = prefs.getString("UHFPower", "");
-            Integer uhf= Integer.parseInt(UHFpower);
+            if(UHFpower.equals("")){
+                UHFpower = "22";}
             Log.e(YLSystem.getKimTag(),UHFpower+"获取功率");
+            Integer uhf= Integer.parseInt(UHFpower);
             if (reader != null) {
                 Thread.sleep(100);
                 reader.setOutputPower(uhf);

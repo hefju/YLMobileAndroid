@@ -64,7 +64,7 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     private void InitUHF() {
 
         reader = UhfReader.getInstance();
-        reader.powerOn();
+//        reader.powerOn();
         reader.setOutputPower(22);
     }
 
@@ -226,7 +226,7 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
         if (scan1dRecive !=null){
             unregisterReceiver(scan1dRecive);
         }
-        reader.powerOff();
+//        reader.powerOff();
         super.onDestroy();
     }
 }
