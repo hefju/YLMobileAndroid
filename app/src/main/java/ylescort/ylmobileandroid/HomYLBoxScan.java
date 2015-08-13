@@ -132,15 +132,25 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         homylboxscan_rbtn_give.setChecked(true);
                         homylboxscan_rbtn_give.setEnabled(true);
                         homylboxscan_rbtn_get.setEnabled(false);
+                        homylboxscan_btn_date.setEnabled(false);
+                        homylboxscan_cb_date.setEnabled(false);
                         break;
                     case "晚收":
                         homylboxscan_rbtn_get.setChecked(true);
                         homylboxscan_rbtn_get.setEnabled(true);
                         homylboxscan_rbtn_give.setEnabled(false);
+                        homylboxscan_btn_date.setEnabled(false);
+                        homylboxscan_cb_date.setEnabled(false);
+                        break;
+                    case "寄库箱":
+                        homylboxscan_btn_date.setEnabled(true);
+                        homylboxscan_cb_date.setEnabled(true);
                         break;
                     default:
                         homylboxscan_rbtn_give.setEnabled(true);
                         homylboxscan_rbtn_get.setEnabled(true);
+                        homylboxscan_btn_date.setEnabled(false);
+                        homylboxscan_cb_date.setEnabled(false);
                         break;
                 }
 
@@ -538,18 +548,20 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 .setView(et)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-//                        String input = et.getText().toString().replaceAll("^(0+)", "");
-                        String input = et.getText().toString();
-                        BoxIDtoBox(input);
-//                        int intinput = Integer.parseInt(input);
-//                        if (input.equals("")|| intinput ==0) {
-//                            Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Box box = new Box();
-//                            box.setBoxID("无标签");
-//                            box.setBoxName("无标签");
-//                            PutBoxToList(box,intinput+"","tmp");
-//                        }
+
+                        String input = et.getText().toString().replaceAll("^(0+)", "");
+//                        String input = et.getText().toString();
+//                        BoxIDtoBox(input);
+
+                        if (input.equals("")|| input.equals("0")) {
+                            Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int intinput = Integer.parseInt(input);
+                            Box box = new Box();
+                            box.setBoxID("无标签");
+                            box.setBoxName("无标签");
+                            PutBoxToList(box,intinput+"","tmp");
+                        }
 
 
                     }
