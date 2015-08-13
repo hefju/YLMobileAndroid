@@ -113,7 +113,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 break;
             case R.id.vault_turnover_btn_upload:UpLoadDialog();
                 break;
-            case R.id.vault_check_btn_uhf:ScanUHF("scan");
+            case R.id.vault_check_btn_uhf:
+//                ScanUHF("scan");
                 break;
             case R.id.vault_turnover_btn_count:Addcount();
                 break;
@@ -565,7 +566,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         switch (keyCode){
             case 131:Scan1DCmd("toscan100ms");
                 break;
-            case 132:ScanUHF("scan");
+            case 132:
+//                ScanUHF("scan");
                 break;
         }
         return super.onKeyDown(keyCode, event);
