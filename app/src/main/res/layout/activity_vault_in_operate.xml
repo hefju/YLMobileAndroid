@@ -46,17 +46,25 @@
             android:id="@+id/vault_in_operate_btn_alltask"
             android:text="@string/vault_in_operate_btn_Alltask"/>
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_in_operate_LL_btn"
         android:layout_alignParentBottom="true"
         android:gravity="center">
         <Button
-            android:layout_width="fill_parent"
+            android:layout_width="130sp"
             android:layout_height="wrap_content"
+            android:id="@+id/vault_in_operate_btn_line"
+            android:background="@color/androidgreenl"
+            android:layout_alignParentStart="true"
+            android:text="@string/vault_in_operate_btn_line"/>
+        <Button
+            android:layout_width="130sp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:id="@+id/vault_in_operate_btn_readcard"
             style="@style/YLbutton"
             android:text="@string/vault_in_operate_btn_readcard"/>
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

@@ -45,7 +45,7 @@ public class WebServerValutturnover {
     public List<Box> ValutOutBoxList(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreGetNowInBoxlList";
         ValutOutBoxListAsyTask valutOutBoxListAsyTask = new ValutOutBoxListAsyTask();
-        valutOutBoxListAsyTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
+        valutOutBoxListAsyTask.execute(url,user.getTaskDate(),YLSystem.getHandsetIMEI(),user.getEmpID());
         return valutOutBoxListAsyTask.get();
     }
 
@@ -89,7 +89,7 @@ public class WebServerValutturnover {
         ValutInBoxListAsyTask valutInBoxListAsyTask = new ValutInBoxListAsyTask();
         String url = YLSystem.GetBaseUrl(context)+"StoreTurnGetAllOutList";
         valutInBoxListAsyTask.execute(url,user.getServerReturn()
-                ,user.getDeviceID(),user.getEmpID(),user.getTaskDate());
+                ,YLSystem.getHandsetIMEI(),user.getEmpID(),user.getTaskDate());
         return valutInBoxListAsyTask.get();
     }
 
@@ -133,7 +133,7 @@ public class WebServerValutturnover {
     public String Valutturnoverupload(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreUploadBoxTurn";
         ValutturnoveruploadAsyTask valutturnoveruploadAsyTask = new ValutturnoveruploadAsyTask();
-        valutturnoveruploadAsyTask.execute(url, user.getEmpID(), user.getDeviceID());
+        valutturnoveruploadAsyTask.execute(url, user.getEmpID(), YLSystem.getHandsetIMEI());
         return valutturnoveruploadAsyTask.get();
     }
 
@@ -178,7 +178,7 @@ public class WebServerValutturnover {
             , String empid, String TaskDate,Context context)throws Exception{
         Vaulttrunoverout vaulttrunoverout  = new Vaulttrunoverout();
         String url = YLSystem.GetBaseUrl(context)+"StoreTurnGetBoxListOut";
-        vaulttrunoverout.execute(url,SourceBase,TargetBase,deviceID,empid,TaskDate);
+        vaulttrunoverout.execute(url,SourceBase,TargetBase,YLSystem.getHandsetIMEI(),empid,TaskDate);
         return vaulttrunoverout.get();
     }
 
@@ -215,7 +215,7 @@ public class WebServerValutturnover {
     public String UpLoadPrintlalbe(Context context, User user)throws Exception{
         UpLoadPrintlalbeAsyncTask upLoadPrintlalbeAsyncTask = new UpLoadPrintlalbeAsyncTask();
         String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBadBoxRecord";
-        upLoadPrintlalbeAsyncTask.execute(url,user.getEmpID(),user.getDeviceID());
+        upLoadPrintlalbeAsyncTask.execute(url,user.getEmpID(),YLSystem.getHandsetIMEI());
         return upLoadPrintlalbeAsyncTask.get();
     }
 

@@ -265,7 +265,7 @@ public class WebService {
                 //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
                 try {
                     JSONObject p = new JSONObject();
-                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("DeviceID", YLSystem.getHandsetIMEI()); //"NH008");//
                     p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
                     p.put("datetime", timeLastUpdate);
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
@@ -333,7 +333,7 @@ public class WebService {
                 //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
                 try {
                     JSONObject p = new JSONObject();
-                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("DeviceID", YLSystem.getHandsetIMEI()); //"NH008");//
                     p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
                     p.put("datetime", timeLastUpdate);
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
@@ -401,7 +401,7 @@ public class WebService {
                 //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
                 try {
                     JSONObject p = new JSONObject();
-                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("DeviceID", YLSystem.getHandsetIMEI()); //"NH008");//
                     p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
                     p.put("datetime", timeLastUpdate);
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
@@ -469,7 +469,7 @@ public class WebService {
                 //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
                 try {
                     JSONObject p = new JSONObject();
-                    p.put("DeviceID", YLSystem.GetDeviceID(ctx)); //"NH008");//
+                    p.put("DeviceID", YLSystem.getHandsetIMEI()); //"NH008");//
                     p.put("ISWIFI", YLSystem.isWifiActive(ctx));//"1");//
                     p.put("datetime", timeLastUpdate);
                     post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
@@ -533,7 +533,7 @@ public class WebService {
 
                     User user=YLSystem.getUser();
                     //测试数据
-                    user.DeviceID = YLSystem.getUser().getDeviceID();
+                    user.DeviceID = YLSystem.getHandsetIMEI();
                     //user.TaskDate = "2015-03-12";
 
                     Gson gson = new Gson();
@@ -596,7 +596,7 @@ public class WebService {
                     //设置POST请求中的参数
                     JSONObject p = new JSONObject();
                     p.put("taskID",taskid);
-                    p.put("deviceID",user.getDeviceID());
+                    p.put("deviceID",YLSystem.getHandsetIMEI());
                     p.put("empid",user.getEmpID());
                     p.put("ISWIFI",user.getISWIFI());
 
@@ -658,6 +658,7 @@ public class WebService {
             HttpPost post = new HttpPost(url);
             User user = new User();
             user.setEmpNO(params[1]);
+            user.setDeviceID(YLSystem.getHandsetIMEI());
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
@@ -715,6 +716,7 @@ public class WebService {
             User user = new User();
             user.setEmpNO(params[1]);
             user.setPass(params[2]);
+            user.setDeviceID(YLSystem.getHandsetIMEI());
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
@@ -876,7 +878,7 @@ public class WebService {
     public String PostVaultCheckBox(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"盘库上传方法";
         PostVaultCheckBoxAsycnTask postVaultCheckBoxAsycnTask = new PostVaultCheckBoxAsycnTask();
-        postVaultCheckBoxAsycnTask.execute(url,user.getEmpID(),user.getDeviceID());
+        postVaultCheckBoxAsycnTask.execute(url,user.getEmpID(),YLSystem.getHandsetIMEI());
         return postVaultCheckBoxAsycnTask.get();
     }
 
@@ -916,7 +918,8 @@ public class WebService {
         String url = YLSystem.GetBaseUrl(context)+"StoreOutGetTask";
         GetVaultOutTaskAsycnTask getVaultOutTaskAsycnTask = new GetVaultOutTaskAsycnTask();
         getVaultOutTaskAsycnTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),
-                user.getDeviceID(),user.getEmpID(),user.getName());
+                YLSystem.getHandsetIMEI(),user.getEmpID(),user.getName());
+        Log.e(YLSystem.getKimTag(),user.toString());
         return getVaultOutTaskAsycnTask.get();
     }
 
@@ -965,7 +968,7 @@ public class WebService {
         String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBoxRecord";
         PostCheckVaultboxlistAsycnTask postCheckVaultboxlistAsycnTask =
                 new PostCheckVaultboxlistAsycnTask();
-        postCheckVaultboxlistAsycnTask.execute(url, user.getEmpID(), user.getDeviceID(), user.getISWIFI());
+        postCheckVaultboxlistAsycnTask.execute(url, user.getEmpID(), YLSystem.getHandsetIMEI(), user.getISWIFI());
         return postCheckVaultboxlistAsycnTask.get();
     }
 
@@ -1010,7 +1013,7 @@ public class WebService {
     public List<Box> GetAllBox(User user,Context context) throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreGetNowInBoxlList";
         GetAllBoxAsycnTask getAllBoxAsycnTask = new GetAllBoxAsycnTask();
-        getAllBoxAsycnTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
+        getAllBoxAsycnTask.execute(url,user.getTaskDate(),YLSystem.getHandsetIMEI(),user.getEmpID());
         return getAllBoxAsycnTask.get();
     }
 
@@ -1051,7 +1054,7 @@ public class WebService {
     public String ComfirmStoreIn(User user ,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"ComfirmStoreIn";
         ConfirmStoreInAsycnTask confirmStoreInAsycnTask = new ConfirmStoreInAsycnTask();
-        confirmStoreInAsycnTask.execute(url,user.getTaskDate(),user.getEmpID(),user.getDeviceID(),user.getISWIFI());
+        confirmStoreInAsycnTask.execute(url,user.getTaskDate(),user.getEmpID(),YLSystem.getHandsetIMEI(),user.getISWIFI());
         return confirmStoreInAsycnTask.get();
     }
 
@@ -1095,7 +1098,7 @@ public class WebService {
         String url = YLSystem.GetBaseUrl(context)+"StoreInGetBaseAllTask";
         StoreInGetBaseAllTaskAsycnTask storeInGetBaseAllTaskAsycnTask =
                 new StoreInGetBaseAllTaskAsycnTask();
-        storeInGetBaseAllTaskAsycnTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID());
+        storeInGetBaseAllTaskAsycnTask.execute(url,user.getTaskDate(),YLSystem.getHandsetIMEI(),user.getEmpID());
         return storeInGetBaseAllTaskAsycnTask.get();
     }
 

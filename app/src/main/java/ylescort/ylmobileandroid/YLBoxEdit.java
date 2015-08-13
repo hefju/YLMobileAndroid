@@ -174,35 +174,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
     private void TallyBox(List<Box> boxList) {
         if (boxList == null)return;
-//        int emptybox = 0;
-//        int fullbox = 0;
-//        int getbox = 0;
-//        int givebox = 0;
-//        int moneybox = 0;
-//        int cardbox = 0;
-//        int voucher =0;
-//        int voucherbag =0;
-//        for (Box box :boxList){
-//            if (box.getTradeAction().equals("收")){
-//                getbox +=Integer.parseInt(box.getBoxCount()) ;}
-//            else{
-//                givebox+=Integer.parseInt(box.getBoxCount());
-//            }
-//            if (box.getBoxStatus().equals("空")){
-//                emptybox+=Integer.parseInt(box.getBoxCount());
-//            }else {
-//                fullbox+=Integer.parseInt(box.getBoxCount());
-//            }
-//            if (box.getBoxType().equals("款箱")){
-//                moneybox+=Integer.parseInt(box.getBoxCount());
-//            }else if (box.getBoxType().equals("卡箱")){
-//                cardbox+=Integer.parseInt(box.getBoxCount());
-//            }else if (box.getBoxType().equals("凭证箱")){
-//                voucher+=Integer.parseInt(box.getBoxCount());
-//            }else if (box.getBoxType().equals("凭证袋")){
-//                voucherbag +=Integer.parseInt(box.getBoxCount());
-//            }
-//        }
 
         List<String> list =  analysisBoxList.AnsysisBoxList(boxList);
 
@@ -427,6 +398,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     boxEditListEdit.remove(listpostion);
                     ylBoxEdiAdapter.setSelectItem(0);
                     listpostion = 0;
+                    TallyBox(boxEditListEdit);
                     ylBoxEdiAdapter.notifyDataSetInvalidated();
                 }
                 break;

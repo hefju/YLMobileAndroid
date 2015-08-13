@@ -140,15 +140,15 @@
         </activity>
         <activity
             android:name=".Valut_turnover"
-            android:label="@string/title_activity_valut_turnover" >
+            android:label="@string/valut_turnover_title" >
         </activity>
         <activity
             android:name=".HomYLBoxScan"
-            android:label="@string/title_activity_hom_ylbox_scan" >
+            android:label="@string/hom_ylbox_btn_scan" >
         </activity>
         <activity
             android:name=".YLUHFWriter"
-            android:label="@string/title_activity_yluhfwriter" >
+            android:label="@string/yluhfwriter_activityname" >
         </activity>
     </application>
 

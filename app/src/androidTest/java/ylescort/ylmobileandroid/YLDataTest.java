@@ -118,18 +118,21 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     public void testListGroup()throws Exception{
         List<Box> boxList = new ArrayList<>();
         List<Box> orderboxlist = new ArrayList<>();
-        for (int i = 0;i<5;i++){
-            Box box = new Box();
-            box.setBoxName(i+1+"");
-            box.setBoxOrder("顺序：1");
-            boxList.add(box);
-        }
+
         for (int i = 0;i<6;i++){
             Box box = new Box();
             box.setBoxName(i+1+"");
             box.setBoxOrder("顺序：2");
             boxList.add(box);
         }
+
+        for (int i = 0;i<5;i++){
+            Box box = new Box();
+            box.setBoxName(i+1+"");
+            box.setBoxOrder("顺序：1");
+            boxList.add(box);
+        }
+
         for (int i = 0;i<7;i++){
             Box box = new Box();
             box.setBoxName(i+1+"");
@@ -138,7 +141,7 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         }
 
         int count =0;
-        String order = "顺序：1";
+        String order = boxList.get(0).getBoxOrder();
 
         for (int i = 0; i < boxList.size(); i++) {
             if (boxList.get(i).getBoxOrder().equals(order)) {

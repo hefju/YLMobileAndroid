@@ -20,6 +20,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -52,6 +53,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private TextView homylboxscan_tv_boxstaut;
     private TextView homylboxscan_tv_tasktype;
 
+    private TextView homylboxscan_tv_moneybox;
+    private TextView homylboxscan_tv_cardbox;
+    private TextView homylboxscan_tv_Voucher;
+    private TextView homylboxscan_tv_Voucherbag;
+
     private Spinner homylboxscan_sp_tasktype;
 
     private RadioButton homylboxscan_rbtn_get;
@@ -67,6 +73,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private Button homylboxscan_btn_scan;
     private Button homylboxscan_btn_nonelable;
     private Button homylboxscan_btn_ent;
+    private Button homylboxscan_btn_boxtype;
+
+    private CheckBox homylboxscan_cb_scan;
+    private CheckBox homylboxscan_cb_complie;
+    private CheckBox homylboxscan_cb_date;
 
     private List<Box> AllBoxList;
 
@@ -79,9 +90,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private String YLScanMessage;
     private String PickDate;
     private Calendar calendar;
-
-
-
+    private int TaskTimeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,18 +127,36 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 box_sp_text = parent.getItemAtPosition(position).toString();
-                if (box_sp_text.equals("寄库箱")){
-                    homylboxscan_btn_date.setEnabled(true);
-                }else {
-                    homylboxscan_btn_date.setEnabled(false);
-                    PickDate = "";
+                switch (box_sp_text){
+                    case "早送":
+                        homylboxscan_rbtn_give.setChecked(true);
+                        homylboxscan_rbtn_give.setEnabled(true);
+                        homylboxscan_rbtn_get.setEnabled(false);
+                        break;
+                    case "晚收":
+                        homylboxscan_rbtn_get.setChecked(true);
+                        homylboxscan_rbtn_get.setEnabled(true);
+                        homylboxscan_rbtn_give.setEnabled(false);
+                        break;
+                    default:
+                        homylboxscan_rbtn_give.setEnabled(true);
+                        homylboxscan_rbtn_get.setEnabled(true);
+                        break;
                 }
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+
+        if (ylTask.getId() == null){
+            TaskTimeID = 1;
+        }else {
+            TaskTimeID = ylTask.getId();
+        }
+        Log.e(YLSystem.getKimTag(),TaskTimeID+"TaskTimeID");
 
         /**
          * 根据任务匹配多选项
@@ -145,13 +172,21 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_rbtn_give.setText("送箱:" + 0);
         homylboxscan_rbtn_full.setText("实箱:" + 0);
         homylboxscan_rbtn_empty.setText("空箱:" + 0);
-        homylboxscan_rbtn_moneyboxs.setText("款箱:" + 0);
-        homylboxscan_rbtn_cardbox.setText("卡箱:" + 0);
-        homylboxscan_rbtn_Voucher.setText("凭证箱:" + 0);
-        homylboxscan_rbtn_Voucherbag.setText("凭证袋:" + 0);
+        homylboxscan_tv_moneybox.setText("款箱:"+0);
+        homylboxscan_tv_cardbox.setText("卡箱:"+0);
+        homylboxscan_tv_Voucher.setText("凭证箱:"+0);
+        homylboxscan_tv_Voucherbag.setText("凭证袋:"+0);
 
-        calendar = Calendar.getInstance();
+        calendar =YLSysTime.AddDateString(Calendar.getInstance(),1) ;
 
+        int year = calendar.get(Calendar.YEAR);
+        int Month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+
+        String Date = year+"-"+String.format("%02d",(Month + 1))+"-"
+                +String.format("%02d",(day));
+
+        homylboxscan_btn_date.setText(Date);
 
     }//初始化数据
 
@@ -174,35 +209,39 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_tv_boxstaut = (TextView) findViewById(R.id.homylboxscan_tv_boxstaut);
         homylboxscan_tv_tasktype = (TextView) findViewById(R.id.homylboxscan_tv_tasktype);
 
+        homylboxscan_tv_moneybox = (TextView) findViewById(R.id.homylboxscan_tv_moneybox);
+        homylboxscan_tv_cardbox = (TextView) findViewById(R.id.homylboxscan_tv_cardbox);
+        homylboxscan_tv_Voucher = (TextView) findViewById(R.id.homylboxscan_tv_Voucher);
+        homylboxscan_tv_Voucherbag = (TextView) findViewById(R.id.homylboxscan_tv_Voucherbag);
+
         homylboxscan_sp_tasktype = (Spinner) findViewById(R.id.homylboxscan_sp_tasktype);
 
         homylboxscan_rbtn_get = (RadioButton) findViewById(R.id.homylboxscan_rbtn_get);
         homylboxscan_rbtn_give = (RadioButton) findViewById(R.id.homylboxscan_rbtn_give);
         homylboxscan_rbtn_full = (RadioButton) findViewById(R.id.homylboxscan_rbtn_full);
         homylboxscan_rbtn_empty = (RadioButton) findViewById(R.id.homylboxscan_rbtn_empty);
-        homylboxscan_rbtn_moneyboxs = (RadioButton) findViewById(R.id.homylboxscan_rbtn_moneyboxs);
-        homylboxscan_rbtn_cardbox = (RadioButton) findViewById(R.id.homylboxscan_rbtn_cardbox);
-        homylboxscan_rbtn_Voucher = (RadioButton) findViewById(R.id.homylboxscan_rbtn_Voucher);
-        homylboxscan_rbtn_Voucherbag = (RadioButton) findViewById(R.id.homylboxscan_rbtn_Voucherbag);
 
         homylboxscan_btn_date = (Button) findViewById(R.id.homylboxscan_btn_date);
         homylboxscan_btn_scan = (Button) findViewById(R.id.homylboxscan_btn_scan);
         homylboxscan_btn_nonelable = (Button) findViewById(R.id.homylboxscan_btn_nonelable);
         homylboxscan_btn_ent = (Button) findViewById(R.id.homylboxscan_btn_ent);
+        homylboxscan_btn_boxtype = (Button) findViewById(R.id.homylboxscan_btn_boxtype);
 
-        homylboxscan_rbtn_moneyboxs.setOnClickListener(this);
-        homylboxscan_rbtn_cardbox.setOnClickListener(this);
-        homylboxscan_rbtn_Voucher.setOnClickListener(this);
-        homylboxscan_rbtn_Voucherbag.setOnClickListener(this);
+        homylboxscan_cb_scan = (CheckBox)findViewById(R.id.homylboxscan_cb_scan);
+        homylboxscan_cb_complie = (CheckBox)findViewById(R.id.homylboxscan_cb_complie);
+        homylboxscan_cb_date  = (CheckBox)findViewById(R.id.homylboxscan_cb_date);
 
         homylboxscan_btn_date.setOnClickListener(this);
         homylboxscan_btn_scan.setOnClickListener(this);
         homylboxscan_btn_nonelable.setOnClickListener(this);
         homylboxscan_btn_ent.setOnClickListener(this);
+        homylboxscan_btn_boxtype.setOnClickListener(this);
+        homylboxscan_cb_scan.setOnClickListener(this);
+        homylboxscan_cb_complie.setOnClickListener(this);
+        homylboxscan_cb_date.setOnClickListener(this);
 
         homylboxscan_btn_scan.setEnabled(false);
         homylboxscan_btn_nonelable.setEnabled(false);
-        homylboxscan_btn_date.setEnabled(false);
 
     }//初始化界面
 
@@ -227,10 +266,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }
         if (!homylboxscan_rbtn_get.isChecked() & !homylboxscan_rbtn_give.isChecked()) {
             YLScanMessage = "收送未选";
+            return true;
         }
         if (type.equals("need")){
-            if (!homylboxscan_rbtn_moneyboxs.isChecked() & !homylboxscan_rbtn_cardbox.isChecked()
-                    & !homylboxscan_rbtn_Voucher.isChecked() & !homylboxscan_rbtn_Voucherbag.isChecked()) {
+            if (homylboxscan_btn_boxtype.getText().equals("款箱类")){
                 YLScanMessage = "箱类未选";
                 return true;
             }
@@ -286,37 +325,39 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 ////                            return;
 ////                        }
 ////                    }
-                Log.e(YLSystem.getKimTag(),recivedata+"1D接收数据");
-                    for (int i = AllBoxList.size()-1; i >= 0;i--){
-                        if (AllBoxList.get(i).getBoxID().equals(recivedata)
-                                & AllBoxList.get(i).getTradeAction().equals(getboxatcion())){
-                            YLBoxMediaPlay("fail");
-                            return;
-                        }
-                    }
-//                }
-                try{
-                    Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
-                    if (box.getBoxName().equals("无数据")){
-                        YLBoxMediaPlay("fail");
-                        return;
-                    }
-                    Log.e(YLSystem.getKimTag(),box.toString());
-                    if (box.getBoxName().contains("粤龙临")|| box.getBoxType().equals("无")) {
-                        if (!checkboxsype().equals("无")) {
-                            box.setBoxType(checkboxsype());
-                        } else {
-                            Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
-                            YLBoxMediaPlay("fail");
-                            return;
-                        }
-                    }
-                    PutBoxToList(box, "1", "ordin");
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+                BoxIDtoBox(recivedata);
             }
         }//注册广播
+    }
+
+    private void BoxIDtoBox(String recivedata) {
+        Log.e(YLSystem.getKimTag(), recivedata + "接收数据1D");
+        for (int i = AllBoxList.size() - 1; i >= 0; i--) {
+            if (AllBoxList.get(i).getBoxID().equals(recivedata)
+                    & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
+                YLBoxMediaPlay("fail");
+                return;
+            }
+        }
+        try {
+            Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+            if (box.getBoxName().equals("无数据")) {
+                YLBoxMediaPlay("fail");
+                return;
+            }
+            if (box.getBoxName().contains("粤龙临") || box.getBoxType().equals("无")) {
+                if (!checkboxsype().equals("款箱类")) {
+                    box.setBoxType(checkboxsype());
+                } else {
+                    Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
+                    YLBoxMediaPlay("fail");
+                    return;
+                }
+            }
+            PutBoxToList(box, "1", "ordin");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String getboxatcion(){
@@ -328,20 +369,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     }
 
     private String checkboxsype(){
-
-        if (homylboxscan_rbtn_moneyboxs.isChecked()) {
-            return "款箱";
-        }
-        if (homylboxscan_rbtn_cardbox.isChecked()) {
-            return "卡箱";
-        }
-        if (homylboxscan_rbtn_Voucher.isChecked()) {
-            return "凭证箱";
-        }
-        if (homylboxscan_rbtn_Voucherbag.isChecked()) {
-            return "凭证袋";
-        }
-        return "无";
+        return homylboxscan_btn_boxtype.getText().toString();
     }
 
     private void PutBoxToList(Box box,String count,String type) {
@@ -354,7 +382,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         box.setBoxCount(count);
         if (homylboxscan_rbtn_get.isChecked()){
             tradeaction= "收";
-
         }else {
             tradeaction = "送";
         }
@@ -370,19 +397,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         box.setBoxStatus(tradestaut);
 
         if (type.equals("tmp")){
-            if (homylboxscan_rbtn_moneyboxs.isChecked())
-            {
-                tradetype = "款箱";
-            }
-            if (homylboxscan_rbtn_cardbox.isChecked()){
-                tradetype = "卡箱";
-            }
-            if (homylboxscan_rbtn_Voucher.isChecked()){
-                tradetype = "凭证箱";
-            }
-            if (homylboxscan_rbtn_Voucherbag.isChecked()){
-                tradetype = "凭证袋";
-            }
+            tradetype = homylboxscan_btn_boxtype.getText().toString();
             box.setBoxType(tradetype);
             homylboxscan_tv_boxtype.setText(tradetype);
         }
@@ -395,15 +410,27 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setSiteID(homylboxscan_tv_title.getTag().toString());
             box.setBoxOrder(AllBoxList.size() + 1 + "");
             box.setTimeID(arriveTime.getTimeID());
-            box.setNextOutTime(PickDate);
+            if (homylboxscan_cb_date.isChecked()){
+                box.setNextOutTime("2099-12-31");
+            }else {
+                box.setNextOutTime(PickDate);
+            }
+            if (homylboxscan_cb_complie.isChecked()){
+                box.setRemark("1");
+            }else {
+                box.setRemark("");
+            }
+            box.setTaskTimeID(TaskTimeID);
             box.setActionTime(YLSysTime.GetStrCurrentTime());
+            Log.e(YLSystem.getKimTag(), box.toString() + "插入款箱");
             AllBoxList.add(box);
             YLBoxMediaPlay("success");
             YLSystem.setEdiboxList(AllBoxList);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(YLSystem.getKimTag(), AllBoxList.toString() + "款箱数量");
+        homylboxscan_cb_complie.setChecked(false);
+        Log.e(YLSystem.getKimTag(), AllBoxList.size() + "款箱数量");
         TallyBox(AllBoxList);
     }//扫箱数据加载界面
 
@@ -446,43 +473,39 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.homylboxscan_btn_ent:ArriveAndFinish();
                 break;
-            case R.id.homylboxscan_rbtn_moneyboxs:
-                homylboxscan_rbtn_cardbox.setChecked(false);
-                homylboxscan_rbtn_Voucher.setChecked(false);
-                homylboxscan_rbtn_Voucherbag.setChecked(false);
+            case R.id.homylboxscan_btn_boxtype:ShowBoxtype();
                 break;
-            case R.id.homylboxscan_rbtn_cardbox:
-                homylboxscan_rbtn_moneyboxs.setChecked(false);
-                homylboxscan_rbtn_Voucher.setChecked(false);
-                homylboxscan_rbtn_Voucherbag.setChecked(false);
+            case R.id.homylboxscan_cb_scan:
                 break;
-            case R.id.homylboxscan_rbtn_Voucher:
-                homylboxscan_rbtn_moneyboxs.setChecked(false);
-                homylboxscan_rbtn_cardbox.setChecked(false);
-                homylboxscan_rbtn_Voucherbag.setChecked(false);
-                break;
-            case R.id.homylboxscan_rbtn_Voucherbag:
-                homylboxscan_rbtn_moneyboxs.setChecked(false);
-                homylboxscan_rbtn_cardbox.setChecked(false);
-                homylboxscan_rbtn_Voucher.setChecked(false);
+            case R.id.homylboxscan_cb_complie:
                 break;
         }
     }//按键事件
 
-    private void GetDatePick() {
-//        for (int i = 0;i<2000;i++){
-//            Box box = new Box();
-//            box.setBoxName("测试1");
-//            box.setBoxID("011410192"+i);
-//            box.setBoxType("款箱");
-//            box.setTimeID("1");
-//            box.setTradeAction("收");
-//            box.setBoxCount("1");
-//            box.setBoxStatus("空");
-//            box.setBoxTaskType("早送");
-//            AllBoxList.add(box);
-//        }
+    private void ShowBoxtype() {
+      new AlertDialog.Builder(this).setTitle("款箱类型").setIcon(android.R.drawable.ic_dialog_info)
+              .setSingleChoiceItems(R.array.ylboxtype, 0, new DialogInterface.OnClickListener() {
+                  @Override
+                  public void onClick(DialogInterface dialogInterface, int i) {
+                      switch (i) {
+                          case 0:
+                              homylboxscan_btn_boxtype.setText("款箱");
+                              break;
+                          case 1:
+                              homylboxscan_btn_boxtype.setText("卡箱");
+                              break;
+                          case 2:homylboxscan_btn_boxtype.setText("凭证箱");
+                              break;
+                          case 3:homylboxscan_btn_boxtype.setText("凭证袋");
+                              break;
+                      }
+                      dialogInterface.dismiss();
+                  }
 
+              }).show();
+    }
+
+    private void GetDatePick() {
         int year = calendar.get(Calendar.YEAR);
         int Month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DATE);
@@ -493,11 +516,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         PickDate = year+"-"+String.format("%02d",(monthOfYear + 1))+"-"
                                 +String.format("%02d",(dayOfMonth));
+                        homylboxscan_btn_date.setText(PickDate);
                         Log.e(YLSystem.getKimTag(),PickDate+"");
                     }
-                },year,Month,day+1);
+                },year,Month,day);
         datePickerDialog.show();
-
     }
 
     private void NoLableIns() {
@@ -506,6 +529,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             return;
         }
 
+        homylboxscan_cb_complie.setChecked(true);
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 
@@ -514,17 +538,20 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 .setView(et)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String input = et.getText().toString().replaceAll("^(0+)", "");
-                        int intinput = Integer.parseInt(input);
-                        if (input.equals("")|| intinput ==0) {
-                            Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
-                        } else {
-//                            PutDatatoListView("无标签",intinput+"");
-                            Box box = new Box();
-                            box.setBoxID("无标签");
-                            box.setBoxName("无标签");
-                            PutBoxToList(box,intinput+"","tmp");
-                        }
+//                        String input = et.getText().toString().replaceAll("^(0+)", "");
+                        String input = et.getText().toString();
+                        BoxIDtoBox(input);
+//                        int intinput = Integer.parseInt(input);
+//                        if (input.equals("")|| intinput ==0) {
+//                            Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Box box = new Box();
+//                            box.setBoxID("无标签");
+//                            box.setBoxName("无标签");
+//                            PutBoxToList(box,intinput+"","tmp");
+//                        }
+
+
                     }
                 }).setNegativeButton("取消", null).show();
     }
@@ -602,10 +629,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                             ylTask.lstSite.set(i,site);
                         }
                     }
+                    ylTask.setId(TaskTimeID+1);
                     tasksManager.SaveTask(getApplicationContext());
                     AllBoxList.clear();
                     YLSystem.setEdiboxList(AllBoxList);
-                    Log.e(YLSystem.getKimTag(),ylTask.getLstBox().toString());
+                    Log.e(YLSystem.getKimTag(),ylTask.getLstBox().size()+"款箱数量");
                     dialog.dismiss();
                     HomYLBoxScan.this.finish();
                 }
@@ -627,13 +655,24 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             Toast.makeText(getApplicationContext(), YLScanMessage, Toast.LENGTH_SHORT).show();
             return;
         }
-        Scan1DCmd("scan");
+
+        if (homylboxscan_cb_scan.isChecked()){
+            if (homylboxscan_btn_scan.getText().equals("扫描/F1")){
+                homylboxscan_btn_scan.setText("停止/F1");
+                Scan1DCmd("toscan100ms");
+            }else {
+                homylboxscan_btn_scan.setText("扫描/F1");
+                Scan1DCmd("stopscan");
+            }
+        }else {
+            Scan1DCmd("scan");
+        }
+
     }
 
 
     private void TallyBox(List<Box> boxList) {
         if (boxList == null)return;
-        String until = "个";
         int emptybox = 0;
         int fullbox = 0;
         int getbox = 0;
@@ -642,7 +681,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         int cardbox = 0;
         int voucher =0;
         int voucherbag = 0;
-        int total;
         for (Box box :boxList){
             if (box.getTradeAction().equals("收")){
                 getbox +=Integer.parseInt(box.getBoxCount()) ;}
@@ -654,7 +692,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             }else {
                 fullbox+=Integer.parseInt(box.getBoxCount());
             }
-
             switch (box.getBoxType()){
                 case "款箱":moneybox+=Integer.parseInt(box.getBoxCount());
                     break;
@@ -666,16 +703,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     break;
             }
         }
-//        total = moneybox+cardbox+voucher+voucherbag;
         homylboxscan_rbtn_get.setText("收箱:"+getbox);
         homylboxscan_rbtn_give.setText("送箱:"+givebox);
         homylboxscan_rbtn_full.setText("实箱:"+fullbox);
         homylboxscan_rbtn_empty.setText("空箱:"+emptybox);
-        homylboxscan_rbtn_moneyboxs.setText("款箱:"+moneybox);
-        homylboxscan_rbtn_cardbox.setText("卡箱:"+cardbox);
-        homylboxscan_rbtn_Voucher.setText("凭证箱:"+voucher);
-        homylboxscan_rbtn_Voucherbag.setText("凭证袋:"+voucherbag);
-//        homylboxscan_tv_total.setText("总数:"+total+until);
+        homylboxscan_tv_moneybox.setText("款箱:"+moneybox);
+        homylboxscan_tv_cardbox.setText("卡箱:"+cardbox);
+        homylboxscan_tv_Voucher.setText("凭证箱:"+voucher);
+        homylboxscan_tv_Voucherbag.setText("凭证袋:"+voucherbag);
     }
 
     @Override

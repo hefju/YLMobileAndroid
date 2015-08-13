@@ -29,7 +29,7 @@ public class WebServerYLSite {
     public List<Site> GetYLTaskSite (User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"GetTaskStie";
         GetYLTaskSiteAsyTask getYLTaskSiteAsyTask = new GetYLTaskSiteAsyTask();
-        getYLTaskSiteAsyTask.execute(url,user.getTaskDate(),user.getDeviceID(),user.getEmpID(),user.getISWIFI());
+        getYLTaskSiteAsyTask.execute(url,user.getTaskDate(),YLSystem.getHandsetIMEI(),user.getEmpID(),user.getISWIFI());
         return getYLTaskSiteAsyTask.get();
     }
 

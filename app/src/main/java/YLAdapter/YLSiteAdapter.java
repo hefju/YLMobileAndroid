@@ -1,5 +1,6 @@
 package YLAdapter;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,9 +72,9 @@ public class YLSiteAdapter extends BaseAdapter {
         sitestate.setText(site.getStatus());
 
         if (sitestate.getText().equals("已完成")){
-            sitestate.setTextColor(-14774017);
+            convertView.setBackgroundColor(-13210);
         }else {
-            sitestate.setTextColor(-23296);
+            convertView.setBackgroundColor(Color.TRANSPARENT);
         }
         return convertView;
     }

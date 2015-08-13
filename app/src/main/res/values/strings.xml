@@ -32,8 +32,12 @@
     <string name="title_activity_ylbox_edit">款箱明细</string>
     <string name="title_activity_ylbox_scan">数量</string>
     <!--出入库管理-->
+    <string name="homscanbox_tasktype">交接</string>
+    <string name="homscanbox_cb_date">长</string>
+
+    <!--出入库管理-->
     <string name="box_tv_title">标题</string>
-    <string name="box_btn_scan1d">扫描(F1)</string>
+    <string name="box_btn_scan1d">扫描/F1</string>
     <string name="box_btn_nolable">无标签</string>
     <string name="box_btn_arrive">到达</string>
     <string name="boxitem_monenybox">款箱:0</string>
@@ -55,6 +59,9 @@
     <string name="box_tv_get">收箱:0</string>
     <string name="box_tv_give">送箱:0</string>
     <string name="box_tv_total">总数:</string>
+    <string name="box_btn_boxtype">款箱类</string>
+    <string name="box_cb_scan">多</string>
+    <string name="box_cb_complie">补</string>
     <!--出入库管理-->
     <string name="title_activity_ylbox_operate">YLBoxOperate</string>
     <string name="title_activity_ylatmlist">ATM列表</string>
@@ -97,9 +104,10 @@
     <string name="vault_out_detail_btn_scanuhf">UHF/F2</string>
     <!--入库管理-->
     <string name="title_activity_vault_in_operate">入库管理</string>
-    <string name="vault_in_operate_btn_readcard">读卡(F1/F2)</string>
+    <string name="vault_in_operate_btn_readcard">读卡/F2</string>
+    <string name="vault_in_operate_btn_line">线路/F1</string>
     <string name="vault_in_operate_tv_empNo">编号:</string>
-    <string name="vault_in_operate_btn_EmpNO">查找</string>
+    <string name="vault_in_operate_btn_EmpNO">编号查找</string>
     <string name="vault_in_operate_btn_Alltask">全部</string>
     <!--入库明细-->
     <string name="title_activity_vault_in_detail">入库明细</string>
@@ -123,18 +131,21 @@
     <!--业务员检测-->
     <string name="title_activity_local_check">汇总检测</string>
     <!--库内中转-->
-    <string name="title_activity_valut_turnover">库内中转</string>
-    <string name="title_activity_valut_btn_scan">扫描/F1</string>
-    <string name="title_activity_valut_btn_uhf">UHF/F2</string>
-    <string name="title_activity_valut_btn_upload">上传</string>
-    <string name="title_activity_valut_btn_vaultin">入库</string>
-    <string name="title_activity_valut_btn_vaultout">出库</string>
+    <string name="valut_turnover_title">库内中转</string>
+    <string name="valut_turnover_btn_scan">扫描/F1</string>
+    <string name="valut_turnover_btn_uhf">UHF/F2</string>
+    <string name="valut_turnover_btn_upload">上传</string>
+    <string name="valut_turnover_btn_vaultin">入库</string>
+    <string name="valut_turnover_btn_vaultout">出库</string>
+    <string name="valut_turnover_btn_count">1</string>
+    <string name="valut_turnover_rbtn_all">明细</string>
+    <string name="valut_turnover_rbtn_count">批次</string>
     <!--库内中转-->
-    <string name="title_activity_hom_ylbox_scan">款箱扫描</string>
-    <string name="title_activity_hom_ylbox_tasktype">交接类型</string>
-    <string name="title_activity_hom_ylbox_date">日期</string>
+    <string name="hom_ylbox_btn_scan">款箱扫描</string>
+    <string name="hom_ylbox_btn_tasktype">交接类型</string>
+    <string name="hom_ylbox_btn_date">日期</string>
     <!--超高频读写操作-->
-    <string name="title_activity_yluhfwriter">超高频读写操作</string>
+    <string name="yluhfwriter_activityname">超高频读写操作</string>
     <string name="yluhfwriter_title">红外扫描信息</string>
     <string name="yluhfwriter_boxname">箱名：</string>
     <string name="yluhfwriter_boxid">条码：</string>

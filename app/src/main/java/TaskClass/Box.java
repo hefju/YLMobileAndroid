@@ -21,7 +21,25 @@ public class Box {
     public String Valutcheck;//金库检查--多/符合/缺
     public String BaseValutOut;//出库基地
     public String BaseValutIn;//入库基地
+    public String Remark;// 补打标签标记
+    public int TaskTimeID;// 任务顺序
 
+
+    public int getTaskTimeID() {
+        return TaskTimeID;
+    }
+
+    public void setTaskTimeID(int taskTimeID) {
+        TaskTimeID = taskTimeID;
+    }
+
+    public String getRemark() {
+        return Remark;
+    }
+
+    public void setRemark(String remark) {
+        this.Remark = remark;
+    }
 
     public String getBaseValutIn() {
         return BaseValutIn;
@@ -161,24 +179,8 @@ public class Box {
 
     @Override
     public String toString() {
-        return "Box{" +
-                "Id=" + Id +
-                ", ServerReturn='" + ServerReturn + '\'' +
-                ", SiteID='" + SiteID + '\'' +
-                ", BoxID='" + BoxID + '\'' +
-                ", BoxName='" + BoxName + '\'' +
-                ", TradeAction='" + TradeAction + '\'' +
-                ", BoxStatus='" + BoxStatus + '\'' +
-                ", BoxType='" + BoxType + '\'' +
-                ", NextOutTime='" + NextOutTime + '\'' +
-                ", ActionTime='" + ActionTime + '\'' +
-                ", TimeID='" + TimeID + '\'' +
-                ", BoxCount='" + BoxCount + '\'' +
-                ", BoxTaskType='" + BoxTaskType + '\'' +
-                ", BoxOrder='" + BoxOrder + '\'' +
-                ", Valutcheck='" + Valutcheck + '\'' +
-                ", BaseValutOut='" + BaseValutOut + '\'' +
-                ", BaseValutIn='" + BaseValutIn + '\'' +
-                '}';
+        return "Box:{" +
+                " BoxName='" + BoxName + '\'' +
+                ", BoxOrder='" + BoxOrder+"'}" ;
     }
 }

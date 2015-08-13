@@ -116,7 +116,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
         InitReciveScan1D();
 
-        InitReciveUHF();
+//        InitReciveUHF();
 
         InitHFreader();
 
@@ -190,15 +190,15 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     }
 
     private void ScanUHF(String action){
-        count = 0;
-        String activity = "ylescort.ylmobileandroid.KimTest";
-        Intent ac = new Intent();
-        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
-        ac.putExtra("activity", activity);
-        sendBroadcast(ac);
-        Intent sendToservice = new Intent(KimTest.this, ScanUHFService.class); // 用于发送指令
-        sendToservice.putExtra("cmd", action);
-        this.startService(sendToservice); // 发送指令
+//        count = 0;
+//        String activity = "ylescort.ylmobileandroid.KimTest";
+//        Intent ac = new Intent();
+//        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
+//        ac.putExtra("activity", activity);
+//        sendBroadcast(ac);
+//        Intent sendToservice = new Intent(KimTest.this, ScanUHFService.class); // 用于发送指令
+//        sendToservice.putExtra("cmd", action);
+//        this.startService(sendToservice); // 发送指令
     }
 
 
@@ -259,7 +259,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.kim_uhftest:
-                ScanUHF("scan");
+//                ScanUHF("scan");
 //                UHFWriter();
                 break;
             case R.id.kim_uhfwrite:UHFWriter();
@@ -557,14 +557,15 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             progressDialog = new ProgressDialog(KimTest.this);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("正在更新中");
-//            progressDialog.setMax(100);
-//            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setMax(4);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.show();
             super.onPreExecute();
         }
 
         @Override
         protected String doInBackground(String... params) {
+            publishProgress(0);
 
             try {
                 String url = params[2];
@@ -583,16 +584,15 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
                     baseEmpDBSer.InsertBaseEmp(emps);
-
-                    Log.e(YLSystem.getKimTag(),emps.size()+"人员数据");
+                    Log.e(YLSystem.getKimTag(),emps.size()+"员工数据");
                 }
-
+                publishProgress(1);
                 post = new HttpPost(params[3]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
                 p.put("datetime", "ALL");
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "/json");
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 client = new DefaultHttpClient();
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
@@ -602,7 +602,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     baseClientDBSer.InsertBaseClient(baseClients);
                     Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
                 }
-
+                publishProgress(2);
                 post = new HttpPost(params[4]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -618,7 +618,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     baseSiteDBSer.InsertBaseSite(siteList);
                     Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
                 }
-
+                publishProgress(3);
                 post = new HttpPost(params[5]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -632,9 +632,9 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
                     baseBoxDBSer.InsertBox2(baseBoxes);
-                    Log.e(YLSystem.getKimTag(),baseBoxes.size()+"插入款箱数据");
+                    Log.e(YLSystem.getKimTag(),baseBoxes.size()+"款箱数据");
                 }
-
+                publishProgress(4);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -659,8 +659,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         if (ScanTest !=null){
             unregisterReceiver(ScanTest);
         }
-        ScanUHF("stopflag");
-        stopService(new Intent(this, vault_in_detail.class));
+//        ScanUHF("stopflag");
+//        stopService(new Intent(this, vault_in_detail.class));
         super.onDestroy();
     }
 

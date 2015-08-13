@@ -70,7 +70,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             InitView();
             InitData();
             InitReciveScan1D();
-            InitReciveScanUHF();
+//            InitReciveScanUHF();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -306,14 +306,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void ScanUHF(String action) {
-        String activity = "ylescort.ylmobileandroid.vault_out_detail";
-        Intent ac = new Intent();
-        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
-        ac.putExtra("activity", activity);
-        sendBroadcast(ac);
-        Intent sendToservice = new Intent(vault_out_detail.this, ScanUHFService.class); // 用于发送指令
-        sendToservice.putExtra("cmd", action);
-        this.startService(sendToservice); // 发送指令
+//        String activity = "ylescort.ylmobileandroid.vault_out_detail";
+//        Intent ac = new Intent();
+//        ac.setAction("ylescort.ylmobileandroid.ScanUHFService");
+//        ac.putExtra("activity", activity);
+//        sendBroadcast(ac);
+//        Intent sendToservice = new Intent(vault_out_detail.this, ScanUHFService.class); // 用于发送指令
+//        sendToservice.putExtra("cmd", action);
+//        this.startService(sendToservice); // 发送指令
     }
 
     @Override
@@ -512,12 +512,12 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     protected void onDestroy() {
         if (YLBoxscan1DRecive != null) {
             unregisterReceiver(YLBoxscan1DRecive);
-            unregisterReceiver(YLBoxscanUHFRecive);
+//            unregisterReceiver(YLBoxscanUHFRecive);
         }
         Scan1DCmd("stopscan");
-        ScanUHF("stopscan");
-        Intent stop = new Intent(vault_out_detail.this,ScanUHFService.class);
-        getApplicationContext().stopService(stop);
+//        ScanUHF("stopscan");
+//        Intent stop = new Intent(vault_out_detail.this,ScanUHFService.class);
+//        getApplicationContext().stopService(stop);
         super.onDestroy();
     }
 }

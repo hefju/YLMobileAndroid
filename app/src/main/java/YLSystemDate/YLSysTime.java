@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -53,6 +54,12 @@ public class YLSysTime {
 
     public static String GetSercurTime() throws Exception {
         return TimeToStr(Servertime);
+    }
+
+    public static Calendar AddDateString(Calendar calendar,int Daycount){
+        String[] datestring = new String[3];
+        calendar.add(calendar.DATE,Daycount);
+        return calendar;
     }
 
 }

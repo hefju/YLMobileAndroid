@@ -27,6 +27,7 @@ import TaskClass.YLATM;
 import TaskClass.YLTask;
 import YLAdapter.YLValuttaskitemAdapter;
 import YLDataService.BaseEmpDBSer;
+import YLDataService.WebServerValutInorOut;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
@@ -40,6 +41,7 @@ public class vault_in_operate extends ActionBarActivity {
     private EditText vault_in_operate_et_empno;
     private Button vault_in_operate_btn_search;
     private Button vault_in_operate_btn_alltask;
+    private Button vault_in_operate_btn_line;
 
     private ListView vault_in_operate_lv;
     private NFCcmdManager manager ;
@@ -78,6 +80,7 @@ public class vault_in_operate extends ActionBarActivity {
         vault_in_operate_btn_readcard = (Button)findViewById(R.id.vault_in_operate_btn_readcard);
         vault_in_operate_btn_search = (Button)findViewById(R.id.vault_in_operate_btn_search);
         vault_in_operate_btn_alltask = (Button)findViewById(R.id.vault_in_operate_btn_alltask);
+        vault_in_operate_btn_line = (Button)findViewById(R.id.vault_in_operate_btn_line);
 
         vault_in_operate_lv = (ListView)findViewById(R.id.vault_in_operate_lv);
 
@@ -119,6 +122,21 @@ public class vault_in_operate extends ActionBarActivity {
             }
         });
 
+        vault_in_operate_btn_line.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                try {
+                    GetTaskLine();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
+
+            }
+        });
+
         vault_in_operate_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -130,6 +148,21 @@ public class vault_in_operate extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void GetTaskLine() {
+        WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
+        try {
+            String taskdate = YLSysTime.DateToStr(YLEditData.getDatePick());
+            String Line ="0"+vault_in_operate_et_empno.getText().toString();
+            List<YLTask> ylTasks = webServerValutInorOut.GetYLTaskbyLine
+                    (getApplicationContext(),Line ,
+                            taskdate, YLSystem.getUser().getEmpID(),YLSystem.getUser().getDeviceID());
+            player.SuccessOrFailMidia("success",getApplicationContext());
+            DisplayTaskList(ylTasks);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void GetAllTask() throws Exception{
@@ -211,10 +244,24 @@ public class vault_in_operate extends ActionBarActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode== 131 || keyCode == 132){
-            try {GetHanderovermanTask();
-                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);}
-            catch (Exception e) {e.printStackTrace();}
+//        if (keyCode== 131 || keyCode == 132){
+//            try {GetHanderovermanTask();
+//                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);}
+//            catch (Exception e) {e.printStackTrace();}
+//        }
+        switch (keyCode){
+            case 131:
+                GetTaskLine();
+                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
+                break;
+            case 132:
+                try {
+                    GetHanderovermanTask();
+                    imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -245,12 +292,12 @@ public class vault_in_operate extends ActionBarActivity {
     protected void onPostResume() {
         if (ylValuttaskitemAdapter!=null){
             ylValuttaskitemAdapter.notifyDataSetChanged();
-            try {
-                GetAllTask();
-                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                GetAllTask();
+//                imm.hideSoftInputFromWindow(vault_in_operate_et_empno.getWindowToken(), 0);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
         }
 
         super.onPostResume();

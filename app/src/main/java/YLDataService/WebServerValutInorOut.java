@@ -20,7 +20,9 @@ import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.User;
+import TaskClass.YLTask;
 import YLSystemDate.YLSystem;
+import ylescort.ylmobileandroid.Task;
 
 /**
  * Created by Administrator on 2015-06-29.
@@ -113,4 +115,42 @@ public class WebServerValutInorOut {
             return null;
         }
     }
+
+    public List<YLTask> GetYLTaskbyLine(Context context,String Line,String TaskDate,String userid,String deviceID)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreOutGetTask";
+        GetYLTaskbyLineAsyncTask g = new GetYLTaskbyLineAsyncTask();
+        g.execute(url, TaskDate, userid, Line,deviceID);
+        Log.e(YLSystem.getKimTag(),TaskDate+userid+Line+deviceID);
+        return g.get();
+    }
+
+    private class GetYLTaskbyLineAsyncTask extends AsyncTask<String,Integer,List<YLTask>>{
+        @Override
+        protected List<YLTask> doInBackground(String... strings) {
+            String url = strings[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("HFNo","");
+                p.put("EmpNo","");
+                p.put("DataTime",strings[1]);
+                p.put("deviceID",strings[4]);
+                p.put("empid",strings[2]);
+                p.put("Line",strings[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }

@@ -74,7 +74,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             InitView();
             InitDate();
             InitReciveScan1D();
-            InitUHFService();
+//            InitUHFService();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -497,7 +497,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             }
             orderlist = removeDeuplicate(orderlist);
 
-
             for (String order : orderlist){
                 int count = 0;
                 for (Box box : Allboxlist) {
@@ -659,12 +658,12 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
     protected void onDestroy() {
         if (vaultindetailscan1DRecive != null){
             unregisterReceiver(vaultindetailscan1DRecive);
-            unregisterReceiver(vaultindetailscanUHFRecive);
+//            unregisterReceiver(vaultindetailscanUHFRecive);
         }
         Scan1DCmd("stopscan");
-        ScanUHF("stopscan");
-        Intent stop = new Intent(vault_in_detail.this,ScanUHFService.class);
-        getApplicationContext().stopService(stop);
+//        ScanUHF("stopscan");
+//        Intent stop = new Intent(vault_in_detail.this,ScanUHFService.class);
+//        getApplicationContext().stopService(stop);
         super.onDestroy();
     }
 }

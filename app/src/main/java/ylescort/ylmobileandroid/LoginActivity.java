@@ -95,7 +95,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
         String IMEI = telephonyManager.getDeviceId();
         String SIM = telephonyManager.getSimSerialNumber();
-        YLSystem.setHandsetIMEI(IMEI);
+        YLSystem.setHandsetIMEI(IMEI+"-"+SIM);
 
         log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
 

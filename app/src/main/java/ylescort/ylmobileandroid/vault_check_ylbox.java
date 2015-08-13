@@ -211,7 +211,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
     private void GetBaseDepartment() {
         new AlertDialog.Builder(this).setTitle("请选择基地").setIcon(android.R.drawable.ic_dialog_info)
-                .setSingleChoiceItems(R.array.basedepartment, 0, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(R.array.vaultcheck, 0, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){

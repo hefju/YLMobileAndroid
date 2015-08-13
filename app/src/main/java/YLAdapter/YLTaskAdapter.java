@@ -1,5 +1,6 @@
 package YLAdapter;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,15 @@ public class YLTaskAdapter extends BaseAdapter {
         taskName.setText(ylTask.getLine());
         taskType.setText(ylTask.getTaskType());
         taskState.setText(ylTask.getTaskState());
+
+        switch (ylTask.getTaskType()){
+            case "早送":convertView.setBackgroundColor(-5383962);
+                break;
+            case "晚收":convertView.setBackgroundColor(-13210);
+                break;
+            default:convertView.setBackgroundColor(Color.TRANSPARENT);
+                break;
+        }
 
         return convertView;
     }

@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.android.hdhe.uhf.reader.SerialPort;
 import com.android.hdhe.uhf.reader.Tools;
 import com.android.hdhe.uhf.reader.UhfReader;
 
@@ -30,6 +31,8 @@ public class ScanUHFService extends Service {
     public String activity =null;
     private MyReceiver myReceive;
     private Intent serviceIntent;
+    private SerialPort UHFSerialPort;
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -38,13 +41,14 @@ public class ScanUHFService extends Service {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         InitUHF();
+        super.onCreate();
     }
 
     private void InitUHF() {
         try {
             reader = UhfReader.getInstance();
+//            UHFSerialPort = new SerialPort(12,115200,0);
 //            reader.powerOn();
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
                     (this);
