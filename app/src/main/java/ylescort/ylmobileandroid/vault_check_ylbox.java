@@ -65,7 +65,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             InitView();
             InitData();
             InitReciveScan1D();
-            InitUHFService();
+//            InitUHFService();
         }catch (Exception e){
             vault_check_btn_basedep.setEnabled(false);
             e.printStackTrace();
@@ -193,7 +193,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                     vault_check_btn_uhf.setBackgroundColor(bulecolor);
                     vault_check_btn_uhf.setText("UHF");
                 }
-                ScanUHF("scan");
+//                ScanUHF("scan");
                 break;
         }
     }
@@ -260,7 +260,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                         vault_check_btn_uhf.setBackgroundColor(bulecolor);
                         vault_check_btn_uhf.setText("UHF");
                     }
-                    ScanUHF("scan");
+//                    ScanUHF("scan");
                 }
                 break;
         }
@@ -446,11 +446,11 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         if (scan1DRecive != null) {
             Scan1DCmd("stopscan");
             unregisterReceiver(scan1DRecive);
-            unregisterReceiver(scanUHFRecive);
-            ScanUHF("stopscan");
+//            unregisterReceiver(scanUHFRecive);
+//            ScanUHF("stopscan");
         }
-        Intent stop = new Intent(vault_check_ylbox.this, ScanUHFService.class);
-        getApplicationContext().stopService(stop);
+//        Intent stop = new Intent(vault_check_ylbox.this, ScanUHFService.class);
+//        getApplicationContext().stopService(stop);
         super.onDestroy();
     }
 }
