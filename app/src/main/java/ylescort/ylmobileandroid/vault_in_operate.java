@@ -146,6 +146,7 @@ public class vault_in_operate extends ActionBarActivity {
                 Intent intent = new Intent();
                 intent.setClass(vault_in_operate.this,vault_in_detail.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
@@ -261,6 +262,10 @@ public class vault_in_operate extends ActionBarActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
         }
         return super.onKeyDown(keyCode, event);

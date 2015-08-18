@@ -1,5 +1,7 @@
 package TaskClass;
 
+import java.util.Objects;
+
 /**
  * Created by Administrator on 2015/1/19.
  */
@@ -183,4 +185,14 @@ public class Box {
                 " BoxName='" + BoxName + '\'' +
                 ", BoxOrder='" + BoxOrder+"'}" ;
     }
+
+//
+//    public boolean equals1(Object obj) {
+//        if (obj instanceof User) {
+//            User u = (User) obj;
+//            return this.username.equals(u.username)
+//                    && this.password.equals(password);
+//        }
+//        return super.equals(obj);
+//    }
 }

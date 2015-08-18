@@ -392,6 +392,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                  */
                 YLSystem.setEdiboxList(boxEditListEdit);
                 finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
             case R.id.boxedi_btn_del:
                 if (boxEditListEdit.size()!=0){
@@ -488,6 +489,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 }
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -536,6 +538,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 }
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
         builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
@@ -544,6 +547,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 YLSystem.setEdiboxList(boxEditListEdit);
                 YLBoxEdit.this.finish();
                 dialog.dismiss();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
         builder.create().show();

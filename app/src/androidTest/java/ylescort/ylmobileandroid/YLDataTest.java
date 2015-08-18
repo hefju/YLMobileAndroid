@@ -193,5 +193,29 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         return list;
     }
 
+    public void testFindClass(){
+        List<Box> boxList = new ArrayList<>();
+        for (int i = 0;i<3;i++){
+            Box box = new Box();
+            box.setBoxID(i + "");
+            box.setBoxName("测试" + i);
+            box.setBoxOrder(i + "");
+            boxList.add(box);
+            if (i==0){
+                Log.e(YLSystem.getKimTag(), box.hashCode()+"listhashcode");
+            }
+        }
+        Log.e(YLSystem.getKimTag(), boxList.toString());
+        Box box = new Box();
+        box.setBoxID("0");
+        box.setBoxName("测试0");
+        box.setBoxOrder("0");
+        Log.e(YLSystem.getKimTag(), box.hashCode()+"hashcode");
+        if (boxList.contains(box)){
+            Log.e(YLSystem.getKimTag(),"1");
+        }else {
+            Log.e(YLSystem.getKimTag(),"0");
+        }
+    }
 
 }

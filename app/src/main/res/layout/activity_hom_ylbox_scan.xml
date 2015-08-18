@@ -160,8 +160,7 @@
             android:layout_height="40sp"
             android:layout_marginTop="5sp"
             android:background="@color/lightblue"
-            android:spinnerMode="dialog">
-        </Spinner>
+            android:spinnerMode="dialog"></Spinner>
 
         <Button
             android:id="@+id/homylboxscan_btn_date"
@@ -170,13 +169,14 @@
             android:layout_marginTop="5sp"
             android:text="@string/hom_ylbox_btn_date"
             android:textSize="15sp" />
+
         <CheckBox
+            android:id="@+id/homylboxscan_cb_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
-            android:textColor="@color/androidblued"
-            android:id="@+id/homylboxscan_cb_date"
-            android:text="@string/homscanbox_cb_date"/>
+            android:text="@string/homscanbox_cb_date"
+            android:textColor="@color/androidblued" />
     </LinearLayout>
 
     <RelativeLayout
@@ -222,6 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5sp"
             android:orientation="horizontal">
+
             <RadioButton
                 android:id="@+id/homylboxscan_rbtn_full"
                 style="@style/TextSize25"

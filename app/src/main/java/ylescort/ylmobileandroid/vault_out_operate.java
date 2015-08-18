@@ -79,6 +79,7 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
                 Intent intent = new Intent();
                 intent.setClass(vault_out_operate.this, vault_out_detail.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -140,6 +141,10 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
                 break;
             case 132:
                 GetTaskbyReadCard();
+                break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
         }
         return super.onKeyDown(keyCode, event);

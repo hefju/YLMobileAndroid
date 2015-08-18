@@ -57,7 +57,7 @@ public class YLSysTime {
     }
 
     public static Calendar AddDateString(Calendar calendar,int Daycount){
-        String[] datestring = new String[3];
+//        String[] datestring = new String[3];
         calendar.add(calendar.DATE,Daycount);
         return calendar;
     }

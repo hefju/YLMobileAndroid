@@ -338,6 +338,10 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             case 134:
                 YLBoxScan1D();
                 break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }

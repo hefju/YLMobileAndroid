@@ -64,16 +64,23 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
                 intent.setClass(VaultInOrOut.this, vault_in_operate.class);
                 GetDatePickerDate();
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case 132:
                 intent.setClass(VaultInOrOut.this, vault_out_operate.class);
                 GetDatePickerDate();
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case 134:
                 intent.setClass(VaultInOrOut.this, vault_check_ylbox.class);
                 GetDatePickerDate();
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
         }
         return super.onKeyDown(keyCode, event);
@@ -109,18 +116,22 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
             case R.id.vaultinorout_btn_in:
                 intent.setClass(VaultInOrOut.this,vault_in_operate.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case R.id.vaultinorout_btn_out:
                 intent.setClass(VaultInOrOut.this, vault_out_operate.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case R.id.vaultinorout_btn_CheckVault:
                 intent.setClass(VaultInOrOut.this,vault_check_ylbox.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
             case R.id.vaultinorout_btn_turnover:
-                intent.setClass(VaultInOrOut.this,Valut_turnover.class);
+                intent.setClass(VaultInOrOut.this, Valut_turnover.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;
         }
     }

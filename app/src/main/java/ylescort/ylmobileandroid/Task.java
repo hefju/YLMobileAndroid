@@ -5,6 +5,7 @@ import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -179,7 +180,7 @@ public class Task extends ActionBarActivity {
 //                 bundle.putString("taskid",ylTask.getTaskID().toString());
 //                 intent.putExtras(bundle);
                  startActivity(intent);
-
+                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
              }
          });
 
@@ -529,7 +530,14 @@ public class Task extends ActionBarActivity {
         listView.setAdapter(listItemAdapter);
     }
 
-
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == 4){
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

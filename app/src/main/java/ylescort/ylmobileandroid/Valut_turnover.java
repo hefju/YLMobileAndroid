@@ -569,6 +569,10 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             case 132:
 //                ScanUHF("scan");
                 break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }

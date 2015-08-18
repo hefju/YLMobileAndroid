@@ -554,6 +554,10 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                 }
                 ScanUHF("scan");
                 break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -601,6 +605,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                             Scan1DCmd("stopscan");
                                             vault_in_detail.this.finish();
                                             dialog.dismiss();
+                                            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                                         }
                                     }).show();
                             Log.e(YLSystem.getKimTag(),"1");

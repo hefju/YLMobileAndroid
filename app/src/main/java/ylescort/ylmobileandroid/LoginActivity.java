@@ -305,6 +305,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 intent.setClass(LoginActivity.this, Task.class);
             }
             startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
         }else {
@@ -334,6 +335,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }else {
             intent.setClass(LoginActivity.this, Task.class);}
             startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             buttonflag= false;
             Log_BN_HF.setEnabled(true);
         }else {

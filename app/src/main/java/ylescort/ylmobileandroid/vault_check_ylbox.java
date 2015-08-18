@@ -195,6 +195,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 }
 //                ScanUHF("scan");
                 break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                break;
         }
     }
 
@@ -263,6 +267,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 //                    ScanUHF("scan");
                 }
                 break;
+            case 4:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                break;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -296,6 +304,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                     }
 
                     vault_check_ylbox.this.finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
 
                 } catch (Exception e) {
                     e.printStackTrace();

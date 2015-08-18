@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -145,7 +146,9 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                     e.printStackTrace();
                 }
                 break;
-            case R.id.handoverman_btn_cancel:finish();
+            case R.id.handoverman_btn_cancel:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
         }
     }
@@ -160,8 +163,18 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         if (SerRetrun.equals("1")){
             Toast.makeText(getApplicationContext(),"已申请成功！",Toast.LENGTH_SHORT).show();
             finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }else {
             Toast.makeText(getApplicationContext(),"未能申请成功，请连接有效网络再申请",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == 4){
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

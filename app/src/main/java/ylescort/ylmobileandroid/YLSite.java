@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -172,6 +173,7 @@ public class YLSite extends ActionBarActivity {
         Intent intent = new Intent();
         intent.setClass(this, LocalCheck.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     private void OpenBoxAct(ListView parent, int position) {
@@ -190,6 +192,7 @@ public class YLSite extends ActionBarActivity {
         bundle.putString("sitename",site.getSiteName());
         intent.putExtras(bundle);
         startActivity(intent);//我调用时Scan1DService会报错.
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
@@ -208,6 +211,7 @@ public class YLSite extends ActionBarActivity {
         bundle.putString("taskName",ylTask.getLine());
         intent.putExtras(bundle);
         startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     private String UpLoadService()throws Exception{
@@ -362,6 +366,14 @@ public class YLSite extends ActionBarActivity {
                 .setPositiveButton("确定", null).show();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == 4){
+            finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -401,5 +413,4 @@ public class YLSite extends ActionBarActivity {
         }
         super.onResume();
     }
-
 }

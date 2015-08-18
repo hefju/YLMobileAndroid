@@ -187,7 +187,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_tv_Voucher.setText("凭证箱:"+0);
         homylboxscan_tv_Voucherbag.setText("凭证袋:"+0);
 
-        calendar =YLSysTime.AddDateString(Calendar.getInstance(),1) ;
+        calendar =YLSysTime.AddDateString(Calendar.getInstance(),0) ;
 
         int year = calendar.get(Calendar.YEAR);
         int Month = calendar.get(Calendar.MONTH);
@@ -317,6 +317,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             bundle.putString("box_btn_ent_text",box_btn_ent_text);
             intent.putExtras(bundle);
             startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             return true;
         }
 
@@ -746,6 +747,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private void LeaveAction() {
         if (homylboxscan_btn_ent.getText().equals("到达")){
             finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
@@ -756,6 +758,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
                 finish();
                 dialog.dismiss();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
