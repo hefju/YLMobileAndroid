@@ -128,27 +128,27 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 box_sp_text = parent.getItemAtPosition(position).toString();
                 switch (box_sp_text){
-                    case "早送":
-                        homylboxscan_rbtn_give.setChecked(true);
-                        homylboxscan_rbtn_give.setEnabled(true);
-                        homylboxscan_rbtn_get.setEnabled(false);
-                        homylboxscan_btn_date.setEnabled(false);
-                        homylboxscan_cb_date.setEnabled(false);
-                        break;
-                    case "晚收":
-                        homylboxscan_rbtn_get.setChecked(true);
-                        homylboxscan_rbtn_get.setEnabled(true);
-                        homylboxscan_rbtn_give.setEnabled(false);
-                        homylboxscan_btn_date.setEnabled(false);
-                        homylboxscan_cb_date.setEnabled(false);
-                        break;
+//                    case "早送":
+//                        homylboxscan_rbtn_give.setChecked(true);
+//                        homylboxscan_rbtn_give.setEnabled(true);
+//                        homylboxscan_rbtn_get.setEnabled(false);
+//                        homylboxscan_btn_date.setEnabled(false);
+//                        homylboxscan_cb_date.setEnabled(false);
+//                        break;
+//                    case "晚收":
+//                        homylboxscan_rbtn_get.setChecked(true);
+//                        homylboxscan_rbtn_get.setEnabled(true);
+//                        homylboxscan_rbtn_give.setEnabled(false);
+//                        homylboxscan_btn_date.setEnabled(false);
+//                        homylboxscan_cb_date.setEnabled(false);
+//                        break;
                     case "寄库箱":
                         homylboxscan_btn_date.setEnabled(true);
                         homylboxscan_cb_date.setEnabled(true);
                         break;
                     default:
-                        homylboxscan_rbtn_give.setEnabled(true);
-                        homylboxscan_rbtn_get.setEnabled(true);
+//                        homylboxscan_rbtn_give.setEnabled(true);
+//                        homylboxscan_rbtn_get.setEnabled(true);
                         homylboxscan_btn_date.setEnabled(false);
                         homylboxscan_cb_date.setEnabled(false);
                         break;
@@ -184,8 +184,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_rbtn_empty.setText("空箱:" + 0);
         homylboxscan_tv_moneybox.setText("款箱:"+0);
         homylboxscan_tv_cardbox.setText("卡箱:"+0);
-        homylboxscan_tv_Voucher.setText("凭证箱:"+0);
-        homylboxscan_tv_Voucherbag.setText("凭证袋:"+0);
+        homylboxscan_tv_Voucher.setText("凭证箱:\r\n     "+0);
+        homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     "+0);
 
         calendar =YLSysTime.AddDateString(Calendar.getInstance(),0) ;
 
@@ -722,8 +722,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_rbtn_empty.setText("空箱:"+emptybox);
         homylboxscan_tv_moneybox.setText("款箱:"+moneybox);
         homylboxscan_tv_cardbox.setText("卡箱:"+cardbox);
-        homylboxscan_tv_Voucher.setText("凭证箱:"+voucher);
-        homylboxscan_tv_Voucherbag.setText("凭证袋:"+voucherbag);
+        homylboxscan_tv_Voucher.setText("凭证箱:\r\n     "+voucher);
+        homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     "+voucherbag);
     }
 
     @Override
