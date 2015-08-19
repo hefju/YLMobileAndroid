@@ -79,4 +79,56 @@ public class AnalysisBoxList {
         return stringList;
     }
 
+    public List<String>AnsysisBoxListForKeeper(List<Box> boxList){
+        int fullmoneybox = 0;
+        int emptymoneybox = 0;
+        int fullcardbox = 0;
+        int emptycardbox = 0;
+        int fullvoucherbox = 0;
+        int emptyvoucherbox = 0;
+        int fullvoucherbag = 0;
+        int emptyvoucherbag = 0;
+
+        for (Box box : boxList) {
+            if (box.getBoxStatus() == null)continue;
+            switch (box.getBoxStatus()){
+                case "实":
+                   switch (box.getBoxType()){
+                       case "款箱":fullmoneybox++;
+                           break;
+                       case "卡箱":fullcardbox++;
+                           break;
+                       case "凭证箱":fullvoucherbox++;
+                           break;
+                       case "凭证袋":fullvoucherbag++;
+                           break;
+                   }
+                    break;
+                case "空":
+                    switch (box.getBoxType()){
+                        case "款箱":emptymoneybox++;
+                            break;
+                        case "卡箱":emptycardbox++;
+                            break;
+                        case "凭证箱":emptyvoucherbox++;
+                            break;
+                        case "凭证袋":emptyvoucherbag++;
+                            break;
+                    }
+                    break;
+            }
+        }
+
+        List<String> stringList = new ArrayList<>();
+        stringList.add(fullmoneybox+"");
+        stringList.add(emptymoneybox+"");
+        stringList.add(fullcardbox+"");
+        stringList.add(emptycardbox+"");
+        stringList.add(fullvoucherbox+"");
+        stringList.add(emptyvoucherbox+"");
+        stringList.add(fullvoucherbag+"");
+        stringList.add(emptyvoucherbag+"");
+        return stringList;
+    }
+
 }

@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/vault_out_detail_btn_readcard"
             android:layout_alignParentEnd="true"
+            android:visibility="invisible"
             android:text="@string/vault_out_detail_btn_readcard"/>
         </RelativeLayout>
     <LinearLayout
@@ -42,8 +43,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5sp"
             android:id="@+id/vault_out_detail_tv_type"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/androidgreend"
             android:text="@string/vault_out_detail_tv_boxstype"/>
         </LinearLayout>
