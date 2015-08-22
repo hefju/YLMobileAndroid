@@ -592,7 +592,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                         Log.e(YLSystem.getKimTag(), Allboxlist.size()+"上传数量");
                         WebService webService = new WebService();
                         String returstr = webService.PostVaultInBoxList(YLSystem.getUser(), getApplicationContext());
-                        Log.e(YLSystem.getKimTag(), returstr);
+                        Log.e(YLSystem.getKimTag(), returstr+"上传回传");
                         if (returstr.contains("0")) {
                             Log.e(YLSystem.getKimTag(), "0");
                         } else if (returstr.contains("1")) {
@@ -603,7 +603,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                         public void onClick(DialogInterface dialog, int which) {
                                             ylTask.setTaskState("已上传");
                                             Scan1DCmd("stopscan");
-                                            vault_in_detail.this.finish();
+//                                            vault_in_detail.this.finish();
                                             dialog.dismiss();
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                                         }

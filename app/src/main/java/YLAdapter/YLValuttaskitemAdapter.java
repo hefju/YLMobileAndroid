@@ -68,6 +68,7 @@ public class YLValuttaskitemAdapter extends BaseAdapter {
         taskName.setText(ylTask.getLine());
         handoverman.setText(ylTask.getTaskManager());
         taskState.setText(ylTask.getTaskState());
+        if (ylTask.getTaskType() !=null){
         switch (ylTask.getTaskType()){
             case "早送":convertView.setBackgroundColor(-5383962);
                 break;
@@ -75,7 +76,7 @@ public class YLValuttaskitemAdapter extends BaseAdapter {
                 break;
             default:convertView.setBackgroundColor(Color.TRANSPARENT);
                 break;
-        }
+        }}
         return convertView;
     }
 
