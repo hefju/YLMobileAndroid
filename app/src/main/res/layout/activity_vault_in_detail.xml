@@ -76,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
+                android:textColor="@color/androidbluel"
                 android:text="@string/vault_out_detail_btn_Lack"
                 android:textSize="20sp" />
 
@@ -84,6 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
+                android:textColor="@color/orange"
                 android:text="@string/vault_out_detail_btn_more"
                 android:textSize="20sp" />
 
@@ -92,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
+                android:textColor="@color/androidgreenl"
                 android:text="@string/vault_out_detail_btn_order"
                 android:textSize="20sp" />
         </RadioGroup>

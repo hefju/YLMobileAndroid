@@ -47,6 +47,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
     private Button vault_turnover_btn_count;
     private RadioButton vault_turnover_rbtn_all;
     private RadioButton vault_turnover_rbtn_count;
+    private RadioButton vault_turnover_rbtn_lack;
+    private RadioButton vault_turnover_rbtn_more;
 
     private YLTask vaultinylTask;
     private YLTask vaultoutylTask;
@@ -122,6 +124,10 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 break;
             case R.id.vault_turnover_rbtn_count:FilterBoxdisplay();
                 break;
+            case R.id.vault_turnover_rbtn_more:FilterBoxdisplay();
+                break;
+            case R.id.vault_turnover_rbtn_lack:FilterBoxdisplay();
+                break;
         }
     }
 
@@ -184,6 +190,27 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                         box.setBoxName("第" + order + "次");
                         box.setValutcheck("数量：" + count + "");
                         Displayboxlist.add(box);
+                    }
+                }
+            }
+        }
+
+        if (vault_turnover_rbtn_lack.isChecked()){
+            if (AllboxList.size() > 0) {
+                for (Box box : AllboxList) {
+                    if (box.getValutcheck().equals(OutBaseName)){
+                        Displayboxlist.add(box);
+                    }
+                }
+            }
+        }
+        if (vault_turnover_rbtn_more.isChecked()){
+            if (AllboxList.size()>0){
+                for (Box box : AllboxList) {
+                    if (box.getValutcheck() != null){
+                        if (box.getValutcheck().equals("多")){
+                            Displayboxlist.add(box);
+                        }
                     }
                 }
             }
@@ -392,10 +419,20 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 vault_turnover_listview.setSelection(AllboxList.size() - 1);
             }
         }else {
+            boolean addormore = true;
             for (int i = AllboxList.size() -1;i >=0;i--){
                 Box box = AllboxList.get(i);
-                if (box.getValutcheck().equals("对"))continue;
-                if (box.getBoxID().equals(recivedata)){
+                if (box.getValutcheck().equals("对")){
+                    addormore = false;
+                    ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                    continue;
+                }
+                if (box.getBoxID().equals(recivedata)) {
+                    if (box.getValutcheck().equals("多")) {
+                        addormore = false;
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        continue;
+                    }
                     box.setValutcheck("对");
                     box.setTradeAction("入");
                     box.setBaseValutOut(box.getBaseValutOut());
@@ -403,11 +440,25 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     box.setBoxOrder(boxorder + "");
                     box.setActionTime(YLSysTime.GetStrCurrentTime());
                     AllboxList.set(i, box);
-                    Log.e(YLSystem.getKimTag(), box.toString()+"入库");
+                    addormore = false;
+                    Log.e(YLSystem.getKimTag(), box.toString() + "入库");
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                     vault_turnover_listview.setSelection(i);
                     AnalyBoxes(AllboxList, "in");
                 }
+            }
+            if (addormore){
+                Box morebox = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+                morebox.setValutcheck("多");
+                morebox.setTradeAction("入");
+                morebox.setBaseValutOut("");
+                morebox.setTimeID("2");
+                morebox.setBoxOrder(boxorder + "");
+                morebox.setActionTime(YLSysTime.GetStrCurrentTime());
+                AllboxList.add(morebox);
+                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                vault_turnover_listview.setSelection(AllboxList.size()-1);
+                AnalyBoxes(AllboxList, "in");
             }
         }
         FilterBoxdisplay();
@@ -498,6 +549,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_btn_count = (Button)findViewById(R.id.vault_turnover_btn_count);
         vault_turnover_rbtn_all = (RadioButton)findViewById(R.id.vault_turnover_rbtn_all);
         vault_turnover_rbtn_count = (RadioButton)findViewById(R.id.vault_turnover_rbtn_count);
+        vault_turnover_rbtn_lack = (RadioButton)findViewById(R.id.vault_turnover_rbtn_lack);
+        vault_turnover_rbtn_more = (RadioButton)findViewById(R.id.vault_turnover_rbtn_more);
 
         vault_turnover_tv_title = (TextView)findViewById(R.id.vault_turnover_tv_title);
 
@@ -508,6 +561,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_btn_count.setOnClickListener(this);
         vault_turnover_rbtn_all.setOnClickListener(this);
         vault_turnover_rbtn_count.setOnClickListener(this);
+        vault_turnover_rbtn_lack.setOnClickListener(this);
+        vault_turnover_rbtn_more.setOnClickListener(this);
 
         Valut_turnover.this.setTitle("未设置出入库操作");
         vault_turnover_tv_title.setText("未设置出入库操作");

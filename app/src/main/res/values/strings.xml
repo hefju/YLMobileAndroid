@@ -141,7 +141,9 @@
     <string name="valut_turnover_btn_vaultin">入库</string>
     <string name="valut_turnover_btn_vaultout">出库</string>
     <string name="valut_turnover_btn_count">1</string>
-    <string name="valut_turnover_rbtn_all">明细</string>
+    <string name="valut_turnover_rbtn_all">全部</string>
+    <string name="valut_turnover_rbtn_more">多箱</string>
+    <string name="valut_turnover_rbtn_lack">缺箱</string>
     <string name="valut_turnover_rbtn_count">批次</string>
     <!--库内中转-->
     <string name="hom_ylbox_btn_scan">款箱扫描</string>

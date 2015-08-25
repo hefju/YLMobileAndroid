@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/vault_turnover_ll_showlist"
         android:layout_above="@+id/vault_turnover_ll_inorout"
+        android:layout_marginBottom="10sp"
         android:gravity="center">
         <RadioGroup
             android:layout_width="wrap_content"
@@ -53,8 +54,22 @@
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30sp"
+                android:id="@+id/vault_turnover_rbtn_lack"
+                android:textSize="20sp"
+                android:textColor="@color/androidbluel"
+                android:text="@string/valut_turnover_rbtn_lack"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vault_turnover_rbtn_more"
+                android:textSize="20sp"
+                android:textColor="@color/orange"
+                android:text="@string/valut_turnover_rbtn_more"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/vault_turnover_rbtn_count"
+                android:textColor="@color/androidgreenl"
                 android:textSize="20sp"
                 android:text="@string/valut_turnover_rbtn_count"/>
         </RadioGroup>
