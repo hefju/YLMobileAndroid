@@ -1,9 +1,11 @@
 package ylescort.ylmobileandroid;
 
 import android.app.Application;
+import android.os.SystemClock;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import TaskClass.YLTask;
@@ -56,6 +58,12 @@ public class TimeTest extends ApplicationTestCase<Application> {
 
 //        Log.e(YLSystem.getKimTag(),DateUpLoad+"DateUpLoad");
 
+    }
+
+    public void testedittime(){
+        Calendar c = Calendar.getInstance();
+        c.set(2010, 1, 1, 12, 00, 00);
+        SystemClock.setCurrentTimeMillis(c.getTimeInMillis());
     }
 
 }

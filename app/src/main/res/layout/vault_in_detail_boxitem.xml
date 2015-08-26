@@ -1,55 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
+        android:id="@+id/vault_in_detail_boxitme_boxname"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/vault_in_detail_boxitme_boxname"
-        android:text="@string/boxitem_Boxid"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_marginStart="20sp"/>
-<RelativeLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="35sp"
-    android:gravity="center_vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginStart="20sp"
-        android:id="@+id/vault_in_detail_boxitme_boxstaut"
-        android:textColor="@color/black"
         android:text="@string/boxitem_Boxid"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
-        android:id="@+id/vault_in_detail_boxitme_boxtype"
-        android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxstaut"
-        android:textColor="@color/black"
-        android:text="@string/boxitem_Boxid"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20sp"
-        android:id="@+id/vault_in_detail_boxitme_boxtask"
-        android:text="@string/boxitem_Boxid"
-        android:textColor="@color/black"
-        android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtype"
-        android:textSize="20sp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20sp"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/vault_in_detail_boxitme_boxcheck"
-        android:textColor="@color/black"
-        android:text="@string/boxitem_Boxid"
-        android:textSize="20sp"/>
+        android:gravity="center_vertical"
+        android:minHeight="35sp">
+
+        <TextView
+            android:id="@+id/vault_in_detail_boxitme_boxstaut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:text="@string/boxitem_Boxid"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/vault_in_detail_boxitme_boxtype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxstaut"
+            android:text="@string/boxitem_Boxid"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/vault_in_detail_boxitme_boxtask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_toEndOf="@+id/vault_in_detail_boxitme_boxtype"
+            android:text="@string/boxitem_Boxid"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/vault_in_detail_boxitme_boxcheck"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20sp"
+            android:text="@string/boxitem_Boxid"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
     </RelativeLayout>
 </LinearLayout>

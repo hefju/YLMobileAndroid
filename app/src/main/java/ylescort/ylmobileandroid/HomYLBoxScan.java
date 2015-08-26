@@ -39,6 +39,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -91,6 +92,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private String PickDate;
     private Calendar calendar;
     private int TaskTimeID;
+    private YLMediaPlayer ylMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
     private void InitData() {
 
+        ylMediaPlayer = new YLMediaPlayer();
         Bundle bundle = this.getIntent().getExtras();
         String SiteName = bundle.getString("sitename");
         String SiteID = bundle.getString("siteid");
@@ -336,6 +339,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 ////                            return;
 ////                        }
 ////                    }
+                if (recivedata.length() != 10)return;
                 BoxIDtoBox(recivedata);
             }
         }//注册广播
@@ -343,17 +347,20 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
     private void BoxIDtoBox(String recivedata) {
         Log.e(YLSystem.getKimTag(), recivedata + "接收数据1D");
+
         for (int i = AllBoxList.size() - 1; i >= 0; i--) {
             if (AllBoxList.get(i).getBoxID().equals(recivedata)
                     & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
-                YLBoxMediaPlay("fail");
+//                YLBoxMediaPlay("fail");
+                ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
                 return;
             }
         }
         try {
-            Box box = YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
+            Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
             if (box.getBoxName().equals("无数据")) {
-                YLBoxMediaPlay("fail");
+//                YLBoxMediaPlay("fail");
+                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
             if (box.getBoxName().contains("粤龙临") || box.getBoxType().equals("无")) {
@@ -361,7 +368,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     box.setBoxType(checkboxsype());
                 } else {
                     Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
-                    YLBoxMediaPlay("fail");
+//                    YLBoxMediaPlay("fail");
+                    ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                     return;
                 }
             }
@@ -379,7 +387,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }
     }
 
-    private String checkboxsype(){
+    public String checkboxsype(){
         return homylboxscan_btn_boxtype.getText().toString();
     }
 
@@ -435,7 +443,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             Log.e(YLSystem.getKimTag(), box.toString() + "插入款箱");
             AllBoxList.add(box);
-            YLBoxMediaPlay("success");
+//            YLBoxMediaPlay("success");
+            ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
             YLSystem.setEdiboxList(AllBoxList);
         } catch (Exception e) {
             e.printStackTrace();

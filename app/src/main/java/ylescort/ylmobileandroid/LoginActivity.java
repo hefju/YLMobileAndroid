@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.hardware.input.InputManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
@@ -32,6 +33,8 @@ import android.widget.Toast;
 import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 
+import java.io.DataOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 import TaskClass.BaseEmp;
