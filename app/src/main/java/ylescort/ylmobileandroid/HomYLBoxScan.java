@@ -39,6 +39,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -79,6 +80,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private CheckBox homylboxscan_cb_scan;
     private CheckBox homylboxscan_cb_complie;
     private CheckBox homylboxscan_cb_date;
+    private CheckBox homylboxscan_cb_ToT;
 
     private List<Box> AllBoxList;
 
@@ -93,6 +95,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private Calendar calendar;
     private int TaskTimeID;
     private YLMediaPlayer ylMediaPlayer;
+    private Box CurrentBox;//当前选择状态下的box
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +118,15 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private void InitData() {
 
         ylMediaPlayer = new YLMediaPlayer();
-        Bundle bundle = this.getIntent().getExtras();
-        String SiteName = bundle.getString("sitename");
-        String SiteID = bundle.getString("siteid");
-        homylboxscan_tv_title.setText(SiteName);
-        homylboxscan_tv_title.setTag(SiteID);
+//        Bundle bundle = this.getIntent().getExtras();
+//        String SiteName = bundle.getString("sitename");
+//        String SiteID = bundle.getString("siteid");
+//        homylboxscan_tv_title.setText(SiteName);
+//        homylboxscan_tv_title.setTag(SiteID);
+        homylboxscan_tv_title.setText(YLEditData.getCurrentYLSite().getSiteName());
+        homylboxscan_tv_title.setTag(YLEditData.getCurrentYLSite().getSiteID());
 
-        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.tasktype
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.TaskType
                 ,android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         homylboxscan_sp_tasktype.setAdapter(arrayAdapter);
@@ -243,6 +248,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_cb_scan = (CheckBox)findViewById(R.id.homylboxscan_cb_scan);
         homylboxscan_cb_complie = (CheckBox)findViewById(R.id.homylboxscan_cb_complie);
         homylboxscan_cb_date  = (CheckBox)findViewById(R.id.homylboxscan_cb_date);
+        homylboxscan_cb_ToT = (CheckBox)findViewById(R.id.homylboxscan_cb_ToT);
 
         homylboxscan_btn_date.setOnClickListener(this);
         homylboxscan_btn_scan.setOnClickListener(this);
@@ -351,7 +357,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         for (int i = AllBoxList.size() - 1; i >= 0; i--) {
             if (AllBoxList.get(i).getBoxID().equals(recivedata)
                     & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
-//                YLBoxMediaPlay("fail");
                 ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
                 return;
             }
@@ -359,7 +364,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         try {
             Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
             if (box.getBoxName().equals("无数据")) {
-//                YLBoxMediaPlay("fail");
                 ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
@@ -368,7 +372,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     box.setBoxType(checkboxsype());
                 } else {
                     Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
-//                    YLBoxMediaPlay("fail");
                     ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                     return;
                 }
@@ -396,6 +399,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         String tradeaction ="";
         String tradestaut = "";
         String tradetype = "";
+        String tradeToT = "";
         homylboxscan_tv_boxname.setText(box.getBoxName());
         homylboxscan_tv_boxcount.setText(count);
         box.setBoxCount(count);
@@ -411,6 +415,15 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }else {
             tradestaut = "实";
         }
+
+        if (homylboxscan_cb_ToT.isChecked()){
+            tradeToT = "0";
+        }else {
+            tradeToT = "1";
+        }
+
+        box.setBoxToT(tradeToT);
+
         homylboxscan_tv_boxstaut.setText(tradestaut);
 
         box.setBoxStatus(tradestaut);
@@ -558,11 +571,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 .setView(et)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         String input = et.getText().toString().replaceAll("^(0+)", "");
-//                        String input = et.getText().toString();
-//                        BoxIDtoBox(input);
-
                         if (input.equals("")|| input.equals("0")) {
                             Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
                         } else {
@@ -572,8 +581,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                             box.setBoxName("无标签");
                             PutBoxToList(box,intinput+"","tmp");
                         }
-
-
                     }
                 }).setNegativeButton("取消", null).show();
     }
@@ -689,7 +696,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }else {
             Scan1DCmd("scan");
         }
-
     }
 
 
@@ -805,26 +811,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }
         Scan1DCmd("stopscan");
         super.onDestroy();
-    }
-
-    private void YLBoxMediaPlay(String mediavoice)  {
-        try {
-            MediaPlayer mPlayer = new MediaPlayer();
-            if (mediavoice.equals("success")){
-                mPlayer = MediaPlayer.create(HomYLBoxScan.this, R.raw.msg);
-                if(mPlayer.isPlaying()){
-                    return;
-                }
-            }else {
-                mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
-                mPlayer.prepare();
-            }
-            mPlayer.start();
-            Thread.sleep(300);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
     }
 
 }

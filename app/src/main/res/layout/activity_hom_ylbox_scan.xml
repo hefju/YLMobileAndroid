@@ -142,14 +142,12 @@
         android:id="@+id/homylboxscan_ll_taskdate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/homylboxscan_rl_tasktype"
-        android:layout_marginTop="5sp">
+        android:layout_below="@+id/homylboxscan_rl_tasktype">
 
         <TextView
             android:id="@+id/homylboxscan_tv_boxtasktype_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
             android:text="@string/homscanbox_tasktype"
             android:textSize="20sp" />
 
@@ -157,32 +155,48 @@
             android:id="@+id/homylboxscan_sp_tasktype"
             android:layout_width="125sp"
             android:layout_height="40sp"
-            android:layout_marginTop="5sp"
             android:background="@color/lightblue"
-            android:spinnerMode="dialog"></Spinner>
+            android:spinnerMode="dialog">
+        </Spinner>
 
         <Button
             android:id="@+id/homylboxscan_btn_date"
             android:layout_width="110sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
+            android:layout_marginStart="10sp"
             android:text="@string/hom_ylbox_btn_date"
             android:textSize="15sp" />
 
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/homylboxscan_ll_checkbox"
+        android:layout_below="@+id/homylboxscan_ll_taskdate">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/homylboxscan_cb_ToT"
+            android:textColor="@color/androidpurplel"
+            android:text="@string/homscanbox_cb_ToT"
+            android:layout_marginStart="70sp"/>
         <CheckBox
             android:id="@+id/homylboxscan_cb_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5sp"
             android:text="@string/homscanbox_cb_date"
-            android:textColor="@color/androidblued" />
-    </LinearLayout>
+            android:textColor="@color/androidblued"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="35sp"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/homylboxscan_ll_boxgog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/homylboxscan_ll_taskdate"
+        android:layout_below="@+id/homylboxscan_ll_checkbox"
         android:background="@drawable/border">
 
         <RadioGroup

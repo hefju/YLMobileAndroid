@@ -25,6 +25,15 @@ public class YLTask {
     public List<Site> lstSite;
     public List<Box> lstBox;
     public List<YLATM> lstATM;
+    public List<Box> lstCarBox;//车内箱类列表
+
+    public List<Box> getLstCarBox() {
+        return lstCarBox;
+    }
+
+    public void setLstCarBox(List<Box> lstCarBox) {
+        this.lstCarBox = lstCarBox;
+    }
 
     //public List<Site> lstDeleteSite;//被删除的网点(包含atm)
 

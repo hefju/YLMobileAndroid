@@ -25,7 +25,16 @@ public class Box {
     public String BaseValutIn;//入库基地
     public String Remark;// 补打标签标记
     public int TaskTimeID;// 任务顺序
+    public String BoxToT;//是否次日送
 
+
+    public String getBoxToT() {
+        return BoxToT;
+    }
+
+    public void setBoxToT(String boxToT) {
+        BoxToT = boxToT;
+    }
 
     public int getTaskTimeID() {
         return TaskTimeID;
@@ -181,18 +190,10 @@ public class Box {
 
     @Override
     public String toString() {
-        return "Box:{" +
-                " BoxName='" + BoxName + '\'' +
-                ", BoxOrder='" + BoxOrder+"'}" ;
+        return "Box{" +
+                "BoxName='" + BoxName + '\'' +
+                ", BoxStatus='" + BoxStatus + '\'' +
+                ", BoxTaskType='" + BoxTaskType + '\'' +
+                '}';
     }
-
-//
-//    public boolean equals1(Object obj) {
-//        if (obj instanceof User) {
-//            User u = (User) obj;
-//            return this.username.equals(u.username)
-//                    && this.password.equals(password);
-//        }
-//        return super.equals(obj);
-//    }
 }

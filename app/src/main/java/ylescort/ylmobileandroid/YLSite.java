@@ -41,12 +41,14 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLSiteAdapter;
@@ -155,13 +157,16 @@ public class YLSite extends ActionBarActivity {
     private void GetSite() {
         WebServerYLSite webServerYLSite = new WebServerYLSite();
         List<Site> lstSite = null;
+        List<Box> boxList = null;
         try {
             User user = new User();
             user = YLSystem.getUser();
             user.setTaskDate(ylTask.getTaskID());
             lstSite = webServerYLSite.GetYLTaskSite(YLSystem.getUser(), getApplicationContext());
+            boxList = webServerYLSite.GetCarBox(getApplicationContext(),ylTask.getTaskID());
             tasksManager.MergeSite(lstSite);//同步本地的网点
             tasksManager.CurrentTask.setTaskState("进行中");
+            tasksManager.CurrentTask.setLstCarBox(boxList);
             DisplayTaskSite(ylTask.lstSite); //显示网点列表
             tasksManager.SaveTask(YLSite.this);
         } catch (Exception e) {
@@ -183,23 +188,18 @@ public class YLSite extends ActionBarActivity {
 
         Intent intent = new Intent();
 
-//        intent.setClass(this, YLBoxScan.class);//旧款箱扫描
-
         intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
 
-        Bundle bundle = new Bundle();
-        bundle.putString("siteid",site.getSiteID());
-        bundle.putString("sitename",site.getSiteName());
-        intent.putExtras(bundle);
+        YLEditData.setCurrentYLSite(site);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("siteid",site.getSiteID());
+//        bundle.putString("sitename",site.getSiteName());
+//        intent.putExtras(bundle);
         startActivity(intent);//我调用时Scan1DService会报错.
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-
     public void YLSite_UpDate(View view){
-
-        //ylTask.lstSite = siteList;
         dialog();
     }
 
@@ -303,36 +303,6 @@ public class YLSite extends ActionBarActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-//                singleThreadExecutor.execute(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            YLTask t1 = ylTask;
-//                            t1.lstSite=ylTask.lstSite;
-//                            t1.lstBox=ylTask.lstBox;
-//                            String url= YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
-//                            HttpPost post = new HttpPost(url);
-//                            UpDataToService(t1, YLSystem.getUser(), post);
-//
-//                            ylTask.setTaskState("已上传");
-//
-//                            tasksManager.SaveTask(getApplicationContext());
-//                            finish();
-//                        } catch (UnsupportedEncodingException e) {
-//                            e.printStackTrace();
-//                        } catch (ClientProtocolException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
-//
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
                 try {
                     String serret =  UpLoadService();
                     if (serret.equals("1")){

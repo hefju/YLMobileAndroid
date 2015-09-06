@@ -51,7 +51,7 @@ public class YLSystem {
     private static int Flags;
 
     public static int getHFport() {
-        return 12;
+        return 13;
     }
 
     public static int getUHFport() {
@@ -234,38 +234,5 @@ public class YLSystem {
         return false;
     }
 
-    /**
-     * root后通过
-     * @param time
-     */
 
-    public void SetTime(long time) {
-        try {
-            Calendar c = Calendar.getInstance();
-            c.set(2010, 1, 1, 12, 00, 00);
-            if (ShellInterface.isSuAvailable()) {
-                ShellInterface.runCommand("chmod 666 /dev/alarm");
-                SystemClock.setCurrentTimeMillis(c.getTimeInMillis());
-                ShellInterface.runCommand("chmod 664 /dev/alarm");
-            }
-            Log.e(YLSystem.getKimTag(), "修改成功");
-        } catch (Exception e) {
-            Log.e(YLSystem.getKimTag(), "修改失败");
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * root 后通过修改系统配置文件修改时间
-     * @param time string 格式时间
-     */
-    public void SetDate(String time) {
-        try {
-            Process process = Runtime.getRuntime().exec("su");
-            DataOutputStream os = new DataOutputStream(process.getOutputStream());
-            os.writeBytes("date -s 20120419.024012; \n");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

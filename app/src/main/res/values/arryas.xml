@@ -16,6 +16,15 @@
         <item>寄库箱</item>
     </string-array>
 
+    <string-array name="TaskType">
+        <item>早送晚收</item>
+        <item>上下介</item>
+        <item>同行调拨</item>
+        <item>跨行调拨</item>
+        <item>企业收送款</item>
+        <item>寄库箱</item>
+    </string-array>
+
     <array name="ylboxfullorempty">
         <item>实箱</item>
         <item>空箱</item>

@@ -66,4 +66,16 @@ public class TimeTest extends ApplicationTestCase<Application> {
         SystemClock.setCurrentTimeMillis(c.getTimeInMillis());
     }
 
+    public void testStrTranCanr()throws Exception{
+        String Time="2015-08-18 18:07:14";
+        Calendar calendar = Calendar.getInstance();
+        Date date = YLSysTime.StrToTime(Time);
+        calendar.set(date.getYear(),date.getMonth(),date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds());
+        Log.e(TAG, calendar.getTime().toString());
+    }
+
+    public void testCurrentDate()throws Exception{
+        Log.e(YLSystem.getKimTag(), YLSysTime.GetDateCurrentDate().toString()) ;
+    }
+
 }

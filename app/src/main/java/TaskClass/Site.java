@@ -17,8 +17,18 @@ public class Site {
     public String Status ;//交接状态: 未交接, 交接中, 已交接
     public String ATMCount ;//ATM数目
     public List<ArriveTime> lstArriveTime;
+    public String SiteRank;//网点级别
 
     public Site(){}
+
+
+    public String getSiteRank() {
+        return SiteRank;
+    }
+
+    public void setSiteRank(String siteRank) {
+        SiteRank = siteRank;
+    }
 
     public List<ArriveTime> getLstArriveTime() {
         return lstArriveTime;

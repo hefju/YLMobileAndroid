@@ -277,31 +277,17 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         }
         switch (boxtasktype){
 
-            case "早送":boxedi_sp_tasktype.setSelection(0);
+            case "早送晚收":boxedi_sp_tasktype.setSelection(0);
                 break;
-            case "晚收":boxedi_sp_tasktype.setSelection(1);
+            case "上下介":boxedi_sp_tasktype.setSelection(1);
                 break;
-            case "日间上介":boxedi_sp_tasktype.setSelection(2);
+            case "同行调拨":boxedi_sp_tasktype.setSelection(2);
                 break;
-            case "日间下介":boxedi_sp_tasktype.setSelection(3);
+            case "跨行调拨":boxedi_sp_tasktype.setSelection(3);
                 break;
-            case "库内上介":boxedi_sp_tasktype.setSelection(4);
+            case "企业收送款":boxedi_sp_tasktype.setSelection(4);
                 break;
-            case "库内下介":boxedi_sp_tasktype.setSelection(5);
-                break;
-            case "日间跨行调拨":boxedi_sp_tasktype.setSelection(6);
-                break;
-            case "日间同行调拨":boxedi_sp_tasktype.setSelection(7);
-                break;
-            case "库内跨行调拨":boxedi_sp_tasktype.setSelection(8);
-                break;
-            case "企业即收即送":boxedi_sp_tasktype.setSelection(9);
-                break;
-            case "企业次日送":boxedi_sp_tasktype.setSelection(10);
-                break;
-            case "长途押运":boxedi_sp_tasktype.setSelection(11);
-                break;
-            case "寄库箱":boxedi_sp_tasktype.setSelection(12);
+            case "寄库箱":boxedi_sp_tasktype.setSelection(5);
                 break;
         }
     }

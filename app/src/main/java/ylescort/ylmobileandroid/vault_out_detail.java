@@ -237,6 +237,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                         user.setTaskDate(ylTask.getTaskID());
                         WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
                         AllboxList= webServerValutInorOut.StoreGetBoxByTaskIDOut(user,getApplicationContext());
+                        Log.e(YLSystem.getKimTag(),AllboxList.toString());
                         DisPlayBoxlistAdapter(AllboxList);
                         ShowBoxList();
                     }else{

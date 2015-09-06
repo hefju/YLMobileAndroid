@@ -33,7 +33,8 @@
     <string name="title_activity_ylbox_scan">数量</string>
     <!--出入库管理-->
     <string name="homscanbox_tasktype">交接</string>
-    <string name="homscanbox_cb_date">长</string>
+    <string name="homscanbox_cb_date">长期</string>
+    <string name="homscanbox_cb_ToT">即日收送</string>
 
     <!--出入库管理-->
     <string name="box_tv_title">标题</string>

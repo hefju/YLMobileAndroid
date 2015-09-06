@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
 import YLSystemDate.YLSystem;
@@ -59,4 +60,47 @@ public class WebServerYLSite {
             return null;
         }
     }
+
+    /**
+     * 获取车内款箱空实状态列表
+     * @param context Context
+     * @param taskID 任务ID
+     * @return 车内款箱状态
+     * @throws Exception
+     */
+    public List<Box> GetCarBox(Context context,String taskID) throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"GetTaskStie";
+        GetCarBoxAsyTask getCarBoxAsyTask = new GetCarBoxAsyTask();
+        getCarBoxAsyTask.execute(url,taskID);
+        getCarBoxAsyTask.get();
+        return null;
+    }
+
+    private  class GetCarBoxAsyTask extends AsyncTask<String,Integer,List<Box>>{
+        @Override
+        protected List<Box> doInBackground(String... strings) {
+            String url = strings[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("taskID",strings[1]);
+                p.put("deviceID",strings[2]);
+                p.put("empid",strings[3]);
+                p.put("ISWIFI",strings[4]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<Box>>() {}.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }
