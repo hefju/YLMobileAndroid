@@ -161,4 +161,15 @@
     <string name="yluhfwriter_1dread">红外扫描</string>
     <string name="yluhfwriter_uhfread">UHF扫描</string>
     <string name="yluhfwriter_uhfwrite">写入UHF</string>
+    <!--交接类型-->
+    <string name="tasktype_gog">早送晚收</string>
+    <string name="tasktype_upordown">上下介</string>
+    <string name="tasktype_samebankdispatch">同行调拨</string>
+    <string name="tasktype_diffenterbankdispatch">跨行调拨</string>
+    <string name="tasktype_compelygog">企业收送款</string>
+    <string name="tasktype_invalutbox">寄库箱</string>
+    <string name="tasktype_ToT">即日收送</string>
+    <!--交接类型-->
+    <string name="boxstaut_full">实</string>
+    <string name="boxstaut_empty">空</string>
 </resources>

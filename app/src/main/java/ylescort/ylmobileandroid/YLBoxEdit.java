@@ -416,6 +416,15 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                         boxEditListAll.add(box);
                     }
                 }
+                boxedi_sp_tasktype.setEnabled(false);
+                boxedi_rbtn_get.setEnabled(false);
+                boxedi_rbtn_give.setEnabled(false);
+                boxedi_rbtn_full.setEnabled(false);
+                boxedi_rbtn_empty.setEnabled(false);
+                boxedi_rbtn_moneyboxs.setEnabled(false);
+                boxedi_rbtn_cardbox.setEnabled(false);
+                boxedi_rbtn_Voucher.setEnabled(false);
+                boxedi_rbtn_Voucherbag.setEnabled(false);
             }
         }else{
             boxEditListAll = YLSystem.getEdiboxList();

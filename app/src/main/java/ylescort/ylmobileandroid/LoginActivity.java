@@ -19,9 +19,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -213,9 +215,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             case R.id.btnTest1:UpDataAPK();
                 break;
             case R.id.btnTest2:
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, KimTest.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(LoginActivity.this, KimTest.class);
+//                startActivity(intent);
+
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.ylboxstautandtasktype,
+                        (ViewGroup) findViewById(R.id.dialog));
+
+                new AlertDialog.Builder(this).setTitle("请选择款箱交接状态").setView(layout)
+                        .setPositiveButton("确定", null)
+                        .setNegativeButton("取消", null).show();
+
+
                 break;
             case R.id.logic_sw_address:
                 if (logic_sw_address.isChecked()){
