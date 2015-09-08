@@ -215,19 +215,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             case R.id.btnTest1:UpDataAPK();
                 break;
             case R.id.btnTest2:
-//                Intent intent = new Intent();
-//                intent.setClass(LoginActivity.this, KimTest.class);
-//                startActivity(intent);
-
-                LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.ylboxstautandtasktype,
-                        (ViewGroup) findViewById(R.id.dialog));
-
-                new AlertDialog.Builder(this).setTitle("请选择款箱交接状态").setView(layout)
-                        .setPositiveButton("确定", null)
-                        .setNegativeButton("取消", null).show();
-
-
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this, KimTest.class);
+                startActivity(intent);
                 break;
             case R.id.logic_sw_address:
                 if (logic_sw_address.isChecked()){

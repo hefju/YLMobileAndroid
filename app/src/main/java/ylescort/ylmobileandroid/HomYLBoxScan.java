@@ -12,9 +12,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -66,10 +68,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private RadioButton homylboxscan_rbtn_give;
     private RadioButton homylboxscan_rbtn_full;
     private RadioButton homylboxscan_rbtn_empty;
-    private RadioButton homylboxscan_rbtn_moneyboxs;
-    private RadioButton homylboxscan_rbtn_cardbox;
-    private RadioButton homylboxscan_rbtn_Voucher;
-    private RadioButton homylboxscan_rbtn_Voucherbag;
 
     private Button homylboxscan_btn_date;
     private Button homylboxscan_btn_scan;
@@ -83,6 +81,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private CheckBox homylboxscan_cb_ToT;
 
     private List<Box> AllBoxList;
+    private List<Box> CarBoxList;
 
     private Scan1DRecive HomBoxscan1DRecive;
 
@@ -101,22 +100,27 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hom_ylbox_scan);
-
-        HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
-        tasksManager= YLSystem.getTasksManager();//获取任务管理类
-        ylTask=tasksManager.CurrentTask;//当前选中的任务
         try {
+            HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
+            tasksManager = YLSystem.getTasksManager();//获取任务管理类
+            ylTask = tasksManager.CurrentTask;//当前选中的任务
+            CarBoxList = ylTask.getLstCarBox();
+            Log.e(YLSystem.getKimTag(),CarBoxList.toString());
+            if (CarBoxList == null) {
+                CarBoxList = new ArrayList<>();
+            }
             InitView();
             InitData();
             InitReciveScan1D();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
     private void InitData() {
-
+        CurrentBox = new Box();
+        CurrentBox.setBoxCount("1");
         ylMediaPlayer = new YLMediaPlayer();
 //        Bundle bundle = this.getIntent().getExtras();
 //        String SiteName = bundle.getString("sitename");
@@ -259,6 +263,12 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_cb_complie.setOnClickListener(this);
         homylboxscan_cb_date.setOnClickListener(this);
 
+        homylboxscan_rbtn_get.setOnClickListener(this);
+        homylboxscan_rbtn_give.setOnClickListener(this);
+        homylboxscan_rbtn_full.setOnClickListener(this);
+        homylboxscan_rbtn_empty.setOnClickListener(this);
+        homylboxscan_cb_ToT.setOnClickListener(this);
+
         homylboxscan_btn_scan.setEnabled(false);
         homylboxscan_btn_nonelable.setEnabled(false);
 
@@ -279,13 +289,15 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
     private boolean CheckRadioButton(String type) {
 
-        if (!homylboxscan_rbtn_empty.isChecked() & !homylboxscan_rbtn_full.isChecked()) {
-            YLScanMessage = "空实未选";
-            return true;
-        }
         if (!homylboxscan_rbtn_get.isChecked() & !homylboxscan_rbtn_give.isChecked()) {
             YLScanMessage = "收送未选";
             return true;
+        }
+        if (homylboxscan_rbtn_get.isChecked()) {
+            if (!homylboxscan_rbtn_empty.isChecked() & !homylboxscan_rbtn_full.isChecked()) {
+                YLScanMessage = "空实未选";
+                return true;
+            }
         }
         if (type.equals("need")){
             if (homylboxscan_btn_boxtype.getText().equals("款箱类")){
@@ -357,28 +369,64 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         for (int i = AllBoxList.size() - 1; i >= 0; i--) {
             if (AllBoxList.get(i).getBoxID().equals(recivedata)
                     & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
-                ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
-                return;
-            }
-        }
-        try {
-            Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
-            if (box.getBoxName().equals("无数据")) {
                 ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
-            if (box.getBoxName().contains("粤龙临") || box.getBoxType().equals("无")) {
-                if (!checkboxsype().equals("款箱类")) {
-                    box.setBoxType(checkboxsype());
-                } else {
-                    Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
-                    ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-                    return;
+        }
+        Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+        if (box.getBoxName().equals("无数据")) {
+            ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+            return;
+        }
+        if (homylboxscan_rbtn_get.isChecked()) {
+            try {
+                if (box.getBoxName().contains("粤龙临") || box.getBoxType().equals("无")) {
+                    if (!checkboxsype().equals("款箱类")) {
+                        box.setBoxType(checkboxsype());
+                    } else {
+                        Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
+                        ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                        return;
+                    }
                 }
+                PutBoxToList(box, "1", "ordin");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            PutBoxToList(box, "1", "ordin");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            boolean checkcarbox = true;
+            try {
+                for (int i = 0; i < CarBoxList.size(); i++) {
+                    Box givebox = CarBoxList.get(i);
+                    if (givebox.getBoxID().equals(recivedata)) {
+                        givebox.setSiteID(CurrentBox.getSiteID());
+                        givebox.setTradeAction("送");
+                        givebox.setActionTime(YLSysTime.GetStrCurrentTime());
+                        givebox.setTimeID(CurrentBox.getTimeID());
+                        givebox.setBoxCount("1");
+                        givebox.setBoxOrder(AllBoxList.size() + 1 + "");
+                        givebox.setTaskTimeID(CurrentBox.getTaskTimeID());
+
+                        homylboxscan_tv_boxname.setText(givebox.getBoxName());
+                        homylboxscan_tv_boxaction.setText("送");
+                        homylboxscan_tv_boxtype.setText(givebox.getBoxType());
+                        homylboxscan_tv_boxcount.setText("1");
+                        homylboxscan_tv_boxstaut.setText(box.getBoxStatus());
+                        homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
+                        AllBoxList.add(givebox);
+                        TallyBox(AllBoxList);
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+
+                        checkcarbox = false;
+                        break;
+                    }
+                }
+                if (checkcarbox) {
+                    ShowBoxStautdailog(box);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -456,7 +504,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             Log.e(YLSystem.getKimTag(), box.toString() + "插入款箱");
             AllBoxList.add(box);
-//            YLBoxMediaPlay("success");
             ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
             YLSystem.setEdiboxList(AllBoxList);
         } catch (Exception e) {
@@ -499,6 +546,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.homylboxscan_btn_date:GetDatePick();
+                if (homylboxscan_cb_date.isChecked()) {
+                    CurrentBox.setNextOutTime("2099-12-31");
+                } else {
+                    CurrentBox.setNextOutTime(PickDate);
+                }
                 break;
             case R.id.homylboxscan_btn_scan:ScanYLBox();
                 break;
@@ -506,11 +558,42 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.homylboxscan_btn_ent:ArriveAndFinish();
                 break;
-            case R.id.homylboxscan_btn_boxtype:ShowBoxtype();
+            case R.id.homylboxscan_btn_boxtype:
+                ShowBoxtype();
+                CurrentBox.setBoxType(homylboxscan_btn_boxtype.getText().toString());
                 break;
-            case R.id.homylboxscan_cb_scan:
+            case R.id.homylboxscan_rbtn_get:
+                CurrentBox.setTradeAction("收");
+                break;
+            case R.id.homylboxscan_rbtn_give:
+                CurrentBox.setTradeAction("送");
+                break;
+            case R.id.homylboxscan_rbtn_full:
+                CurrentBox.setBoxStatus("实");
+                break;
+            case R.id.homylboxscan_rbtn_empty:
+                CurrentBox.setBoxStatus("空");
                 break;
             case R.id.homylboxscan_cb_complie:
+                    if (homylboxscan_cb_complie.isChecked()){
+                        CurrentBox.setRemark("1");
+                    }else {
+                        CurrentBox.setRemark("0");
+                    }
+                break;
+            case R.id.homylboxscan_cb_date:
+                if (homylboxscan_cb_date.isChecked()) {
+                    CurrentBox.setNextOutTime("2099-12-31");
+                } else {
+                    CurrentBox.setNextOutTime(PickDate);
+                }
+                break;
+            case R.id.homylboxscan_cb_ToT:
+                if (homylboxscan_cb_ToT.isChecked()){
+                    CurrentBox.setBoxToT("1");
+                }else {
+                    CurrentBox.setBoxToT("0");
+                }
                 break;
         }
     }//按键事件
@@ -599,6 +682,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     AddArriveTime();
                     AllBoxList = new ArrayList<Box>();
                     YLSystem.setEdiboxList(AllBoxList);
+
+                    CurrentBox.setSiteID(homylboxscan_tv_title.getTag().toString());
+                    CurrentBox.setTimeID(arriveTime.getTimeID());
+
                     dialog.dismiss();
                 }
             });
@@ -736,9 +823,96 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_rbtn_full.setText("实箱:"+fullbox);
         homylboxscan_rbtn_empty.setText("空箱:"+emptybox);
         homylboxscan_tv_moneybox.setText("款箱:"+moneybox);
-        homylboxscan_tv_cardbox.setText("卡箱:"+cardbox);
-        homylboxscan_tv_Voucher.setText("凭证箱:\r\n     "+voucher);
-        homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     "+voucherbag);
+        homylboxscan_tv_cardbox.setText("卡箱:" + cardbox);
+        homylboxscan_tv_Voucher.setText("凭证箱:\r\n     " + voucher);
+        homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     " + voucherbag);
+    }
+
+
+    private void ShowBoxStautdailog(final Box givebox){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
+        builder.setIcon(R.drawable.ic_launcher);
+        builder.setTitle("请输入用户名和密码");
+        View view = LayoutInflater.from(HomYLBoxScan.this).inflate(R.layout.ylboxstautandtasktype, null);
+        builder.setView(view);
+        final  RadioButton boxstaut_empty = (RadioButton) view.findViewById(R.id.boxstaut_empty);
+        final  RadioButton boxstaut_full = (RadioButton) view.findViewById(R.id.boxstaut_full);
+        final  CheckBox boxstaut_ToT = (CheckBox) view.findViewById(R.id.boxstaut_ToT);
+        final RadioButton boxstaut_upordown = (RadioButton) view.findViewById(R.id.boxstaut_upordown);
+        final RadioButton boxstaut_samebankdispatch = (RadioButton) view.findViewById(R.id.boxstaut_samebankdispatch);
+        final RadioButton boxstaut_differentbankdispatch = (RadioButton) view.findViewById(R.id.boxstaut_differentbankdispatch);
+        final RadioButton boxstaut_compelygog = (RadioButton) view.findViewById(R.id.boxstaut_compelygog);
+        final RadioButton boxstaut_gog = (RadioButton) view.findViewById(R.id.boxstaut_gog);
+        final RadioButton boxstaut_invaultbox = (RadioButton) view.findViewById(R.id.boxstaut_invaultbox);
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    Box box = new Box();
+                    if (boxstaut_full.isChecked()) {
+                        box.setBoxStatus("实");
+                    } else {
+                        box.setBoxStatus("空");
+                    }
+                    if (boxstaut_ToT.isChecked()) {
+                        box.setBoxToT("1");
+                    } else {
+                        box.setBoxToT("0");
+                    }
+                    String tasktype = "";
+                    if (boxstaut_upordown.isChecked()) {
+                        tasktype = "上下介";
+                    }
+                    if (boxstaut_samebankdispatch.isChecked()) {
+                        tasktype = "同行调拨";
+                    }
+                    if (boxstaut_differentbankdispatch.isChecked()) {
+                        tasktype = "跨行调拨";
+                    }
+                    if (boxstaut_compelygog.isChecked()) {
+                        tasktype = "企业收送款";
+                    }
+                    if (boxstaut_gog.isChecked()) {
+                        tasktype = "早送晚收";
+                    }
+                    if (boxstaut_invaultbox.isChecked()) {
+                        tasktype = "寄库箱";
+                    }
+                    box.setBoxID(givebox.getBoxID());
+                    box.setBoxName(givebox.getBoxName());
+                    box.setBoxType(givebox.getBoxType());
+                    box.setSiteID(CurrentBox.getSiteID());
+                    box.setTimeID(CurrentBox.getTimeID());
+                    box.setBoxCount("1");
+                    box.setBoxOrder(AllBoxList.size() + 1 + "");
+                    box.setBoxTaskType(tasktype);
+                    box.setTaskTimeID(CurrentBox.getTaskTimeID());
+                    box.setActionTime(YLSysTime.GetStrCurrentTime());
+                    box.setTradeAction("送");
+                    homylboxscan_tv_boxname.setText(givebox.getBoxName());
+                    homylboxscan_tv_boxaction.setText("送");
+                    homylboxscan_tv_boxtype.setText(givebox.getBoxType());
+                    homylboxscan_tv_boxcount.setText("1");
+                    homylboxscan_tv_boxstaut.setText(box.getBoxStatus());
+                    homylboxscan_tv_tasktype.setText(tasktype);
+                    AllBoxList.add(box);
+                    TallyBox(AllBoxList);
+                    ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        builder.show();
+
     }
 
     @Override

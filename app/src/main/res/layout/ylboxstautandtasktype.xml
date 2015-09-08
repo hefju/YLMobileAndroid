@@ -11,26 +11,31 @@
         <RadioGroup
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="20sp">
+            android:layout_marginStart="20sp"
+            android:orientation="horizontal">
 
             <RadioButton
+                android:id="@+id/boxstaut_empty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/boxstaut_empty"
                 android:textSize="25sp" />
 
             <RadioButton
+                android:id="@+id/boxstaut_full"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="@string/boxstaut_full"
                 android:textSize="25sp" />
         </RadioGroup>
+
         <CheckBox
+            android:id="@+id/boxstaut_ToT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="@string/tasktype_ToT"/>
+            android:text="@string/tasktype_ToT"
+            android:textSize="20sp" />
     </LinearLayout>
 
 
@@ -45,13 +50,15 @@
             android:orientation="vertical">
 
             <RadioButton
+                android:id="@+id/boxstaut_gog"
                 android:layout_width="fill_parent"
                 android:layout_height="45sp"
+                android:layout_marginStart="20sp"
                 android:button="@null"
+                android:checked="true"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:text="@string/tasktype_gog"
-                android:textSize="20sp"
-                android:layout_marginStart="20sp"/>
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="250sp"
@@ -59,13 +66,14 @@
                 android:background="?android:attr/listDivider" />
 
             <RadioButton
+                android:id="@+id/boxstaut_upordown"
                 android:layout_width="fill_parent"
                 android:layout_height="45sp"
+                android:layout_marginStart="20sp"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:text="@string/tasktype_upordown"
-                android:textSize="20sp"
-                android:layout_marginStart="20sp"/>
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="250sp"
@@ -73,13 +81,14 @@
                 android:background="?android:attr/listDivider" />
 
             <RadioButton
+                android:id="@+id/boxstaut_samebankdispatch"
                 android:layout_width="fill_parent"
                 android:layout_height="45sp"
+                android:layout_marginStart="20sp"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:text="@string/tasktype_samebankdispatch"
-                android:textSize="20sp"
-                android:layout_marginStart="20sp"/>
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="250sp"
@@ -87,13 +96,14 @@
                 android:background="?android:attr/listDivider" />
 
             <RadioButton
+                android:id="@+id/boxstaut_differentbankdispatch"
                 android:layout_width="fill_parent"
                 android:layout_height="45sp"
+                android:layout_marginStart="20sp"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
-                android:text="@string/tasktype_diffenterbankdispatch"
-                android:textSize="20sp"
-                android:layout_marginStart="20sp"/>
+                android:text="@string/tasktype_differentbankdispatch"
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="250sp"
@@ -101,13 +111,14 @@
                 android:background="?android:attr/listDivider" />
 
             <RadioButton
+                android:id="@+id/boxstaut_compelygog"
                 android:layout_width="fill_parent"
                 android:layout_height="45sp"
+                android:layout_marginStart="20sp"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
                 android:text="@string/tasktype_compelygog"
-                android:textSize="20sp"
-                android:layout_marginStart="20sp"/>
+                android:textSize="20sp" />
 
             <View
                 android:layout_width="250sp"
@@ -115,13 +126,14 @@
                 android:background="?android:attr/listDivider" />
 
             <RadioButton
+                android:id="@+id/boxstaut_invaultbox"
                 android:layout_width="fill_parent"
                 android:layout_height="45sp"
+                android:layout_marginStart="20sp"
                 android:button="@null"
                 android:drawableEnd="@android:drawable/btn_radio"
-                android:text="@string/tasktype_invalutbox"
-                android:textSize="20sp"
-                android:layout_marginStart="20sp"/>
+                android:text="@string/tasktype_invaultbox"
+                android:textSize="20sp" />
         </RadioGroup>
     </LinearLayout>
 </LinearLayout>

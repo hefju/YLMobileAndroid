@@ -216,23 +216,7 @@ public class YLTask {
     @Override
     public String toString() {
         return "YLTask{" +
-                "Id=" + Id +
-                ", ServerVersion='" + ServerVersion + '\'' +
-                ", TaskVersion='" + TaskVersion + '\'' +
-                ", TaskID='" + TaskID + '\'' +
-                ", TaskType='" + TaskType + '\'' +
-                ", Handset='" + Handset + '\'' +
-                ", TaskDate='" + TaskDate + '\'' +
-                ", Line='" + Line + '\'' +
-                ", TaskManager='" + TaskManager + '\'' +
-                ", TaskATMBeginTime='" + TaskATMBeginTime + '\'' +
-                ", TaskATMEndTime='" + TaskATMEndTime + '\'' +
-                ", TaskManagerNo='" + TaskManagerNo + '\'' +
-                ", ServerReturn='" + ServerReturn + '\'' +
-                ", TaskState='" + TaskState + '\'' +
-                ", lstSite=" + lstSite +
-                ", lstBox=" + lstBox +
-                ", lstATM=" + lstATM +
+                "lstCarBox=" + lstCarBox +
                 '}';
     }
 }

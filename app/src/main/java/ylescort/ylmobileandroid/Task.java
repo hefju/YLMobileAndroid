@@ -76,8 +76,11 @@ public class Task extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
-        Task.this.setTitle("任务管理: "+YLSystem.getUser().getName());
-        tasksManager=YLSystem.getTasksManager();//获取任务管理类
+        try{
+            Task.this.setTitle("任务管理: "+YLSystem.getUser().getName());
+            tasksManager=YLSystem.getTasksManager();//获取任务管理类
+
+
         yltask_datepicker = (DatePicker)findViewById(R.id.yltask_datepicker);
 
         yltask_datepicker.init(yltask_datepicker.getYear(), yltask_datepicker.getMonth(), yltask_datepicker.getDayOfMonth(),
@@ -89,66 +92,29 @@ public class Task extends ActionBarActivity {
                     }
                 });
 
-//        txt_Date_Task=(TextView)findViewById(R.id.txt_Date_Task);//显示当前日期
-//        calendarView=(CalendarView)findViewById(R.id.calendarViewTask);
-//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//            @Override
-//            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-//                month=month+1;
-//                txt_Date_Task.setText( "日期:"+year+"年"+month+"月"+dayOfMonth+"日");
-//                //txt_Date_Task.setTag(year+"-"+month+"-"+dayOfMonth);
-////                Log.d("jutest","月:"+ String.valueOf(month));
-////                if(dayOfMonth==28){
-////                    Log.d("jutest","onSelectedDayChange:28");
-////                    calendarView.setVisibility(View.GONE);
-////                    pnlDownMenu_Task.setVisibility(View.VISIBLE);
-////                }
-//            }
-//        });
-//        Calendar cal = Calendar.getInstance();
-//        long now=cal.getTimeInMillis();
-//        cal.set(2000,1,1);
-//        long tmpTime=cal.getTimeInMillis();
-//        calendarView.setDate(tmpTime);
-//        calendarView.setDate(now);
-
-//        pnlDownMenu_Task=(LinearLayout)findViewById(R.id.pnlDownMenu_Task);//操作菜单
-//        btnCancel_Task=(Button)findViewById(R.id.btnCancel_Task);//关闭操作菜单
-//        btnDownload_Task=(Button)findViewById(R.id.btnDownload_Task);//下载任务
-//        btnCancel_Task.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                pnlDownMenu_Task.setVisibility(View.GONE);
-//                calendarView.setVisibility(View.VISIBLE);
-//            }
-//        });
-//        btnDownload_Task.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.d("jutest","btnDownload_Task:click");
-//            }
-//        });
-
         //刷新按钮
         Task_btn_refresh =(Button)findViewById(R.id.Task_btn_refresh);//刷新任务列表
         Task_btn_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              String time= GetCalendarViewTime();//用户选中的日期
-              tasksManager.Loading(getApplicationContext(),time);//加载本地数据
-              DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
+                String time = GetCalendarViewTime();//用户选中的日期
+                tasksManager.Loading(getApplicationContext(), time);//加载本地数据
+                DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
 
-              if(YLSystem.isNetConnected(Task.this)){
-                  User user=YLSystem.getUser();
-                  user.setTaskDate(time);
-                  Task_btn_refresh.setEnabled(false);//禁止刷新按钮
-                  WebService.GetTaskList(getApplicationContext(),mHandler);
-                  Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
-              }else{
-                Toast.makeText(getApplicationContext(), "没有网络.", Toast.LENGTH_LONG).show();
-              }
+                if (YLSystem.isNetConnected(Task.this)) {
+                    User user = YLSystem.getUser();
+                    user.setTaskDate(time);
+                    Task_btn_refresh.setEnabled(false);//禁止刷新按钮
+                    WebService.GetTaskList(getApplicationContext(), mHandler);
+                    Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "没有网络.", Toast.LENGTH_LONG).show();
+                }
             }
         });
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
         /*
         Bundle bundle = this.getIntent().getExtras();
         String Name = bundle.getString("AName");
@@ -195,7 +161,6 @@ public class Task extends ActionBarActivity {
                     case 1:
                         break;
                     case 20: //获取GetTaskList成功
-                        Log.d("jutest","从服务器获取GetTaskList成功");
                         List<YLTask> lstYLTask  = (List<YLTask>) msg.obj;
                         UpdateLocalTaskList(lstYLTask);
 //                        tasksManager.Merge(GetCalendarViewTime(),lstYLTask);

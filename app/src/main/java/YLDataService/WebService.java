@@ -551,7 +551,6 @@ public class WebService {
                         }.getType());
                         String result = lstYLTask.get(0).ServerReturn;
                         if (result.equals("1")) {
-                            Log.d("jutest", "GetTaskList:" + content);
                             Message msg = mHandler.obtainMessage(20);
                             msg.obj = lstYLTask;
                             mHandler.sendMessage(msg);

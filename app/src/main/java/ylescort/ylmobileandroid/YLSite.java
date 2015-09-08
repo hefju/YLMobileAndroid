@@ -46,6 +46,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.WebServerValutInorOut;
 import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
@@ -72,11 +73,27 @@ public class YLSite extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylsite);
-        YLSite.this.setTitle("任务网点: "+YLSystem.getUser().getName());
-        tasksManager= YLSystem.getTasksManager();//获取任务管理类
-        ylTask=tasksManager.CurrentTask;//当前选中的任务
-        if(!ylTask.getTaskState().equals("有更新")){
-            ylTask.setTaskState("进行中");
+        try {
+            YLSite.this.setTitle("任务网点: " + YLSystem.getUser().getName());
+            tasksManager = YLSystem.getTasksManager();//获取任务管理类
+            ylTask = tasksManager.CurrentTask;//当前选中的任务
+
+            if (!ylTask.getTaskState().equals("有更新")) {
+                ylTask.setTaskState("进行中");
+            }
+
+            if (ylTask.getLstCarBox() == null){
+                WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
+                User user = new User();
+                user.setTaskDate(ylTask.getTaskID());
+                user.setDeviceID(YLSystem.getHandsetIMEI());
+                user.setEmpID(YLSystem.getUser().getEmpID());
+                List<Box> boxList =  webServerValutInorOut.StoreGetBoxByTaskIDOut(user, getApplicationContext());
+                ylTask.setLstCarBox(boxList);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         siteList = new ArrayList<>();
 
@@ -157,16 +174,13 @@ public class YLSite extends ActionBarActivity {
     private void GetSite() {
         WebServerYLSite webServerYLSite = new WebServerYLSite();
         List<Site> lstSite = null;
-        List<Box> boxList = null;
         try {
             User user = new User();
             user = YLSystem.getUser();
             user.setTaskDate(ylTask.getTaskID());
             lstSite = webServerYLSite.GetYLTaskSite(YLSystem.getUser(), getApplicationContext());
-            boxList = webServerYLSite.GetCarBox(getApplicationContext(),ylTask.getTaskID());
             tasksManager.MergeSite(lstSite);//同步本地的网点
             tasksManager.CurrentTask.setTaskState("进行中");
-            tasksManager.CurrentTask.setLstCarBox(boxList);
             DisplayTaskSite(ylTask.lstSite); //显示网点列表
             tasksManager.SaveTask(YLSite.this);
         } catch (Exception e) {
