@@ -45,7 +45,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     private RelativeLayout vault_check_rl_title;
 
     private Scan1DRecive scan1DRecive;
-    private Scan1DRecive scanUHFRecive;
+//    private Scan1DRecive scanUHFRecive;
     private List<Box> boxList;
 
     private int oragecolor;
@@ -133,12 +133,12 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     }
 
     private void InitUHFService() {
-        scanUHFRecive = new Scan1DRecive();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("ylescort.ylmobileandroid.vault_check_ylbox");
-        registerReceiver(scanUHFRecive, filter);
-        Intent start = new Intent(vault_check_ylbox.this,ScanUHFService.class);
-        vault_check_ylbox.this.startService(start);
+//        scanUHFRecive = new Scan1DRecive();
+//        IntentFilter filter = new IntentFilter();
+//        filter.addAction("ylescort.ylmobileandroid.vault_check_ylbox");
+//        registerReceiver(scanUHFRecive, filter);
+//        Intent start = new Intent(vault_check_ylbox.this,ScanUHFService.class);
+//        vault_check_ylbox.this.startService(start);
     }
 
     @Override
@@ -285,11 +285,11 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 try {
 
                     User user = new User();
-                    user = YLSystem.getUser();
+                    user.setEmpID(YLSystem.getUser().getEmpID());
                     user.setISWIFI("0");
                     Log.e(YLSystem.getKimTag(),user.toString());
                     YLTask ylTask = new YLTask();
-                    ylTask.setTaskATMBeginTime(user.getTaskDate());//盘库基地
+                    ylTask.setTaskATMBeginTime(YLSystem.getBaseName());//盘库基地
                     ylTask.setTaskATMEndTime(boxList.size() + "");//盘库数量
                     ylTask.setLstBox(boxList);
                     //ylTask.setTaskState(YLEditData.getDatePick().toString());

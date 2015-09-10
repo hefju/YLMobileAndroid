@@ -95,6 +95,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private int TaskTimeID;
     private YLMediaPlayer ylMediaPlayer;
     private Box CurrentBox;//当前选择状态下的box
+    private boolean ShowDailog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         CurrentBox = new Box();
         CurrentBox.setBoxCount("1");
         ylMediaPlayer = new YLMediaPlayer();
+        ShowDailog = true;
 //        Bundle bundle = this.getIntent().getExtras();
 //        String SiteName = bundle.getString("sitename");
 //        String SiteID = bundle.getString("siteid");
@@ -415,14 +417,19 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
                         AllBoxList.add(givebox);
                         TallyBox(AllBoxList);
+                        CarBoxList.remove(i);
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-
                         checkcarbox = false;
                         break;
                     }
                 }
                 if (checkcarbox) {
-                    ShowBoxStautdailog(box);
+                    ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                    homylboxscan_btn_scan.setText("扫描/F1");
+                    Scan1DCmd("stopscan");
+                    if (ShowDailog) {
+                        ShowBoxStautdailog(box);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -504,6 +511,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             Log.e(YLSystem.getKimTag(), box.toString() + "插入款箱");
             AllBoxList.add(box);
+            CarBoxList.add(box);
             ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
             YLSystem.setEdiboxList(AllBoxList);
         } catch (Exception e) {
@@ -749,7 +757,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     tasksManager.SaveTask(getApplicationContext());
                     AllBoxList.clear();
                     YLSystem.setEdiboxList(AllBoxList);
-                    Log.e(YLSystem.getKimTag(),ylTask.getLstBox().size()+"款箱数量");
+                    Log.e(YLSystem.getKimTag(),ylTask.lstCarBox.size()+"在库数量");
                     dialog.dismiss();
                     HomYLBoxScan.this.finish();
                 }
@@ -775,12 +783,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         if (homylboxscan_cb_scan.isChecked()){
             if (homylboxscan_btn_scan.getText().equals("扫描/F1")){
                 homylboxscan_btn_scan.setText("停止/F1");
+                ShowDailog = true;
                 Scan1DCmd("toscan100ms");
             }else {
                 homylboxscan_btn_scan.setText("扫描/F1");
                 Scan1DCmd("stopscan");
             }
         }else {
+            ShowDailog = true;
             Scan1DCmd("scan");
         }
     }
@@ -832,10 +842,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private void ShowBoxStautdailog(final Box givebox){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
-        builder.setIcon(R.drawable.ic_launcher);
-        builder.setTitle("请输入用户名和密码");
+        builder.setIcon(android.R.drawable.ic_input_get);
+        builder.setTitle("请选择送箱状态");
         View view = LayoutInflater.from(HomYLBoxScan.this).inflate(R.layout.ylboxstautandtasktype, null);
         builder.setView(view);
+        ShowDailog = false;
         final  RadioButton boxstaut_empty = (RadioButton) view.findViewById(R.id.boxstaut_empty);
         final  RadioButton boxstaut_full = (RadioButton) view.findViewById(R.id.boxstaut_full);
         final  CheckBox boxstaut_ToT = (CheckBox) view.findViewById(R.id.boxstaut_ToT);
@@ -900,6 +911,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     AllBoxList.add(box);
                     TallyBox(AllBoxList);
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                    ShowDailog = true;
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -909,6 +921,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                ShowDailog = true;
             }
         });
         builder.show();

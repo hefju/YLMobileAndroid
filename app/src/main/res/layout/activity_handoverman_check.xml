@@ -31,7 +31,47 @@
         android:layout_height="wrap_content"
         android:id="@+id/handoverman_ll_box"
         android:gravity="center"
+        android:background="@color/mediumseagreen"
         android:layout_above="@+id/handoverman_ll_voucher">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/handoverman_tv_getbox"
+            style="@style/TextSize25"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/handoverman_tv_givebox"
+            style="@style/TextSize25"
+            android:layout_marginStart="40sp"/>
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/handoverman_ll_voucher"
+        android:gravity="center"
+        android:background="@color/dimgrey"
+        android:layout_above="@+id/handoverman_ll_gog">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/handoverman_tv_fullbox"
+            style="@style/TextSize25"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/handoverman_tv_emptybox"
+            android:layout_marginStart="40sp"
+            style="@style/TextSize25"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/handoverman_ll_gog"
+        android:gravity="center"
+        android:background="@color/paleturquoise"
+        android:layout_above="@+id/handoverman_ll_foe">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,57 +81,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/handoverman_tv_cardbox"
-            android:layout_marginStart="10sp"
-            style="@style/TextSize25"/>
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/handoverman_ll_voucher"
-        android:gravity="center"
-        android:layout_above="@+id/handoverman_ll_gog">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/handoverman_tv_voucher"
-            android:layout_marginStart="10sp"
-            style="@style/TextSize25"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/handoverman_tv_voucherbag"
-            android:layout_marginStart="10sp"
+            android:layout_marginStart="40sp"
             style="@style/TextSize25"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/handoverman_ll_gog"
+        android:id="@+id/handoverman_ll_foe"
         android:gravity="center"
+        android:background="@color/paleturquoise"
         android:layout_above="@+id/handoverman_ll_button">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/handoverman_tv_getbox"
-            style="@style/TextSize20"/>
+            android:id="@+id/handoverman_tv_voucher"
+            android:layout_marginStart="20sp"
+            style="@style/TextSize25"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/handoverman_tv_givebox"
-            style="@style/TextSize20"
-            android:layout_marginStart="10sp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/handoverman_tv_fullbox"
-            android:layout_marginStart="10sp"
-            style="@style/TextSize20"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/handoverman_tv_emptybox"
-            android:layout_marginStart="10sp"
-            style="@style/TextSize20"/>
+            android:id="@+id/handoverman_tv_voucherbag"
+            android:layout_marginStart="40sp"
+            style="@style/TextSize25"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
@@ -109,7 +120,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/handoverman_btn_enter"
             android:text="@string/handoverman_btn_enter"
-            android:layout_marginStart="40sp"/>
+            android:layout_marginStart="20sp"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -82,7 +82,7 @@ public class YLSite extends ActionBarActivity {
                 ylTask.setTaskState("进行中");
             }
 
-            if (ylTask.getLstCarBox() == null){
+            if (ylTask.getLstCarBox() == null ||ylTask.getLstCarBox().get(0).getBoxID() == null){
                 WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
                 User user = new User();
                 user.setTaskDate(ylTask.getTaskID());
@@ -91,7 +91,7 @@ public class YLSite extends ActionBarActivity {
                 List<Box> boxList =  webServerValutInorOut.StoreGetBoxByTaskIDOut(user, getApplicationContext());
                 ylTask.setLstCarBox(boxList);
             }
-
+            Log.e(YLSystem.getKimTag(),ylTask.lstCarBox.size()+"在车数量");
         } catch (Exception e) {
             e.printStackTrace();
         }

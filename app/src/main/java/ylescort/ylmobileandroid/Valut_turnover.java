@@ -250,13 +250,15 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private void UploadData() {
         try {
-            vaultoutylTask.setTaskDate(PickDate);
-            vaultoutylTask.setLstBox(AllboxList);
-            YLEditData.setYlTask(vaultoutylTask);
-            webServerValutturnover.Valutturnoverupload(YLSystem.getUser(), getApplicationContext());
-            AllboxList.clear();
-            Displayboxlist.clear();
-            ylBoxEdiAdapter.notifyDataSetChanged();
+            if (AllboxList.size() > 1) {
+                vaultoutylTask.setTaskDate(PickDate);
+                vaultoutylTask.setLstBox(AllboxList);
+                YLEditData.setYlTask(vaultoutylTask);
+                webServerValutturnover.Valutturnoverupload(YLSystem.getUser(), getApplicationContext());
+                AllboxList.clear();
+                Displayboxlist.clear();
+                ylBoxEdiAdapter.notifyDataSetChanged();
+            }
             vault_turnover_btn_vaultout.setEnabled(true);
             vault_turnover_btn_vaultin.setEnabled(true);
             Valut_turnover.this.setTitle("未设置出入库操作");
