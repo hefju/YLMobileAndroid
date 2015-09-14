@@ -191,9 +191,11 @@ public class Box {
     @Override
     public String toString() {
         return "Box{" +
-                "BoxName='" + BoxName + '\'' +
-                ", BoxStatus='" + BoxStatus + '\'' +
-                ", BoxTaskType='" + BoxTaskType + '\'' +
+                "ActionTime='" + ActionTime + '\'' +
+                ", SiteID='" + SiteID + '\'' +
+                ", BoxID='" + BoxID + '\'' +
+                ", BoxName='" + BoxName + '\'' +
+                ", TradeAction='" + TradeAction + '\'' +
                 '}';
     }
 }

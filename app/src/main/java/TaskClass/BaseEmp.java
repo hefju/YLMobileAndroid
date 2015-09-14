@@ -25,6 +25,14 @@ public class BaseEmp//员工类
     public String Mark ;//标记添加=1、修改=2、删除=3
     public String ServerTime;//服务器时间。
 
+    public String getEmpID() {
+        return EmpID;
+    }
+
+    public void setEmpID(String empID) {
+        EmpID = empID;
+    }
+
     public void CacheBaseEmp(Context ctx,List<BaseEmp> lst){
         ArrayList<BaseEmp> lstAdd=new ArrayList<>();
         ArrayList<BaseEmp> lstUpdate=new ArrayList<>();

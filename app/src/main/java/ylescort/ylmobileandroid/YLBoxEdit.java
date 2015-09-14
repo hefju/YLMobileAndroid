@@ -92,8 +92,27 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (boxEditListEdit.size()<1)return;
                 Box box = boxEditListEdit.get(listpostion);
-                box.setBoxTaskType(parent.getItemAtPosition(position).toString());
-                boxEditListEdit.set(listpostion, box);
+
+                Box editbox = new Box();
+                editbox.setTradeAction(GetBoxStuat("g"));
+                editbox.setBoxStatus(GetBoxStuat("f"));
+                editbox.setBoxType(GetBoxStuat("s"));
+                editbox.setSiteID(box.getSiteID());
+                editbox.setBoxID(box.getBoxID());
+                editbox.setBoxName(box.getBoxName());
+                editbox.setNextOutTime(box.getNextOutTime());
+                editbox.setActionTime(box.getActionTime());
+                editbox.setTimeID(box.getTimeID());
+                editbox.setBoxCount(box.getBoxCount());
+                editbox.setBoxOrder(box.getBoxOrder());
+                editbox.setRemark(box.getRemark());
+                editbox.setTaskTimeID(box.getTaskTimeID());
+                editbox.setBoxToT(box.getBoxToT());
+                editbox.setBoxTaskType(box.getBoxTaskType());
+
+                editbox.setBoxTaskType(parent.getItemAtPosition(position).toString());
+//                box.setBoxTaskType(parent.getItemAtPosition(position).toString());
+                boxEditListEdit.set(listpostion, editbox);
                 //LoadBoxData(boxEditListEdit);
                 ylBoxEdiAdapter.notifyDataSetInvalidated();
             }
@@ -191,15 +210,28 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private void GetandSetBoxtolist() {
         if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
 
-        Log.e(YLSystem.getKimTag(),boxNoSave.toString()+"frist");
+//        Log.e(YLSystem.getKimTag(),boxNoSave.toString()+"frist");
 
         Box box = boxEditListEdit.get(listpostion);
-        box.setTradeAction(GetBoxStuat("g"));
-        box.setBoxStatus(GetBoxStuat("f"));
-        box.setBoxType(GetBoxStuat("s"));
-        boxEditListEdit.set(listpostion, box);
+        Box editbox = new Box();
+        editbox.setTradeAction(GetBoxStuat("g"));
+        editbox.setBoxStatus(GetBoxStuat("f"));
+        editbox.setBoxType(GetBoxStuat("s"));
+        editbox.setSiteID(box.getSiteID());
+        editbox.setBoxID(box.getBoxID());
+        editbox.setBoxName(box.getBoxName());
+        editbox.setNextOutTime(box.getNextOutTime());
+        editbox.setActionTime(box.getActionTime());
+        editbox.setTimeID(box.getTimeID());
+        editbox.setBoxCount(box.getBoxCount());
+        editbox.setBoxOrder(box.getBoxOrder());
+        editbox.setRemark(box.getRemark());
+        editbox.setTaskTimeID(box.getTaskTimeID());
+        editbox.setBoxToT(box.getBoxToT());
+        editbox.setBoxTaskType(box.getBoxTaskType());
+        boxEditListEdit.set(listpostion, editbox);
 
-        Log.e(YLSystem.getKimTag(), YLEditData.getYlboxnosave() + "second");
+//        Log.e(YLSystem.getKimTag(), YLEditData.getYlboxnosave() + "second");
 
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         TallyBox(boxEditListEdit);
@@ -325,7 +357,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         boxedi_btn_del.setOnClickListener(this);
 
 
-        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.tasktype
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.TaskType
                 , android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         boxedi_sp_tasktype.setAdapter(arrayAdapter);
@@ -416,15 +448,16 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                         boxEditListAll.add(box);
                     }
                 }
-                boxedi_sp_tasktype.setEnabled(false);
-                boxedi_rbtn_get.setEnabled(false);
-                boxedi_rbtn_give.setEnabled(false);
-                boxedi_rbtn_full.setEnabled(false);
-                boxedi_rbtn_empty.setEnabled(false);
-                boxedi_rbtn_moneyboxs.setEnabled(false);
-                boxedi_rbtn_cardbox.setEnabled(false);
-                boxedi_rbtn_Voucher.setEnabled(false);
-                boxedi_rbtn_Voucherbag.setEnabled(false);
+//                boxedi_sp_tasktype.setEnabled(false);
+//                boxedi_rbtn_get.setEnabled(false);
+//                boxedi_rbtn_give.setEnabled(false);
+//                boxedi_rbtn_full.setEnabled(false);
+//                boxedi_rbtn_empty.setEnabled(false);
+//                boxedi_rbtn_moneyboxs.setEnabled(false);
+//                boxedi_rbtn_cardbox.setEnabled(false);
+//                boxedi_rbtn_Voucher.setEnabled(false);
+//                boxedi_rbtn_Voucherbag.setEnabled(false);
+//                boxedi_btn_del.setEnabled(false);
             }
         }else{
             boxEditListAll = YLSystem.getEdiboxList();

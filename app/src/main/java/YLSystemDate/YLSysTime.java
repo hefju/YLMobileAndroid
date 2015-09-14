@@ -102,8 +102,8 @@ public class YLSysTime {
                 ShellInterface.runCommand("chmod 666 /dev/alarm");
                 SystemClock.setCurrentTimeMillis(calendar.getTimeInMillis());
                 ShellInterface.runCommand("chmod 664 /dev/alarm");
+                Log.e(YLSystem.getKimTag(), "修改成功");
             }
-            Log.e(YLSystem.getKimTag(), "修改成功");
         } catch (Exception e) {
             Log.e(YLSystem.getKimTag(), "修改失败");
             e.printStackTrace();

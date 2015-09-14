@@ -2,7 +2,9 @@ package YLDataService;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -24,6 +26,7 @@ import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
 import TaskClass.Box;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -37,8 +40,8 @@ public class WebServerBaseData {
     private BaseClientDBSer baseClientDBSer;
     private BaseBoxDBSer baseBoxDBSer;
 
-    public void GetBaseData(Context context)throws Exception{
-        progressDialog = new ProgressDialog(context);
+    public void GetBaseData(Context context,String updatetime)throws Exception{
+//        progressDialog = new ProgressDialog(context);
         baseEmpDBSer = new BaseEmpDBSer(context);
         baseSiteDBSer = new BaseSiteDBSer(context);
         baseClientDBSer = new BaseClientDBSer(context);
@@ -51,14 +54,21 @@ public class WebServerBaseData {
         String Siteurl = YLSystem.GetBaseUrl(context)+"GetBaseSite";
         String boxurl = YLSystem.GetBaseUrl(context)+"GetBaseBox";
         AnysTaskGetBaseData anysTaskGetBaseData = new AnysTaskGetBaseData();
-        anysTaskGetBaseData.execute(DeviceID,isWifi,empurl,Clienturl,Siteurl,boxurl);
-        anysTaskGetBaseData.get();
+        anysTaskGetBaseData.execute(DeviceID,isWifi,empurl,Clienturl,Siteurl,boxurl,updatetime);
+        String servertime =  anysTaskGetBaseData.get();
+        if (!servertime.equals("")){
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("CacheLastUpdate", servertime);
+            editor.apply();
+        }
+
     }
 
     private class AnysTaskGetBaseData extends AsyncTask<String,Integer,String>{
         @Override
         protected String doInBackground(String... params) {
-
+            String servertime = "";
             try {
                 String url = params[2];
                 HttpPost post = new HttpPost(url);
@@ -66,7 +76,7 @@ public class WebServerBaseData {
                 JSONObject p = new JSONObject();
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
+                p.put("datetime", params[6]);
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 HttpClient client = new DefaultHttpClient();
@@ -75,16 +85,17 @@ public class WebServerBaseData {
                     String content = EntityUtils.toString(response.getEntity());
                     List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
-
-                    baseEmpDBSer.InsertBaseEmp(emps);
-
-                    Log.e(YLSystem.getKimTag(),emps.size()+"人员数据");
+                    if (emps.size()>0 & emps.get(0).getEmpID() !=null){
+                        baseEmpDBSer.InsertBaseEmp(emps);
+                        servertime = emps.get(0).ServerTime;
+                        Log.e(YLSystem.getKimTag(), emps.size()+"人员数据");
+                    }
                 }
 
                 post = new HttpPost(params[3]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
+                p.put("datetime", params[6]);
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 client = new DefaultHttpClient();
@@ -93,14 +104,19 @@ public class WebServerBaseData {
                     String content = EntityUtils.toString(response.getEntity());
                     List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
                     }.getType());
-                    baseClientDBSer.InsertBaseClient(baseClients);
-                    Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
+                    if (baseClients.size()>0 & baseClients.get(0).getClientID() != null){
+                        baseClientDBSer.InsertBaseClient(baseClients);
+                        if (servertime.equals("")){
+                            servertime = baseClients.get(0).ServerTime;
+                        }
+                        Log.e(YLSystem.getKimTag(), baseClients.size() + "客户数据");
+                    }
                 }
 
                 post = new HttpPost(params[4]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
+                p.put("datetime", params[6]);
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 client = new DefaultHttpClient();
@@ -109,14 +125,20 @@ public class WebServerBaseData {
                     String content = EntityUtils.toString(response.getEntity());
                     List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
                     }.getType());
-                    baseSiteDBSer.InsertBaseSite(siteList);
-                    Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
+                    if ( siteList.size() >0 & siteList.get(0).getSiteID() != null){
+                        baseSiteDBSer.InsertBaseSite(siteList);
+                        if (servertime.equals("")){
+                            servertime = siteList.get(0).ServerTime;
+                        }
+                        Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
+                    }
+
                 }
 
                 post = new HttpPost(params[5]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
+                p.put("datetime", params[6]);
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 client = new DefaultHttpClient();
@@ -125,20 +147,24 @@ public class WebServerBaseData {
                     String content = EntityUtils.toString(response.getEntity());
                     List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
-                    baseBoxDBSer.InsertBox(baseBoxes);
-                    Log.e(YLSystem.getKimTag(),baseBoxes.size()+"款箱数据");
+                    if (baseBoxes.size() > 0 & baseBoxes.get(0).getBoxID() != null) {
+                        baseBoxDBSer.InsertBox(baseBoxes);
+                        if (servertime.equals("")){
+                            servertime = baseBoxes.get(0).ServerTime;
+                        }
+                        Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
+                    }
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+            return servertime;
         }
 
 
         @Override
         protected void onPostExecute(String s) {
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
             super.onPostExecute(s);
         }
     }

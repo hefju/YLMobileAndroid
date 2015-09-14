@@ -25,6 +25,32 @@ public class BaseBox //箱类
     public String Mark ;//标记添加=1、修改=2、删除=3
     public String ServerTime;//服务器时间。
 
+
+    public String getBoxID() {
+        return BoxID;
+    }
+
+    public void setBoxID(String boxID) {
+        BoxID = boxID;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseBox{" +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", BoxID='" + BoxID + '\'' +
+                ", BoxName='" + BoxName + '\'' +
+                ", BoxUHFNo='" + BoxUHFNo + '\'' +
+                ", BoxBCNo='" + BoxBCNo + '\'' +
+                ", BoxType='" + BoxType + '\'' +
+                ", ClientID='" + ClientID + '\'' +
+                ", SiteID='" + SiteID + '\'' +
+                ", Mark='" + Mark + '\'' +
+                ", ServerTime='" + ServerTime + '\'' +
+                '}';
+    }
+
     public void CacheBaseBox(Context ctx,List<BaseBox> lst){
         ArrayList<BaseBox> lstAdd=new ArrayList<>();
         ArrayList<BaseBox> lstUpdate=new ArrayList<>();

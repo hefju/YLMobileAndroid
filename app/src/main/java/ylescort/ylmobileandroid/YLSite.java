@@ -89,7 +89,13 @@ public class YLSite extends ActionBarActivity {
                 user.setDeviceID(YLSystem.getHandsetIMEI());
                 user.setEmpID(YLSystem.getUser().getEmpID());
                 List<Box> boxList =  webServerValutInorOut.StoreGetBoxByTaskIDOut(user, getApplicationContext());
-                ylTask.setLstCarBox(boxList);
+                if (boxList.get(0).getBoxID() != null){
+                    ylTask.setLstCarBox(boxList);
+                }else {
+                    List<Box> boxes = new ArrayList<Box>();
+                    boxes.clear();
+                    ylTask.setLstCarBox(boxes);
+                }
             }
             Log.e(YLSystem.getKimTag(),ylTask.lstCarBox.size()+"在车数量");
         } catch (Exception e) {

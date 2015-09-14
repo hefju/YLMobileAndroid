@@ -424,7 +424,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
         WebServerBaseData webServerBaseData = new WebServerBaseData();
         try {
-            webServerBaseData.GetBaseData(getApplicationContext());
+            webServerBaseData.GetBaseData(getApplicationContext(),"ALL");
         } catch (Exception e) {
             e.printStackTrace();
         }

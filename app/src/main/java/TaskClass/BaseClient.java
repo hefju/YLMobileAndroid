@@ -22,6 +22,27 @@ public class BaseClient //客户类
     public String Mark ;//标记添加=1、修改=2、删除=3
     public String ServerTime;//服务器时间。
 
+    public String getClientID() {
+        return ClientID;
+    }
+
+    public void setClientID(String clientID) {
+        ClientID = clientID;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseClient{" +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", ClientID='" + ClientID + '\'' +
+                ", ClientName='" + ClientName + '\'' +
+                ", ClientType='" + ClientType + '\'' +
+                ", HFNo='" + HFNo + '\'' +
+                ", Mark='" + Mark + '\'' +
+                ", ServerTime='" + ServerTime + '\'' +
+                '}';
+    }
 
     public void CacheBaseClient(Context ctx,List<BaseClient> lst){
         ArrayList<BaseClient> lstAdd=new ArrayList<>();

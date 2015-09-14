@@ -456,7 +456,6 @@ public class YLBoxScan extends ActionBarActivity {
             try {
                 fos = YLBoxScan.this.openFileOutput("count.txt", Context.MODE_PRIVATE);
             } catch (FileNotFoundException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
             String receivedata = intent.getStringExtra("result"); // 服务返回的数据
@@ -467,7 +466,6 @@ public class YLBoxScan extends ActionBarActivity {
                 try {
                     fos.close();
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }

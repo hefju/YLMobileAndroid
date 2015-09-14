@@ -40,8 +40,11 @@ import java.util.Calendar;
 import java.util.List;
 
 import TaskClass.BaseEmp;
+import TaskClass.TasksManager;
 import TaskClass.User;
 import YLDataService.BaseEmpDBSer;
+import YLDataService.TasksManagerDBSer;
+import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
 import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
@@ -234,8 +237,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             buttonflag= true;
             return;
         }
+        CacheData();
         if (!YLSystem.getNetWorkState().equals("2")){
-            WebService.CacheData(getApplicationContext());
             String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
             User user = new User();
             user.setEmpNO(Log_ET_Name.getText().toString());
@@ -243,8 +246,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             WebService webService = new WebService();
             User userfromweb = webService.LogicBypassword(user, url);
             Log.e(YLSystem.getKimTag(), userfromweb.toString());
-            YLSysTime ylSysTime = new YLSysTime();
-            ylSysTime.CheckLocateTime(userfromweb.getTime());
+            Sertime(userfromweb);
             YLSystem.setBaseName(userfromweb.getTaskDate());
             GetEmpByServer(userfromweb);
         }else {
@@ -255,6 +257,17 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         }
     }
 
+    private void Sertime(final User userfromweb) {
+        Thread thread  = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                YLSysTime ylSysTime = new YLSysTime();
+                ylSysTime.CheckLocateTime(userfromweb.getTime());
+            }
+        });
+        thread.start();
+    }
+
     private void LoginByHF() throws Exception {
         if (buttonflag){
             buttonflag= true;
@@ -263,16 +276,17 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         manager.init_14443A();
         byte[] uid = manager.inventory_14443A();
         if(uid != null){
+            CacheData();
             if (!YLSystem.getNetWorkState().equals("2")){
-                WebService.CacheData(getApplicationContext());
                 String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
                 User user = new User();
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
                 WebService webService = new WebService();
-                User userfromweb = webService.LogicByHF(user,url);
+                User userfromweb = webService.LogicByHF(user, url);
                 Log.e(YLSystem.getKimTag(), userfromweb.toString());
-                YLSysTime ylSysTime = new YLSysTime();
-                ylSysTime.CheckLocateTime(userfromweb.getTime());
+//                YLSysTime ylSysTime = new YLSysTime();
+//                ylSysTime.CheckLocateTime(userfromweb.getTime());
+                Sertime(userfromweb);
                 YLSystem.setBaseName(userfromweb.getTaskDate());
                 if (userfromweb.getServerReturn().equals("没有此人或密码错误。")){
 //                    YLMediaPlay("faile");
@@ -294,6 +308,27 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             buttonflag= false;
             Log_BN_HF.setEnabled(true);
         }
+    }
+
+    private void CacheData() {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
+                    Log.e(YLSystem.getKimTag(), timeLastUpdate + "缓存时间");
+                    if (!timeLastUpdate.equals("All")) {
+                        WebServerBaseData webServerBaseData = new WebServerBaseData();
+                        webServerBaseData.GetBaseData(getApplicationContext(), timeLastUpdate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
     private void GetEmpByServer(User userfromweb) throws Exception {

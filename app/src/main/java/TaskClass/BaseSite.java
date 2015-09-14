@@ -22,6 +22,30 @@ public class BaseSite //网点类
     public String Mark ;//标记添加=1、修改=2、删除=3
     public String ServerTime;//服务器时间。
 
+
+    public String getSiteID() {
+        return SiteID;
+    }
+
+    public void setSiteID(String siteID) {
+        SiteID = siteID;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseSite{" +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", SiteID='" + SiteID + '\'' +
+                ", SiteName='" + SiteName + '\'' +
+                ", SiteType='" + SiteType + '\'' +
+                ", ClientID='" + ClientID + '\'' +
+                ", SiteBCNo='" + SiteBCNo + '\'' +
+                ", Mark='" + Mark + '\'' +
+                ", ServerTime='" + ServerTime + '\'' +
+                '}';
+    }
+
     public void CacheBaseSite(Context ctx,List<BaseSite> lst){
         ArrayList<BaseSite> lstAdd=new ArrayList<>();
         ArrayList<BaseSite> lstUpdate=new ArrayList<>();

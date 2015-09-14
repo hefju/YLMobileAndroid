@@ -12,10 +12,16 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient_HF;
 import TaskClass.BaseEmp;
 import TaskClass.Box;
+import TaskClass.TasksManager;
+import TaskClass.User;
+import TaskClass.YLTask;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.BoxDBSer;
+import YLDataService.TasksManagerDBSer;
+import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
 /**
@@ -217,5 +223,15 @@ public class YLDataTest extends ApplicationTestCase<Application> {
             Log.e(YLSystem.getKimTag(),"0");
         }
     }
+
+    public void testDeleteYLTask()throws Exception{
+        TasksManager tasksManager = new TasksManager();
+        tasksManager.setTaskDate("2015-09-14");
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getContext());
+        tasksManagerDBSer.DeleteTasksManager(tasksManager);
+    }
+
+
+
 
 }
