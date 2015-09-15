@@ -14,7 +14,7 @@ import TaskClass.YLTask;
 public class YLEditData {
     public static YLATM ylatm;
     public static List<YLATM> ylatmList;
-    public static List<Box> ylboxnosave;
+    public static List<Box> yleditcarbox;
 
     public static Date DatePick;//当前选择的日期
     public static YLTask ylTask;
@@ -37,12 +37,12 @@ public class YLEditData {
         YLEditData.ylcarbox = ylcarbox;
     }
 
-    public static List<Box> getYlboxnosave() {
-        return ylboxnosave;
+    public static List<Box> getYleditcarbox() {
+        return yleditcarbox;
     }
 
-    public static void setYlboxnosave(List<Box> ylboxnosave) {
-        YLEditData.ylboxnosave = ylboxnosave;
+    public static void setYleditcarbox(List<Box> yleditcarbox) {
+        YLEditData.yleditcarbox = yleditcarbox;
     }
 
     public static YLTask getYlTask() {

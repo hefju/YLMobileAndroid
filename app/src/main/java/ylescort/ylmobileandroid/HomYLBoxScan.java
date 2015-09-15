@@ -83,7 +83,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private CheckBox homylboxscan_cb_ToT;
 
     private List<Box> AllBoxList;
-    private ArrayList<Box> CarBoxList;
+    private List<Box> CarBoxList;
     private List<Box> yltaskboxs;
 
     private Scan1DRecive HomBoxscan1DRecive;
@@ -343,6 +343,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            YLEditData.setYleditcarbox(CarBoxList);
             Intent intent = new Intent();
             intent.setClass(this, YLBoxEdit.class);
             String box_btn_ent_text = homylboxscan_btn_ent.getText().toString();
@@ -987,6 +988,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                ylTask.setLstCarBox(yltaskboxs);
                 finish();
                 dialog.dismiss();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -1005,6 +1007,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     protected void onPostResume() {
         if (homylboxscan_btn_ent.getText().equals("完成交接")){
             AllBoxList = YLSystem.getEdiboxList();
+            CarBoxList = YLEditData.getYleditcarbox();
             TallyBox(AllBoxList);
             InitTextView();
         }

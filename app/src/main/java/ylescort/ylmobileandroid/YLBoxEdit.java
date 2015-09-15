@@ -51,7 +51,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private List<Box> boxSiteListAll;//所有网点款箱数据
     private List<Box> boxEditListEdit;//在编辑的数据
     private List<Box> boxEditListAll;//网点所有款箱数据
-    private List<Box> boxNoSave;
+    private List<Box> yleditcarboxs;
     private AnalysisBoxList analysisBoxList;
 
     public YLEditData ylEditData;
@@ -210,7 +210,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private void GetandSetBoxtolist() {
         if (boxEditListEdit == null || boxEditListEdit.size() ==0)return;
 
-//        Log.e(YLSystem.getKimTag(),boxNoSave.toString()+"frist");
+//        Log.e(YLSystem.getKimTag(),yleditcarboxs.toString()+"frist");
 
         Box box = boxEditListEdit.get(listpostion);
         Box editbox = new Box();
@@ -230,8 +230,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         editbox.setBoxToT(box.getBoxToT());
         editbox.setBoxTaskType(box.getBoxTaskType());
         boxEditListEdit.set(listpostion, editbox);
-
-//        Log.e(YLSystem.getKimTag(), YLEditData.getYlboxnosave() + "second");
 
         ylBoxEdiAdapter.notifyDataSetInvalidated();
         TallyBox(boxEditListEdit);
@@ -404,19 +402,30 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.boxedi_btn_ent:SaveBoxlistData();
                 break;
-            case R.id.boxedi_btn_black:
-                /**返回
-                 *
-                 */
+            case R.id.boxedi_btn_black://返回按钮
                 YLSystem.setEdiboxList(boxEditListEdit);
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
             case R.id.boxedi_btn_del:
                 if (boxEditListEdit.size()!=0){
+                    if (boxEditListEdit.get(listpostion).getTradeAction().equals("收")){
+                        Box box = boxEditListEdit.get(listpostion);
+                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "收编辑在库数量1");
+                        yleditcarboxs.remove(box);
+                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "收编辑在库数量2");
+
+                    }else {
+                        Box box = boxEditListEdit.get(listpostion);
+                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "送编辑在库数量1");
+                        yleditcarboxs.add(box);
+                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "送编辑在库数量2");
+                    }
                     boxEditListEdit.remove(listpostion);
                     ylBoxEdiAdapter.setSelectItem(0);
                     listpostion = 0;
+                    Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "编辑在库数量");
+                    YLEditData.setYleditcarbox(yleditcarboxs);
                     TallyBox(boxEditListEdit);
                     ylBoxEdiAdapter.notifyDataSetInvalidated();
                 }
@@ -434,7 +443,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         boxEditListAll = new ArrayList<>();
         boxEditListEdit = new ArrayList<>();
         boxSiteListAll = new ArrayList<>();
-        boxNoSave = new ArrayList<>();
+        yleditcarboxs = new ArrayList<>();
 
         Bundle bundle = this.getIntent().getExtras();
         currSiteID = bundle.getString("siteid");
@@ -449,30 +458,29 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     }
                 }
 //                boxedi_sp_tasktype.setEnabled(false);
-//                boxedi_rbtn_get.setEnabled(false);
-//                boxedi_rbtn_give.setEnabled(false);
+                boxedi_rbtn_get.setEnabled(false);
+                boxedi_rbtn_give.setEnabled(false);
 //                boxedi_rbtn_full.setEnabled(false);
 //                boxedi_rbtn_empty.setEnabled(false);
 //                boxedi_rbtn_moneyboxs.setEnabled(false);
 //                boxedi_rbtn_cardbox.setEnabled(false);
 //                boxedi_rbtn_Voucher.setEnabled(false);
 //                boxedi_rbtn_Voucherbag.setEnabled(false);
-//                boxedi_btn_del.setEnabled(false);
+                boxedi_btn_del.setEnabled(false);
             }
         }else{
             boxEditListAll = YLSystem.getEdiboxList();
         }
-        /**初始化
-         *
-         *
-         */
-        for (int i = 0 ; i <boxEditListAll.size();i++){
-            Box box = new Box();
-            box = boxEditListAll.get(i);
-            boxNoSave.add(box);
-        }
 
-        YLEditData.setYlboxnosave(boxNoSave);
+
+        if (YLEditData.getYleditcarbox() !=null){
+            if (YLEditData.getYleditcarbox().size()>0){
+                for (Box box : YLEditData.getYleditcarbox()) {
+                    yleditcarboxs.add(box);
+                }
+            }
+        }
+//        YLEditData.setYleditcarbox(yleditcarboxs);
 
         LoadBoxData(boxEditListAll);
         ///增加
