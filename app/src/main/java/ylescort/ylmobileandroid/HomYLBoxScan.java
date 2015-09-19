@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.MediaPlayer;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +15,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,7 +29,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,7 +80,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
     private List<Box> AllBoxList;
     private List<Box> CarBoxList;
-    private List<Box> yltaskboxs;
+    private List<Box> CarBoxListnosave;
 
     private Scan1DRecive HomBoxscan1DRecive;
 
@@ -109,22 +105,24 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             tasksManager = YLSystem.getTasksManager();//获取任务管理类
             ylTask = tasksManager.CurrentTask;//当前选中的任务
             CarBoxList = new ArrayList<Box>();
+            CarBoxListnosave = new ArrayList<Box>();
             if (ylTask.getLstCarBox() != null){
                 if (ylTask.getLstCarBox().size() > 0){
                     for (Box box : ylTask.getLstCarBox()) {
                         CarBoxList.add(box);
+                        CarBoxListnosave.add(box);
                     }
                 }
             }
-            yltaskboxs = new ArrayList<Box>();
-            if (ylTask.getLstBox() != null){
-                if (ylTask.getLstBox().size() > 0){
-                    for (Box box : ylTask.getLstBox()) {
-                        yltaskboxs.add(box);
-                    }
-                }
-            }
-
+//            CarBoxListnosave = new ArrayList<Box>();
+//            if (ylTask.getLstBox() != null){
+//                if (ylTask.getLstBox().size() > 0){
+//                    for (Box box : ylTask.getLstBox()) {
+//                        CarBoxListnosave.add(box);
+//                    }
+//                }
+//            }
+            Log.e(YLSystem.getKimTag(),CarBoxList.toString()+"操作数据");
             HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
             InitView();
             InitData();
@@ -186,7 +184,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             }
         });
 
-        if (ylTask.getId() == null){
+        if (ylTask.getId() == null|| ylTask.getId() ==0){
             TaskTimeID = 1;
         }else {
             TaskTimeID = ylTask.getId();
@@ -423,6 +421,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 for (int i = 0; i < CarBoxList.size(); i++) {
                     Box givebox = new Box();
                     givebox = CarBoxList.get(i);
+                    Log.e(YLSystem.getKimTag(), CarBoxList.toString() + "在车数量");
                     if (givebox.getBoxID().equals(recivedata)) {
                         Box setbox = new Box();
                         setbox.setBoxID(recivedata);
@@ -435,15 +434,16 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         setbox.setActionTime(YLSysTime.GetStrCurrentTime());
                         setbox.setTimeID(CurrentBox.getTimeID());
                         setbox.setBoxCount("1");
-                        setbox.setBoxOrder(AllBoxList.size()+1+"");
-                        setbox.setTaskTimeID(CurrentBox.getTaskTimeID());
+                        setbox.setBoxOrder(AllBoxList.size() + 1 + "");
+                        setbox.setTaskTimeID(TaskTimeID);
 
                         homylboxscan_tv_boxname.setText(givebox.getBoxName());
                         homylboxscan_tv_boxaction.setText("送");
                         homylboxscan_tv_boxtype.setText(givebox.getBoxType());
                         homylboxscan_tv_boxcount.setText("1");
-                        homylboxscan_tv_boxstaut.setText(box.getBoxStatus());
+                        homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
                         homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
+                        Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
                         AllBoxList.add(setbox);
                         TallyBox(AllBoxList);
                         CarBoxList.remove(i);
@@ -534,11 +534,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             if (homylboxscan_cb_complie.isChecked()){
                 box.setRemark("1");
             }else {
-                box.setRemark("");
+                box.setRemark("0");
             }
             box.setTaskTimeID(TaskTimeID);
             box.setActionTime(YLSysTime.GetStrCurrentTime());
-            Log.e(YLSystem.getKimTag(), box.toString() + "插入款箱");
+            Log.e(YLSystem.getKimTag(), box.toString() + "收-添加款箱");
             AllBoxList.add(box);
             CarBoxList.add(box);
             ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
@@ -784,10 +784,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     }
                     ylTask.setId(TaskTimeID + 1);
                     ylTask.setLstCarBox(CarBoxList);
+                    Log.e(YLSystem.getKimTag(), CarBoxList.size() + "CarBoxList在库数量");
                     tasksManager.SaveTask(getApplicationContext());
                     AllBoxList.clear();
                     YLSystem.setEdiboxList(AllBoxList);
-                    Log.e(YLSystem.getKimTag(), ylTask.lstCarBox.size() + "在库数量");
                     dialog.dismiss();
                     HomYLBoxScan.this.finish();
                 }
@@ -988,7 +988,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ylTask.setLstCarBox(yltaskboxs);
+                ylTask.setLstCarBox(CarBoxListnosave);
                 finish();
                 dialog.dismiss();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

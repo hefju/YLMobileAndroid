@@ -129,6 +129,7 @@
     <string name="title_activity_handoverman_check">入库申请</string>
     <string name="handoverman_btn_cancel">返回</string>
     <string name="handoverman_btn_enter">确认</string>
+    <string name="handoverman_btn_carbox">车内款箱</string>
     <!--业务员检测-->
     <string name="title_activity_local_check">汇总检测</string>
     <string name="local_check_taskname">任务名称</string>

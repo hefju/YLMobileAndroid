@@ -191,11 +191,10 @@ public class Box {
     @Override
     public String toString() {
         return "Box{" +
-                "ActionTime='" + ActionTime + '\'' +
-                ", SiteID='" + SiteID + '\'' +
-                ", BoxID='" + BoxID + '\'' +
-                ", BoxName='" + BoxName + '\'' +
+                "BoxName='" + BoxName + '\'' +
                 ", TradeAction='" + TradeAction + '\'' +
+                ", BoxStatus='" + BoxStatus + '\'' +
+                ", TaskTimeID=" + TaskTimeID +
                 '}';
     }
 }

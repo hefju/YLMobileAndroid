@@ -51,6 +51,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private List<Box> boxSiteListAll;//所有网点款箱数据
     private List<Box> boxEditListEdit;//在编辑的数据
     private List<Box> boxEditListAll;//网点所有款箱数据
+    private List<Box> boxeditnosave;//初始款箱列表
     private List<Box> yleditcarboxs;
     private AnalysisBoxList analysisBoxList;
 
@@ -81,6 +82,9 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                ListView listView = (ListView)parent;
                 Box box = (Box)listView.getItemAtPosition(position);
                 listpostion = position;
+                if (box.getTradeAction().equals("送")){
+                    boxedi_sp_tasktype.setEnabled(false);
+                }
                 EditBox(box);
                 ylBoxEdiAdapter.setSelectItem(position);
                 ylBoxEdiAdapter.notifyDataSetInvalidated();
@@ -404,6 +408,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.boxedi_btn_black://返回按钮
                 YLSystem.setEdiboxList(boxEditListEdit);
+
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
@@ -411,20 +416,21 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 if (boxEditListEdit.size()!=0){
                     if (boxEditListEdit.get(listpostion).getTradeAction().equals("收")){
                         Box box = boxEditListEdit.get(listpostion);
-                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "收编辑在库数量1");
-                        yleditcarboxs.remove(box);
-                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "收编辑在库数量2");
-
+                        for (int i = 0; i < yleditcarboxs.size(); i++) {
+                            if (yleditcarboxs.get(i).getActionTime().equals(box.getActionTime())){
+                                yleditcarboxs.remove(i);
+                                break;
+                            }
+                        }
                     }else {
                         Box box = boxEditListEdit.get(listpostion);
-                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "送编辑在库数量1");
+                        box.setTradeAction("收");
                         yleditcarboxs.add(box);
-                        Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "送编辑在库数量2");
                     }
                     boxEditListEdit.remove(listpostion);
                     ylBoxEdiAdapter.setSelectItem(0);
                     listpostion = 0;
-                    Log.e(YLSystem.getKimTag(), yleditcarboxs.toString() + "编辑在库数量");
+                    Log.e(YLSystem.getKimTag(), yleditcarboxs.size() + "编辑在库数量");
                     YLEditData.setYleditcarbox(yleditcarboxs);
                     TallyBox(boxEditListEdit);
                     ylBoxEdiAdapter.notifyDataSetInvalidated();
@@ -444,6 +450,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         boxEditListEdit = new ArrayList<>();
         boxSiteListAll = new ArrayList<>();
         yleditcarboxs = new ArrayList<>();
+        boxeditnosave = new ArrayList<>();
 
         Bundle bundle = this.getIntent().getExtras();
         currSiteID = bundle.getString("siteid");
@@ -455,20 +462,24 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     Box box = ylTask.getLstBox().get(i);
                     if (box.getSiteID().equals(currSiteID)){
                         boxEditListAll.add(box);
+                        boxeditnosave.add(box);
                     }
                 }
 //                boxedi_sp_tasktype.setEnabled(false);
                 boxedi_rbtn_get.setEnabled(false);
                 boxedi_rbtn_give.setEnabled(false);
-//                boxedi_rbtn_full.setEnabled(false);
-//                boxedi_rbtn_empty.setEnabled(false);
-//                boxedi_rbtn_moneyboxs.setEnabled(false);
-//                boxedi_rbtn_cardbox.setEnabled(false);
-//                boxedi_rbtn_Voucher.setEnabled(false);
-//                boxedi_rbtn_Voucherbag.setEnabled(false);
+                boxedi_rbtn_full.setEnabled(false);
+                boxedi_rbtn_empty.setEnabled(false);
+                boxedi_rbtn_moneyboxs.setEnabled(false);
+                boxedi_rbtn_cardbox.setEnabled(false);
+                boxedi_rbtn_Voucher.setEnabled(false);
+                boxedi_rbtn_Voucherbag.setEnabled(false);
                 boxedi_btn_del.setEnabled(false);
+                boxedi_sp_tasktype.setEnabled(false);
             }
         }else{
+            boxedi_rbtn_get.setEnabled(false);
+            boxedi_rbtn_give.setEnabled(false);
             boxEditListAll = YLSystem.getEdiboxList();
         }
 

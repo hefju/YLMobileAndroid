@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.TasksManager;
 import TaskClass.User;
+import TaskClass.YLTask;
 import YLAdapter.YLBoxEdiAdapter;
 import YLDataService.AnalysisBoxList;
 import YLDataService.WebService;
@@ -39,6 +41,12 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
     private TextView handoverman_tv_emptybox;
     private Button handoverman_btn_cancel;
     private Button handoverman_btn_enter;
+    private Button handoverman_btn_carbox;
+
+    private TasksManager tasksManager = null;//任务管理类
+    private YLTask ylTask;//当前选中的任务
+
+    private List<Box> carlist;
 
 
     @Override
@@ -71,14 +79,25 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         handoverman_listview = (ListView) findViewById(R.id.handoverman_listview);
         handoverman_btn_cancel = (Button) findViewById(R.id.handoverman_btn_cancel);
         handoverman_btn_enter = (Button) findViewById(R.id.handoverman_btn_enter);
+        handoverman_btn_carbox = (Button) findViewById(R.id.handoverman_btn_carbox);
+
         handoverman_tv_Title.setText(taskName);handoverman_tv_Title.setTag(taskid);
 
         handoverman_btn_enter.setOnClickListener(this);
         handoverman_btn_cancel.setOnClickListener(this);
+        handoverman_btn_carbox.setOnClickListener(this);
     }
 
 
     private void InitData() throws Exception{
+
+        tasksManager= YLSystem.getTasksManager();//获取任务管理类
+        ylTask=tasksManager.CurrentTask;//当前选中的任务
+        carlist = new ArrayList<>();
+        if (ylTask.getLstCarBox() != null){
+            carlist = ylTask.getLstCarBox();
+        }
+
         List<Box> boxList = new ArrayList<>();
         WebService webService = new WebService();
         boxList =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
@@ -149,6 +168,9 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             case R.id.handoverman_btn_cancel:
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                break;
+            case R.id.handoverman_btn_carbox:
+                BoxCheckAdapter(carlist);
                 break;
         }
     }

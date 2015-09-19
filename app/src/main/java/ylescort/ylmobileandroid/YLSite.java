@@ -82,99 +82,101 @@ public class YLSite extends ActionBarActivity {
                 ylTask.setTaskState("进行中");
             }
 
-            if (ylTask.getLstCarBox() == null ||ylTask.getLstCarBox().get(0).getBoxID() == null){
-                WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
-                User user = new User();
-                user.setTaskDate(ylTask.getTaskID());
-                user.setDeviceID(YLSystem.getHandsetIMEI());
-                user.setEmpID(YLSystem.getUser().getEmpID());
-                List<Box> boxList =  webServerValutInorOut.StoreGetBoxByTaskIDOut(user, getApplicationContext());
-                if (boxList.get(0).getBoxID() != null){
-                    ylTask.setLstCarBox(boxList);
-                }else {
-                    List<Box> boxes = new ArrayList<Box>();
-                    boxes.clear();
-                    ylTask.setLstCarBox(boxes);
+            siteList = new ArrayList<>();
+
+            ylsite_tv_title = (TextView) findViewById(R.id.ylsite_tv_title);
+            ylsite_tv_title.setText(ylTask.getLine());
+
+            listView = (ListView) findViewById(R.id.ylsite_lv_MainView);
+            Site_apply = (Button) findViewById(R.id.Site_apply);
+            Site_check = (Button) findViewById(R.id.Site_check);
+
+
+            Site_apply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowApplyAcivity();
                 }
+            });
+
+            Site_check.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ShowCheckAcivity();
+                }
+            });
+
+
+            DisplayTaskSite(ylTask.lstSite);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    OpenBoxAct((ListView) parent, position);
+                }
+            });
+
+
+            //用于回传数据更新UI
+            mHandler = new android.os.Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    switch (msg.what) {
+                        case 1:
+                            break;
+                        case 20: //获取GetTaskList成功
+                            Log.d("jutest", "从服务器获取GetTaskStie成功");
+                            List<Site> lstSite = (List<Site>) msg.obj;
+                            tasksManager.MergeSite(lstSite);//同步本地的网点
+                            tasksManager.CurrentTask.setTaskState("进行中");
+                            DisplayTaskSite(ylTask.lstSite); //显示网点列表
+                            tasksManager.SaveTask(YLSite.this);
+                            //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了 //
+                            break;
+                        case 21://获取GetTaskStie失败, 服务器返回值不等于1, 获取数据失败
+                            String content = (String) msg.obj;
+                            Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
+                            //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了
+                            break;
+                        case 100:
+                            break;
+                        default:
+                            break;
+                    }
+                    super.handleMessage(msg);
+                }
+            };
+
+            //增加载入自动更新0330kim
+            if (!ylTask.getTaskState().equals("有更新")) {
+                Toast.makeText(getApplicationContext(), "已经最新.", Toast.LENGTH_SHORT).show();
+                return;
             }
-            Log.e(YLSystem.getKimTag(),ylTask.lstCarBox.size()+"在车数量");
+//        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
+//        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+            GetSite();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        siteList = new ArrayList<>();
+    }
 
-        ylsite_tv_title=(TextView)findViewById(R.id.ylsite_tv_title);
-        ylsite_tv_title.setText(ylTask.getLine());
-
-        listView = (ListView)findViewById(R.id.ylsite_lv_MainView);
-        Site_apply = (Button)findViewById(R.id.Site_apply);
-        Site_check =  (Button)findViewById(R.id.Site_check);
-
-
-        Site_apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowApplyAcivity();
+    private void GetCarBoxlist() throws Exception {
+        if (ylTask.getLstCarBox() == null || ylTask.getLstCarBox().size() == 0
+                || ylTask.getLstCarBox().get(0).getBoxID() == null) {
+            WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
+            User user = new User();
+            user.setTaskDate(ylTask.getTaskID());
+            user.setDeviceID(YLSystem.getHandsetIMEI());
+            user.setEmpID(YLSystem.getUser().getEmpID());
+            List<Box> boxList = webServerValutInorOut.StoreGetBoxByTaskIDOut(user, getApplicationContext());
+            if (boxList.get(0).getBoxID() != null) {
+                ylTask.setLstCarBox(boxList);
+            } else {
+                List<Box> boxes = new ArrayList<Box>();
+                boxes.clear();
+                ylTask.setLstCarBox(boxes);
             }
-        });
-
-        Site_check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowCheckAcivity();
-            }
-        });
-
-
-        DisplayTaskSite(ylTask.lstSite);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick (AdapterView<?> parent, View view, int position, long id) {
-                OpenBoxAct((ListView) parent, position);
-            }
-        });
-
-
-
-
-        //用于回传数据更新UI
-        mHandler = new android.os.Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        break;
-                    case 20: //获取GetTaskList成功
-                        Log.d("jutest", "从服务器获取GetTaskStie成功");
-                        List<Site> lstSite  = (List<Site>) msg.obj;
-                        tasksManager.MergeSite(lstSite);//同步本地的网点
-                        tasksManager.CurrentTask.setTaskState("进行中");
-                        DisplayTaskSite(ylTask.lstSite); //显示网点列表
-                        tasksManager.SaveTask(YLSite.this);
-                        //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了 //
-                        break;
-                    case 21://获取GetTaskStie失败, 服务器返回值不等于1, 获取数据失败
-                        String content = (String) msg.obj;
-                        Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
-                        //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了
-                        break;
-                    case 100:
-                        break;
-                    default:
-                        break;
-                }
-                super.handleMessage(msg);
-            }
-        };
-
-        //增加载入自动更新0330kim
-        if(!ylTask.getTaskState().equals("有更新")) {
-            Toast.makeText(getApplicationContext(),"已经最新.",Toast.LENGTH_SHORT).show();
-            return;
         }
-//        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
-//        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
-        GetSite();
+        Log.e(YLSystem.getKimTag(), ylTask.lstCarBox.size() + "在车数量");
     }
 
     private void GetSite() {
@@ -188,6 +190,15 @@ public class YLSite extends ActionBarActivity {
             tasksManager.MergeSite(lstSite);//同步本地的网点
             tasksManager.CurrentTask.setTaskState("进行中");
             DisplayTaskSite(ylTask.lstSite); //显示网点列表
+            boolean getcarboxs = true;
+            for (Site site : lstSite) {
+                if (site.getStatus().equals("已完成")){
+                    getcarboxs = false;
+                }
+            }
+            if (getcarboxs){
+                GetCarBoxlist();
+            }
             tasksManager.SaveTask(YLSite.this);
         } catch (Exception e) {
             e.printStackTrace();
@@ -219,52 +230,53 @@ public class YLSite extends ActionBarActivity {
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    public void YLSite_UpDate(View view){
+    public void YLSite_UpDate(View view) {
         dialog();
     }
 
-    private void ShowApplyAcivity(){
+    private void ShowApplyAcivity() {
         Intent intent = new Intent();
         intent.setClass(this, HandovermanCheck.class);
         Bundle bundle = new Bundle();
-        bundle.putString("taskid",ylTask.getTaskID());
-        bundle.putString("taskName",ylTask.getLine());
+        bundle.putString("taskid", ylTask.getTaskID());
+        bundle.putString("taskName", ylTask.getLine());
         intent.putExtras(bundle);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
-    private String UpLoadService()throws Exception{
+    private String UpLoadService() throws Exception {
         UploadAsycnTask uploadAsycnTask = new UploadAsycnTask();
         uploadAsycnTask.execute();
         return uploadAsycnTask.get();
     }
 
-    private class UploadAsycnTask extends AsyncTask<String,Integer,String>{
+    private class UploadAsycnTask extends AsyncTask<String, Integer, String> {
         @Override
         protected String doInBackground(String... params) {
-            String url= YLSystem.GetBaseUrl(getApplicationContext())+"UpLoad";
-            Log.e(YLSystem.getKimTag(),url);
+            String url = YLSystem.GetBaseUrl(getApplicationContext()) + "UpLoad";
+            Log.e(YLSystem.getKimTag(), url);
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
                 YLTask t1 = ylTask;
-                t1.lstSite=ylTask.lstSite;
-                t1.lstBox=ylTask.lstBox;
-                p.put("STask",gson.toJson(t1));//整个任务=====================自定义。。。。。
+                t1.lstSite = ylTask.lstSite;
+                t1.lstBox = ylTask.lstBox;
+                p.put("STask", gson.toJson(t1));//整个任务=====================自定义。。。。。
                 p.put("empid", YLSystem.getUser().EmpID);//人员id=====================自定义。。。。。
                 p.put("deviceID", YLSystem.getUser().DeviceID);//手持机号=====================自定义。。。。。
                 p.put("ISWIFI", YLSystem.getUser().ISWIFI);//是否用WIFI=====================自定义。。。。。
-                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
-                Log.e(YLSystem.getKimTag(),"箱数："+t1.getLstBox().size()+"网点数："+t1.getLstSite().size());
-                if (response.getStatusLine().getStatusCode() == 200){
+                Log.e(YLSystem.getKimTag(), "箱数：" + t1.getLstBox().size() + "网点数：" + t1.getLstSite().size());
+                if (response.getStatusLine().getStatusCode() == 200) {
                     String content = EntityUtils.toString(response.getEntity());
-                    Log.e(YLSystem.getKimTag(),t1.lstBox.size()+"boxlist");
-                    return gson.fromJson(content,new TypeToken<String>(){}.getType()) ;
+                    Log.e(YLSystem.getKimTag(), t1.lstBox.size() + "boxlist");
+                    return gson.fromJson(content, new TypeToken<String>() {
+                    }.getType());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -278,7 +290,7 @@ public class YLSite extends ActionBarActivity {
         Gson gson = new Gson();
         //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
         JSONObject p = new JSONObject();
-        p.put("STask",gson.toJson(t1));//整个任务=====================自定义。。。。。
+        p.put("STask", gson.toJson(t1));//整个任务=====================自定义。。。。。
         p.put("empid", s1.EmpID);//人员id=====================自定义。。。。。
         p.put("deviceID", s1.DeviceID);//手持机号=====================自定义。。。。。
         p.put("ISWIFI", s1.ISWIFI);//是否用WIFI=====================自定义。。。。。
@@ -293,12 +305,12 @@ public class YLSite extends ActionBarActivity {
         }
     }
 
-    private void DisplayTaskSite( List<Site> siteList) {
+    private void DisplayTaskSite(List<Site> siteList) {
 //        SiteDBSer siteDBSer = new SiteDBSer(getApplicationContext());
 //        List<Site> siteList = siteDBSer.GetSites("WHERE TaskID = '"+taskid+"'");
-       // List<Site> siteList =ylTask.lstSite;
-        if (siteList==null||siteList.size()<1)return;
-        ylSiteAdapter = new YLSiteAdapter(this,siteList,R.layout.activity_ylsiteitem);
+        // List<Site> siteList =ylTask.lstSite;
+        if (siteList == null || siteList.size() < 1) return;
+        ylSiteAdapter = new YLSiteAdapter(this, siteList, R.layout.activity_ylsiteitem);
         listView.setAdapter(ylSiteAdapter);
 
     }
@@ -308,40 +320,40 @@ public class YLSite extends ActionBarActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLSite.this);
         builder.setMessage("确认上传吗?");
         builder.setTitle("提示");
-        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
                 try {
                     Date LoactTime = YLSysTime.GetDateCurrentTime();
-                    Date UpdateTime =YLSysTime.StrToTime(ylTask.getServerReturn()) ;
-                    long longtime = LoactTime.getTime()-UpdateTime.getTime();
-                    if (longtime <= 15000){
-                        Toast.makeText(getApplicationContext(),"请不要频繁上传数据",Toast.LENGTH_SHORT).show();
+                    Date UpdateTime = YLSysTime.StrToTime(ylTask.getServerReturn());
+                    long longtime = LoactTime.getTime() - UpdateTime.getTime();
+                    if (longtime <= 15000) {
+                        Toast.makeText(getApplicationContext(), "请不要频繁上传数据", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 try {
-                    String serret =  UpLoadService();
-                    if (serret.equals("1")){
+                    String serret = UpLoadService();
+                    if (serret.equals("1")) {
                         ylTask.setTaskState("已上传");
                         ylTask.setServerReturn(YLSysTime.GetStrCurrentTime());
                         tasksManager.SaveTask(getApplicationContext());
                         UpDataDialog();
 //                        finish();
-                    }else {
-                        Toast.makeText(getApplicationContext(),"未上传成功,请重新上传",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "未上传成功,请重新上传", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(),"未上传成功,请连接网络重新上传",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "未上传成功,请连接网络重新上传", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
                 dialog.dismiss();
             }
         });
-        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -358,7 +370,7 @@ public class YLSite extends ActionBarActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == 4){
+        if (keyCode == 4) {
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }
@@ -369,7 +381,7 @@ public class YLSite extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ylsite, menu);
-        if(!ylTask.getTaskState().equals("有更新")){
+        if (!ylTask.getTaskState().equals("有更新")) {
             menu.removeItem(0);//为什么不生效?
         }
         return true;
@@ -384,8 +396,8 @@ public class YLSite extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.btnUpdateSite_ylsite) {
-            if(ylTask.getTaskState()!="有更新") {
-                Toast.makeText(getApplicationContext(),"已经是最新.",Toast.LENGTH_SHORT).show();
+            if (ylTask.getTaskState() != "有更新") {
+                Toast.makeText(getApplicationContext(), "已经是最新.", Toast.LENGTH_SHORT).show();
                 return true;
             }
 //            WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
@@ -396,9 +408,10 @@ public class YLSite extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onResume() {
-        if (ylTask.lstSite != null){
+        if (ylTask.lstSite != null) {
             ylSiteAdapter.notifyDataSetInvalidated();
         }
         super.onResume();

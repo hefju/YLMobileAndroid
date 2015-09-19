@@ -113,6 +113,11 @@
         <Button
             android:layout_width="100sp"
             android:layout_height="wrap_content"
+            android:id="@+id/handoverman_btn_carbox"
+            android:text="@string/handoverman_btn_carbox"/>
+        <Button
+            android:layout_width="100sp"
+            android:layout_height="wrap_content"
             android:id="@+id/handoverman_btn_cancel"
             android:text="@string/handoverman_btn_cancel"/>
         <Button
