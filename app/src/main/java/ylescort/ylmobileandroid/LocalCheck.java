@@ -102,6 +102,8 @@ public class LocalCheck extends ActionBarActivity {
         localcheck_btn_allbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (boxList == null)return;
+                if (boxList.size()==0)return;
                 List<String> stringList = analysisBoxList.AnsysisBoxList(boxList);
                 localcheck_tv_moneybox.setText("款箱:"+stringList.get(0));
                 localcheck_tv_cardbox.setText("卡箱:"+stringList.get(1));

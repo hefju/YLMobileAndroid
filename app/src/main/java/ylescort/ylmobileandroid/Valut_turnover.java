@@ -250,7 +250,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private void UploadData() {
         try {
-            if (AllboxList.size() > 1) {
+            if (AllboxList.size() > 0) {
                 vaultoutylTask.setTaskDate(PickDate);
                 vaultoutylTask.setLstBox(AllboxList);
                 YLEditData.setYlTask(vaultoutylTask);

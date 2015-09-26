@@ -103,8 +103,8 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         boxList =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
                 YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
         Log.e(YLSystem.getKimTag(), boxList.toString());
-        for (int i = 0;i<boxList.size();i++){
-            boxList.get(i).setTradeAction("收");
+        if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。")){
+            boxList.clear();
         }
         BoxCheckAdapter(boxList);
         Analysis(boxList);
@@ -126,7 +126,6 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
 
     private void BoxCheckAdapter(List<Box> boxList){
         if (boxList == null)return;
-        
         YLBoxEdiAdapter ylBoxEdiAdapter = new YLBoxEdiAdapter(getApplicationContext(),
                 boxList,R.layout.activity_boxedititem);
         handoverman_listview.setAdapter(ylBoxEdiAdapter);

@@ -226,7 +226,7 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
     public void testDeleteYLTask()throws Exception{
         TasksManager tasksManager = new TasksManager();
-        tasksManager.setTaskDate("2015-09-18");
+        tasksManager.setTaskDate("2015-09-26");
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getContext());
         tasksManagerDBSer.DeleteTasksManager(tasksManager);
     }

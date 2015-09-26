@@ -151,27 +151,22 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 box_sp_text = parent.getItemAtPosition(position).toString();
                 switch (box_sp_text) {
-//                    case "早送":
-//                        homylboxscan_rbtn_give.setChecked(true);
-//                        homylboxscan_rbtn_give.setEnabled(true);
-//                        homylboxscan_rbtn_get.setEnabled(false);
-//                        homylboxscan_btn_date.setEnabled(false);
-//                        homylboxscan_cb_date.setEnabled(false);
-//                        break;
-//                    case "晚收":
-//                        homylboxscan_rbtn_get.setChecked(true);
-//                        homylboxscan_rbtn_get.setEnabled(true);
-//                        homylboxscan_rbtn_give.setEnabled(false);
-//                        homylboxscan_btn_date.setEnabled(false);
-//                        homylboxscan_cb_date.setEnabled(false);
-//                        break;
+                    case "早送晚收":
+                        homylboxscan_cb_ToT.setChecked(false);
+                        homylboxscan_cb_ToT.setEnabled(false);
+                        homylboxscan_btn_date.setEnabled(false);
+                        homylboxscan_cb_date.setEnabled(false);
+                        CurrentBox.setBoxToT("0");
+                        break;
                     case "寄库箱":
+                        homylboxscan_cb_ToT.setChecked(false);
+                        homylboxscan_cb_ToT.setEnabled(false);
                         homylboxscan_btn_date.setEnabled(true);
                         homylboxscan_cb_date.setEnabled(true);
+                        CurrentBox.setBoxToT("0");
                         break;
                     default:
-//                        homylboxscan_rbtn_give.setEnabled(true);
-//                        homylboxscan_rbtn_get.setEnabled(true);
+                        homylboxscan_cb_ToT.setEnabled(true);
                         homylboxscan_btn_date.setEnabled(false);
                         homylboxscan_cb_date.setEnabled(false);
                         break;
@@ -501,9 +496,9 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }
 
         if (homylboxscan_cb_ToT.isChecked()){
-            tradeToT = "0";
-        }else {
             tradeToT = "1";
+        }else {
+            tradeToT = "0";
         }
 
         box.setBoxToT(tradeToT);
