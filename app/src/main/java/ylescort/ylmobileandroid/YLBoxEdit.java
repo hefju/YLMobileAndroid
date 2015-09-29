@@ -84,6 +84,12 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 listpostion = position;
                 if (box.getTradeAction().equals("送")){
                     boxedi_sp_tasktype.setEnabled(false);
+                    boxedi_rbtn_full.setEnabled(false);
+                    boxedi_rbtn_empty.setEnabled(false);
+                }else {
+                    boxedi_sp_tasktype.setEnabled(true);
+                    boxedi_rbtn_full.setEnabled(true);
+                    boxedi_rbtn_empty.setEnabled(true);
                 }
                 EditBox(box);
                 ylBoxEdiAdapter.setSelectItem(position);
@@ -324,6 +330,20 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             case "寄库箱":boxedi_sp_tasktype.setSelection(5);
                 break;
         }
+
+        if (box.getBoxName().contains("粤龙临")){
+            boxedi_rbtn_moneyboxs.setEnabled(true);
+            boxedi_rbtn_cardbox.setEnabled(true);
+            boxedi_rbtn_Voucher.setEnabled(true);
+            boxedi_rbtn_Voucherbag.setEnabled(true);
+        }else {
+            boxedi_rbtn_moneyboxs.setEnabled(false);
+            boxedi_rbtn_cardbox.setEnabled(false);
+            boxedi_rbtn_Voucher.setEnabled(false);
+            boxedi_rbtn_Voucherbag.setEnabled(false);
+        }
+
+
     }
 
     private void initlayout() {
