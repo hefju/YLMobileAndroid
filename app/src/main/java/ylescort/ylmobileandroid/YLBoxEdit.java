@@ -204,7 +204,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
     private void TallyBox(List<Box> boxList) {
         if (boxList == null)return;
 
-        List<String> list =  analysisBoxList.AnsysisBoxList(boxList);
+        List<Integer> list =  analysisBoxList.AnsysisBoxList(boxList);
 
         boxedi_rbtn_get.setText("收箱:"+list.get(4));
         boxedi_rbtn_give.setText("送箱:"+list.get(5));

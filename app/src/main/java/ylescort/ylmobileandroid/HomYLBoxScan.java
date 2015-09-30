@@ -156,6 +156,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         homylboxscan_cb_ToT.setEnabled(false);
                         homylboxscan_btn_date.setEnabled(false);
                         homylboxscan_cb_date.setEnabled(false);
+                        homylboxscan_cb_date.setChecked(false);
+                        CurrentBox.setNextOutTime("");
                         CurrentBox.setBoxToT("0");
                         break;
                     case "寄库箱":
@@ -169,6 +171,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         homylboxscan_cb_ToT.setEnabled(true);
                         homylboxscan_btn_date.setEnabled(false);
                         homylboxscan_cb_date.setEnabled(false);
+                        homylboxscan_cb_date.setChecked(false);
+                        CurrentBox.setNextOutTime("");
                         break;
                 }
 
@@ -342,9 +346,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             String box_btn_ent_text = homylboxscan_btn_ent.getText().toString();
             Bundle bundle = new Bundle();
             bundle.putString("siteid",homylboxscan_tv_title.getTag().toString());
-            bundle.putString("box_btn_ent_text",box_btn_ent_text);
+            bundle.putString("box_btn_ent_text", box_btn_ent_text);
             intent.putExtras(bundle);
             startActivity(intent);
+            Scan1DCmd("stopscan");
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             return true;
         }

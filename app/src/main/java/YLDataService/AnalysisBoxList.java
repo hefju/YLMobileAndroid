@@ -13,7 +13,7 @@ import YLSystemDate.YLSystem;
  */
 public class AnalysisBoxList {
 
-    public List<String> AnsysisBoxList(List<Box> boxList){
+    public List<Integer> AnsysisBoxList(List<Box> boxList){
         int moneybox = 0;
         int cardbox = 0;
         int voucherbox = 0;
@@ -67,15 +67,15 @@ public class AnalysisBoxList {
 
         }
 
-        List<String> stringList = new ArrayList<>();
-        stringList.add(moneybox+"");
-        stringList.add(cardbox+"");
-        stringList.add(voucherbox+"");
-        stringList.add(voucherbag+"");
-        stringList.add(getbox+"");
-        stringList.add(givebox+"");
-        stringList.add(fullbox+"");
-        stringList.add(emptybox+"");
+        List<Integer> stringList = new ArrayList<>();
+        stringList.add(moneybox);
+        stringList.add(cardbox);
+        stringList.add(voucherbox);
+        stringList.add(voucherbag);
+        stringList.add(getbox);
+        stringList.add(givebox);
+        stringList.add(fullbox);
+        stringList.add(emptybox);
         return stringList;
     }
 

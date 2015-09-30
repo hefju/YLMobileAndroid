@@ -149,19 +149,32 @@ public class YLSite extends ActionBarActivity {
             //增加载入自动更新0330kim
             if (!ylTask.getTaskState().equals("有更新")) {
                 Toast.makeText(getApplicationContext(), "已经最新.", Toast.LENGTH_SHORT).show();
-                return;
+            }else {
+                GetSite();
             }
 //        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
 //        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
-            GetSite();
+
+            boolean getcarboxs = true;
+            for (Site site : ylTask.getLstSite()) {
+                if (site.getStatus().equals("已完成")){
+                    getcarboxs = false;
+                }
+            }
+            Log.e(YLSystem.getKimTag(),getcarboxs+"车内款箱更新标识");
+            if (getcarboxs){
+                GetCarBoxlist();
+            }
+            tasksManager.SaveTask(YLSite.this);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void GetCarBoxlist() throws Exception {
-        if (ylTask.getLstCarBox() == null || ylTask.getLstCarBox().size() == 0
-                || ylTask.getLstCarBox().get(0).getBoxID() == null) {
+//        if (ylTask.getLstCarBox() == null || ylTask.getLstCarBox().size() == 0
+//                || ylTask.getLstCarBox().get(0).getBoxID() == null) {
             WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
             User user = new User();
             user.setTaskDate(ylTask.getTaskID());
@@ -175,7 +188,7 @@ public class YLSite extends ActionBarActivity {
                 boxes.clear();
                 ylTask.setLstCarBox(boxes);
             }
-        }
+//        }
         Log.e(YLSystem.getKimTag(), ylTask.lstCarBox.size() + "在车数量");
     }
 
@@ -190,16 +203,6 @@ public class YLSite extends ActionBarActivity {
             tasksManager.MergeSite(lstSite);//同步本地的网点
             tasksManager.CurrentTask.setTaskState("进行中");
             DisplayTaskSite(ylTask.lstSite); //显示网点列表
-            boolean getcarboxs = true;
-            for (Site site : lstSite) {
-                if (site.getStatus().equals("已完成")){
-                    getcarboxs = false;
-                }
-            }
-            if (getcarboxs){
-                GetCarBoxlist();
-            }
-            tasksManager.SaveTask(YLSite.this);
         } catch (Exception e) {
             e.printStackTrace();
         }

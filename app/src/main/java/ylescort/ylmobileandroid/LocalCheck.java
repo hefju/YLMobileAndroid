@@ -86,7 +86,7 @@ public class LocalCheck extends ActionBarActivity {
                         analysisbox.add(box);
                     }
                 }
-                List<String> stringList = analysisBoxList.AnsysisBoxList(analysisbox);
+                List<Integer> stringList = analysisBoxList.AnsysisBoxList(analysisbox);
                 localcheck_tv_moneybox.setText("款箱:"+stringList.get(0));
                 localcheck_tv_cardbox.setText("卡箱:"+stringList.get(1));
                 localcheck_tv_voucherbox.setText("凭证箱:"+stringList.get(2));
@@ -104,7 +104,7 @@ public class LocalCheck extends ActionBarActivity {
             public void onClick(View view) {
                 if (boxList == null)return;
                 if (boxList.size()==0)return;
-                List<String> stringList = analysisBoxList.AnsysisBoxList(boxList);
+                List<Integer> stringList = analysisBoxList.AnsysisBoxList(boxList);
                 localcheck_tv_moneybox.setText("款箱:"+stringList.get(0));
                 localcheck_tv_cardbox.setText("卡箱:"+stringList.get(1));
                 localcheck_tv_voucherbox.setText("凭证箱:"+stringList.get(2));

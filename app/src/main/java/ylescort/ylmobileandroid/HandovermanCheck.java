@@ -96,30 +96,35 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         carlist = new ArrayList<>();
         if (ylTask.getLstCarBox() != null){
             carlist = ylTask.getLstCarBox();
+            for (int i = 0; i < carlist.size(); i++) {
+                carlist.get(i).setBoxOrder((i+1)+"");
+            }
         }
-
         List<Box> boxList = new ArrayList<>();
         WebService webService = new WebService();
         boxList =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
                 YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
-        Log.e(YLSystem.getKimTag(), boxList.toString());
+        handoverman_tv_getbox.setText("应入库箱总数：");
         if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。")){
             boxList.clear();
         }
         BoxCheckAdapter(boxList);
+        if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。"))return;
         Analysis(boxList);
     }
 
     private void Analysis(List<Box> boxList) {
-        if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。"))return;
+
         AnalysisBoxList analysisBoxList = new AnalysisBoxList();
-        List<String> stringList =  analysisBoxList.AnsysisBoxList(boxList);
+        List<Integer> stringList =  analysisBoxList.AnsysisBoxList(boxList);
         handoverman_tv_monenybox.setText("款箱:" + stringList.get(0));
         handoverman_tv_cardbox.setText("卡箱:"+stringList.get(1));
         handoverman_tv_voucher.setText("凭证箱:"+stringList.get(2));
         handoverman_tv_voucherbag.setText("凭证袋:"+stringList.get(3));
-        handoverman_tv_getbox.setText("收箱:"+stringList.get(4));
-        handoverman_tv_givebox.setText("送箱:" + stringList.get(5));
+//        handoverman_tv_getbox.setText("收箱:"+stringList.get(4));
+//        handoverman_tv_givebox.setText("送箱:" + stringList.get(5));
+        String getboxtext =handoverman_tv_getbox.getText().toString() + (stringList.get(4)+stringList.get(5));
+        handoverman_tv_getbox.setText(getboxtext);
         handoverman_tv_fullbox.setText("实箱:" + stringList.get(6));
         handoverman_tv_emptybox.setText("空箱:" + stringList.get(7));
     }
@@ -169,7 +174,11 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
             case R.id.handoverman_btn_carbox:
+                handoverman_tv_getbox.setText("车内箱数：");
                 BoxCheckAdapter(carlist);
+                if (carlist != null){
+                    Analysis(carlist);
+                }
                 break;
         }
     }
