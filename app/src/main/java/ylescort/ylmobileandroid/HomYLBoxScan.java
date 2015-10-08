@@ -122,16 +122,35 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 //                    }
 //                }
 //            }
-            Log.e(YLSystem.getKimTag(),CarBoxList.toString()+"操作数据");
+            Log.e(YLSystem.getKimTag(),CarBoxList.size()+"操作数据");
             HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
             InitView();
             InitData();
             InitReciveScan1D();
+            GetScreen();          //备用屏幕关闭时事件
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
+    private void GetScreen() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mBatlnfoReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver mBatlnfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)){
+                ScanYLBox();
+                YLEditData.setYleditcarbox(CarBoxList);
+            }
+        }
+    };
 
     private void InitData() {
         CurrentBox = new Box();
@@ -1008,6 +1027,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         if (homylboxscan_btn_ent.getText().equals("完成交接")){
             AllBoxList = YLSystem.getEdiboxList();
             CarBoxList = YLEditData.getYleditcarbox();
+            Log.e(YLSystem.getKimTag(),CarBoxList.size()+"重载返回数据");
             TallyBox(AllBoxList);
             InitTextView();
         }

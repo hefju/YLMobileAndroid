@@ -528,6 +528,12 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
+        if (boxList.size()>0){
+            if (boxList.get(0).getTradeAction() != null & boxList.get(0).getTradeAction().equals("送")){
+                boxedi_rbtn_empty.setEnabled(false);
+                boxedi_rbtn_full.setEnabled(false);
+            }
+        }
         TallyBox(boxList);
     }
 
