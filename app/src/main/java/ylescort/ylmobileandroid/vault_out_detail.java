@@ -70,6 +70,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             InitView();
             InitData();
             InitReciveScan1D();
+            GetScreen();
 //            InitReciveScanUHF();
         }
         catch (Exception e){
@@ -77,6 +78,25 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         }
 
     }
+
+    private void GetScreen() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mBatlnfoReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver mBatlnfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)){
+                vault_out_detail_btn_scan1d.setText("扫描");
+                Scan1DCmd("stopscan");
+            }
+        }
+    };
+
 
     private void InitReciveScanUHF() {
         YLBoxscanUHFRecive = new Scan1DRecive();

@@ -83,11 +83,31 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             InitView();
             InitData();
             InitReciveScan1D();
+            GetScreen();
 //            InitUHFService();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void GetScreen() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mBatlnfoReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver mBatlnfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)){
+                vault_turnover_btn_scan.setText("扫描/F1");
+                Scan1DCmd("stopscan");
+            }
+        }
+    };
+
 
     private void InitReciveScan1D() {
         vaultindetailscan1DRecive = new Scan1DRecive();

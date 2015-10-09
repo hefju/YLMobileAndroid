@@ -114,20 +114,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     }
                 }
             }
-//            CarBoxListnosave = new ArrayList<Box>();
-//            if (ylTask.getLstBox() != null){
-//                if (ylTask.getLstBox().size() > 0){
-//                    for (Box box : ylTask.getLstBox()) {
-//                        CarBoxListnosave.add(box);
-//                    }
-//                }
-//            }
+
             Log.e(YLSystem.getKimTag(),CarBoxList.size()+"操作数据");
             HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
             InitView();
             InitData();
             InitReciveScan1D();
-            GetScreen();          //备用屏幕关闭时事件
+            GetScreen();          //屏幕关闭时事件
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,7 +139,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (Intent.ACTION_SCREEN_OFF.equals(action)){
-                ScanYLBox();
+                homylboxscan_btn_scan.setText("扫描/F1");
+                Scan1DCmd("stopscan");
                 YLEditData.setYleditcarbox(CarBoxList);
             }
         }
@@ -440,7 +434,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 for (int i = 0; i < CarBoxList.size(); i++) {
                     Box givebox = new Box();
                     givebox = CarBoxList.get(i);
-                    Log.e(YLSystem.getKimTag(), CarBoxList.toString() + "在车数量");
+                    Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
                     if (givebox.getBoxID().equals(recivedata)) {
                         Box setbox = new Box();
                         setbox.setBoxID(recivedata);

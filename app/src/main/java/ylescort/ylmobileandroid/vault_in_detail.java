@@ -74,11 +74,30 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
             InitView();
             InitDate();
             InitReciveScan1D();
+            GetScreen();          //屏幕关闭时事件
 //            InitUHFService();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void GetScreen() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+        registerReceiver(mBatlnfoReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver mBatlnfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (Intent.ACTION_SCREEN_OFF.equals(action)){
+                vault_in_detail_btn_scan1d.setText("扫描");
+                Scan1DCmd("stopscan");
+            }
+        }
+    };
 
     private void InitUHFService() {
         vaultindetailscanUHFRecive = new Scan1DRecive();
