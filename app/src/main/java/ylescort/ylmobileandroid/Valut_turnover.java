@@ -444,12 +444,13 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             boolean addormore = true;
             for (int i = AllboxList.size() -1;i >=0;i--){
                 Box box = AllboxList.get(i);
-                if (box.getValutcheck().equals("对")){
-                    addormore = false;
-                    ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                    continue;
-                }
+
                 if (box.getBoxID().equals(recivedata)) {
+                    if (box.getValutcheck().equals("对")){
+                        addormore = false;
+                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        continue;
+                    }
                     if (box.getValutcheck().equals("多")) {
                         addormore = false;
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());

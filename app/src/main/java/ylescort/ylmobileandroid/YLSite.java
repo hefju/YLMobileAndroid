@@ -74,7 +74,6 @@ public class YLSite extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylsite);
         try {
-            YLSite.this.setTitle("任务网点: " + YLSystem.getUser().getName());
             tasksManager = YLSystem.getTasksManager();//获取任务管理类
             ylTask = tasksManager.CurrentTask;//当前选中的任务
 
@@ -189,6 +188,7 @@ public class YLSite extends ActionBarActivity {
                 ylTask.setLstCarBox(boxes);
             }
 //        }
+        YLSite.this.setTitle("车内款箱数: " + ylTask.lstCarBox.size());
         Log.e(YLSystem.getKimTag(), ylTask.lstCarBox.size() + "在车数量");
     }
 
@@ -415,7 +415,13 @@ public class YLSite extends ActionBarActivity {
     @Override
     protected void onResume() {
         if (ylTask.lstSite != null) {
-            ylSiteAdapter.notifyDataSetInvalidated();
+            try {
+                YLSite.this.setTitle("车内款箱数: " + ylTask.lstCarBox.size());
+                ylSiteAdapter.notifyDataSetInvalidated();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
         super.onResume();
     }

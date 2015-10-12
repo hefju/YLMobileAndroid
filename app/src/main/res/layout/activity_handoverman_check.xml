@@ -111,22 +111,26 @@
         android:id="@+id/handoverman_ll_button"
         android:gravity="center">
         <Button
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/handoverman_btn_carbox"
-            android:visibility="invisible"
             android:text="@string/handoverman_btn_carbox"/>
         <Button
-            android:layout_width="100sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/handoverman_btn_invalut"
+            android:text="@string/handoverman_btn_invalut" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/handoverman_btn_enter"
+            android:text="@string/handoverman_btn_enter" />
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/handoverman_btn_cancel"
             android:text="@string/handoverman_btn_cancel"/>
-        <Button
-            android:layout_width="100sp"
-            android:layout_height="wrap_content"
-            android:id="@+id/handoverman_btn_enter"
-            android:text="@string/handoverman_btn_enter"
-            android:layout_marginStart="20sp"/>
+
     </LinearLayout>
 
 </RelativeLayout>

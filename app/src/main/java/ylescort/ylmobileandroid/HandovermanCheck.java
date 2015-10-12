@@ -42,11 +42,13 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
     private Button handoverman_btn_cancel;
     private Button handoverman_btn_enter;
     private Button handoverman_btn_carbox;
+    private Button handoverman_btn_invalut;
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
 
     private List<Box> carlist;
+    private List<Box> alllist;
 
 
     @Override
@@ -80,12 +82,14 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
         handoverman_btn_cancel = (Button) findViewById(R.id.handoverman_btn_cancel);
         handoverman_btn_enter = (Button) findViewById(R.id.handoverman_btn_enter);
         handoverman_btn_carbox = (Button) findViewById(R.id.handoverman_btn_carbox);
+        handoverman_btn_invalut = (Button)findViewById(R.id.handoverman_btn_invalut);
 
         handoverman_tv_Title.setText(taskName);handoverman_tv_Title.setTag(taskid);
 
         handoverman_btn_enter.setOnClickListener(this);
         handoverman_btn_cancel.setOnClickListener(this);
         handoverman_btn_carbox.setOnClickListener(this);
+        handoverman_btn_invalut.setOnClickListener(this);
     }
 
 
@@ -100,17 +104,13 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                 carlist.get(i).setBoxOrder((i+1)+"");
             }
         }
-        List<Box> boxList = new ArrayList<>();
+        alllist = new ArrayList<>();
         WebService webService = new WebService();
-        boxList =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
+        alllist =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
                 YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
-        handoverman_tv_getbox.setText("应入库箱总数：");
-        if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。")){
-            boxList.clear();
+        if (alllist.size()==1& alllist.get(0).getServerReturn().equals("没有入库箱。")){
+            alllist.clear();
         }
-        BoxCheckAdapter(boxList);
-        if (boxList.size()==1& boxList.get(0).getServerReturn().equals("没有入库箱。"))return;
-        Analysis(boxList);
     }
 
     private void Analysis(List<Box> boxList) {
@@ -179,6 +179,12 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                 if (carlist != null){
                     Analysis(carlist);
                 }
+                break;
+            case R.id.handoverman_btn_invalut:
+                handoverman_tv_getbox.setText("应入库箱总数：");
+                BoxCheckAdapter(alllist);
+                if (alllist.size()==0)return;
+                Analysis(alllist);
                 break;
         }
     }
