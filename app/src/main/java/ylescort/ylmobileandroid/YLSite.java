@@ -399,14 +399,30 @@ public class YLSite extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.btnUpdateSite_ylsite) {
-            if (ylTask.getTaskState() != "有更新") {
-                Toast.makeText(getApplicationContext(), "已经是最新.", Toast.LENGTH_SHORT).show();
-                return true;
+//            if (ylTask.getTaskState() != "有更新") {
+//                Toast.makeText(getApplicationContext(), "已经是最新.", Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+////            WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
+//            GetSite();
+//            Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
+//            return true;
+
+            try {
+                boolean getcarboxs = true;
+                for (Site site : ylTask.getLstSite()) {
+                    if (site.getStatus().equals("已完成")){
+                        getcarboxs = false;
+                    }
+                }
+                Log.e(YLSystem.getKimTag(),getcarboxs+"车内款箱更新标识");
+                if (getcarboxs){
+                    GetCarBoxlist();
+                }
+                tasksManager.SaveTask(YLSite.this);
+            }catch (Exception e){
+                e.printStackTrace();
             }
-//            WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
-            GetSite();
-            Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
-            return true;
         }
 
         return super.onOptionsItemSelected(item);

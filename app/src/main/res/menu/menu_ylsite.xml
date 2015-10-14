@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="ylescort.ylmobileandroid.YLSite">
     <item android:id="@+id/btnUpdateSite_ylsite"
-          android:title="更新网点"
+          android:title="车内款箱"
           android:orderInCategory="100"
-          app:showAsAction="never"/>
+          app:showAsAction="always"/>
 </menu>
