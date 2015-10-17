@@ -632,7 +632,9 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
                     baseBoxDBSer.InsertBox2(baseBoxes);
-                    Log.e(YLSystem.getKimTag(),baseBoxes.size()+"款箱数据");
+                    Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
+                    kim_vibrate.setText(baseBoxes.size()+"款箱数");
+
                 }
                 publishProgress(4);
             } catch (Exception e) {

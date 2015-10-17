@@ -159,21 +159,17 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case 131:
-                try {
+        try {
+            switch (keyCode) {
+                case 131:
                     LoginByPassword();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case 132:
-                try {
+                    break;
+                case 132:
                     LoginByHF();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -200,35 +196,32 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.Log_BN_HF:
-                try {
+        try {
+            switch (v.getId()) {
+                case R.id.Log_BN_HF:
                     LoginByHF();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.Log_BN_Ent:
-                try {
+                    break;
+                case R.id.Log_BN_Ent:
                     LoginByPassword();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-            case R.id.btnTest1:UpDataAPK();
-                break;
-            case R.id.btnTest2:
-                Intent intent = new Intent();
-                intent.setClass(LoginActivity.this, KimTest.class);
-                startActivity(intent);
-                break;
-            case R.id.logic_sw_address:
-                if (logic_sw_address.isChecked()){
-                    YLSystem.setSerAdress("0");
-                }else {
-                    YLSystem.setSerAdress("1");
-                }
-                break;
+                    break;
+                case R.id.btnTest1:
+                    UpDataAPK();
+                    break;
+                case R.id.btnTest2:
+                    Intent intent = new Intent();
+                    intent.setClass(LoginActivity.this, KimTest.class);
+                    startActivity(intent);
+                    break;
+                case R.id.logic_sw_address:
+                    if (logic_sw_address.isChecked()) {
+                        YLSystem.setSerAdress("0");
+                    } else {
+                        YLSystem.setSerAdress("1");
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -258,14 +251,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void Sertime(final User userfromweb) {
-        Thread thread  = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                YLSysTime ylSysTime = new YLSysTime();
-                ylSysTime.CheckLocateTime(userfromweb.getTime());
-            }
-        });
-        thread.start();
+        YLSysTime ylSysTime = new YLSysTime();
+        ylSysTime.Sertime(userfromweb.getTime());
     }
 
     private void LoginByHF() throws Exception {
@@ -284,12 +271,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 WebService webService = new WebService();
                 User userfromweb = webService.LogicByHF(user, url);
                 Log.e(YLSystem.getKimTag(), userfromweb.toString());
-//                YLSysTime ylSysTime = new YLSysTime();
-//                ylSysTime.CheckLocateTime(userfromweb.getTime());
                 Sertime(userfromweb);
                 YLSystem.setBaseName(userfromweb.getTaskDate());
                 if (userfromweb.getServerReturn().equals("没有此人或密码错误。")){
-//                    YLMediaPlay("faile");
                     ylMediaPlayer.SuccessOrFailMidia("faile",getApplicationContext());
                     buttonflag= false;
                     Log_BN_HF.setEnabled(true);
@@ -338,10 +322,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             userfromweb.setISWIFI(YLSystem.getNetWorkState());
             userfromweb.setDeviceID(YLSystem.getHandsetIMEI());
             YLSystem.setUser(userfromweb);
-//            if (YLSysTime.getServertime() == null){
-//                Intent TimeSerintent = new Intent(getApplicationContext(),SerTimeService.class);
-//                startService(TimeSerintent);
-//            }
             Intent intent = new Intent();
             String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
             if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")

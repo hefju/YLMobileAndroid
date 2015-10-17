@@ -13,9 +13,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
@@ -278,5 +275,10 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         YLSystem.setSerAdress("0");
         WebServerBaseData webServerBaseData = new WebServerBaseData();
 //        webServerBaseData.GetBaseData(getContext());
+    }
+
+    public void testYLSiteShow()throws Exception{
+
+
     }
 }

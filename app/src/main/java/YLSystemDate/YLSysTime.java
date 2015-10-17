@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import TaskClass.User;
 import ylescort.ylmobileandroid.ShellInterface;
 
 /**
@@ -89,6 +90,16 @@ public class YLSysTime {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void Sertime(final String Servertime) {
+        Thread thread  = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                CheckLocateTime(Servertime);
+            }
+        });
+        thread.start();
     }
 
     /**

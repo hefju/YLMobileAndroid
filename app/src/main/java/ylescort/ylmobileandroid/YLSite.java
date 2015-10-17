@@ -1,11 +1,10 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,32 +22,26 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
-import YLDataService.WebServerValutInorOut;
 import YLDataService.WebServerYLSite;
-import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -61,12 +54,12 @@ public class YLSite extends ActionBarActivity {
     private ListView listView;
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
-    android.os.Handler mHandler; //消息处理
     private List<Site> siteList;
     private YLSiteAdapter ylSiteAdapter;
 
     private Button Site_apply;
     private Button Site_check;
+    private  ProgressDialog progressDialog ;
 
 
     @Override
@@ -74,6 +67,7 @@ public class YLSite extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ylsite);
         try {
+            progressDialog =  new ProgressDialog(YLSite.this);
             tasksManager = YLSystem.getTasksManager();//获取任务管理类
             ylTask = tasksManager.CurrentTask;//当前选中的任务
 
@@ -115,81 +109,30 @@ public class YLSite extends ActionBarActivity {
             });
 
 
-            //用于回传数据更新UI
-            mHandler = new android.os.Handler() {
-                @Override
-                public void handleMessage(Message msg) {
-                    switch (msg.what) {
-                        case 1:
-                            break;
-                        case 20: //获取GetTaskList成功
-                            Log.d("jutest", "从服务器获取GetTaskStie成功");
-                            List<Site> lstSite = (List<Site>) msg.obj;
-                            tasksManager.MergeSite(lstSite);//同步本地的网点
-                            tasksManager.CurrentTask.setTaskState("进行中");
-                            DisplayTaskSite(ylTask.lstSite); //显示网点列表
-                            tasksManager.SaveTask(YLSite.this);
-                            //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了 //
-                            break;
-                        case 21://获取GetTaskStie失败, 服务器返回值不等于1, 获取数据失败
-                            String content = (String) msg.obj;
-                            Toast.makeText(getApplicationContext(), content, Toast.LENGTH_LONG).show();
-                            //Task_btn_refresh.setEnabled(true);//可以再次点击刷新了
-                            break;
-                        case 100:
-                            break;
-                        default:
-                            break;
-                    }
-                    super.handleMessage(msg);
-                }
-            };
-
             //增加载入自动更新0330kim
             if (!ylTask.getTaskState().equals("有更新")) {
                 Toast.makeText(getApplicationContext(), "已经最新.", Toast.LENGTH_SHORT).show();
             }else {
                 GetSite();
             }
-//        WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
-//        Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
-
-            boolean getcarboxs = true;
-            for (Site site : ylTask.getLstSite()) {
-                if (site.getStatus().equals("已完成")){
-                    getcarboxs = false;
-                }
-            }
-            Log.e(YLSystem.getKimTag(),getcarboxs+"车内款箱更新标识");
-            if (getcarboxs){
-                GetCarBoxlist();
-            }
-            tasksManager.SaveTask(YLSite.this);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void GetCarBoxlist() throws Exception {
-//        if (ylTask.getLstCarBox() == null || ylTask.getLstCarBox().size() == 0
-//                || ylTask.getLstCarBox().get(0).getBoxID() == null) {
-            WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
-            User user = new User();
-            user.setTaskDate(ylTask.getTaskID());
-            user.setDeviceID(YLSystem.getHandsetIMEI());
-            user.setEmpID(YLSystem.getUser().getEmpID());
-            List<Box> boxList = webServerValutInorOut.StoreGetBoxByTaskIDOut(user, getApplicationContext());
-            if (boxList.get(0).getBoxID() != null) {
-                ylTask.setLstCarBox(boxList);
-            } else {
-                List<Box> boxes = new ArrayList<Box>();
-                boxes.clear();
-                ylTask.setLstCarBox(boxes);
+        boolean getcarboxs = true;
+        for (Site site : ylTask.getLstSite()) {
+            if (site.getStatus().equals("已完成")) {
+                getcarboxs = false;
             }
-//        }
-        YLSite.this.setTitle("车内款箱数: " + ylTask.lstCarBox.size());
-        Log.e(YLSystem.getKimTag(), ylTask.lstCarBox.size() + "在车数量");
+        }
+        Log.e(YLSystem.getKimTag(), getcarboxs + "车内款箱更新标识");
+        if (getcarboxs) {
+            CarBoxListAsy carBoxListAsy = new CarBoxListAsy();
+            carBoxListAsy.execute(ylTask.getTaskID());
+        }
+        YLSite.this.setTitle("车内款箱数: " + ylTask.getLstCarBox().size());
     }
 
     private void GetSite() {
@@ -217,20 +160,26 @@ public class YLSite extends ActionBarActivity {
 
     private void OpenBoxAct(ListView parent, int position) {
 
-        ListView listView1 = (ListView) parent;
-        Site site = (Site) listView1.getItemAtPosition(position);
+        try {
+            Sertime(YLSystem.getUser().getTime());
+            ListView listView1 = (ListView) parent;
+            Site site = (Site) listView1.getItemAtPosition(position);
+            Intent intent = new Intent();
+            intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
+            YLEditData.setCurrentYLSite(site);
+            startActivity(intent);
+            GetCarBoxlist();
+            tasksManager.SaveTask(YLSite.this);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        Intent intent = new Intent();
+    private void Sertime(final String CurrentTime) {
+        YLSysTime ylSysTime = new YLSysTime();
+        ylSysTime.Sertime(CurrentTime);
 
-        intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
-
-        YLEditData.setCurrentYLSite(site);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("siteid",site.getSiteID());
-//        bundle.putString("sitename",site.getSiteName());
-//        intent.putExtras(bundle);
-        startActivity(intent);//我调用时Scan1DService会报错.
-        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     public void YLSite_UpDate(View view) {
@@ -288,30 +237,7 @@ public class YLSite extends ActionBarActivity {
         }
     }
 
-    private void UpDataToService(YLTask t1, User s1, HttpPost post) throws JSONException, IOException {
-        //添加数值到User类
-        Gson gson = new Gson();
-        //设置POST请求中的参数-------返回EmpID员工ID，ServerReturn 服务器错误，1为没错误，Time 服务器时间。
-        JSONObject p = new JSONObject();
-        p.put("STask", gson.toJson(t1));//整个任务=====================自定义。。。。。
-        p.put("empid", s1.EmpID);//人员id=====================自定义。。。。。
-        p.put("deviceID", s1.DeviceID);//手持机号=====================自定义。。。。。
-        p.put("ISWIFI", s1.ISWIFI);//是否用WIFI=====================自定义。。。。。
-
-        post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-        post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response = client.execute(post);
-        if (response.getStatusLine().getStatusCode() == 200) {
-            String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
-            Log.d("WCF", content);//打印到logcat
-        }
-    }
-
     private void DisplayTaskSite(List<Site> siteList) {
-//        SiteDBSer siteDBSer = new SiteDBSer(getApplicationContext());
-//        List<Site> siteList = siteDBSer.GetSites("WHERE TaskID = '"+taskid+"'");
-        // List<Site> siteList =ylTask.lstSite;
         if (siteList == null || siteList.size() < 1) return;
         ylSiteAdapter = new YLSiteAdapter(this, siteList, R.layout.activity_ylsiteitem);
         listView.setAdapter(ylSiteAdapter);
@@ -371,6 +297,78 @@ public class YLSite extends ActionBarActivity {
                 .setPositiveButton("确定", null).show();
     }
 
+
+    private class CarBoxListAsy extends AsyncTask<String,Integer,List<Box>>{
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("正在更新中");
+            progressDialog.setMax(100);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<Box> doInBackground(String... strings) {
+            String url = YLSystem.GetBaseUrl(getApplicationContext()) + "StoreGetBoxByTaskIDOut";
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            InputStream inputStream = null;
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            try {
+                p.put("TaskID", strings[0]);
+                p.put("deviceID", YLSystem.getHandsetIMEI());
+                p.put("empid", YLSystem.getUser().getEmpID());
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    inputStream = response.getEntity().getContent();
+                    long filelength = response.getEntity().getContentLength();
+                    int len = 0;
+                    byte[] data = new byte[1024];
+                    int totallength = 0;
+                    int value = 0;
+                    while ((len = inputStream.read(data)) != -1) {
+                        totallength += len;
+                        value = (int) ((totallength / (float) filelength) * 100);
+                        publishProgress(value);
+                        outputStream.write(data, 0, len);
+                    }
+                    byte[] result = outputStream.toByteArray();
+                    String content = new String(result, "UTF-8");
+                    List<Box> boxList = gson.fromJson(content, new TypeToken<List<Box>>() {
+                    }.getType());
+
+                    if (boxList.get(0).getBoxID() == null) {
+                        boxList.clear();
+                    }
+                    ylTask.setLstCarBox(boxList);
+                    Log.e(YLSystem.getKimTag(), ylTask.getLstCarBox().size() + "在车数量");
+                    tasksManager.SaveTask(YLSite.this);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Box> boxes) {
+            progressDialog.setProgress(0);
+            YLSite.this.setTitle("车内款箱数: " + ylTask.getLstCarBox().size());
+            progressDialog.dismiss();
+        }
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == 4) {
@@ -397,34 +395,13 @@ public class YLSite extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.btnUpdateSite_ylsite) {
-//            if (ylTask.getTaskState() != "有更新") {
-//                Toast.makeText(getApplicationContext(), "已经是最新.", Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-////            WebService.GetTaskSite(getApplicationContext(), mHandler,ylTask.getTaskID());
-//            GetSite();
-//            Toast.makeText(getApplicationContext(), "正在获取...", Toast.LENGTH_SHORT).show();
-//            return true;
-
             try {
-                boolean getcarboxs = true;
-                for (Site site : ylTask.getLstSite()) {
-                    if (site.getStatus().equals("已完成")){
-                        getcarboxs = false;
-                    }
-                }
-                Log.e(YLSystem.getKimTag(),getcarboxs+"车内款箱更新标识");
-                if (getcarboxs){
-                    GetCarBoxlist();
-                }
-                tasksManager.SaveTask(YLSite.this);
-            }catch (Exception e){
+                GetCarBoxlist();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -437,7 +414,6 @@ public class YLSite extends ActionBarActivity {
             }catch (Exception e){
                 e.printStackTrace();
             }
-
         }
         super.onResume();
     }
