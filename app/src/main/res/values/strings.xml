@@ -74,6 +74,7 @@
     <string name="vaultinorout_btn_out">出库(F2)</string>
     <string name="vaultinorout_btn_CheckVault">盘库</string>
     <string name="vaultinorout_btn_turnover">夜间周转</string>
+    <string name="vaultinorout_btn_tmpinorout">临时出入库</string>
     <!--出库管理-->
     <string name="title_activity_vault_out_operate">出库管理</string>
     <string name="vault_out_operate_tv_text">任务线路:</string>
@@ -174,4 +175,18 @@
     <!--款箱状态-->
     <string name="boxstaut_full">实</string>
     <string name="boxstaut_empty">空</string>
+    <!--库管员临时出入库任务-->
+    <string name="valuttmp_inorout_btn_in">临时入库</string>
+    <string name="valuttmp_inorout_btn_out">临时出库</string>
+    <!--库管员临时出入库扫描-->
+    <string name="valuttmp_scan_btn_scan">扫描/F1</string>
+    <string name="valuttmp_scan_btn_upload">上传/F2</string>
+
+    <!--业务员临时出入库扫描-->
+    <string name="HomTmp_scan_applycation">申请</string>
+    <string name="HomTmp_scan_btn_refersh">刷新</string>
+    <string name="HomTmp_scan_btn_scan">扫描</string>
+    <string name="HomTmp_scan_btn_upload">上传</string>
+
+
 </resources>

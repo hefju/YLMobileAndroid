@@ -102,7 +102,6 @@ public class ScanUHFService extends Service {
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
-                                // TODO Auto-generated catch block
                                 e.printStackTrace();
                             }
 //                            Log.e(TAG,epcStr+"read");
@@ -112,7 +111,6 @@ public class ScanUHFService extends Service {
                     try {
                         Thread.sleep(200);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -152,7 +150,6 @@ public class ScanUHFService extends Service {
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
             String ac = intent.getStringExtra("activity");
             if(ac!=null)
                 Log.e(YLSystem.getKimTag(), ac);

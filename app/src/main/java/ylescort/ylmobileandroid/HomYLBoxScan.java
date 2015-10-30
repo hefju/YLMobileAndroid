@@ -38,6 +38,7 @@ import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
+import YLDataService.WebServerYLSite;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
@@ -115,7 +116,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 }
             }
 
-            Log.e(YLSystem.getKimTag(),CarBoxList.size()+"操作数据");
+            Log.e(YLSystem.getKimTag(),ylTask.getLstCarBox()+"操作数据");
             HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
             InitView();
             InitData();
@@ -434,7 +435,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 for (int i = 0; i < CarBoxList.size(); i++) {
                     Box givebox = new Box();
                     givebox = CarBoxList.get(i);
-                    Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
+
                     if (givebox.getBoxID().equals(recivedata)) {
                         Box setbox = new Box();
                         setbox.setBoxID(recivedata);
@@ -449,7 +450,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         setbox.setBoxCount("1");
                         setbox.setBoxOrder(AllBoxList.size() + 1 + "");
                         setbox.setTaskTimeID(TaskTimeID);
-
+                        Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
                         homylboxscan_tv_boxname.setText(givebox.getBoxName());
                         homylboxscan_tv_boxaction.setText("送");
                         homylboxscan_tv_boxtype.setText(givebox.getBoxType());
@@ -645,6 +646,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     CurrentBox.setBoxToT("0");
                 }
                 break;
+            case R.id.homylboxscan_cb_scan:
+                if (!homylboxscan_cb_scan.isChecked())
+                {
+                    Scan1DCmd("stopscan");
+                    homylboxscan_btn_scan.setText("扫描/F1");
+                }
+                break;
         }
     }//按键事件
 
@@ -660,9 +668,11 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                           case 1:
                               homylboxscan_btn_boxtype.setText("卡箱");
                               break;
-                          case 2:homylboxscan_btn_boxtype.setText("凭证箱");
+                          case 2:
+                              homylboxscan_btn_boxtype.setText("凭证箱");
                               break;
-                          case 3:homylboxscan_btn_boxtype.setText("凭证袋");
+                          case 3:
+                              homylboxscan_btn_boxtype.setText("凭证袋");
                               break;
                       }
                       dialogInterface.dismiss();
@@ -719,13 +729,44 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     }
 
     private void ArriveAndFinish() {
-        if (homylboxscan_btn_ent.getText().equals("到达")){
+        if (homylboxscan_btn_ent.getText().equals("到达")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
             builder.setMessage("确认到达吗?");
             builder.setTitle("提示");
-            builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        boolean sitecheck = true;
+                        for (Site site : ylTask.getLstSite()) {
+                            if (site.getStatus().equals("已完成")) {
+                                sitecheck = false;
+                                break;
+                            }
+                        }
+                        if (sitecheck) {
+                            WebServerYLSite webServerYLSite = new WebServerYLSite();
+                            int boxcount = webServerYLSite.GetTaskBoxCount
+                                    (getApplicationContext(), ylTask.getTaskID(), YLSystem.getUser().getEmpID());
+                            if (boxcount == 999){
+                                Toast.makeText(getApplicationContext(),"网络异常请稍后再试",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Log.e(YLSystem.getKimTag(),"库管出箱数："+boxcount+"手持机箱数："+CarBoxList.size());
+                            if (CarBoxList.size() != boxcount) {
+                                Log.e(YLSystem.getKimTag(),"更新出库数据");
+                                List<Box> newboxList = webServerYLSite.GetCarBoxlist
+                                        (getApplicationContext(), ylTask.getTaskID());
+                                CarBoxList.clear();
+                                CarBoxListnosave.clear();
+                                CarBoxList.addAll(newboxList);
+                                CarBoxListnosave.addAll(newboxList);
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     homylboxscan_btn_ent.setText("完成交接");
                     homylboxscan_btn_scan.setEnabled(true);
                     homylboxscan_btn_nonelable.setEnabled(true);
@@ -739,7 +780,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     dialog.dismiss();
                 }
             });
-            builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     homylboxscan_btn_ent.setText("到达");
@@ -748,7 +789,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 }
             });
             builder.create().show();
-        }else {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
             builder.setMessage("确认完成交接吗?");
             builder.setTitle("提示");
@@ -797,7 +838,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     }
                     ylTask.setId(TaskTimeID + 1);
                     ylTask.setLstCarBox(CarBoxList);
-                    Log.e(YLSystem.getKimTag(), CarBoxList.size() + "CarBoxList在库数量");
                     tasksManager.SaveTask(getApplicationContext());
                     AllBoxList.clear();
                     YLSystem.setEdiboxList(AllBoxList);
@@ -973,7 +1013,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.e(YLSystem.getKimTag(),keyCode+"");
         switch (keyCode){
             case 131:ScanYLBox();
                 break;
@@ -1016,6 +1055,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         builder.create().show();
     }
 
+
+    @Override
+    protected void onStop() {
+        YLEditData.setYleditcarbox(CarBoxList);
+        YLSystem.setEdiboxList(AllBoxList);
+        super.onStop();
+    }
+
     @Override
     protected void onPostResume() {
         if (homylboxscan_btn_ent.getText().equals("完成交接")){
@@ -1041,6 +1088,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     protected void onDestroy() {
         if (HomBoxscan1DRecive != null){
             unregisterReceiver(HomBoxscan1DRecive);
+            unregisterReceiver(mBatlnfoReceiver);
         }
         Scan1DCmd("stopscan");
         super.onDestroy();

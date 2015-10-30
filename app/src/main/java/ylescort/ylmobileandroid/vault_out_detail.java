@@ -152,6 +152,12 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         user.setTaskDate(ylTask.getTaskID());
 
         AllboxList= webServerValutInorOut.StoreGetBoxByTaskIDOut(user,getApplicationContext());
+
+        if (AllboxList.get(0).getServerReturn().contains("没有出库箱")){
+            AllboxList.clear();
+        }
+
+        Log.e(YLSystem.getKimTag(),AllboxList.toString());
         DisPlayBoxlistAdapter(AllboxList);
         Log.e(YLSystem.getKimTag(), AllboxList.size() + " 库内款箱数");
         ShowBoxList();
@@ -257,7 +263,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                         user.setTaskDate(ylTask.getTaskID());
                         WebServerValutInorOut webServerValutInorOut = new WebServerValutInorOut();
                         AllboxList= webServerValutInorOut.StoreGetBoxByTaskIDOut(user,getApplicationContext());
-                        Log.e(YLSystem.getKimTag(),AllboxList.toString());
+                        Log.e(YLSystem.getKimTag(),AllboxList.size()+"上传数量");
                         DisPlayBoxlistAdapter(AllboxList);
                         ShowBoxList();
                     }else{
@@ -321,6 +327,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 break;
             case R.id.vault_out_detail_btn_enter:
                 try {
+                    if (AllboxList.size()==0)return;
                     YLBoxEnter();
                 }catch (Exception e){
                     e.printStackTrace();
@@ -401,10 +408,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         if (AllboxList.size() ==0){
             AllboxList.clear();
             boxcheck = true;
-        }else if (AllboxList.size()==1&AllboxList.get(0).getServerReturn().contains("没有出库箱")){
-            AllboxList.clear();
-            boxcheck = true;
-        }else {
+        }
+        else {
             for (int i = AllboxList.size()-1; i>=0;i--){
                 Box listbox = AllboxList.get(i);
                 if (listbox.getBoxID().equals(recivedata)){

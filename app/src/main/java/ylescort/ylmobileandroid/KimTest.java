@@ -120,6 +120,13 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
         InitHFreader();
 
+        InitData();
+
+    }
+
+    private void InitData() {
+        int count= (new BaseBoxDBSer(KimTest.this)).BaseBoxCount();
+        kim_vibrate.setText(count+" 个款箱");
     }
 
     private class Scan1DRecive extends BroadcastReceiver{
@@ -288,16 +295,16 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //        notification.flags = notification.flags|Notification.FLAG_SHOW_LIGHTS;
 //        manager.notify(1,notification);
 
-        String svcName = Context.NOTIFICATION_SERVICE;
-        NotificationManager notificationManager = (NotificationManager)getSystemService(svcName);
-        Notification.Builder builder =
-                new Notification.Builder(KimTest.this);
-        builder.setSmallIcon(R.drawable.ic_launcher).setTicker("")
-                .setWhen(System.currentTimeMillis())
-                .setDefaults(Notification.DEFAULT_SOUND|
-                Notification.DEFAULT_VIBRATE).setLights(-13210, 0, 1);
-        Notification notification = builder.getNotification();
-        notificationManager.notify(1,notification);
+//        String svcName = Context.NOTIFICATION_SERVICE;
+//        NotificationManager notificationManager = (NotificationManager)getSystemService(svcName);
+//        Notification.Builder builder =
+//                new Notification.Builder(KimTest.this);
+//        builder.setSmallIcon(R.drawable.ic_launcher).setTicker("")
+//                .setWhen(System.currentTimeMillis())
+//                .setDefaults(Notification.DEFAULT_SOUND|
+//                Notification.DEFAULT_VIBRATE).setLights(-13210, 0, 1);
+//        Notification notification = builder.getNotification();
+//        notificationManager.notify(1,notification);
 
 
     }
@@ -633,7 +640,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     }.getType());
                     baseBoxDBSer.InsertBox2(baseBoxes);
                     Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
-                    kim_vibrate.setText(baseBoxes.size()+"款箱数");
+                    InitData();
 
                 }
                 publishProgress(4);

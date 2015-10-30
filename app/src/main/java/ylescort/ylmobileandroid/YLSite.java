@@ -59,7 +59,10 @@ public class YLSite extends ActionBarActivity {
 
     private Button Site_apply;
     private Button Site_check;
+    private Button Site_tmp;
     private  ProgressDialog progressDialog ;
+
+    private boolean checkcardownload;
 
 
     @Override
@@ -70,6 +73,7 @@ public class YLSite extends ActionBarActivity {
             progressDialog =  new ProgressDialog(YLSite.this);
             tasksManager = YLSystem.getTasksManager();//获取任务管理类
             ylTask = tasksManager.CurrentTask;//当前选中的任务
+            checkcardownload = false;
 
             if (!ylTask.getTaskState().equals("有更新")) {
                 ylTask.setTaskState("进行中");
@@ -83,6 +87,7 @@ public class YLSite extends ActionBarActivity {
             listView = (ListView) findViewById(R.id.ylsite_lv_MainView);
             Site_apply = (Button) findViewById(R.id.Site_apply);
             Site_check = (Button) findViewById(R.id.Site_check);
+            Site_tmp = (Button) findViewById(R.id.Site_tmp);
 
 
             Site_apply.setOnClickListener(new View.OnClickListener() {
@@ -99,15 +104,25 @@ public class YLSite extends ActionBarActivity {
                 }
             });
 
-
-            DisplayTaskSite(ylTask.lstSite);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            Site_tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    OpenBoxAct((ListView) parent, position);
+                public void onClick(View view) {
+                    ShowtmpActivity();
                 }
             });
 
+
+            DisplayTaskSite(ylTask.lstSite);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    if (checkcardownload) {
+
+                        OpenBoxAct((ListView) parent, position);
+                    }
+                }
+            });
 
             //增加载入自动更新0330kim
             if (!ylTask.getTaskState().equals("有更新")) {
@@ -115,9 +130,17 @@ public class YLSite extends ActionBarActivity {
             }else {
                 GetSite();
             }
+            GetCarBoxlist();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void ShowtmpActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, HomTmp_Scan.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     private void GetCarBoxlist() throws Exception {
@@ -125,6 +148,7 @@ public class YLSite extends ActionBarActivity {
         for (Site site : ylTask.getLstSite()) {
             if (site.getStatus().equals("已完成")) {
                 getcarboxs = false;
+                checkcardownload = true;
             }
         }
         Log.e(YLSystem.getKimTag(), getcarboxs + "车内款箱更新标识");
@@ -168,7 +192,6 @@ public class YLSite extends ActionBarActivity {
             intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
             YLEditData.setCurrentYLSite(site);
             startActivity(intent);
-            GetCarBoxlist();
             tasksManager.SaveTask(YLSite.this);
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         } catch (Exception e) {
@@ -349,6 +372,7 @@ public class YLSite extends ActionBarActivity {
                     ylTask.setLstCarBox(boxList);
                     Log.e(YLSystem.getKimTag(), ylTask.getLstCarBox().size() + "在车数量");
                     tasksManager.SaveTask(YLSite.this);
+                    checkcardownload = true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -411,7 +435,7 @@ public class YLSite extends ActionBarActivity {
             try {
                 YLSite.this.setTitle("车内款箱数: " + ylTask.lstCarBox.size());
                 ylSiteAdapter.notifyDataSetInvalidated();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -193,7 +193,7 @@ public class TasksManager {
             }
         }
         CurrentTask.lstSite=lstSiteRemote;
-        CurrentTask.setTaskState("已下载");//todo 这里应该是设置什么状体?
+        CurrentTask.setTaskState("已下载");
     }
 
     // 记录ATM数

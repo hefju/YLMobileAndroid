@@ -1,7 +1,9 @@
 package YLDataService;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +17,8 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import TaskClass.Box;
@@ -60,5 +64,84 @@ public class WebServerYLSite {
             return null;
         }
     }
+
+    /**
+     * 获取款箱数量
+     * @param context context
+     * @param TaskID 任务ID
+     * @param EMPID 员工ID
+     * @return 款箱数量
+     * @throws Exception
+     */
+    public int GetTaskBoxCount(Context context,String TaskID,String EMPID) throws  Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskIDOutCount";
+        GetTaskBoxCountAsy getTaskBoxCountAsy = new GetTaskBoxCountAsy();
+        getTaskBoxCountAsy.execute(url,TaskID,EMPID);
+        return getTaskBoxCountAsy.get();
+    }
+
+    private class GetTaskBoxCountAsy extends  AsyncTask<String,Integer,Integer>{
+        @Override
+        protected Integer doInBackground(String... strings) {
+            String url = strings[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID",strings[1]);
+                p.put("deviceID",YLSystem.getHandsetIMEI());
+                p.put("empid",strings[2]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, Integer.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+    public List<Box> GetCarBoxlist(Context context,String taskid)throws Exception {
+        String url = YLSystem.GetBaseUrl(context) + "StoreGetBoxByTaskIDOut";
+        CarBoxListAsy carBoxListAsy = new CarBoxListAsy();
+        carBoxListAsy.execute(url, taskid);
+        return carBoxListAsy.get();
+    }
+
+    private class CarBoxListAsy extends AsyncTask<String,Integer,List<Box>>{
+
+        @Override
+        protected List<Box> doInBackground(String... strings) {
+
+            HttpPost post = new HttpPost(strings[0]);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID", strings[1]);
+                p.put("deviceID", YLSystem.getHandsetIMEI());
+                p.put("empid", YLSystem.getUser().getEmpID());
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, new TypeToken<List<Box>>() {
+                    }.getType());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
 
 }

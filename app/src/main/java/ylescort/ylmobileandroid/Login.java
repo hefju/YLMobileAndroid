@@ -226,13 +226,13 @@ public class Login extends ActionBarActivity {
 //                        } catch (UnsupportedEncodingException e) {
 //                            e.printStackTrace();
 //                        } catch (ClientProtocolException e) {
-//                            // TODO Auto-generated catch block
+//
 //                            e.printStackTrace();
 //                        } catch (IOException e) {
-//                            // TODO Auto-generated catch block
+//
 //                            e.printStackTrace();
 //                        } catch (JSONException e) {
-//                            // TODO Auto-generated catch block
+//
 //                            e.printStackTrace();
 //                        }
 //                    }
@@ -421,16 +421,7 @@ public class Login extends ActionBarActivity {
                         }
 
                     }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -484,16 +475,7 @@ public class Login extends ActionBarActivity {
                         }
 
                     }
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (ClientProtocolException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -566,17 +548,7 @@ public class Login extends ActionBarActivity {
             try {
                 mPlayer.setDataSource("/system/media/audio/notifications/Proxima.ogg");  //选用系统声音文件
                 mPlayer.prepare();
-            } catch (IllegalArgumentException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (SecurityException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IllegalStateException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

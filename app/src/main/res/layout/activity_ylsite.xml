@@ -50,23 +50,36 @@
         android:layout_height="wrap_content"
         android:id="@+id/ylsite_LL_button"
         android:layout_alignParentBottom="true"
-        android:gravity="end">
+        android:gravity="center">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="65sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/Site_tmp"
+            android:text="临时"
+            android:background="@color/androidgreenl"/>
+
+        <Button
+            android:layout_width="65sp"
             android:layout_height="wrap_content"
             android:id="@+id/Site_check"
-            android:text="任务统计"/>
+            android:layout_marginStart="10sp"
+            android:background="@color/androidpurplel"
+            android:text="统计"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="65sp"
             android:layout_height="wrap_content"
             android:id="@+id/Site_apply"
-            android:text="入库申请"/>
+            android:layout_marginStart="10sp"
+            android:background="@color/androidblued"
+            android:text="申请"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="65sp"
             android:layout_height="wrap_content"
             android:id="@+id/Site_Update"
-            android:text="任务上传"
-            android:onClick="YLSite_UpDate"/>
+            android:layout_marginStart="10sp"
+            android:text="上传"
+            android:onClick="YLSite_UpDate"
+            android:background="@color/androidyellowl"/>
     </LinearLayout>
 
 </RelativeLayout>

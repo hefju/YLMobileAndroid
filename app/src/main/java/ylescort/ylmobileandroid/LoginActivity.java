@@ -89,9 +89,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             log_tv_vision.setTextColor(b);
             Log.e(YLSystem.getKimTag(), b + "");
             log_tv_vision.setText("版本号:"+ylvision);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         buttonflag = false;
 
         ylMediaPlayer = new YLMediaPlayer();
@@ -103,7 +101,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
         String IMEI = telephonyManager.getDeviceId();
         String SIM = telephonyManager.getSimSerialNumber();
-        YLSystem.setHandsetIMEI(IMEI+"-"+SIM);
+        YLSystem.setHandsetIMEI(IMEI+"-"+SIM+"-"+ylvision);
 
         log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
 
@@ -114,6 +112,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             YLSystem.setSerAdress("0");
         }else {
             YLSystem.setSerAdress("1");
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

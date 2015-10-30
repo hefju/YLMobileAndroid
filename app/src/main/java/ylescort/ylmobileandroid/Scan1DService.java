@@ -48,7 +48,6 @@ public class Scan1DService extends Service {
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
         super.onCreate();
         //初始化
         init();
@@ -58,11 +57,7 @@ public class Scan1DService extends Service {
         Log.e("service on create", "service on create");
         try {
             mSerialPort = new SerialPort(0, 9600, 0);// scaner
-        } catch (SecurityException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
             e.printStackTrace();
         }
         mSerialPort.scaner_poweron();
@@ -111,7 +106,6 @@ public class Scan1DService extends Service {
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
@@ -238,7 +232,6 @@ public class Scan1DService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            // TODO Auto-generated method stub
             String ac = intent.getStringExtra("activity");
             if(ac!=null)
                 Log.e("receive activity", ac);

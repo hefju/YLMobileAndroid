@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ylescort.ylmobileandroid.vault_tmp_inorout">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vault_tmp_ll_datepick">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_tmp_listview">
+        </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_tmp_ll_datepick"
+        android:layout_above="@+id/vault_tmp_ll_oper"
+        android:gravity="center">
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_tmp_dp"
+            android:calendarViewShown="false">
+        </DatePicker>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_tmp_ll_oper"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_tmp_btn_in"
+            android:text="@string/valuttmp_inorout_btn_in"
+            android:background="@color/androidblued"/>
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:id="@+id/vault_tmp_btn_out"
+            android:text="@string/valuttmp_inorout_btn_out"
+            android:background="@color/androidyellowl"/>
+    </LinearLayout>
+</RelativeLayout>

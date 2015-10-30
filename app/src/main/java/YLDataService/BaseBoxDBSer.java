@@ -129,7 +129,7 @@ public class BaseBoxDBSer {
                 sqLiteStatement.bindString(5,x.BoxBCNo);
                 sqLiteStatement.bindString(6,x.BoxType);
                 sqLiteStatement.bindString(7,x.ClientID);
-                sqLiteStatement.bindString(8,x.SiteID);
+                sqLiteStatement.bindString(8, x.SiteID);
                 long result = sqLiteStatement.executeInsert();
             }
             sdb.setTransactionSuccessful();
@@ -152,8 +152,8 @@ public class BaseBoxDBSer {
             for (BaseBox x : lst) {
                 sdb.execSQL("UPDATE BaseBox SET ServerReturn =?, BoxID =?, BoxName =?, BoxUHFNo =?," +
                                 " BoxBCNo =?, BoxType =?, ClientID =?, SiteID =? where Id=?",
-                        new Object[]{x.ServerReturn,x.BoxID,x.BoxName,x.BoxUHFNo,x.BoxBCNo,x.BoxType,
-                                x.ClientID,x.SiteID, x.Id});
+                        new Object[]{x.ServerReturn, x.BoxID, x.BoxName, x.BoxUHFNo, x.BoxBCNo, x.BoxType,
+                                x.ClientID, x.SiteID, x.Id});
             }
         }
         finally {
@@ -225,6 +225,23 @@ public class BaseBoxDBSer {
             sdb.endTransaction();
             sdb.close(); //关闭数据库
         }
+    }
+
+    public int BaseBoxCount(){
+        SQLiteDatabase sdb = ylsqlHelper.getReadableDatabase();
+        int Count =0;
+        sdb.beginTransaction();
+        try {
+            Cursor cursor = sdb.rawQuery("select count(*) as count from BaseBox ",null);
+            while (cursor.moveToNext()){
+                Count = cursor.getInt(cursor.getColumnIndex("count"));
+            }
+        }finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close();
+        }
+        return  Count;
     }
 
 }

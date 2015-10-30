@@ -20,6 +20,7 @@
         <service android:name=".YLNetWorkStateService" />
         <service android:name=".SerTimeService" />
         <service android:name=".ScanUHFService" />
+        <service android:name=".Scan1DService" />
 
         <activity
             android:name=".LoginActivity"
@@ -59,8 +60,6 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-
-        <service android:name=".Scan1DService" />
 
         <activity
             android:name=".YLSite"
@@ -149,6 +148,12 @@
         <activity
             android:name=".YLUHFWriter"
             android:label="@string/yluhfwriter_activityname" >
+        </activity>
+        <activity android:name=".vault_tmp_inorout" >
+        </activity>
+        <activity android:name=".vault_tmp_scan" >
+        </activity>
+        <activity android:name=".HomTmp_Scan" >
         </activity>
     </application>
 

@@ -9,12 +9,19 @@
                 tools:context="ylescort.ylmobileandroid.VaultInOrOut">
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="145sp"
         android:layout_height="60sp"
         android:text="@string/vaultinorout_btn_CheckVault"
         android:id="@+id/vaultinorout_btn_CheckVault"
         android:layout_alignParentTop="true"
         android:background="@color/chartreuse" />
+    <Button
+        android:layout_width="145sp"
+        android:layout_height="60sp"
+        android:text="@string/vaultinorout_btn_tmpinorout"
+        android:layout_toEndOf="@+id/vaultinorout_btn_CheckVault"
+        android:id="@+id/vaultinorout_btn_tmpinorout"
+        android:background="@color/androidgreend" />
 
     <Button
         android:layout_width="fill_parent"

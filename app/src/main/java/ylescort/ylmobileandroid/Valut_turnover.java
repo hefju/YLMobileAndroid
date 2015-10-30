@@ -160,7 +160,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         Displayboxlist.clear();
         if (vault_turnover_rbtn_all.isChecked()){
             Displayboxlist.addAll(AllboxList);
-            Log.e(YLSystem.getKimTag(),Displayboxlist.toString()+"过滤列表");
+            Log.e(YLSystem.getKimTag(),Displayboxlist.size()+"过滤列表");
         }
         if (vault_turnover_rbtn_count.isChecked()) {
             if (AllboxList.size() > 0) {

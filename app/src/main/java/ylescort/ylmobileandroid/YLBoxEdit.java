@@ -82,18 +82,31 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                ListView listView = (ListView)parent;
                 Box box = (Box)listView.getItemAtPosition(position);
                 listpostion = position;
-                if (box.getTradeAction().equals("送")){
-                    boxedi_sp_tasktype.setEnabled(false);
-                    boxedi_rbtn_full.setEnabled(false);
-                    boxedi_rbtn_empty.setEnabled(false);
+                if (boxscanstate.equals("到达")){
+                    if (box.getTradeAction().equals("送")){
+                        boxedi_sp_tasktype.setEnabled(false);
+                        boxedi_rbtn_full.setEnabled(false);
+                        boxedi_rbtn_empty.setEnabled(false);
+                    }else {
+                        boxedi_sp_tasktype.setEnabled(false);
+                        boxedi_rbtn_full.setEnabled(false);
+                        boxedi_rbtn_empty.setEnabled(false);
+                    }
                 }else {
-                    boxedi_sp_tasktype.setEnabled(true);
-                    boxedi_rbtn_full.setEnabled(true);
-                    boxedi_rbtn_empty.setEnabled(true);
+                    if (box.getTradeAction().equals("送")){
+                        boxedi_sp_tasktype.setEnabled(false);
+                        boxedi_rbtn_full.setEnabled(false);
+                        boxedi_rbtn_empty.setEnabled(false);
+                    }else {
+                        boxedi_sp_tasktype.setEnabled(false);
+//                        boxedi_rbtn_full.setEnabled(false);
+//                        boxedi_rbtn_empty.setEnabled(false);
+                    }
                 }
+
                 EditBox(box);
                 ylBoxEdiAdapter.setSelectItem(position);
-                ylBoxEdiAdapter.notifyDataSetInvalidated();
+                ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
 
@@ -124,7 +137,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 //                box.setBoxTaskType(parent.getItemAtPosition(position).toString());
                 boxEditListEdit.set(listpostion, editbox);
                 //LoadBoxData(boxEditListEdit);
-                ylBoxEdiAdapter.notifyDataSetInvalidated();
+                ylBoxEdiAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -185,7 +198,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
        }
         ArrayList<String> TimeIDlist = new ArrayList<>();
         String Timeid = "全部";
-       TimeIDlist.add(Timeid);
+        TimeIDlist.add(Timeid);
         for (int i = 0 ; i< boxEditListAll.size();i++){
             if (Timeid.equals(boxEditListAll.get(i).getTimeID())){
                 Timeid =  boxEditListAll.get(i).getTimeID();
@@ -241,7 +254,17 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         editbox.setBoxTaskType(box.getBoxTaskType());
         boxEditListEdit.set(listpostion, editbox);
 
-        ylBoxEdiAdapter.notifyDataSetInvalidated();
+        if (editbox.getTradeAction().equals("收")){
+            for (int i = 0; i < yleditcarboxs.size(); i++) {
+                if (yleditcarboxs.get(i).getBoxID().equals(editbox.getBoxID())){
+                    yleditcarboxs.get(i).setBoxStatus(editbox.getBoxStatus());
+                    yleditcarboxs.get(i).setBoxType(editbox.getBoxType());
+                    yleditcarboxs.get(i).setBoxTaskType(editbox.getBoxTaskType());
+                }
+            }
+        }
+
+        ylBoxEdiAdapter.notifyDataSetChanged();
         TallyBox(boxEditListEdit);
     }
 
@@ -453,7 +476,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     Log.e(YLSystem.getKimTag(), yleditcarboxs.size() + "编辑在库数量");
                     YLEditData.setYleditcarbox(yleditcarboxs);
                     TallyBox(boxEditListEdit);
-                    ylBoxEdiAdapter.notifyDataSetInvalidated();
+                    ylBoxEdiAdapter.notifyDataSetChanged();
                 }
                 break;
         }
@@ -485,7 +508,6 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                         boxeditnosave.add(box);
                     }
                 }
-//                boxedi_sp_tasktype.setEnabled(false);
                 boxedi_rbtn_get.setEnabled(false);
                 boxedi_rbtn_give.setEnabled(false);
                 boxedi_rbtn_full.setEnabled(false);
@@ -498,6 +520,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 boxedi_sp_tasktype.setEnabled(false);
             }
         }else{
+            boxedi_sp_tasktype.setEnabled(false);
             boxedi_rbtn_get.setEnabled(false);
             boxedi_rbtn_give.setEnabled(false);
             boxEditListAll = YLSystem.getEdiboxList();
