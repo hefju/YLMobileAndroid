@@ -56,7 +56,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/Site_tmp"
             android:text="临时"
-            android:background="@color/androidgreenl"/>
+            android:background="@color/androidgreenl"
+            android:visibility="gone"/>
 
         <Button
             android:layout_width="65sp"

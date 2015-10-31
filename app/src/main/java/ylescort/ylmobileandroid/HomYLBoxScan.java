@@ -1060,6 +1060,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     protected void onStop() {
         YLEditData.setYleditcarbox(CarBoxList);
         YLSystem.setEdiboxList(AllBoxList);
+        Scan1DCmd("stopscan");
+        homylboxscan_btn_scan.setText("扫描/F1");
         super.onStop();
     }
 

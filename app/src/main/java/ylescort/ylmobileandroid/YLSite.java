@@ -326,7 +326,7 @@ public class YLSite extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             progressDialog.setCancelable(false);
-            progressDialog.setMessage("正在更新中");
+            progressDialog.setMessage("正下载出库款箱数据，请稍候。");
             progressDialog.setMax(100);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.show();
