@@ -631,8 +631,11 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         if (vaultindetailscan1DRecive != null){
             unregisterReceiver(vaultindetailscan1DRecive);
 //            unregisterReceiver(vaultindetailscanUHFRecive);
+            unregisterReceiver(mBatlnfoReceiver);
         }
         Scan1DCmd("stopscan");
+        vault_turnover_btn_scan.setBackgroundColor(-30720);
+        vault_turnover_btn_scan.setText("停止/F1");
 //        ScanUHF("stopscan");
 //        Intent stop = new Intent(Valut_turnover.this,ScanUHFService.class);
 //        getApplicationContext().stopService(stop);
