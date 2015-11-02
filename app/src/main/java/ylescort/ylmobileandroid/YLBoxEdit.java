@@ -17,10 +17,12 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import TaskClass.Box;
 import TaskClass.TasksManager;
+import TaskClass.BoxCombyTime;
 import TaskClass.YLTask;
 import YLDataService.AnalysisBoxList;
 import YLSystemDate.YLEditData;
@@ -536,6 +538,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         }
 //        YLEditData.setYleditcarbox(yleditcarboxs);
 
+
         LoadBoxData(boxEditListAll);
         ///增加
         if (boxEditListAll.size()> 0){
@@ -552,11 +555,14 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         ylBoxEdiAdapter.setSelectItem(listpostion);
         boxedi_listview.setAdapter(ylBoxEdiAdapter);
         if (boxList.size()>0){
+            BoxCombyTime ylBoxComparator = new BoxCombyTime();
+            Collections.sort(boxList,ylBoxComparator);
             if (boxList.get(0).getTradeAction() != null & boxList.get(0).getTradeAction().equals("送")){
                 boxedi_rbtn_empty.setEnabled(false);
                 boxedi_rbtn_full.setEnabled(false);
             }
         }
+
         TallyBox(boxList);
     }
 
@@ -614,21 +620,21 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         AlertDialog.Builder builder = new AlertDialog.Builder(YLBoxEdit.this);
         builder.setMessage("是否保存后退出?");
         builder.setTitle("提示");
-        builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ListGroup("全部");
-                if (boxscanstate.equals("完成交接")){
+                if (boxscanstate.equals("完成交接")) {
                     YLSystem.setEdiboxList(boxEditListEdit);
-                }else {
+                } else {
                     //删除所属网点款箱
-                    for (int i = 0;i < boxSiteListAll.size();i++){
-                        if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)){
+                    for (int i = 0; i < boxSiteListAll.size(); i++) {
+                        if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)) {
                             boxSiteListAll.remove(i);
                             --i;
                         }
                     }
-                    for (int i = 0;i < boxEditListEdit.size();i++){
+                    for (int i = 0; i < boxEditListEdit.size(); i++) {
                         boxSiteListAll.add(boxEditListEdit.get(i));
                     }
                 }
@@ -637,7 +643,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
-        builder.setNegativeButton("取消",new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 YLSystem.setEdiboxList(boxEditListEdit);

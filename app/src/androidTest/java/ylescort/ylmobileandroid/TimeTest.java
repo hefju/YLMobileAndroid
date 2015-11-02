@@ -39,21 +39,36 @@ public class TimeTest extends ApplicationTestCase<Application> {
     }
 
     public void  testDateCompare()throws Exception{
-        YLTask ylTask = new YLTask();
-        String LocalTime = "2015-05-01 12:12:16";
-        String UpLoadTime = ylTask.getServerReturn();
-        if (UpLoadTime == null){
-            Log.e(YLSystem.getKimTag(),UpLoadTime+" UpLoadTime");
-        }else {
-            Date DateLoca = YLSysTime.StrToTime(LocalTime);
-            Date DateUpLoad = YLSysTime.StrToTime(UpLoadTime);
+//        YLTask ylTask = new YLTask();
+//        String LocalTime = "2015-05-01 12:12:16";
+//        String UpLoadTime = ylTask.getServerReturn();
+//        if (UpLoadTime == null){
+//            Log.e(YLSystem.getKimTag(),UpLoadTime+" UpLoadTime");
+//        }else {
+//            Date DateLoca = YLSysTime.StrToTime(LocalTime);
+//            Date DateUpLoad = YLSysTime.StrToTime(UpLoadTime);
+//
+//            Integer compare = DateLoca.compareTo(DateUpLoad);
+//            long timeLong = DateLoca.getTime() - DateUpLoad.getTime();
+//
+//
+//            Log.e(YLSystem.getKimTag(),timeLong+" compare");
+//        }
 
-            Integer compare = DateLoca.compareTo(DateUpLoad);
-            long timeLong = DateLoca.getTime() - DateUpLoad.getTime();
+        String LocalTime = "2015-05-02 12:13:16";
+        String UpLoadTime = "2015-05-02 12:13:15";
 
+        try {
+            Date datelocal = YLSysTime.StrToTime(LocalTime);
+            Date dateUpload = YLSysTime.StrToTime(UpLoadTime);
 
-            Log.e(YLSystem.getKimTag(),timeLong+" compare");
+            int compet = datelocal.compareTo(dateUpload);
+            Log.e(YLSystem.getKimTag(),compet+"对比");
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
 
 //        Log.e(YLSystem.getKimTag(),DateUpLoad+"DateUpLoad");
