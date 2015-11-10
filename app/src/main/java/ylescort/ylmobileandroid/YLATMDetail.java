@@ -131,11 +131,21 @@ public class YLATMDetail extends ActionBarActivity {
         ylatmdetail_btn_add1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int atmcount = Integer.parseInt(ylatmdetail_et_atmcount.getText().toString());
-                atmcount++;
-                ylatmdetail_et_atmcount.setText(atmcount+"");
+
+                if (ylatmdetail_tv_start.getText().equals("")){
+                    readtimeflag = "start";
+                    ReadStartTimeDialog();
+                }else {
+                    int atmcount = Integer.parseInt(ylatmdetail_et_atmcount.getText().toString());
+                    atmcount++;
+                    ylatmdetail_et_atmcount.setText(atmcount + "");
+                }
             }
         });
+
+        if (ylatmdetail_tv_start.getText().equals("")){
+            ylatmdetail_btn_end.setEnabled(false);
+        }
     }
 
     private void ylatmCancel() {
@@ -143,29 +153,44 @@ public class YLATMDetail extends ActionBarActivity {
     }
 
     private void ylatmEnter() {
-        if (OperStuat.equals("--编辑")){
-            YLATM ylatm;
-            ylatm = YLEditData.getYlatm();
-            ylatm.setATMCount(ylatmdetail_et_atmcount.getText()+"");
-            ylatm.setTradeBegin(ylatmdetail_tv_start.getText()+"");
-            ylatm.setTradeEnd(ylatmdetail_tv_end.getText()+"");
-            ylatm.setTradeState("已完成");
-            for (int i = 0; i <YLEditData.getYlatmList().size();i++){
-                if (YLEditData.getYlatmList().get(i).getSiteID().equals(ylatm.getSiteID())&&
-                        YLEditData.getYlatmList().get(i).getTimeID().equals(ylatm.getTimeID())){
-                    YLEditData.ylatmList.set(i,ylatm);
-                }
-            }
-        }else {
-            YLATM ylatm;
-            ylatm = YLEditData.getYlatm();
-            ylatm.setATMCount(ylatmdetail_et_atmcount.getText()+"");
-            ylatm.setTradeBegin(ylatmdetail_tv_start.getText()+"");
-            ylatm.setTradeEnd(ylatmdetail_tv_end.getText()+"");
-            ylatm.setTradeState("已完成");
-            YLEditData.ylatmList.add(ylatm);
+
+        if (ylatmdetail_et_atmcount.getText().toString().equals("0")
+                ||ylatmdetail_et_atmcount.getText().toString().equals("00")) {
+            Toast.makeText(getApplicationContext(), "未设置AMT数量", Toast.LENGTH_SHORT).show();
+            return;
         }
-        this.finish();
+        if (ylatmdetail_tv_start.getText().equals("")) {
+            Toast.makeText(getApplicationContext(), "未有设置开始时间", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (ylatmdetail_tv_end.getText().equals("")) {
+            readtimeflag = "end";
+            ReadStartTimeDialog();
+        } else {
+            if (OperStuat.equals("--编辑")) {
+                YLATM ylatm;
+                ylatm = YLEditData.getYlatm();
+                ylatm.setATMCount(ylatmdetail_et_atmcount.getText() + "");
+                ylatm.setTradeBegin(ylatmdetail_tv_start.getText() + "");
+                ylatm.setTradeEnd(ylatmdetail_tv_end.getText() + "");
+                ylatm.setTradeState("已完成");
+                for (int i = 0; i < YLEditData.getYlatmList().size(); i++) {
+                    if (YLEditData.getYlatmList().get(i).getSiteID().equals(ylatm.getSiteID()) &&
+                            YLEditData.getYlatmList().get(i).getTimeID().equals(ylatm.getTimeID())) {
+                        YLEditData.ylatmList.set(i, ylatm);
+                    }
+                }
+            } else {
+                YLATM ylatm;
+                ylatm = YLEditData.getYlatm();
+                ylatm.setATMCount(ylatmdetail_et_atmcount.getText() + "");
+                ylatm.setTradeBegin(ylatmdetail_tv_start.getText() + "");
+                ylatm.setTradeEnd(ylatmdetail_tv_end.getText() + "");
+                ylatm.setTradeState("已完成");
+                YLEditData.ylatmList.add(ylatm);
+            }
+            this.finish();
+        }
     }
 
     private void GetTimeByHF(String startorend) {
@@ -176,9 +201,16 @@ public class YLATMDetail extends ActionBarActivity {
 //        uid = HFmanager.inventory_14443A();
 //        if (uid != null){
             if (startorend.equals("start")){
-                ylatmdetail_tv_start.setText(GetCurrDateTime("date"));
+                if (ylatmdetail_tv_start.getText().equals("")){
+                    ylatmdetail_tv_start.setText(GetCurrDateTime("date"));
+                    ylatmdetail_btn_end.setEnabled(true);
+                }
+
             }else {
-                ylatmdetail_tv_end.setText(GetCurrDateTime("date"));
+                if (ylatmdetail_tv_end.getText().equals("")){
+                    ylatmdetail_tv_end.setText(GetCurrDateTime("date"));
+                }
+
             }
 //        }
 //        HFmanager.readerPowerOff();

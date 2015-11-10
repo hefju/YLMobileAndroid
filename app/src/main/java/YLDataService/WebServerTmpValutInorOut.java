@@ -130,9 +130,8 @@ public class WebServerTmpValutInorOut {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    Log.e(YLSystem.getKimTag(),content+"临时出入库任务");
+//                    Log.e(YLSystem.getKimTag(), content + "临时出入库任务");
                     return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
-
                 }
             } catch (Exception e) {
                 e.printStackTrace();

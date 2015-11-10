@@ -82,10 +82,10 @@
             android:label="@string/title_activity_chong__test" >
         </activity>
         <activity
-            android:name=".YLATMList"
+            android:name=".YLATMSite"
             android:label="@string/title_activity_ylatmlist" >
             <intent-filter>
-                <action android:name="ylescort.ylmobileandroid.YLATMList" />
+                <action android:name="ylescort.ylmobileandroid.YLATMSite" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

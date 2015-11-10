@@ -53,12 +53,26 @@ public class YLSysTime {
         return sDateFormat.format(new java.util.Date());
     }
 
+    public static Date StrToMin(String str )throws Exception{
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        return sDateFormat.parse(str);
+    }
+
+    public static String GetStrCurrentMin(){
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
+        return sDateFormat.format(new java.util.Date());
+    }
+
     public static Date GetDateCurrentTime()throws Exception{
         return new Date();
     }
 
     public static Date GetDateCurrentDate()throws Exception{
         return StrToDate(GetStrCurrentTime());
+    }
+
+    public static Date GetDateCurrentMin()throws Exception{
+        return  StrToMin(GetStrCurrentTime());
     }
 
     public static String GetSercurTime() throws Exception {
@@ -72,11 +86,11 @@ public class YLSysTime {
 
     public void CheckLocateTime(String Servertime){
         try {
-            Date SerDate = StrToDate(Servertime);
+            Date SerDate = StrToMin(Servertime);
             Calendar SerCal = Calendar.getInstance();
             SerCal.setTime(SerDate);
 
-            Date Loca = GetDateCurrentDate();
+            Date Loca = GetDateCurrentMin();
             Calendar locaCal = Calendar.getInstance();
             locaCal.setTime(Loca);
 
@@ -85,7 +99,6 @@ public class YLSysTime {
                 SerDate = StrToTime(Servertime);
                 SerCal.setTime(SerDate);
                 SetTime(SerCal);
-                Log.e(YLSystem.getKimTag(),"完成修改");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,7 +126,7 @@ public class YLSysTime {
                 ShellInterface.runCommand("chmod 666 /dev/alarm");
                 SystemClock.setCurrentTimeMillis(calendar.getTimeInMillis());
                 ShellInterface.runCommand("chmod 664 /dev/alarm");
-                Log.e(YLSystem.getKimTag(), "修改成功");
+                Log.e(YLSystem.getKimTag(), "时间修改成功");
             }
         } catch (Exception e) {
             Log.e(YLSystem.getKimTag(), "修改失败");

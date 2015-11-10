@@ -87,7 +87,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             int b =  getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
             String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
-            Log.e(YLSystem.getKimTag(), b + "");
+//            Log.e(YLSystem.getKimTag(), b + "");
             log_tv_vision.setText("版本号:"+ylvision);
 
         buttonflag = false;
@@ -190,6 +190,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), setup.class);
             startActivity(intent);
+
+//            TasksManager tasksManager = new TasksManager();
+//            tasksManager.setTaskDate("2015-11-09");
+//            TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+//            tasksManagerDBSer.DeleteTasksManager(tasksManager);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -206,7 +211,13 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     LoginByPassword();
                     break;
                 case R.id.btnTest1:
+
                     UpDataAPK();
+
+//                    Log_ET_Name.setText("520037");
+//                    Log_ET_PassWord.setText("520037");
+//                    LoginByPassword();
+
                     break;
                 case R.id.btnTest2:
                     Intent intent = new Intent();
@@ -304,7 +315,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     String timeLastUpdate = prefs.getString("CacheLastUpdate", "ALL");
                     Log.e(YLSystem.getKimTag(), timeLastUpdate + "缓存时间");
-                    if (!timeLastUpdate.equals("All")) {
+                    if (!timeLastUpdate.equals("ALL")) {
                         WebServerBaseData webServerBaseData = new WebServerBaseData();
                         webServerBaseData.GetBaseData(getApplicationContext(), timeLastUpdate);
                     }

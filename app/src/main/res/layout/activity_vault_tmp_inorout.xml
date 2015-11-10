@@ -25,7 +25,7 @@
         android:gravity="center">
         <DatePicker
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="100sp"
             android:id="@+id/vault_tmp_dp"
             android:calendarViewShown="false">
         </DatePicker>

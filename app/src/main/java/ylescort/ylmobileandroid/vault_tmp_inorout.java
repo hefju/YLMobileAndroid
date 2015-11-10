@@ -2,6 +2,7 @@ package ylescort.ylmobileandroid;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -103,7 +104,10 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
             user.setEmpID(YLSystem.getUser().getEmpID());
             user.setTime(timeid);
             ylTasks = webServerTmpValutInorOut.GetTmpTaskList(user);
-            ylTaskAdapter.notifyDataSetChanged();
+//            ylTaskAdapter.notifyDataSetChanged();
+            DisplayTaskList(ylTasks);
+
+
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -137,7 +137,7 @@ public class Task extends ActionBarActivity {
 
                  Intent intent = new Intent();
                  if (tasktype.equals("ATM清机")){
-                     intent.setClass(Task.this,YLATMList.class);
+                     intent.setClass(Task.this,YLATMSite.class);
                  }else {
                      intent.setClass(Task.this,YLSite.class);
                  }

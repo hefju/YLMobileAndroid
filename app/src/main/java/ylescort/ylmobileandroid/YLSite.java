@@ -42,6 +42,7 @@ import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.WebServerYLSite;
+import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -60,7 +61,9 @@ public class YLSite extends ActionBarActivity {
     private Button Site_apply;
     private Button Site_check;
     private Button Site_tmp;
-    private  ProgressDialog progressDialog ;
+    private ProgressDialog progressDialog ;
+
+    private WebService webService;
 
     private boolean checkcardownload;
 
@@ -74,6 +77,8 @@ public class YLSite extends ActionBarActivity {
             tasksManager = YLSystem.getTasksManager();//获取任务管理类
             ylTask = tasksManager.CurrentTask;//当前选中的任务
             checkcardownload = false;
+
+            webService = new  WebService();
 
             if (!ylTask.getTaskState().equals("有更新")) {
                 ylTask.setTaskState("进行中");
@@ -185,7 +190,7 @@ public class YLSite extends ActionBarActivity {
     private void OpenBoxAct(ListView parent, int position) {
 
         try {
-            Sertime(YLSystem.getUser().getTime());
+            Sertime(webService.GetServerTime(getApplicationContext()));
             ListView listView1 = (ListView) parent;
             Site site = (Site) listView1.getItemAtPosition(position);
             Intent intent = new Intent();
@@ -202,7 +207,6 @@ public class YLSite extends ActionBarActivity {
     private void Sertime(final String CurrentTime) {
         YLSysTime ylSysTime = new YLSysTime();
         ylSysTime.Sertime(CurrentTime);
-
     }
 
     public void YLSite_UpDate(View view) {

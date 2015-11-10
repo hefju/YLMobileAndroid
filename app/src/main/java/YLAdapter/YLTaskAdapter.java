@@ -67,13 +67,18 @@ public class YLTaskAdapter extends BaseAdapter {
         taskType.setText(ylTask.getTaskType());
         taskState.setText(ylTask.getTaskState());
 
-        switch (ylTask.getTaskType()){
-            case "早送":convertView.setBackgroundColor(-5383962);
-                break;
-            case "晚收":convertView.setBackgroundColor(-13210);
-                break;
-            default:convertView.setBackgroundColor(Color.TRANSPARENT);
-                break;
+        if (ylTask.getTaskType() != null) {
+            switch (ylTask.getTaskType()) {
+                case "早送":
+                    convertView.setBackgroundColor(-5383962);
+                    break;
+                case "晚收":
+                    convertView.setBackgroundColor(-13210);
+                    break;
+                default:
+                    convertView.setBackgroundColor(Color.TRANSPARENT);
+                    break;
+            }
         }
 
         return convertView;

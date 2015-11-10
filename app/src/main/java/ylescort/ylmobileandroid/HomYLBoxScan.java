@@ -116,7 +116,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 }
             }
 
-            Log.e(YLSystem.getKimTag(),ylTask.getLstCarBox()+"操作数据");
             HomYLBoxScan.this.setTitle("款箱操作: " + YLSystem.getUser().getName());
             InitView();
             InitData();

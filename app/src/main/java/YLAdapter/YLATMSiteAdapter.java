@@ -2,6 +2,7 @@ package YLAdapter;
 
 import TaskClass.YLATM;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,12 @@ public class YLATMSiteAdapter extends BaseAdapter {
         atmsitenum.setText(ylatm.getId()+"");
         atmsitename.setText(ylatm.getSiteName());
         atmsitestate.setText(ylatm.getTradeState());
+
+        if (atmsitestate.getText().equals("已完成")){
+            convertView.setBackgroundColor(-13210);
+        }else {
+            convertView.setBackgroundColor(Color.TRANSPARENT);
+        }
 
         return convertView;
     }

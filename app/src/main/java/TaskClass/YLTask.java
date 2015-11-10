@@ -216,7 +216,7 @@ public class YLTask {
     @Override
     public String toString() {
         return "YLTask{" +
-                "lstCarBox=" + lstCarBox +
+                "ServerReturn='" + ServerReturn + '\'' +
                 '}';
     }
 }

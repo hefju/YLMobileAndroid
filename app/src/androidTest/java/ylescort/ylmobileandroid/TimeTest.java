@@ -55,12 +55,12 @@ public class TimeTest extends ApplicationTestCase<Application> {
 //            Log.e(YLSystem.getKimTag(),timeLong+" compare");
 //        }
 
-        String LocalTime = "2015-05-02 12:13:16";
+        String LocalTime = "2015-05-02 12:14:11";
         String UpLoadTime = "2015-05-02 12:13:15";
 
         try {
-            Date datelocal = YLSysTime.StrToTime(LocalTime);
-            Date dateUpload = YLSysTime.StrToTime(UpLoadTime);
+            Date datelocal = YLSysTime.StrToMin(LocalTime);
+            Date dateUpload = YLSysTime.StrToMin(UpLoadTime);
 
             int compet = datelocal.compareTo(dateUpload);
             Log.e(YLSystem.getKimTag(),compet+"对比");

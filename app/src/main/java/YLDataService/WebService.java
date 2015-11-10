@@ -1099,5 +1099,39 @@ public class WebService {
         }
     }
 
+    public String GetServerTime(Context context)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"GetSeverTime";
+        GetServerTimeAsy getServerTimeAsy = new  GetServerTimeAsy();
+        getServerTimeAsy.execute(url);
+        return  getServerTimeAsy.get();
+    }
+
+    private class GetServerTimeAsy extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String url = strings[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("deviceID",YLSystem.getHandsetIMEI());
+                p.put("ISWIFI",YLSystem.getNetWorkState());
+                p.put("empid",YLSystem.getUser().getEmpID());
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }
 
