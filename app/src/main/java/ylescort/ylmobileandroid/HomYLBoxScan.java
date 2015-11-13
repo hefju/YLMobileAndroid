@@ -745,21 +745,21 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         }
                         if (sitecheck) {
                             WebServerYLSite webServerYLSite = new WebServerYLSite();
-                            int boxcount = webServerYLSite.GetTaskBoxCount
+                            String BoxOutID = webServerYLSite.GetCarBoxOutID
                                     (getApplicationContext(), ylTask.getTaskID(), YLSystem.getUser().getEmpID());
-                            if (boxcount == 999){
-                                Toast.makeText(getApplicationContext(),"网络异常请稍后再试",Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            Log.e(YLSystem.getKimTag(),"库管出箱数："+boxcount+"手持机箱数："+CarBoxList.size());
-                            if (CarBoxList.size() != boxcount) {
-                                Log.e(YLSystem.getKimTag(),"更新出库数据");
-                                List<Box> newboxList = webServerYLSite.GetCarBoxlist
-                                        (getApplicationContext(), ylTask.getTaskID());
-                                CarBoxList.clear();
-                                CarBoxListnosave.clear();
-                                CarBoxList.addAll(newboxList);
-                                CarBoxListnosave.addAll(newboxList);
+                            Log.e(YLSystem.getKimTag(), "库管出箱ID：" + BoxOutID + "手持机箱数：" + CarBoxList.size());
+                            if (!BoxOutID.equals("0")) {
+                                if (CarBoxList.size() > 0) {
+                                    if (!CarBoxList.get(0).getServerReturn().equals(BoxOutID)) {
+                                        Log.e(YLSystem.getKimTag(), "更新出库数据");
+                                        List<Box> newboxList = webServerYLSite.GetCarBoxlist
+                                                (getApplicationContext(), ylTask.getTaskID());
+                                        CarBoxList.clear();
+                                        CarBoxListnosave.clear();
+                                        CarBoxList.addAll(newboxList);
+                                        CarBoxListnosave.addAll(newboxList);
+                                    }
+                                }
                             }
                         }
                     } catch (Exception e) {

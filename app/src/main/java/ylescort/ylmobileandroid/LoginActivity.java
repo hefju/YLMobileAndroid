@@ -187,14 +187,14 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), setup.class);
-            startActivity(intent);
+//            Intent intent = new Intent();
+//            intent.setClass(getApplicationContext(), setup.class);
+//            startActivity(intent);
 
-//            TasksManager tasksManager = new TasksManager();
-//            tasksManager.setTaskDate("2015-11-09");
-//            TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-//            tasksManagerDBSer.DeleteTasksManager(tasksManager);
+            TasksManager tasksManager = new TasksManager();
+            tasksManager.setTaskDate("2015-11-12");
+            TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+            tasksManagerDBSer.DeleteTasksManager(tasksManager);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -212,11 +212,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     break;
                 case R.id.btnTest1:
 
-                    UpDataAPK();
+//                    UpDataAPK();
 
-//                    Log_ET_Name.setText("520037");
-//                    Log_ET_PassWord.setText("520037");
-//                    LoginByPassword();
+                    Log_ET_Name.setText("520037");
+                    Log_ET_PassWord.setText("520037");
+                    LoginByPassword();
 
                     break;
                 case R.id.btnTest2:

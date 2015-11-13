@@ -106,6 +106,41 @@ public class WebServerYLSite {
         }
     }
 
+    public String GetCarBoxOutID(Context context,String TaskID,String EMPID) throws  Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskIDOutID";
+        GetCarBoxOutIDAsy getCarBoxOutIDAsyAsy = new GetCarBoxOutIDAsy();
+        getCarBoxOutIDAsyAsy.execute(url,TaskID,EMPID);
+        return getCarBoxOutIDAsyAsy.get();
+    }
+
+    private class GetCarBoxOutIDAsy extends  AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... strings) {
+            String url = strings[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID",strings[1]);
+                p.put("deviceID",YLSystem.getHandsetIMEI());
+                p.put("empid",strings[2]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+
 
     public List<Box> GetCarBoxlist(Context context,String taskid)throws Exception {
         String url = YLSystem.GetBaseUrl(context) + "StoreGetBoxByTaskIDOut";

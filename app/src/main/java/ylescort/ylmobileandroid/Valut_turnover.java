@@ -444,19 +444,19 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 vault_turnover_listview.setSelection(AllboxList.size() - 1);
             }
         }else {
-            boolean addormore = true;
+            boolean addmore = true;
             for (int i = AllboxList.size() -1;i >=0;i--){
                 Box box = AllboxList.get(i);
 
                 if (box.getBoxID().equals(recivedata)) {
 
                     if (box.getValutcheck().equals("对")||box.getValutcheck().equals("多")){
-                        addormore = false;
+                        addmore = false;
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                         continue;
                     }
 //                    if (box.getValutcheck().equals("多")) {
-//                        addormore = false;
+//                        addmore = false;
 //                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
 //                        continue;
 //                    }
@@ -467,14 +467,14 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     box.setBoxOrder(boxorder + "");
                     box.setActionTime(YLSysTime.GetStrCurrentTime());
                     AllboxList.set(i, box);
-                    addormore = false;
+                    addmore = false;
                     Log.e(YLSystem.getKimTag(), box.toString() + "入库");
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                     vault_turnover_listview.setSelection(i);
                     AnalyBoxes(AllboxList, "in");
                 }
             }
-            if (addormore){
+            if (addmore){
                 Box morebox = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
                 morebox.setValutcheck("多");
                 morebox.setTradeAction("入");

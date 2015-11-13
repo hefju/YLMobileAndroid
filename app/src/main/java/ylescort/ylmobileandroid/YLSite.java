@@ -123,7 +123,6 @@ public class YLSite extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if (checkcardownload) {
-
                         OpenBoxAct((ListView) parent, position);
                     }else{
                         Toast.makeText(getApplication(),"请点击右上角车内款箱按钮重新加载数据。",Toast.LENGTH_SHORT).show();
@@ -371,12 +370,12 @@ public class YLSite extends ActionBarActivity {
                     String content = new String(result, "UTF-8");
                     List<Box> boxList = gson.fromJson(content, new TypeToken<List<Box>>() {
                     }.getType());
-
+                    Log.e(YLSystem.getKimTag(), boxList.get(0).toString() + "在车数量");
                     if (boxList.get(0).getBoxID() == null) {
                         boxList.clear();
                     }
                     ylTask.setLstCarBox(boxList);
-                    Log.e(YLSystem.getKimTag(), ylTask.getLstCarBox().size() + "在车数量");
+
                     tasksManager.SaveTask(YLSite.this);
                     checkcardownload = true;
                 }
