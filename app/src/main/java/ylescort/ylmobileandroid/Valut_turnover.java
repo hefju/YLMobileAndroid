@@ -363,7 +363,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 AllboxList.addAll(valutinboxList);
             }
             FilterBoxdisplay();
-            Log.e(YLSystem.getKimTag(), AllboxList.toString() + "入库列表");
+            Log.e(YLSystem.getKimTag(), AllboxList.size()+ "入库列表");
             AnalyBoxes(AllboxList, "in");
             ylBoxEdiAdapter.notifyDataSetChanged();
             vault_turnover_btn_vaultout.setEnabled(true);
@@ -398,16 +398,19 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             if (recivedata != null){
 //                Box box= YLBoxScanCheck.CheckBox(recivedata, getApplicationContext());
 //                PutBoxToBoxList(box);
-                String form = "";
-                if (recivedata.contains("UHF")) {
-                    form = "UHF";
-                    recivedata = recivedata.substring(3, 13);
-                } else {
-                    form = "1D";
+                try {
+                    String form = "";
+                    if (recivedata.contains("UHF")) {
+                        form = "UHF";
+                        recivedata = recivedata.substring(3, 13);
+                    } else {
+                        form = "1D";
+                    }
+
+                    ScanBoxInListView(recivedata, form);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                ScanBoxInListView(recivedata, form);
-
             }
         }
     }
@@ -446,16 +449,17 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 Box box = AllboxList.get(i);
 
                 if (box.getBoxID().equals(recivedata)) {
-                    if (box.getValutcheck().equals("对")){
+
+                    if (box.getValutcheck().equals("对")||box.getValutcheck().equals("多")){
                         addormore = false;
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                         continue;
                     }
-                    if (box.getValutcheck().equals("多")) {
-                        addormore = false;
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                        continue;
-                    }
+//                    if (box.getValutcheck().equals("多")) {
+//                        addormore = false;
+//                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+//                        continue;
+//                    }
                     box.setValutcheck("对");
                     box.setTradeAction("入");
                     box.setBaseValutOut(box.getBaseValutOut());

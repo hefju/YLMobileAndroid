@@ -347,19 +347,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             Toast.makeText(getApplicationContext(),"请在WIFI连接情况下更新缓存",Toast.LENGTH_SHORT).show();
             return;
         }
-
-//清除缓存时间
-        try {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("CacheLastUpdate", YLSysTime.GetStrCurrentTime());
-            editor.apply();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return;
-        }
         try {
             //清除数据库内容
             (new BaseBoxDBSer(KimTest.this)).DeleteAll();
@@ -373,6 +360,140 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         }
         GetBaseData();
     }
+
+    public void GetBaseData()throws Exception{
+        progressDialog = new ProgressDialog(getApplicationContext());
+        baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
+        baseSiteDBSer = new BaseSiteDBSer(getApplicationContext());
+        baseClientDBSer = new BaseClientDBSer(getApplicationContext());
+        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
+
+        String DeviceID = YLSystem.getHandsetIMEI();
+        String isWifi =YLSystem.getNetWorkState();
+        String empurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseEmp";
+        String Clienturl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseClient";
+        String Siteurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseSite";
+        String boxurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseBox";
+        Log.e(YLSystem.getKimTag(),DeviceID+"开始");
+        AnysTaskGetBaseData anysTaskGetBaseData = new AnysTaskGetBaseData();
+        anysTaskGetBaseData.execute(DeviceID, isWifi, empurl, Clienturl, Siteurl, boxurl);
+//        anysTaskGetBaseData.get();
+    }
+
+    private class AnysTaskGetBaseData extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(KimTest.this);
+            progressDialog.setCancelable(false);
+            progressDialog.setMessage("正在更新中");
+            progressDialog.setMax(4);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress(0);
+            String sertime = "";
+            try {
+                String url = params[2];
+                HttpPost post = new HttpPost(url);
+                Gson gson = new Gson();
+                JSONObject p = new JSONObject();
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
+                    }.getType());
+                    baseEmpDBSer.InsertBaseEmp(emps);
+                    sertime = emps.get(0).ServerTime;
+                    Log.e(YLSystem.getKimTag(),emps.size()+"员工数据");
+                }
+                publishProgress(1);
+                post = new HttpPost(params[3]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
+                    }.getType());
+                    baseClientDBSer.InsertBaseClient(baseClients);
+                    sertime = baseClients.get(0).ServerTime;
+                    Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
+                }
+                publishProgress(2);
+                post = new HttpPost(params[4]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
+                    }.getType());
+                    baseSiteDBSer.InsertBaseSite(siteList);
+                    sertime = siteList.get(0).ServerTime;
+                    Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
+                }
+                publishProgress(3);
+                post = new HttpPost(params[5]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
+                    }.getType());
+                    baseBoxDBSer.InsertBox2(baseBoxes);
+                    sertime = baseBoxes.get(0).ServerTime;
+                    Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
+                    InitData();
+                }
+                publishProgress(4);
+                return  sertime;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return sertime;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("CacheLastUpdate", s);
+            editor.apply();
+            progressDialog.dismiss();
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+            super.onProgressUpdate(values);
+        }
+    }
+
     private class Ansycache extends AsyncTask<String,Integer,String>{
 
         @Override
@@ -536,130 +657,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 kim_test2.setEnabled(true);
             }
             super.onPostExecute(user);
-        }
-    }
-
-    public void GetBaseData()throws Exception{
-        progressDialog = new ProgressDialog(getApplicationContext());
-        baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
-        baseSiteDBSer = new BaseSiteDBSer(getApplicationContext());
-        baseClientDBSer = new BaseClientDBSer(getApplicationContext());
-        baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
-        Log.e(YLSystem.getKimTag(),"开始");
-        String DeviceID = YLSystem.getHandsetIMEI();
-        String isWifi =YLSystem.getNetWorkState();
-        String empurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseEmp";
-        String Clienturl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseClient";
-        String Siteurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseSite";
-        String boxurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseBox";
-        AnysTaskGetBaseData anysTaskGetBaseData = new AnysTaskGetBaseData();
-        anysTaskGetBaseData.execute(DeviceID, isWifi, empurl, Clienturl, Siteurl, boxurl);
-//        anysTaskGetBaseData.get();
-    }
-
-    private class AnysTaskGetBaseData extends AsyncTask<String,Integer,String>{
-
-        @Override
-        protected void onPreExecute() {
-            progressDialog = new ProgressDialog(KimTest.this);
-            progressDialog.setCancelable(false);
-            progressDialog.setMessage("正在更新中");
-            progressDialog.setMax(4);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.show();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            publishProgress(0);
-
-            try {
-                String url = params[2];
-                HttpPost post = new HttpPost(url);
-                Gson gson = new Gson();
-                JSONObject p = new JSONObject();
-                p.put("DeviceID", params[0]);
-                p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
-                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
-                HttpClient client = new DefaultHttpClient();
-                HttpResponse response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    String content = EntityUtils.toString(response.getEntity());
-                    List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
-                    }.getType());
-                    baseEmpDBSer.InsertBaseEmp(emps);
-                    Log.e(YLSystem.getKimTag(),emps.size()+"员工数据");
-                }
-                publishProgress(1);
-                post = new HttpPost(params[3]);
-                p.put("DeviceID", params[0]);
-                p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
-                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
-                client = new DefaultHttpClient();
-                response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200){
-                    String content = EntityUtils.toString(response.getEntity());
-                    List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
-                    }.getType());
-                    baseClientDBSer.InsertBaseClient(baseClients);
-                    Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
-                }
-                publishProgress(2);
-                post = new HttpPost(params[4]);
-                p.put("DeviceID", params[0]);
-                p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
-                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
-                client = new DefaultHttpClient();
-                response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200){
-                    String content = EntityUtils.toString(response.getEntity());
-                    List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
-                    }.getType());
-                    baseSiteDBSer.InsertBaseSite(siteList);
-                    Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
-                }
-                publishProgress(3);
-                post = new HttpPost(params[5]);
-                p.put("DeviceID", params[0]);
-                p.put("ISWIFI", params[1]);
-                p.put("datetime", "ALL");
-                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
-                client = new DefaultHttpClient();
-                response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200){
-                    String content = EntityUtils.toString(response.getEntity());
-                    List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
-                    }.getType());
-                    baseBoxDBSer.InsertBox2(baseBoxes);
-                    Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
-                    InitData();
-
-                }
-                publishProgress(4);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            progressDialog.dismiss();
-            super.onPostExecute(s);
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            progressDialog.setProgress(values[0]);
-            super.onProgressUpdate(values);
         }
     }
 

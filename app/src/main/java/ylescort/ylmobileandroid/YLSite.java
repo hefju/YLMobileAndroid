@@ -125,6 +125,8 @@ public class YLSite extends ActionBarActivity {
                     if (checkcardownload) {
 
                         OpenBoxAct((ListView) parent, position);
+                    }else{
+                        Toast.makeText(getApplication(),"请点击右上角车内款箱按钮重新加载数据。",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
