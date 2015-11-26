@@ -8,24 +8,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ylescort.ylmobileandroid.Valut_turnover">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/vault_turnover_ll_title"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/vault_turnover_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="基地分类"
-            android:visibility="invisible" />
-    </RelativeLayout>
+            android:textColor="@color/chocolate"
+            />
+
+        <TextView
+            android:id="@+id/vault_turnover_tv_title2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:textColor="@color/androidgreend"
+            />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/vault_turnover_ll_listview"
@@ -135,13 +140,14 @@
             android:layout_width="90sp"
             android:layout_height="fill_parent"
             android:layout_marginStart="10sp"
-            android:text="@string/valut_turnover_btn_uhf" />
+            android:text="@string/valut_turnover_btn_uhf"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/vault_turnover_btn_upload"
             android:layout_width="90sp"
             android:layout_height="fill_parent"
-            android:layout_marginStart="10sp"
+            android:layout_marginStart="30sp"
             android:text="@string/valut_turnover_btn_upload" />
     </LinearLayout>
 </RelativeLayout>

@@ -42,6 +42,8 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     private Button vault_check_btn_basedep;
     private Button vault_check_btn_uhf;
     private TextView vault_check_tv_statistics;
+    private TextView vault_check_tv_scanman;
+    private TextView vault_check_tv_baseName;
     private RelativeLayout vault_check_rl_title;
 
     private Scan1DRecive scan1DRecive;
@@ -103,6 +105,9 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         vault_check_btn_uhf = (Button)findViewById(R.id.vault_check_btn_uhf);
         vault_check_tv_statistics = (TextView)findViewById(R.id.vault_check_tv_statistics);
         vault_check_rl_title = (RelativeLayout)findViewById(R.id.vault_check_rl_title);
+        vault_check_tv_scanman =  (TextView)findViewById(R.id.vault_check_tv_scanman);
+        vault_check_tv_baseName = (TextView)findViewById(R.id.vault_check_tv_baseName);
+
 
         vault_check_btn_scan.setOnClickListener(this);
         vault_check_btn_conFirm.setOnClickListener(this);
@@ -121,6 +126,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         vault_check_btn_conFirm.setEnabled(false);
 
         vault_check_tv_statistics.setText("总计: 0 个");
+        vault_check_tv_scanman.setText("盘库人-"+YLSystem.getUser().getName());
     }
 
     private void InitReciveScan1D() {
@@ -220,14 +226,19 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case 0:vault_check_btn_basedep.setText("南海基地");
+                                vault_check_tv_baseName.setText("南海基地");
                                 break;
                             case 1:vault_check_btn_basedep.setText("大良基地");
+                                vault_check_tv_baseName.setText("大良基地");
                                 break;
                             case 2:vault_check_btn_basedep.setText("乐从基地");
+                                vault_check_tv_baseName.setText("乐从基地");
                                 break;
                             case 3:vault_check_btn_basedep.setText("三水基地");
+                                vault_check_tv_baseName.setText("三水基地");
                                 break;
                             case 4:vault_check_btn_basedep.setText("补打标签");
+                                vault_check_tv_baseName.setText("补打标签");
                         }
                         vault_check_btn_scan.setEnabled(true);
                         vault_check_btn_uhf.setEnabled(true);

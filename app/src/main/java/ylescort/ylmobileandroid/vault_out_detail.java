@@ -124,7 +124,7 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
         vault_out_detail_btn_enter.setOnClickListener(this);
 
         vault_out_detail_btn_scan1d.setBackgroundColor(-13388315);
-        vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
+//        vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
 
         vault_out_detail_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -316,14 +316,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 YLBoxScan1D();
                 break;
             case R.id.vault_out_detail_btn_scanuhf:
-                if (vault_out_detail_btn_scanuhf.getText().equals("UHF/F2")){
-                    vault_out_detail_btn_scanuhf.setBackgroundColor(-30720);
-                    vault_out_detail_btn_scanuhf.setText("停止/F2");
-                }else {
-                    vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
-                    vault_out_detail_btn_scanuhf.setText("UHF/F2");
-                }
-                ScanUHF("scan");
+//                if (vault_out_detail_btn_scanuhf.getText().equals("UHF/F2")){
+//                    vault_out_detail_btn_scanuhf.setBackgroundColor(-30720);
+//                    vault_out_detail_btn_scanuhf.setText("停止/F2");
+//                }else {
+//                    vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
+//                    vault_out_detail_btn_scanuhf.setText("UHF/F2");
+//                }
+//                ScanUHF("scan");
                 break;
             case R.id.vault_out_detail_btn_enter:
                 try {
@@ -357,14 +357,14 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 YLBoxScan1D();
                 break;
             case 132:
-                if (vault_out_detail_btn_scanuhf.getText().equals("UHF/F2")) {
-                    vault_out_detail_btn_scanuhf.setBackgroundColor(-30720);
-                    vault_out_detail_btn_scanuhf.setText("停止/F2");
-                } else {
-                    vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
-                    vault_out_detail_btn_scanuhf.setText("UHF/F2");
-                }
-                ScanUHF("scan");
+//                if (vault_out_detail_btn_scanuhf.getText().equals("UHF/F2")) {
+//                    vault_out_detail_btn_scanuhf.setBackgroundColor(-30720);
+//                    vault_out_detail_btn_scanuhf.setText("停止/F2");
+//                } else {
+//                    vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
+//                    vault_out_detail_btn_scanuhf.setText("UHF/F2");
+//                }
+//                ScanUHF("scan");
                 break;
             case 133:
                 YLBoxScan1D();

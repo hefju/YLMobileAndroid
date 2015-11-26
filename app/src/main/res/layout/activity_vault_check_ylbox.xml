@@ -9,28 +9,26 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_check_rl_title">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="20sp"
-            android:id="@+id/vault_check_tv_statistics" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vault_check_ylbox_boxname"
+            android:id="@+id/vault_check_tv_baseName"
             android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/vault_check_tv_baseName"
+            android:textSize="20sp"
+            android:id="@+id/vault_check_tv_statistics" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/vault_check_ylbox_basename"
             android:textSize="20sp"
             android:layout_alignParentEnd="true"
-            android:id="@+id/vault_check_tv_scanmimo"
-            android:visibility="invisible"/>
+            android:id="@+id/vault_check_tv_scanman"/>
+
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -61,12 +59,14 @@
             android:id="@+id/vault_check_btn_uhf"
             android:background="@color/androidbluel"
             android:layout_toEndOf="@+id/vault_check_btn_scan"
+            android:visibility="gone"
             android:text="@string/vault_check_ylbox_uhf"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/vault_check_btn_basedep"
             android:layout_toEndOf="@+id/vault_check_btn_uhf"
+            android:layout_marginStart="40sp"
             android:text="@string/vault_check_ylbox_changbase"/>
 
         <Button

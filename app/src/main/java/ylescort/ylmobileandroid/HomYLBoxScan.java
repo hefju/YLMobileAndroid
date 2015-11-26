@@ -375,13 +375,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null) {
-//                if (!box_sp_text.contains("企业") &AllBoxList.size()>0){
-////                    for (Box box :AllBoxList) {
-////                        if (box.getBoxID().equals(YLBoxScanCheck.replaceBlank(recivedata))) {
-////                            YLBoxMediaPlay("fail");
-////                            return;
-////                        }
-////                    }
                 if (recivedata.length() != 10)return;
                 BoxIDtoBox(recivedata);
             }
@@ -391,13 +384,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private void BoxIDtoBox(String recivedata) {
         Log.e(YLSystem.getKimTag(), recivedata + "接收数据1D");
 
-        for (int i = AllBoxList.size() - 1; i >= 0; i--) {
-            if (AllBoxList.get(i).getBoxID().equals(recivedata)
-                    & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
-                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-                return;
-            }
-        }
+//        for (int i = AllBoxList.size() - 1; i >= 0; i--) {
+//            if (AllBoxList.get(i).getBoxID().equals(recivedata)
+//                    & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
+//                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+//                return;
+//            }
+//        }
         Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
         if (box.getBoxName().equals("无数据")) {
             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());

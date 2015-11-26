@@ -192,7 +192,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 //            startActivity(intent);
 
             TasksManager tasksManager = new TasksManager();
-            tasksManager.setTaskDate("2015-11-12");
+            tasksManager.setTaskDate("2015-11-20");
             TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
             tasksManagerDBSer.DeleteTasksManager(tasksManager);
             return true;
@@ -208,20 +208,23 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     LoginByHF();
                     break;
                 case R.id.Log_BN_Ent:
+                    Log_ET_Name.setText("200028");
+                    Log_ET_PassWord.setText("200028");
                     LoginByPassword();
                     break;
                 case R.id.btnTest1:
 
 //                    UpDataAPK();
 
-                    Log_ET_Name.setText("520037");
-                    Log_ET_PassWord.setText("520037");
+                    Log_ET_Name.setText("500008");
+                    Log_ET_PassWord.setText("500008");
                     LoginByPassword();
 
                     break;
                 case R.id.btnTest2:
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, KimTest.class);
+//                    intent.setClass(LoginActivity.this, vault_in_detail_statistics.class);
                     startActivity(intent);
                     break;
                 case R.id.logic_sw_address:

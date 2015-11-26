@@ -149,6 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5sp"
+            android:visibility="gone"
             android:text="@string/vault_out_detail_btn_sacanuhf" />
 
         <Button

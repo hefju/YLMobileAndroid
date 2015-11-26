@@ -119,13 +119,13 @@
     <string name="vault_in_detail_more">多</string>
     <string name="vault_in_detail_lack">缺</string>
     <!--盘库-->
-    <string name="title_activity_vault_check_ylbox">金库盘库</string>
-    <string name="vault_check_ylbox_boxname">箱名列表</string>
-    <string name="vault_check_ylbox_basename">基地名称</string>
+    <string name="title_activity_vault_check_ylbox">""</string>
+    <string name="vault_check_ylbox_boxname">所属基地</string>
+    <string name="vault_check_ylbox_basename">盘库人-</string>
     <string name="vault_check_ylbox_Scan1d">扫描</string>
     <string name="vault_check_ylbox_uhf">UHF</string>
     <string name="vault_check_ylbox_comfrom">确认</string>
-    <string name="vault_check_ylbox_changbase">基地</string>
+    <string name="vault_check_ylbox_changbase">所属基地</string>
     <!--业务员申请-->
     <string name="title_activity_handoverman_check">入库申请</string>
     <string name="handoverman_btn_cancel">返回</string>
@@ -187,6 +187,11 @@
     <string name="HomTmp_scan_btn_refersh">刷新</string>
     <string name="HomTmp_scan_btn_scan">扫描</string>
     <string name="HomTmp_scan_btn_upload">上传</string>
-
-
+    <!--入库汇总-->
+    <string name="vault_in_detail_statistics_title">入库汇总</string>
+    <string name="vault_in_detail_statistics_fullbox">实箱：</string>
+    <string name="vault_in_detail_statistics_emptybox">空箱：</string>
+    <string name="vault_in_detail_statistics_hom">业务员</string>
+    <string name="vault_in_detail_statistics_vault">库管员</string>
+    <string name="vault_in_detail_statistics_surplus">未扫描</string>
 </resources>

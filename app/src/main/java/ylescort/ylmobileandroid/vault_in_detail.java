@@ -122,7 +122,7 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
         WebService webService = new WebService();
         displayboxlist = webService.GetVaultInBoxList(ylTask.getTaskID(),YLSystem.getHandsetIMEI(),
                 YLSystem.getUser().getEmpID(),getApplicationContext());
-        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
+//        Log.e(YLSystem.getKimTag(), displayboxlist.toString());
         if (displayboxlist.get(0).getServerReturn().equals("1")){
             for (int i = 0;i<displayboxlist.size();i++){
                 Box box = new Box();
@@ -672,6 +672,13 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            YLEditData.setYleditcarbox(Allboxlist);
+            Intent intent = new Intent();
+            intent.setClass(vault_in_detail.this, vault_in_detail_statistics.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
             return true;
         }
 

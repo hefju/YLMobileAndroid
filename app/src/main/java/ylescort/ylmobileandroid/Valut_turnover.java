@@ -28,6 +28,7 @@ import TaskClass.Box;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.AnalysisBoxList;
 import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
@@ -39,6 +40,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private ListView vault_turnover_listview;
     private TextView vault_turnover_tv_title;
+    private TextView vault_turnover_tv_title2;
+
     private Button vault_turnover_btn_vaultin;
     private Button vault_turnover_btn_vaultout;
     private Button vault_turnover_btn_scan;
@@ -74,6 +77,10 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
     private YLMediaPlayer ylMediaPlayer;
 
     private int boxorder;
+    private AnalysisBoxList analysisBoxList;
+
+    private int androidblue;
+    private int androidorange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -282,7 +289,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             vault_turnover_btn_vaultout.setEnabled(true);
             vault_turnover_btn_vaultin.setEnabled(true);
             Valut_turnover.this.setTitle("未设置出入库操作");
-            vault_turnover_tv_title.setText("未设置出入库操作");
+//            vault_turnover_tv_title.setText("未设置出入库操作");
             boxorder = 1;
             vault_turnover_btn_count.setText("1");
             BoxOper = "0";
@@ -327,7 +334,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 //                            return;
 //                        }
                         InBaseName = choicbase;
-                        Valut_turnover.this.setTitle("出库目标基地：" + InBaseName);
+                        Valut_turnover.this.setTitle( InBaseName+"出库：");
                         vault_turnover_btn_vaultout.setEnabled(false);
                         vault_turnover_btn_vaultin.setEnabled(true);
                         try {
@@ -336,13 +343,17 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                                     , PickDate, getApplicationContext());
                             if (!valutoutboxList.get(0).getServerReturn().contains("没有")) {
                                 AllboxList.addAll(valutoutboxList);
-                                vault_turnover_tv_title.setText("出库总数: " + valutoutboxList.size());
+//                                vault_turnover_tv_title.setText("出库总数: " + valutoutboxList.size());
+                                Valut_turnover.this.setTitle(InBaseName + "出库：" + valutoutboxList.size());
                             } else {
-                                vault_turnover_tv_title.setText("出库总数:0");
+//                                vault_turnover_tv_title.setText("出库总数:0");
+                                Valut_turnover.this.setTitle(InBaseName + "出库：0");
+
                             }
                             FilterBoxdisplay();
                             BoxOper = "out";
-                            Log.e(YLSystem.getKimTag(), AllboxList.toString());
+                            Log.e(YLSystem.getKimTag(), AllboxList.size()+"");
+                            ShowBoxList(AllboxList);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -384,12 +395,33 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 }
             }
             String correctstr = "库管扫描:"+correctbox;
-            vault_turnover_tv_title.setText(intext+"\r\n"+correctstr);
+//            vault_turnover_tv_title.setText(intext+"\r\n"+correctstr);
+            Valut_turnover.this.setTitle(intext+correctstr);
         }else if (inorout.equals("out")){
             String outstr = "出库总数："+displayboxList.size();
-            vault_turnover_tv_title.setText(outstr);
+//            vault_turnover_tv_title.setText(outstr);
+            Valut_turnover.this.setTitle(outstr);
         }
+
+        ShowBoxList(displayboxList);
+
     }
+
+    private void ShowBoxList(List<Box> displayboxList) {
+        if (displayboxList.size()==0)return;
+
+        List<String> stringList = analysisBoxList.AnsysisBoxListForKeeper(displayboxList);
+        String boxtype = "实：款箱："+stringList.get(0)+"  卡箱："+stringList.get(2)+"凭箱："+stringList.get(4)+
+                " 凭袋："+stringList.get(6);
+        String boxstaut =  "空：款箱："+stringList.get(1)+"  卡箱："+stringList.get(3)+"凭箱："+stringList.get(5)+
+                " 凭袋："+stringList.get(7);
+        vault_turnover_tv_title.setText(boxtype);
+        vault_turnover_tv_title2.setText(boxstaut);
+
+    }
+
+
+
 
     private class Scan1DRecive extends BroadcastReceiver {
         @Override
@@ -551,6 +583,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         PickDate = YLSysTime.DateToStr(YLEditData.getDatePick());
         webServerValutturnover = new WebServerValutturnover();
         InBaseName = "";
+        analysisBoxList = new AnalysisBoxList();
+
         user = new User();
         user = YLSystem.getUser();
         user.setServerReturn(OutBaseName);
@@ -580,6 +614,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_rbtn_more = (RadioButton)findViewById(R.id.vault_turnover_rbtn_more);
 
         vault_turnover_tv_title = (TextView)findViewById(R.id.vault_turnover_tv_title);
+        vault_turnover_tv_title2= (TextView)findViewById(R.id.vault_turnover_tv_title2);
 
         vault_turnover_btn_vaultin.setOnClickListener(this);
         vault_turnover_btn_vaultout.setOnClickListener(this);
@@ -592,11 +627,13 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_rbtn_more.setOnClickListener(this);
 
         Valut_turnover.this.setTitle("未设置出入库操作");
-        vault_turnover_tv_title.setText("未设置出入库操作");
-        BoxOper = "0";
+//        vault_turnover_tv_title.setText("未设置出入库操作");
 
-        vault_turnover_btn_scan.setBackgroundColor(-13388315);
-        vault_turnover_btn_uhf.setBackgroundColor(-13388315);
+        BoxOper = "0";
+        androidblue = getResources().getColor(R.color.androidbluel);
+        androidorange = getResources().getColor(R.color.androidyellowl);
+        vault_turnover_btn_scan.setBackgroundColor(androidblue);
+//        vault_turnover_btn_uhf.setBackgroundColor(-13388315);
 
         vault_turnover_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -638,7 +675,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             unregisterReceiver(mBatlnfoReceiver);
         }
         Scan1DCmd("stopscan");
-        vault_turnover_btn_scan.setBackgroundColor(-30720);
+        vault_turnover_btn_scan.setBackgroundColor(androidorange);
         vault_turnover_btn_scan.setText("停止/F1");
 //        ScanUHF("stopscan");
 //        Intent stop = new Intent(Valut_turnover.this,ScanUHFService.class);
@@ -692,12 +729,12 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             String sacnbtntext = vault_turnover_btn_scan.getText().toString();
             if (sacnbtntext.equals("扫描/F1")){
                 cmd = "toscan100ms";
-                vault_turnover_btn_scan.setBackgroundColor(-30720);
+                vault_turnover_btn_scan.setBackgroundColor(androidorange);
                 vault_turnover_btn_scan.setText("停止/F1");
             }else {
                 cmd = "stopscan";
                 vault_turnover_btn_scan.setText("扫描/F1");
-                vault_turnover_btn_scan.setBackgroundColor(-13388315);
+                vault_turnover_btn_scan.setBackgroundColor(androidblue);
             }
         }
 
@@ -706,20 +743,20 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
         ac.putExtra("activity", activity);
         sendBroadcast(ac);
-        Intent sendToservice = new Intent(Valut_turnover.this, Scan1DService.class); // 用于发送指令
+        Intent sendToservice = new Intent(Valut_turnover.this, Scan1DService.class);
         sendToservice.putExtra("cmd", cmd);
         this.startService(sendToservice); // 发送指令
     }
 
     private void ScanUHF(String action) {
         if (BoxOper.equals("0"))return;
-        if (vault_turnover_btn_uhf.getText().equals("UHF/F2")){
-            vault_turnover_btn_uhf.setBackgroundColor(-30720);
-            vault_turnover_btn_uhf.setText("停止/F2");
-        }else{
-            vault_turnover_btn_uhf.setBackgroundColor(-13388315);
-            vault_turnover_btn_uhf.setText("UHF/F2");
-        }
+//        if (vault_turnover_btn_uhf.getText().equals("UHF/F2")){
+//            vault_turnover_btn_uhf.setBackgroundColor(-30720);
+//            vault_turnover_btn_uhf.setText("停止/F2");
+//        }else{
+//            vault_turnover_btn_uhf.setBackgroundColor(-13388315);
+//            vault_turnover_btn_uhf.setText("UHF/F2");
+//        }
 
         String activity = "ylescort.ylmobileandroid.Valut_turnover";
         Intent ac = new Intent();

@@ -3,7 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="ylescort.ylmobileandroid.vault_in_detail">
     <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
+          android:title="@string/vault_in_detail_statistics_title"
           android:orderInCategory="100"
-          app:showAsAction="never"/>
+          app:showAsAction="always"/>
 </menu>
