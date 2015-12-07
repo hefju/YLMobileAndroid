@@ -470,7 +470,8 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     }else {
                         Box box = boxEditListEdit.get(listpostion);
                         box.setTradeAction("收");
-                        yleditcarboxs.add(box);
+                        if (box.getId() != 1){
+                        yleditcarboxs.add(box);}
                     }
                     boxEditListEdit.remove(listpostion);
                     ylBoxEdiAdapter.setSelectItem(0);

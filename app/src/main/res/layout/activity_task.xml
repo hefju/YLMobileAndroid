@@ -1,60 +1,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    >
+    android:orientation="vertical">
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/TextViewLin"
-        >
-    <TextView
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:text="任务名称"
-        android:textSize="20dp"/>
-    <TextView
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/Task_taskname"
-        android:text="任务类型"
-        android:textSize="20dp"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
         <TextView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="任务名称"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/Task_taskname"
+            android:text="任务类型"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/Task_taskstaut"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/Task_taskstaut"
             android:text="任务状态"
-            android:textSize="20dp"/>
-</LinearLayout>
+            android:textSize="20sp" />
+    </LinearLayout>
 
     <LinearLayout
 
+        android:id="@+id/LisViewLin"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
-        android:id="@+id/LisViewLin"
-        android:layout_below="@+id/TextViewLin"
-        >
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id ="@+id/Task_lv_mlistview" />
+        android:layout_below="@+id/TextViewLin">
+
+        <ListView
+            android:id="@+id/Task_lv_mlistview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LisViewLin">
+
         <DatePicker
+            android:id="@+id/yltask_datepicker"
             android:layout_width="wrap_content"
-            android:layout_height="120sp"
-            android:calendarViewShown="false"
-            android:id="@+id/yltask_datepicker">
-            </DatePicker>
+            android:layout_height="120dp"
+            android:calendarViewShown="false"></DatePicker>
+
         <Button
+            android:id="@+id/Task_btn_refresh"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:id="@+id/Task_btn_refresh"
             android:text="刷新"
-            android:textSize="20sp"/>
-        </LinearLayout>
+            android:textSize="20sp" />
+    </LinearLayout>
 </RelativeLayout>

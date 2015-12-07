@@ -384,13 +384,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private void BoxIDtoBox(String recivedata) {
         Log.e(YLSystem.getKimTag(), recivedata + "接收数据1D");
 
-//        for (int i = AllBoxList.size() - 1; i >= 0; i--) {
-//            if (AllBoxList.get(i).getBoxID().equals(recivedata)
-//                    & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
-//                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-//                return;
-//            }
-//        }
+        for (int i = AllBoxList.size() - 1; i >= 0; i--) {
+            if (AllBoxList.get(i).getBoxID().equals(recivedata)
+                    & AllBoxList.get(i).getTradeAction().equals(getboxatcion())) {
+                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                return;
+            }
+        }
         Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
         if (box.getBoxName().equals("无数据")) {
             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
@@ -701,20 +701,22 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         final EditText et = new EditText(this);
         et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
 
-        new AlertDialog.Builder(this).setTitle("数量:")
+        new AlertDialog.Builder(this).setTitle("条码数据:")
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setView(et)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        String input = et.getText().toString().replaceAll("^(0+)", "");
-                        if (input.equals("")|| input.equals("0")) {
-                            Toast.makeText(getApplicationContext(), "不能为空", Toast.LENGTH_SHORT).show();
+//                        String input = et.getText().toString().replaceAll("^(0+)", "");
+                        String input = et.getText().toString();
+                        if (input.length() !=10||input.equals("")) {
+                            Toast.makeText(getApplicationContext(), "输入标签有误！", Toast.LENGTH_SHORT).show();
                         } else {
-                            int intinput = Integer.parseInt(input);
-                            Box box = new Box();
-                            box.setBoxID("无标签");
-                            box.setBoxName("无标签");
-                            PutBoxToList(box,intinput+"","tmp");
+//                            int intinput = Integer.parseInt(input);
+//                            Box box = new Box();
+//                            box.setBoxID("无标签");
+//                            box.setBoxName("无标签");
+//                            PutBoxToList(box,intinput+"","tmp");
+                            BoxIDtoBox(input);
                         }
                     }
                 }).setNegativeButton("取消", null).show();
@@ -977,6 +979,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     box.setTaskTimeID(CurrentBox.getTaskTimeID());
                     box.setActionTime(YLSysTime.GetStrCurrentTime());
                     box.setTradeAction("送");
+                    box.setId(1);
                     homylboxscan_tv_boxname.setText(givebox.getBoxName());
                     homylboxscan_tv_boxaction.setText("送");
                     homylboxscan_tv_boxtype.setText(givebox.getBoxType());

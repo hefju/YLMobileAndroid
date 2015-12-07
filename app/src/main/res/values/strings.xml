@@ -39,7 +39,7 @@
     <!--出入库管理-->
     <string name="box_tv_title">标题</string>
     <string name="box_btn_scan1d">扫描/F1</string>
-    <string name="box_btn_nolable">无标签</string>
+    <string name="box_btn_nolable">手输单</string>
     <string name="box_btn_arrive">到达</string>
     <string name="boxitem_monenybox">款箱:0</string>
     <string name="boxitem_cardbox">卡箱:0</string>
@@ -178,6 +178,7 @@
     <!--库管员临时出入库任务-->
     <string name="valuttmp_inorout_btn_in">临时入库</string>
     <string name="valuttmp_inorout_btn_out">临时出库</string>
+    <string name="valuttmp_inorout_title">临时出入库</string>
     <!--库管员临时出入库扫描-->
     <string name="valuttmp_scan_btn_scan">扫描/F1</string>
     <string name="valuttmp_scan_btn_upload">上传/F2</string>

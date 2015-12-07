@@ -20,6 +20,15 @@ public class YLEditData {
     public static YLTask ylTask;
     public static List<Box> ylcarbox;//车内款箱空实状态
     public static Site CurrentYLSite;//当前选择的网点
+    public static String TimeID; //出入库标识1为出库，2为入库；
+
+    public static String getTimeID() {
+        return TimeID;
+    }
+
+    public static void setTimeID(String timeID) {
+        TimeID = timeID;
+    }
 
     public static Site getCurrentYLSite() {
         return CurrentYLSite;

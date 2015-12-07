@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
+import TaskClass.YLATM;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
 import YLDataService.WebServerTmpValutInorOut;
@@ -111,7 +113,9 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         CarBoxList = new ArrayList<>();
         if (ylTask.getLstCarBox() != null){
             if (ylTask.getLstCarBox().size()>0){
-                CarBoxList = ylTask.getLstCarBox();
+                for (Box box : ylTask.getLstBox()) {
+                    CarBoxList.add(box);
+                }
             }
         }
 
@@ -153,6 +157,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         if (recivedata.length() !=10)return;
         for (Box box : AllBoxList) {
             if (box.getBoxID().equals(recivedata)){
+                Log.e(YLSystem.getKimTag(),recivedata+"接收数据1");
                 ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
@@ -165,13 +170,14 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                 box.setBoxCount("1");
                 box.setTradeAction("送");
                 box.setBaseValutIn(getChioce());
+                Log.e(YLSystem.getKimTag(), recivedata + "接收数据2");
                 AllBoxList.add(box);
+                CarBoxList.remove(i);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                 break;
             }
         }
         ylValutboxitemAdapter.notifyDataSetChanged();
-        ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
     }
 
     private void Scan1DCmd(String cmd) {
@@ -212,26 +218,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     Scan1D();
                     break;
                 case R.id.HomTmp_Scan_btn_upload:
-
-                    YLTask task = new YLTask();
-                    task.setTaskDate(ylTask.getTaskDate());
-                    task.setLine(ylTask.getLine());
-                    task.setTaskID(ylTask.getTaskID());
-                    task.setTaskType(ylTask.getTaskType());
-                    task.setTaskManager(ylTask.getTaskManager());
-                    task.setTaskManagerNo(ylTask.getTaskManagerNo());
-                    task.setLstBox(AllBoxList);
-                    YLEditData.setYlTask(task);
-                    String serreturn = webServerTmpValutInorOut.UpLoadBoxTmp(YLSystem.getUser().getEmpID());
-                    if (serreturn.equals("1")){
-                        HomTmp_Scan.this.setTitle("未确认申请操作");
-                        HomTmp_Scan_btn_refresh.setEnabled(false);
-                        HomTmp_Scan_btn_scan.setEnabled(false);
-                        HomTmp_Scan_btn_upload.setEnabled(false);
-                        HomTmp_Scan_btn_refresh.setBackgroundColor(colordefaul);
-                        AllBoxList.clear();
-                        ylValutboxitemAdapter.notifyDataSetChanged();
-                    }
+                    UpData();
                     break;
                 case R.id.HomTmp_Scan_btn_refresh:
                     Getvaulttmpoutbox();
@@ -243,6 +230,47 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void UpData() throws Exception {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomTmp_Scan.this);
+        builder.setMessage("确认上传吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    YLTask task = new YLTask();
+                    task.setTaskDate(ylTask.getTaskDate());
+                    task.setLine(ylTask.getLine());
+                    task.setTaskID(ylTask.getTaskID());
+                    task.setTaskType(ylTask.getTaskType());
+                    task.setTaskManager(ylTask.getTaskManager());
+                    task.setTaskManagerNo(ylTask.getTaskManagerNo());
+                    task.setLstBox(AllBoxList);
+                    YLEditData.setYlTask(task);
+                    String serreturn = webServerTmpValutInorOut.UpLoadBoxTmp(YLSystem.getUser().getEmpID());
+                    if (serreturn.equals("1")) {
+                        HomTmp_Scan.this.setTitle("未确认申请操作");
+                        HomTmp_Scan_btn_refresh.setEnabled(false);
+                        HomTmp_Scan_btn_scan.setEnabled(false);
+                        HomTmp_Scan_btn_upload.setEnabled(false);
+                        HomTmp_Scan_btn_refresh.setBackgroundColor(colordefaul);
+                        AllBoxList.clear();
+                        ylValutboxitemAdapter.notifyDataSetChanged();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void Getvaulttmpoutbox() {
@@ -264,6 +292,9 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 try{
+                    if (YLSystem.getBaseName().equals(getChioce())){
+                        return;
+                    }
                     User user = new User();
                     user.setTaskDate(ylTask.getTaskID());
                     user.setEmpID(YLSystem.getUser().getEmpID());
@@ -278,6 +309,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     }else{
                         HomTmp_Scan_btn_scan.setEnabled(true);
                         HomTmp_Scan_btn_upload.setEnabled(true);
+                        HomTmp_Scan_btn_refresh.setEnabled(false);
                         if (getChioce() == null) {
                             HomTmp_Scan.this.setTitle("申请入库：南海基地");
                         }else {
@@ -365,15 +397,33 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode){
-            case 131:
-                Scan1D();
+            case 131:Scan1D();
                 break;
-            case 4:
-                finish();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            case 4:LeaveActivity();
                 break;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void LeaveActivity() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomTmp_Scan.this);
+        builder.setMessage("确认离开吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                dialog.dismiss();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     @Override

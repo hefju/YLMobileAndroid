@@ -487,11 +487,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                         continue;
                     }
-//                    if (box.getValutcheck().equals("多")) {
-//                        addmore = false;
-//                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-//                        continue;
-//                    }
+
                     box.setValutcheck("对");
                     box.setTradeAction("入");
                     box.setBaseValutOut(box.getBaseValutOut());

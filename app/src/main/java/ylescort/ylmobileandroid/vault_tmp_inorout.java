@@ -1,24 +1,23 @@
 package ylescort.ylmobileandroid;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLTaskAdapter;
 import YLDataService.WebServerTmpValutInorOut;
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 public class vault_tmp_inorout extends ActionBarActivity implements View.OnClickListener {
@@ -26,7 +25,6 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
     private ListView vault_tmp_listview;
     private Button vault_tmp_btn_in;
     private Button vault_tmp_btn_out;
-    private DatePicker vault_tmp_dp;
     private WebServerTmpValutInorOut webServerTmpValutInorOut;
     private YLTaskAdapter ylTaskAdapter;
 
@@ -50,13 +48,20 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
         vault_tmp_listview = (ListView) findViewById(R.id.vault_tmp_listview);
         vault_tmp_btn_in = (Button)findViewById(R.id.vault_tmp_btn_in);
         vault_tmp_btn_out = (Button) findViewById(R.id.vault_tmp_btn_out);
-        vault_tmp_dp = (DatePicker) findViewById(R.id.vault_tmp_dp);
         vault_tmp_btn_in.setOnClickListener(this);
         vault_tmp_btn_out.setOnClickListener(this);
         vault_tmp_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ListView listView = (ListView)adapterView;
+                YLTask ylTask = (YLTask)listView.getItemAtPosition(i);
+//                String tasktype =  ylTask.getTaskID();
+                YLEditData.setYlTask(ylTask);
 
+                Intent intent = new Intent();
+                intent.setClass(vault_tmp_inorout.this,vault_tmp_scan.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
@@ -93,18 +98,20 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
     }
 
     private void LoadVaulttmpOutTask() {
-        LoadTmpTask("2");
+        LoadTmpTask("1");
     }
 
 
     private void LoadTmpTask(String timeid){
         try {
+            String gettime = YLSysTime.DateToStr(YLEditData.getDatePick());
             User user = new User();
-            user.setTaskDate(GetCalendarViewTime());
+            user.setTaskDate(gettime);
             user.setEmpID(YLSystem.getUser().getEmpID());
             user.setTime(timeid);
             ylTasks = webServerTmpValutInorOut.GetTmpTaskList(user);
-//            ylTaskAdapter.notifyDataSetChanged();
+//            ylTaskAdapter.notifyDataSetInvalidated();
+            YLEditData.setTimeID(timeid);
             DisplayTaskList(ylTasks);
 
 
@@ -113,18 +120,8 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
         }
     }
 
-    private  String GetCalendarViewTime(){
-        Calendar calendar = Calendar.getInstance(Locale.CHINA);
-        int year         = vault_tmp_dp.getYear();
-        int monthOfYear  = vault_tmp_dp.getMonth();
-        int dayOfMonth   = vault_tmp_dp.getDayOfMonth();
-        calendar.set(year,monthOfYear,dayOfMonth);
-        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
-        String time=format.format(calendar.getTime());
-        return  time;
-    }
 
     private void LoadVaulttmpInTask() {
-        LoadTmpTask("1");
+        LoadTmpTask("2");
     }
 }
