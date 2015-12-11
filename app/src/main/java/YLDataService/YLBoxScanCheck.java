@@ -21,12 +21,14 @@ public class YLBoxScanCheck {
         String replaceboxnumber =replaceBlank(boxnumber);
         if (replaceboxnumber.length() < 10 || replaceboxnumber.length() > 10){
             box.setBoxName("无数据");
+            box.setBoxID("0");
             return box;
         }
         BaseBoxDBSer baseBoxDBSer = new BaseBoxDBSer(context);
         baseBox = baseBoxDBSer.GetBoxByBCNo(replaceboxnumber);
         if (baseBox.BoxName.equals("无数据")){
             box.setBoxName("无数据");
+            box.setBoxID("0");
             return box;
         }else{
             box.setBoxName(baseBox.BoxName);
@@ -45,6 +47,7 @@ public class YLBoxScanCheck {
         String replaceboxnumber =replaceBlank(boxnumber);
         if (replaceboxnumber.length() != 10){
             box.setBoxName("无数据");
+            box.setBoxID("0");
             return box;
         }
         BoxDBSer boxDBSer = new BoxDBSer(context);

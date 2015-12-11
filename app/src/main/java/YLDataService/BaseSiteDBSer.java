@@ -152,4 +152,25 @@ public class BaseSiteDBSer {
             sdb.close(); //关闭数据库
         }
     }
+
+    public void CacheBaseSite(List<BaseSite> lst){
+        ArrayList<BaseSite> lstAdd=new ArrayList<>();
+        ArrayList<BaseSite> lstUpdate=new ArrayList<>();
+        ArrayList<BaseSite> lstDel=new ArrayList<>();
+        for (BaseSite x : lst){
+            if(x.Mark==null)
+                continue;
+            if(x.Mark.equals("1")){
+                lstAdd.add(x);
+            }else if(x.Mark.equals("2")){
+                lstUpdate.add(x);
+            }else if(x.Mark.equals("3")){
+                lstDel.add(x);
+            }
+        }
+        if(lstDel.size()>0) DeleteBaseSiteByEmpID(lstDel);
+        if(lstUpdate.size()>0) UpdateBaseSiteByEmpID(lstUpdate);
+        if(lstAdd.size()>0) InsertBaseSite(lstAdd);
+    }
+
 }

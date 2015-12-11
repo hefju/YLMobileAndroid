@@ -52,6 +52,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
     private List<Box> CarBoxList;
     private String chioce;
     private int TimeID;//1是出库，2是入库。
+    private int TaskTimeID;
     private YLValutboxitemAdapter ylValutboxitemAdapter;
     private WebServerTmpValutInorOut webServerTmpValutInorOut;
     private YLMediaPlayer ylMediaPlayer;
@@ -101,6 +102,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         colorred = getResources().getColor(R.color.androidredl);
         colorpurple = getResources().getColor(R.color.androidpurplel);
         colordefaul = getResources().getColor(R.color.grey);
+
         HomTmp_Scan_tv_title.setText("扫描数量：0");
 
         ylMediaPlayer = new YLMediaPlayer();
@@ -123,11 +125,11 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
     }
 
     private void DisPlayBoxlistAdapter(List<Box> boxList){
-        if (boxList != null){
+//        if (boxList != null){
             ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext()
                     ,boxList,R.layout.vault_in_detail_boxitem);
             HomTmp_Scan_listview.setAdapter(ylValutboxitemAdapter);
-        }
+//        }
     }
 
     private class Scan1DRecive extends BroadcastReceiver {
@@ -140,24 +142,57 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                 }else{
                     AddBoxToListfortimeid2(recivedata);
                 }
-
             }
         }
     }
 
     private void AddBoxToListfortimeid1(String recivedata) {
         if (recivedata.length() !=10)return;
-        for (Box box : AllBoxList) {
-            if (box.getBoxID().equals(recivedata))return;
-        }
+        boolean boxstate = true;
+        for (int i = 0; i < AllBoxList.size(); i++) {
 
+            Box box = new Box();
+            box = AllBoxList.get(i);
+
+            if (box.getBoxID().equals(recivedata)){
+                if (box.getValutcheck() != null){
+                    if (box.getValutcheck().equals("对")){
+                        break;
+                    }else {
+                        box.setValutcheck("对");
+                        box.setBaseValutIn(getChioce());
+                        box.setBoxCount("1");
+                        box.setTradeAction("收");
+                        box.setTimeID(getTimeID()+"");
+                        box.setTaskTimeID(TaskTimeID);
+                        CarBoxList.add(box);
+                        boxstate = false;
+                        ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+                    }
+
+                }
+            }
+//            if (AllBoxList.get(i).getBoxID().equals(recivedata) ){
+//                AllBoxList.get(i).setValutcheck("对");
+//                AllBoxList.get(i).setBaseValutIn(getChioce());
+//                AllBoxList.get(i).setBoxCount("1");
+//                AllBoxList.get(i).setTaskTimeID(TaskTimeID);
+//                boxstate = false;
+//                CarBoxList.add(AllBoxList.get(i));
+//                ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+//            }
+        }
+        if (boxstate){
+            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
+        }
+        GatherAllboxlist(AllBoxList,"out");
+        ylValutboxitemAdapter.notifyDataSetChanged();
     }
 
     private void AddBoxToListfortimeid2(String recivedata) {
         if (recivedata.length() !=10)return;
         for (Box box : AllBoxList) {
             if (box.getBoxID().equals(recivedata)){
-                Log.e(YLSystem.getKimTag(),recivedata+"接收数据1");
                 ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
                 return;
             }
@@ -170,14 +205,34 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                 box.setBoxCount("1");
                 box.setTradeAction("送");
                 box.setBaseValutIn(getChioce());
-                Log.e(YLSystem.getKimTag(), recivedata + "接收数据2");
+                box.setTaskTimeID(TaskTimeID);
                 AllBoxList.add(box);
                 CarBoxList.remove(i);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                 break;
             }
         }
+        GatherAllboxlist(AllBoxList,"in");
         ylValutboxitemAdapter.notifyDataSetChanged();
+    }
+
+    private void GatherAllboxlist(List<Box> boxes,String inroout){
+        if (inroout.equals("in")){
+            String sql = "扫描数量: "+boxes.size();
+            HomTmp_Scan_tv_title.setText(sql);
+        }else if (inroout.equals("out")){
+            int count = 0;
+            for (Box box : boxes) {
+                if (box.getValutcheck() != null){
+                    if (box.getValutcheck().equals("对")){
+                        count ++;
+                    }
+                }
+            }
+            String sql = "扫描数量:"+count;
+            HomTmp_Scan_tv_title.setText(sql);
+        }
+
     }
 
     private void Scan1DCmd(String cmd) {
@@ -249,8 +304,12 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     task.setTaskManagerNo(ylTask.getTaskManagerNo());
                     task.setLstBox(AllBoxList);
                     YLEditData.setYlTask(task);
-                    String serreturn = webServerTmpValutInorOut.UpLoadBoxTmp(YLSystem.getUser().getEmpID());
+                    String serreturn = webServerTmpValutInorOut.UpLoadBoxTmp();
                     if (serreturn.equals("1")) {
+
+                        ylTask.setLstCarBox(CarBoxList);
+                        tasksManager.SaveTask(getApplicationContext());
+
                         HomTmp_Scan.this.setTitle("未确认申请操作");
                         HomTmp_Scan_btn_refresh.setEnabled(false);
                         HomTmp_Scan_btn_scan.setEnabled(false);
@@ -274,8 +333,13 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
     }
 
     private void Getvaulttmpoutbox() {
-        List<Box> boxList = new ArrayList<>();
-
+        try {
+            AllBoxList.clear();
+            AllBoxList = webServerTmpValutInorOut.GetTmpBoxList(ylTask.getTaskID(), TimeID + "", getChioce(),TaskTimeID+"");
+            DisPlayBoxlistAdapter(AllBoxList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void ShowApplyDialog(){
@@ -291,8 +355,8 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         builder.setNegativeButton("入库", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                try{
-                    if (YLSystem.getBaseName().equals(getChioce())){
+                try {
+                    if (YLSystem.getBaseName().equals(getChioce())) {
                         return;
                     }
                     User user = new User();
@@ -304,19 +368,21 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     user.setName(getChioce());
                     String returnstring =
                             webServerTmpValutInorOut.ComfirmValuttmpinorout(user);
-                    if (returnstring.equals("0")){
-                        Toast.makeText(getApplicationContext(),"未申请成功",Toast.LENGTH_SHORT).show();
-                    }else{
+                    Log.e(YLSystem.getKimTag(),"出入库返回TaskTimeID"+returnstring);
+                    if (returnstring.equals("0")) {
+                        Toast.makeText(getApplicationContext(), "未申请成功", Toast.LENGTH_SHORT).show();
+                    } else {
                         HomTmp_Scan_btn_scan.setEnabled(true);
                         HomTmp_Scan_btn_upload.setEnabled(true);
                         HomTmp_Scan_btn_refresh.setEnabled(false);
+                        TaskTimeID = Integer.parseInt(returnstring) ;
                         if (getChioce() == null) {
                             HomTmp_Scan.this.setTitle("申请入库：南海基地");
-                        }else {
+                        } else {
                             HomTmp_Scan.this.setTitle("申请入库：" + getChioce());
                         }
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -342,6 +408,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                         } else {
                             HomTmp_Scan.this.setTitle("申请出库：" + getChioce());
                         }
+                        TaskTimeID = Integer.parseInt(returnstring);
                         HomTmp_Scan_btn_refresh.setEnabled(true);
                         HomTmp_Scan_btn_scan.setEnabled(true);
                         HomTmp_Scan_btn_upload.setEnabled(true);

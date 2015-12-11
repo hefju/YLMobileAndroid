@@ -86,7 +86,7 @@ public class WebServerBaseData {
                     List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
                     if (emps.size()>0 & emps.get(0).getEmpID() !=null){
-                        baseEmpDBSer.InsertBaseEmp(emps);
+                        baseEmpDBSer.CacheBaseEmp(emps);
                         servertime = emps.get(0).ServerTime;
                         Log.e(YLSystem.getKimTag(), emps.size()+"人员数据");
                     }
@@ -105,7 +105,7 @@ public class WebServerBaseData {
                     List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
                     }.getType());
                     if (baseClients.size()>0 & baseClients.get(0).getClientID() != null){
-                        baseClientDBSer.InsertBaseClient(baseClients);
+                        baseClientDBSer.CacheBaseClient(baseClients);
                         if (servertime.equals("")){
                             servertime = baseClients.get(0).ServerTime;
                         }
@@ -126,7 +126,7 @@ public class WebServerBaseData {
                     List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
                     }.getType());
                     if ( siteList.size() >0 & siteList.get(0).getSiteID() != null){
-                        baseSiteDBSer.InsertBaseSite(siteList);
+                        baseSiteDBSer.CacheBaseSite(siteList);
                         if (servertime.equals("")){
                             servertime = siteList.get(0).ServerTime;
                         }
@@ -148,7 +148,7 @@ public class WebServerBaseData {
                     List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
                     if (baseBoxes.size() > 0 & baseBoxes.get(0).getBoxID() != null) {
-                        baseBoxDBSer.InsertBox(baseBoxes);
+                        baseBoxDBSer.CacheBaseBox(baseBoxes);
                         if (servertime.equals("")){
                             servertime = baseBoxes.get(0).ServerTime;
                         }

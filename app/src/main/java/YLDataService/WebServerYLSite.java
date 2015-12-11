@@ -13,6 +13,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
@@ -120,13 +123,16 @@ public class WebServerYLSite {
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
+            HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, 1000);
+            HttpConnectionParams.setSoTimeout(httpParams, 1000);
             try {
                 p.put("TaskID",strings[1]);
                 p.put("deviceID",YLSystem.getHandsetIMEI());
                 p.put("empid",strings[2]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
-                HttpClient client = new DefaultHttpClient();
+                HttpClient client = new DefaultHttpClient(httpParams);
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());

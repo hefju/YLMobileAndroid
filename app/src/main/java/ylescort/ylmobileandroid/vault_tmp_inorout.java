@@ -67,9 +67,6 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
     }
 
     private void DisplayTaskList( List<YLTask> lstYLTask) {
-        if(lstYLTask==null){
-            lstYLTask = new ArrayList<>();
-        }
         ylTaskAdapter =  new YLTaskAdapter(this,lstYLTask,R.layout.activity_taskitem);
         vault_tmp_listview.setAdapter(ylTaskAdapter);
     }
@@ -110,7 +107,7 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
             user.setEmpID(YLSystem.getUser().getEmpID());
             user.setTime(timeid);
             ylTasks = webServerTmpValutInorOut.GetTmpTaskList(user);
-//            ylTaskAdapter.notifyDataSetInvalidated();
+//            ylTaskAdapter.notifyDataSetChanged();
             YLEditData.setTimeID(timeid);
             DisplayTaskList(ylTasks);
 

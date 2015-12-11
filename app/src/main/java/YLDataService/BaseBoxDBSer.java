@@ -244,4 +244,27 @@ public class BaseBoxDBSer {
         return  Count;
     }
 
+    public void CacheBaseBox(List<BaseBox> lst){
+        ArrayList<BaseBox> lstAdd=new ArrayList<>();
+        ArrayList<BaseBox> lstUpdate=new ArrayList<>();
+        ArrayList<BaseBox> lstDel=new ArrayList<>();
+        for (BaseBox x : lst){
+            if(x.Mark==null)
+                continue;
+            if(x.Mark.equals("1")){
+                lstAdd.add(x);
+            }else if(x.Mark.equals("2")){
+                lstUpdate.add(x);
+            }else if(x.Mark.equals("3")){
+                lstDel.add(x);
+            }
+        }
+        if(lstDel.size()>0)
+            DeleteBaseEmpByBoxID(lstDel);
+        if(lstUpdate.size()>0)
+            UpdateBaseEmpByBoxID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
+        if(lstAdd.size()>0)
+            InsertBox(lstAdd);
+    }
+
 }

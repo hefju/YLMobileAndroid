@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +23,12 @@ import java.util.List;
 import TaskClass.Box;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.WebServerTmpValutInorOut;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSysTime;
+import YLSystemDate.YLSystem;
 
 public class vault_tmp_scan extends ActionBarActivity implements View.OnClickListener {
 
@@ -37,6 +42,9 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
     private YLValutboxitemAdapter ylValutboxitemAdapter;
     private int colorbule,colorred;
     private String TimeID;
+    private int  TaskTimeID;
+    private YLTask ylTask;
+    private WebServerTmpValutInorOut webServerTmpValutInorOut;
 
     private List<Box> AllBoxList;
     private YLMediaPlayer ylMediaPlayer;
@@ -52,11 +60,28 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
     }
 
     private void InitData() {
+        webServerTmpValutInorOut = new WebServerTmpValutInorOut(getApplicationContext());
         colorbule = getResources().getColor(R.color.androidblued);
         colorred = getResources().getColor(R.color.androidredl);
         AllBoxList = new ArrayList<>();
+        AllBoxList.clear();
         ylMediaPlayer = new YLMediaPlayer();
-        TimeID = YLEditData.getTimeID();
+        try {
+            TimeID = YLEditData.getTimeID();
+            ylTask = YLEditData.getYlTask();
+            TaskTimeID =Integer.parseInt(ylTask.getTaskVersion());
+            if (TimeID.equals("2")) {
+                AllBoxList = webServerTmpValutInorOut.GetTmpBoxList
+                        (ylTask.getTaskID(), TimeID,YLSystem.getBaseName(),ylTask.getTaskVersion());
+                Log.e(YLSystem.getKimTag(),AllBoxList.toString());
+                this.setTitle("临时入库扫描");
+            }else{
+                this.setTitle("临时出库扫描");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         DisPlayBoxlistAdapter(AllBoxList);
     }
 
@@ -70,11 +95,9 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
     }
 
     private void DisPlayBoxlistAdapter(List<Box> boxList){
-//        if (boxList != null && boxList.size()>0){
-            ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext()
-                    ,boxList,R.layout.vault_in_detail_boxitem);
-            vaulttmp_scan_listview.setAdapter(ylValutboxitemAdapter);
-//        }
+        ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext()
+                , boxList, R.layout.vault_in_detail_boxitem);
+        vaulttmp_scan_listview.setAdapter(ylValutboxitemAdapter);
     }
 
 
@@ -83,28 +106,81 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             if (recivedata != null) {
-                AddBoxToAllbox(recivedata);
+                if (TimeID.equals("2")){
+                    AddBoxToAllboxTimeID2(recivedata);
+                }else {
+                    AddBoxToAllboxTimeID1(recivedata);
+                }
             }
         }
     }
 
-    private void AddBoxToAllbox(String recivedata) {
-        if (recivedata.length() != 10)return;
+    private void AddBoxToAllboxTimeID1(String recivedata) {
+        if (recivedata.length() != 10) return;
         boolean addbox = true;
-        for (Box box : AllBoxList) {
+        try {
+            for (int i = 0; i < AllBoxList.size(); i++) {
+                if (AllBoxList.get(i).getBoxID().equals(recivedata)) {
+                    addbox = false;
+                }
+            }
+            if (addbox) {
+                Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+                if (box.getBoxID().equals("0")) return;
+                box.setTimeID(TimeID);
+                box.setBaseValutIn(YLSystem.getBaseName());
+                box.setTradeAction("出");
+                box.setActionTime(YLSysTime.GetStrCurrentTime());
+                box.setTaskTimeID(TaskTimeID);
+                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                AllBoxList.add(box);
+            }
+            GatherAllBoxList(AllBoxList,"out");
+            ylValutboxitemAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void AddBoxToAllboxTimeID2(String recivedata) {
+        if (recivedata.length() != 10)return;
+        boolean addbox =true  ;
+
+        for (int i = 0; i < AllBoxList.size(); i++) {
+            Box box = AllBoxList.get(i);
             if (box.getBoxID().equals(recivedata)){
-                ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
+                box.setValutcheck("对");
+                box.setTradeAction("入");
+                box.setBaseValutIn(YLSystem.getBaseName());
+                box.setTimeID(TimeID);
+                box.setTaskTimeID(TaskTimeID);
                 addbox = false;
-                break;
+                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
             }
         }
         if (addbox){
-            Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
-            box.setTimeID(TimeID);
-            AllBoxList.add(box);
+            ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
         }
+        GatherAllBoxList(AllBoxList,"in");
         ylValutboxitemAdapter.notifyDataSetChanged();
 
+    }
+
+    private void GatherAllBoxList(List<Box> boxes,String inorout){
+        if (inorout.equals("in")){
+            int count = 0;
+            for (Box box : boxes) {
+                if (box.getValutcheck() != null){
+                    count ++;
+                }
+            }
+            String  sql = "扫描数量："+count;
+            vaulttmp_scan_tv_title.setText(sql);
+
+        }else if (inorout.equals("out")){
+            String sql = "扫描数量："+boxes.size();
+            vaulttmp_scan_tv_title.setText(sql);
+        }
     }
 
     private void Scan1DCmd(String cmd) {
@@ -130,10 +206,10 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
         vaulttmp_scan_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                ListView listView = (ListView) adapterView;
-                Box box = (Box) listView.getItemAtPosition(i);
-                ShowDelete(box,i);
-                ylValutboxitemAdapter.notifyDataSetChanged();
+//                ListView listView = (ListView) adapterView;
+//                Box box = (Box) listView.getItemAtPosition(i);
+//                ShowDelete(box,i);
+//                ylValutboxitemAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -159,8 +235,50 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
                 Scan1D();
                 break;
             case R.id.vaulttmp_scan_btn_upload:
+                UpLoad();
                 break;
         }
+    }
+
+    private void UpLoad() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_tmp_scan.this);
+        builder.setMessage("确认上传吗?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("上传", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                try {
+                    YLTask task = new YLTask();
+                    task.setTaskDate(ylTask.getTaskDate());
+                    task.setLine(ylTask.getLine());
+                    task.setTaskID(ylTask.getTaskID());
+                    task.setTaskType(ylTask.getTaskType());
+                    task.setTaskManager(ylTask.getTaskManager());
+                    task.setTaskManagerNo(ylTask.getTaskManagerNo());
+                    task.setLstBox(AllBoxList);
+                    YLEditData.setYlTask(task);
+                    String upload = webServerTmpValutInorOut.UploadTmpValut();
+                    if (upload.equals("1")) {
+                        AllBoxList.clear();
+                        ylValutboxitemAdapter.notifyDataSetChanged();
+                        vaulttmp_scan_tv_title.setText("");
+                        Toast.makeText(getApplicationContext(), "上传成功", Toast.LENGTH_SHORT).show();
+                    }
+                    dialogInterface.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.create().show();
+
     }
 
     private void Scan1D() {

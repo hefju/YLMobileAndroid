@@ -233,6 +233,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, KimTest.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     break;
                 case R.id.logic_sw_address:
                     if (logic_sw_address.isChecked()) {

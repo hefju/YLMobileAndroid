@@ -16,6 +16,7 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.util.IdentityHashMap;
 import java.util.List;
 
 import TaskClass.Box;
@@ -140,24 +141,58 @@ public class WebServerTmpValutInorOut {
         }
     }
 
-    public String UpLoadBoxTmp(String empid) throws  Exception{
+    public String UpLoadBoxTmp() throws  Exception{
         UpLoadBoxTmp upLoadBoxTmp = new UpLoadBoxTmp();
-        upLoadBoxTmp.execute(empid, YLSystem.getHandsetIMEI(), YLSystem.getNetWorkState());
+        upLoadBoxTmp.execute();
         return upLoadBoxTmp.get();
     }
 
     private class UpLoadBoxTmp extends AsyncTask<String,Integer,String>{
         @Override
         protected String doInBackground(String... strings) {
-            String url = YLSystem.GetBaseUrl(WebServercontext)+"UpLoadBoxTemp";
+            String url = YLSystem.GetBaseUrl(WebServercontext) + "UpLoadBoxTemp";
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
                 p.put("STask", gson.toJson(YLEditData.getYlTask()));
-                p.put("empid",strings[0]);
-                p.put("deviceID",strings[1]);
-                p.put("ISWIFI",strings[2]);
+                p.put("empid", YLSystem.getUser().getEmpID());
+                p.put("deviceID", YLSystem.getHandsetIMEI());
+                p.put("ISWIFI", YLSystem.getNetWorkState());
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+    public String UploadTmpValut ()throws  Exception{
+        UploadTmpValutAsy uploadTmpValutAsy = new UploadTmpValutAsy();
+        uploadTmpValutAsy.execute();
+        return uploadTmpValutAsy.get();
+    }
+
+    private class  UploadTmpValutAsy extends AsyncTask<String,Integer,String>{
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String url = YLSystem.GetBaseUrl(WebServercontext)+"StoreUploadBoxTemp";
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("STask", gson.toJson(YLEditData.getYlTask()));
+                p.put("empid",YLSystem.getUser().getEmpID());
+                p.put("deviceID",YLSystem.getHandsetIMEI());
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();
@@ -165,6 +200,42 @@ public class WebServerTmpValutInorOut {
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
                     return gson.fromJson(content,  String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public List<Box> GetTmpBoxList(String taskID,String TimeID,String BaseName,String TaskTimeID)throws Exception{
+
+        TmpBoxListAsyncTask  tmpBoxListAsyncTask = new TmpBoxListAsyncTask();
+        tmpBoxListAsyncTask.execute(taskID,TimeID,BaseName,TaskTimeID);
+        return  tmpBoxListAsyncTask.get();
+    }
+
+    private class TmpBoxListAsyncTask extends AsyncTask<String,Integer,List<Box>>{
+        @Override
+        protected List<Box> doInBackground(String... strings) {
+            String url = YLSystem.GetBaseUrl(WebServercontext)+"StoreGetBoxByTaskIDOutTemp";
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("TaskID", strings[0]);
+                p.put("deviceID",YLSystem.getHandsetIMEI());
+                p.put("empid",YLSystem.getUser().getEmpID());
+                p.put("TimeID",strings[1]);
+                p.put("BaseName",strings[2]);
+                p.put("TaskTimeID",strings[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content,  new TypeToken<List<Box>>() {}.getType());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -131,7 +131,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ListView listView = (ListView) parent;
                 Box box = (Box) listView.getItemAtPosition(position);
-                YLBoxchangeType("setbox", position);
+                //不能修改空实12-10
+//                YLBoxchangeType("setbox", position);
 
             }
         });
@@ -236,9 +237,6 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                         dialog.dismiss();
                     }
                 }).show();
-
-
-
     }
 
     private void YLBoxEnter() throws Exception {

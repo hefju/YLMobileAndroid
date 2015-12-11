@@ -155,4 +155,24 @@ public class BaseEmpDBSer {
             sdb.close(); //关闭数据库
         }
     }
+
+    public void CacheBaseEmp(List<BaseEmp> lst){
+        ArrayList<BaseEmp> lstAdd=new ArrayList<>();
+        ArrayList<BaseEmp> lstUpdate=new ArrayList<>();
+        ArrayList<BaseEmp> lstDel=new ArrayList<>();
+        for (BaseEmp x : lst){
+            if(x.Mark==null)
+                continue;
+            if(x.Mark.equals("1")){
+                lstAdd.add(x);
+            }else if(x.Mark.equals("2")){
+                lstUpdate.add(x);
+            }else if(x.Mark.equals("3")){
+                lstDel.add(x);
+            }
+        }
+        if(lstDel.size()>0) DeleteBaseEmpByEmpID(lstDel);
+        if(lstUpdate.size()>0) UpdateBaseEmpByEmpID(lstUpdate);
+        if(lstAdd.size()>0) InsertBaseEmp(lstAdd);
+    }
 }

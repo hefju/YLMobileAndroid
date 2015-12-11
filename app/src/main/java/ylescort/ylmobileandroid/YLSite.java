@@ -125,14 +125,14 @@ public class YLSite extends ActionBarActivity {
                     if (checkcardownload) {
                         OpenBoxAct((ListView) parent, position);
                     }else{
-                        Toast.makeText(getApplication(),"请点击右上角车内款箱按钮重新加载数据。",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(),"请点击右上角车内款箱按钮重新加载数据",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
 
             //增加载入自动更新0330kim
             if (!ylTask.getTaskState().equals("有更新")) {
-                Toast.makeText(getApplicationContext(), "已经最新.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "已经最新", Toast.LENGTH_SHORT).show();
             }else {
                 GetSite();
             }
@@ -192,17 +192,17 @@ public class YLSite extends ActionBarActivity {
 
         try {
             Sertime(webService.GetServerTime(getApplicationContext()));
-            ListView listView1 = (ListView) parent;
-            Site site = (Site) listView1.getItemAtPosition(position);
-            Intent intent = new Intent();
-            intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
-            YLEditData.setCurrentYLSite(site);
-            startActivity(intent);
-            tasksManager.SaveTask(YLSite.this);
-            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        ListView listView1 = (ListView) parent;
+        Site site = (Site) listView1.getItemAtPosition(position);
+        Intent intent = new Intent();
+        intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
+        YLEditData.setCurrentYLSite(site);
+        startActivity(intent);
+        tasksManager.SaveTask(YLSite.this);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     private void Sertime(final String CurrentTime) {
@@ -412,7 +412,7 @@ public class YLSite extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_ylsite, menu);
         if (!ylTask.getTaskState().equals("有更新")) {
-            menu.removeItem(0);//为什么不生效?
+            menu.removeItem(0);
         }
         return true;
     }

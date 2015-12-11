@@ -149,4 +149,27 @@ public class BaseClientDBSer {
         }
     }
 
+    public void CacheBaseClient(List<BaseClient> lst){
+        ArrayList<BaseClient> lstAdd=new ArrayList<>();
+        ArrayList<BaseClient> lstUpdate=new ArrayList<>();
+        ArrayList<BaseClient> lstDel=new ArrayList<>();
+        for (BaseClient x : lst){
+            if(x.Mark==null)
+                continue;
+            if(x.Mark.equals("1")){
+                lstAdd.add(x);
+            }else if(x.Mark.equals("2")){
+                lstUpdate.add(x);
+            }else if(x.Mark.equals("3")){
+                lstDel.add(x);
+            }
+        }
+        if(lstDel.size()>0)
+            DeleteBaseClientByEmpID(lstDel);
+        if(lstUpdate.size()>0)
+            UpdateBaseClientByEmpID(lstUpdate);//update 不能根据ID来update而是根据EmpID来update的
+        if(lstAdd.size()>0)
+            InsertBaseClient(lstAdd);
+    }
+
 }
