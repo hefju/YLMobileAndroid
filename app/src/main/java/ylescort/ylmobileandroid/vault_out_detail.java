@@ -133,11 +133,38 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                 Box box = (Box) listView.getItemAtPosition(position);
                 //不能修改空实12-10
 //                YLBoxchangeType("setbox", position);
+                DeleteBoxinList(position);
 
             }
         });
 
         vault_out_detail.this.setTitle("出库明细--" + YLSystem.getUser().getName());
+    }
+
+    private void DeleteBoxinList(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_out_detail.this);
+        builder.setMessage("确认删除?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AllboxList.remove(position);
+                Log.e(YLSystem.getKimTag(), AllboxList.toString());
+                if (AllboxList.size() == 0) {
+                    AllboxList = new ArrayList<Box>();
+                }
+                ylValutboxitemAdapter.notifyDataSetChanged();
+                ShowBoxList();
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     private void InitData()throws  Exception {
