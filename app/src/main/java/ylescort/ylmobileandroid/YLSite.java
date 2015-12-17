@@ -190,13 +190,16 @@ public class YLSite extends ActionBarActivity {
 
     private void OpenBoxAct(ListView parent, int position) {
 
+
+        ListView listView1 = (ListView) parent;
+        Site site = (Site) listView1.getItemAtPosition(position);
+
         try {
-            Sertime(webService.GetServerTime(getApplicationContext()));
+            Sertime(webService.GetServerTime(getApplicationContext(), "SiteID:"+site.getSiteID()));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ListView listView1 = (ListView) parent;
-        Site site = (Site) listView1.getItemAtPosition(position);
+
         Intent intent = new Intent();
         intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
         YLEditData.setCurrentYLSite(site);

@@ -113,7 +113,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
         List<BaseSite> baseSiteList = baseSiteDBSer.GetBaseSites("where SiteBCNo ="+replaceBlank(recivedata));
         if (baseSiteList.size()>0){
             try {
-                Sertime(webService.GetServerTime(getApplicationContext()));
+                Sertime(webService.GetServerTime(getApplicationContext(),"ATM ALL"));
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -197,10 +197,10 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                    Sertime(webService.GetServerTime(getApplicationContext()));
                     ListView listView = (ListView) parent;
                     YLATM ylatm = (YLATM) listView.getItemAtPosition(position);
                     YLEditData.setYlatm(ylatm);
+                    Sertime(webService.GetServerTime(getApplicationContext(),"ATMSiteID:"+ylatm.getSiteID()));
                     Intent intent = new Intent();
                     intent.setClass(YLATMSite.this, YLATMDetail.class);
                     Bundle bundle = new Bundle();

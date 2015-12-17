@@ -841,7 +841,7 @@ public class WebService {
                 HttpClient client = new DefaultHttpClient();
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200) {
-                    return gson.fromJson(EntityUtils.toString(response.getEntity()),String.class);
+                    return gson.fromJson(EntityUtils.toString(response.getEntity()), String.class);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -853,7 +853,7 @@ public class WebService {
     public String PostVaultCheckBox(User user,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"盘库上传方法";
         PostVaultCheckBoxAsycnTask postVaultCheckBoxAsycnTask = new PostVaultCheckBoxAsycnTask();
-        postVaultCheckBoxAsycnTask.execute(url,user.getEmpID(),YLSystem.getHandsetIMEI());
+        postVaultCheckBoxAsycnTask.execute(url, user.getEmpID(), YLSystem.getHandsetIMEI());
         return postVaultCheckBoxAsycnTask.get();
     }
 
@@ -894,7 +894,7 @@ public class WebService {
         GetVaultOutTaskAsycnTask getVaultOutTaskAsycnTask = new GetVaultOutTaskAsycnTask();
         getVaultOutTaskAsycnTask.execute(url,user.getEmpHFNo(),user.getEmpNO(),user.getTaskDate(),
                 YLSystem.getHandsetIMEI(),user.getEmpID(),user.getName());
-        Log.e(YLSystem.getKimTag(),user.toString());
+        Log.e(YLSystem.getKimTag(), user.toString());
         return getVaultOutTaskAsycnTask.get();
     }
 
@@ -1103,10 +1103,10 @@ public class WebService {
         }
     }
 
-    public String GetServerTime(Context context)throws Exception{
-        String url = YLSystem.GetBaseUrl(context)+"GetSeverTime";
+    public String GetServerTime(Context context,String Reason)throws Exception{
+        String url = YLSystem.GetBaseUrl(context)+"GetSeverTimeOnReason";
         GetServerTimeAsy getServerTimeAsy = new  GetServerTimeAsy();
-        getServerTimeAsy.execute(url);
+        getServerTimeAsy.execute(url,Reason);
         return  getServerTimeAsy.get();
     }
 
@@ -1126,6 +1126,7 @@ public class WebService {
                 p.put("deviceID",YLSystem.getHandsetIMEI());
                 p.put("ISWIFI",YLSystem.getNetWorkState());
                 p.put("empid",YLSystem.getUser().getEmpID());
+                p.put("Reason",strings[0]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient(httpParams);
