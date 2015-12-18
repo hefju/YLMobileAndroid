@@ -115,7 +115,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         CarBoxList = new ArrayList<>();
         if (ylTask.getLstCarBox() != null){
             if (ylTask.getLstCarBox().size()>0){
-                for (Box box : ylTask.getLstBox()) {
+                for (Box box : ylTask.getLstCarBox()) {
                     CarBoxList.add(box);
                 }
             }

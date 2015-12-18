@@ -192,7 +192,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             startActivity(intent);
 
 //            TasksManager tasksManager = new TasksManager();
-//            tasksManager.setTaskDate("2015-11-20");
+//            tasksManager.setTaskDate("2015-12-10");
 //            TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
 //            tasksManagerDBSer.DeleteTasksManager(tasksManager);
 
