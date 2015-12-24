@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,8 +31,10 @@ import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
 import YLDataService.AnalysisBoxList;
+import YLDataService.WebServerBaseData;
 import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
+import YLSystemDate.YLBaseDBSer;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
@@ -81,6 +85,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private int androidblue;
     private int androidorange;
+
+    private YLBaseDBSer ylBaseDBSer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,28 +139,32 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.vault_turnover_btn_vaultin:VaultIn();
-                break;
-            case R.id.vault_turnover_btn_vaultout:VaultOut();
-                break;
-            case R.id.vault_turnover_btn_scan:Scan1DCmd("toscan100ms");
-                break;
-            case R.id.vault_turnover_btn_upload:UpLoadDialog();
-                break;
-            case R.id.vault_check_btn_uhf:
+        try {
+            switch (v.getId()){
+                case R.id.vault_turnover_btn_vaultin:VaultIn();
+                    break;
+                case R.id.vault_turnover_btn_vaultout:VaultOut();
+                    break;
+                case R.id.vault_turnover_btn_scan:Scan1DCmd("toscan100ms");
+                    break;
+                case R.id.vault_turnover_btn_upload:UpLoadDialog();
+                    break;
+                case R.id.vault_check_btn_uhf:
 //                ScanUHF("scan");
-                break;
-            case R.id.vault_turnover_btn_count:Addcount();
-                break;
-            case R.id.vault_turnover_rbtn_all:FilterBoxdisplay();
-                break;
-            case R.id.vault_turnover_rbtn_count:FilterBoxdisplay();
-                break;
-            case R.id.vault_turnover_rbtn_more:FilterBoxdisplay();
-                break;
-            case R.id.vault_turnover_rbtn_lack:FilterBoxdisplay();
-                break;
+                    break;
+                case R.id.vault_turnover_btn_count:Addcount();
+                    break;
+                case R.id.vault_turnover_rbtn_all:FilterBoxdisplay();
+                    break;
+                case R.id.vault_turnover_rbtn_count:FilterBoxdisplay();
+                    break;
+                case R.id.vault_turnover_rbtn_more:FilterBoxdisplay();
+                    break;
+                case R.id.vault_turnover_rbtn_lack:FilterBoxdisplay();
+                    break;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -163,7 +173,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         vault_turnover_btn_count.setText(boxorder + "");
     }
 
-    private void FilterBoxdisplay(){
+    private void FilterBoxdisplay() throws Exception{
         Displayboxlist.clear();
         if (vault_turnover_rbtn_all.isChecked()){
             Displayboxlist.addAll(AllboxList);
@@ -277,6 +287,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private void UploadData() {
         try {
+            ylBaseDBSer.CacheData();
             if (AllboxList.size() > 0) {
                 vaultoutylTask.setTaskDate(PickDate);
                 vaultoutylTask.setLstBox(AllboxList);
@@ -447,7 +458,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         }
     }
 
-    private void ScanBoxInListView(String recivedata, String form) {
+    private void ScanBoxInListView(String recivedata, String form) throws  Exception{
         if (recivedata.length() !=10)return;
         boolean checkbox = true;
         if (BoxOper.equals("out")){
@@ -496,7 +507,6 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     box.setActionTime(YLSysTime.GetStrCurrentTime());
                     AllboxList.set(i, box);
                     addmore = false;
-                    Log.e(YLSystem.getKimTag(), box.toString() + "入库");
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                     vault_turnover_listview.setSelection(i);
                     AnalyBoxes(AllboxList, "in");
@@ -504,6 +514,10 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             }
             if (addmore){
                 Box morebox = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+                if (morebox.getBoxID().equals("0")){
+                    ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
+                    return;
+                }
                 morebox.setValutcheck("多");
                 morebox.setTradeAction("入");
                 morebox.setBaseValutOut("");
@@ -517,7 +531,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             }
         }
         FilterBoxdisplay();
-        ylBoxEdiAdapter.notifyDataSetChanged();
+//        ylBoxEdiAdapter.notifyDataSetChanged();
     }
 
     private void PutBoxToBoxList(Box box) {
@@ -571,6 +585,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
     private void InitData() throws Exception {
         boxorder = 1;
         ylMediaPlayer = new YLMediaPlayer();
+        ylBaseDBSer = new YLBaseDBSer(getApplication());
         vaultinylTask = new YLTask();
         vaultoutylTask = new YLTask();
         AllboxList = new ArrayList<>();
@@ -648,10 +663,14 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                AllboxList.remove(postion);
-                FilterBoxdisplay();
-                ylBoxEdiAdapter.notifyDataSetChanged();
-                dialog.dismiss();
+                try {
+                    AllboxList.remove(postion);
+                    FilterBoxdisplay();
+                    ylBoxEdiAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

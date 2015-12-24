@@ -231,7 +231,17 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         tasksManagerDBSer.DeleteTasksManager(tasksManager);
     }
 
+    public void testDeleteBaseBox()throws Exception{
 
+        Box box = new Box();
+
+        box.setBoxID("0114101923");
+
+        BoxDBSer boxDBSer = new BoxDBSer(getContext());
+
+        boxDBSer.DeleteBox(box);
+
+    }
 
 
 }

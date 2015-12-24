@@ -627,7 +627,6 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                                         }
                                     }).show();
-                            Log.e(YLSystem.getKimTag(),"1");
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

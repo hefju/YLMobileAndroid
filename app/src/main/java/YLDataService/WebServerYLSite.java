@@ -140,8 +140,9 @@ public class WebServerYLSite {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                return "0";
             }
-            return null;
+            return "0";
         }
     }
 

@@ -56,7 +56,7 @@ public class BoxDBSer {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
-            sdb.execSQL("DELETE FROM Box where Id=?", new Object[]{x.Id} );
+            sdb.execSQL("DELETE FROM BaseBox where BoxBCNo =?", new Object[]{x.getBoxID()} );
 
         }
         finally {
@@ -118,6 +118,7 @@ public class BoxDBSer {
         }
         if (box.getBoxName() == null){
             box.setBoxName("无数据");
+            box.setBoxID("0");
         }
         return box;
     }
