@@ -459,19 +459,43 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.boxedi_btn_del:
                 if (boxEditListEdit.size()!=0){
-                    if (boxEditListEdit.get(listpostion).getTradeAction().equals("收")){
-                        Box box = boxEditListEdit.get(listpostion);
+//                    if (boxEditListEdit.get(listpostion).getTradeAction().equals("收")){
+//                        Box box = boxEditListEdit.get(listpostion);
+//
+//                        for (int i = 0; i < yleditcarboxs.size(); i++) {
+//                            if (yleditcarboxs.get(i).getActionTime().equals(box.getActionTime())){
+//                                yleditcarboxs.remove(i);
+//                                break;
+//                            }
+//                        }
+//                    }else {
+//                        Box box = boxEditListEdit.get(listpostion);
+//                        box.setTradeAction("收");
+//                        if (box.getId() != 1){
+//                        yleditcarboxs.add(box);}
+//                    }
+//                    boxEditListEdit.remove(listpostion);
+//                    ylBoxEdiAdapter.setSelectItem(0);
+//                    listpostion = 0;
+//                    Log.e(YLSystem.getKimTag(), yleditcarboxs.size() + "编辑在库数量");
+//                    YLEditData.setYleditcarbox(yleditcarboxs);
+//                    TallyBox(boxEditListEdit);
+//                    ylBoxEdiAdapter.notifyDataSetChanged();
+
+                    Box box = boxEditListEdit.get(listpostion);
+                    if (box.getTradeAction().equals("收")){
                         for (int i = 0; i < yleditcarboxs.size(); i++) {
-                            if (yleditcarboxs.get(i).getActionTime().equals(box.getActionTime())){
+                            Box carbox = yleditcarboxs.get(i);
+                            if (carbox.getBoxID().equals(box.getBoxID())){
                                 yleditcarboxs.remove(i);
                                 break;
                             }
                         }
                     }else {
-                        Box box = boxEditListEdit.get(listpostion);
                         box.setTradeAction("收");
-                        if (box.getId() != 1){
-                        yleditcarboxs.add(box);}
+                        if (box.getId() != 1) {
+                            yleditcarboxs.add(box);
+                        }
                     }
                     boxEditListEdit.remove(listpostion);
                     ylBoxEdiAdapter.setSelectItem(0);

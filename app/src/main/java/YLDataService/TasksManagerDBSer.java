@@ -60,7 +60,8 @@ import YLSystemDate.YLSystem;
         try {
 //            Gson gson = new Gson();
 //            String content=gson.toJson(tasksManager);
-            sdb.execSQL("delete from TasksManager where TaskDate= ?",new Object[]{tasksManager.TaskDate} );
+            sdb.execSQL("delete from TasksManager where TaskDate= ? and EMPID =?"
+                    ,new Object[]{tasksManager.TaskDate,YLSystem.getUser().getEmpID()} );
         }
         finally {
             sdb.setTransactionSuccessful();
@@ -69,6 +70,21 @@ import YLSystemDate.YLSystem;
         }
     }
 
+    public void DeleteTasksManagerbydate(String date) {
+        SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
+        sdb.beginTransaction();
+        try {
+//            Gson gson = new Gson();
+//            String content=gson.toJson(tasksManager);
+            sdb.execSQL("delete from TasksManager where TaskDate= ?"
+                    ,new Object[]{date} );
+        }
+        finally {
+            sdb.setTransactionSuccessful();
+            sdb.endTransaction();
+            sdb.close();
+        }
+    }
 
 
 

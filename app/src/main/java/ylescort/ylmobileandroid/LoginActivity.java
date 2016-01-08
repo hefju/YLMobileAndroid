@@ -194,11 +194,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             intent.setClass(getApplicationContext(), setup.class);
             startActivity(intent);
 
-//            TasksManager tasksManager = new TasksManager();
-//            tasksManager.setTaskDate("2015-12-10");
-//            TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-//            tasksManagerDBSer.DeleteTasksManager(tasksManager);
 
+//
 //            Log_ET_Name.setText("340015");
 //            Log_ET_PassWord.setText("340015");
 //            try {
@@ -211,12 +208,25 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
+    private void DeleteTaskbyDate() {
+        TasksManager tasksManager = new TasksManager();
+        tasksManager.setTaskDate("2015-12-26");
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+        tasksManagerDBSer.DeleteTasksManager(tasksManager);
+    }
+
     @Override
     public void onClick(View v) {
         try {
             switch (v.getId()) {
                 case R.id.Log_BN_HF:
+
                     LoginByHF();
+
+//                    Log_ET_Name.setText("200097");
+//                    Log_ET_PassWord.setText("200097");
+//                    LoginByPassword();
+
                     break;
                 case R.id.Log_BN_Ent:
 //                    Log_ET_Name.setText("520037");
@@ -227,9 +237,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
                     UpDataAPK();
 
-//                    Log_ET_Name.setText("500008");
-//                    Log_ET_PassWord.setText("500008");
-//                    LoginByPassword();
+//                    DeleteTaskbyDate();
 
                     break;
                 case R.id.btnTest2:
@@ -237,6 +245,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     intent.setClass(LoginActivity.this, KimTest.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
                     break;
                 case R.id.logic_sw_address:
                     if (logic_sw_address.isChecked()) {

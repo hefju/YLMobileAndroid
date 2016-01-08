@@ -131,7 +131,7 @@ public class Scan1DService extends Service {
             run_scan100ms = true;
             scan100ms.cancel();
             scan100ms = new Timer();
-            scan100ms.schedule(new TimerTask() {  //��ʼTimer����ÿ100msɨ��һ��
+            scan100ms.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     if(mSerialPort.scaner_trig_stat()){//判断是否正在开红外

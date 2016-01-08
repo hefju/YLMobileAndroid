@@ -382,7 +382,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     }
 
     private void BoxIDtoBox(String recivedata) {
-        Log.e(YLSystem.getKimTag(), recivedata + "接收数据1D");
 
         for (int i = AllBoxList.size() - 1; i >= 0; i--) {
             if (AllBoxList.get(i).getBoxID().equals(recivedata)
@@ -442,7 +441,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         setbox.setBoxCount("1");
                         setbox.setBoxOrder(AllBoxList.size() + 1 + "");
                         setbox.setTaskTimeID(TaskTimeID);
-                        Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
                         homylboxscan_tv_boxname.setText(givebox.getBoxName());
                         homylboxscan_tv_boxaction.setText("送");
                         homylboxscan_tv_boxtype.setText(givebox.getBoxType());
@@ -453,6 +451,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         AllBoxList.add(setbox);
                         TallyBox(AllBoxList);
                         CarBoxList.remove(i);
+                        Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                         checkcarbox = false;
                         break;

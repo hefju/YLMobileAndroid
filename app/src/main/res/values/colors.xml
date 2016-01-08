@@ -162,6 +162,10 @@
     <color name="black">#000000</color><!--黑色 -->
 
 
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
     <color name="androidbluel">#33B5E5</color><!--安卓浅蓝 -->
     <color name="androidblued">#0099CC</color><!--安卓深蓝 -->
     <color name="androidpurplel">#AA66CC</color><!--安卓浅紫 -->

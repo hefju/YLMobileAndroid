@@ -38,6 +38,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -50,7 +51,9 @@ import TaskClass.User;
 import TaskClass.YLTask;
 import YLDataService.SiteDBSer;
 import YLDataService.TaskDBSer;
+import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLTaskAdapter;
 
@@ -68,6 +71,7 @@ public class Task extends ActionBarActivity {
     private Button btnCancel_Task;  //从网上下载任务数据
     private Button btnDownload_Task;  //从网上下载任务数据
     private DatePicker yltask_datepicker;//日期控件
+    private TasksManagerDBSer tasksManagerDBSer;
 
     android.os.Handler mHandler; //消息处理
 
@@ -77,6 +81,7 @@ public class Task extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
         try{
+            tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
             Task.this.setTitle("任务管理: "+YLSystem.getUser().getName());
             tasksManager=YLSystem.getTasksManager();//获取任务管理类
 
@@ -97,8 +102,11 @@ public class Task extends ActionBarActivity {
         Task_btn_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String time = GetCalendarViewTime();//用户选中的日期
-                tasksManager.Loading(getApplicationContext(), time);//加载本地数据
+                String time = GetCalendarViewTime("now");//用户选中的日期
+                String deletetime = GetCalendarViewTime("old");
+                Log.e(YLSystem.getKimTag(), "相减时间" + deletetime);
+                tasksManager.Loading(getApplicationContext(),time);//加载本地数据
+                tasksManagerDBSer.DeleteTasksManagerbydate(deletetime);
                 DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
 
                 if (YLSystem.isNetConnected(Task.this)) {
@@ -197,7 +205,7 @@ public class Task extends ActionBarActivity {
     private void UpdateLocalTaskList(List<YLTask> lstYLTask) {
         //测试的代码.
         for(YLTask x:lstYLTask){
-            x.setTaskDate(GetCalendarViewTime());
+            x.setTaskDate(GetCalendarViewTime("now"));
         }
         //测试代码结束
 
@@ -264,7 +272,7 @@ public class Task extends ActionBarActivity {
         listView.setAdapter(ylTaskAdapter);
     }
 
-    private  String GetCalendarViewTime(){
+    private  String GetCalendarViewTime(String noworold){
 //        String SerTime = YLSystem.getUser().getTime();
 //        int SerYear =Integer.parseInt(SerTime.substring(0,4)) ;
 //        int SerMon =Integer.parseInt(SerTime.substring(5,6)) ;
@@ -278,7 +286,14 @@ public class Task extends ActionBarActivity {
         int dayOfMonth   = yltask_datepicker.getDayOfMonth();
         calendar.set(year,monthOfYear,dayOfMonth);
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd",Locale.CHINA);
-        String time=format.format(calendar.getTime());
+        String time="";
+        if (noworold.equals("now")){
+            time = format.format(calendar.getTime());
+        }else{
+            calendar = YLSysTime.AddDateString(calendar,-30);
+            time = format.format(calendar.getTime());
+        }
+
         return  time;
     }
 
