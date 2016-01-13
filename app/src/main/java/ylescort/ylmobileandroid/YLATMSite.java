@@ -156,7 +156,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     }
 
     private void DisplayATMSite(List<YLATM> ylatmList) {
-        if (ylatmList != null && ylatmList.size() > 0){
+        if (ylatmList != null ){
             ylatmSiteAdapter = new YLATMSiteAdapter(this,ylatmList,R.layout.activity_atmsiteitem);
             ATMlist_listview.setAdapter(ylatmSiteAdapter);}
     }
@@ -251,6 +251,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             getATMSite2.execute(url);
         }else {
             ylTask.setTaskState("进行中");
+            ylatmList =ylTask.getLstATM();
             YLEditData.setYlatmList(ylTask.getLstATM());
             if (ylTask.getTaskATMBeginTime() !=null){
                 ATMlist_tv_starttime.setText(ylTask.getTaskATMBeginTime());
@@ -259,7 +260,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                 ATMlist_tv_endtime.setText(ylTask.getTaskATMEndTime());
             }
 
-            DisplayATMSite(ylTask.getLstATM());
+            DisplayATMSite(ylatmList);
         }
 
         if (ylTask.getTaskATMBeginTime() == null){
@@ -504,6 +505,8 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     @Override
     protected void onPostResume() {
         if (ylatmSiteAdapter != null){
+            ylatmList = YLEditData.getYlatmList();
+            Log.e(YLSystem.getKimTag(),ylatmList.toString());
             ylatmSiteAdapter.notifyDataSetChanged();
         }
         super.onPostResume();

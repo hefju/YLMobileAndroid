@@ -311,7 +311,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                         tasksManager.SaveTask(getApplicationContext());
 
                         HomTmp_Scan.this.setTitle("未确认申请操作");
-                        HomTmp_Scan_btn_refresh.setEnabled(false);
+//                        HomTmp_Scan_btn_refresh.setEnabled(false);
                         HomTmp_Scan_btn_scan.setEnabled(false);
                         HomTmp_Scan_btn_upload.setEnabled(false);
                         HomTmp_Scan_btn_refresh.setBackgroundColor(colordefaul);
@@ -334,9 +334,14 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
 
     private void Getvaulttmpoutbox() {
         try {
+            setTimeID(1);
             AllBoxList.clear();
-            AllBoxList = webServerTmpValutInorOut.GetTmpBoxList(ylTask.getTaskID(), TimeID + "", getChioce(),TaskTimeID+"");
+            AllBoxList = webServerTmpValutInorOut.GetTmpBoxList(ylTask.getTaskID(), "1", "999", "1");
+            Log.e(YLSystem.getKimTag(),"出库列表"+AllBoxList.toString());
             DisPlayBoxlistAdapter(AllBoxList);
+            HomTmp_Scan.this.setTitle("出库箱扫描");
+            HomTmp_Scan_btn_scan.setEnabled(true);
+            HomTmp_Scan_btn_upload.setEnabled(true);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -374,7 +379,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     } else {
                         HomTmp_Scan_btn_scan.setEnabled(true);
                         HomTmp_Scan_btn_upload.setEnabled(true);
-                        HomTmp_Scan_btn_refresh.setEnabled(false);
+//                        HomTmp_Scan_btn_refresh.setEnabled(false);
                         TaskTimeID = Integer.parseInt(returnstring) ;
                         if (getChioce() == null) {
                             HomTmp_Scan.this.setTitle("申请入库：南海基地");
@@ -387,38 +392,38 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                 }
             }
         });
-        builder.setNeutralButton("出库", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                try {
-                    User user = new User();
-                    user.setTaskDate(ylTask.getTaskID());
-                    user.setEmpID(YLSystem.getUser().getEmpID());
-                    user.setDeviceID(YLSystem.getHandsetIMEI());
-                    user.setTime("1");
-                    setTimeID(1);
-                    user.setName(getChioce());
-                    String returnstring =
-                            webServerTmpValutInorOut.ComfirmValuttmpinorout(user);
-                    if (returnstring.equals("0")){
-                        Toast.makeText(getApplicationContext(),"未申请成功",Toast.LENGTH_SHORT).show();
-                    }else{
-                        if (getChioce() == null) {
-                            HomTmp_Scan.this.setTitle("申请出库：南海基地");
-                        } else {
-                            HomTmp_Scan.this.setTitle("申请出库：" + getChioce());
-                        }
-                        TaskTimeID = Integer.parseInt(returnstring);
-                        HomTmp_Scan_btn_refresh.setEnabled(true);
-                        HomTmp_Scan_btn_scan.setEnabled(true);
-                        HomTmp_Scan_btn_upload.setEnabled(true);
-                        HomTmp_Scan_btn_refresh.setBackgroundColor(colorpurple);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        builder.setNeutralButton("出库", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                try {
+//                    User user = new User();
+//                    user.setTaskDate(ylTask.getTaskID());
+//                    user.setEmpID(YLSystem.getUser().getEmpID());
+//                    user.setDeviceID(YLSystem.getHandsetIMEI());
+//                    user.setTime("1");
+//                    setTimeID(1);
+//                    user.setName(getChioce());
+//                    String returnstring =
+//                            webServerTmpValutInorOut.ComfirmValuttmpinorout(user);
+//                    if (returnstring.equals("0")){
+//                        Toast.makeText(getApplicationContext(),"未申请成功",Toast.LENGTH_SHORT).show();
+//                    }else{
+//                        if (getChioce() == null) {
+//                            HomTmp_Scan.this.setTitle("申请出库：南海基地");
+//                        } else {
+//                            HomTmp_Scan.this.setTitle("申请出库：" + getChioce());
+//                        }
+//                        TaskTimeID = Integer.parseInt(returnstring);
+//                        HomTmp_Scan_btn_refresh.setEnabled(true);
+//                        HomTmp_Scan_btn_scan.setEnabled(true);
+//                        HomTmp_Scan_btn_upload.setEnabled(true);
+//                        HomTmp_Scan_btn_refresh.setBackgroundColor(colorpurple);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

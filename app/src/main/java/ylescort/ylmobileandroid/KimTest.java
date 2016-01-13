@@ -10,6 +10,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -26,7 +27,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
@@ -48,7 +52,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import TaskClass.BaseBox;
@@ -67,6 +74,7 @@ import YLFileOperate.DBMove;
 import YLFragment.YLBoxEditFragment;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
+import YLWebService.UpdateManager;
 
 
 public class KimTest extends ActionBarActivity implements View.OnClickListener {
@@ -259,19 +267,60 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             case R.id.kim_copydb:CopyDB();
                 break;
             case R.id.kim_vibrate:
-                try {
-                    AnysTaskCacheData();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
+                final EditText editText = new EditText(this);
+                editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+                InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.showSoftInput(editText, 0);
+                new AlertDialog.Builder(this).setTitle("请输入升级密码:")
+                        .setIcon(android.R.drawable.ic_dialog_info).setView(editText)
+                        .setPositiveButton("缓存", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                if (editText.getText().toString().equals("9")) {
+                                    try {
+                                        AnysTaskCacheData();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }).setNegativeButton("取消", null).show();
                 break;
             case R.id.kim_uhftest:
 //                ScanUHF("scan");
 //                UHFWriter();
+
+                activationroot();
+
+
                 break;
             case R.id.kim_uhfwrite:UHFWriter();
                 break;
         }
+    }
+
+    private void activationroot() {
+
+        final EditText editText = new EditText(this);
+        editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(editText, 0);
+        new AlertDialog.Builder(this).setTitle("请输入升级密码:")
+                .setIcon(android.R.drawable.ic_dialog_info).setView(editText)
+                .setPositiveButton("激活ROOT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editText.getText().toString().equals("9")) {
+                            try {
+                                YLSysTime ylSysTime = new YLSysTime();
+                                ylSysTime.Sertime("2016-01-01 11:11:11");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
     private void UHFWriter() {

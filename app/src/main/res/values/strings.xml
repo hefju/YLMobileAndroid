@@ -184,8 +184,8 @@
     <string name="valuttmp_scan_btn_upload">上传/F2</string>
 
     <!--业务员临时出入库扫描-->
-    <string name="HomTmp_scan_applycation">申请</string>
-    <string name="HomTmp_scan_btn_refersh">刷新</string>
+    <string name="HomTmp_scan_applycation">入库</string>
+    <string name="HomTmp_scan_btn_refersh">出库</string>
     <string name="HomTmp_scan_btn_scan">扫描</string>
     <string name="HomTmp_scan_btn_upload">上传</string>
     <!--入库汇总-->

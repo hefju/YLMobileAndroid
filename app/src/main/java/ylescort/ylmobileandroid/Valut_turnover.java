@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +29,6 @@ import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
 import YLDataService.AnalysisBoxList;
-import YLDataService.WebServerBaseData;
 import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLBaseDBSer;
@@ -285,32 +282,50 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         builder.show();
     }
 
-    private void UploadData() {
+    private boolean UploadData() {
         try {
             ylBaseDBSer.CacheData();
             if (AllboxList.size() > 0) {
+
+                for (Box box : AllboxList) {
+                    if (box.getValutcheck().equals("多")) {
+                        new AlertDialog.Builder(Valut_turnover.this).setTitle("提示")
+                                .setMessage("列表有多箱未设定来源基地，请设定后再上传。")
+                                .setPositiveButton("确定", null).show();
+                        return false;
+                    }
+                }
+
                 vaultoutylTask.setTaskDate(PickDate);
                 vaultoutylTask.setLstBox(AllboxList);
                 YLEditData.setYlTask(vaultoutylTask);
-                webServerValutturnover.Valutturnoverupload(YLSystem.getUser(), getApplicationContext());
-                AllboxList.clear();
-                Displayboxlist.clear();
-                ylBoxEdiAdapter.notifyDataSetChanged();
-            }
-            vault_turnover_btn_vaultout.setEnabled(true);
-            vault_turnover_btn_vaultin.setEnabled(true);
-            Valut_turnover.this.setTitle("未设置出入库操作");
+                String uploadstate =
+                        webServerValutturnover.Valutturnoverupload(YLSystem.getUser(), getApplicationContext());
+                if (uploadstate.equals("1")) {
+                    AllboxList.clear();
+                    Displayboxlist.clear();
+                    ylBoxEdiAdapter.notifyDataSetChanged();
+
+                    vault_turnover_btn_vaultout.setEnabled(true);
+                    vault_turnover_btn_vaultin.setEnabled(true);
+                    Valut_turnover.this.setTitle("未设置出入库操作");
 //            vault_turnover_tv_title.setText("未设置出入库操作");
-            boxorder = 1;
-            vault_turnover_btn_count.setText("1");
-            BoxOper = "0";
+                    boxorder = 1;
+                    vault_turnover_btn_count.setText("1");
+                    BoxOper = "0";
+                    return true;
+                }else {
+                    return false;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return  false;
     }
 
     private void VaultOut() {
-        UploadData();
+        if (!UploadData())return;
         new AlertDialog.Builder(this).setTitle("请选择基地").setIcon(android.R.drawable.ic_dialog_info)
                 .setSingleChoiceItems(R.array.basedepartment, 0, new DialogInterface.OnClickListener() {
                     @Override
@@ -359,7 +374,6 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                             } else {
 //                                vault_turnover_tv_title.setText("出库总数:0");
                                 Valut_turnover.this.setTitle(InBaseName + "出库：0");
-
                             }
                             FilterBoxdisplay();
                             BoxOper = "out";
@@ -377,19 +391,20 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private void VaultIn() {
         try {
-            UploadData();
-            Valut_turnover.this.setTitle("当前操作：入库");
-            BoxOper = "in";
-            valutinboxList = webServerValutturnover.ValutInBoxList(user,getApplicationContext());
-            if (valutinboxList.get(0).getBoxID() != null){
-                AllboxList.addAll(valutinboxList);
+            if(UploadData()) {
+                Valut_turnover.this.setTitle("当前操作：入库");
+                BoxOper = "in";
+                valutinboxList = webServerValutturnover.ValutInBoxList(user, getApplicationContext());
+                if (valutinboxList.get(0).getBoxID() != null) {
+                    AllboxList.addAll(valutinboxList);
+                }
+                FilterBoxdisplay();
+                Log.e(YLSystem.getKimTag(), AllboxList.size() + "入库列表");
+                AnalyBoxes(AllboxList, "in");
+                ylBoxEdiAdapter.notifyDataSetChanged();
+                vault_turnover_btn_vaultout.setEnabled(true);
+                vault_turnover_btn_vaultin.setEnabled(false);
             }
-            FilterBoxdisplay();
-            Log.e(YLSystem.getKimTag(), AllboxList.size()+ "入库列表");
-            AnalyBoxes(AllboxList, "in");
-            ylBoxEdiAdapter.notifyDataSetChanged();
-            vault_turnover_btn_vaultout.setEnabled(true);
-            vault_turnover_btn_vaultin.setEnabled(false);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -493,7 +508,9 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
                 if (box.getBoxID().equals(recivedata)) {
 
-                    if (box.getValutcheck().equals("对")||box.getValutcheck().equals("多")){
+                    String boxcheck = box.getValutcheck();
+//                    if (box.getValutcheck().equals("对")||box.getValutcheck().equals("多")){
+                    if (boxcheck.equals("对")||boxcheck.equals("多")|| boxcheck.equals("核")){
                         addmore = false;
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                         continue;
@@ -520,6 +537,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 }
                 morebox.setValutcheck("多");
                 morebox.setTradeAction("入");
+                morebox.setBaseValutIn(OutBaseName);
                 morebox.setBaseValutOut("");
                 morebox.setTimeID("2");
                 morebox.setBoxOrder(boxorder + "");
@@ -650,36 +668,84 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                ListView listView = (ListView) parent;
-                DeleteBox(position);
+                EditBoxstaut(position);
             }
         });
     }
 
-    private void DeleteBox(final int postion){
-        if (BoxOper.equals("in"))return;
-        AlertDialog.Builder builder = new AlertDialog.Builder(Valut_turnover.this);
-        builder.setMessage("确认删除吗?");
-        builder.setTitle("提示");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    AllboxList.remove(postion);
-                    FilterBoxdisplay();
-                    ylBoxEdiAdapter.notifyDataSetChanged();
-                    dialog.dismiss();
-                }catch (Exception e){
-                    e.printStackTrace();
+    private void EditBoxstaut(final int postion){
+        if (BoxOper.equals("in")) {
+
+            Log.e(YLSystem.getKimTag(), Displayboxlist.get(postion).toString());
+
+            String  Boxcheck = Displayboxlist.get(postion).getValutcheck();
+            if (Boxcheck.equals("对"))return;
+            new AlertDialog.Builder(this).setTitle("请选择基地").setIcon(android.R.drawable.ic_dialog_info)
+                    .setSingleChoiceItems(R.array.basedepartment, 0, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String choicbase = "";
+                            switch (which) {
+                                case 0:
+                                    choicbase = "南海基地";
+                                    break;
+                                case 1:
+                                    choicbase = "大良基地";
+                                    break;
+                                case 2:
+                                    choicbase = "乐从基地";
+                                    break;
+                                case 3:
+                                    choicbase = "三水基地";
+                                    break;
+                            }
+                            if (OutBaseName.equals(choicbase)) {
+                                Toast.makeText(getApplicationContext(), "不能选择本基地"
+                                        , Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                return;
+                            }
+
+                            Box Dpbox = Displayboxlist.get(postion);
+                            for (int i = 0; i < AllboxList.size(); i++) {
+                                Box Abbox = AllboxList.get(i);
+                                if (Dpbox.getBoxID().equals(Abbox.getBoxID())){
+                                    Abbox.setBaseValutOut(choicbase);
+                                    Abbox.setValutcheck("核");
+                                    ylBoxEdiAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            dialog.dismiss();
+                        }
+                    }).show();
+
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Valut_turnover.this);
+            builder.setMessage("确认删除吗?");
+            builder.setTitle("提示");
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        AllboxList.remove(postion);
+                        FilterBoxdisplay();
+                        ylBoxEdiAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.show();
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+        }
     }
 
     @Override

@@ -634,6 +634,7 @@ public class WebService {
             User user = new User();
             user.setEmpNO(params[1]);
             user.setDeviceID(YLSystem.getHandsetIMEI());
+            user.setISWIFI(YLSystem.getNetWorkState());
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
@@ -692,6 +693,7 @@ public class WebService {
             user.setEmpNO(params[1]);
             user.setPass(params[2]);
             user.setDeviceID(YLSystem.getHandsetIMEI());
+            user.setISWIFI(YLSystem.getNetWorkState());
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {

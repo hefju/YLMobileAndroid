@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/kim_uhftest"
         android:layout_below="@+id/kim_vibrate"
-        android:text="UHF测试"/>
+        android:text="激活root"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

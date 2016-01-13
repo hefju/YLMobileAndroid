@@ -54,8 +54,7 @@
             android:layout_marginStart="15sp"
             android:id="@+id/HomTmp_Scan_btn_refresh"
             android:text="@string/HomTmp_scan_btn_refersh"
-            android:enabled="false"
-            android:background="@color/grey"/>
+            android:background="@color/androidpurplel"/>
 
         <Button
             android:layout_width="60sp"
