@@ -30,39 +30,40 @@ public class YLNetWorkStateService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-                ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-                NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-
-                if(info != null && info.isAvailable()) {
-
-                    String name = info.getTypeName();
-                    if (name.equals("mobile")){
-                        YLSystem.setNetWorkState("0");
-                        //Log.d("ping", "0");
-
-                    }else {
-                        YLSystem.setNetWorkState("1");
-                        //Log.d("ping", "1");
-                    }
-
+            try {
+                String action = intent.getAction();
+                if (action.equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+                    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+                    if (info != null && info.isAvailable()) {
+                        String name = info.getTypeName();
+                        if (name.equals("mobile")) {
+                            YLSystem.setNetWorkState("0");
+                            //Log.d("ping", "0");
+                        } else {
+                            YLSystem.setNetWorkState("1");
+                            //Log.d("ping", "1");
+                        }
 //                    String str = new NetPing().doInBackground();
 //                    if (str.equals("faild")){
 //                        Toast.makeText(context,"没有可用网络",Toast.LENGTH_SHORT).show();
 //                    }
-                    //doSomething()
-                } else {
-                    YLSystem.setNetWorkState("2");
-                    Toast.makeText(context,"没有可用网络",Toast.LENGTH_SHORT).show();
-                    //doSomething()
+                        //doSomething()
+                    } else {
+                        YLSystem.setNetWorkState("2");
+                        Toast.makeText(context, "没有可用网络", Toast.LENGTH_SHORT).show();
+                        //doSomething()
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+
     };
 
 
-    public String Ping(String str){
+    public String Ping(String str) {
         String resault = "";
         Process p;
         try {
@@ -74,7 +75,7 @@ public class YLNetWorkStateService extends Service {
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
             StringBuffer buffer = new StringBuffer();
             String line = "";
-            while ((line = in.readLine()) != null){
+            while ((line = in.readLine()) != null) {
                 buffer.append(line);
             }
             System.out.println("Return ============" + buffer.toString());

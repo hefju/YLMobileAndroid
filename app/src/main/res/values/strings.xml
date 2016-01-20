@@ -145,6 +145,7 @@
     <string name="valut_turnover_btn_vaultin">入库</string>
     <string name="valut_turnover_btn_vaultout">出库</string>
     <string name="valut_turnover_btn_count">1</string>
+    <string name="valut_turnover_btn_clearmore">清多箱</string>
     <string name="valut_turnover_rbtn_all">全部</string>
     <string name="valut_turnover_rbtn_more">多箱</string>
     <string name="valut_turnover_rbtn_lack">缺箱</string>

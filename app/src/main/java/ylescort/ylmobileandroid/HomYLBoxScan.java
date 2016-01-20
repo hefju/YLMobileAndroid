@@ -873,45 +873,55 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
 
     private void TallyBox(List<Box> boxList) {
-        if (boxList == null)return;
-        int emptybox = 0;
-        int fullbox = 0;
-        int getbox = 0;
-        int givebox = 0;
-        int moneybox = 0;
-        int cardbox = 0;
-        int voucher =0;
-        int voucherbag = 0;
-        for (Box box :boxList){
-            if (box.getTradeAction().equals("收")){
-                getbox +=Integer.parseInt(box.getBoxCount()) ;}
-            else{
-                givebox+=Integer.parseInt(box.getBoxCount());
+        try {
+
+
+            if (boxList == null) return;
+            int emptybox = 0;
+            int fullbox = 0;
+            int getbox = 0;
+            int givebox = 0;
+            int moneybox = 0;
+            int cardbox = 0;
+            int voucher = 0;
+            int voucherbag = 0;
+            for (Box box : boxList) {
+                if (box.getTradeAction().equals("收")) {
+                    getbox += Integer.parseInt(box.getBoxCount());
+                } else {
+                    givebox += Integer.parseInt(box.getBoxCount());
+                }
+                if (box.getBoxStatus().equals("空")) {
+                    emptybox += Integer.parseInt(box.getBoxCount());
+                } else {
+                    fullbox += Integer.parseInt(box.getBoxCount());
+                }
+                switch (box.getBoxType()) {
+                    case "款箱":
+                        moneybox += Integer.parseInt(box.getBoxCount());
+                        break;
+                    case "卡箱":
+                        cardbox += Integer.parseInt(box.getBoxCount());
+                        break;
+                    case "凭证箱":
+                        voucher += Integer.parseInt(box.getBoxCount());
+                        break;
+                    case "凭证袋":
+                        voucherbag += Integer.parseInt(box.getBoxCount());
+                        break;
+                }
             }
-            if (box.getBoxStatus().equals("空")){
-                emptybox+=Integer.parseInt(box.getBoxCount());
-            }else {
-                fullbox+=Integer.parseInt(box.getBoxCount());
-            }
-            switch (box.getBoxType()){
-                case "款箱":moneybox+=Integer.parseInt(box.getBoxCount());
-                    break;
-                case "卡箱":cardbox+=Integer.parseInt(box.getBoxCount());
-                    break;
-                case "凭证箱":voucher+=Integer.parseInt(box.getBoxCount());
-                    break;
-                case "凭证袋":voucherbag+=Integer.parseInt(box.getBoxCount());
-                    break;
-            }
+            homylboxscan_rbtn_get.setText("收箱:" + getbox);
+            homylboxscan_rbtn_give.setText("送箱:" + givebox);
+            homylboxscan_rbtn_full.setText("实箱:" + fullbox);
+            homylboxscan_rbtn_empty.setText("空箱:" + emptybox);
+            homylboxscan_tv_moneybox.setText("款箱:" + moneybox);
+            homylboxscan_tv_cardbox.setText("卡箱:" + cardbox);
+            homylboxscan_tv_Voucher.setText("凭证箱:\r\n     " + voucher);
+            homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     " + voucherbag);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        homylboxscan_rbtn_get.setText("收箱:"+getbox);
-        homylboxscan_rbtn_give.setText("送箱:"+givebox);
-        homylboxscan_rbtn_full.setText("实箱:"+fullbox);
-        homylboxscan_rbtn_empty.setText("空箱:"+emptybox);
-        homylboxscan_tv_moneybox.setText("款箱:"+moneybox);
-        homylboxscan_tv_cardbox.setText("卡箱:" + cardbox);
-        homylboxscan_tv_Voucher.setText("凭证箱:\r\n     " + voucher);
-        homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     " + voucherbag);
     }
 
 

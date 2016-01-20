@@ -1,27 +1,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ATMSiteitem_order"
+            android:layout_marginTop="15sp"
             android:textSize="20sp"
-            android:text="序号"/>
+            android:text="序号"
+            android:layout_marginBottom="10sp"/>
         <TextView
-            android:layout_width="180sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ATMSiteitem_Name"
-            android:layout_marginStart="30sp"
+            android:layout_toEndOf="@+id/ATMSiteitem_order"
+            android:layout_marginStart="10sp"
+            android:layout_toStartOf="@+id/ATMSiteitem_staut"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
             android:textSize="25sp"
             android:text="网点名称"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ATMSiteitem_staut"
+            android:layout_marginTop="15sp"
+            android:layout_marginBottom="10sp"
             android:textSize="15sp"
+            android:layout_alignParentEnd="true"
             android:text="状态"/>
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>

@@ -637,6 +637,9 @@ public class WebService {
             user.setISWIFI(YLSystem.getNetWorkState());
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
+            HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
+            HttpConnectionParams.setSoTimeout(httpParams, 3000);
             try {
                 p.put("user", gson.toJson(user));
             } catch (JSONException e) {
@@ -648,7 +651,7 @@ public class WebService {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            HttpClient client = new DefaultHttpClient();
+            HttpClient client = new DefaultHttpClient(httpParams);
             try {
                 HttpResponse response = client.execute(post);
                 Log.e(YLSystem.getKimTag(), response.getStatusLine().getStatusCode()+"");
@@ -694,6 +697,9 @@ public class WebService {
             user.setPass(params[2]);
             user.setDeviceID(YLSystem.getHandsetIMEI());
             user.setISWIFI(YLSystem.getNetWorkState());
+            HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, 3000);
+            HttpConnectionParams.setSoTimeout(httpParams, 3000);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
             try {
@@ -707,7 +713,7 @@ public class WebService {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            HttpClient client = new DefaultHttpClient();
+            HttpClient client = new DefaultHttpClient(httpParams);
             try {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){

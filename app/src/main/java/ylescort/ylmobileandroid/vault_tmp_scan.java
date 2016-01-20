@@ -151,6 +151,7 @@ public class vault_tmp_scan extends ActionBarActivity implements View.OnClickLis
             if (box.getBoxID().equals(recivedata)){
                 box.setValutcheck("对");
                 box.setTradeAction("入");
+                box.setActionTime(YLSysTime.GetStrCurrentTime());
                 box.setBaseValutIn(YLSystem.getBaseName());
                 box.setTimeID(TimeID);
                 box.setTaskTimeID(TaskTimeID);

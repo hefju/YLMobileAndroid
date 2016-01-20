@@ -79,6 +79,8 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     private YLATMSiteAdapter ylatmSiteAdapter;
     private WebService webService;
 
+    private String NetPoint;//银行网点
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -243,6 +245,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         ATMlist_tv_title.setText(ylTask.getLine());
         webService = new WebService();
+        NetPoint = "";
 
         if(ylTask.getTaskState().equals("有更新")){
             ATMlist_tv_title.setText("获取任务中");
@@ -258,6 +261,15 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             }
             if (ylTask.getTaskATMEndTime() != null){
                 ATMlist_tv_endtime.setText(ylTask.getTaskATMEndTime());
+            }
+
+            if (ylatmList.size()>0){
+                for (YLATM ylatm : ylatmList) {
+                    if (ylatm.getSiteType().equals("网点")){
+                        NetPoint = ylatm.getSiteName();
+                        YLATMSite.this.setTitle(NetPoint);
+                    }
+                }
             }
 
             DisplayATMSite(ylatmList);
@@ -285,48 +297,37 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
         @Override
         protected List<Site> doInBackground(String... params) {
 
-            HttpPost post = new HttpPost(params[0]);
-            User user = YLSystem.getUser();
-            //添加数值到User类
-            Gson gson = new Gson();
-            //设置POST请求中的参数
-            JSONObject p = new JSONObject();
             try {
+                HttpPost post = new HttpPost(params[0]);
+                User user = YLSystem.getUser();
+                //添加数值到User类
+                Gson gson = new Gson();
+                //设置POST请求中的参数
+                JSONObject p = new JSONObject();
+
                 p.put("taskID", ylTask.getTaskID());
                 p.put("deviceID", user.getDeviceID());
                 p.put("empid", user.getEmpID());
                 p.put("ISWIFI", user.getISWIFI());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
                 post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-            post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-            HttpClient client = new DefaultHttpClient();
-            HttpResponse response = null;
-            try {
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = null;
                 response = client.execute(post);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (response != null) {
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    String content = null;
-                    try {
+                if (response != null) {
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = null;
                         content = EntityUtils.toString(response.getEntity());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
-                    }.getType());
-                    String result = lstSite.get(0).ServerReturn;
-                    if (result.equals("1")) {
-                        return lstSite;
+                        List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
+                        }.getType());
+                        String result = lstSite.get(0).ServerReturn;
+                        if (result.equals("1")) {
+                            return lstSite;
+                        }
                     }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             return null;
         }
@@ -334,6 +335,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
         @Override
         protected void onPostExecute(List<Site> sites) {
             ylTask.setLstSite(sites);
+
             List<YLATM> ylatms = new ArrayList<YLATM>();
             if (ylTask.getLstSite() !=null){
                 for (int i = 0; i <ylTask.getLstSite().size();i++){
@@ -346,12 +348,17 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                     ylatm.setSiteName(site.getSiteName());
                     ylatm.setTradeState("未交接");
                     ylatm.setSiteType(site.getSiteType());
+                    if (site.getSiteType().equals("网点")){
+                        NetPoint = site.getSiteName();
+                        YLATMSite.this.setTitle(NetPoint);
+                    }
                     ylatm.setTradeBegin("");
                     ylatm.setTradeEnd("");
                     ylatm.setATMCount("0");
                     ylatm.setTimeID(1);
                     ylatm.setEmpID(YLSystem.getUser().getEmpID());
-                    ylatms.add(ylatm);}
+                    ylatms.add(ylatm);
+                }
             }
             YLEditData.setYlatmList(ylatms);
             DisplayATMSite(YLEditData.getYlatmList());

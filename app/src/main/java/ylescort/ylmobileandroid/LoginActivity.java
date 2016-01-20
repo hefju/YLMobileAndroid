@@ -88,10 +88,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             }
             LoginActivity.this.setTitle("粤龙保安押运--" + oper);
             int b =  getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
-            String ylvision = getVersionName();
+            final String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
 //            Log.e(YLSystem.getKimTag(), b + "");
-            log_tv_vision.setText("版本号:"+ylvision);
+            log_tv_vision.setText("版本号:" + ylvision);
 
         buttonflag = false;
 
@@ -100,13 +100,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         /**
          * 获取手机IMEI码
          */
-        String srvName = Context.TELEPHONY_SERVICE;
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
-        String IMEI = telephonyManager.getDeviceId();
-        String SIM = telephonyManager.getSimSerialNumber();
-        YLSystem.setHandsetIMEI(IMEI+"-"+SIM+"-"+ylvision);
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String srvName = Context.TELEPHONY_SERVICE;
+                    TelephonyManager telephonyManager = (TelephonyManager) getSystemService(srvName);
+                    String IMEI = telephonyManager.getDeviceId();
+                    String SIM = telephonyManager.getSimSerialNumber();
+                    YLSystem.setHandsetIMEI(IMEI + "-" + SIM + "-" + ylvision);
+                    log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
+                }
+            });
 
-        log_tv_hsimei.setText("机器码:" + IMEI + "\r\n" + "SIM卡：" + SIM);
+            thread.start();
 
         //正式服务测试服务正式为checked为false
         logic_sw_address.setChecked(true);
@@ -209,10 +215,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void DeleteTaskbyDate() {
-        TasksManager tasksManager = new TasksManager();
-        tasksManager.setTaskDate("2015-12-26");
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManager(tasksManager);
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-01-13");
     }
 
     @Override
@@ -221,16 +225,16 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             switch (v.getId()) {
                 case R.id.Log_BN_HF:
 
-//                    LoginByHF();
+                    LoginByHF();
 
-                    Log_ET_Name.setText("340015");
-                    Log_ET_PassWord.setText("340015");
-                    LoginByPassword();
+//                    Log_ET_Name.setText("340015");
+//                    Log_ET_PassWord.setText("340015");
+//                    LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:
-                    Log_ET_Name.setText("520037");
-                    Log_ET_PassWord.setText("520037");
+//                    Log_ET_Name.setText("520037");
+//                    Log_ET_PassWord.setText("520037");
                     LoginByPassword();
                     break;
                 case R.id.btnTest1:

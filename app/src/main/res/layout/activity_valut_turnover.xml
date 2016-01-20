@@ -115,11 +115,12 @@
             android:text="@string/valut_turnover_btn_vaultout" />
 
         <Button
-            android:id="@+id/vault_turnover_btn_count"
-            android:layout_width="90sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/valut_turnover_btn_clearmore"
             android:layout_marginStart="10sp"
-            android:text="@string/valut_turnover_btn_count" />
+            android:text="@string/valut_turnover_btn_clearmore"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -142,12 +143,19 @@
             android:layout_marginStart="10sp"
             android:text="@string/valut_turnover_btn_uhf"
             android:visibility="gone"/>
+        <Button
+            android:id="@+id/vault_turnover_btn_count"
+            android:layout_width="90sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/valut_turnover_btn_count" />
 
         <Button
             android:id="@+id/vault_turnover_btn_upload"
             android:layout_width="90sp"
             android:layout_height="fill_parent"
-            android:layout_marginStart="30sp"
+            android:layout_marginStart="10sp"
             android:text="@string/valut_turnover_btn_upload" />
+
     </LinearLayout>
 </RelativeLayout>

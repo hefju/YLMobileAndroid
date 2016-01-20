@@ -162,6 +162,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                         box.setValutcheck("对");
                         box.setBaseValutIn(getChioce());
                         box.setBoxCount("1");
+                        box.setActionTime(YLSysTime.GetStrCurrentTime());
                         box.setTradeAction("收");
                         box.setTimeID(getTimeID()+"");
                         box.setTaskTimeID(TaskTimeID);
@@ -209,6 +210,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                 AllBoxList.add(box);
                 CarBoxList.remove(i);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                Log.e(YLSystem.getKimTag(),box.toString()+"临时入库款箱");
                 break;
             }
         }
@@ -335,8 +337,14 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
     private void Getvaulttmpoutbox() {
         try {
             setTimeID(1);
+            TaskTimeID = 1;
             AllBoxList.clear();
             AllBoxList = webServerTmpValutInorOut.GetTmpBoxList(ylTask.getTaskID(), "1", "999", "1");
+            if (AllBoxList.size()>0){
+                if (!AllBoxList.get(0).getServerReturn().equals("0")){
+                    setChioce(AllBoxList.get(0).getBaseValutIn());
+                }
+            }
             Log.e(YLSystem.getKimTag(),"出库列表"+AllBoxList.toString());
             DisPlayBoxlistAdapter(AllBoxList);
             HomTmp_Scan.this.setTitle("出库箱扫描");
@@ -370,6 +378,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     user.setDeviceID(YLSystem.getHandsetIMEI());
                     user.setTime("2");
                     setTimeID(2);
+                    TaskTimeID = 2;
                     user.setName(getChioce());
                     String returnstring =
                             webServerTmpValutInorOut.ComfirmValuttmpinorout(user);
