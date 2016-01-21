@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -517,5 +519,25 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             ylatmSiteAdapter.notifyDataSetChanged();
         }
         super.onPostResume();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_ylatmlist,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings){
+            Intent intent = new Intent();
+            intent.setClass(this, HomTmp_Scan.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
