@@ -151,12 +151,15 @@ public class YLSite extends ActionBarActivity {
 
     private void GetCarBoxlist() throws Exception {
         boolean getcarboxs = true;
-        for (Site site : ylTask.getLstSite()) {
-            if (site.getStatus().equals("已完成")) {
-                getcarboxs = false;
-                checkcardownload = true;
+            for (Site site : ylTask.getLstSite()) {
+                if (site.getStatus() == null)continue;
+                if (site.getStatus().equals("已完成")) {
+                    getcarboxs = false;
+                    checkcardownload = true;
+                }
             }
-        }
+
+
         Log.e(YLSystem.getKimTag(), getcarboxs + "车内款箱更新标识");
         if (getcarboxs) {
             CarBoxListAsy carBoxListAsy = new CarBoxListAsy();

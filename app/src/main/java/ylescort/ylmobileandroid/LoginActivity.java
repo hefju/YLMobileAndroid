@@ -214,10 +214,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    private void DeleteTaskbyDate() {
-        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-01-20");
-    }
+
 
     @Override
     public void onClick(View v) {
@@ -233,15 +230,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
                     break;
                 case R.id.Log_BN_Ent:
-                    Log_ET_Name.setText("520037");
-                    Log_ET_PassWord.setText("520037");
+//                    Log_ET_Name.setText("520037");
+//                    Log_ET_PassWord.setText("520037");
                     LoginByPassword();
                     break;
                 case R.id.btnTest1:
 
-//                    UpDataAPK();
+                    UpDataAPK();
 
-                    DeleteTaskbyDate();
+//                    DeleteTaskbyDate();
 
                     break;
                 case R.id.btnTest2:
@@ -262,6 +259,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void DeleteTaskbyDate() {
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-01-21");
     }
 
     private void LoginByPassword() throws Exception{
