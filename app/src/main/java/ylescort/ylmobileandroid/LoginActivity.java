@@ -1,29 +1,21 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.hardware.input.InputManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -35,16 +27,10 @@ import android.widget.Toast;
 import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 
-import java.io.DataOutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
-import TaskClass.BaseBox;
 import TaskClass.BaseEmp;
-import TaskClass.TasksManager;
 import TaskClass.User;
-import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
@@ -114,7 +100,9 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
             thread.start();
 
-        //正式服务测试服务正式为checked为false
+        //正式服务测试服务
+        //正式checked为false
+        //测试checked为true
         logic_sw_address.setChecked(true);
 
         if (logic_sw_address.isChecked()){
@@ -197,7 +185,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), setup.class);
+            intent.setClass(getApplicationContext(), YLCarToCarTask.class);
             startActivity(intent);
 
 

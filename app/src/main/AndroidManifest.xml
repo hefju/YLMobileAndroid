@@ -33,8 +33,7 @@
         </activity>
         <activity
             android:name=".Task"
-            android:label="@string/title_activity_task_">
-        </activity>
+            android:label="@string/title_activity_task_"></activity>
         <activity
             android:name=".YLBoxScan"
             android:label="@string/title_activity_box">
@@ -46,40 +45,31 @@
         </activity>
         <activity
             android:name=".boxlist"
-            android:label="@string/title_activity_boxlist">
-        </activity>
+            android:label="@string/title_activity_boxlist"></activity>
         <activity
             android:name=".setup"
-            android:label="@string/title_activity_setup">
-        </activity>
+            android:label="@string/title_activity_setup"></activity>
         <activity
             android:name=".Taskitem"
-            android:label="@string/title_activity_taskitem">
-        </activity>
+            android:label="@string/title_activity_taskitem"></activity>
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings">
-        </activity>
+            android:label="@string/title_activity_settings"></activity>
         <activity
             android:name=".YLSite"
-            android:label="@string/title_activity_ylsite">
-        </activity>
+            android:label="@string/title_activity_ylsite"></activity>
         <activity
             android:name=".YLsiteitem"
-            android:label="@string/title_activity_ylsiteitem">
-        </activity>
+            android:label="@string/title_activity_ylsiteitem"></activity>
         <activity
             android:name=".util.CacheDataView"
-            android:label="@string/title_activity_cache_data_view">
-        </activity>
+            android:label="@string/title_activity_cache_data_view"></activity>
         <activity
             android:name=".YLBoxEdit"
-            android:label="@string/title_activity_ylbox_edit">
-        </activity>
+            android:label="@string/title_activity_ylbox_edit"></activity>
         <activity
             android:name=".chongTest3"
-            android:label="@string/title_activity_chong__test">
-        </activity>
+            android:label="@string/title_activity_chong__test"></activity>
         <activity
             android:name=".YLATMSite"
             android:label="@string/title_activity_ylatmlist">
@@ -91,8 +81,7 @@
         </activity>
         <activity
             android:name=".YLATMDetail"
-            android:label="@string/title_activity_ylatmdetail">
-        </activity>
+            android:label="@string/title_activity_ylatmdetail"></activity>
         <activity
             android:name=".KimTest"
             android:label="@string/title_activity_kim_test">
@@ -104,62 +93,52 @@
         </activity>
         <activity
             android:name=".VaultInOrOut"
-            android:label="@string/title_activity_vault_in_or_out">
-        </activity>
+            android:label="@string/title_activity_vault_in_or_out"></activity>
         <activity
             android:name=".vault_out_operate"
             android:label="@string/title_activity_vault_out_operate"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".vault_out_detail"
-            android:label="@string/title_activity_vault_out_detail">
-        </activity>
+            android:label="@string/title_activity_vault_out_detail"></activity>
         <activity
             android:name=".vault_in_detail"
             android:label="@string/title_activity_vault_in_detail"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".vault_in_operate"
-            android:label="@string/title_activity_vault_in_operate">
-        </activity>
+            android:label="@string/title_activity_vault_in_operate"></activity>
         <activity
             android:name=".vault_check_ylbox"
-            android:label="@string/title_activity_vault_check_ylbox">
-        </activity>
+            android:label="@string/title_activity_vault_check_ylbox"></activity>
         <activity
             android:name=".HandovermanCheck"
-            android:label="@string/title_activity_handoverman_check">
-        </activity>
+            android:label="@string/title_activity_handoverman_check"></activity>
         <activity
             android:name=".LocalCheck"
-            android:label="@string/title_activity_local_check">
-        </activity>
+            android:label="@string/title_activity_local_check"></activity>
         <activity
             android:name=".Valut_turnover"
-            android:label="@string/valut_turnover_title">
-        </activity>
+            android:label="@string/valut_turnover_title"></activity>
         <activity
             android:name=".HomYLBoxScan"
-            android:label="@string/hom_ylbox_btn_scan">
-        </activity>
+            android:label="@string/hom_ylbox_btn_scan"></activity>
         <activity
             android:name=".YLUHFWriter"
-            android:label="@string/yluhfwriter_activityname">
-        </activity>
+            android:label="@string/yluhfwriter_activityname"></activity>
         <activity
             android:name=".vault_tmp_inorout"
-            android:label="@string/valuttmp_inorout_title">
-        </activity>
-        <activity android:name=".vault_tmp_scan">
-        </activity>
-        <activity android:name=".HomTmp_Scan">
-        </activity>
+            android:label="@string/valuttmp_inorout_title"></activity>
+        <activity android:name=".vault_tmp_scan"></activity>
+        <activity android:name=".HomTmp_Scan"></activity>
         <activity
             android:name=".vault_in_detail_statistics"
-            android:label="@string/vault_in_detail_statistics_title">
-        </activity>
+            android:label="@string/vault_in_detail_statistics_title"></activity>
+        <activity
+            android:name=".YLCarToCarTask"
+            android:label="@string/ylcartocartask"></activity>
+        <activity android:name=".YLCarToCarScan"
+            android:label="@string/ylcartocarScan"></activity>
     </application>
 
 </manifest>

@@ -196,4 +196,14 @@
     <string name="vault_in_detail_statistics_hom">业务员</string>
     <string name="vault_in_detail_statistics_vault">库管员</string>
     <string name="vault_in_detail_statistics_surplus">未扫描</string>
+
+    <!--车组交接-->
+    <string name="ylcartocartask">车组交接任务</string>
+    <string name="ylcartocartask_taskname">任务名称</string>
+    <string name="ylcartocartask_btn_get">收箱任务</string>
+    <string name="ylcartocartask_btn_give">送箱任务</string>
+    <string name="ylcartocarScan">车组交接扫描</string>
+    <string name="ylcartocarScan_btn_scan">扫描</string>
+    <string name="ylcartocarScan_upload">上传</string>
+
 </resources>
