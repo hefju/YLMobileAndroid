@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -25,6 +26,9 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+
+import YLSystemDate.YLEditData;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2016-01-27.
@@ -60,7 +64,8 @@ public abstract class YLBaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        InitProgress();
+//        InitProgress();
+        gson = new Gson();
     }
 
     protected abstract void InitLayout();
@@ -73,7 +78,8 @@ public abstract class YLBaseActivity extends ActionBarActivity {
         YLProgressDialog.setMax(100);
         YLProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         YLProgressDialog.setMessage("正获取数据...");
-        gson = new Gson();
+        YLProgressDialog.setProgress(0);
+        YLProgressDialog.show();
     }
 
     public abstract class YLWebDataAsyTaskForeground extends AsyncTask<String,Integer,String>{
@@ -88,8 +94,7 @@ public abstract class YLBaseActivity extends ActionBarActivity {
 
         @Override
         protected void onPreExecute() {
-            YLProgressDialog.setProgress(0);
-            YLProgressDialog.show();
+            InitProgress();
             super.onPreExecute();
         }
 
@@ -240,16 +245,18 @@ public abstract class YLBaseActivity extends ActionBarActivity {
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
+    /** 带有右进右出动画的退出 **/
+    public void MyLog(String msg) {
+        Log.e(YLSystem.getKimTag(), msg);
+    }
 
+    public void YLMessagebox(String msg) {
+        new AlertDialog.Builder(YLBaseActivity.this).setTitle("提示")
+                .setMessage(msg)
+                .setPositiveButton("确定", null).show();
+    }
 
 }
-
-
-
-
-
-
-
 
 
 /*

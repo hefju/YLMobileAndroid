@@ -38,13 +38,13 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:id="@+id/ylcartocartask_btn_give"
             android:text="@string/ylcartocartask_btn_give"
             android:background="@color/androidblued"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
             android:id="@+id/ylcartocartask_btn_get"
             android:text="@string/ylcartocartask_btn_get"

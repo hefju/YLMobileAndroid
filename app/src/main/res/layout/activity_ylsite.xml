@@ -13,11 +13,18 @@
         android:id="@+id/ylsite_tv_title"
         android:text="@string/box_tv_title"
         style="@style/TextSize25"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/Site_cartocar"
+        android:text="车组"
+        android:background="@color/androidgreend"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ylsite_LL_itemtitle"
-        android:layout_below="@+id/ylsite_tv_title">
+        android:layout_below="@+id/Site_cartocar">
         <TextView
             android:layout_width="70sp"
             android:layout_height="wrap_content"

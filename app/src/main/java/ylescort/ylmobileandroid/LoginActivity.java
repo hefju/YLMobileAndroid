@@ -210,11 +210,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             switch (v.getId()) {
                 case R.id.Log_BN_HF:
 
-                    LoginByHF();
+//                    LoginByHF();
 
-//                    Log_ET_Name.setText("340015");
-//                    Log_ET_PassWord.setText("340015");
-//                    LoginByPassword();
+//                    Log_ET_Name.setText("620046");
+//                    Log_ET_PassWord.setText("620046");
+                    LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:

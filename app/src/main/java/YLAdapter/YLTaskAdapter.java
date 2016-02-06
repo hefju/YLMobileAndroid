@@ -46,26 +46,32 @@ public class YLTaskAdapter extends BaseAdapter {
         TextView taskName = null;
         TextView taskType = null;
         TextView taskState = null;
+        TextView taskmanger = null;
         if (convertView == null){
             convertView= inflater.inflate(resource,null);
             taskName = (TextView) convertView.findViewById(R.id.Task_taskname);
             taskType = (TextView) convertView.findViewById(R.id.Task_taskstype);
             taskState = (TextView) convertView.findViewById(R.id.Task_taskstaut);
+            taskmanger = (TextView) convertView.findViewById(R.id.Task_tasksmanger);
             ViewCache viewCache = new ViewCache();
             viewCache.taskNameView = taskName;
             viewCache.taskTypeView = taskType;
             viewCache.taskStateView = taskState;
+            viewCache.taskmanger = taskmanger;
             convertView.setTag(viewCache);
         }else {
             ViewCache viewCache = (ViewCache) convertView.getTag();
             taskName = viewCache.taskNameView;
             taskType = viewCache.taskTypeView;
             taskState = viewCache.taskStateView;
+            taskmanger = viewCache.taskmanger;
         }
         YLTask ylTask = ylTaskList.get(position);
         taskName.setText(ylTask.getLine());
         taskType.setText(ylTask.getTaskType());
         taskState.setText(ylTask.getTaskState());
+        String taskmangername=ylTask.getTaskManagerNo()+"-"+ ylTask.getTaskManager();
+        taskmanger.setText(taskmangername);
 
         if (ylTask.getTaskType() != null) {
             switch (ylTask.getTaskType()) {
@@ -88,6 +94,7 @@ public class YLTaskAdapter extends BaseAdapter {
         public TextView taskNameView;
         public TextView taskTypeView;
         public TextView taskStateView;
+        public TextView taskmanger;
     }
 
 }

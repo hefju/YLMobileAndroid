@@ -22,6 +22,25 @@ public class YLEditData {
     public static Site CurrentYLSite;//当前选择的网点
     public static String TimeID; //出入库标识1为出库，2为入库；
 
+    public static YLTask CarToCarylTask;
+    public static int CarToCargetorgive;
+
+    public static int getCarToCargetorgive() {
+        return CarToCargetorgive;
+    }
+
+    public static void setCarToCargetorgive(int carToCargetorgive) {
+        CarToCargetorgive = carToCargetorgive;
+    }
+
+    public static YLTask getCarToCarylTask() {
+        return CarToCarylTask;
+    }
+
+    public static void setCarToCarylTask(YLTask carToCarylTask) {
+        CarToCarylTask = carToCarylTask;
+    }
+
     public static String getTimeID() {
         return TimeID;
     }

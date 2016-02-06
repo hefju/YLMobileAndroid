@@ -61,6 +61,7 @@ public class YLSite extends ActionBarActivity {
     private Button Site_apply;
     private Button Site_check;
     private Button Site_tmp;
+    private Button Site_cartocar;
     private ProgressDialog progressDialog ;
 
     private WebService webService;
@@ -93,6 +94,7 @@ public class YLSite extends ActionBarActivity {
             Site_apply = (Button) findViewById(R.id.Site_apply);
             Site_check = (Button) findViewById(R.id.Site_check);
             Site_tmp = (Button) findViewById(R.id.Site_tmp);
+            Site_cartocar = (Button) findViewById(R.id.Site_cartocar);
 
 
             Site_apply.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +116,11 @@ public class YLSite extends ActionBarActivity {
                 public void onClick(View view) {
                     ShowtmpActivity();
                 }
+            });
+
+            Site_cartocar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {ShowcartocarActivity();}
             });
 
 
@@ -142,6 +149,13 @@ public class YLSite extends ActionBarActivity {
         }
     }
 
+    private void ShowcartocarActivity() {
+        Intent intent = new Intent();
+        intent.setClass(this, YLCarToCarTask.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
     private void ShowtmpActivity() {
         Intent intent = new Intent();
         intent.setClass(this, HomTmp_Scan.class);
@@ -160,7 +174,7 @@ public class YLSite extends ActionBarActivity {
             }
 
 
-        Log.e(YLSystem.getKimTag(), getcarboxs + "车内款箱更新标识");
+//        Log.e(YLSystem.getKimTag(), getcarboxs + "车内款箱更新标识");
         if (getcarboxs) {
             CarBoxListAsy carBoxListAsy = new CarBoxListAsy();
             carBoxListAsy.execute(ylTask.getTaskID());

@@ -38,15 +38,15 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
-            android:id="@+id/ylcartocarscan_btn_give"
+            android:id="@+id/ylcartocarscan_btn_sacn"
             android:text="@string/ylcartocarScan_btn_scan"
             android:background="@color/androidblued"/>
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="120sp"
             android:layout_height="wrap_content"
-            android:id="@+id/ylcartocarscan_btn_get"
+            android:id="@+id/ylcartocarscan_btn_upload"
             android:text="@string/ylcartocarScan_upload"
             android:background="@color/androidyellowl"
             android:layout_marginStart="40sp"/>
