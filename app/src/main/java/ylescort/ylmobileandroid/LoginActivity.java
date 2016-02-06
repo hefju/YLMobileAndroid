@@ -185,7 +185,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
-            intent.setClass(getApplicationContext(), YLCarToCarTask.class);
+            intent.setClass(getApplicationContext(), setup.class);
             startActivity(intent);
 
 
@@ -210,11 +210,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             switch (v.getId()) {
                 case R.id.Log_BN_HF:
 
-//                    LoginByHF();
+                    LoginByHF();
 
 //                    Log_ET_Name.setText("620046");
 //                    Log_ET_PassWord.setText("620046");
-                    LoginByPassword();
+//                    LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:
