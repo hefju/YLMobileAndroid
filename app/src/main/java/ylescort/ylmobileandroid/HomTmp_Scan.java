@@ -199,8 +199,21 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
             }
         }
         for (int i = 0; i < CarBoxList.size(); i++) {
-            Box box = CarBoxList.get(i);
-            if (box.getBoxID().equals(recivedata)){
+//            Box box = new Box();
+//            box = CarBoxList.get(i);
+            String boxid = CarBoxList.get(i).getBoxID();
+            if (boxid.equals(recivedata)){
+                Box carbox = CarBoxList.get(i);
+                Box box = new Box();
+                box.setBoxID(recivedata);
+                box.setBoxName(carbox.getBoxName());
+                box.setBoxStatus(carbox.getBoxStatus());
+                box.setBoxTaskType(carbox.getBoxTaskType());
+                box.setBoxToT(carbox.getBoxToT());
+                box.setBoxType(carbox.getBoxType());
+                box.setRemark(carbox.getRemark());
+                box.setNextOutTime(carbox.getNextOutTime());
+                box.setSiteID(carbox.getSiteID());
                 box.setActionTime(YLSysTime.GetStrCurrentTime());
                 box.setTimeID(getTimeID() + "");
                 box.setBoxCount("1");
