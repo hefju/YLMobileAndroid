@@ -53,6 +53,7 @@ import YLAdapter.YLATMSiteAdapter;
 import YLDataService.BaseSiteDBSer;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
+import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -65,6 +66,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     private Button ATMlist_btn_UpDateatm;//上传按钮
     private ListView ATMlist_listview;//列表
 
+    private TextView ATMList_tv_netpoint;
     private TextView ATMlist_tv_title;//标题
     private TextView ATMlist_tv_starttime;//任务开始
     private TextView ATMlist_tv_endtime;//任务结束
@@ -81,7 +83,8 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     private YLATMSiteAdapter ylatmSiteAdapter;
     private WebService webService;
 
-    private String NetPoint;//银行网点
+    private YLATM NetPoint;//银行网点
+    private YLMediaPlayer ylMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +142,11 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             bundle.putString("EdiOrIns","Ins");
             intent.putExtras(bundle);
             startActivity(intent);
+            ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+
         }else {
             Toast.makeText(getApplicationContext(), "网点码无效", Toast.LENGTH_SHORT).show();
+            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
         }
     }
 
@@ -192,6 +198,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
         ATMlist_btn_Addatm = (Button) findViewById(R.id.ATMlist_btn_Addatm);
         ATMlist_btn_UpDateatm = (Button) findViewById(R.id.ATMlist_btn_UpDateatm);
 
+        ATMList_tv_netpoint = (TextView) findViewById(R.id.ATMList_tv_netpoint);
         ATMlist_tv_title = (TextView) findViewById(R.id.ATMlist_tv_title);
         ATMlist_tv_starttime = (TextView) findViewById(R.id.ATMlist_tv_starttime);
         ATMlist_tv_endtime = (TextView) findViewById(R.id.ATMlist_tv_endtime);
@@ -243,11 +250,12 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     }
 
     private void InitData() {
+        ylMediaPlayer = new YLMediaPlayer();
         tasksManager= YLSystem.getTasksManager();//获取任务管理类
         ylTask=tasksManager.CurrentTask;//当前选中的任务
         ATMlist_tv_title.setText(ylTask.getLine());
         webService = new WebService();
-        NetPoint = "";
+//        NetPoint = "";
 
         if(ylTask.getTaskState().equals("有更新")){
             ATMlist_tv_title.setText("获取任务中");
@@ -256,8 +264,8 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             getATMSite2.execute(url);
         }else {
             ylTask.setTaskState("进行中");
-            ylatmList =ylTask.getLstATM();
-            YLEditData.setYlatmList(ylTask.getLstATM());
+            ylatmList =separateATMList(ylTask.getLstATM())  ;
+            YLEditData.setYlatmList(ylatmList);
             if (ylTask.getTaskATMBeginTime() !=null){
                 ATMlist_tv_starttime.setText(ylTask.getTaskATMBeginTime());
             }
@@ -265,14 +273,14 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                 ATMlist_tv_endtime.setText(ylTask.getTaskATMEndTime());
             }
 
-            if (ylatmList.size()>0){
-                for (YLATM ylatm : ylatmList) {
-                    if (ylatm.getSiteType().equals("网点")){
-                        NetPoint = ylatm.getSiteName();
-                        YLATMSite.this.setTitle(NetPoint);
-                    }
-                }
-            }
+//            if (ylatmList.size()>0){
+//                for (YLATM ylatm : ylatmList) {
+//                    if (ylatm.getSiteType().equals("网点")){
+//                        NetPoint = ylatm.getSiteName();
+//                        YLATMSite.this.setTitle(NetPoint);
+//                    }
+//                }
+//            }
 
             DisplayATMSite(ylatmList);
         }
@@ -323,6 +331,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                         List<Site> lstSite = gson.fromJson(content, new TypeToken<List<Site>>() {
                         }.getType());
                         String result = lstSite.get(0).ServerReturn;
+                        Log.e(YLSystem.getKimTag(),lstSite.toString());
                         if (result.equals("1")) {
                             return lstSite;
                         }
@@ -341,25 +350,43 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             List<YLATM> ylatms = new ArrayList<YLATM>();
             if (ylTask.getLstSite() !=null){
                 for (int i = 0; i <ylTask.getLstSite().size();i++){
-                    Site site = ylTask.getLstSite().get(i);
-                    YLATM ylatm = new YLATM();
-                    ylatm.setId(i+1);
-                    ylatm.setServerReturn("1");
-                    ylatm.setTaskID(ylTask.getTaskID());
-                    ylatm.setSiteID(site.getSiteID());
-                    ylatm.setSiteName(site.getSiteName());
-                    ylatm.setTradeState("未交接");
-                    ylatm.setSiteType(site.getSiteType());
-                    if (site.getSiteType().equals("网点")){
-                        NetPoint = site.getSiteName();
-                        YLATMSite.this.setTitle(NetPoint);
+                    if (i==0){
+                        Site sitenetpoint = new Site();
+                        sitenetpoint = ylTask.getLstSite().get(0);
+                        ATMList_tv_netpoint.setText(sitenetpoint.getSiteName());
+                        YLATM ylatmnetpoint = new YLATM();
+
+                        ylatmnetpoint.setId(i + 1);
+                        ylatmnetpoint.setServerReturn("1");
+                        ylatmnetpoint.setTaskID(ylTask.getTaskID());
+                        ylatmnetpoint.setSiteID(sitenetpoint.getSiteID());
+                        ylatmnetpoint.setSiteName(sitenetpoint.getSiteName());
+                        ylatmnetpoint.setTradeState("未交接");
+                        ylatmnetpoint.setSiteType(sitenetpoint.getSiteType());
+                        ylatmnetpoint.setTradeBegin("");
+                        ylatmnetpoint.setTradeEnd("");
+                        ylatmnetpoint.setATMCount("0");
+                        ylatmnetpoint.setTimeID(1);
+                        ylatmnetpoint.setEmpID(YLSystem.getUser().getEmpID());
+                        NetPoint = ylatmnetpoint;
+                        YLEditData.setYlatmNetPoint(ylatmnetpoint);
+                    }else {
+                        Site site = ylTask.getLstSite().get(i);
+                        YLATM ylatm = new YLATM();
+                        ylatm.setId(i+1);
+                        ylatm.setServerReturn("1");
+                        ylatm.setTaskID(ylTask.getTaskID());
+                        ylatm.setSiteID(site.getSiteID());
+                        ylatm.setSiteName(site.getSiteName());
+                        ylatm.setTradeState("未交接");
+                        ylatm.setSiteType(site.getSiteType());
+                        ylatm.setTradeBegin("");
+                        ylatm.setTradeEnd("");
+                        ylatm.setATMCount("0");
+                        ylatm.setTimeID(1);
+                        ylatm.setEmpID(YLSystem.getUser().getEmpID());
+                        ylatms.add(ylatm);
                     }
-                    ylatm.setTradeBegin("");
-                    ylatm.setTradeEnd("");
-                    ylatm.setATMCount("0");
-                    ylatm.setTimeID(1);
-                    ylatm.setEmpID(YLSystem.getUser().getEmpID());
-                    ylatms.add(ylatm);
                 }
             }
             YLEditData.setYlatmList(ylatms);
@@ -368,6 +395,28 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
             super.onPostExecute(sites);
         }
     }
+
+    private List<YLATM> gatheratm(YLATM ylatm,List<YLATM> ylatmList){
+        List<YLATM> list = new ArrayList<>();
+        if (ylatm != null){
+            list.add(ylatm);
+        }
+        for (YLATM ylatm1 : ylatmList) {
+            list.add(ylatm1);
+        }
+        return  list;
+    }
+
+    private List<YLATM> separateATMList(List<YLATM> ylatmList){
+
+        if (ylatmList.size()>0){
+            YLEditData.setYlatmNetPoint(ylatmList.get(0));
+            ATMList_tv_netpoint.setText(ylatmList.get(0).getSiteName());
+            ylatmList.remove(0);
+        }
+        return  ylatmList;
+    }
+
 
     private void UpDataDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(YLATMSite.this);
@@ -399,11 +448,13 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                     List<Site> ylSites = new ArrayList<Site>();
                     t1.lstSite = ylSites;
                     t1.lstBox = ylTask.lstBox;
-                    t1.lstATM = YLEditData.getYlatmList();
+                    t1.lstATM =gatheratm(YLEditData.getYlatmNetPoint(), YLEditData.getYlatmList());
+                    Log.e(YLSystem.getKimTag(),t1.lstATM.toString());
                     String url = YLSystem.GetBaseUrl(getApplicationContext()) + "UpLoad";
                     HttpPost post = new HttpPost(url);
                     UpDataToService(t1, YLSystem.getUser(), post);
                     ylTask.setTaskState("已上传");
+                    ylTask.setLstATM(t1.lstATM);
                     tasksManager.SaveTask(getApplicationContext());
                     finish();
                 } catch (Exception e) {
@@ -443,7 +494,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                 break;
             case 4:
                 ylTask.setTaskState("进行中");
-                ylTask.setLstATM(YLEditData.getYlatmList());
+                ylTask.setLstATM(gatheratm(YLEditData.getYlatmNetPoint(), YLEditData.getYlatmList()));
                 tasksManager.SaveTask(getApplicationContext());
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -462,8 +513,15 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                 if (ylTask.getTaskATMBeginTime() == null){
                     ylTask.setTaskATMBeginTime(YLSysTime.GetStrCurrentTime());
                     ATMlist_tv_starttime.setText(YLSysTime.GetStrCurrentTime());
+                    if (NetPoint !=null){
+                        NetPoint.setTradeBegin(YLSysTime.GetStrCurrentTime());
+                    }
                 }else {
                     ATMlist_tv_starttime.setText(ylTask.getTaskATMBeginTime());
+
+                    if (NetPoint !=null){
+                        NetPoint.setTradeBegin(ylTask.getTaskATMBeginTime());
+                    }
                 }
                 ATMlist_btn_End.setEnabled(true);
                 ATMlist_btn_Addatm.setEnabled(true);
@@ -494,6 +552,10 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
 //                if (ylTask.getTaskATMEndTime() == null){
                 ylTask.setTaskATMEndTime(YLSysTime.GetStrCurrentTime());
                 ATMlist_tv_endtime.setText(YLSysTime.GetStrCurrentTime());
+                if (NetPoint != null){
+                    NetPoint.setTradeEnd(YLSysTime.GetStrCurrentTime());
+                    NetPoint.setTradeState("已完成");
+                }
 //                }
 //                else {
 //                    ATMlist_tv_endtime.setText(ylTask.getTaskATMEndTime());

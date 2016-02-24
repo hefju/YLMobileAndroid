@@ -121,7 +121,14 @@ public class Site {
     @Override
     public String toString() {
         return "Site{" +
-                "SiteName='" + SiteName + '\'' +
+                "ServerReturn='" + ServerReturn + '\'' +
+                ", TaskID='" + TaskID + '\'' +
+                ", SiteID='" + SiteID + '\'' +
+                ", SiteName='" + SiteName + '\'' +
+                ", SiteManager='" + SiteManager + '\'' +
+                ", ATMCount='" + ATMCount + '\'' +
+                ", lstArriveTime=" + lstArriveTime +
+                ", SiteRank='" + SiteRank + '\'' +
                 '}';
     }
 }

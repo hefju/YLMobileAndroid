@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.TelephonyManager;
@@ -16,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -28,6 +30,8 @@ import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import TaskClass.BaseEmp;
 import TaskClass.User;
@@ -59,6 +63,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        /*界面跳转代码备用
+         final Intent it = new Intent(this, setup.class); //你要转向的Activity
+         Timer timer = new Timer();
+         TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+        startActivity(it); //执行
+        }
+        };
+         timer.schedule(task, 1000 * 3); //10秒后
+         */
+
         InitLayout();
         InitHFreader();
         InitData();
@@ -251,7 +268,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-01-21");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-02-24");
     }
 
     private void LoginByPassword() throws Exception{

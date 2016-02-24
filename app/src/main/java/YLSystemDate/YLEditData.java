@@ -13,6 +13,7 @@ import TaskClass.YLTask;
  */
 public class YLEditData {
     public static YLATM ylatm;
+    public static YLATM ylatmNetPoint;
     public static List<YLATM> ylatmList;
     public static List<Box> yleditcarbox;
 
@@ -103,5 +104,13 @@ public class YLEditData {
 
     public static void setYlatm(YLATM ylatm) {
         YLEditData.ylatm = ylatm;
+    }
+
+    public static YLATM getYlatmNetPoint() {
+        return ylatmNetPoint;
+    }
+
+    public static void setYlatmNetPoint(YLATM ylatmNetPoint) {
+        YLEditData.ylatmNetPoint = ylatmNetPoint;
     }
 }
