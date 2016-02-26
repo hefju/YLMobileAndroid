@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import YLDataService.WebServerBaseData;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
@@ -106,6 +108,12 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            try {
+                WebServerBaseData webServerBaseData = new WebServerBaseData();
+                webServerBaseData.CacheData(getApplicationContext());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return true;
         }
 

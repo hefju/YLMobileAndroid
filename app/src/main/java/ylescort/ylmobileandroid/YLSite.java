@@ -41,6 +41,7 @@ import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.WebServerBaseData;
 import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
@@ -447,6 +448,13 @@ public class YLSite extends ActionBarActivity {
         if (id == R.id.btnUpdateSite_ylsite) {
             try {
                 GetCarBoxlist();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+            WebServerBaseData webServerBaseData = new WebServerBaseData();
+            webServerBaseData.CacheData(getApplicationContext());
             } catch (Exception e) {
                 e.printStackTrace();
             }

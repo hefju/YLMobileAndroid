@@ -143,9 +143,9 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             String recivedata = intent.getStringExtra("result");
             Log.e(YLSystem.getKimTag(),recivedata);
             if (recivedata != null){
-                count++;
-                kim_uhftest.setText("读取:"+count+"次数");
-//                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
+//                count++;
+//                kim_uhftest.setText("读取:"+count+"次数");
+                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -158,9 +158,9 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             String recivedata = intent.getStringExtra("result");
             Log.e(YLSystem.getKimTag(),recivedata);
             if (recivedata != null){
-                count++;
-                kim_uhftest.setText("读取:"+count+"次数");
-//                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
+//                count++;
+//                kim_uhftest.setText("读取:"+count+"次数");
+                Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -392,10 +392,10 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     }
 
     private void AnysTaskCacheData() throws Exception{
-        if (!YLSystem.getNetWorkState().equals("1")){
-            Toast.makeText(getApplicationContext(),"请在WIFI连接情况下更新缓存",Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (!YLSystem.getNetWorkState().equals("1")){
+//            Toast.makeText(getApplicationContext(),"请在WIFI连接情况下更新缓存",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
         try {
             //清除数据库内容
             (new BaseBoxDBSer(KimTest.this)).DeleteAll();
