@@ -122,10 +122,17 @@ public class YLATMDetail extends ActionBarActivity {
         ylatmdetail_btn_del1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int atmcount = Integer.parseInt(ylatmdetail_et_atmcount.getText().toString());
-                if (atmcount == 0 ) return;
-                atmcount --;
-                ylatmdetail_et_atmcount.setText(atmcount+"");
+
+                if (ylatmdetail_tv_start.getText().equals("")){
+                    readtimeflag = "start";
+                    ReadStartTimeDialog();
+                }else {
+                    int atmcount = Integer.parseInt(ylatmdetail_et_atmcount.getText().toString());
+                    if (atmcount == 0 ) return;
+                    atmcount --;
+                    ylatmdetail_et_atmcount.setText(atmcount+"");
+                }
+
             }
         });
         ylatmdetail_btn_add1.setOnClickListener(new View.OnClickListener() {

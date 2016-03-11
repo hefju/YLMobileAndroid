@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     compile files('libs/uhf.jar')
     compile files('libs/nfc.jar')
+    compile files('libs/zpSDK.jar')
 }

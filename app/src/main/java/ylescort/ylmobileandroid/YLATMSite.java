@@ -182,6 +182,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     }
 
     private void SendScan1Dcmd(){
+        if (!ATMlist_btn_Addatm.isEnabled())return;
         String activity = "ylescort.ylmobileandroid.YLATMSite";
         Intent ac = new Intent();
         ac.setAction("ylescort.ylmobileandroid.Scan1DService");
@@ -224,6 +225,12 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
 
             }
         });
+
+        ATMlist_btn_End.setEnabled(false);
+        ATMlist_btn_Addatm.setEnabled(false);
+        ATMlist_btn_UpDateatm.setEnabled(false);
+        ATMlist_listview.setEnabled(false);
+
         ATMlist_btn_Start.setOnClickListener(this);
         ATMlist_btn_End.setOnClickListener(this);
         ATMlist_btn_Addatm.setOnClickListener(this);
@@ -410,6 +417,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
     private List<YLATM> separateATMList(List<YLATM> ylatmList){
 
         if (ylatmList.size()>0){
+            NetPoint = ylatmList.get(0);
             YLEditData.setYlatmNetPoint(ylatmList.get(0));
             ATMList_tv_netpoint.setText(ylatmList.get(0).getSiteName());
             ylatmList.remove(0);
@@ -425,6 +433,15 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
         builder.setPositiveButton("确认",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                ylTask.setTaskATMEndTime(YLSysTime.GetStrCurrentTime());
+                ATMlist_tv_endtime.setText(YLSysTime.GetStrCurrentTime());
+                if (NetPoint != null){
+                    NetPoint.setTradeEnd(YLSysTime.GetStrCurrentTime());
+                    NetPoint.setTradeState("已完成");
+                    YLEditData.setYlatmNetPoint(NetPoint);
+                }
+
                 UpATMTask();
                 dialog.dismiss();
             }
@@ -449,7 +466,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                     t1.lstSite = ylSites;
                     t1.lstBox = ylTask.lstBox;
                     t1.lstATM =gatheratm(YLEditData.getYlatmNetPoint(), YLEditData.getYlatmList());
-                    Log.e(YLSystem.getKimTag(),t1.lstATM.toString());
+                    Log.e(YLSystem.getKimTag(), t1.lstATM.get(0).getTradeEnd());
                     String url = YLSystem.GetBaseUrl(getApplicationContext()) + "UpLoad";
                     HttpPost post = new HttpPost(url);
                     UpDataToService(t1, YLSystem.getUser(), post);
@@ -555,6 +572,7 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
                 if (NetPoint != null){
                     NetPoint.setTradeEnd(YLSysTime.GetStrCurrentTime());
                     NetPoint.setTradeState("已完成");
+                    YLEditData.setYlatmNetPoint(NetPoint);
                 }
 //                }
 //                else {

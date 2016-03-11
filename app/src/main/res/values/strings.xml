@@ -10,6 +10,7 @@
     <string name="Log_readcard">读卡/F2</string>
     <string name="Log_Can">取消</string>
     <string name="Log_Test">测试</string>
+    <string name="print">打印交接单</string>
     <string name="Log_Update">更新</string>
     <string name="title_activity_task_">任务管理</string>
     <string name="Task_Name">任务列表</string>

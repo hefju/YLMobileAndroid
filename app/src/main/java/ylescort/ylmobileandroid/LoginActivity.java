@@ -29,16 +29,21 @@ import android.widget.Toast;
 import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import TaskClass.BaseEmp;
+import TaskClass.Box;
+import TaskClass.GatherPrint;
 import TaskClass.User;
+import YLDataService.AnalysisBoxList;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
+import YLPrinter.YLPrint;
 import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -229,15 +234,19 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
                     LoginByHF();
 
-//                    Log_ET_Name.setText("620046");
-//                    Log_ET_PassWord.setText("620046");
+//                    String user = "200028";
+//                    Log_ET_Name.setText(user);
+//                    Log_ET_PassWord.setText(user);
 //                    LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:
-//                    Log_ET_Name.setText("520037");
-//                    Log_ET_PassWord.setText("520037");
+
+//                    String user2 = "520037";
+//                    Log_ET_Name.setText(user2);
+//                    Log_ET_PassWord.setText(user2);
                     LoginByPassword();
+
                     break;
                 case R.id.btnTest1:
 
@@ -268,7 +277,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-02-24");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-03-07");
     }
 
     private void LoginByPassword() throws Exception{

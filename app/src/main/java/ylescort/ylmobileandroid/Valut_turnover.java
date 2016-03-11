@@ -21,10 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.BoxCombyOrder;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
@@ -189,7 +191,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         Displayboxlist.clear();
         if (vault_turnover_rbtn_all.isChecked()){
             Displayboxlist.addAll(AllboxList);
-            Log.e(YLSystem.getKimTag(),Displayboxlist.size()+"过滤列表");
+//            Log.e(YLSystem.getKimTag(),Displayboxlist.size()+"过滤列表");
         }
         if (vault_turnover_rbtn_count.isChecked()) {
             if (AllboxList.size() > 0) {
@@ -199,6 +201,9 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     }
                 }
                 if (!vault_turnover_btn_vaultout.isEnabled()){
+                    BoxCombyOrder boxCombyOrder = new BoxCombyOrder();
+
+                    Collections.sort(AllboxList, boxCombyOrder);
                     String boxorder = AllboxList.get(0).getBoxOrder();
                     int count = 0;
                     for (int i = 0; i < AllboxList.size(); i++) {
@@ -222,17 +227,44 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     }
                 }else if (!vault_turnover_btn_vaultin.isEnabled()){
                     List<String> orderlist = new ArrayList<>();
+                    BoxCombyOrder boxCombyOrder = new BoxCombyOrder();
+
+                    Collections.sort(AllboxList, boxCombyOrder);
+
+//                    for (Box box : AllboxList) {
+//                        if (!box.getBoxOrder().equals("0")){
+//                            orderlist.add(box.getBoxOrder());
+//                        }
+//                    }
+//                    orderlist = removeDeuplicate(orderlist);
+//                    for (String order : orderlist){
+//                        int count = 0;
+//                        for (Box box : AllboxList) {
+//                            if (box.getBoxOrder().equals(order)){
+//                                count++;
+//                            }
+//                        }
+//                        Box box = new Box();
+//                        box.setBoxName("第" + order + "次");
+//                        box.setValutcheck("数量：" + count + "");
+//                        Displayboxlist.add(box);
+//                    }
+
+                    String orderstr = "0";
                     for (Box box : AllboxList) {
-                        if (box.getBoxOrder() != null){
-                            orderlist.add(box.getBoxOrder());
-                        }
+                        if (box.getBoxOrder().equals(orderstr)) continue;
+                        orderstr = box.getBoxOrder();
+                        orderlist.add(orderstr);
+
                     }
-                    orderlist = removeDeuplicate(orderlist);
+
                     for (String order : orderlist){
                         int count = 0;
                         for (Box box : AllboxList) {
-                            if (box.getBoxOrder().equals(order)){
-                                count++;
+                            if (!box.getBoxOrder().equals("0")) {
+                                if (box.getBoxOrder().equals(order)) {
+                                    count++;
+                                }
                             }
                         }
                         Box box = new Box();
@@ -240,6 +272,8 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                         box.setValutcheck("数量：" + count + "");
                         Displayboxlist.add(box);
                     }
+
+
                 }
             }
         }
@@ -267,8 +301,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
         ylBoxEdiAdapter.notifyDataSetChanged();
     }
 
-    private List removeDeuplicate(List arlList)
-    {
+    private List removeDeuplicate(List arlList) {
         HashSet h=new HashSet(arlList);
         arlList.clear();
         arlList.addAll(h);
@@ -427,17 +460,21 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private void AnalyBoxes(List<Box> displayboxList, String inorout) {
         if (inorout.equals("in")){
-            String intext ="入库数："+ displayboxList.size();
-            int correctbox = 0;
-            for (int i = 0;i <displayboxList.size();i++){
-                Box box = displayboxList.get(i);
-                if (box.getValutcheck().equals("对")){
-                    correctbox++;
+//            String intext ="应入库数："+ displayboxList.size()+"  ";
+            int scanbox = 0;
+            int inallbox = 0;
+
+            for (Box box : displayboxList) {
+                if (!box.getValutcheck().equals("多")){
+                    inallbox++;
                 }
+                if (!box.getValutcheck().equals(""))scanbox++;
             }
-            String correctstr = "库管扫描:"+correctbox;
+            
+            String inallboxstr = "应入库数："+inallbox+"  ";
+            String correctstr = "库管扫描:"+scanbox+"  ";
 //            vault_turnover_tv_title.setText(intext+"\r\n"+correctstr);
-            Valut_turnover.this.setTitle(intext+correctstr);
+            Valut_turnover.this.setTitle(inallboxstr + correctstr);
         }else if (inorout.equals("out")){
             String outstr = "出库总数："+displayboxList.size();
 //            vault_turnover_tv_title.setText(outstr);
@@ -686,9 +723,50 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                ListView listView = (ListView) parent;
-                EditBoxstaut(position);
+                if (vault_turnover_rbtn_count.isChecked()){
+                    SetCount(position);
+                }else {
+                    EditBoxstaut(position);
+                }
+
             }
         });
+    }
+
+    private void SetCount(int position) {
+
+        try {
+            String counttime = Displayboxlist.get(position).getBoxName();
+
+            counttime = counttime.substring(1,counttime.length()-1);
+
+            final int Count =Integer.parseInt(counttime) ;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(Valut_turnover.this);
+            builder.setMessage("确认将批次改变为：第 "+Count+" 次");
+            builder.setTitle("提示");
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    boxorder =Count;
+                    vault_turnover_btn_count.setText(boxorder + "");
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     private void EditBoxstaut(final int postion){

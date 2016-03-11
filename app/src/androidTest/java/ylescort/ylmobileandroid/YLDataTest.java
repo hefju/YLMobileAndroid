@@ -5,6 +5,7 @@ import android.test.ApplicationTestCase;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -12,9 +13,12 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient_HF;
 import TaskClass.BaseEmp;
 import TaskClass.Box;
+import TaskClass.BoxCombyOrder;
+import TaskClass.GatherPrint;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.AnalysisBoxList;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.BoxDBSer;
@@ -56,7 +60,7 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     }
 
     public void testBoxDataServer()throws Exception{
-        Box box= YLBoxScanCheck.CheckBox("0114106238", getContext());
+        Box box= YLBoxScanCheck.CheckBox("geafe", getContext());
         Log.e(TAG,box.toString());
     }
 
@@ -242,6 +246,85 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         boxDBSer.DeleteBox(box);
 
     }
+
+    public void testSurstr() throws Exception {
+        String  CountName = "第100次";
+        CountName = CountName.substring(1,CountName.length()-1);
+//        CountName = CountName.substring(CountName.length()-1);
+        Log.e(TAG, CountName);
+    }
+
+    public void testComBoxStr() throws Exception {
+        List<Box> list = new ArrayList<>();
+        String[] strs = new String[6];
+        strs[0] = "6";
+        strs[1] = "2";
+        strs[2] = "3";
+        strs[3] = "1";
+        strs[4] = "4";
+        strs[5] = "5";
+
+        for (int i = 0 ;i<6;i++){
+            Box box = new Box();
+            box.setBoxOrder(strs[i]);
+            list.add(box);
+        }
+
+        for (Box box : list) {
+            Log.e(TAG,"未排序前"+box.getBoxOrder());
+        }
+
+        BoxCombyOrder boxCombyOrder = new BoxCombyOrder();
+
+        Collections.sort(list, boxCombyOrder);
+
+        for (Box box : list) {
+            Log.e(TAG,"排序后"+box.getBoxOrder());
+        }
+
+
+    }
+
+    public void testPrintGather()throws Exception{
+
+        List<Box> list = new ArrayList<>();
+        for (int i = 0 ; i < 3;i++){
+            Box box = YLBoxScanCheck.CheckBox("011507062"+i, getContext());
+            box.setBoxStatus("实");
+            box.setTradeAction("送");
+            box.setBoxTaskType("早送晚收");
+            list.add(box);
+
+        }
+        for (int i = 0 ; i < 2;i++){
+            Box box = YLBoxScanCheck.CheckBox("011507052"+i, getContext());
+            box.setBoxStatus("空");
+            box.setTradeAction("收");
+            box.setBoxTaskType("上下介");
+            list.add(box);
+        }
+        for (int i = 0 ; i < 4;i++){
+            Box box = YLBoxScanCheck.CheckBox("011507042"+i, getContext());
+            box.setBoxStatus("实");
+            box.setTradeAction("收");
+            box.setBoxTaskType("寄库箱");
+            list.add(box);
+        }
+        for (int i = 0 ; i < 1;i++){
+            Box box = YLBoxScanCheck.CheckBox("011507032"+i, getContext());
+            box.setBoxStatus("空");
+            box.setTradeAction("收");
+            box.setBoxTaskType("跨行调拨");
+            list.add(box);
+        }
+
+        AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+        GatherPrint print = analysisBoxList.AnsysisBoxListForPrint(list);
+        print.setSiteName("123");
+        Log.e(TAG,print.getKhdbmoneyempty()+"");
+
+    }
+
 
 
 }
