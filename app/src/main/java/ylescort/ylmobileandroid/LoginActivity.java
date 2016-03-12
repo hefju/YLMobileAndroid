@@ -234,7 +234,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
                     LoginByHF();
 
-//                    String user = "200028";
+//                    String user = "200097";
 //                    Log_ET_Name.setText(user);
 //                    Log_ET_PassWord.setText(user);
 //                    LoginByPassword();
@@ -277,7 +277,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-03-07");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-03-12");
     }
 
     private void LoginByPassword() throws Exception{

@@ -32,6 +32,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
 
 
     private TextView ylcartocarscan_tv_title;
+    private TextView ylcartocarscan_analysis;
     private ListView ylcartocarscan_lv;
     private Button ylcartocarscan_btn_sacn;
     private Button ylcartocarscan_btn_upload;
@@ -60,6 +61,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
     @Override
     protected void InitLayout() {
         ylcartocarscan_tv_title = (TextView) findViewById(R.id.ylcartocarscan_tv_title);
+        ylcartocarscan_analysis = (TextView)findViewById(R.id.ylcartocarscan_analysis);
         ylcartocarscan_lv = (ListView) findViewById(R.id.ylcartocarscan_lv);
         ylcartocarscan_btn_sacn = (Button) findViewById(R.id.ylcartocarscan_btn_sacn);
         ylcartocarscan_btn_upload = (Button) findViewById(R.id.ylcartocarscan_btn_upload);
@@ -106,6 +108,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
                                 }
                                 break;
                         }
+                        analysisBoxList();
                         ylBoxAdapter.notifyDataSetChanged();
 
                         dialog.dismiss();
@@ -122,6 +125,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
             public void onClick(DialogInterface dialog, int which) {
                 DisplayboxList.remove(position);
                 Log.e(YLSystem.getKimTag(), DisplayboxList.size() + "数量");
+                analysisBoxList();
                 ylBoxAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }
@@ -192,7 +196,8 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
         }catch (Exception e){
             e.printStackTrace();
         }
-        ylcartocarscan_tv_title.setText(Title);
+//        ylcartocarscan_tv_title.setText(Title);
+        this.setTitle(Title);
         Scanstaut = "扫描";
 
     }
@@ -245,6 +250,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
             DisplayboxList.add(box);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
         }
+        analysisBoxList();
         ylBoxAdapter.notifyDataSetChanged();
     }
 
@@ -258,7 +264,30 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
                 break;
             }
         }
+        analysisBoxList();
         ylBoxAdapter.notifyDataSetChanged();
+    }
+
+    private void analysisBoxList(){
+        String str = "";
+        if (giveorget == 1){
+            str ="送箱数量:"+ DisplayboxList.size();
+            ylcartocarscan_analysis.setText(str);
+        }else {
+            int count = 0;
+            int total = 0;
+            for (Box box : DisplayboxList) {
+                String check = box.getValutcheck();
+                if (check.equals("对")|| check.equals("多")|| check.equals("核")){
+                    count ++;
+                }
+                if (check.equals("对")||check.equals("")){
+                    total++;
+                }
+                str = "应收数量:"+ total+" 扫描数量："+count;
+                ylcartocarscan_analysis.setText(str);
+            }
+        }
     }
 
     @Override
@@ -324,6 +353,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
                         }
                         MyLog("剩余车内款箱：" + CarBoxlist.size());
 //                        DisplayboxList.clear();
+                        analysisBoxList();
                         ylBoxAdapter.notifyDataSetChanged();
                         ylTask.setLstCarBox(CarBoxlist);
                         tasksManager.SaveTask(getApplicationContext());
@@ -372,6 +402,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
         ylBoxAdapter = new YLValutboxitemAdapter(getApplicationContext()
                 ,boxList,R.layout.vault_in_detail_boxitem);
         ylcartocarscan_lv.setAdapter(ylBoxAdapter);
+        analysisBoxList();
     }
 
 }
