@@ -2,17 +2,23 @@ package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,6 +64,8 @@ public class YLSite extends ActionBarActivity {
     private YLTask ylTask;//当前选中的任务
     private List<Site> siteList;
     private YLSiteAdapter ylSiteAdapter;
+
+    private YLSitePrintAdapter ylSitePrintAdapterl;
 
     private Button Site_apply;
     private Button Site_check;
@@ -288,8 +296,9 @@ public class YLSite extends ActionBarActivity {
 
     private void DisplayTaskSite(List<Site> siteList) {
         if (siteList == null || siteList.size() < 1) return;
-        ylSiteAdapter = new YLSiteAdapter(this, siteList, R.layout.activity_ylsiteitem);
-        listView.setAdapter(ylSiteAdapter);
+        ylSitePrintAdapterl = new YLSitePrintAdapter
+                (this, siteList, R.layout.activity_ylsiteprintitem);
+        listView.setAdapter(ylSitePrintAdapterl);
 
     }
 
@@ -467,11 +476,105 @@ public class YLSite extends ActionBarActivity {
         if (ylTask.lstSite != null) {
             try {
                 YLSite.this.setTitle("车内款箱数: " + ylTask.lstCarBox.size());
-                ylSiteAdapter.notifyDataSetInvalidated();
+                ylSitePrintAdapterl.notifyDataSetInvalidated();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         super.onResume();
     }
+
+    public class YLSitePrintAdapter extends BaseAdapter {
+        private List<Site> siteList;
+        private int resource;
+        private LayoutInflater inflater;
+        public YLSitePrintAdapter(Context context,List<Site> siteList,int resource){
+            this.siteList = siteList;
+            this.resource = resource;
+            inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        }
+
+
+        @Override
+        public int getCount() {
+            return siteList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return siteList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            Button sitePrint = null;
+            TextView sitename = null;
+            TextView sitestate = null;
+
+            if (convertView == null) {
+                convertView = inflater.inflate(resource, null);
+                sitePrint = (Button) convertView.findViewById(R.id.ylsiteprint_print);
+                sitename = (TextView) convertView.findViewById(R.id.ylsiteprint_sitename);
+                sitestate = (TextView) convertView.findViewById(R.id.ylsiteprint_state);
+                ViewCache viewCache = new ViewCache();
+                viewCache.YLsitePrintview = sitePrint;
+                viewCache.YLsiteNameview = sitename;
+                viewCache.YLsitestateview = sitestate;
+                convertView.setTag(viewCache);
+            } else {
+                ViewCache viewCache = (ViewCache) convertView.getTag();
+                sitePrint = viewCache.YLsitePrintview;
+                sitename = viewCache.YLsiteNameview;
+                sitestate = viewCache.YLsitestateview;
+            }
+
+            final Site site = siteList.get(position);
+            sitePrint.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (site.getStatus().equals("未交接"))return;
+                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+                            .getDefaultAdapter();
+                    if (!mBluetoothAdapter.isEnabled()) {
+                        Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(mIntent, 1);
+                    }else {
+
+                        YLEditData.setPrintSite(site);
+                        Intent intent = new Intent();
+                        intent.setClass(YLSite.this, YLPrintActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    }
+
+
+                }
+            });
+            sitename.setText(site.getSiteName());
+            sitestate.setText(site.getStatus());
+
+            if (sitestate.getText().equals("已完成")){
+                convertView.setBackgroundColor(getResources().getColor(R.color.androidyellowl));
+            }else {
+                convertView.setBackgroundColor(Color.TRANSPARENT);
+            }
+            return convertView;
+        }
+
+
+        private final class ViewCache{
+            public Button YLsitePrintview;
+            public TextView YLsiteNameview;
+            public TextView YLsitestateview;
+        }
+    }
+
+
 }

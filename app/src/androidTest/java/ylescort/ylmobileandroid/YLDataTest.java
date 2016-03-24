@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import TaskClass.BaseBox;
+import TaskClass.BaseClient;
 import TaskClass.BaseClient_HF;
 import TaskClass.BaseEmp;
 import TaskClass.Box;
@@ -25,6 +26,7 @@ import YLDataService.BoxDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
+import YLDataService.YLSiteInfo;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
@@ -321,10 +323,16 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         AnalysisBoxList analysisBoxList = new AnalysisBoxList();
         GatherPrint print = analysisBoxList.AnsysisBoxListForPrint(list);
         print.setSiteName("123");
-        Log.e(TAG,print.getKhdbmoneyempty()+"");
+        Log.e(TAG, print.getJkxmoneyempty() + "返回");
 
     }
 
-
+    public void testGetClinet()throws Exception{
+        YLSiteInfo ylSiteInfo = new YLSiteInfo(getContext());
+        String baseClients =  ylSiteInfo.GetClientbySiteID("999");
+        Log.e(TAG,baseClients);
+        baseClients = ylSiteInfo.GetClientbySiteID("114");
+        Log.e(TAG,baseClients);
+    }
 
 }

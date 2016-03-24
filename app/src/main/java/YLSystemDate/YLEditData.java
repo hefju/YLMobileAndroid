@@ -26,6 +26,16 @@ public class YLEditData {
     public static YLTask CarToCarylTask;
     public static int CarToCargetorgive;
 
+    public static Site PrintSite;//网点打印
+
+    public static Site getPrintSite() {
+        return PrintSite;
+    }
+
+    public static void setPrintSite(Site printSite) {
+        PrintSite = printSite;
+    }
+
     public static int getCarToCargetorgive() {
         return CarToCargetorgive;
     }

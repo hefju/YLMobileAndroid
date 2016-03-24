@@ -21,11 +21,20 @@ public class YLTask {
     public String TaskManagerNo ;//ATM完成任务时间
     public String ServerReturn;
     public String TaskState;//任务状态
+    public String TaskCar;//任务车辆
 
     public List<Site> lstSite;
     public List<Box> lstBox;
     public List<YLATM> lstATM;
     public List<Box> lstCarBox;//车内箱类列表
+
+    public String getTaskCar() {
+        return TaskCar;
+    }
+
+    public void setTaskCar(String taskCar) {
+        TaskCar = taskCar;
+    }
 
     public List<Box> getLstCarBox() {
         return lstCarBox;
@@ -216,7 +225,7 @@ public class YLTask {
     @Override
     public String toString() {
         return "YLTask{" +
-                "ServerReturn='" + ServerReturn + '\'' +
+                "TaskCar='" + TaskCar + '\'' +
                 '}';
     }
 }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ylescort.ylmobileandroid">
 
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -139,6 +141,8 @@
             android:label="@string/ylcartocartask"></activity>
         <activity android:name=".YLCarToCarScan"
             android:label="@string/ylcartocarScan"></activity>
+        <activity android:name=".YLPrintActivity"
+                  android:label="@string/ylprinter"></activity>
     </application>
 
 </manifest>

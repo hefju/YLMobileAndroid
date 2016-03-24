@@ -132,7 +132,7 @@ public class YLCarToCarTask extends YLBaseActivity implements View.OnClickListen
 //            jsonObject.put("datetime", "ALL");
 //            String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseBox";
 
-            YLWebDataAsyTaskForeground  yatf = new YLWebDataAsyTaskForeground(jsonObject,url) {
+            YLWebDataAsyTaskForeground  yatf = new YLWebDataAsyTaskForeground(jsonObject,url,2) {
                 @Override
                 protected void onPostExecute(String s) {
                     YLProgressDialog.dismiss();

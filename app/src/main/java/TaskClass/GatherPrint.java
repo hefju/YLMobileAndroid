@@ -20,8 +20,8 @@ public class GatherPrint {
     public String Givecardempty;
     public String Givevoucherfull;
     public String Givevoucherempty;
-    public String Giveoucherbagfull;
-    public String Giveoucherbagempty;
+    public String Givevoucherbagfull;
+    public String Givevoucherbagempty;
 
     public String Zswsmoneyfull;
     public String Zswsmoneyempty;
@@ -129,8 +129,8 @@ public class GatherPrint {
         Givecardempty = givecardempty;
         Givevoucherfull = givevoucherfull;
         Givevoucherempty = givevoucherempty;
-        Giveoucherbagfull = giveoucherbagfull;
-        Giveoucherbagempty = giveoucherbagempty;
+        Givevoucherbagfull = giveoucherbagfull;
+        Givevoucherbagempty = giveoucherbagempty;
         Zswsmoneyfull = zswsmoneyfull;
         Zswsmoneyempty = zswsmoneyempty;
         Zswscardfull = zswscardfull;
@@ -290,20 +290,20 @@ public class GatherPrint {
         Givevoucherempty = givevoucherempty;
     }
 
-    public String getGiveoucherbagfull() {
-        return Giveoucherbagfull;
+    public String getGivevoucherbagfull() {
+        return Givevoucherbagfull;
     }
 
-    public void setGiveoucherbagfull(String giveoucherbagfull) {
-        Giveoucherbagfull = giveoucherbagfull;
+    public void setGivevoucherbagfull(String givevoucherbagfull) {
+        Givevoucherbagfull = givevoucherbagfull;
     }
 
-    public String getGiveoucherbagempty() {
-        return Giveoucherbagempty;
+    public String getGivevoucherbagempty() {
+        return Givevoucherbagempty;
     }
 
-    public void setGiveoucherbagempty(String giveoucherbagempty) {
-        Giveoucherbagempty = giveoucherbagempty;
+    public void setGivevoucherbagempty(String givevoucherbagempty) {
+        Givevoucherbagempty = givevoucherbagempty;
     }
 
     public String getZswsmoneyfull() {

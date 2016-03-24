@@ -94,4 +94,15 @@ public class ArriveTime {
     public void setId(int id) {
         Id = id;
     }
+
+    @Override
+    public String toString() {
+        return "ArriveTime{" +
+                ", TradeBegin='" + TradeBegin + '\'' +
+                ", TradeEnd='" + TradeEnd + '\'' +
+                ", TradeState='" + TradeState + '\'' +
+                ", SiteID='" + SiteID + '\'' +
+                ", ClientHFNO='" + ClientHFNO + '\'' +
+                '}';
+    }
 }

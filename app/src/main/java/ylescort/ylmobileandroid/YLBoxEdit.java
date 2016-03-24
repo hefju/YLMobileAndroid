@@ -483,6 +483,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 //                    ylBoxEdiAdapter.notifyDataSetChanged();
 
                     Box box = boxEditListEdit.get(listpostion);
+                    Log.e(YLSystem.getKimTag(),"编辑删除"+box.toString());
                     if (box.getTradeAction().equals("收")){
                         for (int i = 0; i < yleditcarboxs.size(); i++) {
                             Box carbox = yleditcarboxs.get(i);
@@ -599,21 +600,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                ListGroup("全部");
-                if (boxscanstate.equals("完成交接")) {
-                    YLSystem.setEdiboxList(boxEditListEdit);
-                } else {
-                    //删除所属网点款箱
-                    for (int i = 0; i < boxSiteListAll.size(); i++) {
-                        if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)) {
-                            boxSiteListAll.remove(i);
-                            --i;
-                        }
-                    }
-                    for (int i = 0; i < boxEditListEdit.size(); i++) {
-                        boxSiteListAll.add(boxEditListEdit.get(i));
-                    }
-                }
+                SaveEditData();
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -626,6 +613,24 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             }
         });
         builder.create().show();
+    }
+
+    private void SaveEditData() {
+        ListGroup("全部");
+        if (boxscanstate.equals("完成交接")) {
+            YLSystem.setEdiboxList(boxEditListEdit);
+        } else {
+            //删除所属网点款箱
+            for (int i = 0; i < boxSiteListAll.size(); i++) {
+                if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)) {
+                    boxSiteListAll.remove(i);
+                    --i;
+                }
+            }
+            for (int i = 0; i < boxEditListEdit.size(); i++) {
+                boxSiteListAll.add(boxEditListEdit.get(i));
+            }
+        }
     }
 
 
@@ -648,21 +653,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ListGroup("全部");
-                if (boxscanstate.equals("完成交接")) {
-                    YLSystem.setEdiboxList(boxEditListEdit);
-                } else {
-                    //删除所属网点款箱
-                    for (int i = 0; i < boxSiteListAll.size(); i++) {
-                        if (boxSiteListAll.get(i).getSiteID().equals(currSiteID)) {
-                            boxSiteListAll.remove(i);
-                            --i;
-                        }
-                    }
-                    for (int i = 0; i < boxEditListEdit.size(); i++) {
-                        boxSiteListAll.add(boxEditListEdit.get(i));
-                    }
-                }
+                SaveEditData();
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -696,6 +687,9 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+
+
             return true;
         }
 

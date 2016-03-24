@@ -995,6 +995,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     homylboxscan_tv_boxcount.setText("1");
                     homylboxscan_tv_boxstaut.setText(box.getBoxStatus());
                     homylboxscan_tv_tasktype.setText(tasktype);
+                    Log.e(YLSystem.getKimTag(), "添加额外款箱：" + box.toString());
                     AllBoxList.add(box);
                     TallyBox(AllBoxList);
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());

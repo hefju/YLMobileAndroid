@@ -1135,7 +1135,7 @@ public class WebService {
                 p.put("ISWIFI",YLSystem.getNetWorkState());
                 p.put("empid",YLSystem.getUser().getEmpID());
                 p.put("Reason", strings[1]);
-                Log.e(YLSystem.getKimTag(),p.toString()+strings[0]);
+//                Log.e(YLSystem.getKimTag(),p.toString()+strings[0]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient(httpParams);

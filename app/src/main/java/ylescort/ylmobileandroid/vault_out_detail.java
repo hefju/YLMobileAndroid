@@ -185,7 +185,6 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
             AllboxList.clear();
         }
 
-        Log.e(YLSystem.getKimTag(),AllboxList.toString());
         DisPlayBoxlistAdapter(AllboxList);
         Log.e(YLSystem.getKimTag(), AllboxList.size() + " 库内款箱数");
         ShowBoxList();

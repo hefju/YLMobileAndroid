@@ -232,32 +232,33 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             switch (v.getId()) {
                 case R.id.Log_BN_HF:
 
-                    LoginByHF();
+//                    LoginByHF();
 
-//                    String user = "200097";
-//                    Log_ET_Name.setText(user);
-//                    Log_ET_PassWord.setText(user);
-//                    LoginByPassword();
+                    String user = "500008";
+                    Log_ET_Name.setText(user);
+                    Log_ET_PassWord.setText(user);
+                    LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:
 
-//                    String user2 = "520037";
-//                    Log_ET_Name.setText(user2);
-//                    Log_ET_PassWord.setText(user2);
+                    String user2 = "520037";
+                    Log_ET_Name.setText(user2);
+                    Log_ET_PassWord.setText(user2);
                     LoginByPassword();
 
                     break;
                 case R.id.btnTest1:
 
-                    UpDataAPK();
+//                    UpDataAPK();
 
-//                    DeleteTaskbyDate();
+                    DeleteTaskbyDate();
 
                     break;
                 case R.id.btnTest2:
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, KimTest.class);
+//                    intent.setClass(LoginActivity.this, YLPrintActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
@@ -277,7 +278,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-03-12");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-03-22");
     }
 
     private void LoginByPassword() throws Exception{

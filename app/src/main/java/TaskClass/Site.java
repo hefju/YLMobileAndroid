@@ -18,9 +18,27 @@ public class Site {
     public String ATMCount ;//ATM数目
     public List<ArriveTime> lstArriveTime;
     public String SiteRank;//网点级别
+    public boolean Print;//是否已打印
+    public int Rating;//服务评价
 
     public Site(){}
 
+
+    public boolean isPrint() {
+        return Print;
+    }
+
+    public void setPrint(boolean print) {
+        Print = print;
+    }
+
+    public int getRating() {
+        return Rating;
+    }
+
+    public void setRating(int rating) {
+        Rating = rating;
+    }
 
     public String getSiteRank() {
         return SiteRank;

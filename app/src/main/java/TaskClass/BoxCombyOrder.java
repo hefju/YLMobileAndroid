@@ -20,6 +20,9 @@ public class BoxCombyOrder implements Comparator<Box> {
             Boxorder2 = "0";
         }
 
-        return Boxorder1.compareTo(Boxorder2);
+        Integer o1 =Integer.parseInt(Boxorder1) ;
+        Integer o2 = Integer.parseInt(Boxorder2);
+
+        return o1.compareTo(o2);
     }
 }

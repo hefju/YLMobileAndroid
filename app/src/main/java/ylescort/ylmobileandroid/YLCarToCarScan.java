@@ -175,7 +175,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
             jsonObject.put("ISWIFI",YLSystem.getNetWorkState());
             String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBoxByTaskIDCarToCar";
 
-            YLWebDataAsyTaskForeground Y = new YLWebDataAsyTaskForeground(jsonObject,url) {
+            YLWebDataAsyTaskForeground Y = new YLWebDataAsyTaskForeground(jsonObject,url,2) {
                 @Override
                 protected void onPostExecute(String s) {
                     YLProgressDialog.dismiss();
@@ -329,7 +329,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
         jsonObject.put("ISWIFI",YLSystem.getNetWorkState());
 
         String url = YLSystem.GetBaseUrl(getApplicationContext())+"UpLoadBoxCarToCar";
-        YLWebDataAsyTaskForeground y = new YLWebDataAsyTaskForeground(jsonObject,url) {
+        YLWebDataAsyTaskForeground y = new YLWebDataAsyTaskForeground(jsonObject,url,2) {
             @Override
             protected void onPostExecute(String s) {
                 YLProgressDialog.dismiss();

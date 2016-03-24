@@ -104,8 +104,8 @@ public class Task extends ActionBarActivity {
             public void onClick(View v) {
                 String time = GetCalendarViewTime("now");//用户选中的日期
                 String deletetime = GetCalendarViewTime("old");
-                Log.e(YLSystem.getKimTag(), "相减时间" + deletetime);
-                tasksManager.Loading(getApplicationContext(),time);//加载本地数据
+
+                tasksManager.Loading(getApplicationContext(), time);//加载本地数据
                 tasksManagerDBSer.DeleteTasksManagerbydate(deletetime);
                 DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
 

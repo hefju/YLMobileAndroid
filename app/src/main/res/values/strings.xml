@@ -10,7 +10,7 @@
     <string name="Log_readcard">读卡/F2</string>
     <string name="Log_Can">取消</string>
     <string name="Log_Test">测试</string>
-    <string name="print">打印交接单</string>
+    <string name="print">打印</string>
     <string name="Log_Update">更新</string>
     <string name="title_activity_task_">任务管理</string>
     <string name="Task_Name">任务列表</string>
@@ -206,5 +206,12 @@
     <string name="ylcartocarScan">车组交接扫描</string>
     <string name="ylcartocarScan_btn_scan">扫描</string>
     <string name="ylcartocarScan_upload">上传</string>
+
+    <!--蓝牙打印-->
+    <string name="ylprinter">蓝牙打印</string>
+    <string name="ylprinter_title">到达顺序：</string>
+    <string name="ylprinter_btn_gather">汇总</string>
+    <string name="ylprinter_btn_detail">明细</string>
+    <string name="ylprinter_btn_cancel">取消</string>
 
 </resources>

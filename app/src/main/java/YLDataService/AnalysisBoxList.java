@@ -145,8 +145,8 @@ public class AnalysisBoxList {
         int givecardempty = 0;
         int givevoucherfull = 0;
         int givevoucherempty = 0;
-        int giveoucherbagfull = 0;
-        int giveoucherbagempty = 0;
+        int givevoucherbagfull = 0;
+        int givevoucherbagempty = 0;
 
         int zswsmoneyfull = 0;
         int zswsmoneyempty = 0;
@@ -202,21 +202,21 @@ public class AnalysisBoxList {
         int qysskvoucherbagfull = 0;
         int qysskvoucherbagempty = 0;
 
-        int giveTotal;
+        int giveTotal= 0;
 
-        int getTotalmoneyfull;
-        int getTotalcardfull;
-        int getTotalvoucherfull;
-        int getTotalvoucherbagfull;
-        int getTotalmoneyempty;
-        int getTotalcardempty;
-        int getTotalvoucherempty;
-        int getTotalvoucherbagempty;
+        int getTotalmoneyfull= 0;
+        int getTotalcardfull= 0;
+        int getTotalvoucherfull= 0;
+        int getTotalvoucherbagfull= 0;
+        int getTotalmoneyempty= 0;
+        int getTotalcardempty= 0;
+        int getTotalvoucherempty= 0;
+        int getTotalvoucherbagempty= 0;
 
-        int getTotalmoney;
-        int getTotalcard;
-        int getTotalvoucher;
-        int getTotalvoucherbag;
+        int getTotalmoney= 0;
+        int getTotalcard= 0;
+        int getTotalvoucher= 0;
+        int getTotalvoucherbag= 0;
 
         for (Box box : boxList) {
             if (box.getTradeAction().equals("送")) {
@@ -244,7 +244,7 @@ public class AnalysisBoxList {
                         break;
                     case "凭证袋":
                         if (box.getBoxStatus().equals("实")) {
-                            jkxvoucherbagfull++;
+                            givevoucherbagfull++;
                         } else {
                             givevoucherempty++;
                         }
@@ -450,7 +450,7 @@ public class AnalysisBoxList {
         }
         //送总箱数
         giveTotal = givemoneyfull+givemoneyempty+givecardempty+givecardfull+givevoucherempty+
-                givevoucherfull+giveoucherbagfull+giveoucherbagempty;
+                givevoucherfull+givevoucherbagfull+givevoucherbagempty;
         //收实款箱数
         getTotalmoneyfull = zswsmoneyfull+sxjmoneyfull+jkxmoneyfull+thdbmoneyfull+khdbmoneyfull+
                 qysskmoneyfull;
@@ -458,8 +458,8 @@ public class AnalysisBoxList {
         getTotalmoneyempty = zswsmoneyempty+sxjmoneyempty+jkxmoneyempty+thdbmoneyempty+
                 khdbmoneyempty+ qysskmoneyempty;
         //收实卡箱
-        getTotalcardfull = givecardfull+givecardempty+givecardempty+givecardfull+givevoucherempty+
-                givevoucherfull+giveoucherbagfull+giveoucherbagempty;
+        getTotalcardfull =  zswscardfull+sxjcardfull+jkxcardfull+thdbcardfull+
+                khdbcardfull+ qysskcardfull;
         //收空卡箱
         getTotalcardempty = zswscardempty+sxjcardempty+jkxcardempty+thdbcardempty+
                 khdbcardempty+ qysskcardempty;
@@ -486,35 +486,87 @@ public class AnalysisBoxList {
 
 
         GatherPrint gatherPrint;
-        gatherPrint = new GatherPrint(IntToStr(givemoneyfull),IntToStr(givemoneyempty),
-                IntToStr(givecardfull),IntToStr(givecardempty),IntToStr(givevoucherfull),
-                IntToStr(givevoucherempty),IntToStr(giveoucherbagfull),
-                IntToStr(giveoucherbagempty),IntToStr(zswsmoneyfull),
-                IntToStr(zswsmoneyempty),IntToStr(zswscardfull),IntToStr(zswscardempty),
-                IntToStr(zswsvoucherfull),IntToStr(zswsvoucherempty),
-                IntToStr(zswsvoucherbagfull),IntToStr(zswsvoucherbagempty),
-                IntToStr(sxjmoneyfull),IntToStr(sxjmoneyempty),IntToStr(sxjcardfull),
-                IntToStr(sxjcardempty),IntToStr(sxjvoucherfull),IntToStr(sxjvoucherempty),
-                IntToStr(sxjvoucherbagfull),IntToStr(sxjvoucherbagempty),
-                IntToStr(jkxmoneyfull),IntToStr(jkxmoneyempty),IntToStr( jkxcardfull),
-                IntToStr(jkxcardempty),IntToStr(jkxvoucherfull),IntToStr(jkxvoucherempty)
-                ,IntToStr(jkxvoucherbagfull),IntToStr(jkxvoucherbagempty),
-                IntToStr(thdbmoneyfull),IntToStr(thdbmoneyempty),IntToStr(thdbcardfull),
-                IntToStr(thdbcardempty),IntToStr(thdbvoucherfull),IntToStr(thdbvoucherempty),
-                IntToStr(thdbvoucherbagfull),IntToStr(thdbvoucherbagempty),
-                IntToStr(khdbmoneyfull),IntToStr(khdbmoneyempty),IntToStr(khdbcardfull),
-                IntToStr(khdbcardempty),IntToStr( khdbvoucherfull),
-                IntToStr(khdbvoucherempty),IntToStr(khdbvoucherbagfull),
-                IntToStr(khdbvoucherbagempty),IntToStr(qysskmoneyfull),
-                IntToStr(qysskmoneyempty),IntToStr(qysskcardfull),IntToStr(qysskcardempty),
-                IntToStr(qysskvoucherfull),IntToStr(qysskvoucherempty),
-                IntToStr(qysskvoucherbagfull),IntToStr(qysskvoucherbagempty),
-                IntToStr(giveTotal),IntToStr(getTotalmoneyfull),IntToStr(getTotalcardfull),
-                IntToStr(getTotalvoucherfull),IntToStr(getTotalvoucherbagfull),
-                IntToStr(getTotalmoneyempty),IntToStr(getTotalcardempty),
-                IntToStr(getTotalvoucherempty),IntToStr(getTotalvoucherbagempty),
-                IntToStr(getTotalmoney),IntToStr(getTotalcard),IntToStr(getTotalvoucher),
-                IntToStr(getTotalvoucherbag));
+        gatherPrint = new GatherPrint(
+
+                IntToStr(givemoneyfull),
+                IntToStr(givemoneyempty),
+                IntToStr(givecardfull),
+                IntToStr(givecardempty),
+                IntToStr(givevoucherfull),
+                IntToStr(givevoucherempty),
+                IntToStr(givevoucherbagfull),
+                IntToStr(givevoucherbagempty),
+
+                IntToStr(zswsmoneyfull),
+                IntToStr(zswsmoneyempty),
+                IntToStr(zswscardfull),
+                IntToStr(zswscardempty),
+                IntToStr(zswsvoucherfull),
+                IntToStr(zswsvoucherempty),
+                IntToStr(zswsvoucherbagfull),
+                IntToStr(zswsvoucherbagempty),
+
+                IntToStr(sxjmoneyfull),
+                IntToStr(sxjmoneyempty),
+                IntToStr(sxjcardfull),
+                IntToStr(sxjcardempty),
+                IntToStr(sxjvoucherfull),
+                IntToStr(sxjvoucherempty),
+                IntToStr(sxjvoucherbagfull),
+                IntToStr(sxjvoucherbagempty),
+
+                IntToStr(jkxmoneyfull),
+                IntToStr(jkxmoneyempty),
+                IntToStr(jkxcardfull),
+                IntToStr(jkxcardempty),
+                IntToStr(jkxvoucherfull),
+                IntToStr(jkxvoucherempty),
+                IntToStr(jkxvoucherbagfull),
+                IntToStr(jkxvoucherbagempty),
+
+                IntToStr(thdbmoneyfull),
+                IntToStr(thdbmoneyempty),
+                IntToStr(thdbcardfull),
+                IntToStr(thdbcardempty),
+                IntToStr(thdbvoucherfull),
+                IntToStr(thdbvoucherempty),
+                IntToStr(thdbvoucherbagfull),
+                IntToStr(thdbvoucherbagempty),
+
+                IntToStr(khdbmoneyfull),
+                IntToStr(khdbmoneyempty),
+                IntToStr(khdbcardfull),
+                IntToStr(khdbcardempty),
+                IntToStr(khdbvoucherfull),
+                IntToStr(khdbvoucherempty),
+                IntToStr(khdbvoucherbagfull),
+                IntToStr(khdbvoucherbagempty),
+
+                IntToStr(qysskmoneyfull),
+                IntToStr(qysskmoneyempty),
+                IntToStr(qysskcardfull),
+                IntToStr(qysskcardempty),
+                IntToStr(qysskvoucherfull),
+                IntToStr(qysskvoucherempty),
+                IntToStr(qysskvoucherbagfull),
+                IntToStr(qysskvoucherbagempty),
+
+                giveTotal+"",
+
+                IntToStr(getTotalmoneyfull),
+                IntToStr(getTotalcardfull),
+                IntToStr(getTotalvoucherfull),
+                IntToStr(getTotalvoucherbagfull),
+                IntToStr(getTotalmoneyempty),
+                IntToStr(getTotalcardempty),
+                IntToStr(getTotalvoucherempty),
+                IntToStr(getTotalvoucherbagempty),
+
+                getTotalmoney+"",
+                getTotalcard+"",
+                getTotalvoucher+"",
+                getTotalvoucherbag+"");
+
         return gatherPrint;
     }
 

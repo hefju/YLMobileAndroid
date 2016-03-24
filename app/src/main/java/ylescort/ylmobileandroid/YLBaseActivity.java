@@ -86,10 +86,12 @@ public abstract class YLBaseActivity extends ActionBarActivity {
 
         private JSONObject jsonObject;
         private String YLuRL;
+        private int TimeOut;
 
-        public YLWebDataAsyTaskForeground(JSONObject js, String Url){
+        public YLWebDataAsyTaskForeground(JSONObject js, String Url,int TimeOut){
             this.jsonObject = js;
             this.YLuRL = Url;
+            this.TimeOut = TimeOut;
         }
 
         @Override
@@ -102,8 +104,8 @@ public abstract class YLBaseActivity extends ActionBarActivity {
         protected String doInBackground(String... strings) {
             HttpPost post = new HttpPost(YLuRL);
             HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, 2000);
-            HttpConnectionParams.setSoTimeout(httpParams, 2000);
+            HttpConnectionParams.setConnectionTimeout(httpParams, 1000*TimeOut);
+            HttpConnectionParams.setSoTimeout(httpParams, 1000*TimeOut);
             InputStream inputStream = null;
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             try {
@@ -147,17 +149,19 @@ public abstract class YLBaseActivity extends ActionBarActivity {
 
         private JSONObject jsonObject;
         private String YLuRL;
+        private int TimeOut;
 
-        public YLWebDataAsyTaskBlackground(JSONObject js, String Url){
+        public YLWebDataAsyTaskBlackground(JSONObject js, String Url,int timeout){
             this.jsonObject = js;
             this.YLuRL = Url;
+            this.TimeOut = timeout;
         }
         @Override
         protected String doInBackground(String... strings) {
             HttpPost post = new HttpPost(YLuRL);
             HttpParams httpParams = new BasicHttpParams();
-            HttpConnectionParams.setConnectionTimeout(httpParams, 2000);
-            HttpConnectionParams.setSoTimeout(httpParams, 2000);
+            HttpConnectionParams.setConnectionTimeout(httpParams, 1000*TimeOut);
+            HttpConnectionParams.setSoTimeout(httpParams, 1000*TimeOut);
             try {
                 post.setEntity(new StringEntity(jsonObject.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
