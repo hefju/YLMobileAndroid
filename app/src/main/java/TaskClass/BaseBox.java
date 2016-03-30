@@ -18,7 +18,7 @@ public class BaseBox //箱类
     public String BoxID ;//箱ID
     public String BoxName ;//箱名称
     public String BoxUHFNo ;//箱UHF卡号
-    public String BoxBCNo ;//箱条形码号*********
+    public String BoxBCNo ;//箱条形码号
     public String BoxType ;//箱类型
     public String ClientID ;//客户ID
     public String SiteID ;//网点ID

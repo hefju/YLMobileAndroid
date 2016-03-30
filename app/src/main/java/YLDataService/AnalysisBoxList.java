@@ -94,9 +94,7 @@ public class AnalysisBoxList {
 
         for (Box box : boxList) {
             if (box.getBoxStatus() == null)continue;
-            if (box.getValutcheck().equals("多")
-                    ||box.getValutcheck().equals("核")
-                    ||box.getValutcheck().equals(""))continue;
+            if (box.getValutcheck() == null ||box.getValutcheck().equals(""))continue;
             switch (box.getBoxStatus()){
                 case "实":
                    switch (box.getBoxType()){

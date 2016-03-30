@@ -465,7 +465,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
             int inallbox = 0;
 
             for (Box box : displayboxList) {
-                if (!box.getValutcheck().equals("多")){
+                if (!box.getValutcheck().equals("多") &!box.getValutcheck().equals("核")){
                     inallbox++;
                 }
                 if (!box.getValutcheck().equals(""))scanbox++;
@@ -771,67 +771,50 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
 
     private void EditBoxstaut(final int postion){
         if (BoxOper.equals("in")) {
-
-            Log.e(YLSystem.getKimTag(), Displayboxlist.get(postion).toString());
-
             String  Boxcheck = Displayboxlist.get(postion).getValutcheck();
             if (Boxcheck.equals("对"))return;
-            new AlertDialog.Builder(this).setTitle("请选择基地").setIcon(android.R.drawable.ic_dialog_info)
-                    .setSingleChoiceItems(R.array.baseNameanddelet, 0, new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(this).setTitle("请选择空实").setIcon(android.R.drawable.ic_dialog_info)
+                    .setSingleChoiceItems(R.array.ylboxfullorempty, 0, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String choicbase = "";
                             switch (which) {
                                 case 0:
-                                    choicbase = "南海基地";
+                                    choicbase = "实";
                                     break;
                                 case 1:
-                                    choicbase = "大良基地";
+                                    choicbase = "空";
                                     break;
-                                case 2:
-                                    choicbase = "乐从基地";
-                                    break;
-                                case 3:
-                                    choicbase = "三水基地";
-                                    break;
-                                case 4:choicbase = "删除";
+                                case 2:choicbase = "删除";
                                     break;
                             }
-                            if (OutBaseName.equals(choicbase)) {
-                                Toast.makeText(getApplicationContext(), "不能选择本基地"
-                                        , Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
-                                return;
-                            }else {
+                            if (choicbase.equals("删除")) {
                                 Box Dpbox = Displayboxlist.get(postion);
                                 for (int i = 0; i < AllboxList.size(); i++) {
                                     Box Abbox = AllboxList.get(i);
                                     if (Dpbox.getBoxID().equals(Abbox.getBoxID())){
-                                        Abbox.setBaseValutOut(choicbase);
-                                        Abbox.setValutcheck("核");
-                                        ylBoxEdiAdapter.notifyDataSetChanged();
-                                    }
-                                }
-                            }
-
-                            if (choicbase.equals("删除")){
-                                Box Dpbox = Displayboxlist.get(postion);
-                                for (int i = 0; i < AllboxList.size(); i++) {
-                                    Box Abbox = AllboxList.get(i);
-                                    if (Dpbox.getBoxID().equals(Abbox.getBoxID())){
-                                       AllboxList.remove(i);
+                                        AllboxList.remove(i);
                                         ylBoxEdiAdapter.notifyDataSetChanged();
                                         try {
                                             FilterBoxdisplay();
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-
                                     }
                                 }
+                                AnalyBoxes(AllboxList, "in");
+                            }else {
+                                Box Dpbox = Displayboxlist.get(postion);
+                                for (int i = 0; i < AllboxList.size(); i++) {
+                                    Box Albox = AllboxList.get(i);
+                                    if (Dpbox.getBoxID().equals(Albox.getBoxID())) {
+                                        Albox.setBoxStatus(choicbase);
+                                        Albox.setValutcheck("核");
+                                        ylBoxEdiAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                                AnalyBoxes(AllboxList, "in");
                             }
-
-
                             dialog.dismiss();
                         }
                     }).show();

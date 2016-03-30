@@ -381,7 +381,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }//注册广播
     }
 
-    private void BoxIDtoBox(String recivedata) {
+    private void BoxIDtoBox(final String recivedata) {
 
         for (int i = AllBoxList.size() - 1; i >= 0; i--) {
             if (AllBoxList.get(i).getBoxID().equals(recivedata)
@@ -390,7 +390,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                 return;
             }
         }
-        Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+        final Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
         if (box.getBoxName().equals("无数据")) {
             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
             return;
@@ -424,49 +424,100 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
             try {
                 for (int i = 0; i < CarBoxList.size(); i++) {
-                    Box givebox = new Box();
-                    givebox = CarBoxList.get(i);
+                    final Box givebox = CarBoxList.get(i);
 
                     if (givebox.getBoxID().equals(recivedata)) {
-                        Box setbox = new Box();
-                        setbox.setBoxID(recivedata);
-                        setbox.setSiteID(CurrentBox.getSiteID());
-                        setbox.setBoxStatus(givebox.getBoxStatus());
-                        setbox.setBoxType(givebox.getBoxType());
-                        setbox.setBoxTaskType(givebox.getBoxTaskType());
-                        setbox.setBoxName(givebox.getBoxName());
-                        setbox.setTradeAction("送");
-                        setbox.setActionTime(YLSysTime.GetStrCurrentTime());
-                        setbox.setTimeID(CurrentBox.getTimeID());
-                        setbox.setBoxCount("1");
-                        setbox.setBoxOrder(AllBoxList.size() + 1 + "");
-                        setbox.setTaskTimeID(TaskTimeID);
-                        homylboxscan_tv_boxname.setText(givebox.getBoxName());
-                        homylboxscan_tv_boxaction.setText("送");
-                        homylboxscan_tv_boxtype.setText(givebox.getBoxType());
-                        homylboxscan_tv_boxcount.setText("1");
-                        homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
-                        homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
-                        Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
-                        AllBoxList.add(setbox);
-                        TallyBox(AllBoxList);
+                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) & box_sp_text.equals("早送晚收") ){
+                           ShowDailog = false;
+                           ylMediaPlayer.SuccessOrFail(false);
+                           AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
+                           builder.setMessage("所送款箱归属与该网点名称不同，是否确认送箱？");
+                           builder.setTitle("提示");
+                           builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                       @Override
+                                       public void onClick(DialogInterface dialogInterface, int i) {
+                                           Box setbox = new Box();
+                                           setbox.setBoxID(recivedata);
+                                           setbox.setSiteID(CurrentBox.getSiteID());
+                                           setbox.setBoxStatus(givebox.getBoxStatus());
+                                           setbox.setBoxType(givebox.getBoxType());
+                                           setbox.setBoxTaskType(givebox.getBoxTaskType());
+                                           setbox.setBoxName(givebox.getBoxName());
+                                           setbox.setTradeAction("送");
+                                           setbox.setActionTime(YLSysTime.GetStrCurrentTime());
+                                           setbox.setTimeID(CurrentBox.getTimeID());
+                                           setbox.setBoxCount("1");
+                                           setbox.setBoxOrder(AllBoxList.size() + 1 + "");
+                                           setbox.setTaskTimeID(TaskTimeID);
+                                           homylboxscan_tv_boxname.setText(givebox.getBoxName());
+                                           homylboxscan_tv_boxaction.setText("送");
+                                           homylboxscan_tv_boxtype.setText(givebox.getBoxType());
+                                           homylboxscan_tv_boxcount.setText("1");
+                                           homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
+                                           homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
+                                           Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
+                                           AllBoxList.add(setbox);
+                                           TallyBox(AllBoxList);
+                                           ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                                       }
+                                   }
+
+                           );
+
+                           builder.setNegativeButton("取消", null);
+                           builder.show();
+                           checkcarbox = false;
+
+                       }else {
+                           Box setbox = new Box();
+                           setbox.setBoxID(recivedata);
+                           setbox.setSiteID(CurrentBox.getSiteID());
+                           setbox.setBoxStatus(givebox.getBoxStatus());
+                           setbox.setBoxType(givebox.getBoxType());
+                           setbox.setBoxTaskType(givebox.getBoxTaskType());
+                           setbox.setBoxName(givebox.getBoxName());
+                           setbox.setTradeAction("送");
+                           setbox.setActionTime(YLSysTime.GetStrCurrentTime());
+                           setbox.setTimeID(CurrentBox.getTimeID());
+                           setbox.setBoxCount("1");
+                           setbox.setBoxOrder(AllBoxList.size() + 1 + "");
+                           setbox.setTaskTimeID(TaskTimeID);
+                           homylboxscan_tv_boxname.setText(givebox.getBoxName());
+                           homylboxscan_tv_boxaction.setText("送");
+                           homylboxscan_tv_boxtype.setText(givebox.getBoxType());
+                           homylboxscan_tv_boxcount.setText("1");
+                           homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
+                           homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
+                           Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
+                           AllBoxList.add(setbox);
+                           TallyBox(AllBoxList);
+                           CarBoxList.remove(i);
+                           Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
+                           ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                           checkcarbox = false;
+                           ShowDailog = true;
+                           break;
+                       }
                         CarBoxList.remove(i);
                         Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                        checkcarbox = false;
+                        ShowDailog = true;
                         break;
                     }
                 }
-                if (checkcarbox) {
-                    ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
-                    homylboxscan_btn_scan.setText("扫描/F1");
-                    Scan1DCmd("stopscan");
-                    if (ShowDailog) {
-                        ShowBoxStautdailog(box);
-                    }
-                }
+                GiveBoxforNoincarbox(box, checkcarbox);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        }
+    }
+
+    private void GiveBoxforNoincarbox(Box box, boolean checkcarbox) {
+        if (checkcarbox) {
+            ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+            homylboxscan_btn_scan.setText("扫描/F1");
+            Scan1DCmd("stopscan");
+            if (ShowDailog) {
+                ShowBoxStautdailog(box);
             }
         }
     }
@@ -531,10 +582,14 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setSiteID(homylboxscan_tv_title.getTag().toString());
             box.setBoxOrder(AllBoxList.size() + 1 + "");
             box.setTimeID(arriveTime.getTimeID());
-            if (homylboxscan_cb_date.isChecked()){
-                box.setNextOutTime("2099-12-31");
+            if (box_sp_text.equals("寄库箱")) {
+                if (homylboxscan_cb_date.isChecked()){
+                    box.setNextOutTime("2099-12-31");
+                }else {
+                    box.setNextOutTime(PickDate);
+                }
             }else {
-                box.setNextOutTime(PickDate);
+                box.setNextOutTime("");
             }
             if (homylboxscan_cb_complie.isChecked()){
                 box.setRemark("1");
@@ -684,6 +739,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                         PickDate = year+"-"+String.format("%02d",(monthOfYear + 1))+"-"
                                 +String.format("%02d",(dayOfMonth));
                         homylboxscan_btn_date.setText(PickDate);
+                        CurrentBox.setNextOutTime(PickDate);
                         Log.e(YLSystem.getKimTag(),PickDate+"");
                     }
                 },year,Month,day);

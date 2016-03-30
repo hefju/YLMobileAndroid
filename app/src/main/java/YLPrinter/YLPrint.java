@@ -350,7 +350,7 @@ public class YLPrint {
             rowshight=rowshight+4;
             Box box = boxList.get(i);
 
-            if (box.getNextOutTime() == null){
+            if (box.getNextOutTime() == null ||box.getNextOutTime().equals("")){
                 zpSDK.zp_draw_text(2, rowshight, i + 1 + "");
                 zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
                 zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
@@ -372,7 +372,7 @@ public class YLPrint {
         if (rowshight > 130){
             rowshight= rowshight+4;
         }else {
-            rowshight = 125;
+            rowshight = 120;
         }
 
         zpSDK.zp_draw_text(20, rowshight, "第一页，共一页");

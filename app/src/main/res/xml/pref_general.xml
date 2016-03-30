@@ -20,6 +20,12 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="服务">
+        <CheckBoxPreference
+            android:key="TestOrNot"
+            android:title="测试服务"/>
+    </PreferenceCategory>
+
 <PreferenceCategory android:title="系统">
     <Preference android:key="CacheData" android:title="缓存基础数据" android:summary="缓存人员,网点,客户,钱箱">
         <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->

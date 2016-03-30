@@ -15,7 +15,7 @@ public class YLMediaPlayer {
     private MediaPlayer mPlayer;
     private Context context;
 
-    public YLMediaPlayer (){};
+    public YLMediaPlayer (){}
     public YLMediaPlayer(Context context) {
         this.context = context;
     }
@@ -36,7 +36,7 @@ public class YLMediaPlayer {
                         mPlayer.prepare();
                     }
                     mPlayer.start();
-                    Thread.sleep(3000);
+                    Thread.sleep(300);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

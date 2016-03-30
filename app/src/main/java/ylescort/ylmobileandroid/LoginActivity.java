@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -208,6 +209,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         if (id == R.id.action_settings) {
             Intent intent = new Intent();
             intent.setClass(getApplicationContext(), setup.class);
+//            intent.setClass(getApplicationContext(),  YLnewLogin.class);
             startActivity(intent);
 
 
@@ -242,7 +244,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     break;
                 case R.id.Log_BN_Ent:
 
-                    String user2 = "520037";
+                    String user2 = "340015";
                     Log_ET_Name.setText(user2);
                     Log_ET_PassWord.setText(user2);
                     LoginByPassword();
@@ -258,9 +260,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 case R.id.btnTest2:
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, KimTest.class);
-//                    intent.setClass(LoginActivity.this, YLPrintActivity.class);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+//                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
                     break;
                 case R.id.logic_sw_address:
