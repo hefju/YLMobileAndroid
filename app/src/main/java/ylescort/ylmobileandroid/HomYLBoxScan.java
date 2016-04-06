@@ -427,7 +427,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     final Box givebox = CarBoxList.get(i);
 
                     if (givebox.getBoxID().equals(recivedata)) {
-                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) & box_sp_text.equals("早送晚收") ){
+                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) &givebox.getBoxTaskType().equals("早送晚收") ){
                            ShowDailog = false;
                            ylMediaPlayer.SuccessOrFail(false);
                            AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
@@ -492,7 +492,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                            AllBoxList.add(setbox);
                            TallyBox(AllBoxList);
                            CarBoxList.remove(i);
-                           Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
                            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                            checkcarbox = false;
                            ShowDailog = true;

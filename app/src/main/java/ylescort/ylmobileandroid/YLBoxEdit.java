@@ -487,7 +487,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     if (box.getTradeAction().equals("收")){
                         for (int i = 0; i < yleditcarboxs.size(); i++) {
                             Box carbox = yleditcarboxs.get(i);
-                            if (carbox.getBoxID().equals(box.getBoxID())){
+                            if (carbox.equals(box)){
                                 yleditcarboxs.remove(i);
                                 break;
                             }

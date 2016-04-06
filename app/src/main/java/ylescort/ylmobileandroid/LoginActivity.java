@@ -244,7 +244,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     break;
                 case R.id.Log_BN_Ent:
 
-                    String user2 = "340015";
+                    String user2 = "520037";
                     Log_ET_Name.setText(user2);
                     Log_ET_PassWord.setText(user2);
                     LoginByPassword();
@@ -279,7 +279,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-03-22");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-04-06");
     }
 
     private void LoginByPassword() throws Exception{

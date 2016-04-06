@@ -535,28 +535,28 @@ public class YLSite extends ActionBarActivity {
             }
 
             final Site site = siteList.get(position);
-            sitePrint.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    if (site.getStatus().equals("未交接"))return;
-                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
-                            .getDefaultAdapter();
-                    if (!mBluetoothAdapter.isEnabled()) {
-                        Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                        startActivityForResult(mIntent, 1);
-                    }else {
-
-                        YLEditData.setPrintSite(site);
-                        Intent intent = new Intent();
-                        intent.setClass(YLSite.this, YLPrintActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                    }
-
-
-                }
-            });
+//            sitePrint.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    if (site.getStatus().equals("未交接"))return;
+//                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+//                            .getDefaultAdapter();
+//                    if (!mBluetoothAdapter.isEnabled()) {
+//                        Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//                        startActivityForResult(mIntent, 1);
+//                    }else {
+//
+//                        YLEditData.setPrintSite(site);
+//                        Intent intent = new Intent();
+//                        intent.setClass(YLSite.this, YLPrintActivity.class);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+//                    }
+//
+//
+//                }
+//            });
             sitename.setText(site.getSiteName());
             sitestate.setText(site.getStatus());
 
