@@ -338,7 +338,7 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                 for (Box box : AllboxList) {
                     if (box.getValutcheck().equals("多")) {
                         new AlertDialog.Builder(Valut_turnover.this).setTitle("提示")
-                                .setMessage("列表有多箱未设定来源基地，请设定后再上传。")
+                                .setMessage("列表有多箱未设定空实状态，请设定后再上传。")
                                 .setPositiveButton("确定", null).show();
                         uploadflag= false;
                         return;

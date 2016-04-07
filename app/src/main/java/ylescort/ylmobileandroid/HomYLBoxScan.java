@@ -457,6 +457,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                                            homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
                                            Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
                                            AllBoxList.add(setbox);
+                                           CarBoxList.remove(i);
                                            TallyBox(AllBoxList);
                                            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                                        }
@@ -495,9 +496,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                            checkcarbox = false;
                            ShowDailog = true;
+                           CarBoxList.remove(i);
                            break;
                        }
-                        CarBoxList.remove(i);
+
                         Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
                         ShowDailog = true;
                         break;
