@@ -105,12 +105,6 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             }
         }
         alllist = new ArrayList<>();
-        WebService webService = new WebService();
-        alllist =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
-                YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
-        if (alllist.size()==1& alllist.get(0).getServerReturn().equals("没有入库箱。")){
-            alllist.clear();
-        }
     }
 
     private void Analysis(List<Box> boxList) {
@@ -181,6 +175,16 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                 }
                 break;
             case R.id.handoverman_btn_invalut:
+                try {
+                    WebService webService = new WebService();
+                    alllist =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
+                            YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
+                    if (alllist.size()==1& alllist.get(0).getServerReturn().equals("没有入库箱。")){
+                        alllist.clear();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 handoverman_tv_getbox.setText("应入库箱总数：");
                 BoxCheckAdapter(alllist);
                 if (alllist.size()==0)return;
