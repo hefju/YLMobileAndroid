@@ -219,15 +219,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 //            intent.setClass(getApplicationContext(),  YLnewLogin.class);
             startActivity(intent);
             YLRecord.WriteRecord("登录界面","页面设置");
-
-//
-//            Log_ET_Name.setText("340015");
-//            Log_ET_PassWord.setText("340015");
-//            try {
-//                LoginByPassword();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -240,28 +231,28 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             switch (v.getId()) {
                 case R.id.Log_BN_HF:
 
-//                    LoginByHF();
+                    LoginByHF();
 
-                    String user = "500008";
-                    Log_ET_Name.setText(user);
-                    Log_ET_PassWord.setText(user);
+//                    String user = "500008";
+//                    Log_ET_Name.setText(user);
+//                    Log_ET_PassWord.setText(user);
                     YLRecord.WriteRecord("登录界面","HF登录");
                     LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:
-                    String user2 = "520037";
-                    Log_ET_Name.setText(user2);
-                    Log_ET_PassWord.setText(user2);
+//                    String user2 = "520037";
+//                    Log_ET_Name.setText(user2);
+//                    Log_ET_PassWord.setText(user2);
                     YLRecord.WriteRecord("登录界面","帐号登录"+Log_ET_Name.getText());
                     LoginByPassword();
 
                     break;
                 case R.id.btnTest1:
 
-//                    UpDataAPK();
+                    UpDataAPK();
 
-                    DeleteTaskbyDate();
+//                    DeleteTaskbyDate();
 
                     YLRecord.WriteRecord("登录界面","升级");
                     break;
@@ -269,8 +260,8 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, KimTest.class);
                     startActivity(intent);
-//                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     YLRecord.WriteRecord("登录界面","进入测试界面");
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     break;
                 case R.id.logic_sw_address:
                     if (logic_sw_address.isChecked()) {
