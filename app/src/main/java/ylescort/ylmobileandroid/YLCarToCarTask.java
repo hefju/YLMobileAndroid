@@ -20,6 +20,7 @@ import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLAdapter.YLTaskAdapter;
 import YLSystemDate.YLEditData;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSystem;
 
 public class YLCarToCarTask extends YLBaseActivity implements View.OnClickListener {
@@ -98,6 +99,7 @@ public class YLCarToCarTask extends YLBaseActivity implements View.OnClickListen
                 if (clickfalg){
                     clickfalg = false;
                     GetCarToCarTask("1");
+                    YLRecord.WriteRecord("车组交接任务","获取送箱任务");
                     ylcartocartask_tv_title.setText("送箱任务列表");
                     getorgive = 1;
                 }
@@ -108,6 +110,7 @@ public class YLCarToCarTask extends YLBaseActivity implements View.OnClickListen
                 if (clickfalg) {
                     clickfalg = false;
                     GetCarToCarTask("2");
+                    YLRecord.WriteRecord("车组交接任务","获取收箱任务");
                     ylcartocartask_tv_title.setText("接箱任务列表");
                     getorgive = 2;
                 }

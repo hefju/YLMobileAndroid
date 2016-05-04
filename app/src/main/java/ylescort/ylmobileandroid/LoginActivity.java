@@ -44,8 +44,10 @@ import YLDataService.BaseEmpDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
+import YLFileOperate.YLLoghandle;
 import YLPrinter.YLPrint;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLWebService.UpdateManager;
@@ -61,7 +63,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     private TextView log_tv_hsimei;
     private Switch logic_sw_address;
     private Button Log_BN_HF;
-    private NFCcmdManager manager ;
+    private NFCcmdManager manager;
     private boolean buttonflag;
     private YLMediaPlayer ylMediaPlayer;
 
@@ -87,28 +89,31 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         InitData();
     }
 
-    private void InitData()  {
+    private void InitData() {
         try {
-            String oper ="";
-            if (YLSystem.getHFport() == 13){
+            String oper = "";
+            if (YLSystem.getHFport() == 13) {
                 oper = "业务员端";
-            }else{
+            } else {
                 oper = "库管员端";
             }
             LoginActivity.this.setTitle("粤龙保安押运--" + oper);
-            int b =  getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
+            int b = getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
             final String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);
 //            Log.e(YLSystem.getKimTag(), b + "");
             log_tv_vision.setText("版本号:" + ylvision);
 
-        buttonflag = false;
+            buttonflag = false;
 
-        ylMediaPlayer = new YLMediaPlayer();
+            ylMediaPlayer = new YLMediaPlayer();
 
-        /**
-         * 获取手机IMEI码
-         */
+            YLLoghandle ylLoghandle = new YLLoghandle(getApplicationContext());
+            YLRecord.setYlloghandle(ylLoghandle);
+
+            /**
+             * 获取手机IMEI码
+             */
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -123,34 +128,34 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
             thread.start();
 
-        //正式服务测试服务
-        //正式checked为false
-        //测试checked为true
-        logic_sw_address.setChecked(true);
+            //正式服务测试服务
+            //正式checked为false
+            //测试checked为true
+            logic_sw_address.setChecked(true);
 
-        if (logic_sw_address.isChecked()){
-            YLSystem.setSerAdress("0");
-        }else {
-            YLSystem.setSerAdress("1");
-        }
+            if (logic_sw_address.isChecked()) {
+                YLSystem.setSerAdress("0");
+            } else {
+                YLSystem.setSerAdress("1");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private String getVersionName() throws Exception{
+    private String getVersionName() throws Exception {
         // 获取packagemanager的实例
         PackageManager packageManager = getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
+        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(), 0);
         return packInfo.versionName;
     }
 
     private void InitHFreader() {
-        try{
+        try {
             manager = NFCcmdManager.getNFCcmdManager(YLSystem.getHFport(), 115200, 0);
             manager.readerPowerOn();
-        }catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
         }
     }
@@ -159,15 +164,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         /**
          增加对网络接入判断
          */
-        Intent i=new Intent(getApplicationContext(),YLNetWorkStateService.class);
+        Intent i = new Intent(getApplicationContext(), YLNetWorkStateService.class);
         startService(i);
 
-        Log_ET_Name = (EditText)findViewById(R.id.Log_ET_Name);
-        Log_ET_PassWord = (EditText)findViewById(R.id.Log_ET_PassWord);
+        Log_ET_Name = (EditText) findViewById(R.id.Log_ET_Name);
+        Log_ET_PassWord = (EditText) findViewById(R.id.Log_ET_PassWord);
         log_tv_vision = (TextView) findViewById(R.id.log_tv_vision);
         log_tv_hsimei = (TextView) findViewById(R.id.log_tv_hsimei);
         Log_BN_HF = (Button) findViewById(R.id.Log_BN_HF);
-        logic_sw_address = (Switch)findViewById(R.id.logic_sw_address);
+        logic_sw_address = (Switch) findViewById(R.id.logic_sw_address);
         Button Log_BN_Ent = (Button) findViewById(R.id.Log_BN_Ent);
         Button btnTest1 = (Button) findViewById(R.id.btnTest1);
         Button btnTest2 = (Button) findViewById(R.id.btnTest2);
@@ -183,9 +188,11 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         try {
             switch (keyCode) {
                 case 131:
+                    YLRecord.WriteRecord("登录界面","密码按键"+Log_ET_Name.getText());
                     LoginByPassword();
                     break;
                 case 132:
+                    YLRecord.WriteRecord("登录界面","HF按键");
                     LoginByHF();
                     break;
             }
@@ -211,7 +218,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             intent.setClass(getApplicationContext(), setup.class);
 //            intent.setClass(getApplicationContext(),  YLnewLogin.class);
             startActivity(intent);
-
+            YLRecord.WriteRecord("登录界面","页面设置");
 
 //
 //            Log_ET_Name.setText("340015");
@@ -227,7 +234,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
 
-
     @Override
     public void onClick(View v) {
         try {
@@ -239,14 +245,15 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                     String user = "500008";
                     Log_ET_Name.setText(user);
                     Log_ET_PassWord.setText(user);
+                    YLRecord.WriteRecord("登录界面","HF登录");
                     LoginByPassword();
 
                     break;
                 case R.id.Log_BN_Ent:
-
                     String user2 = "520037";
                     Log_ET_Name.setText(user2);
                     Log_ET_PassWord.setText(user2);
+                    YLRecord.WriteRecord("登录界面","帐号登录"+Log_ET_Name.getText());
                     LoginByPassword();
 
                     break;
@@ -256,13 +263,14 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
                     DeleteTaskbyDate();
 
+                    YLRecord.WriteRecord("登录界面","升级");
                     break;
                 case R.id.btnTest2:
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, KimTest.class);
                     startActivity(intent);
 //                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
+                    YLRecord.WriteRecord("登录界面","进入测试界面");
                     break;
                 case R.id.logic_sw_address:
                     if (logic_sw_address.isChecked()) {
@@ -279,17 +287,17 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-04-06");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-04-21");
     }
 
-    private void LoginByPassword() throws Exception{
-        if (buttonflag){
-            buttonflag= true;
+    private void LoginByPassword() throws Exception {
+        if (buttonflag) {
+            buttonflag = true;
             return;
         }
         CacheData();
-        if (!YLSystem.getNetWorkState().equals("2")){
-            String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";
+        if (!YLSystem.getNetWorkState().equals("2")) {
+            String url = YLSystem.GetBaseUrl(getApplicationContext()) + "Login1";
             User user = new User();
             user.setEmpNO(Log_ET_Name.getText().toString());
             user.setPass(YLSystem.SetMD5(Log_ET_PassWord.getText().toString()));
@@ -299,10 +307,10 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             Sertime(userfromweb);
             YLSystem.setBaseName(userfromweb.getTaskDate());
             GetEmpByServer(userfromweb);
-        }else {
+        } else {
             String userNo = Log_ET_Name.getText().toString();
             BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
-            List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpNo ='"+userNo+"'" );
+            List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpNo ='" + userNo + "'");
             FindEmpByLocal(baseEmpList);
         }
     }
@@ -313,16 +321,17 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void LoginByHF() throws Exception {
-        if (buttonflag){
-            buttonflag= true;
-            return;}
+        if (buttonflag) {
+            buttonflag = true;
+            return;
+        }
         Log_BN_HF.setEnabled(false);
         manager.init_14443A();
         byte[] uid = manager.inventory_14443A();
-        if(uid != null){
+        if (uid != null) {
             CacheData();
-            if (!YLSystem.getNetWorkState().equals("2")){
-                String url = YLSystem.GetBaseUrl(getApplicationContext())+"LoginByHF";
+            if (!YLSystem.getNetWorkState().equals("2")) {
+                String url = YLSystem.GetBaseUrl(getApplicationContext()) + "LoginByHF";
                 User user = new User();
                 user.setEmpNO(Tools.Bytes2HexString(uid, uid.length));
                 WebService webService = new WebService();
@@ -330,23 +339,23 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 Log.e(YLSystem.getKimTag(), userfromweb.toString());
                 Sertime(userfromweb);
                 YLSystem.setBaseName(userfromweb.getTaskDate());
-                if (userfromweb.getServerReturn().equals("没有此人或密码错误。")){
-                    ylMediaPlayer.SuccessOrFailMidia("faile",getApplicationContext());
-                    buttonflag= false;
+                if (userfromweb.getServerReturn().equals("没有此人或密码错误。")) {
+                    ylMediaPlayer.SuccessOrFailMidia("faile", getApplicationContext());
+                    buttonflag = false;
                     Log_BN_HF.setEnabled(true);
-                }else {
+                } else {
                     GetEmpByServer(userfromweb);
                 }
 
-            }else {
+            } else {
                 String userNo = Tools.Bytes2HexString(uid, uid.length);
                 BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
-                List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='"+userNo+"'" );
+                List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='" + userNo + "'");
                 FindEmpByLocal(baseEmpList);
             }
-        }else {
+        } else {
             Toast.makeText(getApplicationContext(), "未找到卡", Toast.LENGTH_SHORT).show();
-            buttonflag= false;
+            buttonflag = false;
             Log_BN_HF.setEnabled(true);
         }
     }
@@ -373,7 +382,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
     }
 
     private void GetEmpByServer(User userfromweb) throws Exception {
-        if (userfromweb.getServerReturn().equals("1")){
+        if (userfromweb.getServerReturn().equals("1")) {
 
             Log_BN_HF.setEnabled(true);
             userfromweb.setISWIFI(YLSystem.getNetWorkState());
@@ -381,26 +390,27 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             YLSystem.setUser(userfromweb);
             Intent intent = new Intent();
             String EmpWorkState = GetEmpPost(userfromweb.getEmpID());
-            if (EmpWorkState.equals("金库主管")||EmpWorkState.equals("库管员")
-                    ||EmpWorkState.equals("部门经理")){
+            if (EmpWorkState.equals("金库主管") || EmpWorkState.equals("库管员")
+                    || EmpWorkState.equals("部门经理")) {
                 intent.setClass(LoginActivity.this, VaultInOrOut.class);
-            }else {
+            } else {
                 intent.setClass(LoginActivity.this, Task.class);
             }
             startActivity(intent);
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+            YLRecord.WriteRecord("登录界面","联网登录："+ userfromweb.getEmpID());
             Toast.makeText(getApplicationContext(), "登录成功", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             ylMediaPlayer.SuccessOrFailMidia("faile", getApplicationContext());
-            buttonflag= false;
+            buttonflag = false;
             Log_BN_HF.setEnabled(true);
-            Toast.makeText(getApplicationContext(),"登录失败",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "登录失败", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void FindEmpByLocal(List<BaseEmp> baseEmpList) {
-        if (baseEmpList.size()>0){
+        if (baseEmpList.size() > 0) {
             BaseEmp baseEmp = baseEmpList.get(0);
             User user = new User();
             user.setEmpNO(baseEmp.EmpNo);
@@ -412,28 +422,30 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             YLSystem.setUser(user);
             Intent intent = new Intent();
             if (baseEmp.EmpWorkState.equals("金库主管")
-                    ||baseEmp.EmpWorkState.equals("库管员")
-                    ||baseEmp.EmpName.equals("吴艳")){
+                    || baseEmp.EmpWorkState.equals("库管员")
+                    || baseEmp.EmpName.equals("吴艳")) {
                 intent.setClass(LoginActivity.this, VaultInOrOut.class);
-            }else {
-            intent.setClass(LoginActivity.this, Task.class);}
+            } else {
+                intent.setClass(LoginActivity.this, Task.class);
+            }
+            YLRecord.WriteRecord("登录界面","离线登录："+ user.getEmpID());
             startActivity(intent);
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            buttonflag= false;
+            buttonflag = false;
             Log_BN_HF.setEnabled(true);
-        }else {
-            buttonflag= false;
+        } else {
+            buttonflag = false;
             Log_BN_HF.setEnabled(true);
             Toast.makeText(getApplicationContext(), "无此人员信息", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void UpDataAPK() {
-        if (!YLSystem.getNetWorkState().equals("1"))return;
+        if (!YLSystem.getNetWorkState().equals("1")) return;
         final EditText editText = new EditText(this);
         editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(editText,0);
+        inputManager.showSoftInput(editText, 0);
         new AlertDialog.Builder(this).setTitle("请输入升级密码:")
                 .setIcon(android.R.drawable.ic_dialog_info).setView(editText)
                 .setPositiveButton("升级", new DialogInterface.OnClickListener() {
@@ -447,12 +459,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
                 }).setNegativeButton("取消", null).show();
     }
 
-    private String GetEmpPost(String EmpID){
+    private String GetEmpPost(String EmpID) {
         BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
-        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpID='"+EmpID+"'");
-        if (!baseEmpList.toString().equals("[]")){
-            return  baseEmpList.get(0).EmpWorkState;
-        }else {
+        List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpID='" + EmpID + "'");
+        if (!baseEmpList.toString().equals("[]")) {
+            return baseEmpList.get(0).EmpWorkState;
+        } else {
             return "none";
         }
     }

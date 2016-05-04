@@ -26,6 +26,7 @@ import TaskClass.BoxCombyTime;
 import TaskClass.YLTask;
 import YLDataService.AnalysisBoxList;
 import YLSystemDate.YLEditData;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLBoxEdiAdapter;
 
@@ -243,7 +244,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
         editbox.setBoxStatus(GetBoxStuat("f"));
         editbox.setBoxType(GetBoxStuat("s"));
         editbox.setSiteID(box.getSiteID());
-        editbox.setBoxID(box.getBoxID());
+//        editbox.setBoxID(box.getBoxID());
         editbox.setBoxName(box.getBoxName());
         editbox.setNextOutTime(box.getNextOutTime());
         editbox.setActionTime(box.getActionTime());
@@ -453,7 +454,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
             case R.id.boxedi_btn_black://返回按钮
                 YLSystem.setEdiboxList(boxEditListEdit);
-
+                YLRecord.WriteRecord("款箱明细","返回");
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
@@ -487,11 +488,12 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     if (box.getTradeAction().equals("收")){
                         for (int i = 0; i < yleditcarboxs.size(); i++) {
                             Box carbox = yleditcarboxs.get(i);
-                            if (carbox.equals(box)){
+                            if (carbox.getActionTime().equals(box.getActionTime())){
                                 yleditcarboxs.remove(i);
                                 break;
                             }
                         }
+                        YLRecord.WriteRecord("扫描","删除收箱:"+box.getBoxName());
                     }else {
                         box.setTradeAction("收");
                         if (box.getId() != 1) {
@@ -505,6 +507,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                     YLEditData.setYleditcarbox(yleditcarboxs);
                     TallyBox(boxEditListEdit);
                     ylBoxEdiAdapter.notifyDataSetChanged();
+                    YLRecord.WriteRecord("扫描","删除送箱:"+box.getBoxName());
                 }
                 break;
         }
@@ -601,6 +604,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             public void onClick(DialogInterface dialog, int which) {
 
                 SaveEditData();
+                YLRecord.WriteRecord("扫描","确认保存返回");
                 dialog.dismiss();
                 YLBoxEdit.this.finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -663,6 +667,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 YLSystem.setEdiboxList(boxEditListEdit);
+                YLRecord.WriteRecord("扫描","不保存返回");
                 YLBoxEdit.this.finish();
                 dialog.dismiss();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

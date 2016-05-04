@@ -51,6 +51,7 @@ import YLDataService.WebServerBaseData;
 import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLSiteAdapter;
@@ -109,13 +110,16 @@ public class YLSite extends ActionBarActivity {
             Site_apply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     ShowApplyAcivity();
+                    YLRecord.WriteRecord("网点","进入核对");
                 }
             });
 
             Site_check.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    YLRecord.WriteRecord("网点","进入汇总");
                     ShowCheckAcivity();
                 }
             });
@@ -123,13 +127,17 @@ public class YLSite extends ActionBarActivity {
             Site_tmp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    YLRecord.WriteRecord("网点","临时出入库");
                     ShowtmpActivity();
                 }
             });
 
             Site_cartocar.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {ShowcartocarActivity();}
+                public void onClick(View view) {
+                    YLRecord.WriteRecord("网点","车组交接");
+                    ShowcartocarActivity();
+                }
             });
 
 
@@ -187,6 +195,7 @@ public class YLSite extends ActionBarActivity {
         if (getcarboxs) {
             CarBoxListAsy carBoxListAsy = new CarBoxListAsy();
             carBoxListAsy.execute(ylTask.getTaskID());
+            YLRecord.WriteRecord("网点","获取车内款箱");
         }
         YLSite.this.setTitle("车内款箱数: " + ylTask.getLstCarBox().size());
     }
@@ -328,12 +337,15 @@ public class YLSite extends ActionBarActivity {
                         ylTask.setTaskState("已上传");
                         ylTask.setServerReturn(YLSysTime.GetStrCurrentTime());
                         tasksManager.SaveTask(getApplicationContext());
+                        YLRecord.WriteRecord("网点","上传成功"+ylTask.getTaskID());
                         UpDataDialog();
 //                        finish();
                     } else {
+                        YLRecord.WriteRecord("网点","上传失败"+ylTask.getTaskID());
                         Toast.makeText(getApplicationContext(), "未上传成功,请重新上传", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
+                    YLRecord.WriteRecord("网点","网络原因上传失败"+ylTask.getTaskID());
                     Toast.makeText(getApplicationContext(), "未上传成功,请连接网络重新上传", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
@@ -535,28 +547,30 @@ public class YLSite extends ActionBarActivity {
             }
 
             final Site site = siteList.get(position);
-//            sitePrint.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    if (site.getStatus().equals("未交接"))return;
-//                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
-//                            .getDefaultAdapter();
-//                    if (!mBluetoothAdapter.isEnabled()) {
-//                        Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//                        startActivityForResult(mIntent, 1);
-//                    }else {
-//
-//                        YLEditData.setPrintSite(site);
-//                        Intent intent = new Intent();
-//                        intent.setClass(YLSite.this, YLPrintActivity.class);
-//                        startActivity(intent);
-//                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-//                    }
-//
-//
-//                }
-//            });
+            sitePrint.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (site.getStatus().equals("未交接"))return;
+                    BluetoothAdapter mBluetoothAdapter = BluetoothAdapter
+                            .getDefaultAdapter();
+                    if (!mBluetoothAdapter.isEnabled()) {
+                        YLRecord.WriteRecord("网点","蓝牙未打开");
+                        Intent mIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(mIntent, 1);
+                    }else {
+
+                        YLEditData.setPrintSite(site);
+                        Intent intent = new Intent();
+                        intent.setClass(YLSite.this, YLPrintActivity.class);
+                        startActivity(intent);
+                        YLRecord.WriteRecord("网点","进入打印"+site.getSiteName());
+                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    }
+
+
+                }
+            });
             sitename.setText(site.getSiteName());
             sitestate.setText(site.getStatus());
 

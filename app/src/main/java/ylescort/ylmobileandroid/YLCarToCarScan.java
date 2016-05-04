@@ -25,6 +25,7 @@ import YLAdapter.YLValutboxitemAdapter;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -123,6 +124,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                YLRecord.WriteRecord("车组交接扫描","删除箱"+DisplayboxList.get(position));
                 DisplayboxList.remove(position);
                 Log.e(YLSystem.getKimTag(), DisplayboxList.size() + "数量");
                 analysisBoxList();
@@ -235,6 +237,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
                      break;
                  }
                  DisplayboxList.get(i).setValutcheck("对");
+                 YLRecord.WriteRecord("车组交接扫描","收箱扫描对"+DisplayboxList.get(i).getBoxName());
                  ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                  checkbox = false;
                  break;
@@ -247,6 +250,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             box.setTimeID("2");
             box.setBoxCount("1");
+            YLRecord.WriteRecord("车组交接扫描","收箱扫描多"+box.getBoxName());
             DisplayboxList.add(box);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
         }
@@ -259,6 +263,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
             if (carbox.getBoxID().equals(box.getBoxID())){
                 Box newbox = carbox;
                 newbox.setBaseValutIn(OtherTaskID);
+                YLRecord.WriteRecord("车组交接扫描","送箱扫描"+newbox.getBoxName());
                 DisplayboxList.add(newbox);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                 break;
@@ -298,6 +303,7 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
                     ScanCmd();
                     break;
                 case R.id.ylcartocarscan_btn_upload:
+                    YLRecord.WriteRecord("车组交接扫描","数据上传");
                     UpLoadData();
                     break;
             }

@@ -2,6 +2,7 @@ package ylescort.ylmobileandroid;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.Notification;
@@ -30,6 +31,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -71,6 +74,7 @@ import YLDataService.BaseSiteDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
 import YLFileOperate.DBMove;
+import YLFileOperate.YLLoghandle;
 import YLFragment.YLBoxEditFragment;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -85,6 +89,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private Button kim_vibrate;
     private Button kim_uhftest;
     private Button kim_uhfwrite;
+    private Button kim_uploadOR;
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
@@ -115,12 +120,14 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_vibrate = (Button)findViewById(R.id.kim_vibrate);
         kim_uhftest = (Button)findViewById(R.id.kim_uhftest);
         kim_uhfwrite = (Button)findViewById(R.id.kim_uhfwrite);
+        kim_uploadOR = (Button)findViewById(R.id.kim_uploadOR);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
         kim_copydb.setOnClickListener(this);
         kim_vibrate.setOnClickListener(this);
         kim_uhftest.setOnClickListener(this);
         kim_uhfwrite.setOnClickListener(this);
+        kim_uploadOR.setOnClickListener(this);
 
         InitReciveScan1D();
 
@@ -295,9 +302,42 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
 
                 break;
-            case R.id.kim_uhfwrite:UHFWriter();
+            case R.id.kim_uhfwrite:
+                UHFWriter();
+                break;
+            case R.id.kim_uploadOR:
+                ChoiceDate();
                 break;
         }
+    }
+
+    private void ChoiceDate() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int Month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DATE);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(KimTest.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        try {
+                            YLLoghandle ylLoghandle = new YLLoghandle(getApplicationContext());
+                            File file = ylLoghandle.GetYLLogName(year, monthOfYear+1, dayOfMonth);
+                            Log.e(YLSystem.getKimTag(),"文件名"+file.getName());
+                            if (file.exists()) {
+                                String str = ylLoghandle.ReadTxt(file.getName());
+                                UploadORAsyncTask u = new UploadORAsyncTask();
+                                String url =YLSystem.GetBaseUrl(getApplicationContext())+"UploadOperationRecord";
+                                u.execute(url,str,file.getName().substring(0,3),YLSystem.getHandsetIMEI());
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, year, Month, day);
+        datePickerDialog.show();
     }
 
     private void activationroot() {
@@ -385,6 +425,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         notification.setLatestEventInfo(this, "灯测试", "led灯测试", pendingIntent);
         manager.notify(1, notification);
     }
+
     private void showactivity(){
         Intent intent = new Intent();
         intent.setClass(KimTest.this, HomYLBoxScan.class);
@@ -706,6 +747,38 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 kim_test2.setEnabled(true);
             }
             super.onPostExecute(user);
+        }
+    }
+
+
+    public class UploadORAsyncTask extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String url = strings[0];
+            HttpPost post = new HttpPost(url);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            try {
+                p.put("ORStr",strings[1]);
+                p.put("Date",strings[2]);
+                p.put("deviceID",strings[3]);
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient();
+                HttpResponse response = client.execute(post);
+
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    Log.e(YLSystem.getKimTag(),content+"上传行为");
+                    return gson.fromJson(content, String.class);
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "0";
+            }
+            return null;
         }
     }
 

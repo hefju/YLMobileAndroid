@@ -53,6 +53,7 @@ import YLDataService.SiteDBSer;
 import YLDataService.TaskDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLAdapter.YLTaskAdapter;
@@ -108,7 +109,7 @@ public class Task extends ActionBarActivity {
                 tasksManager.Loading(getApplicationContext(), time);//加载本地数据
                 tasksManagerDBSer.DeleteTasksManagerbydate(deletetime);
                 DisplayTaskList(tasksManager.lstLatestTask);//显示本地任务列表
-
+                YLRecord.WriteRecord("任务","刷新日期"+time);
                 if (YLSystem.isNetConnected(Task.this)) {
                     User user = YLSystem.getUser();
                     user.setTaskDate(time);
@@ -146,8 +147,10 @@ public class Task extends ActionBarActivity {
                  Intent intent = new Intent();
                  if (tasktype.equals("ATM清机")){
                      intent.setClass(Task.this,YLATMSite.class);
+                     YLRecord.WriteRecord("任务","进入清机任务:"+ylTask.getTaskID());
                  }else {
                      intent.setClass(Task.this,YLSite.class);
+                     YLRecord.WriteRecord("任务","进入日常任务:"+ylTask.getTaskID());
                  }
 
 //                 Bundle bundle = new Bundle();

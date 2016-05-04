@@ -42,6 +42,7 @@ import YLDataService.WebServerYLSite;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -363,6 +364,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             intent.putExtras(bundle);
             startActivity(intent);
             Scan1DCmd("stopscan");
+            YLRecord.WriteRecord("扫描","进入款箱编辑");
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             return true;
         }
@@ -391,6 +393,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             }
         }
         final Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+        YLRecord.WriteRecord("扫描","收箱录入箱ID:"+recivedata);
         if (box.getBoxName().equals("无数据")) {
             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
             return;
@@ -399,6 +402,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             try {
                 if (box.getBoxName().contains("粤龙临") || box.getBoxType().equals("无")) {
                     if (!checkboxsype().equals("款箱类")) {
+                        YLRecord.WriteRecord("扫描","收箱录入箱状态:"+box.getBoxName()+box.getBoxType());
                         box.setBoxType(checkboxsype());
                     } else {
                         Toast.makeText(getApplicationContext(), "标签箱类型未选", Toast.LENGTH_SHORT).show();
@@ -436,6 +440,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                                        @Override
                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                           YLRecord.WriteRecord("扫描","送箱非相同网点:"
+                                                   +box.getBoxName()+box.getBoxType()+box.getBoxTaskType());
                                            Box setbox = new Box();
                                            setbox.setBoxID(recivedata);
                                            setbox.setSiteID(CurrentBox.getSiteID());
@@ -497,6 +503,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                            AllBoxList.add(setbox);
                            TallyBox(AllBoxList);
                            CarBoxList.remove(i);
+                           YLRecord.WriteRecord("扫描","送箱相同网点:"
+                                   +setbox.getBoxName()+setbox.getBoxType()+setbox.getBoxTaskType());
                            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                            checkcarbox = false;
                            ShowDailog = true;
@@ -603,6 +611,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setTaskTimeID(TaskTimeID);
             box.setActionTime(YLSysTime.GetStrCurrentTime());
             Log.e(YLSystem.getKimTag(), box.toString() + "收-添加款箱");
+            YLRecord.WriteRecord("扫描","收箱:"+box.getBoxName()+box.getBoxType()+box.getBoxTaskType());
             AllBoxList.add(box);
             CarBoxList.add(box);
             ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
@@ -646,54 +655,73 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.homylboxscan_btn_date:GetDatePick();
+            case R.id.homylboxscan_btn_date:
+
+                GetDatePick();
+                YLRecord.WriteRecord("扫描","获取寄库箱日期"+PickDate);
                 if (homylboxscan_cb_date.isChecked()) {
                     CurrentBox.setNextOutTime("2099-12-31");
                 } else {
                     CurrentBox.setNextOutTime(PickDate);
                 }
                 break;
-            case R.id.homylboxscan_btn_scan:ScanYLBox();
+            case R.id.homylboxscan_btn_scan:
+                YLRecord.WriteRecord("扫描","款箱扫描");
+                ScanYLBox();
                 break;
-            case R.id.homylboxscan_btn_nonelable:NoLableIns();
+            case R.id.homylboxscan_btn_nonelable:
+                YLRecord.WriteRecord("扫描","手输单号");
+                NoLableIns();
                 break;
-            case R.id.homylboxscan_btn_ent:ArriveAndFinish();
+            case R.id.homylboxscan_btn_ent:
+                ArriveAndFinish();
                 break;
             case R.id.homylboxscan_btn_boxtype:
                 ShowBoxtype();
                 CurrentBox.setBoxType(homylboxscan_btn_boxtype.getText().toString());
+                YLRecord.WriteRecord("扫描","临时箱选择"+homylboxscan_btn_boxtype.getText().toString());
                 break;
             case R.id.homylboxscan_rbtn_get:
                 CurrentBox.setTradeAction("收");
+                YLRecord.WriteRecord("扫描","设置收箱");
                 break;
             case R.id.homylboxscan_rbtn_give:
                 CurrentBox.setTradeAction("送");
+                YLRecord.WriteRecord("扫描","设置送箱");
                 break;
             case R.id.homylboxscan_rbtn_full:
                 CurrentBox.setBoxStatus("实");
+                YLRecord.WriteRecord("扫描","设置实箱");
                 break;
             case R.id.homylboxscan_rbtn_empty:
                 CurrentBox.setBoxStatus("空");
+                YLRecord.WriteRecord("扫描","设置空箱");
                 break;
             case R.id.homylboxscan_cb_complie:
                     if (homylboxscan_cb_complie.isChecked()){
                         CurrentBox.setRemark("1");
+                        YLRecord.WriteRecord("扫描","设置补打");
                     }else {
                         CurrentBox.setRemark("0");
+                        YLRecord.WriteRecord("扫描","设置不补打");
                     }
                 break;
             case R.id.homylboxscan_cb_date:
                 if (homylboxscan_cb_date.isChecked()) {
                     CurrentBox.setNextOutTime("2099-12-31");
+                    YLRecord.WriteRecord("扫描","设置长期寄库");
                 } else {
                     CurrentBox.setNextOutTime(PickDate);
+                    YLRecord.WriteRecord("扫描","设置寄库日期："+PickDate);
                 }
                 break;
             case R.id.homylboxscan_cb_ToT:
                 if (homylboxscan_cb_ToT.isChecked()){
                     CurrentBox.setBoxToT("1");
+                    YLRecord.WriteRecord("扫描","设置即日收送");
                 }else {
                     CurrentBox.setBoxToT("0");
+                    YLRecord.WriteRecord("扫描","设置非即日收送");
                 }
                 break;
             case R.id.homylboxscan_cb_scan:
@@ -776,6 +804,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 //                            box.setBoxName("无标签");
 //                            PutBoxToList(box,intinput+"","tmp");
                             BoxIDtoBox(input);
+
                         }
                     }
                 }).setNegativeButton("取消", null).show();
@@ -789,6 +818,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    YLRecord.WriteRecord("扫描","到达");
                     try {
                         boolean sitecheck = true;
                         for (Site site : ylTask.getLstSite()) {
@@ -806,6 +836,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                                 if (CarBoxList.size() > 0) {
                                     if (!CarBoxList.get(0).getServerReturn().equals(BoxOutID)) {
                                         Log.e(YLSystem.getKimTag(), "更新出库数据");
+                                        YLRecord.WriteRecord("扫描","更新出库数据");
                                         List<Box> newboxList = webServerYLSite.GetCarBoxlist
                                                 (getApplicationContext(), ylTask.getTaskID());
                                         CarBoxList.clear();
@@ -836,6 +867,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    YLRecord.WriteRecord("扫描","取消到达");
                     homylboxscan_btn_ent.setText("到达");
                     dialog.dismiss();
 
@@ -849,6 +881,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    YLRecord.WriteRecord("扫描","完成交接");
                     if (AllBoxList.size() < 1) {
                         dialog.dismiss();
                         HomYLBoxScan.this.finish();
@@ -986,7 +1019,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
 
     private void ShowBoxStautdailog(final Box givebox){
-
+        YLRecord.WriteRecord("扫描","送箱录入未有车内箱");
         AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
         builder.setIcon(android.R.drawable.ic_input_get);
         builder.setTitle("请选择送箱状态");
@@ -1060,7 +1093,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     TallyBox(AllBoxList);
                     ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                     ShowDailog = true;
-
+                    YLRecord.WriteRecord("扫描","送箱选非车内箱："+box.getBoxName()+box.getBoxStatus());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
