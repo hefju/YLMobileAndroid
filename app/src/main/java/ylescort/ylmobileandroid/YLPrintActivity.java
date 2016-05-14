@@ -179,9 +179,12 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
     private void TallyBox(List<Box> boxlist){
         if (boxlist == null)return;
 
-        List<Integer> boxlistansy =  analysisBoxList.AnsysisBoxList(boxlist);
-        String giveboxstr ="送箱合计: "+ boxlistansy.get(5);
-        String getboxstr = "收箱合计: "+ boxlistansy.get(4);
+        List<Integer> boxlistansy =  analysisBoxList.AnsysisBoxListForPrintGather(boxlist);
+
+
+        String getboxstr = "收箱:"+boxlistansy.get(0)+" 其中:收实箱 "+boxlistansy.get(1)+" 收空箱 "+boxlistansy.get(2);
+        String giveboxstr ="送箱: "+boxlistansy.get(3)+" 其中:送实箱 "+boxlistansy.get(4)+" 送空箱 "+boxlistansy.get(5);
+
         ylprinter_tv_get.setText(getboxstr);
         ylprinter_tv_give.setText(giveboxstr);
     }
@@ -281,9 +284,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
 
         List<Box> detaillist = new ArrayList<>();
         for (Box box : displaylistbox) {
-            if (!box.getBoxTaskType().equals("早送晚收")){
+//            if (!box.getBoxTaskType().equals("早送晚收")){
                 detaillist.add(box);
-            }
+//            }
         }
         if (detaillist.size()>0) {
             String TaskTimeID = detaillist.get(0).getTaskTimeID()+"";

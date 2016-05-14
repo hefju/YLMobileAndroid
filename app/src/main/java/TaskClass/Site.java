@@ -18,25 +18,25 @@ public class Site {
     public String ATMCount ;//ATM数目
     public List<ArriveTime> lstArriveTime;
     public String SiteRank;//网点级别
-    public boolean Print;//是否已打印
-    public int Rating;//服务评价
+    public List<Boolean> Print;//是否已打印
+    public List<Integer> Rating;//服务评价
 
     public Site(){}
 
 
-    public boolean isPrint() {
+    public List<Boolean> getPrint() {
         return Print;
     }
 
-    public void setPrint(boolean print) {
+    public void setPrint(List<Boolean> print) {
         Print = print;
     }
 
-    public int getRating() {
+    public List<Integer> getRating() {
         return Rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(List<Integer> rating) {
         Rating = rating;
     }
 

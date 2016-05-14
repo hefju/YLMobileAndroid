@@ -82,6 +82,56 @@ public class AnalysisBoxList {
         return stringList;
     }
 
+    public List<Integer> AnsysisBoxListForPrintGather(List<Box> boxList){
+
+        int getbox = 0;
+        int getfullbox = 0;
+        int getemptybox = 0;
+
+        int givebox = 0;
+        int givefullbox = 0;
+        int giveemptybox = 0;
+
+        for (Box box:boxList){
+            int count =Integer.parseInt(box.getBoxCount()) ;
+            try {
+                switch (box.getTradeAction()){
+                    case"收":getbox+=count;
+                        if ( box.getBoxStatus().equals("实")){
+                            getfullbox +=count;
+                        }else {
+                            getemptybox += count;
+                        }
+                        break;
+                    case"送":givebox+=count;
+                        if ( box.getBoxStatus().equals("实")){
+                            givefullbox +=count;
+                        }else {
+                            giveemptybox += count;
+                        }
+                        break;
+
+                }
+            }catch (Exception e){
+                getbox += 0;
+                getfullbox += 0;
+                getemptybox += 0 ;
+                givebox += 0;
+                givefullbox += 0 ;
+                giveemptybox += 0;
+            }
+        }
+
+        List<Integer> stringList = new ArrayList<>();
+        stringList.add(getbox);
+        stringList.add(getfullbox);
+        stringList.add(getemptybox);
+        stringList.add(givebox);
+        stringList.add(givefullbox);
+        stringList.add(giveemptybox);
+        return stringList;
+    }
+
     public List<String>AnsysisBoxListForKeeper(List<Box> boxList){
         int fullmoneybox = 0;
         int emptymoneybox = 0;

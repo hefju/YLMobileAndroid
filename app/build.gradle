@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "ylescort.ylmobileandroid"
         minSdkVersion 17
-        targetSdkVersion 19
+        targetSdkVersion 21
         versionCode 5
         versionName "1.1.2"
     }

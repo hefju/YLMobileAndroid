@@ -237,7 +237,7 @@ public class YLPrint {
         zpSDK.zp_draw_text(TextBoxstautX[3],TextTitleY[7], gatherPrint.getZswscardempty());
         zpSDK.zp_draw_text(TextBoxstautX[4],TextTitleY[7], gatherPrint.getZswsvoucherfull());
         zpSDK.zp_draw_text(TextBoxstautX[5],TextTitleY[7],gatherPrint.getZswsvoucherempty());
-        zpSDK.zp_draw_text(TextBoxstautX[6],TextTitleY[7],gatherPrint.getZswsvoucherfull());
+        zpSDK.zp_draw_text(TextBoxstautX[6],TextTitleY[7],gatherPrint.getZswsvoucherbagfull());
         zpSDK.zp_draw_text(TextBoxstautX[7],TextTitleY[7],gatherPrint.getZswsvoucherbagempty());
 
         //上下介
@@ -333,7 +333,7 @@ public class YLPrint {
 
         zpSDK.zp_draw_text_ex(50, NextRow2(), "NO."+Number, "宋体", 3, 0, true, false, false);
 
-        zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单（早送晚收除外）：");
+        zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单：");
 
         rowshight = 20;
 
@@ -378,7 +378,7 @@ public class YLPrint {
         zpSDK.zp_draw_text(20, rowshight, "第一页，共一页");
 
         Boolean printpage =  zpSDK.zp_page_print(false);
-        Log.e("kim", "print" + printpage.toString());
+        Log.e("kim", "print" +rowshight+ printpage.toString());
 
         zpSDK.zp_page_free();
 

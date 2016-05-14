@@ -97,6 +97,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private YLMediaPlayer ylMediaPlayer;
     private Box CurrentBox;//当前选择状态下的box
     private boolean ShowDailog;
+    private boolean ShowNotice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +153,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         CurrentBox.setBoxCount("1");
         ylMediaPlayer = new YLMediaPlayer();
         ShowDailog = true;
+        ShowNotice = true;
         homylboxscan_tv_title.setText(YLEditData.getCurrentYLSite().getSiteName());
         homylboxscan_tv_title.setTag(YLEditData.getCurrentYLSite().getSiteID());
 
@@ -431,7 +433,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     final Box givebox = CarBoxList.get(i);
 
                     if (givebox.getBoxID().equals(recivedata)) {
-                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) &givebox.getBoxTaskType().equals("早送晚收") ){
+                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) &givebox.getBoxTaskType().equals("早送晚收")
+                               ){
                            ShowDailog = false;
                            ylMediaPlayer.SuccessOrFail(false);
                            AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
@@ -814,12 +817,24 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         if (homylboxscan_btn_ent.getText().equals("到达")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
             builder.setMessage("确认到达吗?");
-            builder.setTitle("提示");
+
+            builder.setTitle("确认到达吗？");
+//            final String[] multiChoiceItems = {"网点交接提示"};
+//            final boolean[] defaultSelectedStatus = {true};
+//            builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+//                    defaultSelectedStatus[i] = b;
+//                }
+//            });
+
             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     YLRecord.WriteRecord("扫描","到达");
                     try {
+//                        ShowNotice = defaultSelectedStatus[0];
+//                        Log.e(YLSystem.getKimTag(),ShowNotice+"提示");
                         boolean sitecheck = true;
                         for (Site site : ylTask.getLstSite()) {
                             if (site.getStatus().equals("已完成")) {

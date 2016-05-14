@@ -66,7 +66,6 @@ public class YLLoghandle {
     public String ReadTxt(String logname) throws Exception {
         CreatAndCleanYLLog();
         String str = yLtxtOperate.readSDFile(path + "//" + logname);
-        Log.e(YLSystem.getKimTag(), "查看:"+str);
         return  str;
     }
 

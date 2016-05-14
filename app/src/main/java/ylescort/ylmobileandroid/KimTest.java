@@ -324,12 +324,13 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                         try {
                             YLLoghandle ylLoghandle = new YLLoghandle(getApplicationContext());
                             File file = ylLoghandle.GetYLLogName(year, monthOfYear+1, dayOfMonth);
-                            Log.e(YLSystem.getKimTag(),"文件名"+file.getName());
                             if (file.exists()) {
                                 String str = ylLoghandle.ReadTxt(file.getName());
                                 UploadORAsyncTask u = new UploadORAsyncTask();
                                 String url =YLSystem.GetBaseUrl(getApplicationContext())+"UploadOperationRecord";
-                                u.execute(url,str,file.getName().substring(0,3),YLSystem.getHandsetIMEI());
+                                String datename =year+"-"+ file.getName().substring(0,2)+"-"+ file.getName().substring(2,4);
+                                Log.e(YLSystem.getKimTag(),"文件名"+datename);
+                                u.execute(url,str,datename,YLSystem.getHandsetIMEI());
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -770,7 +771,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    Log.e(YLSystem.getKimTag(),content+"上传行为");
+                    Log.e(YLSystem.getKimTag(),content+"上传返回");
                     return gson.fromJson(content, String.class);
 
                 }
