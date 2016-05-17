@@ -433,8 +433,9 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     final Box givebox = CarBoxList.get(i);
 
                     if (givebox.getBoxID().equals(recivedata)) {
+                        Log.e(YLSystem.getKimTag(),"网点ID:"+ homylboxscan_tv_title.getTag().toString());
                        if (!box.getSiteID().equals(CurrentBox.getSiteID()) &givebox.getBoxTaskType().equals("早送晚收")
-                               ){
+                           &  !homylboxscan_tv_title.getTag().toString().equals(3099+"") ){
                            ShowDailog = false;
                            ylMediaPlayer.SuccessOrFail(false);
                            AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);

@@ -214,4 +214,8 @@
     <string name="ylprinter_btn_detail">明细</string>
     <string name="ylprinter_btn_cancel">取消</string>
 
+    <string name="title_activity_launcher">Launcher</string>
+
+    <string name="title_activity_yllauncher">YLLauncherActivity</string>
+
 </resources>
