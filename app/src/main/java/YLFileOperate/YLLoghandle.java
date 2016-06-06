@@ -34,6 +34,7 @@ public class YLLoghandle {
         File DeleteFile = GetYLLogName(7);
         if (DeleteFile.exists()) {
             yLtxtOperate.deleteSDFile(DeleteFile.getName());
+//            File[] files = new File("/").listFiles();
         }
     }
 
@@ -44,7 +45,7 @@ public class YLLoghandle {
         int Month = calendar.get(Calendar.MONTH) + 1;
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
         String FileName = String.format("%02d", Month) + "" + String.format("%02d", Day) + ".txt";
-        return new File(yLtxtOperate.SDPATH + "//" + FileName);
+        return new File(path+ "//" + FileName);
     }
 
     public File GetYLLogName(int year,int month,int day) {
@@ -53,7 +54,7 @@ public class YLLoghandle {
         int Month = calendar.get(Calendar.MONTH);
         int Day = calendar.get(Calendar.DAY_OF_MONTH);
         String FileName = String.format("%02d", Month) + "" + String.format("%02d", Day) + ".txt";
-        return new File(yLtxtOperate.SDPATH + "//" + FileName);
+        return new File(path + "//" + FileName);
     }
 
 

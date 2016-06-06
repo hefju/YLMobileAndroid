@@ -72,17 +72,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /*界面跳转代码备用
-         final Intent it = new Intent(this, setup.class); //你要转向的Activity
-         Timer timer = new Timer();
-         TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-        startActivity(it); //执行
-        }
-        };
-         timer.schedule(task, 1000 * 3); //10秒后
-         */
 
         InitLayout();
         InitHFreader();
@@ -108,8 +97,6 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
             ylMediaPlayer = new YLMediaPlayer();
 
-            YLLoghandle ylLoghandle = new YLLoghandle(getApplicationContext());
-            YLRecord.setYlloghandle(ylLoghandle);
 
             /**
              * 获取手机IMEI码
@@ -188,12 +175,12 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
         try {
             switch (keyCode) {
                 case 131:
-                    YLRecord.WriteRecord("登录界面","密码按键"+Log_ET_Name.getText());
                     LoginByPassword();
+                    YLRecord.WriteRecord("登录界面","密码按键"+Log_ET_Name.getText());
                     break;
                 case 132:
-                    YLRecord.WriteRecord("登录界面","HF按键");
                     LoginByHF();
+                    YLRecord.WriteRecord("登录界面","HF按键");
                     break;
             }
         } catch (Exception e) {
@@ -281,7 +268,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
 
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-05-17");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-05-20");
     }
 
     private void LoginByPassword() throws Exception {

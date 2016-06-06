@@ -12,7 +12,7 @@
     </string>
 
     <string name="pref_title_display_name">手持机ID</string>
-    <string name="pref_default_display_name">NH008</string>
+    <string name="pref_default_display_name">9999</string>
 
     <string name="uhfpowername">UHF功率设置</string>
     <string name="uhfpower">22</string>

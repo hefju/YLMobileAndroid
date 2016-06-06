@@ -71,6 +71,7 @@ import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseClientDBSer;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.BaseSiteDBSer;
+import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
 import YLFileOperate.DBMove;
@@ -90,6 +91,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private Button kim_uhftest;
     private Button kim_uhfwrite;
     private Button kim_uploadOR;
+    private Button kim_cleardata;
 
     private Scan1DRecive ScanTest;
     private NFCcmdManager manager ;
@@ -121,6 +123,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_uhftest = (Button)findViewById(R.id.kim_uhftest);
         kim_uhfwrite = (Button)findViewById(R.id.kim_uhfwrite);
         kim_uploadOR = (Button)findViewById(R.id.kim_uploadOR);
+        kim_cleardata = (Button)findViewById(R.id.kim_cleardata);
         kim_test1.setOnClickListener(this);
         kim_test2.setOnClickListener(this);
         kim_copydb.setOnClickListener(this);
@@ -128,6 +131,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         kim_uhftest.setOnClickListener(this);
         kim_uhfwrite.setOnClickListener(this);
         kim_uploadOR.setOnClickListener(this);
+        kim_cleardata.setOnClickListener(this);
 
         InitReciveScan1D();
 
@@ -150,7 +154,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             String recivedata = intent.getStringExtra("result");
             Log.e(YLSystem.getKimTag(),recivedata);
             if (recivedata != null){
-//                count++;
+//                count++;-从  +++++++++
 //                kim_uhftest.setText("读取:"+count+"次数");
                 Toast.makeText(getApplicationContext(),recivedata,Toast.LENGTH_SHORT).show();
             }
@@ -308,7 +312,32 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             case R.id.kim_uploadOR:
                 ChoiceDate();
                 break;
+            case R.id.kim_cleardata:
+                ClearData();
         }
+    }
+
+    private void ClearData() {
+        final EditText editText = new EditText(this);
+        editText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        InputMethodManager inputManager = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(editText, 0);
+        new AlertDialog.Builder(this).setTitle("请输入删除密码:")
+                .setIcon(android.R.drawable.ic_dialog_info).setView(editText)
+                .setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (editText.getText().toString().equals("9")) {
+                            try {
+                                TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+                                String datestr = YLSysTime.DateToStr(YLSysTime.GetDateCurrentDate());
+                                tasksManagerDBSer.DeleteTasksManagerbydate(datestr);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).setNegativeButton("取消", null).show();
     }
 
     private void ChoiceDate() {

@@ -185,5 +185,44 @@ public class WebServerYLSite {
     }
 
 
+    ///连接数据库失败：999
+    ///已经上传成功：1
+    ///没有上传过：0
+    public String UploadState(Context context,String taskid )throws  Exception{
+        String url = YLSystem.GetBaseUrl(context) + "CheckSuccessUpLoad";
+        UploadStateAsy uploadStateAsy = new UploadStateAsy();
+        uploadStateAsy.execute(url,taskid);
+        return uploadStateAsy.get();
+    }
+
+    private class UploadStateAsy extends AsyncTask<String,Integer,String>{
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            HttpPost post = new HttpPost(strings[0]);
+            Gson gson = new Gson();
+            JSONObject p = new JSONObject();
+            HttpParams httpParams = new BasicHttpParams();
+            HttpConnectionParams.setConnectionTimeout(httpParams, 1000);
+            HttpConnectionParams.setSoTimeout(httpParams, 1000);
+            try {
+                p.put("TaskID", strings[1]);
+                p.put("deviceID", "23");
+                p.put("empid", "123");
+                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
+                HttpClient client = new DefaultHttpClient(httpParams);
+                HttpResponse response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    return gson.fromJson(content, String.class);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 
 }

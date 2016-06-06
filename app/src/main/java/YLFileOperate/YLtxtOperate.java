@@ -2,10 +2,15 @@ package YLFileOperate;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
+import android.util.SparseArray;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2016-04-13.
@@ -19,14 +24,14 @@ public class YLtxtOperate   {
     public String SDPATH;
     /** 当前程序包的路径**/
 
-    private String FILESPATH;
+//    private String FILESPATH;
 
     public YLtxtOperate(Context context) {
         this.context = context;
         hasSD = Environment.getExternalStorageState().equals(
                 android.os.Environment.MEDIA_MOUNTED);
-        SDPATH = Environment.getExternalStorageDirectory().getPath();
-        FILESPATH = this.context.getFilesDir().getPath();
+        SDPATH = Environment.getExternalStorageDirectory().getPath()+"//YLLOG";
+//        FILESPATH = this.context.getFilesDir().getPath();
     }
     /**
      * 在SD卡上创建文件
@@ -34,12 +39,25 @@ public class YLtxtOperate   {
      * @throws IOException
      */
     public File createSDFile(String fileName) throws IOException {
-        File file = new File(SDPATH + "//" + fileName);
+        CreateDri();
+        File file = new File(SDPATH + "//"+fileName);
         if (!file.exists()) {
             file.createNewFile();
         }
         return file;
     }
+
+    /**
+     *创建文件夹
+     **/
+    public void  CreateDri() throws IOException {
+        File file = new File(SDPATH);
+        if (!file.exists()) {
+            file.mkdirs();
+            SDPATH = SDPATH;
+        }
+    }
+
     /**
      * 删除SD卡上的文件
      *
@@ -47,6 +65,7 @@ public class YLtxtOperate   {
      */
     public boolean deleteSDFile(String fileName) {
         File file = new File(SDPATH + "//" + fileName);
+
         if (file == null || !file.exists() || file.isDirectory())
             return false;
         return file.delete();

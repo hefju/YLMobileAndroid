@@ -395,7 +395,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             }
         }
         final Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
-        YLRecord.WriteRecord("扫描","收箱录入箱ID:"+recivedata);
+        YLRecord.WriteRecord("扫描","录入箱ID:"+recivedata);
         if (box.getBoxName().equals("无数据")) {
             ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
             return;
@@ -433,9 +433,12 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     final Box givebox = CarBoxList.get(i);
 
                     if (givebox.getBoxID().equals(recivedata)) {
-                        Log.e(YLSystem.getKimTag(),"网点ID:"+ homylboxscan_tv_title.getTag().toString());
-                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) &givebox.getBoxTaskType().equals("早送晚收")
-                           &  !homylboxscan_tv_title.getTag().toString().equals(3099+"") ){
+                        Log.e(YLSystem.getKimTag(),"车内款箱："+ givebox.toString());
+//                       if (!box.getSiteID().equals(CurrentBox.getSiteID()) &givebox.getBoxTaskType().equals("早送晚收")
+//                               &  !homylboxscan_tv_title.getTag().toString().equals(3099+"")
+//                               &  !homylboxscan_tv_title.getTag().toString().equals(3925+"")
+//                               &  !homylboxscan_tv_title.getTag().toString().equals(3926+"") )
+                        if (ShowNotice) {
                            ShowDailog = false;
                            ylMediaPlayer.SuccessOrFail(false);
                            AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
@@ -459,13 +462,13 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                                            setbox.setBoxCount("1");
                                            setbox.setBoxOrder(AllBoxList.size() + 1 + "");
                                            setbox.setTaskTimeID(TaskTimeID);
+                                           setbox.setBoxToT(givebox.getBoxToT());
                                            homylboxscan_tv_boxname.setText(givebox.getBoxName());
                                            homylboxscan_tv_boxaction.setText("送");
                                            homylboxscan_tv_boxtype.setText(givebox.getBoxType());
                                            homylboxscan_tv_boxcount.setText("1");
                                            homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
                                            homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
-                                           Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
                                            AllBoxList.add(setbox);
                                            TallyBox(AllBoxList);
                                            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
@@ -484,35 +487,35 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                            checkcarbox = false;
 
                        }else {
-                           Box setbox = new Box();
-                           setbox.setBoxID(recivedata);
-                           setbox.setSiteID(CurrentBox.getSiteID());
-                           setbox.setBoxStatus(givebox.getBoxStatus());
-                           setbox.setBoxType(givebox.getBoxType());
-                           setbox.setBoxTaskType(givebox.getBoxTaskType());
-                           setbox.setBoxName(givebox.getBoxName());
-                           setbox.setTradeAction("送");
-                           setbox.setActionTime(YLSysTime.GetStrCurrentTime());
-                           setbox.setTimeID(CurrentBox.getTimeID());
-                           setbox.setBoxCount("1");
-                           setbox.setBoxOrder(AllBoxList.size() + 1 + "");
-                           setbox.setTaskTimeID(TaskTimeID);
-                           homylboxscan_tv_boxname.setText(givebox.getBoxName());
-                           homylboxscan_tv_boxaction.setText("送");
-                           homylboxscan_tv_boxtype.setText(givebox.getBoxType());
-                           homylboxscan_tv_boxcount.setText("1");
-                           homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
-                           homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
-                           Log.e(YLSystem.getKimTag(), setbox.toString() + "送-添加款箱");
-                           AllBoxList.add(setbox);
-                           TallyBox(AllBoxList);
-                           CarBoxList.remove(i);
-                           YLRecord.WriteRecord("扫描","送箱相同网点:"
-                                   +setbox.getBoxName()+setbox.getBoxType()+setbox.getBoxTaskType());
-                           ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                           checkcarbox = false;
-                           ShowDailog = true;
-                           break;
+                            Box setbox = new Box();
+                            setbox.setBoxID(recivedata);
+                            setbox.setSiteID(CurrentBox.getSiteID());
+                            setbox.setBoxStatus(givebox.getBoxStatus());
+                            setbox.setBoxType(givebox.getBoxType());
+                            setbox.setBoxTaskType(givebox.getBoxTaskType());
+                            setbox.setBoxName(givebox.getBoxName());
+                            setbox.setTradeAction("送");
+                            setbox.setActionTime(YLSysTime.GetStrCurrentTime());
+                            setbox.setTimeID(CurrentBox.getTimeID());
+                            setbox.setBoxCount("1");
+                            setbox.setBoxOrder(AllBoxList.size() + 1 + "");
+                            setbox.setTaskTimeID(TaskTimeID);
+                            setbox.setBoxToT(givebox.getBoxToT());
+                            homylboxscan_tv_boxname.setText(givebox.getBoxName());
+                            homylboxscan_tv_boxaction.setText("送");
+                            homylboxscan_tv_boxtype.setText(givebox.getBoxType());
+                            homylboxscan_tv_boxcount.setText("1");
+                            homylboxscan_tv_boxstaut.setText(givebox.getBoxStatus());
+                            homylboxscan_tv_tasktype.setText(givebox.getBoxTaskType());
+                            AllBoxList.add(setbox);
+                            TallyBox(AllBoxList);
+                            CarBoxList.remove(i);
+                            YLRecord.WriteRecord("扫描", "送箱相同网点:"
+                                    + setbox.getBoxName() + setbox.getBoxType() + setbox.getBoxTaskType());
+                            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                            checkcarbox = false;
+                            ShowDailog = true;
+                            break;
                        }
                         CarBoxList.remove(i);
                         Log.e(YLSystem.getKimTag(), CarBoxList.size() + "在车数量");
@@ -614,7 +617,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             }
             box.setTaskTimeID(TaskTimeID);
             box.setActionTime(YLSysTime.GetStrCurrentTime());
-            Log.e(YLSystem.getKimTag(), box.toString() + "收-添加款箱");
             YLRecord.WriteRecord("扫描","收箱:"+box.getBoxName()+box.getBoxType()+box.getBoxTaskType());
             AllBoxList.add(box);
             CarBoxList.add(box);
@@ -817,25 +819,23 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private void ArriveAndFinish() {
         if (homylboxscan_btn_ent.getText().equals("到达")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
-            builder.setMessage("确认到达吗?");
-
             builder.setTitle("确认到达吗？");
-//            final String[] multiChoiceItems = {"网点交接提示"};
-//            final boolean[] defaultSelectedStatus = {true};
-//            builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialogInterface, int i, boolean b) {
-//                    defaultSelectedStatus[i] = b;
-//                }
-//            });
+            final String[] multiChoiceItems = {"网点交接提示"};
+            final boolean[] defaultSelectedStatus = {true};
+            builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                    defaultSelectedStatus[i] = b;
+                }
+            });
 
             builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     YLRecord.WriteRecord("扫描","到达");
                     try {
-//                        ShowNotice = defaultSelectedStatus[0];
-//                        Log.e(YLSystem.getKimTag(),ShowNotice+"提示");
+                        ShowNotice = defaultSelectedStatus[0];
+                        Log.e(YLSystem.getKimTag(),ShowNotice+"提示");
                         boolean sitecheck = true;
                         for (Site site : ylTask.getLstSite()) {
                             if (site.getStatus().equals("已完成")) {
@@ -848,6 +848,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                             String BoxOutID = webServerYLSite.GetCarBoxOutID
                                     (getApplicationContext(), ylTask.getTaskID(), YLSystem.getUser().getEmpID());
                             Log.e(YLSystem.getKimTag(), "库管出箱ID：" + BoxOutID + "手持机箱数：" + CarBoxList.size());
+                            YLRecord.WriteRecord("扫描","库管出箱ID：" + BoxOutID + "手持机车内箱数：" + CarBoxList.size());
                             if (!BoxOutID.equals("0")) {
                                 if (CarBoxList.size() > 0) {
                                     if (!CarBoxList.get(0).getServerReturn().equals(BoxOutID)) {
@@ -983,8 +984,6 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
     private void TallyBox(List<Box> boxList) {
         try {
-
-
             if (boxList == null) return;
             int emptybox = 0;
             int fullbox = 0;

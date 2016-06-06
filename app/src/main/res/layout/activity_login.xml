@@ -6,7 +6,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context=".LoginActivity">
+                tools:context=".Login">
 
     <LinearLayout
         android:id="@+id/Logic_LL_user"
@@ -84,7 +84,7 @@
             android:id="@+id/log_tv_vision"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="版本号:"
+            android:textColor="@color/androidblued"
             android:textSize="20sp"/>
         <TextView
             android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
             android:layout_below="@+id/log_tv_vision"
             android:id="@+id/log_tv_hsimei"
             android:textSize="15sp"
-            android:textColor="@color/mediumseagreen"/>
+            android:textColor="@color/androidyellowd"/>
 
         <Button
             android:id="@+id/Log_BN_Cal"

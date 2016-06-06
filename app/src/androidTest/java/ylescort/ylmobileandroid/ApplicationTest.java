@@ -21,6 +21,7 @@ import TaskClass.YLTask;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.EmpDBSer;
 import YLDataService.TaskDBSer;
+import YLDataService.TasksManagerDBSer;
 import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLDataService.YLSQLHelper;
@@ -106,10 +107,8 @@ public class ApplicationTest extends ApplicationTestCase<Application> {
     private TasksManager tasksManager = null;//任务管理类
 
     public void testDeltask() {
-        tasksManager = new TasksManager();
-        tasksManager.TaskDate = "2015-03-12";
-        //TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        //tasksManagerDBSer.DeleteTasksManager(tasksManager);
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getContext());
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-05-20");
     }
 
     public void testgetbaseemp() throws Exception {

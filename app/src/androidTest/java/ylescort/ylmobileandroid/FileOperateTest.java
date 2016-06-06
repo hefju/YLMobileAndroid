@@ -23,6 +23,11 @@ public class FileOperateTest extends ApplicationTestCase<Application> {
         yLtxtOperate.createSDFile("0413.txt");
     }
 
+    public void  testCreatTxt2() throws Exception{
+        YLtxtOperate yLtxtOperate = new YLtxtOperate(getContext());
+//        yLtxtOperate.createSDFile2("0413.txt");
+    }
+
     public void testDeletetxt() throws Exception{
         YLtxtOperate yLtxtOperate = new YLtxtOperate(getContext());
         yLtxtOperate.deleteSDFile("0426.txt");
@@ -81,5 +86,7 @@ public class FileOperateTest extends ApplicationTestCase<Application> {
             Log.e(YLSystem.getKimTag(),"未有文件");
         }
     }
+
+
 
 }

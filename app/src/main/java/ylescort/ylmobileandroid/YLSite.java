@@ -249,7 +249,40 @@ public class YLSite extends ActionBarActivity {
     }
 
     public void YLSite_UpDate(View view) {
-        dialog();
+        try {
+            WebServerYLSite w = new WebServerYLSite();
+            String s =  w.UploadState(getApplicationContext(),ylTask.getTaskID());
+            Log.e(YLSystem.getKimTag(),s+"上传返回");
+            if (s != null){
+                if (s.equals("1")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(YLSite.this);
+                    builder.setMessage("已上传任务，再次上传会覆盖此前数据，是否确认上传?");
+                    builder.setTitle("提示");
+                    builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            dialog();
+                        }
+                    });
+                    builder.show();
+                }
+                else {
+                    dialog();
+                }
+            }else {
+                dialog();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void ShowApplyAcivity() {
@@ -413,6 +446,7 @@ public class YLSite extends ActionBarActivity {
                     List<Box> boxList = gson.fromJson(content, new TypeToken<List<Box>>() {
                     }.getType());
                     Log.e(YLSystem.getKimTag(), boxList.get(0).toString() + "在车数量");
+                    YLRecord.WriteRecord("网点","更新车内款箱数："+ boxList.size());
                     if (boxList.get(0).getBoxID() == null) {
                         boxList.clear();
                     }

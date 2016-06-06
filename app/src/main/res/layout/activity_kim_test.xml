@@ -50,4 +50,11 @@
         android:layout_below="@+id/kim_uhfwrite"
         android:text="上传操作记录"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/kim_cleardata"
+        android:layout_below="@+id/kim_uploadOR"
+        android:text="清除当天交接数据"/>
+
 </RelativeLayout>

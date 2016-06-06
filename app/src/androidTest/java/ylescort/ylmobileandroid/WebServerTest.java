@@ -277,8 +277,9 @@ public class WebServerTest extends ApplicationTestCase<Application> {
 //        webServerBaseData.GetBaseData(getContext());
     }
 
-    public void testYLSiteShow()throws Exception{
-
-
+    public void testCheckSuccessUpLoad()throws Exception{
+        WebServerYLSite w = new WebServerYLSite();
+        String s = w.UploadState(getContext(),"272044");
+        Log.e(TAG,"返回："+s);
     }
 }
