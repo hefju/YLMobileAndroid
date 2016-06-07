@@ -272,8 +272,6 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                         box.setValutcheck("数量：" + count + "");
                         Displayboxlist.add(box);
                     }
-
-
                 }
             }
         }

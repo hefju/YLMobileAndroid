@@ -169,6 +169,7 @@ public class YLSite extends ActionBarActivity {
     private void ShowcartocarActivity() {
         Intent intent = new Intent();
         intent.setClass(this, YLCarToCarTask.class);
+        YLRecord.WriteRecord("网点","进入车组交接"+ylTask.getTaskID());
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
@@ -176,6 +177,7 @@ public class YLSite extends ActionBarActivity {
     private void ShowtmpActivity() {
         Intent intent = new Intent();
         intent.setClass(this, HomTmp_Scan.class);
+        YLRecord.WriteRecord("网点","进入临时出入库"+ylTask.getTaskID());
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
@@ -237,6 +239,7 @@ public class YLSite extends ActionBarActivity {
 
         Intent intent = new Intent();
         intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
+        YLRecord.WriteRecord("网点","进入网点扫描："+site.getSiteName());
         YLEditData.setCurrentYLSite(site);
         startActivity(intent);
         tasksManager.SaveTask(YLSite.this);
@@ -292,6 +295,7 @@ public class YLSite extends ActionBarActivity {
         bundle.putString("taskid", ylTask.getTaskID());
         bundle.putString("taskName", ylTask.getLine());
         intent.putExtras(bundle);
+        YLRecord.WriteRecord("网点","进入统计界面"+ylTask.getTaskID());
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
@@ -306,7 +310,6 @@ public class YLSite extends ActionBarActivity {
         @Override
         protected String doInBackground(String... params) {
             String url = YLSystem.GetBaseUrl(getApplicationContext()) + "UpLoad";
-            Log.e(YLSystem.getKimTag(), url);
             HttpPost post = new HttpPost(url);
             Gson gson = new Gson();
             JSONObject p = new JSONObject();
@@ -477,6 +480,7 @@ public class YLSite extends ActionBarActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == 4) {
+            YLRecord.WriteRecord("网点","网点返回");
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
         }

@@ -13,16 +13,12 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.TextView;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
 import YLDataService.BaseBoxDBSer;
-import YLDataService.WebServerBaseData;
 import YLFileOperate.YLLoghandle;
 import YLSystemDate.YLHandSetBaseData;
 import YLSystemDate.YLRecord;
-import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 public class YLlauncher extends ActionBarActivity {

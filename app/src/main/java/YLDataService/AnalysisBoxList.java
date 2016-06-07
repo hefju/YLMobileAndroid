@@ -143,31 +143,34 @@ public class AnalysisBoxList {
         int emptyvoucherbag = 0;
 
         for (Box box : boxList) {
-            if (box.getBoxStatus() == null)continue;
-            if (box.getValutcheck() == null ||box.getValutcheck().equals(""))continue;
-            switch (box.getBoxStatus()){
-                case "实":
-                   switch (box.getBoxType()){
-                       case "款箱":fullmoneybox++;
-                           break;
-                       case "卡箱":fullcardbox++;
-                           break;
-                       case "凭证箱":fullvoucherbox++;
-                           break;
-                       case "凭证袋":fullvoucherbag++;
-                           break;
-                   }
+            if (box.getBoxStatus() == null) continue;
+            switch (box.getBoxType()) {
+                case "款箱":
+                    if (box.getBoxStatus().equals("实")) {
+                        fullmoneybox++;
+                    } else {
+                        emptymoneybox++;
+                    }
                     break;
-                case "空":
-                    switch (box.getBoxType()){
-                        case "款箱":emptymoneybox++;
-                            break;
-                        case "卡箱":emptycardbox++;
-                            break;
-                        case "凭证箱":emptyvoucherbox++;
-                            break;
-                        case "凭证袋":emptyvoucherbag++;
-                            break;
+                case "卡箱":
+                    if (box.getBoxStatus().equals("实")) {
+                        fullmoneybox++;
+                    } else {
+                        emptymoneybox++;
+                    }
+                    break;
+                case "凭证箱":
+                    if (box.getBoxStatus().equals("实")) {
+                        fullmoneybox++;
+                    } else {
+                        emptymoneybox++;
+                    }
+                    break;
+                case "凭证袋":
+                    if (box.getBoxStatus().equals("实")) {
+                        fullmoneybox++;
+                    } else {
+                        emptymoneybox++;
                     }
                     break;
             }
