@@ -125,6 +125,9 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         }
         String string = "版本号："+YLHandSetBaseData.getYLVersion()+"\r\n"
                 +"手持机："+YLHandSetBaseData.getHandSetSN();
+        YLSystem.setHandsetIMEI(YLHandSetBaseData.getHandSetSN()
+                + "-" + YLHandSetBaseData.getSIMIMEI()
+                + "-" +YLHandSetBaseData.getYLVersion());
         String count ="款箱数量:    "+ YLBoxcount();
         log_tv_vision.setText(string);
         log_tv_hsimei.setText(count);
