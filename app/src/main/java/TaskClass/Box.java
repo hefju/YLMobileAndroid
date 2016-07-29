@@ -27,6 +27,30 @@ public class Box {
     public int TaskTimeID;// 任务顺序
     public String BoxToT;//是否次日送
 
+    public Box(){}
+
+    public Box(Box box) {
+        Id = box.getId();
+        ServerReturn = box.getServerReturn();
+        SiteID = box.getSiteID();
+        BoxID = box.getBoxID();
+        BoxName = box.getBoxName();
+        TradeAction = box.getTradeAction();
+        BoxStatus = box.getBoxStatus();
+        BoxType = box.getBoxType();
+        NextOutTime = box.getNextOutTime();
+        ActionTime = box.getActionTime();
+        TimeID = box.getTimeID();
+        BoxCount = box.getBoxCount();
+        BoxTaskType = box.getBoxTaskType();
+        BoxOrder = box.getBoxOrder();
+        Valutcheck = box.getValutcheck();
+        BaseValutOut = box.getBaseValutOut();
+        BaseValutIn = box.getBaseValutIn();
+        Remark = box.getRemark();
+        TaskTimeID = box.getTaskTimeID();
+        BoxToT = box.getBoxToT();
+    }
 
     public String getBoxToT() {
         return BoxToT;

@@ -793,4 +793,85 @@ public class GatherPrint {
     public void setGetTotalvoucherbag(String getTotalvoucherbag) {
         GetTotalvoucherbag = getTotalvoucherbag;
     }
+
+    @Override
+    public String toString() {
+        return "GatherPrint{" +
+                "ClintName='" + ClintName + '\'' +
+                ", SiteName='" + SiteName + '\'' +
+                ", TradeTime='" + TradeTime + '\'' +
+                ", CarNumber='" + CarNumber + '\'' +
+                ", HomName='" + HomName + '\'' +
+                ", TaskNumber='" + TaskNumber + '\'' +
+                ", Givemoneyfull='" + Givemoneyfull + '\'' +
+                ", Givemoneyempty='" + Givemoneyempty + '\'' +
+                ", Givecardfull='" + Givecardfull + '\'' +
+                ", Givecardempty='" + Givecardempty + '\'' +
+                ", Givevoucherfull='" + Givevoucherfull + '\'' +
+                ", Givevoucherempty='" + Givevoucherempty + '\'' +
+                ", Givevoucherbagfull='" + Givevoucherbagfull + '\'' +
+                ", Givevoucherbagempty='" + Givevoucherbagempty + '\'' +
+                ", Zswsmoneyfull='" + Zswsmoneyfull + '\'' +
+                ", Zswsmoneyempty='" + Zswsmoneyempty + '\'' +
+                ", Zswscardfull='" + Zswscardfull + '\'' +
+                ", Zswscardempty='" + Zswscardempty + '\'' +
+                ", Zswsvoucherfull='" + Zswsvoucherfull + '\'' +
+                ", Zswsvoucherempty='" + Zswsvoucherempty + '\'' +
+                ", Zswsvoucherbagfull='" + Zswsvoucherbagfull + '\'' +
+                ", Zswsvoucherbagempty='" + Zswsvoucherbagempty + '\'' +
+                ", Sxjmoneyfull='" + Sxjmoneyfull + '\'' +
+                ", Sxjmoneyempty='" + Sxjmoneyempty + '\'' +
+                ", Sxjcardfull='" + Sxjcardfull + '\'' +
+                ", Sxjcardempty='" + Sxjcardempty + '\'' +
+                ", Sxjvoucherfull='" + Sxjvoucherfull + '\'' +
+                ", Sxjvoucherempty='" + Sxjvoucherempty + '\'' +
+                ", Sxjvoucherbagfull='" + Sxjvoucherbagfull + '\'' +
+                ", Sxjvoucherbagempty='" + Sxjvoucherbagempty + '\'' +
+                ", Jkxmoneyfull='" + Jkxmoneyfull + '\'' +
+                ", Jkxmoneyempty='" + Jkxmoneyempty + '\'' +
+                ", Jkxcardfull='" + Jkxcardfull + '\'' +
+                ", Jkxcardempty='" + Jkxcardempty + '\'' +
+                ", Jkxvoucherfull='" + Jkxvoucherfull + '\'' +
+                ", Jkxvoucherempty='" + Jkxvoucherempty + '\'' +
+                ", Jkxvoucherbagfull='" + Jkxvoucherbagfull + '\'' +
+                ", Jkxvoucherbagempty='" + Jkxvoucherbagempty + '\'' +
+                ", Thdbmoneyfull='" + Thdbmoneyfull + '\'' +
+                ", Thdbmoneyempty='" + Thdbmoneyempty + '\'' +
+                ", Thdbcardfull='" + Thdbcardfull + '\'' +
+                ", Thdbcardempty='" + Thdbcardempty + '\'' +
+                ", Thdbvoucherfull='" + Thdbvoucherfull + '\'' +
+                ", Thdbvoucherempty='" + Thdbvoucherempty + '\'' +
+                ", Thdbvoucherbagfull='" + Thdbvoucherbagfull + '\'' +
+                ", Thdbvoucherbagempty='" + Thdbvoucherbagempty + '\'' +
+                ", Khdbmoneyfull='" + Khdbmoneyfull + '\'' +
+                ", Khdbmoneyempty='" + Khdbmoneyempty + '\'' +
+                ", Khdbcardfull='" + Khdbcardfull + '\'' +
+                ", Khdbcardempty='" + Khdbcardempty + '\'' +
+                ", Khdbvoucherfull='" + Khdbvoucherfull + '\'' +
+                ", Khdbvoucherempty='" + Khdbvoucherempty + '\'' +
+                ", Khdbvoucherbagfull='" + Khdbvoucherbagfull + '\'' +
+                ", Khdbvoucherbagempty='" + Khdbvoucherbagempty + '\'' +
+                ", Qysskmoneyfull='" + Qysskmoneyfull + '\'' +
+                ", Qysskmoneyempty='" + Qysskmoneyempty + '\'' +
+                ", Qysskcardfull='" + Qysskcardfull + '\'' +
+                ", Qysskcardempty='" + Qysskcardempty + '\'' +
+                ", Qysskvoucherfull='" + Qysskvoucherfull + '\'' +
+                ", Qysskvoucherempty='" + Qysskvoucherempty + '\'' +
+                ", Qysskvoucherbagfull='" + Qysskvoucherbagfull + '\'' +
+                ", Qysskvoucherbagempty='" + Qysskvoucherbagempty + '\'' +
+                ", GiveTotal='" + GiveTotal + '\'' +
+                ", GetTotalmoneyfull='" + GetTotalmoneyfull + '\'' +
+                ", GetTotalcardfull='" + GetTotalcardfull + '\'' +
+                ", GetTotalvoucherfull='" + GetTotalvoucherfull + '\'' +
+                ", GetTotalvoucherbagfull='" + GetTotalvoucherbagfull + '\'' +
+                ", GetTotalmoneyempty='" + GetTotalmoneyempty + '\'' +
+                ", GetTotalcardempty='" + GetTotalcardempty + '\'' +
+                ", GetTotalvoucherempty='" + GetTotalvoucherempty + '\'' +
+                ", GetTotalvoucherbagempty='" + GetTotalvoucherbagempty + '\'' +
+                ", GetTotalmoney='" + GetTotalmoney + '\'' +
+                ", GetTotalcard='" + GetTotalcard + '\'' +
+                ", GetTotalvoucher='" + GetTotalvoucher + '\'' +
+                ", GetTotalvoucherbag='" + GetTotalvoucherbag + '\'' +
+                '}';
+    }
 }

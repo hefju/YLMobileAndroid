@@ -113,4 +113,22 @@ public class YLATM {
     public void setId(int id) {
         Id = id;
     }
+
+    @Override
+    public String toString() {
+        return "YLATM{" +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", TaskID='" + TaskID + '\'' +
+                ", SiteID='" + SiteID + '\'' +
+                ", SiteName='" + SiteName + '\'' +
+                ", SiteType='" + SiteType + '\'' +
+                ", TradeBegin='" + TradeBegin + '\'' +
+                ", TradeEnd='" + TradeEnd + '\'' +
+                ", ATMCount='" + ATMCount + '\'' +
+                ", TimeID=" + TimeID +
+                ", EmpID='" + EmpID + '\'' +
+                ", TradeState='" + TradeState + '\'' +
+                '}';
+    }
 }

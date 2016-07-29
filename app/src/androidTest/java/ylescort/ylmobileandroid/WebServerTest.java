@@ -39,6 +39,22 @@ public class WebServerTest extends ApplicationTestCase<Application> {
     public WebServerTest() { super(Application.class); }
 
     private static final String TAG = "kim";
+
+    public void testValutoutID()throws Exception{
+        User user = new User();
+        user.setEmpHFNo("002DE3A6");
+        user.setEmpNO("520037");
+        user.setTaskDate("2015-05-04");
+        user.setDeviceID("123");
+        user.setEmpID("3166");
+        YLSystem.setUser(user);
+        YLSystem.setHandsetIMEI("123-123-123");
+        WebServerYLSite webServerYLSite = new WebServerYLSite();
+        String id=  webServerYLSite.GetCarBoxOutID2(getContext(),"298248");
+        Log.e(TAG,id);
+
+    }
+
     public void testValutinTask()throws Exception{
         WebService webService = new WebService();
         String url = YLSystem.GetBaseUrl(getContext())+"StoreInGetTask";

@@ -37,10 +37,12 @@
 
     <style name="TextSize20">
         <item name="android:textSize">20sp</item>
+        <item name="android:color">@color/black</item>
     </style>
 
     <style name="TextSize25">
         <item name="android:textSize">25sp</item>
+        <item name="android:color">@color/black</item>
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">

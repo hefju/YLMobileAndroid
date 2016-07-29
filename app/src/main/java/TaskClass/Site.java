@@ -139,14 +139,20 @@ public class Site {
     @Override
     public String toString() {
         return "Site{" +
-                "ServerReturn='" + ServerReturn + '\'' +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
                 ", TaskID='" + TaskID + '\'' +
                 ", SiteID='" + SiteID + '\'' +
                 ", SiteName='" + SiteName + '\'' +
                 ", SiteManager='" + SiteManager + '\'' +
+                ", SiteManagerPhone='" + SiteManagerPhone + '\'' +
+                ", SiteType='" + SiteType + '\'' +
+                ", Status='" + Status + '\'' +
                 ", ATMCount='" + ATMCount + '\'' +
                 ", lstArriveTime=" + lstArriveTime +
                 ", SiteRank='" + SiteRank + '\'' +
+                ", Print=" + Print +
+                ", Rating=" + Rating +
                 '}';
     }
 }

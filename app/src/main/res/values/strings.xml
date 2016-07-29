@@ -40,7 +40,7 @@
     <!--出入库管理-->
     <string name="box_tv_title">标题</string>
     <string name="box_btn_scan1d">扫描/F1</string>
-    <string name="box_btn_nolable">手输单</string>
+    <string name="box_btn_nolable">手输</string>
     <string name="box_btn_arrive">到达</string>
     <string name="boxitem_monenybox">款箱:0</string>
     <string name="boxitem_cardbox">卡箱:0</string>
@@ -53,6 +53,7 @@
     <string name="boxitem_type">箱类:</string>
     <string name="boxitem_tasktype">类型:</string>
     <string name="boxitem_count">数量:</string>
+    <string name="boxitem_tot">即日：</string>
     <string name="box_tv_amount">0</string>
     <string name="box_tv_general">普通</string>
     <string name="box_tv_transfer">中调</string>
@@ -131,7 +132,7 @@
     <string name="title_activity_handoverman_check">入库申请</string>
     <string name="handoverman_btn_cancel">返回</string>
     <string name="handoverman_btn_enter">确认</string>
-    <string name="handoverman_btn_invalut">入库箱</string>
+    <string name="handoverman_btn_invalut">打印</string>
     <string name="handoverman_btn_carbox">车内箱</string>
     <!--业务员检测-->
     <string name="title_activity_local_check">汇总检测</string>
@@ -189,6 +190,7 @@
     <string name="HomTmp_scan_applycation">入库</string>
     <string name="HomTmp_scan_btn_refersh">出库</string>
     <string name="HomTmp_scan_btn_scan">扫描</string>
+    <string name="HomTmp_scan_btn_print">打印</string>
     <string name="HomTmp_scan_btn_upload">上传</string>
     <!--入库汇总-->
     <string name="vault_in_detail_statistics_title">入库汇总</string>

@@ -42,8 +42,10 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
             Log.e(YLSystem.getKimTag(), recivedata);
-            if (recivedata != null){
-                YLPutdatatoList(recivedata);
+            if (recivedata != null) {
+                if (recivedata.length() == 10) {
+                    YLPutdatatoList(recivedata);
+                }
             }
         }
     }
@@ -51,6 +53,10 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
     public abstract void YLPutdatatoList(String recivedata) ;
 
 
+    /**
+     * 启动红外扫描
+     * @param：0: 不扫描 1：扫描一次 2：多次扫描
+     */
     public void Scan1DCmd (int onceornot){
         String activity = "ylescort.ylmobileandroid.YLBaseScanActivity";
         Intent ac = new Intent();
@@ -77,7 +83,9 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(mBatlnfoReceiver, intentFilter);
+        if (mBatlnfoReceiver != null) {
+            registerReceiver(mBatlnfoReceiver, intentFilter);
+        }
     }
 
     private BroadcastReceiver mBatlnfoReceiver = new BroadcastReceiver() {

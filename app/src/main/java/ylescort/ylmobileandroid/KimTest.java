@@ -66,7 +66,9 @@ import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
 import TaskClass.Box;
+import TaskClass.GatherPrint;
 import TaskClass.User;
+import YLDataService.AnalysisBoxList;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseClientDBSer;
 import YLDataService.BaseEmpDBSer;
@@ -77,6 +79,7 @@ import YLDataService.WebService;
 import YLFileOperate.DBMove;
 import YLFileOperate.YLLoghandle;
 import YLFragment.YLBoxEditFragment;
+import YLPrinter.YLPrint;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLWebService.UpdateManager;
@@ -102,6 +105,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private BaseClientDBSer baseClientDBSer;
     private BaseBoxDBSer baseBoxDBSer;
     private int count = 0;
+    private  YLPrint ylPrint;
 
 
 
@@ -146,6 +150,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private void InitData() {
         int count= (new BaseBoxDBSer(KimTest.this)).BaseBoxCount();
         kim_vibrate.setText(count+" 个款箱");
+        this.setTitle("测试");
     }
 
     private class Scan1DRecive extends BroadcastReceiver{
@@ -307,13 +312,68 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
                 break;
             case R.id.kim_uhfwrite:
-                UHFWriter();
+//                UHFWriter();
+                PrintTest();
                 break;
             case R.id.kim_uploadOR:
                 ChoiceDate();
                 break;
             case R.id.kim_cleardata:
                 ClearData();
+        }
+    }
+
+    private void PrintTest() {
+        ylPrint = new YLPrint();
+        ylPrint.InitBluetooth();
+        List<Box> boxes = new ArrayList<>();
+      for (int i = 0 ; i<1;i++){
+          Box box = new Box();
+          box.setBoxTaskType("早送晚收");
+          box.setBoxType("款箱");
+          box.setTradeAction("收");
+          box.setBoxStatus("实");
+          boxes.add(box);
+      }
+        for (int i = 0 ; i<2;i++){
+            Box box = new Box();
+            box.setBoxTaskType("企业收送款");
+            box.setBoxType("卡箱");
+            box.setTradeAction("收");
+            box.setBoxStatus("空");
+            boxes.add(box);
+        }
+
+        for (int i = 0 ; i<3;i++){
+            Box box = new Box();
+            box.setBoxTaskType("企业收送款");
+            box.setBoxType("凭证箱");
+            box.setTradeAction("送");
+            box.setBoxStatus("实");
+            boxes.add(box);
+        }
+        for (int i = 0 ; i<4;i++){
+            Box box = new Box();
+            box.setBoxTaskType("同行调拨");
+            box.setBoxType("凭证袋");
+            box.setTradeAction("收");
+            box.setBoxStatus("空");
+            boxes.add(box);
+        }
+
+        AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+        GatherPrint gatherPrint = analysisBoxList.AnsysisBoxListForPrint(boxes);
+        String Client = "测试客户";
+        gatherPrint.setSiteName("测试网点");
+        gatherPrint.setClintName(Client);
+        gatherPrint.setTradeTime("测试时间");
+        gatherPrint.setCarNumber("测试车辆");
+        gatherPrint.setTaskNumber("测试交接号" );
+        gatherPrint.setHomName("测试人员");
+        try {
+            ylPrint.PrintGather(gatherPrint,1);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -14,6 +14,24 @@ public class ArriveTime {
     public String TradeState ;//这次到达完成交易了么？1为完成，0为未完成
     public String SiteID ;    //网点ID
     public String ClientHFNO;//客户交接HF卡
+    public int PrintCount;//打印次数
+    public String PrintStatus;//打印状态
+
+    public int getPrintCount() {
+        return PrintCount;
+    }
+
+    public void setPrintCount(int printCount) {
+        PrintCount = printCount;
+    }
+
+    public String getPrintStatus() {
+        return PrintStatus;
+    }
+
+    public void setPrintStatus(String printStatus) {
+        PrintStatus = printStatus;
+    }
 
     public String getClientHFNO() {
         return ClientHFNO;

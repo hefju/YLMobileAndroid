@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.GatherPrint;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLBoxEdiAdapter;
 import YLDataService.AnalysisBoxList;
 import YLDataService.WebService;
+import YLPrinter.YLPrint;
 import YLSystemDate.YLSystem;
 import ylescort.ylmobileandroid.R;
 
@@ -175,21 +178,98 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                 }
                 break;
             case R.id.handoverman_btn_invalut:
+//                try {
+//                    WebService webService = new WebService();
+//                    alllist =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
+//                            YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
+//                    if (alllist.size()==1& alllist.get(0).getServerReturn().equals("没有入库箱。")){
+//                        alllist.clear();
+//                    }
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//                handoverman_tv_getbox.setText("应入库箱总数：");
+//                BoxCheckAdapter(alllist);
+//                if (alllist.size()==0)return;
+//                Analysis(alllist);
                 try {
-                    WebService webService = new WebService();
-                    alllist =  webService.GetVaultInBoxList(handoverman_tv_Title.getTag().toString(),
-                            YLSystem.getUser().getDeviceID(),YLSystem.getUser().getEmpID(),getApplicationContext());
-                    if (alllist.size()==1& alllist.get(0).getServerReturn().equals("没有入库箱。")){
-                        alllist.clear();
-                    }
-                }catch (Exception e){
+                    PrintVaultsheet();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                handoverman_tv_getbox.setText("应入库箱总数：");
-                BoxCheckAdapter(alllist);
-                if (alllist.size()==0)return;
-                Analysis(alllist);
                 break;
+        }
+    }
+
+    private void PrintVaultsheet() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HandovermanCheck.this);
+        builder.setTitle("金库入库打印");
+        final String[] multiChoiceItems = {"入库汇总数","入库清单表"};
+        final boolean[] defaultSelectedStatus = {true,false};
+        builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                defaultSelectedStatus[i] = b;
+            }
+        });
+        builder.setPositiveButton("打印", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (defaultSelectedStatus[0]){
+                    PrintGather();
+                }
+                if (defaultSelectedStatus[1]){
+                    PrintDetail();
+                }
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+
+    }
+
+    private void PrintDetail() {
+        try {
+            YLPrint ylPrint = new YLPrint();
+            ylPrint.InitBluetooth();
+            List<Box> boxes = new ArrayList<>();
+            if (ylTask.lstCarBox != null){
+                boxes = ylTask.lstCarBox;
+            }
+            ylPrint.PrintDetail(boxes,2,ylTask.getTaskID(),
+                    YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void PrintGather() {
+        try {
+            YLPrint ylPrint = new YLPrint();
+            ylPrint.InitBluetooth();
+            List<Box> boxes = new ArrayList<>();
+            if (ylTask.lstCarBox != null){
+                boxes = ylTask.lstCarBox;
+            }
+            AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+            GatherPrint gatherPrint = analysisBoxList.AnsysisBoxListForPrint(boxes);
+            gatherPrint.setSiteName("");
+            gatherPrint.setClintName("所属基地:"+ YLSystem.getBaseName());
+            gatherPrint.setTradeTime("任务日期:"+ylTask.getTaskDate());
+            gatherPrint.setCarNumber("任务线路:"+ylTask.getLine());
+            gatherPrint.setTaskNumber("NO."+ylTask.getTaskID());
+            gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            ylPrint.PrintGather(gatherPrint,2);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

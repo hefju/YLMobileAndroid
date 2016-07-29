@@ -296,7 +296,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
                 TaskTimeID = "0"+TaskTimeID;
             }
             String Number = ylTask.getTaskID()+TaskTimeID;
-            ylPrint.PrintDetail(detaillist,Number);
+            ylPrint.PrintDetail(detaillist,1,Number,YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
         }
     }
 
@@ -317,9 +317,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         gatherPrint.setTradeTime(TradeTime);
         gatherPrint.setCarNumber(ylTask.getTaskCar());
         gatherPrint.setTaskNumber("NO." + ylTask.getTaskID() + TaskTimeID);
-        gatherPrint.setHomName(ylTask.getTaskManagerNo() + ylTask.getTaskManager());
+        gatherPrint.setHomName(ylTask.getTaskManagerNo() +"-"+ ylTask.getTaskManager());
 
-        ylPrint.PrintGather(gatherPrint);
+        ylPrint.PrintGather(gatherPrint,1);
 
     }
 

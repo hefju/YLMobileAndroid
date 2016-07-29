@@ -31,7 +31,7 @@ public class YLLoghandle {
             yLtxtOperate.createSDFile(creatfile.getName());
         }
         YLLogName = creatfile.getName();
-        File DeleteFile = GetYLLogName(7);
+        File DeleteFile = GetYLLogName(-7);
         if (DeleteFile.exists()) {
             yLtxtOperate.deleteSDFile(DeleteFile.getName());
 //            File[] files = new File("/").listFiles();

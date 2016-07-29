@@ -61,7 +61,7 @@ public class YLPrint {
         return  rowsplus * rowshight;
     }
 
-    public boolean PrintGather(GatherPrint gatherPrint) throws  Exception{
+    public boolean PrintGather(GatherPrint gatherPrint,int type) throws  Exception{
         rowshight = 4;rowsplus = 2;columnswide = 20;
 
 //        if (!LoadPrinter) return false ;
@@ -72,17 +72,39 @@ public class YLPrint {
 
         zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
 
-        zpSDK.zp_draw_text(25, NextRow2(), "押运交接单");
+        String title = "";
+        String Address = "";
+        String NetPoint = "";
+        String handovertime = "";
+        String carorline = "";
+        switch (type){
+            case 1:
+                title = "押运交接单";
+                Address = "单位名称:" + gatherPrint.getClintName();
+                NetPoint =  "网点名称:" + gatherPrint.getSiteName();
+                handovertime = "交接时间:"+gatherPrint.getTradeTime();
+                carorline = "押运车牌："+gatherPrint.getCarNumber();
+                break;
+            case 2:
+                title = "金库入库汇总";
+                Address = gatherPrint.getClintName();
+                NetPoint =gatherPrint.getSiteName();
+                handovertime = gatherPrint.getTradeTime();
+                carorline = gatherPrint.getCarNumber();
+                break;
+        }
+
+        zpSDK.zp_draw_text(25, NextRow2(), title);
 
         zpSDK.zp_draw_text(40, NextRow(), gatherPrint.getTaskNumber());
 
         zpSDK.zp_draw_text_ex(3, NextRow(),
-                "单位名称:" + gatherPrint.getClintName(), "宋体", 3, 0, true, false, false);
-        zpSDK.zp_draw_text(3, NextRow(), "网点名称:" + gatherPrint.getSiteName());
+                Address, "宋体", 3, 0, true, false, false);
+        zpSDK.zp_draw_text(3, NextRow(), NetPoint);
 
-        zpSDK.zp_draw_text(3, NextRow(), "交接时间:"+gatherPrint.getTradeTime());
+        zpSDK.zp_draw_text(3, NextRow(), handovertime);
 
-        zpSDK.zp_draw_text(3, NextRow(), "押运车牌："+gatherPrint.getCarNumber());
+        zpSDK.zp_draw_text(3, NextRow(), carorline);
 
         //送箱表格坐标
         double formx1 = 0;
@@ -301,8 +323,8 @@ public class YLPrint {
         zpSDK.zp_draw_text(TextBoxstautX[4]+4, TextTitleY[14],gatherPrint.getGetTotalvoucher());
         zpSDK.zp_draw_text(TextBoxstautX[6]+4, TextTitleY[14],gatherPrint.getGetTotalvoucherbag());
 
-        zpSDK.zp_draw_text(3, 100, "押运业务员"+gatherPrint.getHomName());
-        zpSDK.zp_draw_text(3, 107, "网点交接人（签章）1：           2：");
+        zpSDK.zp_draw_text(3, 100, "押运业务员"+gatherPrint.getHomName() +"  签名：");
+        zpSDK.zp_draw_text(3, 107, "网点交接人（签章）1：                   2：");
         Boolean printpage =  zpSDK.zp_page_print(false);
         Log.e("kim", "print" + printpage.toString());
 
@@ -316,11 +338,26 @@ public class YLPrint {
         return columnswide;
     }
 
-    public boolean PrintDetail(List<Box> boxList,String Number) throws  Exception{
+    public boolean PrintDetail(List<Box> boxList,int type, String Number,String Tranfer) throws  Exception{
 
         rowshight = 4;rowsplus = 2;
 
-        double pagehigh = boxList.size()*4+30;
+        int count = 1;
+        for (Box box : boxList) {
+            if (box.getNextOutTime() != null ){
+                if (box.getNextOutTime().length() > 0){
+                    count = count +2;
+                }else if (box.getBoxName().length() >10){
+                    count = count +2;
+                }else {
+                    count++;
+                }
+            }else {
+                count++;
+            }
+        }
+
+        double pagehigh = count*4+80;
         if (pagehigh< 130)pagehigh = 130;
         Log.e(YLSystem.getKimTag(), "页面高度" + pagehigh);
         Boolean creatpage = zpSDK.zp_page_create(80,pagehigh);
@@ -329,7 +366,19 @@ public class YLPrint {
 
         zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
 
-        zpSDK.zp_draw_text(25, NextRow2(), "押运交接清单");
+        String title = "";
+
+        switch (type){
+            case 1:
+                title = "押运交接清单";
+                break;
+            case 2:
+                title = "金库入库明细";
+                break;
+        }
+
+
+        zpSDK.zp_draw_text(25, NextRow2(),title );
 
         zpSDK.zp_draw_text_ex(50, NextRow2(), "NO."+Number, "宋体", 3, 0, true, false, false);
 
@@ -346,31 +395,56 @@ public class YLPrint {
         zpSDK.zp_draw_text(66, rowshight, "备注");
 
 
-        for (int i = 0; i < boxList.size(); i++) {
+        int order = 1;
+        for (Box box : boxList) {
             rowshight=rowshight+4;
-            Box box = boxList.get(i);
+            if (box.getNextOutTime() != null){
+                if (box.getNextOutTime().length() > 0 ){
+                    zpSDK.zp_draw_text(2, rowshight, order + "");
+                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    rowshight=rowshight+4;
+                    zpSDK.zp_draw_text(25, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(30, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(35, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getNextOutTime());
+                }else if (box.getBoxName().length() >10) {
+                    zpSDK.zp_draw_text(2, rowshight, order + "");
+                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    rowshight=rowshight+4;
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, "");
+                }else {
+                    zpSDK.zp_draw_text(2, rowshight, order + "");
+                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, "");
+                }
 
-            if (box.getNextOutTime() == null ||box.getNextOutTime().equals("")){
-                zpSDK.zp_draw_text(2, rowshight, i + 1 + "");
+            }else {
+                zpSDK.zp_draw_text(2, rowshight, order + "");
                 zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
                 zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
                 zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
                 zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
                 zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
                 zpSDK.zp_draw_text(55, rowshight, "");
-            }else {
-                zpSDK.zp_draw_text(2, rowshight, i + 1 + "");
-                zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
-                zpSDK.zp_draw_text(25, rowshight, box.getTradeAction());
-                zpSDK.zp_draw_text(30, rowshight, box.getBoxStatus());
-                zpSDK.zp_draw_text(35, rowshight, box.getBoxType());
-                zpSDK.zp_draw_text(45, rowshight, box.getBoxTaskType());
-                zpSDK.zp_draw_text(55, rowshight, box.getNextOutTime());
             }
+            order++;
         }
 
+        zpSDK.zp_draw_text(3, rowshight8(), "押运业务员:"+Tranfer +"  签名：");
+        zpSDK.zp_draw_text(3, rowshight4(), "网点交接人（签章）1：                   2：");
+
+
         if (rowshight > 130){
-            rowshight= rowshight+4;
+            rowshight8();
         }else {
             rowshight = 120;
         }
@@ -384,4 +458,15 @@ public class YLPrint {
 
         return printpage;
     }
+
+    private double rowshight4(){
+        rowshight=rowshight+4;
+        return rowshight;
+    }
+
+    private double rowshight8(){
+        rowshight=rowshight+16;
+        return rowshight;
+    }
+
 }

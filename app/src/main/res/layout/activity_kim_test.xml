@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/kim_uhfwrite"
         android:layout_below="@+id/kim_uhftest"
-        android:text="UHF写入"/>
+        android:text="打印测试"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

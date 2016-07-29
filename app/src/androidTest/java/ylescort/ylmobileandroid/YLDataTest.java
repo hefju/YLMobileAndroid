@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import TaskClass.BaseBox;
 import TaskClass.BaseClient;
@@ -37,6 +38,22 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     public YLDataTest() {super(Application.class);}
 
     private static final String TAG = "kim";
+
+
+    public void testSetListadd() throws Exception {
+        Set<String> set = new HashSet<String>(new ArrayList<String>());
+        for (int i = 0; i < 10;i++){
+            Log.e(TAG,i%3+"");
+            if (i%3 ==0){
+                set.add("1");
+            }else if (i%3 ==1){
+                set.add("2");
+            }else if (i%3 ==2){
+                set.add("3");
+            }
+        }
+        Log.e(TAG,set.toString());
+    }
 
     public void testForData()throws Exception{
         ArrayList<String> namelist = new ArrayList<>();

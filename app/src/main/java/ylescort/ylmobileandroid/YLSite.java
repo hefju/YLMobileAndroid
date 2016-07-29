@@ -146,7 +146,7 @@ public class YLSite extends ActionBarActivity {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (checkcardownload) {
+                    if (checkcardownload || YLSystem.getNetWorkState().equals("2")) {
                         OpenBoxAct((ListView) parent, position);
                     }else{
                         Toast.makeText(getApplication(),"请点击右上角车内款箱按钮重新加载数据",Toast.LENGTH_SHORT).show();
@@ -238,7 +238,8 @@ public class YLSite extends ActionBarActivity {
         }
 
         Intent intent = new Intent();
-        intent.setClass(this, HomYLBoxScan.class);//新款箱扫描
+        intent.setClass(this, HomYLBoxScan.class);//款箱扫描
+//        intent.setClass(this, YLtransfer.class);//新款箱扫描
         YLRecord.WriteRecord("网点","进入网点扫描："+site.getSiteName());
         YLEditData.setCurrentYLSite(site);
         startActivity(intent);

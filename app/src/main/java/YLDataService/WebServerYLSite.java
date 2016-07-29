@@ -27,6 +27,7 @@ import java.util.List;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.User;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -116,6 +117,14 @@ public class WebServerYLSite {
         return getCarBoxOutIDAsyAsy.get();
     }
 
+    public String GetCarBoxOutID2(Context context,String TaskID) throws  Exception{
+        String url = YLSystem.GetBaseUrl(context)+"StoreGetBoxByTaskIDOutID";
+        GetCarBoxOutIDAsy getCarBoxOutIDAsyAsy = new GetCarBoxOutIDAsy();
+        getCarBoxOutIDAsyAsy.execute(url,TaskID);
+        return getCarBoxOutIDAsyAsy.get();
+    }
+
+
     private class GetCarBoxOutIDAsy extends  AsyncTask<String,Integer,String>{
         @Override
         protected String doInBackground(String... strings) {
@@ -129,7 +138,7 @@ public class WebServerYLSite {
             try {
                 p.put("TaskID",strings[1]);
                 p.put("deviceID",YLSystem.getHandsetIMEI());
-                p.put("empid",strings[2]);
+                p.put("empid",YLSystem.getUser().getEmpID());
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient(httpParams);

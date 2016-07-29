@@ -34,6 +34,86 @@ public class BaseBox //箱类
         BoxID = boxID;
     }
 
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getServerReturn() {
+        return ServerReturn;
+    }
+
+    public void setServerReturn(String serverReturn) {
+        ServerReturn = serverReturn;
+    }
+
+    public String getBoxName() {
+        return BoxName;
+    }
+
+    public void setBoxName(String boxName) {
+        BoxName = boxName;
+    }
+
+    public String getBoxUHFNo() {
+        return BoxUHFNo;
+    }
+
+    public void setBoxUHFNo(String boxUHFNo) {
+        BoxUHFNo = boxUHFNo;
+    }
+
+    public String getBoxBCNo() {
+        return BoxBCNo;
+    }
+
+    public void setBoxBCNo(String boxBCNo) {
+        BoxBCNo = boxBCNo;
+    }
+
+    public String getBoxType() {
+        return BoxType;
+    }
+
+    public void setBoxType(String boxType) {
+        BoxType = boxType;
+    }
+
+    public String getClientID() {
+        return ClientID;
+    }
+
+    public void setClientID(String clientID) {
+        ClientID = clientID;
+    }
+
+    public String getSiteID() {
+        return SiteID;
+    }
+
+    public void setSiteID(String siteID) {
+        SiteID = siteID;
+    }
+
+    public String getMark() {
+        return Mark;
+    }
+
+    public void setMark(String mark) {
+        Mark = mark;
+    }
+
+    public String getServerTime() {
+        return ServerTime;
+    }
+
+    public void setServerTime(String serverTime) {
+        ServerTime = serverTime;
+    }
+
     @Override
     public String toString() {
         return "BaseBox{" +

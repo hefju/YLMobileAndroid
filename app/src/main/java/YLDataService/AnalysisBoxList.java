@@ -28,7 +28,7 @@ public class AnalysisBoxList {
 
 
         for (Box box:boxList){
-            int count =Integer.parseInt(box.getBoxCount()) ;
+            int count = 1 ;
             try {
                 switch (box.getBoxType()){
                     case"款箱":moneybox+=count;
@@ -154,23 +154,23 @@ public class AnalysisBoxList {
                     break;
                 case "卡箱":
                     if (box.getBoxStatus().equals("实")) {
-                        fullmoneybox++;
+                        fullcardbox++;
                     } else {
-                        emptymoneybox++;
+                        emptycardbox++;
                     }
                     break;
                 case "凭证箱":
                     if (box.getBoxStatus().equals("实")) {
-                        fullmoneybox++;
+                        fullvoucherbox++;
                     } else {
-                        emptymoneybox++;
+                        emptyvoucherbox++;
                     }
                     break;
                 case "凭证袋":
                     if (box.getBoxStatus().equals("实")) {
-                        fullmoneybox++;
+                        fullvoucherbag++;
                     } else {
-                        emptymoneybox++;
+                        emptyvoucherbag++;
                     }
                     break;
             }

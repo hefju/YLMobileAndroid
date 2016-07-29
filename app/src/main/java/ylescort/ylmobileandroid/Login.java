@@ -116,7 +116,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         //正式服务测试服务
         //正式checked为false
         //测试checked为true
-//        logic_sw_address.setChecked(true);
+        logic_sw_address.setChecked(true);
 
         if (logic_sw_address.isChecked()) {
             YLSystem.setSerAdress("0");
@@ -125,12 +125,15 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         }
         String string = "版本号："+YLHandSetBaseData.getYLVersion()+"\r\n"
                 +"手持机："+YLHandSetBaseData.getHandSetSN();
-        YLSystem.setHandsetIMEI(YLHandSetBaseData.getHandSetSN()
-                + "-" + YLHandSetBaseData.getSIMIMEI()
-                + "-" +YLHandSetBaseData.getYLVersion());
         String count ="款箱数量:    "+ YLBoxcount();
         log_tv_vision.setText(string);
         log_tv_hsimei.setText(count);
+
+        YLSystem.setHandsetIMEI(
+                        YLHandSetBaseData.getHandSetSN()
+                + "-" + YLHandSetBaseData.getHandSetIMEI()
+                + "-" + YLHandSetBaseData.getSIMIMEI()
+                + "-" +YLHandSetBaseData.getYLVersion());
 
     }
 
@@ -150,29 +153,29 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
             switch (view.getId()) {
                 case R.id.Log_BN_HF:
 
-                    LoginByHF();
+//                    LoginByHF();
 
-//                    String user = "500008";
-//                    Log_ET_Name.setText(user);
-//                    Log_ET_PassWord.setText(user);
-//                    LoginByPassword();
+                    String user = "500008";
+                    Log_ET_Name.setText(user);
+                    Log_ET_PassWord.setText(user);
+                    LoginByPassword();
 
                     YLRecord.WriteRecord("登录界面","HF登录");
                     break;
                 case R.id.Log_BN_Ent:
 
-//                    String user2 = "600270";
-//                    Log_ET_Name.setText(user2);
-//                    Log_ET_PassWord.setText(user2);
+                    String user2 = "520037";
+                    Log_ET_Name.setText(user2);
+                    Log_ET_PassWord.setText(user2);
 
                     LoginByPassword();
                     YLRecord.WriteRecord("登录界面","帐号登录"+Log_ET_Name.getText());
                     break;
                 case R.id.btnTest1:
 
-                    UpDataAPK();
+//                    UpDataAPK();
 
-//                    DeleteTaskbyDate();
+                    DeleteTaskbyDate();
 
                     YLRecord.WriteRecord("登录界面","升级");
                     break;
@@ -194,6 +197,12 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    //测试删除日期任务
+    private void DeleteTaskbyDate() {
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-07-18");
     }
 
     @Override
@@ -370,14 +379,10 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         thread.start();
     }
 
-    //测试删除日期任务
-    private void DeleteTaskbyDate() {
-        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-05-26");
-    }
+
     //密码登陆
     private void LoginByPassword()throws Exception {
-        CacheData();
+//        CacheData();
         if (Log_ET_Name.getText().toString().equals("")|| Log_ET_PassWord.getText().toString().equals(""))return;
         if (YLSystem.getNetWorkState().equals("2")){
             BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getApplicationContext());
@@ -389,7 +394,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
             User user = new User();
             user.setEmpNO(Log_ET_Name.getText().toString());
             user.setPass(YLSystem.SetMD5(Log_ET_PassWord.getText().toString()));
-            user.setDeviceID(YLHandSetBaseData.getHandSetSN());
+            user.setDeviceID(YLSystem.getHandsetIMEI());
             user.setISWIFI(YLSystem.getNetWorkState());
             jsonObject.put("user",gson.toJson(user));
             String url = YLSystem.GetBaseUrl(getApplicationContext())+"Login1";

@@ -35,7 +35,7 @@ public class YLSystem {
     private static User user; //登录到系统的用户
     private static String appversion;//软件版本号
     private static List<Box> ediboxList;//编辑中的箱数组
-    private static String NetWorkState;//网络状态
+    private static String NetWorkState;//网络状态:0为移动通道、1为WIFI通道、2为无网络连接
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
     private static String BaseName;//基地名称

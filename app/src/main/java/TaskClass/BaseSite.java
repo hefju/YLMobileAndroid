@@ -31,6 +31,70 @@ public class BaseSite //网点类
         SiteID = siteID;
     }
 
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public String getServerReturn() {
+        return ServerReturn;
+    }
+
+    public void setServerReturn(String serverReturn) {
+        ServerReturn = serverReturn;
+    }
+
+    public String getSiteName() {
+        return SiteName;
+    }
+
+    public void setSiteName(String siteName) {
+        SiteName = siteName;
+    }
+
+    public String getSiteType() {
+        return SiteType;
+    }
+
+    public void setSiteType(String siteType) {
+        SiteType = siteType;
+    }
+
+    public String getClientID() {
+        return ClientID;
+    }
+
+    public void setClientID(String clientID) {
+        ClientID = clientID;
+    }
+
+    public String getSiteBCNo() {
+        return SiteBCNo;
+    }
+
+    public void setSiteBCNo(String siteBCNo) {
+        SiteBCNo = siteBCNo;
+    }
+
+    public String getMark() {
+        return Mark;
+    }
+
+    public void setMark(String mark) {
+        Mark = mark;
+    }
+
+    public String getServerTime() {
+        return ServerTime;
+    }
+
+    public void setServerTime(String serverTime) {
+        ServerTime = serverTime;
+    }
+
     @Override
     public String toString() {
         return "BaseSite{" +
