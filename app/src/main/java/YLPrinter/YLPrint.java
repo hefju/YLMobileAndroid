@@ -324,7 +324,7 @@ public class YLPrint {
         zpSDK.zp_draw_text(TextBoxstautX[6]+4, TextTitleY[14],gatherPrint.getGetTotalvoucherbag());
 
         zpSDK.zp_draw_text(3, 100, "押运业务员"+gatherPrint.getHomName() +"  签名：");
-        zpSDK.zp_draw_text(3, 107, "网点交接人（签章）1：                   2：");
+        zpSDK.zp_draw_text(3, 110, "网点交接人（签章）1：                   2：");
         Boolean printpage =  zpSDK.zp_page_print(false);
         Log.e("kim", "print" + printpage.toString());
 
@@ -425,7 +425,7 @@ public class YLPrint {
 //                    Log.e(YLSystem.getKimTag(),"出库状态为有出库日期"+box.getBoxName());
                     zpSDK.zp_draw_text(2, rowshight, order + "");
                     zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
-                    zpSDK.zp_draw_text(55, rowshight,box.getNextOutTime());
+                    zpSDK.zp_draw_text(45, rowshight,"出库："+box.getNextOutTime());
                     rowshight=rowshight+4;
                     zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
                     zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
@@ -465,12 +465,12 @@ public class YLPrint {
             order++;
         }
 
-        zpSDK.zp_draw_text(3, rowshight8(), "押运业务员:"+Tranfer +"  签名：");
-        zpSDK.zp_draw_text(3, rowshight4(), "网点交接人（签章）1：                   2：");
+        zpSDK.zp_draw_text(3, rowshight16(), "押运业务员:"+Tranfer +"  签名：");
+        zpSDK.zp_draw_text(3, rowshight8(), "网点交接人（签章）1：                   2：");
 
 
         if (rowshight > 130){
-            rowshight8();
+            rowshight16();
         }else {
             rowshight = 120;
         }
@@ -490,8 +490,13 @@ public class YLPrint {
         return rowshight;
     }
 
-    private double rowshight8(){
+    private double rowshight16(){
         rowshight=rowshight+16;
+        return rowshight;
+    }
+
+    private double rowshight8(){
+        rowshight=rowshight+8;
         return rowshight;
     }
 
