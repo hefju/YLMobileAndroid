@@ -246,7 +246,17 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
 
             boxes = orderboxlist(boxes);
 
-            ylPrint.PrintDetail(boxes,2,ylTask.getTaskID(),
+            AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+            GatherPrint gatherPrint = analysisBoxList.AnsysisBoxListForPrint(boxes);
+            gatherPrint.setSiteName("");
+            gatherPrint.setClintName("所属基地:"+ YLSystem.getBaseName());
+            gatherPrint.setTradeTime("任务日期:"+ylTask.getTaskDate());
+            gatherPrint.setCarNumber("任务线路:"+ylTask.getLine());
+            gatherPrint.setTaskNumber("NO."+ylTask.getTaskID());
+            gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+
+
+            ylPrint.PrintDetail(boxes,2,gatherPrint,
                     YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
 
         } catch (Exception e) {

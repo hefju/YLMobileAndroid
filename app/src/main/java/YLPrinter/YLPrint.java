@@ -338,7 +338,7 @@ public class YLPrint {
         return columnswide;
     }
 
-    public boolean PrintDetail(List<Box> boxList,int type, String Number,String Tranfer) throws  Exception{
+    public boolean PrintDetail(List<Box> boxList,int type, GatherPrint gatherPrint,String Tranfer) throws  Exception{
 
         rowshight = 4;rowsplus = 2;
 
@@ -365,26 +365,48 @@ public class YLPrint {
         Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
 
         zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
-
         String title = "";
-
+        String Address = "";
+        String NetPoint = "";
+        String handovertime = "";
+        String carorline = "";
         switch (type){
             case 1:
-                title = "押运交接清单";
+                title = "押运交接单";
+                Address = "单位名称:" + gatherPrint.getClintName();
+                NetPoint =  "网点名称:" + gatherPrint.getSiteName();
+                handovertime = "打印时间:"+gatherPrint.getTradeTime();
+                carorline = "押运车牌："+gatherPrint.getCarNumber();
                 break;
             case 2:
-                title = "金库入库明细";
+                title = "金库入库汇总";
+                Address = gatherPrint.getClintName();
+                NetPoint =gatherPrint.getSiteName();
+                handovertime = gatherPrint.getTradeTime();
+                carorline = gatherPrint.getCarNumber();
                 break;
         }
 
+        zpSDK.zp_draw_text(25, NextRow2(), title);
 
-        zpSDK.zp_draw_text(25, NextRow2(),title );
+        zpSDK.zp_draw_text(40, NextRow(), gatherPrint.getTaskNumber());
 
-        zpSDK.zp_draw_text_ex(50, NextRow2(), "NO."+Number, "宋体", 3, 0, true, false, false);
+        zpSDK.zp_draw_text_ex(3, NextRow(),
+                Address, "宋体", 3, 0, true, false, false);
+        zpSDK.zp_draw_text(3, NextRow(), NetPoint);
+
+        zpSDK.zp_draw_text(3, NextRow(), handovertime);
+
+        zpSDK.zp_draw_text(3, NextRow(), carorline);
+
+
+//        zpSDK.zp_draw_text(25, NextRow2(),title );
+//
+//        zpSDK.zp_draw_text_ex(50, NextRow2(), "NO."+Number, "宋体", 3, 0, true, false, false);
 
         zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单：");
 
-        rowshight = 20;
+        rowshight = 40;
 
         zpSDK.zp_draw_text(1, rowshight, "序号");
         zpSDK.zp_draw_text(10, rowshight, "箱号");
