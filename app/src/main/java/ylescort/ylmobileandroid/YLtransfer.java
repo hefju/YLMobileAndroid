@@ -306,8 +306,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     //收箱
     private void GetBox(String recivedata) {
-        //检查是否可以交接
-        if (ytdo.Repeatgetbox(recivedata)){
+        //检查收箱是否可以交接、检查车内箱是否可以交接
+        if (ytdo.Repeatgetbox(recivedata) ||ycdo.CheckCarboxbystr(recivedata)){
             ylMediaPlayer.SuccessOrFail(false);
             return;
         }
@@ -317,7 +317,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             StopScan();
             YLMessagebox("临时标签款箱类型未选");
         }else{
-
             if (GetNetPointCheck){//如果选择收箱提示
                 boolean boxsitecheck = false;
                 for (Site site : siteList) {
@@ -330,7 +329,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 }else {
                     StopScan();
                     ShowDifferentSite(box);
-//                GetNetPointCheck = true;
                     Scanflag = true;
                 }
             }else {
@@ -698,7 +696,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
                 defaultSelectedStatus[i] = b;
-                Log.e(YLSystem.getKimTag(),"提示:"+defaultSelectedStatus[i] );
             }
         });
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -715,8 +712,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 ChooseBox.setTaskTimeID(TaskTimeID);
                 ChooseBox.setBoxType("款箱类");
                 ChooseBox.setRemark("0");
-
-                MyLog("送"+GiveNetPointCheck+"收"+GetNetPointCheck);
 
                 //判断是否需要加载车内款箱数
                 boolean loadcarbox = ycdo.LoadCarboxlist(ylTask);
@@ -749,13 +744,13 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     //获取车内款箱数据
     private void LoadandupdateCarbox() {
         //先下载出入ID，根据之前下载的车内款箱数对比
+        //出入库款箱修改界面修改后有bug不能获取最新列表ID
         String yltaskid = ylTask.getTaskID();
         String boxoutid = ycdo.GetCarBoxOutID(getApplicationContext(),yltaskid);
-
         int count = YLCarBoxOperate.getYLCurrectCarBoxList().size();
         if (count > 0){
-            if (YLCarBoxOperate.getYLCurrectCarBoxList().get(0).getServerReturn().equals(boxoutid)){
-                MyLog("获取车内款箱");
+            String localboxoutid = YLCarBoxOperate.getYLCurrectCarBoxList().get(0).getServerReturn();
+            if (!localboxoutid.equals(boxoutid)){
                ycdo.UpdateCarbox(getApplicationContext(),yltaskid);
             }
         }

@@ -36,6 +36,7 @@ import YLDataService.YLSiteInfo;
 import YLPrinter.YLPrint;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -314,7 +315,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         String Client = ylSiteInfo.GetClientbySiteID(site.getSiteID());
         gatherPrint.setSiteName(site.getSiteName());
         gatherPrint.setClintName(Client);
-        gatherPrint.setTradeTime(TradeTime);
+        gatherPrint.setTradeTime(YLSysTime.GetStrCurrentTime());
         gatherPrint.setCarNumber(ylTask.getTaskCar());
         gatherPrint.setTaskNumber("NO." + ylTask.getTaskID() + TaskTimeID);
         gatherPrint.setHomName(ylTask.getTaskManagerNo() +"-"+ ylTask.getTaskManager());

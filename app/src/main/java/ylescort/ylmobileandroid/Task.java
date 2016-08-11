@@ -98,6 +98,16 @@ public class Task extends ActionBarActivity {
                     }
                 });
 
+//            //测试获取日期发布时需注释
+//            yltask_datepicker.init(2016, 7, 1, new DatePicker.OnDateChangedListener() {
+//                @Override
+//                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+//
+//                }
+//            });
+
+
+
         //刷新按钮
         Task_btn_refresh =(Button)findViewById(R.id.Task_btn_refresh);//刷新任务列表
         Task_btn_refresh.setOnClickListener(new View.OnClickListener() {

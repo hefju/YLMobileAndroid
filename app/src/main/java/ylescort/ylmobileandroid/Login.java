@@ -202,7 +202,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     //测试删除日期任务
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-07-18");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-08-01");
     }
 
     @Override

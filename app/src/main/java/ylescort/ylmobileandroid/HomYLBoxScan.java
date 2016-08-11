@@ -92,6 +92,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
     private String box_sp_text ;
     private String YLScanMessage;
     private String PickDate;
+    private String TodayDate;
+
     private Calendar calendar;
     private int TaskTimeID;
     private YLMediaPlayer ylMediaPlayer;
@@ -170,10 +172,10 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                     case "早送晚收":
                         homylboxscan_cb_ToT.setChecked(false);
                         homylboxscan_cb_ToT.setEnabled(false);
-                        homylboxscan_btn_date.setEnabled(false);
+                        homylboxscan_btn_date.setEnabled(true);
                         homylboxscan_cb_date.setEnabled(false);
                         homylboxscan_cb_date.setChecked(false);
-                        CurrentBox.setNextOutTime("");
+//                        CurrentBox.setNextOutTime("");
                         CurrentBox.setBoxToT("0");
                         break;
                     case "寄库箱":
@@ -225,7 +227,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         homylboxscan_tv_Voucher.setText("凭证箱:\r\n     "+0);
         homylboxscan_tv_Voucherbag.setText("凭证袋:\r\n     "+0);
 
-        calendar =YLSysTime.AddDateString(Calendar.getInstance(),0) ;
+        calendar =YLSysTime.AddDateString(Calendar.getInstance(),1) ;
 
         int year = calendar.get(Calendar.YEAR);
         int Month = calendar.get(Calendar.MONTH);
@@ -233,7 +235,8 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
 
         String Date = year+"-"+String.format("%02d",(Month + 1))+"-"
                 +String.format("%02d",(day));
-
+        TodayDate = Date;
+        PickDate = Date;
         homylboxscan_btn_date.setText(Date);
 
     }//初始化数据
@@ -369,9 +372,33 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             YLRecord.WriteRecord("扫描","进入款箱编辑");
             overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             return true;
+        }else if (id == R.id.action_settings2){
+            ShowRefreshDialog();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void ShowRefreshDialog() {
+        if (!homylboxscan_btn_ent.getText().equals("完成交接"))return;
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomYLBoxScan.this);
+        builder.setMessage("是否刷新到达时间?");
+        builder.setTitle("提示");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                arriveTime.setATime(YLSysTime.GetStrCurrentTime());
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+
     }
 
     private class Scan1DRecive extends BroadcastReceiver {
@@ -463,6 +490,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                                            setbox.setBoxOrder(AllBoxList.size() + 1 + "");
                                            setbox.setTaskTimeID(TaskTimeID);
                                            setbox.setBoxToT(givebox.getBoxToT());
+                                           setbox.setNextOutTime(givebox.getNextOutTime());
                                            homylboxscan_tv_boxname.setText(givebox.getBoxName());
                                            homylboxscan_tv_boxaction.setText("送");
                                            homylboxscan_tv_boxtype.setText(givebox.getBoxType());
@@ -501,6 +529,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
                             setbox.setBoxOrder(AllBoxList.size() + 1 + "");
                             setbox.setTaskTimeID(TaskTimeID);
                             setbox.setBoxToT(givebox.getBoxToT());
+                            setbox.setNextOutTime(givebox.getNextOutTime());
                             homylboxscan_tv_boxname.setText(givebox.getBoxName());
                             homylboxscan_tv_boxaction.setText("送");
                             homylboxscan_tv_boxtype.setText(givebox.getBoxType());
@@ -601,15 +630,26 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
             box.setSiteID(homylboxscan_tv_title.getTag().toString());
             box.setBoxOrder(AllBoxList.size() + 1 + "");
             box.setTimeID(arriveTime.getTimeID());
-            if (box_sp_text.equals("寄库箱")) {
-                if (homylboxscan_cb_date.isChecked()){
-                    box.setNextOutTime("2099-12-31");
-                }else {
-                    box.setNextOutTime(PickDate);
-                }
-            }else {
-                box.setNextOutTime("");
+
+            switch (box_sp_text){
+                case "寄库箱":
+                    if (homylboxscan_cb_date.isChecked()) {
+                        box.setNextOutTime("2099-12-31");
+                    } else {
+                        box.setNextOutTime(PickDate);
+                    }
+                    break;
+                case "早送晚收":
+                    if (!PickDate.equals(TodayDate)) {
+                        box.setNextOutTime(PickDate);
+                    }else {
+                        box.setNextOutTime("");
+                    }
+                    break;
+                default:box.setNextOutTime("");
+                    break;
             }
+
             if (homylboxscan_cb_complie.isChecked()){
                 box.setRemark("1");
             }else {

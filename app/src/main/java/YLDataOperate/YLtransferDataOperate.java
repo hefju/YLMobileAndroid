@@ -217,7 +217,7 @@ public class YLtransferDataOperate {
     //收箱:检查款箱最后状态为收
     public boolean Repeatgetbox(String boxid){
         String checkbox = "";
-        Log.e(YLSystem.getKimTag(),"排序前"+Transferingboxes.toString());
+        Log.e(YLSystem.getKimTag(),"排序前:"+Transferingboxes.size());
         BoxCombyTime ylBoxComparator = new BoxCombyTime();
         Collections.sort(Transferedboxes,ylBoxComparator);
         Collections.sort(Transferingboxes,ylBoxComparator);
@@ -228,14 +228,14 @@ public class YLtransferDataOperate {
             }
         }
 
-        Log.e(YLSystem.getKimTag(),"交易完成"+Transferedboxes.toString());
+        Log.e(YLSystem.getKimTag(),"交易完成:"+Transferedboxes.size());
 
         for (Box box : Transferingboxes) {
             if (box.getBoxID().equals(boxid)){
                 checkbox =box.getTradeAction();
             }
         }
-        Log.e(YLSystem.getKimTag(),"正在交易"+Transferingboxes.toString());
+        Log.e(YLSystem.getKimTag(),"正在交易:"+Transferingboxes.size());
         return checkbox.equals("收");
     }
 

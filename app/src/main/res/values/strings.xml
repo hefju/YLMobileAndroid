@@ -36,6 +36,7 @@
     <string name="homscanbox_tasktype">交接</string>
     <string name="homscanbox_cb_date">长期</string>
     <string name="homscanbox_cb_ToT">即日收送</string>
+    <string name="homscanbox_refresh">刷新</string>
 
     <!--出入库管理-->
     <string name="box_tv_title">标题</string>

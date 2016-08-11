@@ -166,8 +166,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         }
     }
 
-
-
     private class ScanUHFRecive extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -180,7 +178,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             }
         }
     }
-
 
     private void InitHFreader() {
         try{
@@ -232,11 +229,9 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //        this.startService(sendToservice); // 发送指令
     }
 
-
     public void testentext(){
         Toast.makeText(getApplicationContext(),"测试基类",Toast.LENGTH_SHORT).show();
     }
-
 
     private void NolableDialog() {
 
@@ -326,52 +321,23 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private void PrintTest() {
         ylPrint = new YLPrint();
         ylPrint.InitBluetooth();
-        List<Box> boxes = new ArrayList<>();
-      for (int i = 0 ; i<1;i++){
-          Box box = new Box();
-          box.setBoxTaskType("早送晚收");
-          box.setBoxType("款箱");
-          box.setTradeAction("收");
-          box.setBoxStatus("实");
-          boxes.add(box);
-      }
-        for (int i = 0 ; i<2;i++){
-            Box box = new Box();
-            box.setBoxTaskType("企业收送款");
-            box.setBoxType("卡箱");
-            box.setTradeAction("收");
-            box.setBoxStatus("空");
-            boxes.add(box);
-        }
+        GatherPrint g = new GatherPrint(
+                         "1","2","3","4","5","6","7","8","9","10",
+                "11","12","13","14","15","16","17","18","19","20",
+                "21","22","23","24","25","26","27","28","29","30",
+                "31","32","33","34","35","36","37","38","39","40",
+                "41","42","43","44","45","46","47","48","49","50",
+                "51","52","53","54","55","56","57","58","59","60",
+                "61","62","63","64","65","66","67","68","69");
 
-        for (int i = 0 ; i<3;i++){
-            Box box = new Box();
-            box.setBoxTaskType("企业收送款");
-            box.setBoxType("凭证箱");
-            box.setTradeAction("送");
-            box.setBoxStatus("实");
-            boxes.add(box);
-        }
-        for (int i = 0 ; i<4;i++){
-            Box box = new Box();
-            box.setBoxTaskType("同行调拨");
-            box.setBoxType("凭证袋");
-            box.setTradeAction("收");
-            box.setBoxStatus("空");
-            boxes.add(box);
-        }
-
-        AnalysisBoxList analysisBoxList = new AnalysisBoxList();
-        GatherPrint gatherPrint = analysisBoxList.AnsysisBoxListForPrint(boxes);
-        String Client = "测试客户";
-        gatherPrint.setSiteName("测试网点");
-        gatherPrint.setClintName(Client);
-        gatherPrint.setTradeTime("测试时间");
-        gatherPrint.setCarNumber("测试车辆");
-        gatherPrint.setTaskNumber("测试交接号" );
-        gatherPrint.setHomName("测试人员");
+        g.setSiteName("测试网点");
+        g.setClintName("测试客户");
+        g.setTradeTime("测试时间");
+        g.setCarNumber("测试车辆");
+        g.setTaskNumber("测试交接号" );
+        g.setHomName("测试人员");
         try {
-            ylPrint.PrintGather(gatherPrint,1);
+            ylPrint.PrintGather(g,1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -487,6 +453,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
 
     }
+
     private void notificactionLed() {
         NotificationManager manager = (NotificationManager) this
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -840,7 +807,6 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         }
     }
 
-
     public class UploadORAsyncTask extends AsyncTask<String,Integer,String>{
 
         @Override
@@ -881,6 +847,5 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //        stopService(new Intent(this, vault_in_detail.class));
         super.onDestroy();
     }
-
 
 }

@@ -243,6 +243,9 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             if (ylTask.lstCarBox != null){
                 boxes = ylTask.lstCarBox;
             }
+
+            boxes = orderboxlist(boxes);
+
             ylPrint.PrintDetail(boxes,2,ylTask.getTaskID(),
                     YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
 
@@ -250,6 +253,204 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             e.printStackTrace();
         }
     }
+
+    private List<Box> OrderByBoxList(List<Box> boxes) {
+        List<Box> boxorder = new ArrayList<>();
+
+        for (int i = 0; i < boxes.size(); i++) {
+            Box box = boxes.get(i);
+
+            if (box.getBoxTaskType().equals("寄库箱")
+                    & box.getBoxStatus().equals("实")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("早送晚收")
+                    & box.getBoxStatus().equals("实")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("企业收送款")
+                    & box.getBoxStatus().equals("实")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("同行调拨")
+                    & box.getBoxStatus().equals("实")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("跨行调拨")
+                    & box.getBoxStatus().equals("实")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("上下介")
+                    & box.getBoxStatus().equals("空")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("寄库箱")
+                    & box.getBoxStatus().equals("空")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("早送晚收")
+                    & box.getBoxStatus().equals("空")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("企业收送款")
+                    & box.getBoxStatus().equals("空")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("同行调拨")
+                    & box.getBoxStatus().equals("空")){
+                boxorder.add(box);
+                boxes.remove(i);
+                continue;
+            }
+            if (box.getBoxTaskType().equals("跨行调拨")
+                    & box.getBoxStatus().equals("空")){
+                boxorder.add(box);
+                boxes.remove(i);
+            }
+        }
+
+        return  boxorder;
+    }
+
+    private List<Box> orderboxlist(List<Box> boxes){
+        List<Box> boxList = new ArrayList<>();
+        for (Box box : boxes) {
+            Box box1 = new Box(box);
+            boxList.add(box1);
+        }
+
+        List<Box> newboxes = new ArrayList<>();
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("上下介")
+                    &  box.getBoxStatus().equals("实")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("寄库箱")
+                    &  box.getBoxStatus().equals("实")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("早送晚收")
+                    &  box.getBoxStatus().equals("实")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("企业收送款")
+                    &  box.getBoxStatus().equals("实")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("同行调拨")
+                    &  box.getBoxStatus().equals("实")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("跨行调拨")
+                    &  box.getBoxStatus().equals("实")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("上下介")
+                    &  box.getBoxStatus().equals("空")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("寄库箱")
+                    &  box.getBoxStatus().equals("空")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("早送晚收")
+                    &  box.getBoxStatus().equals("空")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("企业收送款")
+                    &  box.getBoxStatus().equals("空")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("同行调拨")
+                    &  box.getBoxStatus().equals("空")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+        for (int i = 0; i < boxList.size(); i++) {
+            Box box = boxList.get(i);
+            if (box.getBoxTaskType().equals("跨行调拨")
+                    &  box.getBoxStatus().equals("空")){
+                newboxes.add(box);
+                boxList.remove(i);
+                i--;
+            }
+        }
+
+        Log.e(YLSystem.getKimTag(),"款箱数量"+ newboxes.size());
+        return newboxes;
+    }
+
 
     private void PrintGather() {
         try {

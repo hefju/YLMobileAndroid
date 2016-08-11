@@ -82,7 +82,7 @@ public class YLPrint {
                 title = "押运交接单";
                 Address = "单位名称:" + gatherPrint.getClintName();
                 NetPoint =  "网点名称:" + gatherPrint.getSiteName();
-                handovertime = "交接时间:"+gatherPrint.getTradeTime();
+                handovertime = "打印时间:"+gatherPrint.getTradeTime();
                 carorline = "押运车牌："+gatherPrint.getCarNumber();
                 break;
             case 2:
@@ -400,15 +400,17 @@ public class YLPrint {
             rowshight=rowshight+4;
             if (box.getNextOutTime() != null){
                 if (box.getNextOutTime().length() > 0 ){
+//                    Log.e(YLSystem.getKimTag(),"出库状态为有出库日期"+box.getBoxName());
                     zpSDK.zp_draw_text(2, rowshight, order + "");
                     zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    zpSDK.zp_draw_text(55, rowshight,box.getNextOutTime());
                     rowshight=rowshight+4;
-                    zpSDK.zp_draw_text(25, rowshight, box.getTradeAction());
-                    zpSDK.zp_draw_text(30, rowshight, box.getBoxStatus());
-                    zpSDK.zp_draw_text(35, rowshight, box.getBoxType());
-                    zpSDK.zp_draw_text(45, rowshight, box.getBoxTaskType());
-                    zpSDK.zp_draw_text(55, rowshight, box.getNextOutTime());
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
                 }else if (box.getBoxName().length() >10) {
+//                    Log.e(YLSystem.getKimTag(),"款箱名称过长"+box.getBoxName());
                     zpSDK.zp_draw_text(2, rowshight, order + "");
                     zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
                     rowshight=rowshight+4;
@@ -418,6 +420,7 @@ public class YLPrint {
                     zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
                     zpSDK.zp_draw_text(55, rowshight, "");
                 }else {
+//                    Log.e(YLSystem.getKimTag(),"出库状态不为null"+box.getBoxName());
                     zpSDK.zp_draw_text(2, rowshight, order + "");
                     zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
                     zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
@@ -428,6 +431,7 @@ public class YLPrint {
                 }
 
             }else {
+//                Log.e(YLSystem.getKimTag(),"出库状态为null"+box.getBoxName());
                 zpSDK.zp_draw_text(2, rowshight, order + "");
                 zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
                 zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
