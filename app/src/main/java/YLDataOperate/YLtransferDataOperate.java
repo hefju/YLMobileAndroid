@@ -170,7 +170,7 @@ public class YLtransferDataOperate {
         }
     }
 
-    public ArriveTime AddArriveTime(YLTask ylTask,String SiteID ) {
+    public ArriveTime AddArriveTime(YLTask ylTask,String SiteID,int TaskTimeID ) {
 
         List<ArriveTime> arriveTimeList = new ArrayList<>();
         ArriveTime arriveTime = new ArriveTime();
@@ -191,15 +191,25 @@ public class YLtransferDataOperate {
                     arriveTime.setATime(YLSysTime.GetStrCurrentTime());
                     arriveTime.setTradeBegin(YLSysTime.GetStrCurrentTime());
                     arriveTime.setTimeID(TimeID + "");
+                    arriveTime.setTaskTimeID(TaskTimeID);
                     arriveTime.setSiteID(SiteID);
                     arriveTime.setPrintCount(0);
                     arriveTime.setPrintStatus("未打印");
+                    arriveTime.setClientHFNO("");
+                    arriveTime.setTradeState("1");
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return arriveTime;
+    }
+
+    public ArriveTime GetArrivttimebyTaskTimeID(YLTask ylTask,String SiteID, int TaskTimeID){
+//        for (Site site : ylTask.lstSite) {
+//            site.get
+//        }
+        return null;
     }
 
     //送箱：检查当前交接款箱是否有重复
@@ -217,7 +227,6 @@ public class YLtransferDataOperate {
     //收箱:检查款箱最后状态为收
     public boolean Repeatgetbox(String boxid){
         String checkbox = "";
-        Log.e(YLSystem.getKimTag(),"排序前:"+Transferingboxes.size());
         BoxCombyTime ylBoxComparator = new BoxCombyTime();
         Collections.sort(Transferedboxes,ylBoxComparator);
         Collections.sort(Transferingboxes,ylBoxComparator);
@@ -227,15 +236,11 @@ public class YLtransferDataOperate {
                 checkbox =box.getTradeAction();
             }
         }
-
-        Log.e(YLSystem.getKimTag(),"交易完成:"+Transferedboxes.size());
-
         for (Box box : Transferingboxes) {
             if (box.getBoxID().equals(boxid)){
                 checkbox =box.getTradeAction();
             }
         }
-        Log.e(YLSystem.getKimTag(),"正在交易:"+Transferingboxes.size());
         return checkbox.equals("收");
     }
 
@@ -351,6 +356,12 @@ public class YLtransferDataOperate {
             for (Box box : Transferingboxes) {
                 ylTask.lstBox.add(box);
             }
+
+            if (ylTask.lstarrivetime == null){
+                ylTask.lstarrivetime = new ArrayList<>();
+            }
+            ylTask.lstarrivetime.add(arriveTime);
+
             ylTask.setId(TaskTimeID + 1);
             ylTask.setLstCarBox(YLCarBoxOperate.getYLEditeCarBoxList());
 
@@ -371,6 +382,9 @@ public class YLtransferDataOperate {
         List<String> list = new ArrayList<>();
         for (String s : set) {
             list.add(s);
+        }
+        if (list.size() == 0){
+            list.add("1");
         }
 
         return list;

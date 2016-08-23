@@ -256,8 +256,7 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
 
 
-            ylPrint.PrintDetail(boxes,2,gatherPrint,
-                    YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            ylPrint.PrintDetail(boxes,2,gatherPrint);
 
         } catch (Exception e) {
             e.printStackTrace();

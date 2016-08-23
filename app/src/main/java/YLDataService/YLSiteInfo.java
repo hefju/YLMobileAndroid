@@ -1,9 +1,13 @@
 package YLDataService;
 
 import android.content.Context;
+import android.util.Log;
+
 import java.util.List;
 import TaskClass.BaseClient;
 import TaskClass.BaseSite;
+import TaskClass.Site;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2016-03-18.
@@ -35,6 +39,17 @@ public class YLSiteInfo {
     }
 
 
+    public boolean CheckSiteHF (String SiteID,String HFNo){
+        BaseSiteDBSer dbSer = new BaseSiteDBSer(context);
+        String dbstr = dbSer.GetSiteHFNo(SiteID);
+        String[] strings = dbstr.split(",");
+        for (String s : strings) {
+            if (s.equals(HFNo)){
+                return  true;
+            }
+        }
+        return false;
+    }
 
 
 }

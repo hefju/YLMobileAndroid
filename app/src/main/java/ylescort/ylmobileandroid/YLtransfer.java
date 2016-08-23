@@ -73,6 +73,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     private CheckBox yltransfer_cb_complie;
     private CheckBox yltransfer_cb_date;
     private CheckBox yltransfer_cb_ToT;
+    private CheckBox yltransfer_cb_ylclearing;
 
     private YLMediaPlayer ylMediaPlayer;
     private Box ChooseBox; //当前选择款箱状态，收箱用
@@ -83,6 +84,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     private YLtransferDataOperate ytdo;//交接箱操作类
     private int TaskTimeID;//任务顺序ID
     private String PickDate;//寄库箱日期
+    private String TodayStrDate;//今天日期
     private ArriveTime arriveTime;//网点交接时间
 
     private List<Site> siteList;//网点列表
@@ -135,6 +137,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         yltransfer_cb_complie = (CheckBox)findViewById(R.id.yltransfer_cb_complie);
         yltransfer_cb_date  = (CheckBox)findViewById(R.id.yltransfer_cb_date);
         yltransfer_cb_ToT = (CheckBox)findViewById(R.id.yltransfer_cb_ToT);
+        yltransfer_cb_ylclearing = (CheckBox)findViewById(R.id.yltransfer_cb_ylclearing);
 
         yltransfer_btn_date.setOnClickListener(this);
         yltransfer_btn_scan.setOnClickListener(this);
@@ -145,6 +148,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         yltransfer_cb_scan.setOnClickListener(this);
         yltransfer_cb_complie.setOnClickListener(this);
         yltransfer_cb_date.setOnClickListener(this);
+        yltransfer_cb_ylclearing.setOnClickListener(this);
 
         yltransfer_rbtn_get.setOnClickListener(this);
         yltransfer_rbtn_give.setOnClickListener(this);
@@ -196,8 +200,10 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         String tasktype = ylTask.getTaskType();
         if (tasktype.equals("早送") ||tasktype.equals("晚收")){
             yltransfer_sp_tasktype.setSelection(0);
+            ChooseBox.setBoxTaskType("早送晚收");
         }else {
             yltransfer_sp_tasktype.setSelection(1);
+            ChooseBox.setBoxTaskType("上下介");
         }
 
         //加载日期至日期控件
@@ -206,10 +212,9 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         int Month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DATE);
 
-        String Date = year+"-"+String.format("%02d",(Month + 1))+"-"
-                +String.format("%02d",(day));
+        TodayStrDate =YLSysTime.IntToStrDate(year,Month,day);
 
-        yltransfer_btn_date.setText(Date);
+        yltransfer_btn_date.setText(TodayStrDate);
 
         //加载交接类型
         ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.TaskType,
@@ -225,27 +230,53 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     case "早送晚收":
                         yltransfer_cb_ToT.setChecked(false);
                         yltransfer_cb_ToT.setEnabled(false);
-                        yltransfer_btn_date.setEnabled(false);
+                        yltransfer_btn_date.setEnabled(true);
                         yltransfer_cb_date.setEnabled(false);
                         yltransfer_cb_date.setChecked(false);
+                        yltransfer_cb_ylclearing.setEnabled(false);
+                        yltransfer_cb_ylclearing.setChecked(false);
                         ChooseBox.setNextOutTime("");
                         ChooseBox.setBoxToT("0");
+                        yltransfer_cb_ylclearing.setChecked(false);
+                        ChooseBox.setYlclearing("0");
                         break;
                     case "寄库箱":
                         yltransfer_cb_ToT.setChecked(false);
                         yltransfer_cb_ToT.setEnabled(false);
                         yltransfer_btn_date.setEnabled(true);
                         yltransfer_cb_date.setEnabled(true);
+                        yltransfer_cb_ylclearing.setEnabled(false);
+                        yltransfer_cb_ylclearing.setChecked(false);
                         ChooseBox.setBoxToT("0");
+                        ChooseBox.setYlclearing("0");
+                        yltransfer_cb_ylclearing.setChecked(false);
+                        ChooseBox.setYlclearing("0");
+                        break;
+                    case "上下介":
+                        yltransfer_cb_ToT.setEnabled(true);
+                        yltransfer_btn_date.setEnabled(false);
+                        yltransfer_cb_date.setEnabled(false);
+                        yltransfer_cb_date.setChecked(false);
+                        yltransfer_cb_ylclearing.setEnabled(true);
+                        yltransfer_cb_ylclearing.setChecked(false);
+                        ChooseBox.setNextOutTime("");
+                        ChooseBox.setYlclearing("0");
                         break;
                     default:
                         yltransfer_cb_ToT.setEnabled(true);
                         yltransfer_btn_date.setEnabled(false);
                         yltransfer_cb_date.setEnabled(false);
                         yltransfer_cb_date.setChecked(false);
+                        yltransfer_cb_ylclearing.setEnabled(false);
+                        yltransfer_cb_ylclearing.setChecked(false);
                         ChooseBox.setNextOutTime("");
+                        ChooseBox.setYlclearing("0");
+                        yltransfer_cb_ylclearing.setChecked(false);
+                        ChooseBox.setYlclearing("0");
                         break;
                 }
+
+                ChooseBox.setBoxTaskType(Transfertype);
             }
 
             @Override
@@ -254,6 +285,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             }
         });
 
+        ChooseBox.setYlclearing("0");
+        ChooseBox.setBoxToT("0");
     }
 
     @Override
@@ -371,13 +404,14 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         }
         box.setBoxCount("1");
         box.setSiteID(ChooseBox.getSiteID());
-        box.setBoxTaskType(Transfertype);
+        box.setBoxTaskType(ChooseBox.getBoxTaskType());
         box.setRemark(ChooseBox.getRemark());
         box.setBoxOrder(ChooseBox.getBoxOrder());
         box.setTimeID(ChooseBox.getTimeID());
         box.setNextOutTime(ChooseBox.getNextOutTime());
-        box.setTaskTimeID(TaskTimeID);
+        box.setTaskTimeID(ChooseBox.getTaskTimeID());
         box.setActionTime(YLSysTime.GetStrCurrentTime());
+        box.setYlclearing(ChooseBox.getYlclearing());
 
         YLtransferDataOperate.Transferingboxes.add(box);
         YLCarBoxOperate.YLEditeCarBoxList.add(box);
@@ -418,7 +452,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         if (removecarbox.getBoxID().equals("0")) {
             ylMediaPlayer.SuccessOrFail(false);
         } else {
-            removecarbox.setTaskTimeID(TaskTimeID);
+            removecarbox.setTaskTimeID(ChooseBox.getTaskTimeID());
             removecarbox.setTimeID(ChooseBox.getTimeID());
             removecarbox.setTradeAction("送");
             removecarbox.setSiteID(ChooseBox.getSiteID());
@@ -483,7 +517,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     }
                     Box box = ytdo.BoxofNoCarbox(getApplicationContext(),boxid,ChooseBox.getSiteID(),
                             ChooseBox.getTimeID(),TaskTimeID,tasktype,boxtot,boxstatus);
-                    Log.e(YLSystem.getKimTag(), "添加额外款箱：" + box.toString());
                     YLtransferDataOperate.Transferingboxes.add(box);
                     ShowBoxDaitel(box);
                     TallyBox();
@@ -511,10 +544,11 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         yltransfer_tv_boxname.setText(box.getBoxName());
         yltransfer_tv_boxaction.setText(box.getTradeAction());
         yltransfer_tv_boxtype.setText(box.getBoxType());
-        if (box.getBoxToT().equals("1")){
-            yltransfer_tv_boxtot.setText("是");
-        }else{
+
+        if (box.getBoxToT() == null ||box.getBoxToT().equals("0") ) {
             yltransfer_tv_boxtot.setText("否");
+        } else {
+            yltransfer_tv_boxtot.setText("是");
         }
         yltransfer_tv_boxstaut.setText(box.getBoxStatus());
         yltransfer_tv_tasktype.setText(box.getBoxTaskType());
@@ -601,6 +635,14 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             case R.id.yltransfer_btn_print:
                 Print();
                 break;
+            case R.id.yltransfer_cb_ylclearing:
+
+                if (yltransfer_cb_ylclearing.isChecked()){
+                    ChooseBox.setYlclearing("1");
+                }else {
+                    ChooseBox.setYlclearing("0");
+                }
+                break;
         }
     }
 
@@ -635,7 +677,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             }
         });
         builder.create().show();
-
     }
 
     private void PrintDetail() {
@@ -656,7 +697,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             case "返回":YLtransfer.this.finish();
                 break;
         }
-
     }
 
     //任务完成汇总数据
@@ -673,6 +713,9 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 MyLog("车内款箱数量："+ylTask.getLstCarBox().size());
                 yltransfer_btn_print.setEnabled(true);
                 yltransfer_btn_ent.setText("返回");
+                Scanflag = true;
+                YLtransferDataOperate.setSiteTaskTimeID(0);
+                YLtransfer.this.finish();
                 dialogInterface.dismiss();
             }
         });
@@ -707,7 +750,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
                 //载入任务顺序ID
                 TaskTimeID = ytdo.GetTaskTimeIDbyyltask(ylTask);
-                YLtransferDataOperate.setSiteTaskTimeID(TaskTimeID);
 
                 ChooseBox.setTaskTimeID(TaskTimeID);
                 ChooseBox.setBoxType("款箱类");
@@ -723,7 +765,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 yltransfer_btn_nonelable.setEnabled(true);
 
                 String siteid = yltransfer_tv_title.getTag().toString();
-                arriveTime = ytdo.AddArriveTime(ylTask,siteid);
+                arriveTime = ytdo.AddArriveTime(ylTask,siteid,TaskTimeID);
                 ChooseBox.setSiteID(siteid);
                 ChooseBox.setTimeID(arriveTime.getTimeID());
                 YLtransferDataOperate.setSitetimeID(arriveTime.getTimeID());
@@ -766,11 +808,14 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        PickDate = year+"-"+String.format("%02d",(monthOfYear + 1))+"-"
-                                +String.format("%02d",(dayOfMonth));
+                        PickDate = YLSysTime.IntToStrDate(year,monthOfYear,dayOfMonth);
                         yltransfer_btn_date.setText(PickDate);
-                        ChooseBox.setNextOutTime(PickDate);
-                        Log.e(YLSystem.getKimTag(),PickDate+"");
+                        if (TodayStrDate.equals(PickDate)){
+                            ChooseBox.setNextOutTime("");
+                        }else {
+                            ChooseBox.setNextOutTime(PickDate);
+                        }
+                        Log.e(YLSystem.getKimTag(),"出库时间"+ChooseBox.getNextOutTime());
                     }
                 },year,Month,day);
         datePickerDialog.show();
@@ -922,7 +967,19 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     @Override
     protected void onPostResume() {
+        MyLog(YLtransferDataOperate.Transferingboxes.size()+"返回数量");
+        TallyBox();
+        CleanShow();
         super.onPostResume();
+    }
+
+    private void CleanShow(){
+        yltransfer_tv_boxname.setText("");
+        yltransfer_tv_boxtot.setText("");
+        yltransfer_tv_boxaction.setText("");
+        yltransfer_tv_boxtype.setText("");
+        yltransfer_tv_boxstaut.setText("");
+        yltransfer_tv_tasktype.setText("");
     }
 
     @Override
@@ -935,11 +992,42 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings){
+            if (yltransfer_btn_ent.getText().toString().equals("到达")){
+                YLtransferDataOperate.setSiteTaskTimeID(0);
+            }else {
+                YLtransferDataOperate.setSiteTaskTimeID(TaskTimeID);
+            }
+
             Intent intent = new Intent();
             intent.setClass(this,YLtransferedi.class);
             startActivity(intent);
+        }else if (id == R.id.action_settings2){
+            ShowRefreshDialog();
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void ShowRefreshDialog() {
+        if (!yltransfer_btn_ent.getText().equals("完成"))return;
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
+        builder.setMessage("是否刷新到达时间?");
+        builder.setTitle("提示");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                arriveTime.setATime(YLSysTime.GetStrCurrentTime());
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+
+    }
+
 }

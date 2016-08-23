@@ -202,7 +202,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     //测试删除日期任务
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-08-01");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-08-17");
     }
 
     @Override
@@ -275,6 +275,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                         @Override
                         protected void onPostExecute(String s) {
                             YLProgressDialog.dismiss();
+                            if (s.equals(""))return;
                             User yluser = new User();
                             yluser = gson.fromJson(s,new TypeToken<User>(){}.getType());
                             if (yluser.getServerReturn().equals("没有此人或密码错误。")) {
@@ -403,6 +404,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                 @Override
                 protected void onPostExecute(String s) {
                     YLProgressDialog.dismiss();
+                    if (s.equals(""))return;
                     User yluser = new User();
                     yluser = gson.fromJson(s,new TypeToken<User>(){}.getType());
                     if (yluser.getServerReturn().equals("没有此人或密码错误。")) {

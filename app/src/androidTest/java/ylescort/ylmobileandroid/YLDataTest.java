@@ -1,6 +1,8 @@
 package ylescort.ylmobileandroid;
 
 import android.app.Application;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.test.ApplicationTestCase;
 import android.util.Log;
 
@@ -14,6 +16,7 @@ import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseClient_HF;
 import TaskClass.BaseEmp;
+import TaskClass.BaseSite;
 import TaskClass.Box;
 import TaskClass.BoxCombyOrder;
 import TaskClass.GatherPrint;
@@ -23,12 +26,15 @@ import TaskClass.YLTask;
 import YLDataService.AnalysisBoxList;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseEmpDBSer;
+import YLDataService.BaseSiteDBSer;
 import YLDataService.BoxDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
+import YLDataService.YLSQLHelper;
 import YLDataService.YLSiteInfo;
 import YLSystemDate.YLEditData;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 /**
@@ -39,6 +45,53 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
     private static final String TAG = "kim";
 
+
+    public void testUpdateSiteHF() throws Exception{
+        BaseSiteDBSer dbSer = new BaseSiteDBSer(getContext());
+        BaseSite b = new BaseSite();
+
+        b = dbSer.GetBasesingleSite("where SiteID =1861 ");//顺德农商行南海支行
+        b.setSiteHFNo("AEF45C65,7B62D225");
+
+        BaseSite a = new BaseSite();
+        a = dbSer.GetBasesingleSite("where SiteID =250 ");//佛山建行千灯湖支行
+        a.setSiteHFNo("A0EAD8A6,002DE3A6");
+
+        List<BaseSite> baseSites = new ArrayList<>();
+        baseSites.add(b);
+        baseSites.add(a);
+        dbSer.UpdateBaseSite(baseSites);
+
+    }
+
+
+    public void testBaseEmp() throws Exception{
+        BaseEmpDBSer b = new BaseEmpDBSer(getContext());
+        List<BaseEmp> baseEmps = b.GetBaseEmps("where EmpNo =520037");
+        for (BaseEmp emp : baseEmps) {
+            Log.e(TAG,emp.toString());
+        }
+    }
+
+    public void testHFSite() throws Exception{
+       YLSiteInfo ylSiteInfo = new YLSiteInfo(getContext());
+        boolean t = ylSiteInfo.CheckSiteHF("157","4EF87B64");
+        Log.e(YLSystem.getKimTag(),"返回:"+t);
+    }
+
+
+    public void testSiteNewData() throws Exception{
+        YLSQLHelper ylsqlHelper = new YLSQLHelper(getContext());
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseSite where Id = '1861'",null);
+        String sitehf = "";
+        while (cursor.moveToNext()){
+//            int id = cursor.getInt(cursor.getColumnIndex("Id"));
+              sitehf = cursor.getString(cursor.getColumnIndex("SiteHFNo"));
+        }
+
+        Log.e(YLSystem.getKimTag(),"fanhui"+sitehf);
+    }
 
     public void testSetListadd() throws Exception {
         Set<String> set = new HashSet<String>(new ArrayList<String>());

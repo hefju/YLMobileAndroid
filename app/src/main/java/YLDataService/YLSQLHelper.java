@@ -3,14 +3,19 @@ package YLDataService;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import YLSystemDate.YLSysTime;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by Administrator on 2015/1/19.
  */
 public class YLSQLHelper extends SQLiteOpenHelper {
-    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,2);}
+    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,3);}
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.e(YLSystem.getKimTag(),"版本号3");
 //        db.execSQL("CREATE TABLE Employee (ID integer primary key autoincrement,EmpID varchar(20),EmpNO varchar(20),Pass varchar(20),\n" +
 //                "Name varchar(20),DeviceID varchar(20),ISWIFI varchar(20),Time varchar(20),ServerReturn varchar(20))");
 
@@ -39,8 +44,10 @@ public class YLSQLHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE BaseEmp (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50)," +
                 " EmpID varchar(50), EmpName varchar(50), EmpNo varchar(50), EmpHFNo varchar(50)," +
                 " EmpWorkState varchar(50), EmpJJNo varchar(50))");
+
         db.execSQL("CREATE TABLE BaseSite (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50)," +
-                " SiteID varchar(50), SiteName varchar(50), SiteType varchar(50), ClientID varchar(50),SiteBCNo varchar(50))");
+                " SiteID varchar(50), SiteName varchar(50), SiteType varchar(50), ClientID varchar(50),"+
+                " SiteBCNo varchar(50),SiteHFNo varchar(50))");
 
         db.execSQL("CREATE TABLE TasksManager (Id INTEGER PRIMARY KEY autoincrement NOT NULL, TaskDate varchar(50),Data TEXT,EMPID varchar(50))");
 
@@ -51,8 +58,10 @@ public class YLSQLHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL("ALTER TABLE person ADD amount integer");
+        Log.e(YLSystem.getKimTag(),"升级");
         switch (oldVersion){
             case 2:
+                db.execSQL("ALTER TABLE BaseSite ADD SiteHFNo varchar(50) ");
                 break;
         }
     }

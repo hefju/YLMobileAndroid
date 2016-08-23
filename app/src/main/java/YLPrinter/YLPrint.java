@@ -323,7 +323,7 @@ public class YLPrint {
         zpSDK.zp_draw_text(TextBoxstautX[4]+4, TextTitleY[14],gatherPrint.getGetTotalvoucher());
         zpSDK.zp_draw_text(TextBoxstautX[6]+4, TextTitleY[14],gatherPrint.getGetTotalvoucherbag());
 
-        zpSDK.zp_draw_text(3, 100, "押运业务员"+gatherPrint.getHomName() +"  签名：");
+        zpSDK.zp_draw_text(3, 100, "押运业务员："+gatherPrint.getHomName() +"  签名：");
         zpSDK.zp_draw_text(3, 110, "网点交接人（签章）1：                   2：");
         Boolean printpage =  zpSDK.zp_page_print(false);
         Log.e("kim", "print" + printpage.toString());
@@ -338,7 +338,7 @@ public class YLPrint {
         return columnswide;
     }
 
-    public boolean PrintDetail(List<Box> boxList,int type, GatherPrint gatherPrint,String Tranfer) throws  Exception{
+    public boolean PrintDetail(List<Box> boxList,int type, GatherPrint gatherPrint) throws  Exception{
 
         rowshight = 4;rowsplus = 2;
 
@@ -465,7 +465,7 @@ public class YLPrint {
             order++;
         }
 
-        zpSDK.zp_draw_text(3, rowshight16(), "押运业务员:"+Tranfer +"  签名：");
+        zpSDK.zp_draw_text(3, rowshight16(), "押运业务员:"+gatherPrint.getHomName() +"  签名：");
         zpSDK.zp_draw_text(3, rowshight8(), "网点交接人（签章）1：                   2：");
 
 

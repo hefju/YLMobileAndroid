@@ -118,19 +118,22 @@
             android:id="@+id/yltransferedi_btn_enter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="确定"/>
+            android:layout_marginStart="15sp"
+            android:text="@string/YLtransferedi_save"/>
 
         <Button
             android:id="@+id/yltransferedi_btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="返回"/>
+            android:layout_marginStart="15sp"
+            android:text="@string/YLtransferedi_back"/>
 
         <Button
             android:id="@+id/yltransferedi_btn_del"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="删除"/>
+            android:layout_marginStart="15sp"
+            android:text="@string/YLtransferedi_del"/>
     </LinearLayout>
 
 </RelativeLayout>

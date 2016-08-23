@@ -27,6 +27,15 @@ public class YLTask {
     public List<Box> lstBox;
     public List<YLATM> lstATM;
     public List<Box> lstCarBox;//车内箱类列表
+    public List<ArriveTime> lstarrivetime;//到达时间
+
+    public List<ArriveTime> getLstarrivetime() {
+        return lstarrivetime;
+    }
+
+    public void setLstarrivetime(List<ArriveTime> lstarrivetime) {
+        this.lstarrivetime = lstarrivetime;
+    }
 
     public String getTaskCar() {
         return TaskCar;

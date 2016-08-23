@@ -143,7 +143,8 @@
         android:id="@+id/yltransfer_ll_taskdate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/yltransfer_rl_tasktype">
+        android:layout_below="@+id/yltransfer_rl_tasktype"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/yltransfer_tv_boxtasktype_label"
@@ -157,6 +158,7 @@
             android:layout_width="125sp"
             android:layout_height="40sp"
             android:background="@color/lightblue"
+            android:layout_marginStart="20sp"
             android:spinnerMode="dialog">
         </Spinner>
 
@@ -182,7 +184,16 @@
             android:id="@+id/yltransfer_cb_ToT"
             android:textColor="@color/androidpurplel"
             android:text="@string/homscanbox_cb_ToT"
-            android:layout_marginStart="70sp"/>
+            android:layout_marginStart="10sp"/>
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/yltransfer_cb_ylclearing"
+            android:textColor="@color/androidgreenl"
+            android:text="@string/homscanbox_cb_ylclearing"
+            android:layout_marginStart="110sp"/>
+
         <CheckBox
             android:id="@+id/yltransfer_cb_date"
             android:layout_width="wrap_content"
@@ -352,23 +363,31 @@
             android:id="@+id/yltransfer_btn_print"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:visibility="gone"
             android:text="@string/HomTmp_scan_btn_print" />
 
         <Button
             android:id="@+id/yltransfer_btn_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="90sp"
+            android:layout_marginStart="10sp"
             android:text="@string/HomTmp_scan_btn_scan" />
 
         <Button
             android:id="@+id/yltransfer_btn_nonelable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:minWidth="90sp"
             android:text="@string/box_btn_nolable" />
 
         <Button
             android:id="@+id/yltransfer_btn_ent"
             android:layout_width="wrap_content"
+            android:layout_marginStart="10sp"
+            android:minWidth="90sp"
             android:layout_height="wrap_content"
             android:text="@string/box_btn_arrive" />
     </LinearLayout>

@@ -53,6 +53,11 @@ public class YLSysTime {
         return sDateFormat.format(new java.util.Date());
     }
 
+    public static String GetStrCurrentShortTime(){
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+        return sDateFormat.format(new java.util.Date());
+    }
+
     public static Date StrToMin(String str )throws Exception{
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
         return sDateFormat.parse(str);
@@ -82,6 +87,11 @@ public class YLSysTime {
     public static Calendar AddDateString(Calendar calendar,int Daycount){
         calendar.add(calendar.DATE,Daycount);
         return calendar;
+    }
+
+    public static  String IntToStrDate(int year, int monthOfYear, int dayOfMonth){
+        return year+"-"+String.format("%02d",(monthOfYear + 1))+"-"
+                +String.format("%02d",(dayOfMonth));
     }
 
     public void CheckLocateTime(String Servertime){

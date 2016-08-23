@@ -61,7 +61,7 @@ public class YLlauncher extends ActionBarActivity {
                 finish();
             }
         };
-        timer.schedule(task, 200); //1秒后
+        timer.schedule(task, 500); //1秒后
     }
 
     private void InitData() {

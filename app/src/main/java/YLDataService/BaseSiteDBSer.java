@@ -31,6 +31,7 @@ public class BaseSiteDBSer {
             String SiteType = cursor.getString(cursor.getColumnIndex("SiteType"));
             String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
             String SiteBCNo = cursor.getString(cursor.getColumnIndex("SiteBCNo"));
+            String SiteHFNo = cursor.getString(cursor.getColumnIndex("SiteHFNo"));
 
             BaseSite b=new BaseSite();
             b.Id=Id;
@@ -40,11 +41,53 @@ public class BaseSiteDBSer {
             b.SiteType=SiteType;
             b.ClientID=ClientID;
             b.SiteBCNo=SiteBCNo;
+            b.SiteHFNo = SiteHFNo;
 
             lstBaseSite.add(b);
         }
         sdb.close(); //关闭数据库
         return lstBaseSite;
+    }
+
+
+    public BaseSite GetBasesingleSite(String where){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        BaseSite b=new BaseSite();
+        Cursor cursor = sdb.rawQuery("select * from BaseSite " + where, null);
+        while(cursor.moveToNext()){
+            int Id = cursor.getInt(cursor.getColumnIndex("Id"));
+            String ServerReturn = cursor.getString(cursor.getColumnIndex("ServerReturn"));
+            String SiteID = cursor.getString(cursor.getColumnIndex("SiteID"));
+            String SiteName = cursor.getString(cursor.getColumnIndex("SiteName"));
+            String SiteType = cursor.getString(cursor.getColumnIndex("SiteType"));
+            String ClientID = cursor.getString(cursor.getColumnIndex("ClientID"));
+            String SiteBCNo = cursor.getString(cursor.getColumnIndex("SiteBCNo"));
+            String SiteHFNo = cursor.getString(cursor.getColumnIndex("SiteHFNo"));
+
+            b.Id=Id;
+            b.ServerReturn=ServerReturn;
+            b.SiteID=SiteID;
+            b.SiteName=SiteName;
+            b.SiteType=SiteType;
+            b.ClientID=ClientID;
+            b.SiteBCNo=SiteBCNo;
+            b.SiteHFNo = SiteHFNo;
+        }
+        sdb.close(); //关闭数据库
+        return b;
+    }
+
+
+
+    public String GetSiteHFNo(String SiteID){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select SiteHFNo from BaseSite where SiteID =" + SiteID, null);
+        String SiteHFNo = "";
+        while (cursor.moveToNext()){
+            SiteHFNo = cursor.getString(cursor.getColumnIndex("SiteHFNo"));
+        }
+        sdb.close();
+        return SiteHFNo;
     }
 
     //批量插入BaseSite
@@ -53,11 +96,10 @@ public class BaseSiteDBSer {
         sdb.beginTransaction();
         try {
             for (BaseSite x : lst) {
-                sdb.execSQL("INSERT INTO BaseSite ( ServerReturn, SiteID, SiteName, SiteType, ClientID,SiteBCNo)\n" +
-                                "VALUES     (?,?,?,?,?,?)",
-                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo
+                sdb.execSQL("INSERT INTO BaseSite ( ServerReturn, SiteID, SiteName, SiteType, ClientID,SiteBCNo,SiteHFNo )\n" +
+                                "VALUES     (?,?,?,?,?,?,?)",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo,x.SiteHFNo
                         });
-
             }
         }
         finally {
@@ -75,8 +117,8 @@ public class BaseSiteDBSer {
         try {
             for (BaseSite x : lst) {
                 sdb.execSQL("UPDATE    BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?," +
-                                " ClientID =?,SiteBCNo=? where Id=?",
-                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo, x.Id});
+                                " ClientID =?,SiteBCNo=? ,SiteHFNo=? where Id=?",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo,x.SiteHFNo, x.Id});
 
             }
         }
@@ -93,8 +135,8 @@ public class BaseSiteDBSer {
         try {
             for (BaseSite x : lst) {
                 sdb.execSQL("UPDATE BaseSite SET ServerReturn =?, SiteID =?, SiteName =?, SiteType =?, " +
-                                "ClientID =?,SiteBCNo=? where SiteID=?",
-                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo, x.SiteID});
+                                "ClientID =?,SiteBCNo=?,SiteHFNo=? where SiteID=?",
+                        new Object[]{x.ServerReturn,x.SiteID,x.SiteName,x.SiteType,x.ClientID,x.SiteBCNo,x.SiteHFNo, x.SiteID});
 
             }
         }

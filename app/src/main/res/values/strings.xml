@@ -36,7 +36,13 @@
     <string name="homscanbox_tasktype">交接</string>
     <string name="homscanbox_cb_date">长期</string>
     <string name="homscanbox_cb_ToT">即日收送</string>
+    <string name="homscanbox_cb_ylclearing">清分上介</string>
     <string name="homscanbox_refresh">刷新</string>
+
+    <!--款箱编辑-->
+    <string name="YLtransferedi_save">保存</string>
+    <string name="YLtransferedi_back">返回</string>
+    <string name="YLtransferedi_del">删除</string>
 
     <!--出入库管理-->
     <string name="box_tv_title">标题</string>
@@ -45,8 +51,8 @@
     <string name="box_btn_arrive">到达</string>
     <string name="boxitem_monenybox">款箱:0</string>
     <string name="boxitem_cardbox">卡箱:0</string>
-    <string name="boxitem_Voucherbox">凭证箱:0</string>
-    <string name="boxitem_Voucherboxbag">凭证袋:0</string>
+    <string name="boxitem_Voucherbox">凭证箱:\n 0</string>
+    <string name="boxitem_Voucherboxbag">凭证袋:\n 0</string>
     <string name="boxitem_order">序号</string>
     <string name="boxitem_Boxid">箱名:</string>
     <string name="boxitem_TradeAction">收/送:</string>
@@ -216,6 +222,7 @@
     <string name="ylprinter_btn_gather">汇总</string>
     <string name="ylprinter_btn_detail">明细</string>
     <string name="ylprinter_btn_cancel">取消</string>
+    <string name="ylprinter_btn_readcard">读卡</string>
 
     <string name="title_activity_launcher">Launcher</string>
 

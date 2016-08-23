@@ -1,10 +1,10 @@
 package ylescort.ylmobileandroid;
 
-import android.bluetooth.BluetoothAdapter;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,22 +16,26 @@ import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import TaskClass.ArriveTime;
+import TaskClass.BaseEmp;
 import TaskClass.Box;
 import TaskClass.BoxCombyOrder;
-import TaskClass.BoxCombyTime;
 import TaskClass.GatherPrint;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.YLTask;
 import YLAdapter.YLBoxEdiAdapter;
 import YLDataService.AnalysisBoxList;
-import YLDataService.YLBoxScanCheck;
+import YLDataService.BaseEmpDBSer;
 import YLDataService.YLSiteInfo;
 import YLPrinter.YLPrint;
 import YLSystemDate.YLEditData;
@@ -60,11 +64,12 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
     private TasksManager tasksManager = null;
     private YLTask ylTask;
     private Site site;
-    private String TradeTime;
+    private String EmptransferNo;
 
     private YLBoxEdiAdapter ylBoxEdiAdapter;
     private AnalysisBoxList analysisBoxList;
     private YLSiteInfo ylSiteInfo;
+    private ArriveTime arriveTime;
 
     private NFCcmdManager manager ;
     private YLMediaPlayer ylMediaPlayer;
@@ -106,12 +111,31 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
                     }
                 }
 
-                TradeTime = site.getLstArriveTime().get(i).ATime;
+                for (ArriveTime a : ylTask.lstarrivetime) {
+                    if (a.getSiteID().equals(site.getSiteID()) & a.getTimeID().equals(TimeID)){
+                        arriveTime = a;
+                    }
+                }
+
+                BaseEmpDBSer dbSer = new BaseEmpDBSer(getApplicationContext());
+                List<BaseEmp>  baseEmp = dbSer.GetBaseEmps("where EmpID = "+YLSystem.getUser().getEmpID());
+                if (baseEmp.size()>0){
+                    EmptransferNo = baseEmp.get(0).EmpJJNo;
+                }else {
+                    EmptransferNo = YLSystem.getUser().getEmpNO();
+                }
 
                 ylBoxEdiAdapter.notifyDataSetChanged();
                 if (displaylistbox.size() > 0) {
                     BoxCombyOrder ylBoxComparator = new BoxCombyOrder();
                     Collections.sort(displaylistbox, ylBoxComparator);
+
+                    if (displaylistbox.size()>0){
+                        for (int j = 0; j < displaylistbox.size(); j++) {
+                            displaylistbox.get(j).setBoxOrder(j+1+"");
+                        }
+                    }
+
                     TallyBox(displaylistbox);
                 }
 
@@ -152,6 +176,8 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             DisplayListBox(displaylistbox);
 
             ylPrint.InitBluetooth();
+            String title = "打印时间："+YLSysTime.GetStrCurrentShortTime();
+            this.setTitle(title);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -225,21 +251,14 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         try {
             switch (view.getId()) {
                 case R.id.ylprinter_btn_gather:
-
                     PrintGather();
-
                     break;
                 case R.id.ylprinter_btn_detail:
-
                     PrintDetail();
-
                     break;
                 case R.id.ylprinter_btn_readhf:
-
                     CheckSietHF();
-
                     break;
-
                 case R.id.ylprinter_btn_cancel:
                     finish();
                     break;
@@ -269,7 +288,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         byte[] uid = manager.inventory_14443A();
         if (uid!= null){
             String readhf = Tools.Bytes2HexString(uid, uid.length);
-            if (readhf.equals(site.getServerReturn())){
+            MyLog("卡号:"+readhf+"网点ID："+site.getSiteID());
+            if (ylSiteInfo.CheckSiteHF(site.getSiteID(),readhf)){
+                arriveTime.setClientHFNO(readhf);
                 ylMediaPlayer.SuccessOrFail(true);
                 return true;
             }else {
@@ -292,11 +313,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         if (detaillist.size()>0) {
             String TaskTimeID = detaillist.get(0).getTaskTimeID()+"";
 
-//        String TaskTimeID2 = String.format("%02d",TaskTimeID);
             if (TaskTimeID.length()== 1){
                 TaskTimeID = "0"+TaskTimeID;
             }
-            String Number = ylTask.getTaskID()+TaskTimeID;
 
             AnalysisBoxList analysisBoxList = new AnalysisBoxList();
             gatherPrint = analysisBoxList.AnsysisBoxListForPrint(displaylistbox);
@@ -306,9 +325,11 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             gatherPrint.setTradeTime(YLSysTime.GetStrCurrentTime());
             gatherPrint.setCarNumber(ylTask.getTaskCar());
             gatherPrint.setTaskNumber("NO." + ylTask.getTaskID() + TaskTimeID);
-            gatherPrint.setHomName(ylTask.getTaskManagerNo() +"-"+ ylTask.getTaskManager());
-
-            ylPrint.PrintDetail(detaillist,1,gatherPrint,YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());
+            arriveTime.setPrintStatus("已打印");
+            arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
+            ylPrint.PrintDetail(detaillist,1,gatherPrint);
+            tasksManager.SaveTask(getApplicationContext());
         }
     }
 
@@ -329,10 +350,11 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         gatherPrint.setTradeTime(YLSysTime.GetStrCurrentTime());
         gatherPrint.setCarNumber(ylTask.getTaskCar());
         gatherPrint.setTaskNumber("NO." + ylTask.getTaskID() + TaskTimeID);
-        gatherPrint.setHomName(ylTask.getTaskManagerNo() +"-"+ ylTask.getTaskManager());
-
+        gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());
+        arriveTime.setPrintStatus("已打印");
+        arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
         ylPrint.PrintGather(gatherPrint,1);
-
+        tasksManager.SaveTask(getApplicationContext());
     }
 
 
@@ -349,6 +371,50 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         super.onPostResume();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_print, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings){
+            CachData();
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void CachData() {
+        try {
+            JSONObject js = new JSONObject();
+            js.put("empid",YLSystem.getUser().getEmpID());
+            js.put("deviceID",YLSystem.getHandsetIMEI());
+            js.put("ISWIFI",YLSystem.getNetWorkState());
+            js.put("TaskID",ylTask.getTaskID());
+            String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTaskByTaskID";
+            YLWebDataAsyTaskForeground y = new YLWebDataAsyTaskForeground(js,url,2) {
+                @Override
+                protected void onPostExecute(String s) {
+                    YLProgressDialog.dismiss();
+                    if (!s.equals("")){
+                        YLTask yt = gson.fromJson(s,new TypeToken<YLTask>()
+                        {}.getType());
+                        if (yt.getServerReturn().equals("1")){
+                            ylTask.setTaskCar(yt.getTaskCar());
+                            YLSysTime sysTime = new YLSysTime();
+                            sysTime.Sertime(yt.getTaskDate());
+                        }
+                    }
+                }
+            };
+            y.execute();
+            y.doInBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

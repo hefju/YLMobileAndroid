@@ -21,7 +21,16 @@ public class BaseSite //网点类
     public String SiteBCNo;//条形码
     public String Mark ;//标记添加=1、修改=2、删除=3
     public String ServerTime;//服务器时间。
+    public String SiteHFNo;//网点交接卡号
 
+
+    public String getSiteHFNo() {
+        return SiteHFNo;
+    }
+
+    public void setSiteHFNo(String siteHFNo) {
+        SiteHFNo = siteHFNo;
+    }
 
     public String getSiteID() {
         return SiteID;
@@ -107,10 +116,11 @@ public class BaseSite //网点类
                 ", SiteBCNo='" + SiteBCNo + '\'' +
                 ", Mark='" + Mark + '\'' +
                 ", ServerTime='" + ServerTime + '\'' +
+                ", SiteHFNo='" + SiteHFNo + '\'' +
                 '}';
     }
 
-    public void CacheBaseSite(Context ctx,List<BaseSite> lst){
+    public void CacheBaseSite(Context ctx, List<BaseSite> lst){
         ArrayList<BaseSite> lstAdd=new ArrayList<>();
         ArrayList<BaseSite> lstUpdate=new ArrayList<>();
         ArrayList<BaseSite> lstDel=new ArrayList<>();

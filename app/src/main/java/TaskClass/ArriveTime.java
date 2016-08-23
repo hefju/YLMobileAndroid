@@ -16,6 +16,15 @@ public class ArriveTime {
     public String ClientHFNO;//客户交接HF卡
     public int PrintCount;//打印次数
     public String PrintStatus;//打印状态
+    public int TaskTimeID;//到达时间
+
+    public int getTaskTimeID() {
+        return TaskTimeID;
+    }
+
+    public void setTaskTimeID(int taskTimeID) {
+        TaskTimeID = taskTimeID;
+    }
 
     public int getPrintCount() {
         return PrintCount;
@@ -116,11 +125,19 @@ public class ArriveTime {
     @Override
     public String toString() {
         return "ArriveTime{" +
+                "Id=" + Id +
+                ", ServerReturn='" + ServerReturn + '\'' +
+                ", EmpID='" + EmpID + '\'' +
+                ", ATime='" + ATime + '\'' +
+                ", TimeID='" + TimeID + '\'' +
                 ", TradeBegin='" + TradeBegin + '\'' +
                 ", TradeEnd='" + TradeEnd + '\'' +
                 ", TradeState='" + TradeState + '\'' +
                 ", SiteID='" + SiteID + '\'' +
                 ", ClientHFNO='" + ClientHFNO + '\'' +
+                ", PrintCount=" + PrintCount +
+                ", PrintStatus='" + PrintStatus + '\'' +
+                ", TaskTimeID=" + TaskTimeID +
                 '}';
     }
 }

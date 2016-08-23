@@ -14,6 +14,7 @@ import YLSystemDate.YLSystem;
 public abstract class YLBaseScanActivity extends YLBaseActivity {
 
     private Scan1DRecive Scan1D;
+    private IntentFilter intentFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
 
 
     private void GetScreen() {
-        IntentFilter intentFilter = new IntentFilter();
+        intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         if (mBatlnfoReceiver != null) {
@@ -103,6 +104,9 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
     protected void onDestroy() {
         if (Scan1D !=null){
             unregisterReceiver(Scan1D);
+        }
+        if (mBatlnfoReceiver != null) {
+            unregisterReceiver(mBatlnfoReceiver);
         }
         Scan1DCmd(0);
         super.onDestroy();

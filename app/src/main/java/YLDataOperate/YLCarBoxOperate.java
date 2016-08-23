@@ -34,7 +34,9 @@ public class YLCarBoxOperate {
     public static void setYLCurrectCarBoxList(List<Box> YLCurrectCarBoxes) {
 
         List<Box> boxes = new ArrayList<>();
+
         if (YLCurrectCarBoxes != null) {
+            Log.e(YLSystem.getKimTag(),YLCurrectCarBoxes.size()+"初始数量");
             for (Box box : YLCurrectCarBoxes) {
                 boxes.add(box);
             }
@@ -112,11 +114,15 @@ public class YLCarBoxOperate {
     }
 
     public boolean LoadCarboxlist(YLTask ylTask){
-        if (ylTask.getLstSite() != null){
+        if (ylTask.getLstSite() != null ){
             for (Site site : ylTask.getLstSite()) {
                 if (site.getStatus().equals("已完成")){
                     return false;
                 }
+            }
+
+            if (ylTask.lstCarBox.size() >0){
+                return false;
             }
         }
         return true;
@@ -138,9 +144,17 @@ public class YLCarBoxOperate {
     public void UpdateCarbox(Context context,String taskid){
         try {
             WebServerYLSite webServerYLSite = new WebServerYLSite();
-            List<Box> boxes = webServerYLSite.GetCarBoxlist(context,taskid);
-            setYLCurrectCarBoxList(boxes);
+            List<Box> boxes =  webServerYLSite.GetCarBoxlist(context,taskid);
+            Log.e(YLSystem.getKimTag(),boxes.toString());
+            if (boxes.get(0).getServerReturn().contains("没有")){
+                setYLCurrectCarBoxList(boxes);
+            }else {
+                boxes = new ArrayList<>();
+                setYLCurrectCarBoxList(boxes);
+            }
         } catch (Exception e) {
+            List<Box> boxes = new ArrayList<>();
+            setYLCurrectCarBoxList(boxes);
             e.printStackTrace();
         }
     }

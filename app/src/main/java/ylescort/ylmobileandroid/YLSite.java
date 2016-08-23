@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import TaskClass.ArriveTime;
 import TaskClass.Box;
 import TaskClass.Site;
 import TaskClass.TasksManager;
@@ -238,8 +239,8 @@ public class YLSite extends ActionBarActivity {
         }
 
         Intent intent = new Intent();
-        intent.setClass(this, HomYLBoxScan.class);//款箱扫描
-//        intent.setClass(this, YLtransfer.class);//新款箱扫描
+//        intent.setClass(this, HomYLBoxScan.class);//款箱扫描
+        intent.setClass(this, YLtransfer.class);//新款箱扫描
         YLRecord.WriteRecord("网点","进入网点扫描："+site.getSiteName());
         YLEditData.setCurrentYLSite(site);
         startActivity(intent);
@@ -449,7 +450,7 @@ public class YLSite extends ActionBarActivity {
                     String content = new String(result, "UTF-8");
                     List<Box> boxList = gson.fromJson(content, new TypeToken<List<Box>>() {
                     }.getType());
-                    Log.e(YLSystem.getKimTag(), boxList.get(0).toString() + "在车数量");
+//                    Log.e(YLSystem.getKimTag(), boxList.get(0).toString() + "在车数量");
                     YLRecord.WriteRecord("网点","更新车内款箱数："+ boxList.size());
                     if (boxList.get(0).getBoxID() == null) {
                         boxList.clear();
@@ -620,7 +621,6 @@ public class YLSite extends ActionBarActivity {
             }
             return convertView;
         }
-
 
         private final class ViewCache{
             public Button YLsitePrintview;

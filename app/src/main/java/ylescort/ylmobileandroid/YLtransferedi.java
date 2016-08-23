@@ -1,5 +1,7 @@
 package ylescort.ylmobileandroid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -89,8 +91,10 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 SitetimeID = adapterView.getItemAtPosition(i).toString();
-                displayboxList = yfdo.EditerBoxDisplay(ChooseSite,SitetimeID);
-                DisplayBoxData(displayboxList);
+                if (YLtransferDataOperate.getSiteTaskTimeID() == 0) {
+                    displayboxList = yfdo.EditerBoxDisplay(ChooseSite, SitetimeID);
+                    DisplayBoxData(displayboxList);
+                }
             }
 
             @Override
@@ -104,9 +108,32 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 indext = i;
                 ylBoxEdiAdapter.setSelectItem(indext);
+
+                String tasktype = displayboxList.get(indext).getBoxTaskType();
+                yltransferedi_sp_tasktype.setSelection(GetTaskTypeindext(tasktype));
+
                 ylBoxEdiAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private int GetTaskTypeindext(String tasktype){
+        int i = 0;
+        switch (tasktype){
+            case "早送晚收":i = 0;
+                break;
+            case "上下介":i = 1;
+                break;
+            case "同行调拨":i = 2;
+                break;
+            case "跨行调拨":i = 3;
+                break;
+            case "企业收送款":i = 4;
+                break;
+            case "寄库箱":i = 5;
+                break;
+        }
+        return i;
     }
 
     @Override
@@ -117,13 +144,12 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
         analysisBoxList = new AnalysisBoxList();
         yfdo = new YLtransferDataOperate();
         ycbo = new YLCarBoxOperate();
-
         ChooseSite = YLtransferDataOperate.getChooseSite();
         SitetimeID = YLtransferDataOperate.getSitetimeID();
         yltransferedi_tv_title.setText(ChooseSite.getSiteName());
 
-
         //根据网点交接状态获取数据
+        MyLog("交接状态:"+YLtransferDataOperate.getSiteTaskTimeID());
         if (YLtransferDataOperate.getSiteTaskTimeID() == 0){
             //不在交接状态下
             Recheckboxlist(ChooseSite);
@@ -131,6 +157,7 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
         }else {
             //交接状态下
             CheckScanboxlist();
+            yltransferedi_btn_del.setEnabled(true);
         }
 
         GetArriveTime();
@@ -142,7 +169,11 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
 
     private void CheckScanboxlist() {
         GetTimeIDtoSP(false);
-        displayboxList = YLtransferDataOperate.getTransferingboxes();
+
+        for (Box box : YLtransferDataOperate.getTransferingboxes()) {
+            Box dbox = new Box(box);
+            displayboxList.add(dbox);
+        }
         DisplayBoxData(displayboxList);
     }
 
@@ -163,13 +194,22 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
 
     private void Recheckboxlist(Site site) {
         GetTimeIDtoSP(true);
-        displayboxList = yfdo.EditerBoxDisplay(site,SitetimeID);
+        for (Box box : yfdo.EditerBoxDisplay(site, SitetimeID)) {
+            Box dbox = new Box(box);
+            displayboxList.add(dbox);
+        }
         DisplayBoxData(displayboxList);
     }
 
 
     private void DisplayBoxData(List<Box> boxList){
         if (boxList ==null)return;
+
+        if (boxList.size()>0) {
+            for (int i = 0; i < boxList.size(); i++) {
+                boxList.get(i).setBoxOrder(i + 1 + "");
+            }
+        }
         ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(indext);
         yltransferedi_listview.setAdapter(ylBoxEdiAdapter);
@@ -206,30 +246,44 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     }
 
     private void NoSaveData() {
-
+        finish();
     }
 
     private void SaveData() {
-//        List<Box> all = YLtransferDataOperate.AllTransferboxes;
-//        for (int i = 0; i < all.size(); i++) {
-//            if (all.get(i).TaskTimeID == TaskTimeID){
-//                all.remove(i);
-//                i--;
-//            }
-//        }
-//        all.addAll(displayboxList);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLtransferedi.this);
+        builder.setMessage("确认保存返回?");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                YLtransferDataOperate.setTransferingboxes(displayboxList);
+                finish();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+
     }
 
-    private void DeleteBox(int indext) {
-        if (displayboxList.size() ==0)return;
-        Box box = displayboxList.get(indext);
-        if (box.getTradeAction().equals("收")){
+    private void DeleteBox(int delindex) {
+        if (displayboxList.size() == 0) return;
+        Box box = displayboxList.get(delindex);
+        if (box.getTradeAction().equals("收")) {
             ycbo.RemoveCarBox(box.getBoxID());
-        }else {
+        } else {
             ycbo.AddBoxOnEditeCarBox(box);
         }
-        displayboxList.remove(indext);
-        ylBoxEdiAdapter.setSelectItem(0);
+        displayboxList.remove(delindex);
+        indext = 0;
+        ylBoxEdiAdapter.setSelectItem(indext);
         ylBoxEdiAdapter.notifyDataSetChanged();
+        TallyBox();
     }
 }

@@ -108,6 +108,7 @@ public abstract class YLBaseActivity extends ActionBarActivity {
             HttpConnectionParams.setSoTimeout(httpParams, 1000*TimeOut);
             InputStream inputStream = null;
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            String retstr = "";
             try {
                 post.setEntity(new StringEntity(jsonObject.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
@@ -127,12 +128,12 @@ public abstract class YLBaseActivity extends ActionBarActivity {
                         outputStream.write(data, 0, len);
                     }
                     byte[] result = outputStream.toByteArray();
-                    return new String(result, "UTF-8");
+                    retstr = new String(result, "UTF-8");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+            return retstr;
         }
 
         @Override
@@ -145,7 +146,7 @@ public abstract class YLBaseActivity extends ActionBarActivity {
         }
     }
 
-    public class YLWebDataAsyTaskBlackground extends AsyncTask<String,Integer,String>{
+    public abstract class YLWebDataAsyTaskBlackground extends AsyncTask<String,Integer,String>{
 
         private JSONObject jsonObject;
         private String YLuRL;
@@ -162,6 +163,7 @@ public abstract class YLBaseActivity extends ActionBarActivity {
             HttpParams httpParams = new BasicHttpParams();
             HttpConnectionParams.setConnectionTimeout(httpParams, 1000*TimeOut);
             HttpConnectionParams.setSoTimeout(httpParams, 1000*TimeOut);
+            String serreturn = "";
             try {
                 post.setEntity(new StringEntity(jsonObject.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
@@ -169,13 +171,17 @@ public abstract class YLBaseActivity extends ActionBarActivity {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    return gson.fromJson(content, String.class);
+                    serreturn=  gson.fromJson(content, String.class);
                 }
             } catch (Exception e) {
+                Log.e(YLSystem.getKimTag(),"服务出错");
                 e.printStackTrace();
             }
-            return null;
+            return serreturn;
         }
+
+        @Override
+        protected abstract void onPostExecute(String s);
     }
 
 

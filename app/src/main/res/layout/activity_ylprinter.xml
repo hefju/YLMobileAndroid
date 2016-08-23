@@ -65,8 +65,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/ylprinter_btn_readhf"
             android:layout_alignParentStart="true"
-            android:visibility="gone"
-            android:text="读卡"/>
+            android:text="@string/ylprinter_btn_readcard"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

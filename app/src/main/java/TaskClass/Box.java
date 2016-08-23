@@ -26,13 +26,14 @@ public class Box {
     public String Remark;// 补打标签标记
     public int TaskTimeID;// 任务顺序
     public String BoxToT;//是否次日送
+    public String Ylclearing;//是否上介清分
 
     public Box(){}
 
     public Box(Box box) {
         Id = box.getId();
         ServerReturn = box.getServerReturn();
-        SiteID = box.getSiteID();
+        SiteID =  box.getSiteID();
         BoxID = box.getBoxID();
         BoxName = box.getBoxName();
         TradeAction = box.getTradeAction();
@@ -50,6 +51,15 @@ public class Box {
         Remark = box.getRemark();
         TaskTimeID = box.getTaskTimeID();
         BoxToT = box.getBoxToT();
+        Ylclearing = box.getYlclearing();
+    }
+
+    public String getYlclearing() {
+        return Ylclearing;
+    }
+
+    public void setYlclearing(String ylclearing) {
+        Ylclearing = ylclearing;
     }
 
     public String getBoxToT() {
@@ -235,6 +245,7 @@ public class Box {
                 ", Remark='" + Remark + '\'' +
                 ", TaskTimeID=" + TaskTimeID +
                 ", BoxToT='" + BoxToT + '\'' +
+                ", Ylclearing='" + Ylclearing + '\'' +
                 '}';
     }
 }
