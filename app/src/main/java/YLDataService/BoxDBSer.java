@@ -4,11 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.BaseBox;
 import TaskClass.Box;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by asus on 2015/1/31.
@@ -120,6 +123,30 @@ public class BoxDBSer {
             box.setBoxName("无数据");
             box.setBoxID("0");
         }
+        return box;
+    }
+
+    public Box GetBox(String bcno){
+        Box box = new Box();
+
+        SQLiteDatabase sdb = ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseBox where BoxBCNo=?", new String[]{bcno});
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                box.setSiteID(cursor.getString(cursor.getColumnIndex("SiteID")));
+                box.setBoxID(cursor.getString(cursor.getColumnIndex("BoxBCNo")));
+                box.setBoxName(cursor.getString(cursor.getColumnIndex("BoxName")));
+                box.setBoxType(cursor.getString(cursor.getColumnIndex("BoxType")));
+            }
+        }
+        if (box.getBoxName() == null) {
+            box.setBoxName("无数据");
+            box.setBoxID("0");
+        }
+        if (box.getBoxType() == null || box.getBoxType().equals("普通箱") || box.getBoxType().equals("")) {
+            box.setBoxType("款箱");
+        }
+        Log.e(YLSystem.getKimTag(),"数据库款箱："+box.toString());
         return box;
     }
 

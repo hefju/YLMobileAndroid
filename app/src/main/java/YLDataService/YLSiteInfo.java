@@ -51,5 +51,17 @@ public class YLSiteInfo {
         return false;
     }
 
+    public String  GetBaseSiteName (String rehf){
+        BaseSiteDBSer dbSer = new BaseSiteDBSer(context);
+        BaseSite baseSite = dbSer.GetBasesingleSite("where SiteHFNo like '%"+rehf+"%'");
+        String sitename = "";
+        if (baseSite.getId() !=0){
+            sitename = baseSite.getSiteName();
+        }else {
+            sitename = "未录入网点";
+        }
+        return sitename;
+    }
+
 
 }

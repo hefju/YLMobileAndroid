@@ -8,11 +8,22 @@ import java.util.regex.Pattern;
 
 import TaskClass.BaseBox;
 import TaskClass.Box;
+import YLSystemDate.YLSystem;
+import ylescort.ylmobileandroid.YLtransfer;
 
 /**
  * Created by Administrator on 2015/4/27.
  */
 public class YLBoxScanCheck {
+
+    public YLBoxScanCheck() {
+    }
+
+    private Context context;
+
+    public YLBoxScanCheck(Context context) {
+        this.context = context;
+    }
 
     private static BaseBox baseBox;
 
@@ -56,6 +67,12 @@ public class YLBoxScanCheck {
             box.setBoxType("款箱");
         }
         return box;
+    }
+
+    public  Box GetBoxbyBCNO(String boxnumber){
+        String bcno = replaceBlank(boxnumber);
+        BoxDBSer boxDBSer = new BoxDBSer(context);
+        return new Box(boxDBSer.GetBox(bcno));
     }
 
     public static   String replaceBlank(String str) {

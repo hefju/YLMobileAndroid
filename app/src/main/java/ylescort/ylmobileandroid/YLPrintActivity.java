@@ -64,6 +64,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
     private TasksManager tasksManager = null;
     private YLTask ylTask;
     private Site site;
+    private  String TimeID;
     private String EmptransferNo;
 
     private YLBoxEdiAdapter ylBoxEdiAdapter;
@@ -103,7 +104,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         ylprinter_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String TimeID = adapterView.getItemAtPosition(i).toString();
+                TimeID = adapterView.getItemAtPosition(i).toString();
                 displaylistbox.clear();
                 for (Box box : list) {
                     if (box.getTimeID().equals(TimeID)) {
@@ -146,6 +147,22 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
 
             }
         });
+
+    }
+
+    private void SaveArriveTime(){
+//        for (ArriveTime a : ylTask.lstarrivetime) {
+//            if (a.getSiteID().equals(site.getSiteID()) & a.getTimeID().equals(TimeID)){
+//                arriveTime = a;
+//            }
+//        }
+        for (int i = 0; i < ylTask.lstarrivetime.size(); i++) {
+            ArriveTime a = ylTask.lstarrivetime.get(i);
+            if (a.getSiteID().equals(site.getSiteID()) & a.getTimeID().equals(TimeID)){
+                ylTask.lstarrivetime.set(i,arriveTime);
+            }
+        }
+
 
     }
 
@@ -292,8 +309,11 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             if (ylSiteInfo.CheckSiteHF(site.getSiteID(),readhf)){
                 arriveTime.setClientHFNO(readhf);
                 ylMediaPlayer.SuccessOrFail(true);
+                Toast.makeText(getApplicationContext(),"录入成功",Toast.LENGTH_SHORT).show();
                 return true;
             }else {
+                String site = ylSiteInfo.GetBaseSiteName(readhf);
+                YLMessagebox("该交接卡为：\n\n"+"            "+site+"\n\n"+"请确认卡后录入。");
                 ylMediaPlayer.SuccessOrFail(false);
             }
         }else {
@@ -330,6 +350,8 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
             ylPrint.PrintDetail(detaillist,1,gatherPrint);
             tasksManager.SaveTask(getApplicationContext());
+            SaveArriveTime();
+            Toast.makeText(getApplicationContext(),"已打印"+arriveTime.getPrintCount()+"次",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -354,6 +376,8 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         arriveTime.setPrintStatus("已打印");
         arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
         ylPrint.PrintGather(gatherPrint,1);
+        Toast.makeText(getApplicationContext(),"已打印"+arriveTime.getPrintCount()+"次",Toast.LENGTH_SHORT).show();
+        SaveArriveTime();
         tasksManager.SaveTask(getApplicationContext());
     }
 

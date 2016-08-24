@@ -453,7 +453,7 @@ public class YLPrint {
                 }
 
             }else {
-//                Log.e(YLSystem.getKimTag(),"出库状态为null"+box.getBoxName());
+                Log.e(YLSystem.getKimTag(),"出库状态为null"+box.getBoxName());
                 zpSDK.zp_draw_text(2, rowshight, order + "");
                 zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
                 zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());

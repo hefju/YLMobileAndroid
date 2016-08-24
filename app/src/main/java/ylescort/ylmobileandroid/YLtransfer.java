@@ -86,6 +86,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     private String PickDate;//寄库箱日期
     private String TodayStrDate;//今天日期
     private ArriveTime arriveTime;//网点交接时间
+    private YLBoxScanCheck ylBoxScanCheck;//数据库查找款箱
 
     private List<Site> siteList;//网点列表
     private Calendar calendar;//日期控件
@@ -169,6 +170,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         //创建新类
         ylMediaPlayer = new YLMediaPlayer(getApplicationContext());
         ChooseBox = new Box();
+        ylBoxScanCheck = new YLBoxScanCheck(getApplicationContext());
         
         ycdo = new YLCarBoxOperate();
         ytdo = new YLtransferDataOperate();
@@ -213,7 +215,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         int day = calendar.get(Calendar.DATE);
 
         TodayStrDate =YLSysTime.IntToStrDate(year,Month,day);
-
+        PickDate = TodayStrDate;
         yltransfer_btn_date.setText(TodayStrDate);
 
         //加载交接类型
@@ -291,11 +293,14 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     @Override
     public void YLPutdatatoList(String recivedata) {
-
-        if (yltransfer_rbtn_get.isChecked()){
-            GetBox(recivedata);
-        }else{
-            GiveBox(recivedata);
+        try {
+            if (yltransfer_rbtn_get.isChecked()){
+                GetBox(recivedata);
+            }else{
+                GiveBox(recivedata);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -310,7 +315,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         if (ycdo.CheckCarboxbystr(recivedata)) {
             //是否提示网点匹配
             if (GiveNetPointCheck) {
-                Box givebox = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+                Box givebox = ylBoxScanCheck.GetBoxbyBCNO(recivedata);
                 //匹配
                 if (yltransfer_tv_title.getTag().toString().equals(givebox.getSiteID())) {
                     RemoveandaddCarbox(recivedata);
@@ -326,7 +331,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             }
         } else {
             //无车内箱弹框选择
-            Box givebox = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
+            Box givebox = ylBoxScanCheck.GetBoxbyBCNO(recivedata);
             if (givebox.getBoxID().equals("0")) {
                 ylMediaPlayer.SuccessOrFail(false);
             } else {
@@ -345,7 +350,11 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             return;
         }
         //检查是否为临时标签
-        Box box = YLBoxScanCheck.CheckBoxbyUHF(recivedata,getApplicationContext());
+        Box box = ylBoxScanCheck.GetBoxbyBCNO(recivedata);
+        if (box.getBoxID().equals("0")){
+            ylMediaPlayer.SuccessOrFail(false);
+            return;
+        }
         if (ytdo.CheckBoxName(box,ChooseBox.getBoxType())){
             StopScan();
             YLMessagebox("临时标签款箱类型未选");
@@ -408,7 +417,31 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         box.setRemark(ChooseBox.getRemark());
         box.setBoxOrder(ChooseBox.getBoxOrder());
         box.setTimeID(ChooseBox.getTimeID());
-        box.setNextOutTime(ChooseBox.getNextOutTime());
+
+        String nexttime = "";
+        switch (ChooseBox.getBoxTaskType()){
+            case "早送晚收":
+                if (PickDate.equals(TodayStrDate)){
+                    nexttime = "";
+                }else {
+                    nexttime = PickDate;
+                }
+            break;
+            case "寄库箱":
+                if (yltransfer_cb_date.isChecked()||
+                        PickDate.equals(TodayStrDate)){
+                    nexttime = "2099-12-31";
+                }else {
+                    nexttime = PickDate;
+                }
+                break;
+            default :nexttime ="";
+                break;
+        }
+
+        MyLog("出库日期："+nexttime);
+        box.setNextOutTime(nexttime);
+
         box.setTaskTimeID(ChooseBox.getTaskTimeID());
         box.setActionTime(YLSysTime.GetStrCurrentTime());
         box.setYlclearing(ChooseBox.getYlclearing());
@@ -559,6 +592,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.yltransfer_btn_date:
+                MyLog(PickDate+"="+TodayStrDate);
                 GetDatePick();
                 YLRecord.WriteRecord("网点交接","获取寄库箱日期"+PickDate);
                 if (yltransfer_cb_date.isChecked()) {
@@ -566,6 +600,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 } else {
                     ChooseBox.setNextOutTime(PickDate);
                 }
+                MyLog("出库日期"+ChooseBox.getNextOutTime());
+
                 break;
             case R.id.yltransfer_btn_scan:
                 YLRecord.WriteRecord("网点交接","款箱扫描");
@@ -815,7 +851,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                         }else {
                             ChooseBox.setNextOutTime(PickDate);
                         }
-                        Log.e(YLSystem.getKimTag(),"出库时间"+ChooseBox.getNextOutTime());
                     }
                 },year,Month,day);
         datePickerDialog.show();

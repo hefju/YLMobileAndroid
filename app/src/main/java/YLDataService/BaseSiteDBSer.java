@@ -53,6 +53,7 @@ public class BaseSiteDBSer {
     public BaseSite GetBasesingleSite(String where){
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
         BaseSite b=new BaseSite();
+        b.setId(0);
         Cursor cursor = sdb.rawQuery("select * from BaseSite " + where, null);
         while(cursor.moveToNext()){
             int Id = cursor.getInt(cursor.getColumnIndex("Id"));
