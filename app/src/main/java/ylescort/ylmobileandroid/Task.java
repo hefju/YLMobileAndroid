@@ -89,22 +89,22 @@ public class Task extends ActionBarActivity {
 
         yltask_datepicker = (DatePicker)findViewById(R.id.yltask_datepicker);
 
-        yltask_datepicker.init(yltask_datepicker.getYear(), yltask_datepicker.getMonth(), yltask_datepicker.getDayOfMonth(),
-                new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        List<YLTask> taskList = new ArrayList<>();
-                        DisplayTaskList(taskList);
-                    }
-                });
+//        yltask_datepicker.init(yltask_datepicker.getYear(), yltask_datepicker.getMonth(), yltask_datepicker.getDayOfMonth(),
+//                new DatePicker.OnDateChangedListener() {
+//                    @Override
+//                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                        List<YLTask> taskList = new ArrayList<>();
+//                        DisplayTaskList(taskList);
+//                    }
+//                });
 
 //            //测试获取日期发布时需注释
-//            yltask_datepicker.init(2016, 7, 17, new DatePicker.OnDateChangedListener() {
-//                @Override
-//                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-//
-//                }
-//            });
+            yltask_datepicker.init(2016, 7, 17, new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+
+                }
+            });
 
 
 

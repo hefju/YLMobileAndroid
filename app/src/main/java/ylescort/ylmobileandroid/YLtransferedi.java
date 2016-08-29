@@ -21,6 +21,7 @@ import YLAdapter.YLBoxEdiAdapter;
 import YLDataOperate.YLCarBoxOperate;
 import YLDataOperate.YLtransferDataOperate;
 import YLDataService.AnalysisBoxList;
+import YLSystemDate.YLRecord;
 
 public class YLtransferedi extends YLBaseActivity implements View.OnClickListener {
 
@@ -280,6 +281,7 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
         } else {
             ycbo.AddBoxOnEditeCarBox(box);
         }
+        YLRecord.WriteRecord("网点编辑","款箱删除:"+box.getBoxName());
         displayboxList.remove(delindex);
         indext = 0;
         ylBoxEdiAdapter.setSelectItem(indext);
