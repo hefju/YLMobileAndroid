@@ -164,9 +164,9 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                     break;
                 case R.id.Log_BN_Ent:
 
-                    String user2 = "520037";
-                    Log_ET_Name.setText(user2);
-                    Log_ET_PassWord.setText(user2);
+//                    String user2 = "520037";
+//                    Log_ET_Name.setText(user2);
+//                    Log_ET_PassWord.setText(user2);
 
                     LoginByPassword();
                     YLRecord.WriteRecord("登录界面","帐号登录"+Log_ET_Name.getText());
