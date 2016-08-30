@@ -63,15 +63,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ylprinter_btn_readhf"
-            android:layout_alignParentStart="true"
-            android:text="@string/ylprinter_btn_readcard"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/ylprinter_btn_gather"
-            android:layout_marginStart="12sp"
-            android:layout_toEndOf="@+id/ylprinter_btn_readhf"
+            android:layout_alignParentStart="true"
             android:text="@string/ylprinter_btn_gather"/>
         <Button
             android:layout_width="wrap_content"
@@ -80,6 +73,13 @@
             android:layout_marginStart="12sp"
             android:layout_toEndOf="@+id/ylprinter_btn_gather"
             android:text="@string/ylprinter_btn_detail"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ylprinter_btn_readhf"
+            android:layout_toStartOf="@+id/ylprinter_btn_cancel"
+            android:layout_marginEnd="12sp"
+            android:text="@string/ylprinter_btn_readcard"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
