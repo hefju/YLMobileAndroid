@@ -12,14 +12,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.List;
@@ -504,6 +507,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             removecarbox.setTradeAction("送");
             removecarbox.setSiteID(ChooseBox.getSiteID());
             removecarbox.setActionTime(YLSysTime.GetStrCurrentTime());
+            removecarbox.setId(0);
             YLtransferDataOperate.Transferingboxes.add(removecarbox);
             ShowBoxDaitel(removecarbox);
             YLRecord.WriteRecord("网点交接","送箱："+removecarbox.getBoxName()+
@@ -609,7 +613,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.yltransfer_btn_date:
-//                MyLog(PickDate+"="+TodayStrDate);
                 GetDatePick();
                 YLRecord.WriteRecord("网点交接","获取寄库箱日期"+PickDate);
                 if (yltransfer_cb_date.isChecked()) {
@@ -618,7 +621,6 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     ChooseBox.setNextOutTime(PickDate);
                 }
 //                MyLog("出库日期"+ChooseBox.getNextOutTime());
-
                 break;
             case R.id.yltransfer_btn_scan:
                 YLRecord.WriteRecord("网点交接","款箱扫描");
@@ -626,7 +628,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 break;
             case R.id.yltransfer_btn_nonelable:
                 YLRecord.WriteRecord("网点交接","手输单号");
-//                NoLableBox();
+                NoLableBox();
                 break;
             case R.id.yltransfer_btn_ent:
                 ArriveAndAchieve();
@@ -699,6 +701,40 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 }
                 break;
         }
+    }
+
+    private void NoLableBox() {
+        if (yltransfer_rbtn_get.isChecked()){
+            if (!yltransfer_rbtn_full.isChecked()
+                    & !yltransfer_rbtn_empty.isChecked()){
+                YLMessagebox("收箱前请选择空实状态");
+                return;
+            }
+        }
+
+        yltransfer_cb_complie.setChecked(true);
+        ChooseBox.setRemark("1");
+        final EditText et = new EditText(this);
+        et.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
+        new AlertDialog.Builder(this).setTitle("条码:")
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setView(et)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String input = et.getText().toString();
+                        if (input.length() !=10||input.equals("")) {
+                            Toast.makeText(getApplicationContext(), "输入标签有误！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (yltransfer_rbtn_get.isChecked()){
+                                GetBox(input);
+                            }else {
+                                GiveBox(input);
+                            }
+                        }
+                    }
+                }).setNegativeButton("取消",null).show();
+
     }
 
     private void Print() {

@@ -279,7 +279,9 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
         if (box.getTradeAction().equals("收")) {
             ycbo.RemoveCarBox(box.getBoxID());
         } else {
-            ycbo.AddBoxOnEditeCarBox(box);
+            if (box.getId() == 0){
+                ycbo.AddBoxOnEditeCarBox(box);
+            }
         }
         YLRecord.WriteRecord("网点编辑","款箱删除:"+box.getBoxName());
         displayboxList.remove(delindex);
