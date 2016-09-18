@@ -570,6 +570,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     }
                     Box box = ytdo.BoxofNoCarbox(getApplicationContext(),boxid,ChooseBox.getSiteID(),
                             ChooseBox.getTimeID(),TaskTimeID,tasktype,boxtot,boxstatus);
+                    MyLog(box.toString());
                     YLtransferDataOperate.Transferingboxes.add(box);
                     ShowBoxDaitel(box);
                     TallyBox();

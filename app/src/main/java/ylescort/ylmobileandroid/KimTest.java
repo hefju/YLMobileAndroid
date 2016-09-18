@@ -10,18 +10,24 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,6 +82,7 @@ import YLDataService.BaseSiteDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
+import YLDataService.YLSQLHelper;
 import YLFileOperate.DBMove;
 import YLFileOperate.YLLoghandle;
 import YLFragment.YLBoxEditFragment;
@@ -83,7 +90,7 @@ import YLPrinter.YLPrint;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLWebService.UpdateManager;
-
+import com.alibaba.fastjson.JSON;
 
 public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
@@ -547,7 +554,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             try {
                 String url = params[2];
                 HttpPost post = new HttpPost(url);
-                Gson gson = new Gson();
+//                Gson gson = new Gson();
                 JSONObject p = new JSONObject();
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -558,7 +565,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200) {
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseEmp> emps =  gson.fromJson(content, new TypeToken<List<BaseEmp>>() {
+                    List<BaseEmp> emps =  JSON.parseObject(content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
                     baseEmpDBSer.InsertBaseEmp(emps);
                     sertime = emps.get(0).ServerTime;
@@ -575,7 +582,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
+                    List<BaseClient> baseClients =  JSON.parseObject(content, new TypeToken<List<BaseClient>>() {
                     }.getType());
                     baseClientDBSer.InsertBaseClient(baseClients);
                     sertime = baseClients.get(0).ServerTime;
@@ -592,7 +599,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
+                    List<BaseSite> siteList =  JSON.parseObject(content, new TypeToken<List<BaseSite>>() {
                     }.getType());
                     baseSiteDBSer.InsertBaseSite(siteList);
                     sertime = siteList.get(0).ServerTime;
@@ -609,7 +616,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseBox> baseBoxes =  gson.fromJson(content, new TypeToken<List<BaseBox>>() {
+                    List<BaseBox> baseBoxes = JSON.parseObject(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
                     baseBoxDBSer.InsertBox2(baseBoxes);
                     sertime = baseBoxes.get(0).ServerTime;

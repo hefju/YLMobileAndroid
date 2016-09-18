@@ -187,7 +187,7 @@ public class YLSite extends ActionBarActivity {
         boolean getcarboxs = true;
             for (Site site : ylTask.getLstSite()) {
                 if (site.getStatus() == null)continue;
-                if (site.getStatus().equals("已完成")) {
+                if (site.getStatus().equals("已完成") ||site.getStatus().equals("已打印")) {
                     getcarboxs = false;
                     checkcardownload = true;
                 }
@@ -614,10 +614,20 @@ public class YLSite extends ActionBarActivity {
             sitename.setText(site.getSiteName());
             sitestate.setText(site.getStatus());
 
-            if (sitestate.getText().equals("已完成")){
-                convertView.setBackgroundColor(getResources().getColor(R.color.androidyellowl));
-            }else {
-                convertView.setBackgroundColor(Color.TRANSPARENT);
+//            if (sitestate.getText().equals("已完成")){
+//                convertView.setBackgroundColor(getResources().getColor(R.color.androidyellowl));
+//            }else {
+//                convertView.setBackgroundColor(Color.TRANSPARENT);
+//            }
+
+            switch (sitestate.getText().toString()){
+                case "已完成":convertView.setBackgroundColor(getResources().getColor(R.color.androidyellowl));
+                    break;
+                case "已打印":convertView.setBackgroundColor(getResources().getColor(R.color.androidgreenl));
+                    break;
+                default:convertView.setBackgroundColor(Color.TRANSPARENT);
+                    break;
+
             }
             return convertView;
         }

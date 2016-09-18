@@ -225,7 +225,6 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
 
         List<Integer> boxlistansy =  analysisBoxList.AnsysisBoxListForPrintGather(boxlist);
 
-
         String getboxstr = "收箱:"+boxlistansy.get(0)+" 其中:收实箱 "+boxlistansy.get(1)+" 收空箱 "+boxlistansy.get(2);
         String giveboxstr ="送箱: "+boxlistansy.get(3)+" 其中:送实箱 "+boxlistansy.get(4)+" 送空箱 "+boxlistansy.get(5);
 
@@ -326,9 +325,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
 
         List<Box> detaillist = new ArrayList<>();
         for (Box box : displaylistbox) {
-//            if (!box.getBoxTaskType().equals("早送晚收")){
-                detaillist.add(box);
-//            }
+            detaillist.add(box);
         }
         if (detaillist.size()>0) {
             String TaskTimeID = detaillist.get(0).getTaskTimeID()+"";
@@ -349,6 +346,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             arriveTime.setPrintStatus("已打印");
             arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
             ylPrint.PrintDetail(detaillist,1,gatherPrint);
+            site.setStatus("已打印");
             tasksManager.SaveTask(getApplicationContext());
             SaveArriveTime();
             Toast.makeText(getApplicationContext(),"已打印"+arriveTime.getPrintCount()+"次",Toast.LENGTH_SHORT).show();
@@ -378,6 +376,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         ylPrint.PrintGather(gatherPrint,1);
         Toast.makeText(getApplicationContext(),"已打印"+arriveTime.getPrintCount()+"次",Toast.LENGTH_SHORT).show();
         SaveArriveTime();
+        site.setStatus("已打印");
         tasksManager.SaveTask(getApplicationContext());
     }
 

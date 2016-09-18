@@ -9,9 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
-
+import com.alibaba.fastjson.JSON;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -23,11 +22,8 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-
-import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 
 /**

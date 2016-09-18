@@ -146,7 +146,7 @@ public class BoxDBSer {
         if (box.getBoxType() == null || box.getBoxType().equals("普通箱") || box.getBoxType().equals("")) {
             box.setBoxType("款箱");
         }
-        Log.e(YLSystem.getKimTag(),"数据库款箱："+box.toString());
+//        Log.e(YLSystem.getKimTag(),"数据库款箱："+box.toString());
         return box;
     }
 

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.BaseBox;
 import TaskClass.Box;
+import YLSystemDate.YLSystem;
 
 /**
  * Created by rush on 2015/2/11.
@@ -125,12 +127,13 @@ public class BaseBoxDBSer {
                 sqLiteStatement.bindString(1,x.ServerReturn);
                 sqLiteStatement.bindString(2,x.BoxID);
                 sqLiteStatement.bindString(3,x.BoxName);
-                sqLiteStatement.bindString(4,x.BoxUHFNo);
+                sqLiteStatement.bindString(4,"");
                 sqLiteStatement.bindString(5,x.BoxBCNo);
                 sqLiteStatement.bindString(6,x.BoxType);
                 sqLiteStatement.bindString(7,x.ClientID);
                 sqLiteStatement.bindString(8, x.SiteID);
-                long result = sqLiteStatement.executeInsert();
+                sqLiteStatement.executeInsert();
+                sqLiteStatement.clearBindings();
             }
             sdb.setTransactionSuccessful();
 

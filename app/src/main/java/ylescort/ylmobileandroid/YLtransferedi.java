@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.ArriveTime;
+import TaskClass.BaseBox;
 import TaskClass.Box;
 import TaskClass.Site;
 import YLAdapter.YLBoxEdiAdapter;
@@ -40,6 +41,8 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     private Button yltransferedi_btn_del;
 
     private List<Box> displayboxList;
+    private List<Box> carboxlist;
+
     private List<ArriveTime> arriveTimeList;
     private ArriveTime arriveTime;
     private YLBoxEdiAdapter ylBoxEdiAdapter;
@@ -140,6 +143,12 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     @Override
     protected void InitData() {
         displayboxList = new ArrayList<>();
+        carboxlist = new ArrayList<>();
+        //获取初始车内款箱数量
+        for (Box box : YLCarBoxOperate.getYLEditeCarBoxList()) {
+            Box carbox = new Box(box);
+            carboxlist.add(carbox);
+        }
         arriveTime = new ArriveTime();
         indext = 0;
         analysisBoxList = new AnalysisBoxList();
@@ -247,6 +256,7 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     }
 
     private void NoSaveData() {
+        YLCarBoxOperate.setYLCurrectCarBoxList(carboxlist);
         finish();
     }
 

@@ -116,7 +116,7 @@ public class YLCarBoxOperate {
     public boolean LoadCarboxlist(YLTask ylTask){
         if (ylTask.getLstSite() != null ){
             for (Site site : ylTask.getLstSite()) {
-                if (site.getStatus().equals("已完成")){
+                if (site.getStatus().equals("已完成") ||site.getStatus().equals("已打印") ){
                     return false;
                 }
             }

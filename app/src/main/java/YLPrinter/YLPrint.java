@@ -404,7 +404,7 @@ public class YLPrint {
 //
 //        zpSDK.zp_draw_text_ex(50, NextRow2(), "NO."+Number, "宋体", 3, 0, true, false, false);
 
-        zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单：");
+        zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单： 总箱数："+boxList.size()+"个");
 
         rowshight = 40;
 

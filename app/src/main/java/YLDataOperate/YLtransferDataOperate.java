@@ -98,15 +98,6 @@ public class YLtransferDataOperate {
 
     //初始化交接数据
     public void InitBoxes(){
-//        if (AllTransferboxes != null){
-//            Transferedboxes.clear();
-//            for (Box transferedbox : AllTransferboxes) {
-//                Transferedboxes.add(transferedbox);
-//            }
-//        }else {
-//            AllTransferboxes = new ArrayList<>();
-//            Transferedboxes = new ArrayList<>();
-//        }
 
         if (Transferedboxes == null){
             Transferedboxes = new ArrayList<>();
@@ -393,11 +384,15 @@ public class YLtransferDataOperate {
     public List<Box> EditerBoxDisplay(Site Site,String timeid){
 
         List<Box> boxes = new ArrayList<>();
-        for (Box box : Transferedboxes) {
-            if (box.getSiteID().equals(Site.getSiteID())
-                    & box.getTimeID().equals(timeid)){
-                boxes.add(box);
+        try {
+            for (Box box : Transferedboxes) {
+                if (box.getSiteID().equals(Site.getSiteID())
+                        & box.getTimeID().equals(timeid)){
+                    boxes.add(box);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return  boxes;
     }
