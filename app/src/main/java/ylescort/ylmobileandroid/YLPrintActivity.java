@@ -174,6 +174,15 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             ylTask = tasksManager.CurrentTask;
             site = YLEditData.getPrintSite();
             ylPrint = new YLPrint();
+
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ylPrint.InitBluetooth();
+                }
+            });
+            t.start();
+
             list = new ArrayList<>();
             displaylistbox = new ArrayList<>();
             analysisBoxList = new AnalysisBoxList();
@@ -192,7 +201,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
 
             DisplayListBox(displaylistbox);
 
-            ylPrint.InitBluetooth();
+//            ylPrint.InitBluetooth();
+
+
             String title = "打印时间："+YLSysTime.GetStrCurrentShortTime();
             this.setTitle(title);
 

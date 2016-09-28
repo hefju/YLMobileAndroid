@@ -1,5 +1,11 @@
 package YLWebClass;
 
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import TaskClass.BaseBox;
 import TaskClass.BaseClient;
@@ -185,5 +191,36 @@ public class YLWebClass {
 
     public static void setYlatmList(List<YLATM> ylatmList) {
         YLWebClass.ylatmList = ylatmList;
+    }
+
+
+    //Http请求
+    public static byte[] get(String url) throws Exception {
+        URL url1 = new URL(url);
+        HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
+
+        InputStream inputStream = conn.getInputStream();
+        byte[] buffer = new byte[10 * 1024];
+        //缓冲区大小
+        int len = -1;
+        //读取长度 //用于保存网络读取的数据的输出流
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(0);
+        //获取网络资源总长度
+        long sumLength = conn.getContentLength();
+        //当前读取的长度
+        long curLength = 0;
+        //判断打开链接是否成功
+        if(conn.getResponseCode() == 200) {
+            while((len = inputStream.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+                //打印读取的进度: 当前已读取的长度/网络资源的总长度
+                curLength += len;
+                //累加本次读取的资源大小
+                int progress = (int) (curLength*100 / sumLength);
+                Log.d("wang", "已下载：" + progress +"%");
+            }
+            return baos.toByteArray();
+        }
+        return null;
     }
 }
