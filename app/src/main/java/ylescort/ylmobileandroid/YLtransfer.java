@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,10 +22,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.Calendar;
 import java.util.List;
-
 import TaskClass.ArriveTime;
 import TaskClass.Box;
 import TaskClass.Site;
@@ -1101,9 +1098,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 YLtransferDataOperate.setSiteTaskTimeID(TaskTimeID);
             }
 
-            Intent intent = new Intent();
-            intent.setClass(this,YLtransferedi.class);
-            startActivity(intent);
+            YLstartActivity(YLtransferedi.class);
+
         }else if (id == R.id.action_settings2){
             ShowRefreshDialog();
         }

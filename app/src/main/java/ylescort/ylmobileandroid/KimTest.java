@@ -90,7 +90,6 @@ import YLPrinter.YLPrint;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import YLWebService.UpdateManager;
-import com.alibaba.fastjson.JSON;
 
 public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
@@ -554,7 +553,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             try {
                 String url = params[2];
                 HttpPost post = new HttpPost(url);
-//                Gson gson = new Gson();
+                Gson gson = new Gson();
                 JSONObject p = new JSONObject();
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -565,8 +564,14 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200) {
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseEmp> emps =  JSON.parseObject(content, new TypeToken<List<BaseEmp>>() {
+
+//                    List<BaseEmp> emps =  JSON.parseObject(content, new TypeToken<List<BaseEmp>>() {
+//                    }.getType());
+
+                    List<BaseEmp> emps = gson.fromJson (content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
+
+
                     baseEmpDBSer.InsertBaseEmp(emps);
                     sertime = emps.get(0).ServerTime;
                     Log.e(YLSystem.getKimTag(),emps.size()+"员工数据");
@@ -582,8 +587,13 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseClient> baseClients =  JSON.parseObject(content, new TypeToken<List<BaseClient>>() {
+
+                    List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
                     }.getType());
+
+//                    List<BaseClient> baseClients =  JSON.parseObject(content, new TypeToken<List<BaseClient>>() {
+//                    }.getType());
+
                     baseClientDBSer.InsertBaseClient(baseClients);
                     sertime = baseClients.get(0).ServerTime;
                     Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
@@ -599,8 +609,13 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseSite> siteList =  JSON.parseObject(content, new TypeToken<List<BaseSite>>() {
+
+                    List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
                     }.getType());
+
+//                    List<BaseSite> siteList =  JSON.parseObject(content, new TypeToken<List<BaseSite>>() {
+//                    }.getType());
+
                     baseSiteDBSer.InsertBaseSite(siteList);
                     sertime = siteList.get(0).ServerTime;
                     Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
@@ -616,8 +631,14 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseBox> baseBoxes = JSON.parseObject(content, new TypeToken<List<BaseBox>>() {
+
+                    List<BaseBox> baseBoxes = gson.fromJson(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
+
+//                    List<BaseBox> baseBoxes = JSON.parseObject(content, new TypeToken<List<BaseBox>>() {
+//                    }.getType());
+
+
                     baseBoxDBSer.InsertBox2(baseBoxes);
                     sertime = baseBoxes.get(0).ServerTime;
                     Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");

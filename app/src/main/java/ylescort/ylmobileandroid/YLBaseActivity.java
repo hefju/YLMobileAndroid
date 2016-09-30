@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.widget.Toast;
 import com.google.gson.Gson;
-import com.alibaba.fastjson.JSON;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
