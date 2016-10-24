@@ -91,22 +91,23 @@
             android:id="@+id/ylatmdetail_btn_add1"
             android:text="+1"/>
         </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ylatmdetail_ll_atmcount"
-        android:layout_marginTop="20sp"
+        android:layout_alignParentBottom="true"
         android:gravity="center">
         <Button
             android:layout_width="110sp"
-            android:layout_height="60sp"
+            android:layout_height="wrap_content"
             android:text="确认"
             android:id="@+id/ylatmdetail_btn_enter"/>
         <Button
             android:layout_width="110sp"
-            android:layout_height="60sp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
+            android:layout_toEndOf="@+id/ylatmdetail_btn_enter"
             android:id="@+id/ylatmdetail_btn_cancel"
             android:text="取消"/>
-        </LinearLayout>
+        </RelativeLayout>
 </RelativeLayout>

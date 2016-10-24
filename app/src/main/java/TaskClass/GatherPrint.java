@@ -5,93 +5,92 @@ package TaskClass;
  */
 public class GatherPrint {
 
-    public String ClintName ;
-    public String SiteName ;
-    public String TradeTime;
-    public String CarNumber;
-    public String HomName;
-    public String TaskNumber;
+    private String ClintName ;
+    private String SiteName ;
+    private String TradeTime;
+    private String CarNumber;
+    private String HomName;
+    private String TaskNumber;
+    private String TaskLine;
+    
+    private String Givemoneyfull;
+    private String Givemoneyempty;
+    private String Givecardfull;
+    private String Givecardempty;
+    private String Givevoucherfull;
+    private String Givevoucherempty;
+    private String Givevoucherbagfull;
+    private String Givevoucherbagempty;
 
+    private String Zswsmoneyfull;
+    private String Zswsmoneyempty;
+    private String Zswscardfull;
+    private String Zswscardempty;
+    private String Zswsvoucherfull;
+    private String Zswsvoucherempty;
+    private String Zswsvoucherbagfull;
+    private String Zswsvoucherbagempty;
 
+    private String Sxjmoneyfull;
+    private String Sxjmoneyempty;
+    private String Sxjcardfull;
+    private String Sxjcardempty;
+    private String Sxjvoucherfull;
+    private String Sxjvoucherempty;
+    private String Sxjvoucherbagfull;
+    private String Sxjvoucherbagempty;
 
-    public String Givemoneyfull;
-    public String Givemoneyempty;
-    public String Givecardfull;
-    public String Givecardempty;
-    public String Givevoucherfull;
-    public String Givevoucherempty;
-    public String Givevoucherbagfull;
-    public String Givevoucherbagempty;
+    private String Jkxmoneyfull;
+    private String Jkxmoneyempty;
+    private String Jkxcardfull;
+    private String Jkxcardempty;
+    private String Jkxvoucherfull;
+    private String Jkxvoucherempty;
+    private String Jkxvoucherbagfull;
+    private String Jkxvoucherbagempty;
 
-    public String Zswsmoneyfull;
-    public String Zswsmoneyempty;
-    public String Zswscardfull;
-    public String Zswscardempty;
-    public String Zswsvoucherfull;
-    public String Zswsvoucherempty;
-    public String Zswsvoucherbagfull;
-    public String Zswsvoucherbagempty;
+    private String Thdbmoneyfull;
+    private String Thdbmoneyempty;
+    private String Thdbcardfull;
+    private String Thdbcardempty;
+    private String Thdbvoucherfull;
+    private String Thdbvoucherempty;
+    private String Thdbvoucherbagfull;
+    private String Thdbvoucherbagempty;
 
-    public String Sxjmoneyfull;
-    public String Sxjmoneyempty;
-    public String Sxjcardfull;
-    public String Sxjcardempty;
-    public String Sxjvoucherfull;
-    public String Sxjvoucherempty;
-    public String Sxjvoucherbagfull;
-    public String Sxjvoucherbagempty;
+    private String Khdbmoneyfull;
+    private String Khdbmoneyempty;
+    private String Khdbcardfull;
+    private String Khdbcardempty;
+    private String Khdbvoucherfull;
+    private String Khdbvoucherempty;
+    private String Khdbvoucherbagfull;
+    private String Khdbvoucherbagempty;
 
-    public String Jkxmoneyfull;
-    public String Jkxmoneyempty;
-    public String Jkxcardfull;
-    public String Jkxcardempty;
-    public String Jkxvoucherfull;
-    public String Jkxvoucherempty;
-    public String Jkxvoucherbagfull;
-    public String Jkxvoucherbagempty;
+    private String Qysskmoneyfull;
+    private String Qysskmoneyempty;
+    private String Qysskcardfull;
+    private String Qysskcardempty;
+    private String Qysskvoucherfull;
+    private String Qysskvoucherempty;
+    private String Qysskvoucherbagfull;
+    private String Qysskvoucherbagempty;
 
-    public String Thdbmoneyfull;
-    public String Thdbmoneyempty;
-    public String Thdbcardfull;
-    public String Thdbcardempty;
-    public String Thdbvoucherfull;
-    public String Thdbvoucherempty;
-    public String Thdbvoucherbagfull;
-    public String Thdbvoucherbagempty;
+    private String GiveTotal;
 
-    public String Khdbmoneyfull;
-    public String Khdbmoneyempty;
-    public String Khdbcardfull;
-    public String Khdbcardempty;
-    public String Khdbvoucherfull;
-    public String Khdbvoucherempty;
-    public String Khdbvoucherbagfull;
-    public String Khdbvoucherbagempty;
+    private String GetTotalmoneyfull;
+    private String GetTotalcardfull;
+    private String GetTotalvoucherfull;
+    private String GetTotalvoucherbagfull;
+    private String GetTotalmoneyempty;
+    private String GetTotalcardempty;
+    private String GetTotalvoucherempty;
+    private String GetTotalvoucherbagempty;
 
-    public String Qysskmoneyfull;
-    public String Qysskmoneyempty;
-    public String Qysskcardfull;
-    public String Qysskcardempty;
-    public String Qysskvoucherfull;
-    public String Qysskvoucherempty;
-    public String Qysskvoucherbagfull;
-    public String Qysskvoucherbagempty;
-
-    public String GiveTotal;
-
-    public String GetTotalmoneyfull;
-    public String GetTotalcardfull;
-    public String GetTotalvoucherfull;
-    public String GetTotalvoucherbagfull;
-    public String GetTotalmoneyempty;
-    public String GetTotalcardempty;
-    public String GetTotalvoucherempty;
-    public String GetTotalvoucherbagempty;
-
-    public String GetTotalmoney;
-    public String GetTotalcard;
-    public String GetTotalvoucher;
-    public String GetTotalvoucherbag;
+    private String GetTotalmoney;
+    private String GetTotalcard;
+    private String GetTotalvoucher;
+    private String GetTotalvoucherbag;
 
     public GatherPrint() {
     }
@@ -192,6 +191,14 @@ public class GatherPrint {
         GetTotalcard = getTotalcard;
         GetTotalvoucher = getTotalvoucher;
         GetTotalvoucherbag = getTotalvoucherbag;
+    }
+
+    public String getTaskLine() {
+        return TaskLine;
+    }
+
+    public void setTaskLine(String taskLine) {
+        TaskLine = taskLine;
     }
 
     public String getClintName() {

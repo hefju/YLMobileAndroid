@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -76,21 +77,24 @@ public class YLPrint {
         String Address = "";
         String NetPoint = "";
         String handovertime = "";
-        String carorline = "";
+        String car = "";
+        String Taskline = "";
         switch (type){
             case 1:
                 title = "押运交接单";
                 Address = "单位名称:" + gatherPrint.getClintName();
                 NetPoint =  "网点名称:" + gatherPrint.getSiteName();
                 handovertime = "打印时间:"+gatherPrint.getTradeTime();
-                carorline = "押运车牌："+gatherPrint.getCarNumber();
+                car = "  车牌："+gatherPrint.getCarNumber();
+                Taskline = gatherPrint.getTaskLine();
                 break;
             case 2:
                 title = "金库入库汇总";
                 Address = gatherPrint.getClintName();
                 NetPoint =gatherPrint.getSiteName();
                 handovertime = gatherPrint.getTradeTime();
-                carorline = gatherPrint.getCarNumber();
+                car = "";
+                Taskline = gatherPrint.getTaskLine();
                 break;
         }
 
@@ -102,9 +106,9 @@ public class YLPrint {
                 Address, "宋体", 3, 0, true, false, false);
         zpSDK.zp_draw_text(3, NextRow(), NetPoint);
 
-        zpSDK.zp_draw_text(3, NextRow(), handovertime);
+        zpSDK.zp_draw_text(3, NextRow(), handovertime+car);
 
-        zpSDK.zp_draw_text(3, NextRow(), carorline);
+        zpSDK.zp_draw_text(3, NextRow(),"押运线路："+ Taskline);
 
         //送箱表格坐标
         double formx1 = 0;
@@ -399,11 +403,6 @@ public class YLPrint {
 
         zpSDK.zp_draw_text(3, NextRow(), carorline);
 
-
-//        zpSDK.zp_draw_text(25, NextRow2(),title );
-//
-//        zpSDK.zp_draw_text_ex(50, NextRow2(), "NO."+Number, "宋体", 3, 0, true, false, false);
-
         zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单： 总箱数："+boxList.size()+"个");
 
         rowshight = 40;
@@ -483,6 +482,223 @@ public class YLPrint {
         zpSDK.zp_page_free();
 
         return printpage;
+    }
+
+    public boolean PrintDetail2(List<Box> boxList,int type, GatherPrint gatherPrint)throws  Exception{
+        PrintTitle(gatherPrint,type,boxList.size());
+        PrintBoxList(boxList);
+        PrintSign(gatherPrint);
+        return false;
+    }
+
+    private void PrintSign(GatherPrint gatherPrint) {
+        rowshight = 4;rowsplus = 2;
+
+        Boolean creatpage = zpSDK.zp_page_create(80,40);
+        zpSDK.zp_draw_text_ex(3, rowshight16(), "押运业务员:"+gatherPrint.getHomName() +"  签名："
+                , "宋体", 3, 0, true, false, false);
+        zpSDK.zp_draw_text(3, rowshight8(), "网点交接人（签章）1：                   2：");
+
+
+        zpSDK.zp_draw_text(20, 35, "第一页，共一页");
+
+        Boolean printpage =  zpSDK.zp_page_print(false);
+        Log.e("kim", "print" +rowshight+ printpage.toString());
+
+        zpSDK.zp_page_free();
+
+    }
+
+    private void PrintBoxList(List<Box> boxList) {
+        int count = 1;int order = 1;int onepage = 50;
+        boolean secondpage = true;
+        List<Box> boxes = new ArrayList<>();
+        for (Box box : boxList) {
+            if (box.getNextOutTime() != null ){
+                if (box.getNextOutTime().length() > 0){
+                    count = count +2;
+                }else if (box.getBoxName().length() >10){
+                    count = count +2;
+                }else {
+                    count++;
+                }
+            }else {
+                count++;
+            }
+            order++;
+            if (count * 4 <= 600){
+                boxes.add(box);
+            }else {
+                PrintBox(boxes,count*4,order-boxes.size()-1);
+                secondpage = false;
+                boxes.clear();
+                count = 1;
+            }
+        }
+        if (secondpage){
+            if (count*4< 50){
+                PrintBox(boxes,50,order-boxes.size());
+            }else{
+                PrintBox(boxes,count*4,order-boxes.size());
+            }
+        }else {
+            PrintBox(boxes,count*4,order-boxes.size());
+        }
+
+    }
+
+    private void PrintBox(List<Box> boxes,int pagehigh,int order) {
+        rowshight = 0;
+        Boolean creatpage = zpSDK.zp_page_create(80,pagehigh);
+        for (Box box : boxes) {
+            rowshight=rowshight+4;
+            if (box.getNextOutTime() != null){
+                if (box.getNextOutTime().length() > 0 ){
+//                    Log.e(YLSystem.getKimTag(),"出库状态为有出库日期"+box.getBoxName());
+                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
+                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    zpSDK.zp_draw_text(45, rowshight,"出库："+box.getNextOutTime());
+                    rowshight=rowshight+4;
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                }else if (box.getBoxName().length() >10) {
+//                    Log.e(YLSystem.getKimTag(),"款箱名称过长"+box.getBoxName());
+                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
+                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    rowshight=rowshight+4;
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, "");
+                }else {
+//                    Log.e(YLSystem.getKimTag(),"出库状态不为null"+box.getBoxName());
+                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
+                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, "");
+                }
+
+            }else {
+                Log.e(YLSystem.getKimTag(),"出库状态为null"+box.getBoxName());
+                zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
+                zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                zpSDK.zp_draw_text(55, rowshight, "");
+            }
+            order++;
+        }
+        Boolean printpage =  zpSDK.zp_page_print(false);
+        Log.e("kim", "print" +rowshight+ printpage.toString());
+        zpSDK.zp_page_free();
+    }
+
+    private boolean PrintTitle(GatherPrint gatherPrint, int type,int boxsize) {
+        rowshight = 4;rowsplus = 2;
+        Boolean creatpage = zpSDK.zp_page_create(80,40);
+
+        Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
+
+        zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
+        String title = "";
+        String Address = "";
+        String NetPoint = "";
+        String handovertime = "";
+        String carorline = "";
+        String Taskline = "";
+        switch (type){
+            case 1:
+                title = "押运交接单";
+                Address = "单位名称:" + gatherPrint.getClintName();
+                NetPoint =  "网点名称:" + gatherPrint.getSiteName();
+                handovertime = "打印时间:"+gatherPrint.getTradeTime();
+                carorline = "  车牌："+gatherPrint.getCarNumber();
+                Taskline = "押运线路:"+gatherPrint.getTaskLine();
+                break;
+            case 2:
+                title = "金库入库汇总";
+                Address = gatherPrint.getClintName();
+                NetPoint =gatherPrint.getSiteName();
+                handovertime = gatherPrint.getTradeTime();
+                carorline = "";
+                Taskline = gatherPrint.getTaskLine();
+                break;
+        }
+
+        zpSDK.zp_draw_text(25, NextRow2(), title);
+
+        zpSDK.zp_draw_text(40, NextRow(), gatherPrint.getTaskNumber());
+
+        zpSDK.zp_draw_text_ex(3, NextRow(),
+                Address, "宋体", 3, 0, true, false, false);
+        zpSDK.zp_draw_text(3, NextRow(), NetPoint);
+
+        zpSDK.zp_draw_text(3, NextRow(), handovertime+carorline);
+
+        zpSDK.zp_draw_text(3, NextRow(),Taskline);
+
+        zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单： 总箱数："+boxsize+"个");
+
+        rowshight = 38;
+
+        zpSDK.zp_draw_text(1, rowshight, "序号");
+        zpSDK.zp_draw_text(10, rowshight, "箱号");
+        zpSDK.zp_draw_text(23, rowshight, "收/送");
+        zpSDK.zp_draw_text(33, rowshight, "空/实");
+        zpSDK.zp_draw_text(41, rowshight, "款箱类型");
+        zpSDK.zp_draw_text(53, rowshight, "交接类型");
+        zpSDK.zp_draw_text(66, rowshight, "备注");
+
+        Boolean printpage =  zpSDK.zp_page_print(false);
+        Log.e("kim", "print" +rowshight+ printpage.toString());
+
+        zpSDK.zp_page_free();
+        return printpage;
+    }
+
+
+    public boolean Printtest(List<Box> boxes)throws Exception{
+        rowshight = 4;rowsplus = 2;
+        Log.e(YLSystem.getKimTag(), "页面高度" + 40);
+        Boolean creatpage = zpSDK.zp_page_create(80,40);
+
+        Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
+        zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
+        String title = "押运交接单";
+        String Address = "单位名称";
+        String NetPoint = "网点名称";
+        String handovertime = "打印时间";
+        String carorline = "押运车牌";
+        zpSDK.zp_draw_text(25, NextRow2(), title);
+        zpSDK.zp_draw_text(40, NextRow(), "");
+        zpSDK.zp_draw_text_ex(3, NextRow(), Address, "宋体", 3, 0, true, false, false);
+        zpSDK.zp_draw_text(3, NextRow(), NetPoint);
+        zpSDK.zp_draw_text(3, NextRow(), handovertime);
+        zpSDK.zp_draw_text(3, NextRow(), carorline);
+        zpSDK.zp_draw_text(2, NextRow(), "收送箱类型清单： 总箱数："+boxes.size()+"个");
+        rowshight = 40;
+
+        zpSDK.zp_draw_text(1, rowshight, "序号");
+        zpSDK.zp_draw_text(10, rowshight, "箱号");
+        zpSDK.zp_draw_text(23, rowshight, "收/送");
+        zpSDK.zp_draw_text(33, rowshight, "空/实");
+        zpSDK.zp_draw_text(41, rowshight, "款箱类型");
+        zpSDK.zp_draw_text(53, rowshight, "交接类型");
+        zpSDK.zp_draw_text(66, rowshight, "备注");
+        Boolean printpage =  zpSDK.zp_page_print(false);
+        Log.e("kim", "print" +rowshight+ printpage.toString());
+
+        zpSDK.zp_page_free();
+
+        return  false;
     }
 
     private double rowshight4(){

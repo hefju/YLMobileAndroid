@@ -365,6 +365,12 @@ public class YLtransferDataOperate {
     public List<String> SpTimeID(String Siteid){
         Set<String> set = new HashSet<String>(new ArrayList<String>());
 
+        for (int i = 0; i < Transferedboxes.size(); i++) {
+            if (Transferedboxes.get(i).getTimeID() == null){
+                Transferedboxes.get(i).setTimeID(1+"");
+            }
+        }
+
         for (Box box : Transferedboxes) {
             if (box.getSiteID().equals(Siteid)){
                 set.add(box.getTimeID());

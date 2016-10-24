@@ -172,7 +172,7 @@
 
 
     </LinearLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/yltransfer_ll_checkbox"
@@ -183,6 +183,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/yltransfer_cb_ToT"
             android:textColor="@color/androidpurplel"
+            android:layout_weight="1"
             android:text="@string/homscanbox_cb_ToT"
             android:layout_marginStart="10sp"/>
 
@@ -192,7 +193,7 @@
             android:id="@+id/yltransfer_cb_ylclearing"
             android:textColor="@color/androidgreenl"
             android:text="@string/homscanbox_cb_ylclearing"
-            android:layout_marginStart="110sp"/>
+            android:layout_weight="1"/>
 
         <CheckBox
             android:id="@+id/yltransfer_cb_date"
@@ -200,9 +201,8 @@
             android:layout_height="wrap_content"
             android:text="@string/homscanbox_cb_date"
             android:textColor="@color/androidblued"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="35sp"/>
-    </RelativeLayout>
+            android:layout_weight="1"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/yltransfer_ll_boxgog"
@@ -219,8 +219,9 @@
             <RadioButton
                 android:id="@+id/yltransfer_rbtn_get"
                 style="@style/TextSize25"
-                android:layout_width="150sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginBottom="5sp"
                 android:orientation="horizontal"
                 android:text="@string/box_tv_get" />
@@ -228,6 +229,7 @@
             <RadioButton
                 android:id="@+id/yltransfer_rbtn_give"
                 style="@style/TextSize25"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/box_tv_give" />
@@ -251,8 +253,9 @@
             <RadioButton
                 android:id="@+id/yltransfer_rbtn_full"
                 style="@style/TextSize25"
-                android:layout_width="150sp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginBottom="5sp"
                 android:orientation="horizontal"
                 android:text="@string/box_tv_full" />
@@ -261,6 +264,7 @@
                 android:id="@+id/yltransfer_rbtn_empty"
                 style="@style/TextSize25"
                 android:layout_width="wrap_content"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@string/box_tv_empty" />
         </RadioGroup>
@@ -371,24 +375,24 @@
             android:id="@+id/yltransfer_btn_scan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="90sp"
             android:layout_marginStart="10sp"
+            android:layout_weight="1"
             android:text="@string/HomTmp_scan_btn_scan" />
 
         <Button
             android:id="@+id/yltransfer_btn_nonelable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="10sp"
-            android:minWidth="90sp"
             android:text="@string/box_btn_nolable" />
 
         <Button
             android:id="@+id/yltransfer_btn_ent"
             android:layout_width="wrap_content"
             android:layout_marginStart="10sp"
-            android:minWidth="90sp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/box_btn_arrive" />
     </LinearLayout>
 

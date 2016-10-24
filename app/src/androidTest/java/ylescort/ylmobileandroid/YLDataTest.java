@@ -46,6 +46,11 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     private static final String TAG = "kim";
 
 
+    public void testDeletTask() throws  Exception{
+        TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getContext());
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-10-19");
+    }
+
     public void testUpdateSiteHF() throws Exception{
         BaseSiteDBSer dbSer = new BaseSiteDBSer(getContext());
         BaseSite b = new BaseSite();

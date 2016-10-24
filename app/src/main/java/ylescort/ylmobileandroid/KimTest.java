@@ -1,33 +1,19 @@
 package ylescort.ylmobileandroid;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
-import android.content.ContentProvider;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Vibrator;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,13 +45,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import TaskClass.BaseBox;
 import TaskClass.BaseClient;
@@ -74,22 +56,18 @@ import TaskClass.BaseSite;
 import TaskClass.Box;
 import TaskClass.GatherPrint;
 import TaskClass.User;
-import YLDataService.AnalysisBoxList;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseClientDBSer;
 import YLDataService.BaseEmpDBSer;
 import YLDataService.BaseSiteDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
-import YLDataService.WebService;
-import YLDataService.YLSQLHelper;
+import YLDataService.YLBoxScanCheck;
 import YLFileOperate.DBMove;
 import YLFileOperate.YLLoghandle;
-import YLFragment.YLBoxEditFragment;
 import YLPrinter.YLPrint;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
-import YLWebService.UpdateManager;
 
 public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
@@ -279,7 +257,10 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         switch (v.getId()){
             case R.id.kim_test1:Scan1DCmd();
                 break;
-            case R.id.kim_test2:TestHF();
+            case R.id.kim_test2:
+//                TestHF();
+                AnysTaskinsterData();
+
                 break;
             case R.id.kim_copydb:CopyDB();
                 break;
@@ -328,7 +309,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         ylPrint = new YLPrint();
         ylPrint.InitBluetooth();
         GatherPrint g = new GatherPrint(
-                         "1","2","3","4","5","6","7","8","9","10",
+                "1","2","3","4","5","6","7","8","9","10",
                 "11","12","13","14","15","16","17","18","19","20",
                 "21","22","23","24","25","26","27","28","29","30",
                 "31","32","33","34","35","36","37","38","39","40",
@@ -342,12 +323,56 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         g.setCarNumber("测试车辆");
         g.setTaskNumber("测试交接号" );
         g.setHomName("测试人员");
+        g.setTaskLine("测试线路");
+
         try {
-            ylPrint.PrintGather(g,1);
+            ylPrint.PrintDetail2(LoadtestBox(),1,g);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
+    private List<Box> LoadtestBox (){
+        List<Box> list = new ArrayList<>();
+        Box box = YLBoxScanCheck.CheckBox("0115081902", getApplicationContext());
+        for (int i = 0 ; i < 3;i++){
+            box.setBoxStatus("实");
+            box.setTradeAction("送");
+            box.setBoxTaskType("早送晚收");
+            box.setNextOutTime("");
+            list.add(box);
+
+        }
+//        Box box1 = YLBoxScanCheck.CheckBox("0114103543", getApplicationContext());
+//        for (int i = 0 ; i < 6;i++){
+//            box1.setBoxStatus("空");
+//            box1.setTradeAction("收");
+//            box1.setBoxTaskType("上下介");
+//            box1.setNextOutTime("");
+//            list.add(box1);
+//        }
+//        Box box2 = YLBoxScanCheck.CheckBox("0116012280", getApplicationContext());
+//        for (int i = 0 ; i < 6;i++){
+//            box2.setBoxStatus("实");
+//            box2.setTradeAction("收");
+//            box2.setBoxTaskType("寄库箱");
+//            box2.setNextOutTime("");
+//            list.add(box2);
+//        }
+//
+//        Box box3 = YLBoxScanCheck.CheckBox("0114103419", getApplicationContext());
+//        for (int i = 0 ; i < 3;i++){
+//            box3.setBoxStatus("空");
+//            box3.setTradeAction("收");
+//            box3.setBoxTaskType("跨行调拨");
+//            box3.setNextOutTime("");
+//            list.add(box3);
+//        }
+
+        return list;
+    }
+
 
     private void ClearData() {
         final EditText editText = new EditText(this);
@@ -533,6 +558,82 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 //        anysTaskGetBaseData.get();
     }
 
+    private void AnysTaskinsterData(){
+        InsertEmp();
+        InsertSite();
+    }
+
+    private void InsertEmp() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.e(YLSystem.getKimTag(),"员工开始");
+                    (new BaseEmpDBSer(KimTest.this)).DeleteAll();
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseEmp";
+                    HttpPost post = new HttpPost(url);
+                    Gson gson = new Gson();
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", YLSystem.getHandsetIMEI());
+                    p.put("ISWIFI", YLSystem.getNetWorkState());
+                    p.put("datetime", "ALL");
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+                        List<BaseEmp> emps = gson.fromJson (content, new TypeToken<List<BaseEmp>>() {
+                        }.getType());
+                        baseEmpDBSer.InsertBaseEmp(emps);
+                        Log.e(YLSystem.getKimTag(),emps.size()+"员工数据");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+    private void InsertSite(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Log.e(YLSystem.getKimTag(),"网点开始");
+                    (new BaseEmpDBSer(KimTest.this)).DeleteAll();
+                    String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseSite";
+                    HttpPost post = new HttpPost(url);
+                    Gson gson = new Gson();
+                    JSONObject p = new JSONObject();
+                    p.put("DeviceID", YLSystem.getHandsetIMEI());
+                    p.put("ISWIFI", YLSystem.getNetWorkState());
+                    p.put("datetime", "ALL");
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+                        List<BaseSite> bases = gson.fromJson (content, new TypeToken<List<BaseSite>>() {
+                        }.getType());
+                        baseSiteDBSer.InsertBaseSite(bases);
+                        Log.e(YLSystem.getKimTag(),bases.size()+"网点数据");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+
     private class AnysTaskGetBaseData extends AsyncTask<String,Integer,String>{
 
         @Override
@@ -565,12 +666,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 if (response.getStatusLine().getStatusCode() == 200) {
                     String content = EntityUtils.toString(response.getEntity());
 
-//                    List<BaseEmp> emps =  JSON.parseObject(content, new TypeToken<List<BaseEmp>>() {
-//                    }.getType());
-
                     List<BaseEmp> emps = gson.fromJson (content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
-
 
                     baseEmpDBSer.InsertBaseEmp(emps);
                     sertime = emps.get(0).ServerTime;

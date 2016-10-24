@@ -44,10 +44,10 @@ public class YLlauncher extends ActionBarActivity {
             @Override
             public void run() {
                 InitData();
-                StartNetServer();
             }
         });
         thread.start();
+        StartNetServer();
     }
 
     private void StartLoginActvity() {

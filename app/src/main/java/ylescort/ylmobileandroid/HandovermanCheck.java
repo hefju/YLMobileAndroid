@@ -251,12 +251,12 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             gatherPrint.setSiteName("");
             gatherPrint.setClintName("所属基地:"+ YLSystem.getBaseName());
             gatherPrint.setTradeTime("任务日期:"+ylTask.getTaskDate());
-            gatherPrint.setCarNumber("任务线路:"+ylTask.getLine());
+            gatherPrint.setCarNumber("");
             gatherPrint.setTaskNumber("NO."+ylTask.getTaskID());
             gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            gatherPrint.setTaskLine("任务线路:"+ylTask.getLine());
 
-
-            ylPrint.PrintDetail(boxes,2,gatherPrint);
+            ylPrint.PrintDetail2(boxes,2,gatherPrint);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -474,9 +474,10 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             gatherPrint.setSiteName("");
             gatherPrint.setClintName("所属基地:"+ YLSystem.getBaseName());
             gatherPrint.setTradeTime("任务日期:"+ylTask.getTaskDate());
-            gatherPrint.setCarNumber("任务线路:"+ylTask.getLine());
+            gatherPrint.setCarNumber("");
             gatherPrint.setTaskNumber("NO."+ylTask.getTaskID());
             gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            gatherPrint.setTaskLine(ylTask.getLine());
             ylPrint.PrintGather(gatherPrint,2);
         } catch (Exception e) {
             e.printStackTrace();

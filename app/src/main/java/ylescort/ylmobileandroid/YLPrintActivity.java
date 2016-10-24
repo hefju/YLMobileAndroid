@@ -36,6 +36,7 @@ import TaskClass.YLTask;
 import YLAdapter.YLBoxEdiAdapter;
 import YLDataService.AnalysisBoxList;
 import YLDataService.BaseEmpDBSer;
+import YLDataService.YLBoxScanCheck;
 import YLDataService.YLSiteInfo;
 import YLPrinter.YLPrint;
 import YLSystemDate.YLEditData;
@@ -354,9 +355,10 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             gatherPrint.setCarNumber(ylTask.getTaskCar());
             gatherPrint.setTaskNumber("NO." + ylTask.getTaskID() + TaskTimeID);
             gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());
+            gatherPrint.setTaskLine(ylTask.getLine());
             arriveTime.setPrintStatus("已打印");
             arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
-            ylPrint.PrintDetail(detaillist,1,gatherPrint);
+            ylPrint.PrintDetail2(detaillist,1,gatherPrint);
             site.setStatus("已打印");
             tasksManager.SaveTask(getApplicationContext());
             SaveArriveTime();
@@ -382,6 +384,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         gatherPrint.setCarNumber(ylTask.getTaskCar());
         gatherPrint.setTaskNumber("NO." + ylTask.getTaskID() + TaskTimeID);
         gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());
+        gatherPrint.setTaskLine(ylTask.getLine());
         arriveTime.setPrintStatus("已打印");
         arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
         ylPrint.PrintGather(gatherPrint,1);
@@ -451,4 +454,45 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         }
 
     }
+
+    private List<Box> LoadtestBox (){
+        List<Box> list = new ArrayList<>();
+        Box box = YLBoxScanCheck.CheckBox("0115081902", getApplicationContext());
+        for (int i = 0 ; i < 3;i++){
+            box.setBoxStatus("实");
+            box.setTradeAction("送");
+            box.setBoxTaskType("早送晚收");
+            box.setNextOutTime("");
+            list.add(box);
+
+        }
+        Box box1 = YLBoxScanCheck.CheckBox("0114103543", getApplicationContext());
+        for (int i = 0 ; i < 6;i++){
+            box1.setBoxStatus("空");
+            box1.setTradeAction("收");
+            box1.setBoxTaskType("上下介");
+            box1.setNextOutTime("");
+            list.add(box1);
+        }
+        Box box2 = YLBoxScanCheck.CheckBox("0116012280", getApplicationContext());
+        for (int i = 0 ; i < 6;i++){
+            box2.setBoxStatus("实");
+            box2.setTradeAction("收");
+            box2.setBoxTaskType("寄库箱");
+            box2.setNextOutTime("");
+            list.add(box2);
+        }
+
+        Box box3 = YLBoxScanCheck.CheckBox("0114103419", getApplicationContext());
+        for (int i = 0 ; i < 3;i++){
+            box3.setBoxStatus("空");
+            box3.setTradeAction("收");
+            box3.setBoxTaskType("跨行调拨");
+            box3.setNextOutTime("");
+            list.add(box3);
+        }
+
+        return list;
+    }
+
 }

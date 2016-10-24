@@ -51,7 +51,9 @@
             android:id="@+id/yltask_datepicker"
             android:layout_width="wrap_content"
             android:layout_height="120dp"
-            android:calendarViewShown="false"></DatePicker>
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner">
+        </DatePicker>
 
         <Button
             android:id="@+id/Task_btn_refresh"

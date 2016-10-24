@@ -59,31 +59,35 @@
         android:layout_alignParentBottom="true"
         android:gravity="center">
         <Button
-            android:layout_width="65sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_tmp"
+            android:layout_weight="1"
             android:text="临时"
             android:background="@color/androidgreenl"
             />
 
         <Button
-            android:layout_width="65sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_check"
+            android:layout_weight="1"
             android:layout_marginStart="10sp"
             android:background="@color/androidpurplel"
             android:text="统计"/>
         <Button
-            android:layout_width="65sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_apply"
+            android:layout_weight="1"
             android:layout_marginStart="10sp"
             android:background="@color/androidblued"
             android:text="申请"/>
         <Button
-            android:layout_width="65sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/Site_Update"
+            android:layout_weight="1"
             android:layout_marginStart="10sp"
             android:text="上传"
             android:onClick="YLSite_UpDate"

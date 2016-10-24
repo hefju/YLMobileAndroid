@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import TaskClass.ArriveTime;
 import TaskClass.BaseBox;
@@ -60,8 +61,13 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yltransferedi);
-        InitLayout();
-        InitData();
+        try {
+            InitLayout();
+            InitData();
+        } catch (Exception e) {
+            MyLog(e.toString());
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -142,7 +148,7 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void InitData() {
+    protected void InitData() throws Exception{
         displayboxList = new ArrayList<>();
         carboxlist = new ArrayList<>();
         //获取初始车内款箱数量

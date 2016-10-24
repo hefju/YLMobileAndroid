@@ -65,7 +65,7 @@ public abstract class YLBaseActivity extends ActionBarActivity {
 
     protected abstract void InitLayout();
 
-    protected abstract void InitData();
+    protected abstract void InitData() throws Exception;
 
     private void InitProgress() {
         YLProgressDialog = new ProgressDialog(YLBaseActivity.this);
