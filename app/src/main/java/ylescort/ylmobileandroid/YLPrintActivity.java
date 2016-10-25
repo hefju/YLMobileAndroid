@@ -108,7 +108,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
                 TimeID = adapterView.getItemAtPosition(i).toString();
                 displaylistbox.clear();
                 for (Box box : list) {
-                    if (box.getTimeID().equals(TimeID)) {
+                    if ( box.getTimeID().equals(TimeID)) {
                         displaylistbox.add(box);
                     }
                 }
@@ -250,6 +250,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         String TimeID ="";
 
         for (Box box : list) {
+            if (box.getTimeID() == null)box.setTimeID("1");
             if (box.getTimeID().equals(TimeID)){
                 TimeID = box.getTimeID();
             }else {

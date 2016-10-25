@@ -116,6 +116,8 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         //正式服务测试服务
         //正式checked为false
         //测试checked为true
+//        logic_sw_address.setVisibility(View.INVISIBLE);
+
 //        logic_sw_address.setChecked(true);
 
         if (logic_sw_address.isChecked()) {
@@ -202,7 +204,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     //测试删除日期任务
     private void DeleteTaskbyDate() {
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getApplicationContext());
-        tasksManagerDBSer.DeleteTasksManagerbydate("2016-08-17");
+        tasksManagerDBSer.DeleteTasksManagerbydate("2016-08-12");
     }
 
     @Override
@@ -256,12 +258,12 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         try {
             if (uid != null){
                 String UserNo = Tools.Bytes2HexString(uid,uid.length);
-                if (YLSystem.getNetWorkState().equals("2")){
+                if (YLSystem.getNetWorkState() == null ||
+                        YLSystem.getNetWorkState().equals("2")){
                     BaseEmpDBSer baseEmpDBSer = new BaseEmpDBSer(getApplicationContext());
                     List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpHFNo ='" + UserNo + "'");
                     FindEmpByLocal(baseEmpList);
                 }else{
-                    CacheData();
                     JSONObject jsonObject = new JSONObject();
                     User user = new User();
                     user.setEmpNO(UserNo);
@@ -289,7 +291,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                     };
                     yf.execute();
                     yf.doInBackground();
-
+                    CacheData();
                 }
             }
         } catch (JSONException e) {
@@ -385,12 +387,12 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     private void LoginByPassword()throws Exception {
 //        CacheData();
         if (Log_ET_Name.getText().toString().equals("")|| Log_ET_PassWord.getText().toString().equals(""))return;
-        if (YLSystem.getNetWorkState().equals("2")){
+        if (YLSystem.getNetWorkState() == null
+                || YLSystem.getNetWorkState().equals("2")){
             BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getApplicationContext());
             List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpNo ='" + Log_ET_Name.getText().toString() + "'");
             FindEmpByLocal(baseEmpList);
         }else{
-            CacheData();
             JSONObject jsonObject = new JSONObject();
             User user = new User();
             user.setEmpNO(Log_ET_Name.getText().toString());
@@ -418,7 +420,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
             };
             y.execute();
             y.doInBackground();
-
+            CacheData();
         }
     }
 
