@@ -10,9 +10,9 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.android.hdhe.uhf.reader.SerialPort;
-import com.android.hdhe.uhf.reader.Tools;
-import com.android.hdhe.uhf.reader.UhfReader;
+//import com.android.hdhe.uhf.reader.SerialPort;
+//import com.android.hdhe.uhf.reader.Tools;
+//import com.android.hdhe.uhf.reader.UhfReader;
 
 import java.util.List;
 
@@ -25,13 +25,13 @@ public class ScanUHFService extends Service {
 
     private boolean runFlag = true;
     private boolean startFlag = false;
-    private UhfReader reader ; //超高频读写器
+//    private UhfReader reader ; //超高频读写器
 
     private String TAG = "kim";
     public String activity =null;
     private MyReceiver myReceive;
     private Intent serviceIntent;
-    private SerialPort UHFSerialPort;
+//    private SerialPort UHFSerialPort;
 
 
     @Override
@@ -46,30 +46,28 @@ public class ScanUHFService extends Service {
     }
 
     private void InitUHF() {
-        try {
-            reader = UhfReader.getInstance();
-//            UHFSerialPort = new SerialPort(12,115200,0);
-//            reader.powerOn();
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
-                    (this);
-            String UHFpower = prefs.getString("UHFPower", "");
-            if(UHFpower.equals("")){
-                UHFpower = "22";}
-            Log.e(YLSystem.getKimTag(),UHFpower+"获取功率");
-            Integer uhf= Integer.parseInt(UHFpower);
-            if (reader != null) {
-                Thread.sleep(100);
-                reader.setOutputPower(uhf);
-                Thread thread = new InventoryThread();
-                thread.start();
-                Log.e(YLSystem.getKimTag(), "uhf初始化成功");
-            } else {
-                Log.e(YLSystem.getKimTag(), "uhf初始化不成功");
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            reader = UhfReader.getInstance();
+//            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences
+//                    (this);
+//            String UHFpower = prefs.getString("UHFPower", "");
+//            if(UHFpower.equals("")){
+//                UHFpower = "22";}
+//            Log.e(YLSystem.getKimTag(),UHFpower+"获取功率");
+//            Integer uhf= Integer.parseInt(UHFpower);
+//            if (reader != null) {
+//                Thread.sleep(100);
+//                reader.setOutputPower(uhf);
+//                Thread thread = new InventoryThread();
+//                thread.start();
+//                Log.e(YLSystem.getKimTag(), "uhf初始化成功");
+//            } else {
+//                Log.e(YLSystem.getKimTag(), "uhf初始化不成功");
+//                return;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         myReceive = new MyReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction("ylescort.ylmobileandroid.ScanUHFService");
@@ -86,25 +84,22 @@ public class ScanUHFService extends Service {
             super.run();
             while(runFlag){
                 if(startFlag){
-//					reader.stopInventoryMulti()
-                    epcList = reader.inventoryRealTime(); //实时盘存
+//                    epcList = reader.inventoryRealTime(); //实时盘存
                     if(epcList != null && !epcList.isEmpty()){
                         //播放提示音
-//                        Util.play(1, 0);
                         for(byte[] epc:epcList){
-//                            String epcStr = Tools.Bytes2HexString(epc, epc.length).replaceAll("^(0+)", "");
-                            String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0, 10);
-//                            Intent serviceIntent = new Intent();
+//                            String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0, 10);
+
                             serviceIntent.setAction(activity);
-//                            String newStr = epcStr.replaceAll("^(0+)", "");
-                            serviceIntent.putExtra("result", "UHF"+epcStr);
+
+//                            serviceIntent.putExtra("result", "UHF"+epcStr);
                             sendBroadcast(serviceIntent);
                             try {
                                 Thread.sleep(100);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-//                            Log.e(TAG,epcStr+"read");
+
                         }
                     }
                     epcList = null ;

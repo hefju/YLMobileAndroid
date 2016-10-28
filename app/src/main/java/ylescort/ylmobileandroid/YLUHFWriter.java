@@ -15,8 +15,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.hdhe.uhf.reader.Tools;
-import com.android.hdhe.uhf.reader.UhfReader;
+//import com.android.hdhe.uhf.reader.Tools;
+//import com.android.hdhe.uhf.reader.UhfReader;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     private Button yluhfwriter_btn_uhfread;
     private Button yluhfwriter_btn_uhfwrite;
     private ScanRecive scan1dRecive;
-    private UhfReader reader;
+//    private UhfReader reader;
     private YLMediaPlayer ylMediaPlayer;
     private String box1did;
     private String boxuhfid;
@@ -63,9 +63,9 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
 
     private void InitUHF() {
 
-        reader = UhfReader.getInstance();
+//        reader = UhfReader.getInstance();
 //        reader.powerOn();
-        reader.setOutputPower(22);
+//        reader.setOutputPower(22);
     }
 
     private void InitView() {
@@ -104,48 +104,48 @@ public class YLUHFWriter extends ActionBarActivity implements View.OnClickListen
     }
 
     private void WriterUHF() {
-
-        String Passowrd = "00000000";
-        byte[]password =Tools.HexString2Bytes(Passowrd);
-        int memBank = 1;
-        int StartAddr = 2;
-        String boxid = yluhfwriter_tv_boxid.getText().toString().trim();
-        if (boxid.equals("")){
-            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
-            Toast.makeText(getApplicationContext(),"未能读取红外条码",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        byte[] data = Tools.HexString2Bytes(boxid);
-        boolean write =  reader.writeTo6C(password, memBank, StartAddr, data.length,data);
-        if (write){
-            ScanUHF(0);
-            Toast.makeText(getApplicationContext(),"写入成功",Toast.LENGTH_SHORT).show();
-            ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
-        }else {
-            Toast.makeText(getApplicationContext(),"写入失败",Toast.LENGTH_SHORT).show();
-            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
-        }
+//
+//        String Passowrd = "00000000";
+//        byte[]password =Tools.HexString2Bytes(Passowrd);
+//        int memBank = 1;
+//        int StartAddr = 2;
+//        String boxid = yluhfwriter_tv_boxid.getText().toString().trim();
+//        if (boxid.equals("")){
+//            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
+//            Toast.makeText(getApplicationContext(),"未能读取红外条码",Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        byte[] data = Tools.HexString2Bytes(boxid);
+//        boolean write =  reader.writeTo6C(password, memBank, StartAddr, data.length,data);
+//        if (write){
+//            ScanUHF(0);
+//            Toast.makeText(getApplicationContext(),"写入成功",Toast.LENGTH_SHORT).show();
+//            ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+//        }else {
+//            Toast.makeText(getApplicationContext(),"写入失败",Toast.LENGTH_SHORT).show();
+//            ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
+//        }
     }
 
     private void ScanUHF(int p) {
-        List<byte[]> epcList;
-        epcList = reader.inventoryRealTime();
-        if (epcList != null && !epcList.isEmpty()){
-            for(byte[] epc:epcList){
-                String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0,10);
-                boxuhfid = epcStr;
-                if (box1did.equals(boxuhfid)){
-                    yluhfwriter_tv_uhfno.setTextColor(oragecolor);
-                }else {
-                    yluhfwriter_tv_uhfno.setTextColor(bulecolor);
-                }
-                yluhfwriter_tv_uhfno.setText(epcStr);
-                if (p == 1){
-                    ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
-                }
-            }
-        }
-        epcList = null ;
+//        List<byte[]> epcList;
+//        epcList = reader.inventoryRealTime();
+//        if (epcList != null && !epcList.isEmpty()){
+//            for(byte[] epc:epcList){
+//                String epcStr = Tools.Bytes2HexString(epc, epc.length).substring(0,10);
+//                boxuhfid = epcStr;
+//                if (box1did.equals(boxuhfid)){
+//                    yluhfwriter_tv_uhfno.setTextColor(oragecolor);
+//                }else {
+//                    yluhfwriter_tv_uhfno.setTextColor(bulecolor);
+//                }
+//                yluhfwriter_tv_uhfno.setText(epcStr);
+//                if (p == 1){
+//                    ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
+//                }
+//            }
+//        }
+//        epcList = null ;
     }
 
 

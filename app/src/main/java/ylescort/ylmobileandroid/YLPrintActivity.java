@@ -41,6 +41,7 @@ import YLDataService.YLSiteInfo;
 import YLPrinter.YLPrint;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -281,15 +282,19 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             switch (view.getId()) {
                 case R.id.ylprinter_btn_gather:
                     PrintGather();
+                    YLRecord.WriteRecord("打印","打印汇总");
                     break;
                 case R.id.ylprinter_btn_detail:
                     PrintDetail();
+                    YLRecord.WriteRecord("打印","打印明细");
                     break;
                 case R.id.ylprinter_btn_readhf:
                     CheckSietHF();
+                    YLRecord.WriteRecord("打印","客户读卡");
                     break;
                 case R.id.ylprinter_btn_cancel:
                     finish();
+                    YLRecord.WriteRecord("打印","返回");
                     break;
             }
         } catch (Exception e) {

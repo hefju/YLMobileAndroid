@@ -28,7 +28,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
-import com.android.hdhe.uhf.reader.Tools;
+//import com.android.hdhe.uhf.reader.Tools;
+import com.example.nfc.util.Tools;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -326,7 +327,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         g.setTaskLine("测试线路");
 
         try {
-            ylPrint.PrintDetail2(LoadtestBox(),1,g);
+            ylPrint.PrintGather(g,1);
         } catch (Exception e) {
             e.printStackTrace();
         }

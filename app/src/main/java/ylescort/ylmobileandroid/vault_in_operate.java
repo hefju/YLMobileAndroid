@@ -17,7 +17,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.hdhe.nfc.NFCcmdManager;
-import com.android.hdhe.uhf.reader.Tools;
+import com.example.nfc.util.Tools;
+//import com.android.hdhe.uhf.reader.Tools;
 
 import java.util.List;
 

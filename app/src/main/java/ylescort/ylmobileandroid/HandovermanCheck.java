@@ -26,6 +26,7 @@ import YLAdapter.YLBoxEdiAdapter;
 import YLDataService.AnalysisBoxList;
 import YLDataService.WebService;
 import YLPrinter.YLPrint;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSystem;
 import ylescort.ylmobileandroid.R;
 
@@ -162,12 +163,14 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             case R.id.handoverman_btn_enter:
                 try {
                     ComfirmStoreIn();
+                    YLRecord.WriteRecord("申请","确认入库");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.handoverman_btn_cancel:
                 finish();
+                YLRecord.WriteRecord("申请","返回");
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 break;
             case R.id.handoverman_btn_carbox:
@@ -176,6 +179,7 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
                 if (carlist != null){
                     Analysis(carlist);
                 }
+                YLRecord.WriteRecord("申请","查看车内款箱");
                 break;
             case R.id.handoverman_btn_invalut:
 //                try {
@@ -218,9 +222,11 @@ public class HandovermanCheck extends ActionBarActivity implements View.OnClickL
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (defaultSelectedStatus[0]){
                     PrintGather();
+                    YLRecord.WriteRecord("申请","打印入库汇总");
                 }
                 if (defaultSelectedStatus[1]){
                     PrintDetail();
+                    YLRecord.WriteRecord("申请","打印入库明细");
                 }
                 dialogInterface.dismiss();
             }
