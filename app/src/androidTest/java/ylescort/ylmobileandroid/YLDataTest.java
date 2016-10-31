@@ -45,6 +45,45 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
     private static final String TAG = "kim";
 
+    public void testSetData() throws  Exception{
+
+//        HashSet<Box> boxSet = new HashSet<Box>();
+
+        Set<Box> boxSet = new HashSet<>();
+
+        Box box1 = new Box();
+        box1.setId(123);
+        box1.setBoxName("测试1");
+        box1.setBoxID("123");
+
+        Box box2 = new Box();
+        box2.setBoxOrder("1");
+        box2.setBoxName("测试2");
+        box2.setBoxID("123");
+
+        Box box3 = new Box();
+        box3.setBoxName("测试1");
+        box3.setBoxID("123");
+
+
+        boxSet.add(box1);
+        boxSet.add(box2);
+        boxSet.add(box3);
+
+
+
+        for (Box box : boxSet) {
+            if (box.getId() == 123){
+                box.setBoxName("测试3");
+            }
+        }
+
+        for (Box box : boxSet) {
+            Log.e(YLSystem.getKimTag(),box.getBoxName());
+        }
+
+    }
+
 
     public void testDeletTask() throws  Exception{
         TasksManagerDBSer tasksManagerDBSer = new TasksManagerDBSer(getContext());

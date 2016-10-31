@@ -16,13 +16,13 @@ public class ArriveTime {
     public String ClientHFNO;//客户交接HF卡
     public int PrintCount;//打印次数
     public String PrintStatus;//打印状态
-    public int TaskTimeID;//到达时间
+    public String TaskTimeID;//单号
 
-    public int getTaskTimeID() {
+    public String getTaskTimeID() {
         return TaskTimeID;
     }
 
-    public void setTaskTimeID(int taskTimeID) {
+    public void setTaskTimeID(String taskTimeID) {
         TaskTimeID = taskTimeID;
     }
 

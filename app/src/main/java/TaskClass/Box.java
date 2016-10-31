@@ -248,4 +248,74 @@ public class Box {
                 ", Ylclearing='" + Ylclearing + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Box)) return false;
+
+        Box box = (Box) o;
+
+        if (getTaskTimeID() != box.getTaskTimeID()) return false;
+        if (getServerReturn() != null ? !getServerReturn().equals(box.getServerReturn()) : box.getServerReturn() != null)
+            return false;
+        if (getSiteID() != null ? !getSiteID().equals(box.getSiteID()) : box.getSiteID() != null)
+            return false;
+        if (getBoxID() != null ? !getBoxID().equals(box.getBoxID()) : box.getBoxID() != null)
+            return false;
+        if (getBoxName() != null ? !getBoxName().equals(box.getBoxName()) : box.getBoxName() != null)
+            return false;
+        if (getTradeAction() != null ? !getTradeAction().equals(box.getTradeAction()) : box.getTradeAction() != null)
+            return false;
+        if (getBoxStatus() != null ? !getBoxStatus().equals(box.getBoxStatus()) : box.getBoxStatus() != null)
+            return false;
+        if (getBoxType() != null ? !getBoxType().equals(box.getBoxType()) : box.getBoxType() != null)
+            return false;
+        if (getNextOutTime() != null ? !getNextOutTime().equals(box.getNextOutTime()) : box.getNextOutTime() != null)
+            return false;
+        if (getActionTime() != null ? !getActionTime().equals(box.getActionTime()) : box.getActionTime() != null)
+            return false;
+        if (getTimeID() != null ? !getTimeID().equals(box.getTimeID()) : box.getTimeID() != null)
+            return false;
+        if (getBoxCount() != null ? !getBoxCount().equals(box.getBoxCount()) : box.getBoxCount() != null)
+            return false;
+        if (getBoxTaskType() != null ? !getBoxTaskType().equals(box.getBoxTaskType()) : box.getBoxTaskType() != null)
+            return false;
+        if (getValutcheck() != null ? !getValutcheck().equals(box.getValutcheck()) : box.getValutcheck() != null)
+            return false;
+        if (getBaseValutOut() != null ? !getBaseValutOut().equals(box.getBaseValutOut()) : box.getBaseValutOut() != null)
+            return false;
+        if (getBaseValutIn() != null ? !getBaseValutIn().equals(box.getBaseValutIn()) : box.getBaseValutIn() != null)
+            return false;
+        if (getRemark() != null ? !getRemark().equals(box.getRemark()) : box.getRemark() != null)
+            return false;
+        if (getBoxToT() != null ? !getBoxToT().equals(box.getBoxToT()) : box.getBoxToT() != null)
+            return false;
+        return getYlclearing() != null ? getYlclearing().equals(box.getYlclearing()) : box.getYlclearing() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getServerReturn() != null ? getServerReturn().hashCode() : 0;
+        result = 31 * result + (getSiteID() != null ? getSiteID().hashCode() : 0);
+        result = 31 * result + (getBoxID() != null ? getBoxID().hashCode() : 0);
+        result = 31 * result + (getBoxName() != null ? getBoxName().hashCode() : 0);
+        result = 31 * result + (getTradeAction() != null ? getTradeAction().hashCode() : 0);
+        result = 31 * result + (getBoxStatus() != null ? getBoxStatus().hashCode() : 0);
+        result = 31 * result + (getBoxType() != null ? getBoxType().hashCode() : 0);
+        result = 31 * result + (getNextOutTime() != null ? getNextOutTime().hashCode() : 0);
+        result = 31 * result + (getActionTime() != null ? getActionTime().hashCode() : 0);
+        result = 31 * result + (getTimeID() != null ? getTimeID().hashCode() : 0);
+        result = 31 * result + (getBoxCount() != null ? getBoxCount().hashCode() : 0);
+        result = 31 * result + (getBoxTaskType() != null ? getBoxTaskType().hashCode() : 0);
+        result = 31 * result + (getValutcheck() != null ? getValutcheck().hashCode() : 0);
+        result = 31 * result + (getBaseValutOut() != null ? getBaseValutOut().hashCode() : 0);
+        result = 31 * result + (getBaseValutIn() != null ? getBaseValutIn().hashCode() : 0);
+        result = 31 * result + (getRemark() != null ? getRemark().hashCode() : 0);
+        result = 31 * result + getTaskTimeID();
+        result = 31 * result + (getBoxToT() != null ? getBoxToT().hashCode() : 0);
+        result = 31 * result + (getYlclearing() != null ? getYlclearing().hashCode() : 0);
+        return result;
+    }
 }

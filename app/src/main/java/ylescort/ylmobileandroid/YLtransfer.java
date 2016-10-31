@@ -880,14 +880,18 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     private void LoadandupdateCarbox() {
         //先下载出入ID，根据之前下载的车内款箱数对比
         //出入库款箱修改界面修改后有bug不能获取最新列表ID
-        String yltaskid = ylTask.getTaskID();
-        String boxoutid = ycdo.GetCarBoxOutID(getApplicationContext(),yltaskid);
-        int count = YLCarBoxOperate.getYLCurrectCarBoxList().size();
-        if (count > 0){
-            String localboxoutid = YLCarBoxOperate.getYLCurrectCarBoxList().get(0).getServerReturn();
-            if (!localboxoutid.equals(boxoutid)){
-               ycdo.UpdateCarbox(getApplicationContext(),yltaskid);
+        try {
+            String yltaskid = ylTask.getTaskID();
+            String boxoutid = ycdo.GetCarBoxOutID(getApplicationContext(),yltaskid);
+            int count = YLCarBoxOperate.getYLCurrectCarBoxList().size();
+            if (count > 0){
+                String localboxoutid = YLCarBoxOperate.getYLCurrectCarBoxList().get(0).getServerReturn();
+                if (!localboxoutid.equals(boxoutid)){
+                   ycdo.UpdateCarbox(getApplicationContext(),yltaskid);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

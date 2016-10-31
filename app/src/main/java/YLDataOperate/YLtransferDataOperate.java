@@ -177,12 +177,16 @@ public class YLtransferDataOperate {
                     } else {
                         TimeID = arriveTimeList.size() + 1;
                     }
+                    String tasktimeid = TaskTimeID+"";
+                    if (tasktimeid.length()== 1){
+                        tasktimeid = "0"+tasktimeid;
+                    }
                     arriveTime.setServerReturn("1");
                     arriveTime.setEmpID(YLSystem.getUser().getEmpID());
                     arriveTime.setATime(YLSysTime.GetStrCurrentTime());
                     arriveTime.setTradeBegin(YLSysTime.GetStrCurrentTime());
                     arriveTime.setTimeID(TimeID + "");
-                    arriveTime.setTaskTimeID(TaskTimeID);
+                    arriveTime.setTaskTimeID(ylTask.getTaskID()+tasktimeid);
                     arriveTime.setSiteID(SiteID);
                     arriveTime.setPrintCount(0);
                     arriveTime.setPrintStatus("未打印");
