@@ -33,6 +33,7 @@ import YLDataService.WebServerValutturnover;
 import YLDataService.YLBoxScanCheck;
 import YLDataService.YLSQLHelper;
 import YLDataService.YLSiteInfo;
+import YLSystemDate.HandsetInfo;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
@@ -44,6 +45,15 @@ public class YLDataTest extends ApplicationTestCase<Application> {
     public YLDataTest() {super(Application.class);}
 
     private static final String TAG = "kim";
+
+
+    public void testhandsetinfo() throws Exception{
+        HandsetInfo handsetInfo = new HandsetInfo(getContext());
+        String sim = handsetInfo.Preferencedata("HandsetName", "9999");
+        Log.e(YLSystem.getKimTag(),sim);
+
+
+    }
 
     public void testSetData() throws  Exception{
 
