@@ -25,6 +25,8 @@ public class YLtransferDataOperate {
 
     public static List<Box> Transferingboxes;//交接中款箱
 
+    public static Set<Box> boxSet ;//交接数据//set
+
 //    public static List<Box> AllTransferboxes;//全交接款箱列表
 
     public static List<Box> Transferedboxes;//已交接完成款箱列表
@@ -34,6 +36,17 @@ public class YLtransferDataOperate {
     public static String SitetimeID;
 
     public static int SiteTaskTimeID;
+
+    public static boolean  AddboxtoList(Box box){
+        boolean add = boxSet.add(box);
+        if (add){
+            Transferingboxes.add(box);
+            return true;
+        }else {
+            return false;
+        }
+
+    }
 
     public static Site getChooseSite() {
         return ChooseSite;
@@ -102,8 +115,10 @@ public class YLtransferDataOperate {
         if (Transferedboxes == null){
             Transferedboxes = new ArrayList<>();
             Transferingboxes = new ArrayList<>();
+            boxSet = new HashSet<>();
         }else {
             Transferingboxes = new ArrayList<>();
+            boxSet = new HashSet<>();
         }
 
     }

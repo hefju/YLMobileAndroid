@@ -460,7 +460,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         box.setActionTime(YLSysTime.GetStrCurrentTime());
         box.setYlclearing(ChooseBox.getYlclearing());
 
-        YLtransferDataOperate.Transferingboxes.add(box);
+//        YLtransferDataOperate.Transferingboxes.add(box);
+        YLtransferDataOperate.AddboxtoList(box);
         YLCarBoxOperate.YLEditeCarBoxList.add(box);
         YLRecord.WriteRecord("网点交接","收箱:"+box.getBoxName()+box.getBoxStatus()+box.getBoxTaskType());
         ylMediaPlayer.SuccessOrFail(true);
@@ -505,7 +506,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             removecarbox.setSiteID(ChooseBox.getSiteID());
             removecarbox.setActionTime(YLSysTime.GetStrCurrentTime());
             removecarbox.setId(0);
-            YLtransferDataOperate.Transferingboxes.add(removecarbox);
+//            YLtransferDataOperate.Transferingboxes.add(removecarbox);
+            YLtransferDataOperate.AddboxtoList(removecarbox);
             ShowBoxDaitel(removecarbox);
             YLRecord.WriteRecord("网点交接","送箱："+removecarbox.getBoxName()+
                     removecarbox.getBoxStatus()+removecarbox.getBoxTaskType());
@@ -568,7 +570,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     Box box = ytdo.BoxofNoCarbox(getApplicationContext(),boxid,ChooseBox.getSiteID(),
                             ChooseBox.getTimeID(),TaskTimeID,tasktype,boxtot,boxstatus);
                     MyLog(box.toString());
-                    YLtransferDataOperate.Transferingboxes.add(box);
+//                    YLtransferDataOperate.Transferingboxes.add(box);
+                    YLtransferDataOperate.AddboxtoList(box);
                     ShowBoxDaitel(box);
                     TallyBox();
                     ylMediaPlayer.SuccessOrFail(true);

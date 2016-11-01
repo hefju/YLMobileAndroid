@@ -58,7 +58,7 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
         Box box2 = new Box();
         box2.setBoxOrder("1");
-        box2.setBoxName("测试2");
+        box2.setBoxName("测试1");
         box2.setBoxID("123");
 
         Box box3 = new Box();
@@ -66,9 +66,9 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         box3.setBoxID("123");
 
 
-        boxSet.add(box1);
-        boxSet.add(box2);
-        boxSet.add(box3);
+        boolean t1 =  boxSet.add(box1);
+        boolean t2 = boxSet.add(box2);
+        boolean t3 = boxSet.add(box3);
 
 
 
@@ -78,10 +78,11 @@ public class YLDataTest extends ApplicationTestCase<Application> {
             }
         }
 
-        for (Box box : boxSet) {
-            Log.e(YLSystem.getKimTag(),box.getBoxName());
-        }
-
+//        for (Box box : boxSet) {
+//            Log.e(YLSystem.getKimTag(),box.getBoxName());
+//
+//        }
+        Log.e(YLSystem.getKimTag(),t1+""+t2+t3+"");
     }
 
 
