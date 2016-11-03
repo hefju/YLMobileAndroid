@@ -31,6 +31,7 @@ import YLDataService.WebService;
 import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
 
@@ -94,6 +95,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         bulecolor =  getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
         oragecolor =  getResources().getColor(R.color.orange);//得到配置文件里的颜色
         ylMediaPlayer = new YLMediaPlayer();
+        DisplayYLBox(boxList);
     }
 
 
@@ -117,6 +119,9 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         vault_check_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (boxList.size() > 0){
+                    DeleteBox(position);
+                }
 
             }
         });
@@ -127,6 +132,29 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
 
         vault_check_tv_statistics.setText("总计: 0 个");
         vault_check_tv_scanman.setText("盘库人-"+YLSystem.getUser().getName());
+    }
+
+    private void DeleteBox(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_check_ylbox.this);
+        builder.setMessage("是否删除该款箱？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                boxList.remove(position);
+                ylVaultcheckboxAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+
     }
 
     private void InitReciveScan1D() {
@@ -287,36 +315,33 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     }
 
     private void ConFirm(){
+
+        YLTask ylTask = new YLTask();
+        ylTask.setTaskATMBeginTime(YLSystem.getBaseName());//盘库基地
+        ylTask.setTaskATMEndTime(boxList.size() + "");//盘库数量
+        ylTask.setLstBox(boxList);
+        YLEditData.setYlTask(ylTask);
+        if (vault_check_btn_basedep.getText().toString().equals("补打标签")) {
+            Remarkbox();
+        } else {
+            VaultCheck();
+        }
+//        vault_check_ylbox.this.finish();
+//        overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    private void Remarkbox() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(vault_check_ylbox.this);
-        builder.setMessage("是否确认上传数据");
+        builder.setMessage("确认上传补打标签？");
         builder.setTitle("提示");
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("上传", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-
-                    User user = new User();
-                    user.setEmpID(YLSystem.getUser().getEmpID());
-                    user.setISWIFI("0");
-                    Log.e(YLSystem.getKimTag(),user.toString());
-                    YLTask ylTask = new YLTask();
-                    ylTask.setTaskATMBeginTime(YLSystem.getBaseName());//盘库基地
-                    ylTask.setTaskATMEndTime(boxList.size() + "");//盘库数量
-                    ylTask.setLstBox(boxList);
-                    //ylTask.setTaskState(YLEditData.getDatePick().toString());
-                    YLEditData.setYlTask(ylTask);
-                    if (vault_check_btn_basedep.getText().toString().equals("补打标签")){
-                        WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
-                        String serreturn =  webServerValutturnover.UpLoadPrintlalbe(getApplicationContext(), user);
-                        Log.e(YLSystem.getKimTag(),serreturn);
-                    }else {
-                        WebService webService = new WebService();
-                        webService.PostCheckVaultboxlist(YLSystem.getUser(), getApplicationContext());
-                    }
-
-                    vault_check_ylbox.this.finish();
-                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-
+                    WebServerValutturnover webServerValutturnover = new WebServerValutturnover();
+                    String serreturn =  webServerValutturnover.UpLoadPrintlalbe(getApplicationContext());
+                    dialog.dismiss();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -329,8 +354,46 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             }
         });
         builder.create().show();
+
     }
 
+    private void VaultCheck(){
+
+        final WebService webService = new WebService();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(vault_check_ylbox.this);
+        builder.setMessage("请选择上传类型？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("初始上传", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    webService.PostCheckVaultboxlist("1", getApplicationContext());
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton("普通上传", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    webService.PostCheckVaultboxlist("0", getApplicationContext());
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 
     private void Scan1DCmd( String cmd ) {
         String activity = "ylescort.ylmobileandroid.vault_check_ylbox";
@@ -377,11 +440,14 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
         }
         Box box= YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
         if (box.getBoxName().equals("无数据"))return;
+        box.setActionTime(YLSysTime.GetStrCurrentTime());
         boxList.add(box);
-        vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
+//        vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
         vault_check_rl_title.setBackgroundColor(bulecolor);
         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-        DisplayYLBox(boxList);
+//        DisplayYLBox(boxList);
+        ylVaultcheckboxAdapter.notifyDataSetChanged();
+        scrollMyListViewToBottom();
     }
 
     private Box CheckBox(String recivedata ){
@@ -424,8 +490,10 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
             }
             if (boxcheck) {
                 boxList.add(box);
-                vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
-                DisplayYLBox(boxList);
+//                vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
+//                DisplayYLBox(boxList);
+                ylVaultcheckboxAdapter.notifyDataSetChanged();
+                scrollMyListViewToBottom();
                 int b =  getResources().getColor(R.color.mediumseagreen);//得到配置文件里的颜色
                 vault_check_rl_title.setBackgroundColor(b);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
@@ -439,15 +507,9 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
     }
 
     private void DisplayYLBox(List<Box> boxList) {
-        if (boxList.size()< 1)return;
-        if (boxList.size() == 1){
-             ylVaultcheckboxAdapter =
-                    new YLVaultcheckboxAdapter(this,boxList,R.layout.vault_check_ylboxitem);
-            vault_check_lv.setAdapter(ylVaultcheckboxAdapter);
-        }else {
-            ylVaultcheckboxAdapter.notifyDataSetChanged();
-        }
-        scrollMyListViewToBottom();
+        ylVaultcheckboxAdapter =
+                new YLVaultcheckboxAdapter(this, boxList, R.layout.vault_check_ylboxitem);
+        vault_check_lv.setAdapter(ylVaultcheckboxAdapter);
     }
 
 
@@ -459,6 +521,7 @@ public class vault_check_ylbox extends ActionBarActivity implements View.OnClick
                 vault_check_lv.setSelection(boxList.size() - 1);
             }
         });
+        vault_check_tv_statistics.setText("总计:" + boxList.size() + "个");
     }
 
     @Override

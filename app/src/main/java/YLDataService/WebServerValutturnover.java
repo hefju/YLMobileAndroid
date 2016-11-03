@@ -212,10 +212,10 @@ public class WebServerValutturnover {
         }
     }
 
-    public String UpLoadPrintlalbe(Context context, User user)throws Exception{
+    public String UpLoadPrintlalbe(Context context)throws Exception{
         UpLoadPrintlalbeAsyncTask upLoadPrintlalbeAsyncTask = new UpLoadPrintlalbeAsyncTask();
         String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBadBoxRecord";
-        upLoadPrintlalbeAsyncTask.execute(url,user.getEmpID(),YLSystem.getHandsetIMEI());
+        upLoadPrintlalbeAsyncTask.execute(url);
         return upLoadPrintlalbeAsyncTask.get();
     }
 
@@ -229,9 +229,8 @@ public class WebServerValutturnover {
             JSONObject p = new JSONObject();
             try {
                 p.put("STask",gson.toJson(YLEditData.getYlTask()));
-                Log.e(YLSystem.getKimTag(),YLEditData.getYlTask().toString());
-                p.put("empid",params[1]);
-                p.put("deviceID",params[2]);
+                p.put("empid",YLSystem.getUser().getEmpID());
+                p.put("deviceID",YLSystem.getHandsetIMEI());
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();

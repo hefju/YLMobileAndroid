@@ -387,7 +387,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         String Client = ylSiteInfo.GetClientbySiteID(site.getSiteID());
         gatherPrint.setSiteName(site.getSiteName());
         gatherPrint.setClintName(Client);
-        gatherPrint.setTradeTime(YLSysTime.GetStrCurrentTime());
+        gatherPrint.setTradeTime(arriveTime.getTradeEnd());
         gatherPrint.setCarNumber(ylTask.getTaskCar());
         gatherPrint.setTaskNumber("NO." + arriveTime.getTaskTimeID());
         gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());

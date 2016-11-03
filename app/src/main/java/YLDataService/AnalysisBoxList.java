@@ -350,7 +350,7 @@ public class AnalysisBoxList {
                         if (box.getBoxStatus().equals("实")) {
                             givevoucherbagfull++;
                         } else {
-                            givevoucherempty++;
+                            givevoucherbagempty++;
                         }
                         break;
                 }

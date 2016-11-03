@@ -937,7 +937,7 @@ public class WebService {
 
     /**
      * 上传盘库记录。init=1就初始化所有在库箱为出库
-     * @param user 库管员
+     * @param init 库管员
      * @param context
      *<param name="STask">任务类包含box类</param>
      *<param name="empid">库管员ID 3361</param>
@@ -947,11 +947,11 @@ public class WebService {
      * @throws Exception
      */
 
-    public String PostCheckVaultboxlist(User user,Context context)throws Exception{
+    public String PostCheckVaultboxlist(String init,Context context)throws Exception{
         String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBoxRecord";
         PostCheckVaultboxlistAsycnTask postCheckVaultboxlistAsycnTask =
                 new PostCheckVaultboxlistAsycnTask();
-        postCheckVaultboxlistAsycnTask.execute(url, user.getEmpID(), YLSystem.getHandsetIMEI(), user.getISWIFI());
+        postCheckVaultboxlistAsycnTask.execute(url,init);
         return postCheckVaultboxlistAsycnTask.get();
     }
 
@@ -964,9 +964,9 @@ public class WebService {
             JSONObject p = new JSONObject();
             try {
                 p.put("STask",gson.toJson(YLEditData.getYlTask()));
-                p.put("empid",params[1]);
-                p.put("deviceID",params[2]);
-                p.put("init",params[3]);
+                p.put("empid",YLSystem.getUser().getEmpID());
+                p.put("deviceID", YLSystem.getHandsetIMEI());
+                p.put("init",params[1]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();
