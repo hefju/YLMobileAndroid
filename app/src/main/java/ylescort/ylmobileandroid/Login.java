@@ -57,6 +57,7 @@ import YLDataService.BaseEmpDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.WebService;
+import YLSystemDate.HandsetInfo;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLHandSetBaseData;
 import YLSystemDate.YLMediaPlayer;
@@ -116,7 +117,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         //正式服务测试服务
         //正式checked为false
         //测试checked为true
-//        logic_sw_address.setVisibility(View.INVISIBLE);
+//        logic_sw_address.setVisibility(View.VISIBLE);
 
 //        logic_sw_address.setChecked(true);
 
@@ -459,6 +460,14 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     protected void onPostResume() {
         manager = NFCcmdManager.getNFCcmdManager(YLSystem.getHFport(), 115200, 0);
         manager.readerPowerOn();
+        if (YLHandSetBaseData.getHandSetSN() == null){
+            try {
+                HandsetInfo h = new HandsetInfo(getApplicationContext());
+                log_tv_vision.setText(h.getupdateinfo());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         super.onPostResume();
     }
 }
