@@ -10,6 +10,7 @@ import java.util.Set;
 
 import TaskClass.Box;
 import TaskClass.GatherPrint;
+import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 import zpSDK.zpSDK.zpSDK;
 
@@ -84,7 +85,7 @@ public class YLPrint {
                 title = "押运交接单";
                 Address = "单位名称:" + gatherPrint.getClintName();
                 NetPoint =  "网点名称:" + gatherPrint.getSiteName();
-                handovertime = "打印时间:"+gatherPrint.getTradeTime();
+                handovertime = "交接时间:"+gatherPrint.getTradeTime();
                 car = "  车牌："+gatherPrint.getCarNumber();
                 Taskline = gatherPrint.getTaskLine();
                 break;
@@ -329,6 +330,7 @@ public class YLPrint {
 
         zpSDK.zp_draw_text(3, 100, "押运业务员："+gatherPrint.getHomName() +"  签名：");
         zpSDK.zp_draw_text(3, 110, "网点交接人（签章）1：                   2：");
+        zpSDK.zp_draw_text(3, 115, "打印时间："+ YLSysTime.GetStrCurrentTime());
         Boolean printpage =  zpSDK.zp_page_print(false);
         Log.e("kim", "print" + printpage.toString());
 
@@ -494,12 +496,12 @@ public class YLPrint {
     private void PrintSign(GatherPrint gatherPrint) {
         rowshight = 4;rowsplus = 2;
 
-        Boolean creatpage = zpSDK.zp_page_create(80,40);
+        Boolean creatpage = zpSDK.zp_page_create(80,50);
         zpSDK.zp_draw_text_ex(3, rowshight16(), "押运业务员:"+gatherPrint.getHomName() +"  签名："
                 , "宋体", 3, 0, true, false, false);
         zpSDK.zp_draw_text(3, rowshight8(), "网点交接人（签章）1：                   2：");
 
-
+        zpSDK.zp_draw_text(3, 32, "打印时间："+YLSysTime.GetStrCurrentTime());
         zpSDK.zp_draw_text(20, 35, "第一页，共一页");
 
         Boolean printpage =  zpSDK.zp_page_print(false);
@@ -510,7 +512,7 @@ public class YLPrint {
     }
 
     private void PrintBoxList(List<Box> boxList) {
-        int count = 1;int order = 1;int onepage = 50;
+        int count = 1;int order = 1;int multiple = 5;
         boolean secondpage = true;
         List<Box> boxes = new ArrayList<>();
         for (Box box : boxList) {
@@ -526,23 +528,23 @@ public class YLPrint {
                 count++;
             }
             order++;
-            if (count * 4 <= 600){
+            if (count * multiple <= 600){
                 boxes.add(box);
             }else {
-                PrintBox(boxes,count*4,order-boxes.size()-1);
+                PrintBox(boxes,count*multiple,order-boxes.size()-1);
                 secondpage = false;
                 boxes.clear();
                 count = 1;
             }
         }
         if (secondpage){
-            if (count*4< 50){
+            if (count*multiple< 50){
                 PrintBox(boxes,50,order-boxes.size());
             }else{
-                PrintBox(boxes,count*4,order-boxes.size());
+                PrintBox(boxes,count*multiple,order-boxes.size());
             }
         }else {
-            PrintBox(boxes,count*4,order-boxes.size());
+            PrintBox(boxes,count*multiple,order-boxes.size());
         }
 
     }
@@ -551,48 +553,57 @@ public class YLPrint {
         rowshight = 0;
         Boolean creatpage = zpSDK.zp_page_create(80,pagehigh);
         for (Box box : boxes) {
-            rowshight=rowshight+4;
+            rowshight=rowshight+5;
             if (box.getNextOutTime() != null){
                 if (box.getNextOutTime().length() > 0 ){
-//                    Log.e(YLSystem.getKimTag(),"出库状态为有出库日期"+box.getBoxName());
                     zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
-                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
-                    zpSDK.zp_draw_text(45, rowshight,"出库："+box.getNextOutTime());
+                    zpSDK.zp_draw_text(8, rowshight, box.getBoxName());
+//                    zpSDK.zp_draw_text(45, rowshight,"出库："+box.getNextOutTime());
                     rowshight=rowshight+4;
+                    String outdate = "";
+                    if (box.getNextOutTime().equals("2099-12-31")){
+                        outdate = "长期寄库";
+                    }else {
+                        outdate = box.getNextOutTime();
+                    }
+                    zpSDK.zp_draw_text(8, rowshight,"出库："+outdate);
                     zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
                     zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
                     zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
                     zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
-                }else if (box.getBoxName().length() >10) {
-//                    Log.e(YLSystem.getKimTag(),"款箱名称过长"+box.getBoxName());
-                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
-                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
-                    rowshight=rowshight+4;
-                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
-                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
-                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
-                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
-                    zpSDK.zp_draw_text(55, rowshight, "");
-                }else {
-//                    Log.e(YLSystem.getKimTag(),"出库状态不为null"+box.getBoxName());
-                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
-                    zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
-                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
-                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
-                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
-                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
-                    zpSDK.zp_draw_text(55, rowshight, "");
-                }
 
+                    zpSDK.zp_draw_line(5,rowshight+1,70,rowshight+1,2);
+
+                }else if (box.getBoxName().length() >10) {
+                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
+                    zpSDK.zp_draw_text(8, rowshight, box.getBoxName());
+                    rowshight=rowshight+4;
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, "");
+                    zpSDK.zp_draw_line(5,rowshight+1,70,rowshight+1,2);
+                }else {
+                    zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
+                    zpSDK.zp_draw_text(8, rowshight, box.getBoxName());
+                    zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
+                    zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
+                    zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
+                    zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
+                    zpSDK.zp_draw_text(55, rowshight, "");
+                    zpSDK.zp_draw_line(5,rowshight+1,70,rowshight+1,2);
+                }
             }else {
                 Log.e(YLSystem.getKimTag(),"出库状态为null"+box.getBoxName());
                 zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
-                zpSDK.zp_draw_text(6, rowshight, box.getBoxName());
+                zpSDK.zp_draw_text(8, rowshight, box.getBoxName());
                 zpSDK.zp_draw_text(35, rowshight, box.getTradeAction());
                 zpSDK.zp_draw_text(40, rowshight, box.getBoxStatus());
                 zpSDK.zp_draw_text(45, rowshight, box.getBoxType());
                 zpSDK.zp_draw_text(55, rowshight, box.getBoxTaskType());
                 zpSDK.zp_draw_text(55, rowshight, "");
+                zpSDK.zp_draw_line(5,rowshight+1,70,rowshight+1,2);
             }
             order++;
         }
@@ -619,7 +630,7 @@ public class YLPrint {
                 title = "押运交接单";
                 Address = "单位名称:" + gatherPrint.getClintName();
                 NetPoint =  "网点名称:" + gatherPrint.getSiteName();
-                handovertime = "打印时间:"+gatherPrint.getTradeTime();
+                handovertime = "交接时间:"+gatherPrint.getTradeTime();
                 carorline = "  车牌："+gatherPrint.getCarNumber();
                 Taskline = "押运线路:"+gatherPrint.getTaskLine();
                 break;
