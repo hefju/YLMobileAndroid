@@ -43,30 +43,34 @@
         android:gravity="center"
         android:layout_alignParentBottom="true">
         <Button
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/HomTmp_Scan_btn_apply"
             android:text="@string/HomTmp_scan_applycation"
+            android:layout_weight="1"
             android:background="@color/androidgreenl"/>
         <Button
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="15sp"
             android:id="@+id/HomTmp_Scan_btn_refresh"
             android:text="@string/HomTmp_scan_btn_refersh"
             android:background="@color/androidpurplel"/>
 
         <Button
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/HomTmp_Scan_btn_scan"
+            android:layout_weight="1"
             android:text="@string/HomTmp_scan_btn_scan"
             android:background="@color/androidblued"
             android:layout_marginStart="15sp"
             android:enabled="false"/>
         <Button
-            android:layout_width="60sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginStart="15sp"
             android:id="@+id/HomTmp_Scan_btn_upload"
             android:text="@string/HomTmp_scan_btn_upload"

@@ -21,15 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.GatherPrint;
 import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLATM;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
+import YLDataService.AnalysisBoxList;
 import YLDataService.WebServerTmpValutInorOut;
+import YLPrinter.YLPrint;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -322,16 +326,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     String serreturn = webServerTmpValutInorOut.UpLoadBoxTmp();
                     if (serreturn.equals("1")) {
 
-                        ylTask.setLstCarBox(CarBoxList);
-                        tasksManager.SaveTask(getApplicationContext());
-
-                        HomTmp_Scan.this.setTitle("未确认申请操作");
-//                        HomTmp_Scan_btn_refresh.setEnabled(false);
-                        HomTmp_Scan_btn_scan.setEnabled(false);
-                        HomTmp_Scan_btn_upload.setEnabled(false);
-                        HomTmp_Scan_btn_refresh.setBackgroundColor(colordefaul);
-                        AllBoxList.clear();
-                        ylValutboxitemAdapter.notifyDataSetChanged();
+                        ShowPrintDailog();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -347,6 +342,106 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         builder.create().show();
     }
 
+    private void ShowPrintDailog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomTmp_Scan.this);
+        builder.setTitle("是否打印临时出入库？");
+        final String[] multiChoiceItems = {"入库汇总数","入库清单表"};
+        final boolean[] defaultSelectedStatus = {true,false};
+        builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                defaultSelectedStatus[i] = b;
+            }
+        });
+        builder.setPositiveButton("打印", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (defaultSelectedStatus[0]){
+                    PrintGather();
+                    YLRecord.WriteRecord("申请","打印入库汇总");
+                }
+                if (defaultSelectedStatus[1]){
+                    PrintDetail();
+                    YLRecord.WriteRecord("申请","打印入库明细");
+                }
+                reinitlayout();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                reinitlayout();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
+    private void reinitlayout(){
+        ylTask.setLstCarBox(CarBoxList);
+        tasksManager.SaveTask(getApplicationContext());
+        HomTmp_Scan.this.setTitle("未确认申请操作");
+//                        HomTmp_Scan_btn_refresh.setEnabled(false);
+        HomTmp_Scan_btn_scan.setEnabled(false);
+        HomTmp_Scan_btn_upload.setEnabled(false);
+        HomTmp_Scan_btn_refresh.setBackgroundColor(colordefaul);
+        AllBoxList.clear();
+        ylValutboxitemAdapter.notifyDataSetChanged();
+    }
+
+    private void PrintDetail() {
+        try {
+            YLPrint ylPrint = new YLPrint();
+            ylPrint.InitBluetooth();
+            List<Box> boxes = AllBoxList;
+
+            AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+            GatherPrint gatherPrint = analysisBoxList.AnsysisBoxListForPrint(boxes);
+            gatherPrint.setClintName("所属基地:"+ YLSystem.getBaseName());
+            gatherPrint.setTradeTime("任务日期:"+ylTask.getTaskDate());
+            if (TimeID == 1){
+                gatherPrint.setSiteName("临时出库："+getChioce());
+            }else {
+                gatherPrint.setSiteName("临时入库："+getChioce());
+            }
+            gatherPrint.setCarNumber("");
+            gatherPrint.setTaskNumber("NO."+ylTask.getTaskID());
+            gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            gatherPrint.setTaskLine("任务线路:"+ylTask.getLine());
+
+            ylPrint.PrintDetail2(boxes,2,gatherPrint);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void PrintGather() {
+        try {
+            YLPrint ylPrint = new YLPrint();
+            ylPrint.InitBluetooth();
+            List<Box> boxes = AllBoxList;
+            AnalysisBoxList analysisBoxList = new AnalysisBoxList();
+            GatherPrint gatherPrint = analysisBoxList.AnsysisBoxListForPrint(boxes);
+            if (TimeID == 1){
+                gatherPrint.setSiteName("临时出库："+getChioce());
+            }else {
+                gatherPrint.setSiteName("临时入库："+getChioce());
+            }
+            gatherPrint.setClintName("所属基地:"+ YLSystem.getBaseName());
+            gatherPrint.setTradeTime("任务日期:"+ylTask.getTaskDate());
+            gatherPrint.setCarNumber("");
+            gatherPrint.setTaskNumber("NO."+ylTask.getTaskID());
+            gatherPrint.setHomName(YLSystem.getUser().getEmpNO()+"-"+YLSystem.getUser().getName());
+            gatherPrint.setTaskLine(ylTask.getLine());
+            ylPrint.PrintGather(gatherPrint,2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void Getvaulttmpoutbox() {
         try {
             setTimeID(1);
@@ -358,7 +453,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     setChioce(AllBoxList.get(0).getBaseValutIn());
                 }
             }
-            Log.e(YLSystem.getKimTag(),"出库列表"+AllBoxList.toString());
+            Log.e(YLSystem.getKimTag(),"出库列表"+AllBoxList.size());
             DisPlayBoxlistAdapter(AllBoxList);
             HomTmp_Scan.this.setTitle("出库箱扫描");
             HomTmp_Scan_btn_scan.setEnabled(true);

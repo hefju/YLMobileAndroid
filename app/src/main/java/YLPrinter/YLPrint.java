@@ -574,7 +574,7 @@ public class YLPrint {
 
                     zpSDK.zp_draw_line(5,rowshight+1,70,rowshight+1,2);
 
-                }else if (box.getBoxName().length() >10) {
+                }else if (box.getBoxName().length() >=10) {
                     zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
                     zpSDK.zp_draw_text(8, rowshight, box.getBoxName());
                     rowshight=rowshight+4;
