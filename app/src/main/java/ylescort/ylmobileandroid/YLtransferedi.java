@@ -24,6 +24,7 @@ import YLAdapter.YLBoxEdiAdapter;
 import YLDataOperate.YLCarBoxOperate;
 import YLDataOperate.YLtransferDataOperate;
 import YLDataService.AnalysisBoxList;
+import YLSystemDate.YLEditData;
 import YLSystemDate.YLRecord;
 
 public class YLtransferedi extends YLBaseActivity implements View.OnClickListener {
@@ -221,7 +222,7 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
 
     private void DisplayBoxData(List<Box> boxList){
         if (boxList ==null)return;
-
+        boxList = YLEditData.ListtoSettolist(boxList);
         if (boxList.size()>0) {
             for (int i = 0; i < boxList.size(); i++) {
                 boxList.get(i).setBoxOrder(i + 1 + "");

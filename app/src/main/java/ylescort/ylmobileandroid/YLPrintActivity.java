@@ -200,6 +200,8 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
                 }
             }
 
+            list = YLEditData.ListtoSettolist(list);
+
             GetTimeID();
 
             DisplayListBox(displaylistbox);

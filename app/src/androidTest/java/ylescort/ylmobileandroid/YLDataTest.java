@@ -60,6 +60,7 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 //        HashSet<Box> boxSet = new HashSet<Box>();
 
         Set<Box> boxSet = new HashSet<>();
+        List<Box> boxes = new ArrayList<>();
 
         Box box1 = new Box();
         box1.setId(123);
@@ -68,31 +69,31 @@ public class YLDataTest extends ApplicationTestCase<Application> {
 
         Box box2 = new Box();
         box2.setBoxOrder("1");
-        box2.setBoxName("测试1");
+        box2.setBoxName("测试2");
         box2.setBoxID("123");
 
         Box box3 = new Box();
         box3.setBoxName("测试1");
         box3.setBoxID("123");
 
+        boxes.add(box1);
+        boxes.add(box2);
+        boxes.add(box3);
+        Log.e(YLSystem.getKimTag(),boxes.size()+"list数量");
+        boxes = YLEditData.ListtoSettolist(boxes);
+        Log.e(YLSystem.getKimTag(),boxes.size()+"list数量2");
 
-        boolean t1 =  boxSet.add(box1);
-        boolean t2 = boxSet.add(box2);
-        boolean t3 = boxSet.add(box3);
-
-
-
-        for (Box box : boxSet) {
-            if (box.getId() == 123){
-                box.setBoxName("测试3");
-            }
-        }
+//        for (Box box : boxSet) {
+//            if (box.getId() == 123){
+//                box.setBoxName("测试3");
+//            }
+//        }
 
 //        for (Box box : boxSet) {
 //            Log.e(YLSystem.getKimTag(),box.getBoxName());
 //
 //        }
-        Log.e(YLSystem.getKimTag(),t1+""+t2+t3+"");
+
     }
 
 

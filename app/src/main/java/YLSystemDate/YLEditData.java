@@ -1,7 +1,10 @@
 package YLSystemDate;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import TaskClass.Box;
 import TaskClass.Site;
@@ -123,4 +126,23 @@ public class YLEditData {
     public static void setYlatmNetPoint(YLATM ylatmNetPoint) {
         YLEditData.ylatmNetPoint = ylatmNetPoint;
     }
+
+    public static List<Box> ListtoSettolist(List<Box> boxList){
+        try {
+            Set<Box> set = new HashSet<Box>();
+            for (Box box : boxList) {
+                set.add(box);
+            }
+
+            List<Box> b = new ArrayList<>();
+            for (Box box : set) {
+                b.add(box);
+            }
+            return b;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return boxList;
+        }
+    }
+
 }
