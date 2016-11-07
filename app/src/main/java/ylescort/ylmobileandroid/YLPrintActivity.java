@@ -29,6 +29,7 @@ import TaskClass.ArriveTime;
 import TaskClass.BaseEmp;
 import TaskClass.Box;
 import TaskClass.BoxCombyOrder;
+import TaskClass.BoxCombyTime;
 import TaskClass.GatherPrint;
 import TaskClass.Site;
 import TaskClass.TasksManager;
@@ -273,6 +274,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
                 displaylistbox.add(box);
             }
         }
+
+        BoxCombyTime ylBoxComparator = new BoxCombyTime();
+        Collections.sort(displaylistbox,ylBoxComparator);
 
     }
 
