@@ -512,15 +512,15 @@ public class YLPrint {
     }
 
     private void PrintBoxList(List<Box> boxList) {
-        int count = 1;int order = 1;int multiple = 5;
+        int count = 1;int order = 1;int multiple = 4;
         boolean secondpage = true;
         List<Box> boxes = new ArrayList<>();
         for (Box box : boxList) {
             if (box.getNextOutTime() != null ){
                 if (box.getNextOutTime().length() > 0){
-                    count = count +4;
-                }else if (box.getBoxName().length() >10){
-                    count = count +4;
+                    count = count +2;
+                }else if (box.getBoxName().length() >9){
+                    count = count +2;
                 }else {
                     count++;
                 }
@@ -553,7 +553,7 @@ public class YLPrint {
         rowshight = 0;
         Boolean creatpage = zpSDK.zp_page_create(80,pagehigh);
         for (Box box : boxes) {
-            rowshight=rowshight+5;
+            rowshight=rowshight+4;
             if (box.getNextOutTime() != null){
                 if (box.getNextOutTime().length() > 0 ){
                     zpSDK.zp_draw_text_ex(2, rowshight, order + "", "宋体", 3, 0, true, false, false);
