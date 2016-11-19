@@ -151,6 +151,8 @@
         </activity>
         <activity android:name=".YLtransferedi">
         </activity>
+        <activity android:name=".ATMBoxCheck">
+        </activity>
     </application>
 
 </manifest>

@@ -138,12 +138,16 @@ public class BaseBox //箱类
         for (BaseBox x : lst){
             if(x.Mark==null)
                 continue;
-            if(x.Mark.equals("1")){
-                lstAdd.add(x);
-            }else if(x.Mark.equals("2")){
-                lstUpdate.add(x);
-            }else if(x.Mark.equals("3")){
-                lstDel.add(x);
+            switch (x.Mark) {
+                case "1":
+                    lstAdd.add(x);
+                    break;
+                case "2":
+                    lstUpdate.add(x);
+                    break;
+                case "3":
+                    lstDel.add(x);
+                    break;
             }
         }
         BaseBoxDBSer dbSer = new BaseBoxDBSer(ctx);

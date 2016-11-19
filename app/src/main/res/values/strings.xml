@@ -225,7 +225,19 @@
     <string name="ylprinter_btn_readcard">读卡</string>
 
     <string name="title_activity_launcher">Launcher</string>
-
     <string name="title_activity_yllauncher">YLLauncherActivity</string>
+
+    <!--钞盒盘库-->
+    <string name="clientname">客户名称</string>
+    <string name="useclient">使用客户</string>
+    <string name="atmboxname">钞盒名称</string>
+    <string name="atmboxbrand">钞盒品牌</string>
+    <string name="atmboxtype">钞盒类型</string>
+    <string name="atmboxvalue">钞盒面值</string>
+    <string name="atmboxpassageway">钞盒通道</string>
+    <string name="atmboxcode">钞盒条码</string>
+    <string name="atmcheckscan">扫描</string>
+    <string name="atmcheckclean">清除</string>
+    <string name="atmcheckblack">返回</string>
 
 </resources>

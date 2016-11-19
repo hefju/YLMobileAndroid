@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import TaskClass.BaseATMBox;
+import TaskClass.BaseATMMachine;
 import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
@@ -39,6 +41,8 @@ public class WebServerBaseData {
     private BaseSiteDBSer baseSiteDBSer;
     private BaseClientDBSer baseClientDBSer;
     private BaseBoxDBSer baseBoxDBSer;
+    private ATMBoxDBSer atmBoxDBSer;
+    private ATMMachineDBSer atmMachineDBSer;
 
     public void GetBaseData(Context context,String updatetime)throws Exception{
 //        progressDialog = new ProgressDialog(context);
@@ -46,6 +50,9 @@ public class WebServerBaseData {
         baseSiteDBSer = new BaseSiteDBSer(context);
         baseClientDBSer = new BaseClientDBSer(context);
         baseBoxDBSer = new BaseBoxDBSer(context);
+        atmBoxDBSer = new ATMBoxDBSer(context);
+        atmMachineDBSer = new ATMMachineDBSer(context);
+
         Log.e(YLSystem.getKimTag(),"开始");
         String DeviceID = YLSystem.getHandsetIMEI();
         String isWifi =YLSystem.getNetWorkState();
@@ -53,8 +60,11 @@ public class WebServerBaseData {
         String Clienturl = YLSystem.GetBaseUrl(context)+"GetBaseClient";
         String Siteurl = YLSystem.GetBaseUrl(context)+"GetBaseSite";
         String boxurl = YLSystem.GetBaseUrl(context)+"GetBaseBox";
+        String atmbox = YLSystem.GetBaseUrl(context)+"GetBaseATMBox";
+        String atmmachine = YLSystem.GetBaseUrl(context)+"GetBaseATMMachine";
+
         AnysTaskGetBaseData anysTaskGetBaseData = new AnysTaskGetBaseData();
-        anysTaskGetBaseData.execute(DeviceID,isWifi,empurl,Clienturl,Siteurl,boxurl,updatetime);
+        anysTaskGetBaseData.execute(DeviceID,isWifi,empurl,Clienturl,Siteurl,boxurl,updatetime,atmbox,atmmachine);
         String servertime =  anysTaskGetBaseData.get();
         if (!servertime.equals("")){
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -132,7 +142,6 @@ public class WebServerBaseData {
                         }
                         Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
                     }
-
                 }
 
                 post = new HttpPost(params[5]);
@@ -155,6 +164,50 @@ public class WebServerBaseData {
                         Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
                     }
                 }
+
+                post = new HttpPost(params[7]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", params[6]);
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseATMBox> baseabmBoxes =  gson.fromJson(content, new TypeToken<List<BaseATMBox>>() {
+                    }.getType());
+                    if (baseabmBoxes.size() > 0 & baseabmBoxes.get(0).getATMBoxID() != null) {
+                        atmBoxDBSer.CacheBaseATMBox(baseabmBoxes);
+                        if (servertime.equals("")){
+                            servertime = baseabmBoxes.get(0).ServerTime;
+                        }
+                        Log.e(YLSystem.getKimTag(), baseabmBoxes.size() + "ATM款箱数据");
+                    }
+                }
+
+                post = new HttpPost(params[8]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", params[6]);
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseATMMachine> baseATMMachines =  gson.fromJson(content, new TypeToken<List<BaseATMMachine>>() {
+                    }.getType());
+                    if (baseATMMachines.size() > 0 & baseATMMachines.get(0).getMachineID() != null) {
+                        atmMachineDBSer.CacheBaseATMMachine(baseATMMachines);
+                        if (servertime.equals("")){
+                            servertime = baseATMMachines.get(0).getServerTime();
+                        }
+                        Log.e(YLSystem.getKimTag(), baseATMMachines.size() + "ATM点数据");
+                    }
+                }
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

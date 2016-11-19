@@ -45,6 +45,22 @@ public class BaseClientDBSer {
         return lstBaseClient;
     }
 
+    public String GetClientName (String clientID){
+        String str = "粤龙客户";
+        try {
+            SQLiteDatabase sdb = ylsqlHelper.getReadableDatabase();
+            Cursor c = sdb.rawQuery("select * from BaseClient where ClientID = ?",new String[]{clientID});
+            if (c.getCount()>0){
+                while (c.moveToNext()) {
+                    str = c.getString(c.getColumnIndex("ClientName"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
     //批量插入BaseClient
     public void InsertBaseClient(List<BaseClient> lst) {
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();

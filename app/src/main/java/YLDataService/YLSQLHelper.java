@@ -12,27 +12,9 @@ import YLSystemDate.YLSystem;
  * Created by Administrator on 2015/1/19.
  */
 public class YLSQLHelper extends SQLiteOpenHelper {
-    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,3);}
+    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,4);}
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e(YLSystem.getKimTag(),"版本号3");
-//        db.execSQL("CREATE TABLE Employee (ID integer primary key autoincrement,EmpID varchar(20),EmpNO varchar(20),Pass varchar(20),\n" +
-//                "Name varchar(20),DeviceID varchar(20),ISWIFI varchar(20),Time varchar(20),ServerReturn varchar(20))");
-
-//        db.execSQL("CREATE TABLE Site (Id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ServerReturn varchar(50), TaskID varchar(50)," +
-//                " SiteID varchar(50), SiteName varchar(50), SiteManager varchar(50), SiteManagerPhone varchar(50), SiteType varchar(50)," +
-//                " Status varchar(50), ATMCount varchar(50))" );
-
-//        db.execSQL("CREATE TABLE Box (Id INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL, ServerReturn varchar(50), SiteID varchar(50), BoxID varchar(50), " +
-//                        "BoxName varchar(50), TradeAction varchar(50), BoxStatus varchar(50), BoxType varchar(50), " +
-//                        "NextOutTime varchar(50), ActionTime varchar(50), TimeID varchar(50))");
-
-//        db.execSQL("CREATE TABLE ArriveTime (Id INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL, ServerReturn varchar(50), EmpID varchar(50)," +
-//                " ATime varchar(50)," +
-//                " TimeID varchar(50), TradeBegin varchar(50), TradeEnd varchar(50), TradeState varchar(50));");
-//        db.execSQL("CREATE TABLE YLTask (ID integer primary key autoincrement,ServerVersion varchar(50), TaskVersion varchar(50),"+
-//                " TaskID varchar(50), TaskType varchar(50), Handset varchar(50), TaskDate varchar(50), Line varchar(50), TaskManager varchar(50),"+
-//                "  TaskATMBeginTime varchar(50), TaskATMEndTime varchar(50), TaskManagerNo varchar(50), ServerReturn varchar(50))");
 
         db.execSQL("CREATE TABLE BaseBox (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50), " +
                 "BoxID varchar(50), BoxName varchar(50), BoxUHFNo varchar(50), BoxBCNo varchar(50), " +
@@ -54,14 +36,43 @@ public class YLSQLHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE BaseClient_HF (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
                 "ServerReturn varchar(50), ClientID varchar(50), HFNo varchar(50)," +
                 " Mark varchar(50), ServerTime varchar(50))");
+
+        db.execSQL("CREATE TABLE BaseATMBox    (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                "ATMBoxID varchar(50), ClientID varchar(50), UseClientID varchar(50), BoxCode varchar(50), "+
+                " BoxName varchar(50), BoxBrand varchar(50), Boxtype varchar(50), Boxvalue varchar(50),"+
+                " Passageway varchar(50),ServerReturn varchar(50),Mark varchar(50),ServerTime varchar(50))");
+
+        db.execSQL("CREATE TABLE BaseATMMachine    (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                "ServerReturn varchar(50), MachineID varchar(50), SiteID varchar(50), MachineName varchar(50), "+
+                " MachineType varchar(50), MachineNo varchar(50), MachineHFNo varchar(50), MachineCode varchar(50),"+
+                " Mark varchar(50),ServerTime varchar(50))");
+
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //db.execSQL("ALTER TABLE person ADD amount integer");
-        Log.e(YLSystem.getKimTag(),"升级");
+        Log.e(YLSystem.getKimTag(),"数据库升级"+newVersion);
         switch (oldVersion){
             case 2:
                 db.execSQL("ALTER TABLE BaseSite ADD SiteHFNo varchar(50) ");
+                db.execSQL("CREATE TABLE BaseATMBox    (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                        "ATMBoxID varchar(50), ClientID varchar(50), UseClientID varchar(50), BoxCode varchar(50), "+
+                        " BoxName varchar(50), BoxBrand varchar(50), Boxtype varchar(50), Boxvalue varchar(50),"+
+                        " Passageway varchar(50),ServerReturn varchar(50),Mark varchar(50),ServerTime varchar(50))");
+                db.execSQL("CREATE TABLE BaseATMMachine    (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                        "ServerReturn varchar(50), MachineID varchar(50), SiteID varchar(50), MachineName varchar(50), "+
+                        " MachineType varchar(50), MachineNo varchar(50), MachineHFNo varchar(50), MachineCode varchar(50),"+
+                        " Mark varchar(50),ServerTime varchar(50))");
+                break;
+            case 3:
+                db.execSQL("CREATE TABLE BaseATMBox    (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                        "ATMBoxID varchar(50), ClientID varchar(50), UseClientID varchar(50), BoxCode varchar(50), "+
+                        " BoxName varchar(50), BoxBrand varchar(50), Boxtype varchar(50), Boxvalue varchar(50),"+
+                        " Passageway varchar(50),ServerReturn varchar(50),Mark varchar(50),ServerTime varchar(50))");
+                db.execSQL("CREATE TABLE BaseATMMachine    (Id INTEGER PRIMARY KEY autoincrement NOT NULL, " +
+                        "ServerReturn varchar(50), MachineID varchar(50), SiteID varchar(50), MachineName varchar(50), "+
+                        " MachineType varchar(50), MachineNo varchar(50), MachineHFNo varchar(50), MachineCode varchar(50),"+
+                        " Mark varchar(50),ServerTime varchar(50))");
                 break;
         }
     }

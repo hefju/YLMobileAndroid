@@ -518,9 +518,9 @@ public class YLPrint {
         for (Box box : boxList) {
             if (box.getNextOutTime() != null ){
                 if (box.getNextOutTime().length() > 0){
-                    count = count +2;
+                    count = count +4;
                 }else if (box.getBoxName().length() >10){
-                    count = count +2;
+                    count = count +4;
                 }else {
                     count++;
                 }

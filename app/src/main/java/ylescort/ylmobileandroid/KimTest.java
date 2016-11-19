@@ -50,6 +50,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import TaskClass.BaseATMBox;
+import TaskClass.BaseATMMachine;
 import TaskClass.BaseBox;
 import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
@@ -57,6 +59,8 @@ import TaskClass.BaseSite;
 import TaskClass.Box;
 import TaskClass.GatherPrint;
 import TaskClass.User;
+import YLDataService.ATMBoxDBSer;
+import YLDataService.ATMMachineDBSer;
 import YLDataService.BaseBoxDBSer;
 import YLDataService.BaseClientDBSer;
 import YLDataService.BaseEmpDBSer;
@@ -89,6 +93,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     private BaseSiteDBSer baseSiteDBSer;
     private BaseClientDBSer baseClientDBSer;
     private BaseBoxDBSer baseBoxDBSer;
+    private ATMBoxDBSer atmBoxDBSer;
+    private ATMMachineDBSer atmMachineDBSer;
     private int count = 0;
     private  YLPrint ylPrint;
 
@@ -259,8 +265,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             case R.id.kim_test1:Scan1DCmd();
                 break;
             case R.id.kim_test2:
-//                TestHF();
-                AnysTaskinsterData();
+                TestHF();
+//                AnysTaskinsterData();
 
                 break;
             case R.id.kim_copydb:CopyDB();
@@ -289,20 +295,17 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             case R.id.kim_uhftest:
 //                ScanUHF("scan");
 //                UHFWriter();
-
                 activationroot();
-
-
                 break;
             case R.id.kim_uhfwrite:
-//                UHFWriter();
                 PrintTest();
                 break;
             case R.id.kim_uploadOR:
                 ChoiceDate();
                 break;
             case R.id.kim_cleardata:
-                ClearData();
+//                ClearData();
+                UHFWriter();
         }
     }
 
@@ -453,7 +456,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private void UHFWriter() {
         Intent intent = new Intent();
-        intent.setClass(KimTest.this,YLUHFWriter.class);
+        intent.setClass(KimTest.this,ATMBoxCheck.class);
         startActivity(intent);
     }
 
@@ -532,6 +535,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             (new BaseClientDBSer(KimTest.this)).DeleteAll();
             (new BaseEmpDBSer(KimTest.this)).DeleteAll();
             (new BaseSiteDBSer(KimTest.this)).DeleteAll();
+            (new ATMBoxDBSer(KimTest.this)).DeleteAll();
+            (new ATMMachineDBSer(KimTest.this)).DeleteAll();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -546,6 +551,8 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         baseSiteDBSer = new BaseSiteDBSer(getApplicationContext());
         baseClientDBSer = new BaseClientDBSer(getApplicationContext());
         baseBoxDBSer = new BaseBoxDBSer(getApplicationContext());
+        atmBoxDBSer = new ATMBoxDBSer(getApplicationContext());
+        atmMachineDBSer = new ATMMachineDBSer(getApplicationContext());
 
         String DeviceID = YLSystem.getHandsetIMEI();
         String isWifi =YLSystem.getNetWorkState();
@@ -553,9 +560,11 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
         String Clienturl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseClient";
         String Siteurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseSite";
         String boxurl = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseBox";
+        String atmbox = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseATMBox";
+        String atmmachine = YLSystem.GetBaseUrl(getApplicationContext())+"GetBaseATMMachine";
         Log.e(YLSystem.getKimTag(),DeviceID+"开始");
         AnysTaskGetBaseData anysTaskGetBaseData = new AnysTaskGetBaseData();
-        anysTaskGetBaseData.execute(DeviceID, isWifi, empurl, Clienturl, Siteurl, boxurl);
+        anysTaskGetBaseData.execute(DeviceID, isWifi, empurl, Clienturl, Siteurl, boxurl,atmbox,atmmachine);
 //        anysTaskGetBaseData.get();
     }
 
@@ -642,7 +651,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
             progressDialog = new ProgressDialog(KimTest.this);
             progressDialog.setCancelable(false);
             progressDialog.setMessage("正在更新中");
-            progressDialog.setMax(4);
+            progressDialog.setMax(6);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.show();
             super.onPreExecute();
@@ -666,15 +675,50 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 HttpResponse response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200) {
                     String content = EntityUtils.toString(response.getEntity());
-
                     List<BaseEmp> emps = gson.fromJson (content, new TypeToken<List<BaseEmp>>() {
                     }.getType());
-
                     baseEmpDBSer.InsertBaseEmp(emps);
                     sertime = emps.get(0).ServerTime;
-                    Log.e(YLSystem.getKimTag(),emps.size()+"员工数据");
+                    Log.e(YLSystem.getKimTag(),emps.size()+"员工数量");
                 }
                 publishProgress(1);
+                post = new HttpPost(params[6]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseATMBox> baseATMBoxes = gson.fromJson(content, new TypeToken<List<BaseATMBox>>() {
+                    }.getType());
+                    Log.e(YLSystem.getKimTag(), baseATMBoxes.size() + "ATM钞箱数量");
+                    atmBoxDBSer.Ins(baseATMBoxes);
+                    sertime = baseATMBoxes.get(0).ServerTime;
+                }
+
+                publishProgress(2);
+
+                post = new HttpPost(params[7]);
+                p.put("DeviceID", params[0]);
+                p.put("ISWIFI", params[1]);
+                p.put("datetime", "ALL");
+                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
+                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
+                client = new DefaultHttpClient();
+                response = client.execute(post);
+                if (response.getStatusLine().getStatusCode() == 200){
+                    String content = EntityUtils.toString(response.getEntity());
+                    List<BaseATMMachine> baseATMMachines =
+                            gson.fromJson(content, new TypeToken<List<BaseATMMachine>>() {}.getType());
+                    Log.e(YLSystem.getKimTag(), baseATMMachines.size() + "ATM机器数量");
+                    atmMachineDBSer.Ins(baseATMMachines);
+                    sertime = baseATMMachines.get(0).getServerTime();
+                }
+                publishProgress(3);
+
                 post = new HttpPost(params[3]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -685,18 +729,13 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-
                     List<BaseClient> baseClients =  gson.fromJson(content, new TypeToken<List<BaseClient>>() {
                     }.getType());
-
-//                    List<BaseClient> baseClients =  JSON.parseObject(content, new TypeToken<List<BaseClient>>() {
-//                    }.getType());
-
                     baseClientDBSer.InsertBaseClient(baseClients);
                     sertime = baseClients.get(0).ServerTime;
-                    Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数据");
+                    Log.e(YLSystem.getKimTag(),baseClients.size()+"客户数量");
                 }
-                publishProgress(2);
+                publishProgress(4);
                 post = new HttpPost(params[4]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -711,14 +750,11 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     List<BaseSite> siteList =  gson.fromJson(content, new TypeToken<List<BaseSite>>() {
                     }.getType());
 
-//                    List<BaseSite> siteList =  JSON.parseObject(content, new TypeToken<List<BaseSite>>() {
-//                    }.getType());
-
                     baseSiteDBSer.InsertBaseSite(siteList);
                     sertime = siteList.get(0).ServerTime;
-                    Log.e(YLSystem.getKimTag(),siteList.size()+"网点数据");
+                    Log.e(YLSystem.getKimTag(),siteList.size()+"网点数量");
                 }
-                publishProgress(3);
+                publishProgress(5);
                 post = new HttpPost(params[5]);
                 p.put("DeviceID", params[0]);
                 p.put("ISWIFI", params[1]);
@@ -732,17 +768,13 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
                     List<BaseBox> baseBoxes = gson.fromJson(content, new TypeToken<List<BaseBox>>() {
                     }.getType());
-
-//                    List<BaseBox> baseBoxes = JSON.parseObject(content, new TypeToken<List<BaseBox>>() {
-//                    }.getType());
-
-
                     baseBoxDBSer.InsertBox2(baseBoxes);
                     sertime = baseBoxes.get(0).ServerTime;
-                    Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数据");
+                    Log.e(YLSystem.getKimTag(), baseBoxes.size() + "款箱数量");
                     InitData();
                 }
-                publishProgress(4);
+                publishProgress(6);
+
                 return  sertime;
             } catch (Exception e) {
                 e.printStackTrace();
