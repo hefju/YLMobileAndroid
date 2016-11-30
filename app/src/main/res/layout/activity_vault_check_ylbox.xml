@@ -47,34 +47,35 @@
         android:layout_height="wrap_content"
         android:id="@+id/vault_check_rl_operate"
         android:layout_alignParentBottom="true">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/vault_check_btn_scan"
-            android:background="@color/androidbluel"
-            android:text="@string/vault_check_ylbox_Scan1d"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/vault_check_btn_uhf"
-            android:background="@color/androidbluel"
-            android:layout_toEndOf="@+id/vault_check_btn_scan"
-            android:visibility="gone"
-            android:text="@string/vault_check_ylbox_uhf"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/vault_check_btn_basedep"
-            android:layout_toEndOf="@+id/vault_check_btn_uhf"
-            android:layout_marginStart="40sp"
-            android:text="@string/vault_check_ylbox_changbase"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vault_check_btn_scan"
+                android:layout_weight="1"
+                android:text="@string/vault_check_ylbox_Scan1d"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vault_check_btn_basedep"
+                android:layout_weight="1"
+                android:text="@string/vault_check_ylbox_changbase"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vault_check_btn_complete"
+                android:layout_weight="1"
+                android:text="@string/vault_check_ylbox_complete"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/vault_check_btn_conFirm"
+                android:layout_weight="1"
+                android:text="@string/vault_check_ylbox_comfrom"/>
+        </LinearLayout>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/vault_check_btn_conFirm"
-            android:layout_alignParentEnd="true"
-            android:text="@string/vault_check_ylbox_comfrom"/>
 
     </RelativeLayout>
 </RelativeLayout>

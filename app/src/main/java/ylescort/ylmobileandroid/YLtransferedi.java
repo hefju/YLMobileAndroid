@@ -222,13 +222,13 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
 
     private void DisplayBoxData(List<Box> boxList){
         if (boxList ==null)return;
-        boxList = YLEditData.ListtoSettolist(boxList);
-        if (boxList.size()>0) {
-            for (int i = 0; i < boxList.size(); i++) {
-                boxList.get(i).setBoxOrder(i + 1 + "");
+        displayboxList = YLEditData.ListtoSettolist(boxList);
+        if (displayboxList.size()>0) {
+            for (int i = 0; i < displayboxList.size(); i++) {
+                displayboxList.get(i).setBoxOrder(i + 1 + "");
             }
         }
-        ylBoxEdiAdapter = new YLBoxEdiAdapter(this, boxList,R.layout.activity_boxedititem);
+        ylBoxEdiAdapter = new YLBoxEdiAdapter(this, displayboxList,R.layout.activity_boxedititem);
         ylBoxEdiAdapter.setSelectItem(indext);
         yltransferedi_listview.setAdapter(ylBoxEdiAdapter);
         TallyBox();

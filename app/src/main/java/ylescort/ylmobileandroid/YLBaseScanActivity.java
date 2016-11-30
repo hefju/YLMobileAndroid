@@ -27,7 +27,7 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
     protected abstract void InitLayout() ;
 
     @Override
-    protected abstract void InitData() ;
+    protected abstract void InitData() throws Exception;
 
     private void InitReciveScan1D() {
         Scan1D = new Scan1DRecive();

@@ -132,9 +132,9 @@
     <string name="vault_check_ylbox_boxname">所属基地</string>
     <string name="vault_check_ylbox_basename">盘库人-</string>
     <string name="vault_check_ylbox_Scan1d">扫描</string>
-    <string name="vault_check_ylbox_uhf">UHF</string>
-    <string name="vault_check_ylbox_comfrom">确认</string>
-    <string name="vault_check_ylbox_changbase">所属基地</string>
+    <string name="vault_check_ylbox_complete">补打</string>
+    <string name="vault_check_ylbox_comfrom">上传</string>
+    <string name="vault_check_ylbox_changbase">基地</string>
     <!--业务员申请-->
     <string name="title_activity_handoverman_check">入库申请</string>
     <string name="handoverman_btn_cancel">返回</string>

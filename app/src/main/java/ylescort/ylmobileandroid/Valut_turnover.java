@@ -150,9 +150,9 @@ public class Valut_turnover extends ActionBarActivity implements View.OnClickLis
                     break;
                 case R.id.vault_turnover_btn_upload:UpLoadDialog();
                     break;
-                case R.id.vault_check_btn_uhf:
+//                case R.id.vault_check_btn_uhf:
 //                ScanUHF("scan");
-                    break;
+//                    break;
                 case R.id.vault_turnover_btn_count:Addcount();
                     break;
                 case R.id.vault_turnover_rbtn_all:FilterBoxdisplay();
