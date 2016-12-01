@@ -28,6 +28,7 @@ import TaskClass.BaseClient;
 import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
 import TaskClass.Box;
+import YLSystemDate.YLHandSetBaseData;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -71,6 +72,7 @@ public class WebServerBaseData {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("CacheLastUpdate", servertime);
             editor.apply();
+            YLHandSetBaseData.setCacheDatetime(servertime);
         }
 
     }
@@ -175,14 +177,14 @@ public class WebServerBaseData {
                 response = client.execute(post);
                 if (response.getStatusLine().getStatusCode() == 200){
                     String content = EntityUtils.toString(response.getEntity());
-                    List<BaseATMBox> baseabmBoxes =  gson.fromJson(content, new TypeToken<List<BaseATMBox>>() {
+                    List<BaseATMBox> baseATMBoxes =  gson.fromJson(content, new TypeToken<List<BaseATMBox>>() {
                     }.getType());
-                    if (baseabmBoxes.size() > 0 & baseabmBoxes.get(0).getATMBoxID() != null) {
-                        atmBoxDBSer.CacheBaseATMBox(baseabmBoxes);
+                    if (baseATMBoxes.size() > 0 & baseATMBoxes.get(0).getATMBoxID() != null) {
+                        atmBoxDBSer.CacheBaseATMBox(baseATMBoxes);
                         if (servertime.equals("")){
-                            servertime = baseabmBoxes.get(0).ServerTime;
+                            servertime = baseATMBoxes.get(0).ServerTime;
                         }
-                        Log.e(YLSystem.getKimTag(), baseabmBoxes.size() + "ATM款箱数据");
+                        Log.e(YLSystem.getKimTag(), baseATMBoxes.size() + "ATM款箱数据");
                     }
                 }
 

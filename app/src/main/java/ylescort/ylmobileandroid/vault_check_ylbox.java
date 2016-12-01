@@ -149,11 +149,6 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
         bulecolor =  getResources().getColor(R.color.androidbluel);
         oragecolor =  getResources().getColor(R.color.orange);
 
-//        vault_check_btn_scan.setEnabled(false);
-//        vault_check_btn_conFirm.setEnabled(false);
-
-
-
         vault_check_tv_statistics.setText("总计: 0 个");
         vault_check_tv_scanman.setText("盘库人-"+YLSystem.getUser().getName());
 
