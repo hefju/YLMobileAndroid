@@ -1,7 +1,6 @@
 package YLDataOperate;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -201,7 +200,8 @@ public class YLtransferDataOperate {
                     arriveTime.setATime(YLSysTime.GetStrCurrentTime());
                     arriveTime.setTradeBegin(YLSysTime.GetStrCurrentTime());
                     arriveTime.setTimeID(TimeID + "");
-                    arriveTime.setTaskTimeID(ylTask.getTaskID()+tasktimeid);
+                    arriveTime.setOrderNumber(ylTask.getTaskID()+tasktimeid);
+                    arriveTime.setTaskTimeID(TaskTimeID);
                     arriveTime.setSiteID(SiteID);
                     arriveTime.setPrintCount(0);
                     arriveTime.setPrintStatus("未打印");
@@ -261,7 +261,7 @@ public class YLtransferDataOperate {
     public String TranferBoxcount(int taskTimeID){
 //        int count = 0;
 //        for (Box allTransferbox : AllTransferboxes) {
-//            if (allTransferbox.getTaskTimeID() == taskTimeID){
+//            if (allTransferbox.getOrderNumber() == taskTimeID){
 //                count ++;
 //            }
 //        }
@@ -299,7 +299,7 @@ public class YLtransferDataOperate {
 
         try {
             for (Box box : Transferingboxes) {
-//               if (box.getTaskTimeID() == tasktimeid){
+//               if (box.getOrderNumber() == tasktimeid){
                    if (box.getTradeAction().equals("收")){
                        getbox++;
                    }else{

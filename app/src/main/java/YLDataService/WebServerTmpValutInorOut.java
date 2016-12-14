@@ -228,7 +228,7 @@ public class WebServerTmpValutInorOut {
                 p.put("empid",YLSystem.getUser().getEmpID());
                 p.put("TimeID",strings[1]);
                 p.put("BaseName",strings[2]);
-                p.put("TaskTimeID",strings[3]);
+                p.put("OrderNumber",strings[3]);
                 post.setEntity(new StringEntity(p.toString(),"UTF-8"));
                 post.setHeader(HTTP.CONTENT_TYPE,"text/json");
                 HttpClient client = new DefaultHttpClient();

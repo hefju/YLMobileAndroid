@@ -1,7 +1,6 @@
 package ylescort.ylmobileandroid;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,6 @@ import com.android.hdhe.nfc.NFCcmdManager;
 import com.example.nfc.util.Tools;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -352,11 +350,6 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             detaillist.add(box);
         }
         if (detaillist.size()>0) {
-//            String TaskTimeID = detaillist.get(0).getTaskTimeID()+"";
-
-//            if (TaskTimeID.length()== 1){
-//                TaskTimeID = "0"+TaskTimeID;
-//            }
 
             AnalysisBoxList analysisBoxList = new AnalysisBoxList();
             gatherPrint = analysisBoxList.AnsysisBoxListForPrint(displaylistbox);
@@ -365,12 +358,11 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             gatherPrint.setClintName(Client);
             gatherPrint.setTradeTime(arriveTime.getTradeEnd());
             gatherPrint.setCarNumber(ylTask.getTaskCar());
-            gatherPrint.setTaskNumber("NO." + arriveTime.getTaskTimeID());
+            gatherPrint.setTaskNumber("NO." + arriveTime.getOrderNumber());
             gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());
             gatherPrint.setTaskLine(ylTask.getLine());
             arriveTime.setPrintStatus("已打印");
             arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
-//            arriveTime.setTaskTimeID(ylTask.getTaskID() + TaskTimeID);
             ylPrint.PrintDetail2(detaillist,1,gatherPrint);
             site.setStatus("已打印");
             tasksManager.SaveTask(getApplicationContext());
@@ -381,13 +373,6 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
 
     private void PrintGather()throws Exception{
 
-//        String TaskTimeID = displaylistbox.get(0).getTaskTimeID()+"";
-//
-////        String TaskTimeID2 = String.format("%02d",TaskTimeID);
-//        if (TaskTimeID.length()== 1){
-//            TaskTimeID = "0"+TaskTimeID;
-//        }
-
         AnalysisBoxList analysisBoxList = new AnalysisBoxList();
         gatherPrint = analysisBoxList.AnsysisBoxListForPrint(displaylistbox);
         String Client = ylSiteInfo.GetClientbySiteID(site.getSiteID());
@@ -395,10 +380,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         gatherPrint.setClintName(Client);
         gatherPrint.setTradeTime(arriveTime.getTradeEnd());
         gatherPrint.setCarNumber(ylTask.getTaskCar());
-        gatherPrint.setTaskNumber("NO." + arriveTime.getTaskTimeID());
+        gatherPrint.setTaskNumber("NO." + arriveTime.getOrderNumber());
         gatherPrint.setHomName(EmptransferNo +"-"+ ylTask.getTaskManager());
         gatherPrint.setTaskLine(ylTask.getLine());
-//        arriveTime.setTaskTimeID(ylTask.getTaskID() + TaskTimeID);
         arriveTime.setPrintStatus("已打印");
         arriveTime.setPrintCount(arriveTime.getPrintCount()+1);
         ylPrint.PrintGather(gatherPrint,1);

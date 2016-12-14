@@ -16,14 +16,23 @@ public class ArriveTime {
     public String ClientHFNO;//客户交接HF卡
     public int PrintCount;//打印次数
     public String PrintStatus;//打印状态
-    public String TaskTimeID;//单号
+    public String OrderNumber;//单号
+    public int TaskTimeID;//任务顺序
 
-    public String getTaskTimeID() {
+    public int getTaskTimeID() {
         return TaskTimeID;
     }
 
-    public void setTaskTimeID(String taskTimeID) {
+    public void setTaskTimeID(int taskTimeID) {
         TaskTimeID = taskTimeID;
+    }
+
+    public String getOrderNumber() {
+        return OrderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        OrderNumber = orderNumber;
     }
 
     public int getPrintCount() {
@@ -137,7 +146,7 @@ public class ArriveTime {
                 ", ClientHFNO='" + ClientHFNO + '\'' +
                 ", PrintCount=" + PrintCount +
                 ", PrintStatus='" + PrintStatus + '\'' +
-                ", TaskTimeID=" + TaskTimeID +
+                ", OrderNumber=" + OrderNumber +
                 '}';
     }
 }

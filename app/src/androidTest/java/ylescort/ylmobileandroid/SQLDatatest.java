@@ -1,6 +1,7 @@
 package ylescort.ylmobileandroid;
 
 import android.app.Application;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.ApplicationTestCase;
 import android.util.Log;
@@ -60,6 +61,30 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
         YLSQLHelper ylsqlHelper = new YLSQLHelper(getContext());
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.execSQL("drop table BaseATMBox");
+    }
+
+    public void testdeletetaskmanager(){
+
+        YLSQLHelper y = new YLSQLHelper(getContext());
+        SQLiteDatabase sdb = y.getWritableDatabase();
+        String date = "2016-12-01";
+        String sql = "delete from TasksManager where TaskDate <'"+date+"'";
+
+        sdb.execSQL(sql);
+
+    }
+
+    public void testCounttaskmanager(){
+
+        YLSQLHelper y = new YLSQLHelper(getContext());
+        SQLiteDatabase sdb = y.getWritableDatabase();
+        int Count = 0;
+        Cursor cursor = sdb.rawQuery("SELECT count(*) as count  FROM TasksManager WHERE   TaskDate > '2016-12-01' ",null);
+        while (cursor.moveToNext()){
+            Count = cursor.getInt(cursor.getColumnIndex("count"));
+        }
+        Log.e(YLSystem.getKimTag(),Count+"数量");
+
     }
 
 

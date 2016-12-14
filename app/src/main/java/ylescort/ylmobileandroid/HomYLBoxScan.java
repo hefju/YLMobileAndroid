@@ -206,7 +206,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }else {
             TaskTimeID = ylTask.getId();
         }
-        Log.e(YLSystem.getKimTag(),TaskTimeID+"TaskTimeID");
+        Log.e(YLSystem.getKimTag(),TaskTimeID+"OrderNumber");
 
         /**
          * 根据任务匹配多选项

@@ -3,6 +3,7 @@ package YLDataService;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,10 +75,8 @@ import YLSystemDate.YLSystem;
         SQLiteDatabase sdb = ylsqlHelper.getWritableDatabase();
         sdb.beginTransaction();
         try {
-//            Gson gson = new Gson();
-//            String content=gson.toJson(tasksManager);
-            sdb.execSQL("delete from TasksManager where TaskDate= ?"
-                    ,new Object[]{date} );
+            String sql = "delete from TasksManager where TaskDate <='"+date+"'";
+            sdb.execSQL(sql);
         }
         finally {
             sdb.setTransactionSuccessful();

@@ -181,7 +181,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
 //                AllBoxList.get(i).setValutcheck("对");
 //                AllBoxList.get(i).setBaseValutIn(getChioce());
 //                AllBoxList.get(i).setBoxCount("1");
-//                AllBoxList.get(i).setTaskTimeID(TaskTimeID);
+//                AllBoxList.get(i).setOrderNumber(OrderNumber);
 //                boxstate = false;
 //                CarBoxList.add(AllBoxList.get(i));
 //                ylMediaPlayer.SuccessOrFailMidia("success",getApplicationContext());
@@ -530,7 +530,7 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
 //                        } else {
 //                            HomTmp_Scan.this.setTitle("申请出库：" + getChioce());
 //                        }
-//                        TaskTimeID = Integer.parseInt(returnstring);
+//                        OrderNumber = Integer.parseInt(returnstring);
 //                        HomTmp_Scan_btn_refresh.setEnabled(true);
 //                        HomTmp_Scan_btn_scan.setEnabled(true);
 //                        HomTmp_Scan_btn_upload.setEnabled(true);

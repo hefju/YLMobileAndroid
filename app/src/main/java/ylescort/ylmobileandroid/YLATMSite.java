@@ -620,4 +620,12 @@ public class YLATMSite extends ActionBarActivity implements View.OnClickListener
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onStop() {
+        ylTask.setTaskState("进行中");
+        ylTask.setLstATM(gatheratm(YLEditData.getYlatmNetPoint(), YLEditData.getYlatmList()));
+        tasksManager.SaveTask(getApplicationContext());
+        super.onStop();
+    }
 }
