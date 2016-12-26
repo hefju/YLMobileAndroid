@@ -41,6 +41,7 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
     private String[] strings;
     private int oragecolor;
     private int bulecolor;
+    private boolean clickfalg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +149,7 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
         ylMediaPlayer = new YLMediaPlayer(getApplicationContext());
         bulecolor =  getResources().getColor(R.color.androidbluel);
         oragecolor =  getResources().getColor(R.color.orange);
-
+        clickfalg = true;
         vault_check_tv_statistics.setText("总计: 0 个");
         vault_check_tv_scanman.setText("盘库人-"+YLSystem.getUser().getName());
 
@@ -183,7 +184,9 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                 ScanBox();
                 break;
             case R.id.vault_check_btn_conFirm:
-                UpData(vault_check_tv_baseName.getText().toString());
+                if (clickfalg) {
+                    UpData(vault_check_tv_baseName.getText().toString());
+                }
                 break;
             case R.id.vault_check_btn_basedep:
                 GetBaseDepartment();
@@ -192,6 +195,8 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                 vault_check_tv_baseName.setText("补打标签");
                 vault_check_btn_scan.setEnabled(true);
                 vault_check_btn_conFirm.setEnabled(true);
+                vault_check_btn_basedep.setEnabled(true);
+                vault_check_btn_complete.setEnabled(false);
                 break;
         }
     }
@@ -268,6 +273,7 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                             @Override
                             protected void onPostExecute(String s) {
                                 YLProgressDialog.dismiss();
+                                clickfalg = true;
                                 MyLog(s);
                             }
                         };
@@ -308,6 +314,7 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                         @Override
                         protected void onPostExecute(String s) {
                             MyLog(s);
+                            clickfalg = true;
                             YLProgressDialog.dismiss();
                         }
                     };
@@ -345,6 +352,7 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                         vault_check_btn_scan.setEnabled(true);
                         vault_check_btn_complete.setEnabled(true);
                         vault_check_btn_conFirm.setEnabled(true);
+                        vault_check_btn_basedep.setEnabled(false);
                         dialog.dismiss();
                     }
                 }).show();
