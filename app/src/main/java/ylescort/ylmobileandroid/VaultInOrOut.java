@@ -27,6 +27,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
     Button vaultinorout_btn_CheckVault;
     Button vaultinorout_btn_turnover;
     Button vaultinorout_btn_tmpinorout;
+    Button vaultinorout_btn_weight;
     DatePicker vaultinorout_datepicker;
 
     @Override
@@ -43,6 +44,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
         vaultinorout_btn_CheckVault = (Button)findViewById(R.id.vaultinorout_btn_CheckVault);
         vaultinorout_btn_turnover = (Button)findViewById(R.id.vaultinorout_btn_turnover);
         vaultinorout_btn_tmpinorout = (Button)findViewById(R.id.vaultinorout_btn_tmpinorout);
+        vaultinorout_btn_weight = (Button) findViewById(R.id.vaultinorout_btn_weight);
 
         vaultinorout_datepicker = (DatePicker)findViewById(R.id.vaultinorout_datepicker);
 
@@ -51,6 +53,7 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
         vaultinorout_btn_CheckVault.setOnClickListener(this);
         vaultinorout_btn_turnover.setOnClickListener(this);
         vaultinorout_btn_tmpinorout.setOnClickListener(this);
+        vaultinorout_btn_weight.setOnClickListener(this);
     }
 
     private void GetDatePickerDate(){
@@ -147,6 +150,11 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.vaultinorout_btn_tmpinorout:
                 intent.setClass(VaultInOrOut.this, vault_tmp_inorout.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                break;
+            case R.id.vaultinorout_btn_weight:
+                intent.setClass(VaultInOrOut.this, Overweight.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 break;

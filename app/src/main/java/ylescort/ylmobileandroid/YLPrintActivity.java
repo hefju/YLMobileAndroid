@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
     private Button ylprinter_btn_readhf;
     private TextView ylprinter_tv_give;
     private TextView ylprinter_tv_get;
+    private Switch ylprinter_sw;
 
     private List<Box> list ;
     private List<Box> displaylistbox;
@@ -97,6 +99,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         ylprinter_btn_readhf = (Button) findViewById(R.id.ylprinter_btn_readhf);
         ylprinter_tv_give = (TextView) findViewById(R.id.ylprinter_tv_give);
         ylprinter_tv_get = (TextView) findViewById(R.id.ylprinter_tv_get);
+        ylprinter_sw = (Switch)findViewById(R.id.ylprinter_sw);
 
         ylprinter_btn_gather.setOnClickListener(this);
         ylprinter_btn_detail.setOnClickListener(this);
@@ -275,8 +278,8 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             }
         }
 
-        BoxCombyTime ylBoxComparator = new BoxCombyTime();
-        Collections.sort(displaylistbox,ylBoxComparator);
+//        BoxCombyTime ylBoxComparator = new BoxCombyTime();
+//        Collections.sort(displaylistbox,ylBoxComparator);
 
     }
 
@@ -350,6 +353,9 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
             detaillist.add(box);
         }
         if (detaillist.size()>0) {
+
+            BoxCombyTime b = new BoxCombyTime();
+            Collections.sort(detaillist,b);
 
             AnalysisBoxList analysisBoxList = new AnalysisBoxList();
             gatherPrint = analysisBoxList.AnsysisBoxListForPrint(displaylistbox);

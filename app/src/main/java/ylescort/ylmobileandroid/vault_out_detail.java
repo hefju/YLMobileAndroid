@@ -290,6 +290,8 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
                         Log.e(YLSystem.getKimTag(),AllboxList.size()+"上传数量");
                         DisPlayBoxlistAdapter(AllboxList);
                         ShowBoxList();
+                    }else if (serreturn.equals("2")){
+                        Toast.makeText(getApplicationContext(),"该线路已上传，如需覆盖请联系信息技术部",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(getApplicationContext(),"未上传数据，请检查网络后再上传",Toast.LENGTH_SHORT).show();
                     }

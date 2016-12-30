@@ -153,6 +153,8 @@
         </activity>
         <activity android:name=".ATMBoxCheck">
         </activity>
+        <activity android:name=".Overweight">
+        </activity>
     </application>
 
 </manifest>

@@ -27,22 +27,48 @@
         android:background="@color/androidgreend" />
 </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vaultinorout_ll_btn2"
+        android:layout_below="@+id/vaultinorout_ll_btn">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_weight="1"
+            android:text="@string/vaultinorout_btn_turnover"
+            android:id="@+id/vaultinorout_btn_turnover"
+            android:background="@color/androidpurplel"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="60sp"
+            android:layout_weight="1"
+            android:id="@+id/vaultinorout_btn_weight"
+            android:text="@string/vaultinorout_btn_weight"
+            android:background="@color/androidyellowd"/>
+
+    </LinearLayout>
+
     <Button
         android:layout_width="fill_parent"
         android:layout_height="60sp"
         android:text="@string/vaultinorout_btn_in"
         android:id="@+id/vaultinorout_btn_in"
-        android:layout_below="@+id/vaultinorout_btn_turnover"
-        android:layout_alignParentStart="true"
-        android:background="@color/royalblue"/>
+        android:background="@color/royalblue"
+        android:layout_below="@+id/vaultinorout_ll_btn2"
+        android:layout_alignParentStart="true"/>
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="60sp"
         android:text="@string/vaultinorout_btn_out"
         android:id="@+id/vaultinorout_btn_out"
+        android:background="@color/peru"
         android:layout_below="@+id/vaultinorout_btn_in"
-        android:background="@color/peru"/>
+        android:layout_alignParentStart="true"/>
+
     <DatePicker
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,14 +78,6 @@
         android:layout_alignParentBottom="true"
         android:id="@+id/vaultinorout_datepicker"
         android:layout_centerHorizontal="true">
-        </DatePicker>
+    </DatePicker>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="60sp"
-        android:text="@string/vaultinorout_btn_turnover"
-        android:id="@+id/vaultinorout_btn_turnover"
-        android:background="@color/androidpurplel"
-        android:layout_below="@+id/vaultinorout_ll_btn"
-        android:layout_alignParentStart="true"/>
 </RelativeLayout>

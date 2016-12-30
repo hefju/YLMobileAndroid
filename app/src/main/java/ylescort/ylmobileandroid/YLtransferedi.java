@@ -13,12 +13,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import TaskClass.ArriveTime;
 import TaskClass.BaseBox;
 import TaskClass.Box;
+import TaskClass.BoxCombyTime;
+import TaskClass.BoxCombyTimedesc;
 import TaskClass.Site;
 import YLAdapter.YLBoxEdiAdapter;
 import YLDataOperate.YLCarBoxOperate;
@@ -192,6 +195,9 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
             Box dbox = new Box(box);
             displayboxList.add(dbox);
         }
+        BoxCombyTimedesc boxCombyTime = new BoxCombyTimedesc();
+        Collections.sort(displayboxList,boxCombyTime);
+
         DisplayBoxData(displayboxList);
     }
 

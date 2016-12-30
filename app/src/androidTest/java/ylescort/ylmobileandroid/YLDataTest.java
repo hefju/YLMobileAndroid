@@ -7,7 +7,9 @@ import android.test.ApplicationTestCase;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +21,7 @@ import TaskClass.BaseEmp;
 import TaskClass.BaseSite;
 import TaskClass.Box;
 import TaskClass.BoxCombyOrder;
+import TaskClass.BoxCombyTimedesc;
 import TaskClass.GatherPrint;
 import TaskClass.TasksManager;
 import TaskClass.User;
@@ -62,26 +65,38 @@ public class YLDataTest extends ApplicationTestCase<Application> {
         Set<Box> boxSet = new HashSet<>();
         List<Box> boxes = new ArrayList<>();
 
+
         Box box1 = new Box();
         box1.setId(123);
         box1.setBoxName("测试1");
         box1.setBoxID("123");
+        box1.setActionTime("2016-12-29 11:43:17");
 
         Box box2 = new Box();
         box2.setBoxOrder("1");
         box2.setBoxName("测试2");
         box2.setBoxID("123");
+        box2.setActionTime("2016-12-29 11:46:17");
 
         Box box3 = new Box();
-        box3.setBoxName("测试1");
+        box3.setBoxName("测试3");
         box3.setBoxID("123");
+        box3.setActionTime("2016-12-29 11:45:17");
 
         boxes.add(box1);
         boxes.add(box2);
         boxes.add(box3);
-        Log.e(YLSystem.getKimTag(),boxes.size()+"list数量");
-        boxes = YLEditData.ListtoSettolist(boxes);
-        Log.e(YLSystem.getKimTag(),boxes.size()+"list数量2");
+
+        BoxCombyTimedesc b = new BoxCombyTimedesc();
+        Collections.sort(boxes,b);
+
+        for (Box box : boxes) {
+            Log.e(YLSystem.getKimTag(),box.getBoxName());
+        }
+
+
+
+
 
 //        for (Box box : boxSet) {
 //            if (box.getId() == 123){

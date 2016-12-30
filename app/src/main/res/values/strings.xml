@@ -84,6 +84,7 @@
     <string name="vaultinorout_btn_CheckVault">盘库</string>
     <string name="vaultinorout_btn_turnover">夜间周转</string>
     <string name="vaultinorout_btn_tmpinorout">临时出入库</string>
+    <string name="vaultinorout_btn_weight">超重扫描</string>
     <!--出库管理-->
     <string name="title_activity_vault_out_operate">出库管理</string>
     <string name="vault_out_operate_tv_text">任务线路:</string>
@@ -223,6 +224,9 @@
     <string name="ylprinter_btn_detail">明细</string>
     <string name="ylprinter_btn_cancel">取消</string>
     <string name="ylprinter_btn_readcard">读卡</string>
+    <string name="ylprinter_sw_texton">时间正序</string>
+    <string name="ylprinter_sw_textoff">款箱顺序</string>
+    <string name="ylprinter_sw_text">明细顺序</string>
 
     <string name="title_activity_launcher">Launcher</string>
     <string name="title_activity_yllauncher">YLLauncherActivity</string>
@@ -240,4 +244,11 @@
     <string name="atmcheckclean">清除</string>
     <string name="atmcheckblack">返回</string>
 
+    <!--超重箱-->
+    <string name="overweight_tv_order">序号</string>
+    <string name="overweight_tv_boxname">款箱名称</string>
+    <string name="overweight_tv_boxweight">重量</string>
+    <string name="overweight_tv_kg">KG</string>
+    <string name="overweight_btn_scan">扫描</string>
+    <string name="overweight_btn_upload">上传</string>
 </resources>

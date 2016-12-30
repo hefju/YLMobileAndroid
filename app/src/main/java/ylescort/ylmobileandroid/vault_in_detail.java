@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -627,6 +628,8 @@ public class vault_in_detail extends ActionBarActivity implements View.OnClickLi
                                             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                                         }
                                     }).show();
+                        }else if (returstr.equals("2")){
+                            Toast.makeText(getApplicationContext(),"该线路已上传，如需覆盖请联系信息技术部",Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
