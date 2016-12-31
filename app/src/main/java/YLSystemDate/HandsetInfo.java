@@ -26,7 +26,7 @@ public class HandsetInfo {
 //        PackageManager packageManager = getPackageManager();
         // getPackageName()是你当前类的包名，0代表是获取版本信息
 //        PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(), 0);
-        return "2.2.1";
+        return "2.3.1";
     }
 
     public String HandSetSIM() throws Exception{

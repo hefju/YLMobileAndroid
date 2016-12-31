@@ -78,6 +78,7 @@ public class Overweight extends YLBaseScanActivity implements View.OnClickListen
         ylva = new YLOverweightAdapter(getApplicationContext(),overweights,R.layout.overweightbox_listitem);
         overweight_lv.setAdapter(ylva);
         player = new YLMediaPlayer(getApplicationContext());
+        this.setTitle("超重箱扫描:"+YLSystem.getBaseName());
     }
 
     @Override
@@ -164,7 +165,7 @@ public class Overweight extends YLBaseScanActivity implements View.OnClickListen
 
         final EditText et = new EditText(this);
         et.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        new AlertDialog.Builder(this).setTitle("重量:")
+        new AlertDialog.Builder(this).setTitle(weightBox.getBoxName())
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setView(et)
                 .setPositiveButton(enter, new DialogInterface.OnClickListener() {

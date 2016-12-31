@@ -14,14 +14,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/overweight_listitem_order"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:text="@string/overweight_tv_order"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/overweight_listitem_boxname"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:text="@string/overweight_tv_boxname"
             android:layout_marginStart="20sp"
             android:layout_toEndOf="@+id/overweight_listitem_order"/>
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/overweight_listitem_weight"
             android:textColor="@color/black"
-            android:textSize="30sp"
+            android:textSize="15sp"
             android:layout_toStartOf="@+id/overweight_listitem_kg"
             android:layout_marginStart="10sp"
             android:text="@string/overweight_tv_boxweight"/>
@@ -40,7 +40,7 @@
             android:id="@+id/overweight_listitem_kg"
             android:text="@string/overweight_tv_kg"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
