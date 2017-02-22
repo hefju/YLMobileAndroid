@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,10 @@ public class vault_tmp_inorout extends ActionBarActivity implements View.OnClick
 //                String tasktype =  ylTask.getTaskID();
                 YLEditData.setYlTask(ylTask);
 
+                if (ylTask.getTaskVersion().equals("")){
+                    Toast.makeText(getApplicationContext(),"获取任务不成功，请重新下载任务。",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent();
                 intent.setClass(vault_tmp_inorout.this,vault_tmp_scan.class);
                 startActivity(intent);

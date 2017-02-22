@@ -191,23 +191,25 @@ public class vault_out_detail extends ActionBarActivity implements View.OnClickL
     }
 
     private void ShowBoxList() {
-        if (AllboxList.size()==1)return;
+
+        if (AllboxList.size() > 0) {
 //        List<String> stringList = analysisBoxList.AnsysisBoxList(AllboxList);
 //        String boxtype = "款箱："+stringList.get(0)+"  卡箱:"+stringList.get(1)+"  凭证箱:"+stringList.get(2)+
 //                "  凭证袋:"+stringList.get(3);
 //        String boxstaut = "实箱："+stringList.get(6)+"  空箱："+stringList.get(7);
 
-        List<String> stringList = analysisBoxList.AnsysisBoxListForKeeper2(AllboxList);
-        String boxtype = "实款箱："+stringList.get(0)+"  实卡箱："+stringList.get(2)+"\r\n实凭证箱："+stringList.get(4)+
-                " 实凭证袋："+stringList.get(6);
-        String boxstaut =  "空款箱："+stringList.get(1)+"  空卡箱："+stringList.get(3)+"\r\n空凭证箱："+stringList.get(5)+
-                " 空凭证袋："+stringList.get(7);
-        Log.e(YLSystem.getKimTag(),stringList.toString()+"上传统计");
-        String total = "实时扫描数： "+ AllboxList.size()+"   ";
+            List<String> stringList = analysisBoxList.AnsysisBoxListForKeeper2(AllboxList);
+            String boxtype = "实款箱：" + stringList.get(0) + "  实卡箱：" + stringList.get(2) + "\r\n实凭证箱：" + stringList.get(4) +
+                    " 实凭证袋：" + stringList.get(6);
+            String boxstaut = "空款箱：" + stringList.get(1) + "  空卡箱：" + stringList.get(3) + "\r\n空凭证箱：" + stringList.get(5) +
+                    " 空凭证袋：" + stringList.get(7);
+            Log.e(YLSystem.getKimTag(), stringList.toString() + "上传统计");
+            String total = ylTask.getLine() + "\r\n" + "实时扫描数： " + AllboxList.size() + "   ";
 
-        vault_out_detail_tv_taskname.setText(total);
-        vault_out_detail_tv_boxstaut.setText(boxtype);
-        vault_out_detail_tv_type.setText(boxstaut);
+            vault_out_detail_tv_taskname.setText(total);
+            vault_out_detail_tv_boxstaut.setText(boxtype);
+            vault_out_detail_tv_type.setText(boxstaut);
+        }
     }
 
     private void InitReciveScan1D() {

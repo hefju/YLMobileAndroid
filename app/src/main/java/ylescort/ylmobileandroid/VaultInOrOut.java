@@ -54,6 +54,15 @@ public class VaultInOrOut extends ActionBarActivity implements View.OnClickListe
         vaultinorout_btn_turnover.setOnClickListener(this);
         vaultinorout_btn_tmpinorout.setOnClickListener(this);
         vaultinorout_btn_weight.setOnClickListener(this);
+
+        //测试日期
+//        vaultinorout_datepicker.init(2016, 7, 12, new DatePicker.OnDateChangedListener() {
+//            @Override
+//            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//
+//            }
+//        });
+
     }
 
     private void GetDatePickerDate(){
