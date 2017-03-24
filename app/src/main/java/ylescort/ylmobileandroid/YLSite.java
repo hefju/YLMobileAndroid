@@ -249,7 +249,7 @@ public class YLSite extends ActionBarActivity {
     }
 
     private void Sertime(final String CurrentTime) {
-        YLSysTime ylSysTime = new YLSysTime();
+        YLSysTime ylSysTime = new YLSysTime(getApplicationContext());
         ylSysTime.Sertime(CurrentTime);
     }
 

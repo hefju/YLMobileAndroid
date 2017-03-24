@@ -172,7 +172,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
     private void InitHFreader() {
         try{
-            manager = NFCcmdManager.getNFCcmdManager(12, 115200, 0);
+            manager = NFCcmdManager.getNFCcmdManager(13, 115200, 0);
             manager.readerPowerOn();
         }catch (Exception e){
             Toast.makeText(getApplicationContext(), "HF初始化失败", Toast.LENGTH_SHORT).show();
@@ -444,7 +444,7 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
                     public void onClick(DialogInterface dialog, int which) {
                         if (editText.getText().toString().equals("9")) {
                             try {
-                                YLSysTime ylSysTime = new YLSysTime();
+                                YLSysTime ylSysTime = new YLSysTime(getApplicationContext());
                                 ylSysTime.Sertime("2016-01-01 11:11:11");
                             } catch (Exception e) {
                                 e.printStackTrace();

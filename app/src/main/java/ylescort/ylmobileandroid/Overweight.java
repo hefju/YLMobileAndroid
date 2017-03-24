@@ -54,6 +54,15 @@ public class Overweight extends YLBaseScanActivity implements View.OnClickListen
 
     }
 
+    public void HandSetHotKey(int arg) {
+        switch (arg){
+            case 131:ScanOverWeightScan();
+                break;
+            case 132:ScanOverWeightScan();
+                break;
+        }
+    }
+
     @Override
     protected void InitLayout() {
         overweight_lv  = (ListView) findViewById(R.id.overweight_lv);
@@ -193,17 +202,5 @@ public class Overweight extends YLBaseScanActivity implements View.OnClickListen
                 dialog.dismiss();
             }
         }).show();
-    }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case 131:ScanOverWeightScan();
-                break;
-            case 132:ScanOverWeightScan();
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

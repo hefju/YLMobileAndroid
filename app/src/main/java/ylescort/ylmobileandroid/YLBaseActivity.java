@@ -2,14 +2,24 @@ package ylescort.ylmobileandroid;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.example.nfc.util.Tools;
 import com.google.gson.Gson;
+import com.handheld.HF.HfError;
+import com.handheld.HF.HfManager;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -23,6 +33,8 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+
+import YLSystemDate.HFReader;
 import YLSystemDate.YLSystem;
 
 /**
@@ -32,6 +44,9 @@ public abstract class YLBaseActivity extends ActionBarActivity {
 
     public static ProgressDialog YLProgressDialog;
     public Gson gson;
+
+    private HFReader hfReader;
+    private KeyReceiver keyReceiver;
 
 /*    private static class YLHandler extends Handler{
         WeakReference<ActionBarActivity> actionBarActivityWeakReference;
@@ -59,13 +74,45 @@ public abstract class YLBaseActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        InitProgress();
         gson = new Gson();
+        hfReader = new HFReader();
+    }
+
+    private void RegisterReceiver() {
+        keyReceiver = new KeyReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.rfid.FUN_KEY");
+        registerReceiver(keyReceiver, filter);
+        MyLog("广播注册");
     }
 
     protected abstract void InitLayout();
 
     protected abstract void InitData() throws Exception;
+
+    public  void HandSetHotKey (int keyCode){}
+
+
+    public   class KeyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            int keyCode = intent.getIntExtra("keyCode", 0);
+            if (keyCode == 0) {
+                keyCode = intent.getIntExtra("keycode", 0);
+            }
+            boolean keyDown = intent.getBooleanExtra("keydown", false);
+            if (keyDown){
+                HandSetHotKey(keyCode);
+            }
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        HandSetHotKey(keyCode);
+        return super.onKeyDown(keyCode, event);
+    }
 
     private void InitProgress() {
         YLProgressDialog = new ProgressDialog(YLBaseActivity.this);
@@ -259,6 +306,31 @@ public abstract class YLBaseActivity extends ActionBarActivity {
         new AlertDialog.Builder(YLBaseActivity.this).setTitle("提示")
                 .setMessage(msg)
                 .setPositiveButton("确定", null).show();
+    }
+
+    /*读取HF信息*/
+    public String HFReadUID()
+    {
+        return hfReader.ReadCardStr();
+    }
+
+    @Override
+    protected void onPause() {
+        try {
+            if (keyReceiver != null) {
+                unregisterReceiver(keyReceiver);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onPause();
+    }
+
+    @Override
+    protected void onPostResume() {
+        hfReader = new HFReader();
+        RegisterReceiver();
+        super.onPostResume();
     }
 
 }

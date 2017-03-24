@@ -11,6 +11,7 @@
             android:id="@+id/boxediitem_tv_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="序号"/>
         <TextView
             android:id="@+id/boxediitem_tv_name"
@@ -18,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/boxediitem_tv_order"
             android:layout_marginStart="10sp"
+            android:textColor="@color/black"
             android:text="箱名"/>
         <TextView
             android:id="@+id/boxediitem_tv_gog"
@@ -25,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/boxediitem_tv_eof"
             android:layout_marginStart="10sp"
+            android:textColor="@color/black"
             android:text="送"/>
         <TextView
             android:id="@+id/boxediitem_tv_eof"
@@ -32,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/boxediitem_tv_boxtype"
             android:layout_marginStart="5sp"
+            android:textColor="@color/black"
             android:text="实"/>
         <TextView
             android:id="@+id/boxediitem_tv_boxtype"
@@ -39,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/boxediitem_tv_tasktype"
             android:layout_marginStart="5sp"
+            android:textColor="@color/black"
             android:text="箱型"/>
         <TextView
             android:id="@+id/boxediitem_tv_tasktype"
@@ -46,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/boxediitem_tv_count"
             android:layout_marginStart="10sp"
+            android:textColor="@color/black"
             android:text="交接类型"/>
         <TextView
             android:id="@+id/boxediitem_tv_count"
@@ -54,6 +60,7 @@
             android:layout_marginStart="10sp"
             android:layout_marginEnd="5sp"
             android:layout_alignParentEnd="true"
+            android:textColor="@color/black"
             android:text="数量"/>
     </RelativeLayout>
 

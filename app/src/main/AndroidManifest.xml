@@ -155,6 +155,8 @@
         </activity>
         <activity android:name=".Overweight">
         </activity>
+        <activity android:name=".NewHandSet">
+        </activity>
     </application>
 
 </manifest>

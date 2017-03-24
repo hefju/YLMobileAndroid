@@ -270,12 +270,12 @@ public class YLtransferedi extends YLBaseActivity implements View.OnClickListene
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public void HandSetHotKey(int keyCode) {
         switch (keyCode){
             case 4:NoSaveData();
                 break;
         }
-        return super.onKeyDown(keyCode, event);
+        super.HandSetHotKey(keyCode);
     }
 
     private void NoSaveData() {

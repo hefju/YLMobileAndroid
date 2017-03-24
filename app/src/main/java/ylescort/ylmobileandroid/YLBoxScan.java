@@ -460,7 +460,7 @@ public class YLBoxScan extends ActionBarActivity {
             }
             String receivedata = intent.getStringExtra("result"); // 服务返回的数据
             if (receivedata != null) {
-                Log.e(TAG  + "  receivedata", receivedata);
+                Log.e(TAG +"receivedata", receivedata);
                 receivedata = replaceBlank(receivedata);
                 PutDatatoListView(receivedata,"1");
                 try {

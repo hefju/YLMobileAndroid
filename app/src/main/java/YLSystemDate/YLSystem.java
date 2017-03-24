@@ -30,6 +30,7 @@ import ylescort.ylmobileandroid.ShellInterface;
  */
 public class YLSystem {
 
+//    public enum HandSet{C5000,MG9000}//新手持机、旧手持机
     //region 变量定义
     private static TasksManager tasksManager;//任务管理类
     private static User user; //登录到系统的用户
@@ -40,6 +41,7 @@ public class YLSystem {
     private static String kimTag;
     private static String BaseName;//基地名称
     private static String SerAdress;//服务地址
+    private static String HandSet;
 
     /**
      * UHF+HF+1D==> UHF:13 HF:12
@@ -51,7 +53,7 @@ public class YLSystem {
     private static int Flags;
 
     public static int getHFport() {
-        return 13;
+        return 14;
     }
 
     public static int getUHFport() {

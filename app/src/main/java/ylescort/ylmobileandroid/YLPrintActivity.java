@@ -309,9 +309,8 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         }
     }
 
-
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public void HandSetHotKey(int keyCode) {
         switch (keyCode){
             case 131:
                 CheckSietHF();
@@ -320,8 +319,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
                 CheckSietHF();
                 break;
         }
-
-        return super.onKeyDown(keyCode, event);
+        super.HandSetHotKey(keyCode);
     }
 
     private Boolean CheckSietHF(){

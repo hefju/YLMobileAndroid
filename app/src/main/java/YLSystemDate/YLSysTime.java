@@ -1,7 +1,10 @@
 package YLSystemDate;
 
+import android.content.Context;
 import android.os.SystemClock;
 import android.util.Log;
+
+import com.android.rfid.DevSettings;
 
 import java.io.DataOutputStream;
 import java.text.ParseException;
@@ -17,6 +20,15 @@ import ylescort.ylmobileandroid.ShellInterface;
  * Created by Administrator on 2015/4/20.
  */
 public class YLSysTime {
+
+    private Context context;
+
+    public YLSysTime() {
+    }
+
+    public YLSysTime(Context context) {
+        this.context = context;
+    }
 
     private static Date Servertime;
 
@@ -94,7 +106,7 @@ public class YLSysTime {
                 +String.format("%02d",(dayOfMonth));
     }
 
-    public void CheckLocateTime(String Servertime){
+    private void CheckLocateTime(String Servertime){
         try {
             Date SerDate = StrToMin(Servertime);
             Calendar SerCal = Calendar.getInstance();
@@ -130,12 +142,18 @@ public class YLSysTime {
      * @param calendar 日期控件
      */
 
-    public void SetTime(Calendar calendar) {
+    private void SetTime(Calendar calendar) {
         try {
             if (ShellInterface.isSuAvailable()) {
                 ShellInterface.runCommand("chmod 666 /dev/alarm");
                 SystemClock.setCurrentTimeMillis(calendar.getTimeInMillis());
                 ShellInterface.runCommand("chmod 664 /dev/alarm");
+                Log.e(YLSystem.getKimTag(), "时间修改成功");
+            }
+            if (context != null)
+            {
+                DevSettings d = new DevSettings(context);
+                d.setCurrentTime(calendar.getTimeInMillis());
                 Log.e(YLSystem.getKimTag(), "时间修改成功");
             }
         } catch (Exception e) {

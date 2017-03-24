@@ -54,6 +54,14 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
             e.printStackTrace();
         }
     }
+    public void HandSetHotKey(int keyCode) {
+        switch (keyCode){
+            case 131:ScanBox();
+                break;
+            case 132:ScanBox();
+                break;
+        }
+    }
 
     @Override
     protected void InitLayout() {
@@ -199,17 +207,6 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                 vault_check_btn_complete.setEnabled(false);
                 break;
         }
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case 131:ScanBox();
-                break;
-            case 132:ScanBox();
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     private void UpData(String s) {

@@ -51,8 +51,8 @@
     <string name="box_btn_arrive">到达</string>
     <string name="boxitem_monenybox">款箱:0</string>
     <string name="boxitem_cardbox">卡箱:0</string>
-    <string name="boxitem_Voucherbox">凭证箱:\n 0</string>
-    <string name="boxitem_Voucherboxbag">凭证袋:\n 0</string>
+    <string name="boxitem_Voucherbox">凭证箱:0</string>
+    <string name="boxitem_Voucherboxbag">凭证袋:0</string>
     <string name="boxitem_order">序号</string>
     <string name="boxitem_Boxid">箱名:</string>
     <string name="boxitem_TradeAction">收/送:</string>

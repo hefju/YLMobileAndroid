@@ -352,8 +352,6 @@
             android:layout_toEndOf="@+id/yltransfer_tv_Voucher"
             android:text="@string/boxitem_Voucherboxbag"
             android:textColor="@color/black" />
-
-
     </RelativeLayout>
 
     <LinearLayout
@@ -362,7 +360,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center">
-
         <Button
             android:id="@+id/yltransfer_btn_print"
             android:layout_width="wrap_content"
@@ -370,7 +367,6 @@
             android:layout_marginStart="10sp"
             android:visibility="gone"
             android:text="@string/HomTmp_scan_btn_print" />
-
         <Button
             android:id="@+id/yltransfer_btn_scan"
             android:layout_width="wrap_content"
@@ -378,7 +374,6 @@
             android:layout_marginStart="10sp"
             android:layout_weight="1"
             android:text="@string/HomTmp_scan_btn_scan" />
-
         <Button
             android:id="@+id/yltransfer_btn_nonelable"
             android:layout_width="wrap_content"
@@ -386,7 +381,6 @@
             android:layout_weight="1"
             android:layout_marginStart="10sp"
             android:text="@string/box_btn_nolable" />
-
         <Button
             android:id="@+id/yltransfer_btn_ent"
             android:layout_width="wrap_content"

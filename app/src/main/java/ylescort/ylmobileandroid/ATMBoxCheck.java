@@ -46,6 +46,15 @@ public class ATMBoxCheck extends YLBaseScanActivity implements View.OnClickListe
         InitData();
     }
 
+    public void HandSetHotKey(int arg) {
+        switch (arg){
+            case 131: Scan1DCmd(1);
+                break;
+            case 132: Scan1DCmd(1);
+                break;
+        }
+    }
+
     @Override
     protected void InitLayout() {
         atmcheck_clientname = (TextView) findViewById(R.id.atmcheck_clientname);
@@ -57,7 +66,6 @@ public class ATMBoxCheck extends YLBaseScanActivity implements View.OnClickListe
         atmcheck_passageway = (TextView) findViewById(R.id.atmcheck_passageway);
         atmcheck_code = (TextView) findViewById(R.id.atmcheck_code);
         atmcheck_tv_info = (TextView) findViewById(R.id.atmcheck_tv_info);
-
         atmcheck_btn_scan = (Button) findViewById(R.id.atmcheck_btn_scan);
         atmcheck_btn_clean = (Button) findViewById(R.id.atmcheck_btn_clean);
         atmcheck_btn_black = (Button) findViewById(R.id.atmcheck_btn_black);
@@ -128,17 +136,5 @@ public class ATMBoxCheck extends YLBaseScanActivity implements View.OnClickListe
         atmcheck_tv_info.setText(scan);
 
         ylMediaPlayer.SuccessOrFail(true);
-    }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case 131: Scan1DCmd(1);
-                break;
-            case 132: Scan1DCmd(1);
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

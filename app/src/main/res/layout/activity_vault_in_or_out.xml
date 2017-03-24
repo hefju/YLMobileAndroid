@@ -68,16 +68,23 @@
         android:background="@color/peru"
         android:layout_below="@+id/vaultinorout_btn_in"
         android:layout_alignParentStart="true"/>
-
-    <DatePicker
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/vaultinorout_btn_out"
-        android:calendarViewShown="false"
-        android:datePickerMode="spinner"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/vaultinorout_datepicker"
-        android:layout_centerHorizontal="true">
-    </DatePicker>
+        android:layout_alignParentBottom="true">
+        <DatePicker
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/vaultinorout_datepicker"
+            android:layout_centerHorizontal="true">
+        </DatePicker>
+
+
+    </RelativeLayout>
+
+
 
 </RelativeLayout>

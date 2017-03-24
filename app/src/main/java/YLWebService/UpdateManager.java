@@ -91,11 +91,22 @@ public class UpdateManager {
 //                            }
 //                        }).show();
 
-        if (YLSystem.getHFport()==12){
-            strURL = LocalSetting.getWebupdateappaddressuhf();
-        }else {
-            strURL = LocalSetting.getWebupdateappaddresshf();
+//        if (YLSystem.getHFport()==12){
+//            strURL = LocalSetting.getWebupdateappaddressuhf();
+//        }else {
+//            strURL = LocalSetting.getWebupdateappaddresshf();
+//        }
+        switch (YLSystem.getHFport())
+        {
+            case 12:strURL = LocalSetting.getWebupdateappaddressuhf();
+                break;
+            case 13:strURL = LocalSetting.getWebupdateappaddresshf();
+                break;
+            case 14:strURL = LocalSetting.getWebupdateappaddressC5000();
+                break;
         }
+
+
         Log.e(YLSystem.getKimTag(),strURL);
         downloadTheFile(strURL);
         showWaitDialog();

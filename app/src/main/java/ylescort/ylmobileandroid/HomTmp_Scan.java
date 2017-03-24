@@ -37,7 +37,7 @@ import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
-public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListener {
+public class HomTmp_Scan extends YLBaseScanActivity implements View.OnClickListener {
 
     private TextView HomTmp_Scan_tv_title;
     private TextView Homtmp_Scan_tv_basename;
@@ -49,9 +49,6 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
 
     private TasksManager tasksManager = null;//任务管理类
     private YLTask ylTask;//当前选中的任务
-
-    private Scan1DRecive Scan1DRecive;
-
     private List<Box> AllBoxList;
     private List<Box> CarBoxList;
     private String chioce;
@@ -87,30 +84,41 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hom_tmp__scan);
-        InitView();
-        InitData();
-        InitScan();
+        try {
+            InitLayout();
+            InitData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void InitScan() {
-        Scan1DRecive = new Scan1DRecive();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("ylescort.ylmobileandroid.HomTmp_Scan");
-        registerReceiver(Scan1DRecive, filter);
-        Intent start = new Intent(HomTmp_Scan.this,Scan1DService.class);
-        HomTmp_Scan.this.startService(start);
+    @Override
+    protected void InitLayout() {
+        HomTmp_Scan_tv_title = (TextView) findViewById(R.id.HomTmp_Scan_tv_title);
+        Homtmp_Scan_tv_basename = (TextView)findViewById(R.id.Homtmp_Scan_tv_basename);
+        HomTmp_Scan_listview = (ListView) findViewById(R.id.HomTmp_Scan_listview);
+        HomTmp_Scan_btn_scan = (Button) findViewById(R.id.HomTmp_Scan_btn_scan);
+        HomTmp_Scan_btn_upload = (Button) findViewById(R.id.HomTmp_Scan_btn_upload);
+        HomTmp_Scan_btn_refresh = (Button) findViewById(R.id.HomTmp_Scan_btn_refresh);
+        HomTmp_Scan_btn_apply = (Button) findViewById(R.id.HomTmp_Scan_btn_apply);
+
+        HomTmp_Scan_btn_scan.setOnClickListener(this);
+        HomTmp_Scan_btn_upload.setOnClickListener(this);
+        HomTmp_Scan_btn_refresh.setOnClickListener(this);
+        HomTmp_Scan_btn_apply.setOnClickListener(this);
+
+        HomTmp_Scan.this.setTitle("未确认申请操作");
     }
 
-    private void InitData() {
+    @Override
+    protected void InitData() throws Exception {
         colorbule = getResources().getColor(R.color.androidblued);
         colorred = getResources().getColor(R.color.androidredl);
         colorpurple = getResources().getColor(R.color.androidpurplel);
         colordefaul = getResources().getColor(R.color.grey);
 
         HomTmp_Scan_tv_title.setText("扫描数量：0");
-
         ylMediaPlayer = new YLMediaPlayer();
-
         webServerTmpValutInorOut = new WebServerTmpValutInorOut(getApplicationContext());
 
         tasksManager = YLSystem.getTasksManager();//获取任务管理类
@@ -128,6 +136,15 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         DisPlayBoxlistAdapter(AllBoxList);
     }
 
+    @Override
+    public void YLPutdatatoList(String recivedata) {
+        if (getTimeID() ==1){
+            AddBoxToListfortimeid1(recivedata);
+        }else{
+            AddBoxToListfortimeid2(recivedata);
+        }
+    }
+
     private void DisPlayBoxlistAdapter(List<Box> boxList){
 //        if (boxList != null){
             ylValutboxitemAdapter = new YLValutboxitemAdapter(getApplicationContext()
@@ -136,23 +153,10 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
 //        }
     }
 
-    private class Scan1DRecive extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String recivedata = intent.getStringExtra("result");
-            if (recivedata != null) {
-                if (getTimeID() ==1){
-                    AddBoxToListfortimeid1(recivedata);
-                }else{
-                    AddBoxToListfortimeid2(recivedata);
-                }
-            }
-        }
-    }
-
     private void AddBoxToListfortimeid1(String recivedata) {
         if (recivedata.length() !=10)return;
         boolean boxstate = true;
+        if (AllBoxList.size()==0) return;
         for (int i = 0; i < AllBoxList.size(); i++) {
 
             Box box = new Box();
@@ -254,36 +258,6 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
 
     }
 
-    private void Scan1DCmd(String cmd) {
-        String activity = "ylescort.ylmobileandroid.HomTmp_Scan";
-        Intent ac = new Intent();
-        ac.setAction("ylescort.ylmobileandroid.Scan1DService");
-        ac.putExtra("activity", activity);
-        sendBroadcast(ac);
-        Intent sendToservice = new Intent(HomTmp_Scan.this, Scan1DService.class); // 用于发送指令
-        sendToservice.putExtra("cmd", cmd);
-        this.startService(sendToservice); // 发送指令
-    }
-
-
-    private void InitView() {
-        HomTmp_Scan_tv_title = (TextView) findViewById(R.id.HomTmp_Scan_tv_title);
-        Homtmp_Scan_tv_basename = (TextView)findViewById(R.id.Homtmp_Scan_tv_basename);
-        HomTmp_Scan_listview = (ListView) findViewById(R.id.HomTmp_Scan_listview);
-        HomTmp_Scan_btn_scan = (Button) findViewById(R.id.HomTmp_Scan_btn_scan);
-        HomTmp_Scan_btn_upload = (Button) findViewById(R.id.HomTmp_Scan_btn_upload);
-        HomTmp_Scan_btn_refresh = (Button) findViewById(R.id.HomTmp_Scan_btn_refresh);
-        HomTmp_Scan_btn_apply = (Button) findViewById(R.id.HomTmp_Scan_btn_apply);
-
-        HomTmp_Scan_btn_scan.setOnClickListener(this);
-        HomTmp_Scan_btn_upload.setOnClickListener(this);
-        HomTmp_Scan_btn_refresh.setOnClickListener(this);
-        HomTmp_Scan_btn_apply.setOnClickListener(this);
-
-        HomTmp_Scan.this.setTitle("未确认申请操作");
-
-    }
-
     @Override
     public void onClick(View view) {
         try {
@@ -325,7 +299,6 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
                     YLEditData.setYlTask(task);
                     String serreturn = webServerTmpValutInorOut.UpLoadBoxTmp();
                     if (serreturn.equals("1")) {
-
                         ShowPrintDailog();
                     }
                 } catch (Exception e) {
@@ -448,16 +421,21 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
             TaskTimeID = 1;
             AllBoxList.clear();
             AllBoxList = webServerTmpValutInorOut.GetTmpBoxList(ylTask.getTaskID(), "1", "999", "1");
-            if (AllBoxList.size()>0){
+            if (AllBoxList.size()>0  & AllBoxList.get(0).getBoxID() != null){
                 if (!AllBoxList.get(0).getServerReturn().equals("0")){
                     setChioce(AllBoxList.get(0).getBaseValutIn());
                 }
+
+                MyLog(AllBoxList.get(0).toString());
+                Log.e(YLSystem.getKimTag(),"出库列表"+AllBoxList.size());
+                DisPlayBoxlistAdapter(AllBoxList);
+                HomTmp_Scan.this.setTitle("出库箱扫描");
+                HomTmp_Scan_btn_scan.setEnabled(true);
+                HomTmp_Scan_btn_upload.setEnabled(true);
+            }else {
+                YLMessagebox("未有出库箱");
             }
-            Log.e(YLSystem.getKimTag(),"出库列表"+AllBoxList.size());
-            DisPlayBoxlistAdapter(AllBoxList);
-            HomTmp_Scan.this.setTitle("出库箱扫描");
-            HomTmp_Scan_btn_scan.setEnabled(true);
-            HomTmp_Scan_btn_upload.setEnabled(true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -573,25 +551,25 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
         if (!HomTmp_Scan_btn_scan.isEnabled())return;
         if (HomTmp_Scan_btn_scan.getText().equals("扫描"))
         {
-            Scan1DCmd("toscan100ms");
+            Scan1DCmd(2);
             HomTmp_Scan_btn_scan.setBackgroundColor(colorred);
             HomTmp_Scan_btn_scan.setText("停止");
         }else{
-            Scan1DCmd("stopscan");
+            Scan1DCmd(0);
             HomTmp_Scan_btn_scan.setBackgroundColor(colorbule);
             HomTmp_Scan_btn_scan.setText("扫描");
         }
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public void HandSetHotKey(int keyCode) {
         switch (keyCode){
             case 131:Scan1D();
                 break;
             case 4:LeaveActivity();
                 break;
         }
-        return super.onKeyDown(keyCode, event);
+        super.HandSetHotKey(keyCode);
     }
 
     private void LeaveActivity() {
@@ -613,14 +591,5 @@ public class HomTmp_Scan extends ActionBarActivity implements View.OnClickListen
             }
         });
         builder.create().show();
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (Scan1DRecive != null){
-            unregisterReceiver(Scan1DRecive);
-        }
-        Scan1DCmd("stopscan");
-        super.onDestroy();
     }
 }

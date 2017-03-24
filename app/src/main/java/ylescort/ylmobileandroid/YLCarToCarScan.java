@@ -59,6 +59,17 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
         InitData();
     }
 
+    public void HandSetHotKey(int keyCode) {
+        switch (keyCode) {
+            case 131:
+                ScanCmd();
+                break;
+            case 132:
+                ScanCmd();
+                break;
+        }
+    }
+
     @Override
     protected void InitLayout() {
         ylcartocarscan_tv_title = (TextView) findViewById(R.id.ylcartocarscan_tv_title);
@@ -374,20 +385,6 @@ public class YLCarToCarScan extends YLBaseScanActivity implements View.OnClickLi
         };
         y.execute();
         y.doInBackground();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case 131:
-                ScanCmd();
-                break;
-            case 132:
-                ScanCmd();
-                break;
-        }
-
-        return super.onKeyDown(keyCode, event);
     }
 
     private void ScanCmd() {

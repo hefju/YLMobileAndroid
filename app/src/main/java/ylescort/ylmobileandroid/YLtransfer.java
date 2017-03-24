@@ -22,8 +22,10 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.Calendar;
 import java.util.List;
+
 import TaskClass.ArriveTime;
 import TaskClass.Box;
 import TaskClass.Site;
@@ -99,7 +101,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yltransfer);
+        setContentView(R.layout.activity_yltransfer2);
         InitLayout();
         InitData();
     }
@@ -134,11 +136,11 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         yltransfer_btn_boxtype = (Button) findViewById(R.id.yltransfer_btn_boxtype);
         yltransfer_btn_print = (Button) findViewById(R.id.yltransfer_btn_print);
 
-        yltransfer_cb_scan = (CheckBox)findViewById(R.id.yltransfer_cb_scan);
-        yltransfer_cb_complie = (CheckBox)findViewById(R.id.yltransfer_cb_complie);
-        yltransfer_cb_date  = (CheckBox)findViewById(R.id.yltransfer_cb_date);
-        yltransfer_cb_ToT = (CheckBox)findViewById(R.id.yltransfer_cb_ToT);
-        yltransfer_cb_ylclearing = (CheckBox)findViewById(R.id.yltransfer_cb_ylclearing);
+        yltransfer_cb_scan = (CheckBox) findViewById(R.id.yltransfer_cb_scan);
+        yltransfer_cb_complie = (CheckBox) findViewById(R.id.yltransfer_cb_complie);
+        yltransfer_cb_date = (CheckBox) findViewById(R.id.yltransfer_cb_date);
+        yltransfer_cb_ToT = (CheckBox) findViewById(R.id.yltransfer_cb_ToT);
+        yltransfer_cb_ylclearing = (CheckBox) findViewById(R.id.yltransfer_cb_ylclearing);
 
         yltransfer_btn_date.setOnClickListener(this);
         yltransfer_btn_scan.setOnClickListener(this);
@@ -171,7 +173,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         ylMediaPlayer = new YLMediaPlayer(getApplicationContext());
         ChooseBox = new Box();
         ylBoxScanCheck = new YLBoxScanCheck(getApplicationContext());
-        
+
         ycdo = new YLCarBoxOperate();
         ytdo = new YLtransferDataOperate();
         ylPrint = new YLPrint();
@@ -200,26 +202,26 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
         //根据任务匹配交接类型
         String tasktype = ylTask.getTaskType();
-        if (tasktype.equals("早送") ||tasktype.equals("晚收")){
+        if (tasktype.equals("早送") || tasktype.equals("晚收")) {
             yltransfer_sp_tasktype.setSelection(0);
             ChooseBox.setBoxTaskType("早送晚收");
-        }else {
+        } else {
             yltransfer_sp_tasktype.setSelection(1);
             ChooseBox.setBoxTaskType("上下介");
         }
 
         //加载日期至日期控件
-        calendar = YLSysTime.AddDateString(Calendar.getInstance(),0) ;
+        calendar = YLSysTime.AddDateString(Calendar.getInstance(), 0);
         int year = calendar.get(Calendar.YEAR);
         int Month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DATE);
 
-        TodayStrDate =YLSysTime.IntToStrDate(year,Month,day);
+        TodayStrDate = YLSysTime.IntToStrDate(year, Month, day);
         PickDate = TodayStrDate;
         yltransfer_btn_date.setText(TodayStrDate);
 
         //加载交接类型
-        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this,R.array.TaskType,
+        ArrayAdapter arrayAdapter = ArrayAdapter.createFromResource(this, R.array.TaskType,
                 android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yltransfer_sp_tasktype.setAdapter(arrayAdapter);
@@ -228,7 +230,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Transfertype = adapterView.getItemAtPosition(i).toString();
-                switch (Transfertype){
+                switch (Transfertype) {
                     case "早送晚收":
                         yltransfer_cb_ToT.setChecked(false);
                         yltransfer_cb_ToT.setEnabled(false);
@@ -278,7 +280,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                         ChooseBox.setYlclearing("0");
                         break;
                 }
-                YLRecord.WriteRecord("网点交接","选择交接类型："+Transfertype);
+                YLRecord.WriteRecord("网点交接", "选择交接类型：" + Transfertype);
                 ChooseBox.setBoxTaskType(Transfertype);
             }
 
@@ -295,9 +297,9 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     @Override
     public void YLPutdatatoList(String recivedata) {
         try {
-            if (yltransfer_rbtn_get.isChecked()){
+            if (yltransfer_rbtn_get.isChecked()) {
                 GetBox(recivedata);
-            }else{
+            } else {
                 GiveBox(recivedata);
             }
         } catch (Exception e) {
@@ -319,18 +321,18 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 Box givebox = ylBoxScanCheck.GetBoxbyBCNO(recivedata);
                 //匹配
                 if (yltransfer_tv_title.getTag().toString().equals(givebox.getSiteID())) {
-                    YLRecord.WriteRecord("网点交接","匹配送箱");
+                    YLRecord.WriteRecord("网点交接", "匹配送箱");
                     RemoveandaddCarbox(recivedata);
                 } else {
                     //不匹配
                     StopScan();
-                    YLRecord.WriteRecord("网点交接","不匹配送箱");
+                    YLRecord.WriteRecord("网点交接", "不匹配送箱");
                     ShowNetPointmatch(recivedata);
                     Scanflag = true;
                 }
             } else {
                 //不提示网点匹配
-                YLRecord.WriteRecord("网点交接","不提示送箱");
+                YLRecord.WriteRecord("网点交接", "不提示送箱");
                 RemoveandaddCarbox(recivedata);
 
             }
@@ -341,7 +343,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 ylMediaPlayer.SuccessOrFail(false);
             } else {
                 StopScan();
-                YLRecord.WriteRecord("网点交接","无车内箱");
+                YLRecord.WriteRecord("网点交接", "无车内箱");
                 GivebyNoCarBoxDailog(recivedata);
                 Scanflag = true;
             }
@@ -351,26 +353,26 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     //收箱
     private void GetBox(String recivedata) {
         //检查收箱是否可以交接、检查车内箱是否可以交接
-        if (ytdo.Repeatgetbox(recivedata) ||ycdo.CheckCarboxbystr(recivedata)){
+        if (ytdo.Repeatgetbox(recivedata) || ycdo.CheckCarboxbystr(recivedata)) {
             ylMediaPlayer.SuccessOrFail(false);
             return;
         }
         //检查是否为临时标签
         Box box = ylBoxScanCheck.GetBoxbyBCNO(recivedata);
-        if (box.getBoxID().equals("0")){
+        if (box.getBoxID().equals("0")) {
             ylMediaPlayer.SuccessOrFail(false);
             return;
         }
-        if (ytdo.CheckBoxName(box,ChooseBox.getBoxType())){
+        if (ytdo.CheckBoxName(box, ChooseBox.getBoxType())) {
             StopScan();
-            YLRecord.WriteRecord("网点交接","临时标签未选类型");
+            YLRecord.WriteRecord("网点交接", "临时标签未选类型");
             YLMessagebox("临时标签款箱类型未选");
-        }else{
-            if (box.getBoxName().startsWith("粤龙临")){
-                YLRecord.WriteRecord("网点交接","添加临时标签");
-                GetBoxDetail(box,true);
-            }else {
-                if (GetNetPointCheck){//如果选择收箱提示
+        } else {
+            if (box.getBoxName().startsWith("粤龙临")) {
+                YLRecord.WriteRecord("网点交接", "添加临时标签");
+                GetBoxDetail(box, true);
+            } else {
+                if (GetNetPointCheck) {//如果选择收箱提示
                     boolean boxsitecheck = false;
                     for (Site site : siteList) {
                         if (box.getSiteID().equals(site.getSiteID())) {
@@ -378,16 +380,16 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                         }
                     }
                     if (boxsitecheck) {
-                        YLRecord.WriteRecord("网点交接","符合收箱网点列表");
+                        YLRecord.WriteRecord("网点交接", "符合收箱网点列表");
                         GetBoxDetail(box, false);
                     } else {
                         StopScan();
-                        YLRecord.WriteRecord("网点交接","不符合收箱网点列表");
+                        YLRecord.WriteRecord("网点交接", "不符合收箱网点列表");
                         ShowDifferentSite(box);
                         Scanflag = true;
                     }
-                }else {
-                    YLRecord.WriteRecord("网点交接","网点非提示收箱");
+                } else {
+                    YLRecord.WriteRecord("网点交接", "网点非提示收箱");
                     GetBoxDetail(box, false);
                 }
             }
@@ -395,15 +397,15 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     }
 
     private void ShowDifferentSite(final Box box) {
-        if (Scanflag)return;
+        if (Scanflag) return;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
         builder.setMessage("所收款箱未在该线路网点，是否确认收箱？");
         builder.setTitle("提示");
         builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                YLRecord.WriteRecord("网点交接","收箱提示确认");
-                GetBoxDetail(box,false);
+                YLRecord.WriteRecord("网点交接", "收箱提示确认");
+                GetBoxDetail(box, false);
 //                GetNetPointCheck = false;
                 Scanflag = false;
                 dialogInterface.dismiss();
@@ -412,7 +414,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                YLRecord.WriteRecord("网点交接","收箱提示取消");
+                YLRecord.WriteRecord("网点交接", "收箱提示取消");
 //                GetNetPointCheck = false;
                 Scanflag = false;
                 dialogInterface.dismiss();
@@ -421,12 +423,12 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         builder.create().show();
     }
 
-    private void GetBoxDetail(Box box,boolean tempbox) {
+    private void GetBoxDetail(Box box, boolean tempbox) {
         box.setTradeAction(ChooseBox.getTradeAction());
         box.setBoxStatus(ChooseBox.getBoxStatus());
         box.setBoxToT(ChooseBox.getBoxToT());
-        if (tempbox){
-            box.setBoxType( ChooseBox.getBoxType());
+        if (tempbox) {
+            box.setBoxType(ChooseBox.getBoxType());
         }
         box.setBoxCount("1");
         box.setSiteID(ChooseBox.getSiteID());
@@ -436,23 +438,24 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         box.setTimeID(ChooseBox.getTimeID());
 
         String nexttime = "";
-        switch (ChooseBox.getBoxTaskType()){
+        switch (ChooseBox.getBoxTaskType()) {
             case "早送晚收":
-                if (PickDate.equals(TodayStrDate)){
+                if (PickDate.equals(TodayStrDate)) {
                     nexttime = "";
-                }else {
-                    nexttime = PickDate;
-                }
-            break;
-            case "寄库箱":
-                if (yltransfer_cb_date.isChecked()||
-                        PickDate.equals(TodayStrDate)){
-                    nexttime = "2099-12-31";
-                }else {
+                } else {
                     nexttime = PickDate;
                 }
                 break;
-            default :nexttime ="";
+            case "寄库箱":
+                if (yltransfer_cb_date.isChecked() ||
+                        PickDate.equals(TodayStrDate)) {
+                    nexttime = "2099-12-31";
+                } else {
+                    nexttime = PickDate;
+                }
+                break;
+            default:
+                nexttime = "";
                 break;
         }
         box.setNextOutTime(nexttime);
@@ -463,7 +466,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 //        YLtransferDataOperate.Transferingboxes.add(box);
         YLtransferDataOperate.AddboxtoList(box);
         YLCarBoxOperate.YLEditeCarBoxList.add(box);
-        YLRecord.WriteRecord("网点交接","收箱:"+box.getBoxName()+box.getBoxStatus()+box.getBoxTaskType());
+        YLRecord.WriteRecord("网点交接", "收箱:" + box.getBoxName() + box.getBoxStatus() + box.getBoxTaskType());
         ylMediaPlayer.SuccessOrFail(true);
         yltransfer_cb_complie.setChecked(false);
 
@@ -471,14 +474,14 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     }
 
     private void ShowNetPointmatch(final String recivedata) {
-        if (Scanflag)return;
+        if (Scanflag) return;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
         builder.setMessage("所送款箱归属网点与该网点名称不同，是否确认送箱？");
         builder.setTitle("提示");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                YLRecord.WriteRecord("网点交接","送箱提示确认");
+                YLRecord.WriteRecord("网点交接", "送箱提示确认");
                 RemoveandaddCarbox(recivedata);
                 Scanflag = false;
                 dialogInterface.dismiss();
@@ -487,7 +490,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                YLRecord.WriteRecord("网点交接","送箱提示取消");
+                YLRecord.WriteRecord("网点交接", "送箱提示取消");
                 Scanflag = false;
                 dialogInterface.dismiss();
             }
@@ -509,8 +512,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 //            YLtransferDataOperate.Transferingboxes.add(removecarbox);
             YLtransferDataOperate.AddboxtoList(removecarbox);
             ShowBoxDaitel(removecarbox);
-            YLRecord.WriteRecord("网点交接","送箱："+removecarbox.getBoxName()+
-                    removecarbox.getBoxStatus()+removecarbox.getBoxTaskType());
+            YLRecord.WriteRecord("网点交接", "送箱：" + removecarbox.getBoxName() +
+                    removecarbox.getBoxStatus() + removecarbox.getBoxTaskType());
             ylMediaPlayer.SuccessOrFail(true);
         }
         ShowBoxDaitel(removecarbox);
@@ -518,14 +521,15 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     //无车内款箱送箱弹框
     private void GivebyNoCarBoxDailog(final String boxid) {
-        if (Scanflag)return;
+        if (Scanflag) return;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
         builder.setIcon(android.R.drawable.ic_input_get);
         builder.setTitle("请选择送箱状态");
+        builder.setCancelable(false);
         View view = LayoutInflater.from(YLtransfer.this).inflate(R.layout.ylboxstautandtasktype, null);
         builder.setView(view);
-        final  RadioButton boxstaut_full = (RadioButton) view.findViewById(R.id.boxstaut_full);
-        final  CheckBox boxstaut_ToT = (CheckBox) view.findViewById(R.id.boxstaut_ToT);
+        final RadioButton boxstaut_full = (RadioButton) view.findViewById(R.id.boxstaut_full);
+        final CheckBox boxstaut_ToT = (CheckBox) view.findViewById(R.id.boxstaut_ToT);
         final RadioButton boxstaut_upordown = (RadioButton) view.findViewById(R.id.boxstaut_upordown);
         final RadioButton boxstaut_samebankdispatch = (RadioButton) view.findViewById(R.id.boxstaut_samebankdispatch);
         final RadioButton boxstaut_differentbankdispatch = (RadioButton) view.findViewById(R.id.boxstaut_differentbankdispatch);
@@ -567,8 +571,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     if (boxstaut_invaultbox.isChecked()) {
                         tasktype = "寄库箱";
                     }
-                    Box box = ytdo.BoxofNoCarbox(getApplicationContext(),boxid,ChooseBox.getSiteID(),
-                            ChooseBox.getTimeID(),TaskTimeID,tasktype,boxtot,boxstatus);
+                    Box box = ytdo.BoxofNoCarbox(getApplicationContext(), boxid, ChooseBox.getSiteID(),
+                            ChooseBox.getTimeID(), TaskTimeID, tasktype, boxtot, boxstatus);
                     MyLog(box.toString());
 //                    YLtransferDataOperate.Transferingboxes.add(box);
                     YLtransferDataOperate.AddboxtoList(box);
@@ -576,8 +580,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     TallyBox();
                     ylMediaPlayer.SuccessOrFail(true);
                     Scanflag = false;
-                    YLRecord.WriteRecord("扫描","送箱非车内箱："+box.getBoxName()+box.getBoxStatus()
-                    +box.getBoxTaskType());
+                    YLRecord.WriteRecord("扫描", "送箱非车内箱：" + box.getBoxName() + box.getBoxStatus()
+                            + box.getBoxTaskType());
                     dialogInterface.dismiss();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -600,7 +604,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         yltransfer_tv_boxaction.setText(box.getTradeAction());
         yltransfer_tv_boxtype.setText(box.getBoxType());
 
-        if (box.getBoxToT() == null ||box.getBoxToT().equals("0") ) {
+        if (box.getBoxToT() == null || box.getBoxToT().equals("0")) {
             yltransfer_tv_boxtot.setText("否");
         } else {
             yltransfer_tv_boxtot.setText("是");
@@ -612,10 +616,10 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.yltransfer_btn_date:
                 GetDatePick();
-                YLRecord.WriteRecord("网点交接","获取寄库箱日期"+PickDate);
+                YLRecord.WriteRecord("网点交接", "获取寄库箱日期" + PickDate);
                 if (yltransfer_cb_date.isChecked()) {
                     ChooseBox.setNextOutTime("2099-12-31");
                 } else {
@@ -624,11 +628,11 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 //                MyLog("出库日期"+ChooseBox.getNextOutTime());
                 break;
             case R.id.yltransfer_btn_scan:
-                YLRecord.WriteRecord("网点交接","款箱扫描");
+                YLRecord.WriteRecord("网点交接", "款箱扫描");
                 ScanYLBox();
                 break;
             case R.id.yltransfer_btn_nonelable:
-                YLRecord.WriteRecord("网点交接","手输单号");
+                YLRecord.WriteRecord("网点交接", "手输单号");
                 NoLableBox();
                 break;
             case R.id.yltransfer_btn_ent:
@@ -637,49 +641,49 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             case R.id.yltransfer_btn_boxtype:
                 ShowBoxtype();
 //                ChooseBox.setBoxType(yltransfer_btn_boxtype.getText().toString());
-                YLRecord.WriteRecord("网点交接","临时箱选择"+yltransfer_btn_boxtype.getText().toString());
+                YLRecord.WriteRecord("网点交接", "临时箱选择" + yltransfer_btn_boxtype.getText().toString());
                 break;
             case R.id.yltransfer_rbtn_get:
                 ChooseBox.setTradeAction("收");
-                YLRecord.WriteRecord("网点交接","设置收箱");
+                YLRecord.WriteRecord("网点交接", "设置收箱");
                 break;
             case R.id.yltransfer_rbtn_give:
                 ChooseBox.setTradeAction("送");
-                YLRecord.WriteRecord("网点交接","设置送箱");
+                YLRecord.WriteRecord("网点交接", "设置送箱");
                 break;
             case R.id.yltransfer_rbtn_full:
                 ChooseBox.setBoxStatus("实");
-                YLRecord.WriteRecord("网点交接","设置实箱");
+                YLRecord.WriteRecord("网点交接", "设置实箱");
                 break;
             case R.id.yltransfer_rbtn_empty:
                 ChooseBox.setBoxStatus("空");
-                YLRecord.WriteRecord("网点交接","设置空箱");
+                YLRecord.WriteRecord("网点交接", "设置空箱");
                 break;
             case R.id.yltransfer_cb_complie:
-                if (yltransfer_cb_complie.isChecked()){
+                if (yltransfer_cb_complie.isChecked()) {
                     ChooseBox.setRemark("1");
-                    YLRecord.WriteRecord("网点交接","设置补打");
-                }else {
+                    YLRecord.WriteRecord("网点交接", "设置补打");
+                } else {
                     ChooseBox.setRemark("0");
-                    YLRecord.WriteRecord("网点交接","设置不补打");
+                    YLRecord.WriteRecord("网点交接", "设置不补打");
                 }
                 break;
             case R.id.yltransfer_cb_date:
                 if (yltransfer_cb_date.isChecked()) {
                     ChooseBox.setNextOutTime("2099-12-31");
-                    YLRecord.WriteRecord("网点交接","设置长期寄库");
+                    YLRecord.WriteRecord("网点交接", "设置长期寄库");
                 } else {
                     ChooseBox.setNextOutTime(PickDate);
-                    YLRecord.WriteRecord("网点交接","设置寄库日期："+PickDate);
+                    YLRecord.WriteRecord("网点交接", "设置寄库日期：" + PickDate);
                 }
                 break;
             case R.id.yltransfer_cb_ToT:
-                if (yltransfer_cb_ToT.isChecked()){
+                if (yltransfer_cb_ToT.isChecked()) {
                     ChooseBox.setBoxToT("1");
-                    YLRecord.WriteRecord("网点交接","设置即日收送");
-                }else {
+                    YLRecord.WriteRecord("网点交接", "设置即日收送");
+                } else {
                     ChooseBox.setBoxToT("0");
-                    YLRecord.WriteRecord("网点交接","设置非即日收送");
+                    YLRecord.WriteRecord("网点交接", "设置非即日收送");
                 }
                 break;
             case R.id.yltransfer_cb_scan://连续扫描
@@ -693,11 +697,11 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 break;
             case R.id.yltransfer_cb_ylclearing:
 
-                if (yltransfer_cb_ylclearing.isChecked()){
-                    YLRecord.WriteRecord("网点交接","设置粤龙清分");
+                if (yltransfer_cb_ylclearing.isChecked()) {
+                    YLRecord.WriteRecord("网点交接", "设置粤龙清分");
                     ChooseBox.setYlclearing("1");
-                }else {
-                    YLRecord.WriteRecord("网点交接","设置非粤龙清分");
+                } else {
+                    YLRecord.WriteRecord("网点交接", "设置非粤龙清分");
                     ChooseBox.setYlclearing("0");
                 }
                 break;
@@ -705,9 +709,9 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     }
 
     private void NoLableBox() {
-        if (yltransfer_rbtn_get.isChecked()){
+        if (yltransfer_rbtn_get.isChecked()) {
             if (!yltransfer_rbtn_full.isChecked()
-                    & !yltransfer_rbtn_empty.isChecked()){
+                    & !yltransfer_rbtn_empty.isChecked()) {
                 YLMessagebox("收箱前请选择空实状态");
                 return;
             }
@@ -724,25 +728,25 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String input = et.getText().toString();
-                        if (input.length() !=10||input.equals("")) {
+                        if (input.length() != 10 || input.equals("")) {
                             Toast.makeText(getApplicationContext(), "输入标签有误！", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (yltransfer_rbtn_get.isChecked()){
+                            if (yltransfer_rbtn_get.isChecked()) {
                                 GetBox(input);
-                            }else {
+                            } else {
                                 GiveBox(input);
                             }
                         }
                     }
-                }).setNegativeButton("取消",null).show();
+                }).setNegativeButton("取消", null).show();
 
     }
 
     private void Print() {
-        AlertDialog.Builder builder  = new AlertDialog.Builder(YLtransfer.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
         builder.setTitle("请选择打印类别？");
-        final String[] multiChoiceItems = {"打印汇总","打印明细"};
-        final boolean[] defaultSelectedStatus = {false,false};
+        final String[] multiChoiceItems = {"打印汇总", "打印明细"};
+        final boolean[] defaultSelectedStatus = {false, false};
         builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
@@ -752,10 +756,10 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (defaultSelectedStatus[0]){
+                if (defaultSelectedStatus[0]) {
                     PrintGather();
                 }
-                if (defaultSelectedStatus[1]){
+                if (defaultSelectedStatus[1]) {
                     PrintDetail();
                 }
                 dialogInterface.dismiss();
@@ -781,12 +785,15 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     //到达完成交接
     private void ArriveAndAchieve() {
-        switch (yltransfer_btn_ent.getText().toString()){
-            case "到达": ArriveNetPoint();
+        switch (yltransfer_btn_ent.getText().toString()) {
+            case "到达":
+                ArriveNetPoint();
                 break;
-            case "完成": AchieveTask();
+            case "完成":
+                AchieveTask();
                 break;
-            case "返回":YLtransfer.this.finish();
+            case "返回":
+                YLtransfer.this.finish();
                 break;
         }
     }
@@ -800,14 +807,14 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 //完成交接
-                ylTask =  ytdo.AcieveData(ChooseBox.getSiteID(),arriveTime,ylTask,TaskTimeID);
+                ylTask = ytdo.AcieveData(ChooseBox.getSiteID(), arriveTime, ylTask, TaskTimeID);
                 tasksManager.SaveTask(getApplicationContext());
 //                MyLog("车内款箱数量："+ylTask.getLstCarBox().size());
                 yltransfer_btn_print.setEnabled(true);
                 yltransfer_btn_ent.setText("返回");
                 Scanflag = true;
                 YLtransferDataOperate.setSiteTaskTimeID(0);
-                YLRecord.WriteRecord("网点交接","完成交接 TaskTimeID:"+TaskTimeID);
+                YLRecord.WriteRecord("网点交接", "完成交接 TaskTimeID:" + TaskTimeID);
                 YLtransfer.this.finish();
                 dialogInterface.dismiss();
             }
@@ -824,10 +831,10 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     //到达初始化数据
     private void ArriveNetPoint() {
-        AlertDialog.Builder builder  = new AlertDialog.Builder(YLtransfer.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
         builder.setTitle("是否到达网点？");
-        final String[] multiChoiceItems = {"送箱网点交接提示","收箱线路网点提示"};
-        final boolean[] defaultSelectedStatus = {true,true};
+        final String[] multiChoiceItems = {"送箱网点交接提示", "收箱线路网点提示"};
+        final boolean[] defaultSelectedStatus = {true, true};
         builder.setMultiChoiceItems(multiChoiceItems, defaultSelectedStatus, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i, boolean b) {
@@ -850,8 +857,8 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
                 //判断是否需要加载车内款箱数
                 boolean loadcarbox = ycdo.LoadCarboxlist(ylTask);
-                if (loadcarbox){
-                    YLRecord.WriteRecord("网点交接","加载车内款箱数");
+                if (loadcarbox) {
+                    YLRecord.WriteRecord("网点交接", "加载车内款箱数");
                     LoadandupdateCarbox();
                 }
                 yltransfer_btn_ent.setText("完成");
@@ -859,12 +866,12 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 yltransfer_btn_nonelable.setEnabled(true);
 
                 String siteid = yltransfer_tv_title.getTag().toString();
-                arriveTime = ytdo.AddArriveTime(ylTask,siteid,TaskTimeID);
+                arriveTime = ytdo.AddArriveTime(ylTask, siteid, TaskTimeID);
                 ChooseBox.setSiteID(siteid);
                 ChooseBox.setTimeID(arriveTime.getTimeID());
                 YLtransferDataOperate.setSitetimeID(arriveTime.getTimeID());
-                YLRecord.WriteRecord("网点交接","到达网点:"+yltransfer_tv_title.getText()+
-                "TaskTimeID"+TaskTimeID+"送箱提示"+GiveNetPointCheck+"收箱提示:"+GetNetPointCheck);
+                YLRecord.WriteRecord("网点交接", "到达网点:" + yltransfer_tv_title.getText() +
+                        "TaskTimeID" + TaskTimeID + "送箱提示" + GiveNetPointCheck + "收箱提示:" + GetNetPointCheck);
                 dialogInterface.dismiss();
             }
         });
@@ -885,12 +892,12 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         //出入库款箱修改界面修改后有bug不能获取最新列表ID
         try {
             String yltaskid = ylTask.getTaskID();
-            String boxoutid = ycdo.GetCarBoxOutID(getApplicationContext(),yltaskid);
+            String boxoutid = ycdo.GetCarBoxOutID(getApplicationContext(), yltaskid);
             int count = YLCarBoxOperate.getYLCurrectCarBoxList().size();
-            if (count > 0){
+            if (count > 0) {
                 String localboxoutid = YLCarBoxOperate.getYLCurrectCarBoxList().get(0).getServerReturn();
-                if (!localboxoutid.equals(boxoutid)){
-                   ycdo.UpdateCarbox(getApplicationContext(),yltaskid);
+                if (!localboxoutid.equals(boxoutid)) {
+                    ycdo.UpdateCarbox(getApplicationContext(), yltaskid);
                 }
             }
         } catch (Exception e) {
@@ -908,15 +915,15 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        PickDate = YLSysTime.IntToStrDate(year,monthOfYear,dayOfMonth);
+                        PickDate = YLSysTime.IntToStrDate(year, monthOfYear, dayOfMonth);
                         yltransfer_btn_date.setText(PickDate);
-                        if (TodayStrDate.equals(PickDate)){
+                        if (TodayStrDate.equals(PickDate)) {
                             ChooseBox.setNextOutTime("");
-                        }else {
+                        } else {
                             ChooseBox.setNextOutTime(PickDate);
                         }
                     }
-                },year,Month,day);
+                }, year, Month, day);
         datePickerDialog.show();
     }
 
@@ -932,7 +939,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             yltransfer_tv_cardbox.setText(s.get(5));
             yltransfer_tv_Voucher.setText(s.get(6));
             yltransfer_tv_Voucherbag.setText(s.get(7));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -961,74 +968,79 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                                 ChooseBox.setBoxType("凭证袋");
                                 break;
                         }
-                        YLRecord.WriteRecord("网点交接","选择款箱类型："+ChooseBox.getBoxType());
+                        YLRecord.WriteRecord("网点交接", "选择款箱类型：" + ChooseBox.getBoxType());
                         dialogInterface.dismiss();
                     }
 
                 }).show();
     }
 
-    private void StopScan(){
+    private void StopScan() {
         Scan1DCmd(0);
         yltransfer_btn_scan.setText("扫描");
         ylMediaPlayer.SuccessOrFail(false);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode){
-            case 131:ScanYLBox();
+    public void HandSetHotKey(int keyCode) {
+        switch (keyCode) {
+            case 131:
+                ScanYLBox();
                 break;
-            case 132:ScanYLBox();
+            case 132:
+                ScanYLBox();
                 break;
-            case 133:ScanYLBox();
+            case 133:
+                ScanYLBox();
                 break;
-            case 134:ScanYLBox();
+            case 134:
+                ScanYLBox();
                 break;
-            case 4:LeaveAction();
+            case 4:
+                LeaveAction();
                 break;
         }
-        return super.onKeyDown(keyCode, event);
+        super.HandSetHotKey(keyCode);
     }
 
     //款箱扫描
     private void ScanYLBox() {
-        if (Scanflag)return;
+        if (Scanflag) return;
 //        if (GiveNetPointCheck)return;
-        if (CheckRadioButton().trim().length() > 0){
+        if (CheckRadioButton().trim().length() > 0) {
             YLMessagebox(CheckRadioButton());
             return;
         }
 
-        if (yltransfer_cb_scan.isChecked()){
-            if (yltransfer_btn_scan.getText().equals("扫描")){
+        if (yltransfer_cb_scan.isChecked()) {
+            if (yltransfer_btn_scan.getText().equals("扫描")) {
                 yltransfer_btn_scan.setText("停止");
-                YLRecord.WriteRecord("网点交接","多次扫描");
+                YLRecord.WriteRecord("网点交接", "多次扫描");
                 Scan1DCmd(2);
-            }else {
+            } else {
                 yltransfer_btn_scan.setText("扫描");
-                YLRecord.WriteRecord("网点交接","提示扫描");
+                YLRecord.WriteRecord("网点交接", "提示扫描");
                 Scan1DCmd(0);
             }
-        }else {
-            YLRecord.WriteRecord("网点交接","单次扫描");
+        } else {
+            YLRecord.WriteRecord("网点交接", "单次扫描");
             Scan1DCmd(1);
         }
     }
 
-    private String CheckRadioButton(){
+    private String CheckRadioButton() {
         String str = "";
-        if (yltransfer_btn_ent.getText().equals("到达")){
+        if (yltransfer_btn_ent.getText().equals("到达")) {
             str = "请先到达再扫描交接";
-            return  str;
+            return str;
         }
 
-        if (!yltransfer_rbtn_get.isChecked() & !yltransfer_rbtn_give.isChecked()){
+        if (!yltransfer_rbtn_get.isChecked() & !yltransfer_rbtn_give.isChecked()) {
             str = "收送类型未选择";
             return str;
         }
-        if (yltransfer_rbtn_get.isChecked()){
-            if (!yltransfer_rbtn_full.isChecked() & !yltransfer_rbtn_empty.isChecked()){
+        if (yltransfer_rbtn_get.isChecked()) {
+            if (!yltransfer_rbtn_full.isChecked() & !yltransfer_rbtn_empty.isChecked()) {
                 str = "空实状态未选择";
             }
         }
@@ -1037,7 +1049,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     //返回按钮
     private void LeaveAction() {
-        if (yltransfer_btn_ent.getText().equals("到达")){
+        if (yltransfer_btn_ent.getText().equals("到达")) {
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             return;
@@ -1049,7 +1061,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                ylTask.setLstCarBox(CarBoxListnosave);
-                YLRecord.WriteRecord("网点交接","未完成离开");
+                YLRecord.WriteRecord("网点交接", "未完成离开");
                 finish();
                 dialog.dismiss();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -1066,19 +1078,19 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
 
     @Override
     protected void onStop() {
-        YLRecord.WriteRecord("网点交接","离开网点交接");
+        YLRecord.WriteRecord("网点交接", "离开网点交接");
         super.onStop();
     }
 
     @Override
     protected void onPostResume() {
-        MyLog(YLtransferDataOperate.Transferingboxes.size()+"返回数量");
+        MyLog(YLtransferDataOperate.Transferingboxes.size() + "返回数量");
         TallyBox();
         CleanShow();
         super.onPostResume();
     }
 
-    private void CleanShow(){
+    private void CleanShow() {
         yltransfer_tv_boxname.setText("");
         yltransfer_tv_boxtot.setText("");
         yltransfer_tv_boxaction.setText("");
@@ -1096,18 +1108,18 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings){
-            if (yltransfer_btn_ent.getText().toString().equals("到达")){
-                YLRecord.WriteRecord("网点交接","非交接状态款箱编辑");
+        if (id == R.id.action_settings) {
+            if (yltransfer_btn_ent.getText().toString().equals("到达")) {
+                YLRecord.WriteRecord("网点交接", "非交接状态款箱编辑");
                 YLtransferDataOperate.setSiteTaskTimeID(0);
-            }else {
-                YLRecord.WriteRecord("网点交接","交接状态款箱编辑");
+            } else {
+                YLRecord.WriteRecord("网点交接", "交接状态款箱编辑");
                 YLtransferDataOperate.setSiteTaskTimeID(TaskTimeID);
             }
 
             YLstartActivity(YLtransferedi.class);
 
-        }else if (id == R.id.action_settings2){
+        } else if (id == R.id.action_settings2) {
             ShowRefreshDialog();
         }
 
@@ -1115,7 +1127,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     }
 
     private void ShowRefreshDialog() {
-        if (!yltransfer_btn_ent.getText().equals("完成"))return;
+        if (!yltransfer_btn_ent.getText().equals("完成")) return;
         AlertDialog.Builder builder = new AlertDialog.Builder(YLtransfer.this);
         builder.setMessage("是否刷新到达时间?");
         builder.setTitle("提示");
@@ -1128,7 +1140,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                YLRecord.WriteRecord("网点交接","刷新到达时间");
+                YLRecord.WriteRecord("网点交接", "刷新到达时间");
                 arriveTime.setATime(YLSysTime.GetStrCurrentTime());
                 dialogInterface.dismiss();
             }
