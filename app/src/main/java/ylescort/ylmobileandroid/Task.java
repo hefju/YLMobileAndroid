@@ -102,7 +102,6 @@ public class Task extends ActionBarActivity {
 //            yltask_datepicker.init(2016, 7, 12, new DatePicker.OnDateChangedListener() {
 //                @Override
 //                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
-//
 //                }
 //            });
 
@@ -303,7 +302,7 @@ public class Task extends ActionBarActivity {
         if (noworold.equals("now")){
             time = format.format(calendar.getTime());
         }else{
-            calendar = YLSysTime.AddDateString(calendar,-30);
+            calendar = YLSysTime.AddDateString(calendar,-15);
             time = format.format(calendar.getTime());
         }
 
