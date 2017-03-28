@@ -419,6 +419,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="10sp"
             android:layout_weight="1"
+            android:textSize="20sp"
             android:text="@string/HomTmp_scan_btn_scan"/>
 
         <Button
@@ -426,6 +427,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textSize="20sp"
             android:text="@string/box_btn_nolable"/>
 
         <Button
@@ -433,6 +435,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textSize="20sp"
             android:text="@string/box_btn_arrive"/>
     </LinearLayout>
 </LinearLayout>
