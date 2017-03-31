@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="ylescort.ylmobileandroid.YLtransfer">
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/yltransfer_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/box_tv_title"
+            android:textColor="@color/darkorange"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boxitem_Boxid"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/yltransfer_tv_boxname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boxitem_TradeAction"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/yltransfer_tv_boxaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:textColor="@color/black"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/boxitem_type"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/yltransfer_tv_boxtype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/boxitem_tot"/>
+
+        <TextView
+            android:id="@+id/yltransfer_tv_boxtot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10sp"
+        android:layout_weight="1"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boxitem_Status"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/yltransfer_tv_boxstaut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:textColor="@color/black"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/boxitem_tasktype"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:id="@+id/yltransfer_tv_tasktype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:text="@string/homscanbox_tasktype"
+            android:textSize="20sp"/>
+
+        <Spinner
+            android:id="@+id/yltransfer_sp_tasktype"
+            android:layout_width="120sp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="5sp"
+            android:background="@color/lightblue"
+            android:spinnerMode="dialog">
+        </Spinner>
+
+        <Button
+            android:id="@+id/yltransfer_btn_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5sp"
+            android:layout_marginStart="10sp"
+            android:layout_marginTop="5sp"
+            android:text="@string/hom_ylbox_btn_date"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        android:gravity="center">
+
+        <CheckBox
+
+            android:id="@+id/yltransfer_cb_ToT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:layout_weight="1"
+            android:text="@string/homscanbox_cb_ToT"
+            android:textColor="@color/androidpurplel"
+            android:textSize="20sp"/>
+
+        <CheckBox
+            android:id="@+id/yltransfer_cb_ylclearing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/homscanbox_cb_ylclearing"
+            android:textColor="@color/androidgreenl"
+            android:textSize="20sp"/>
+
+        <CheckBox
+            android:id="@+id/yltransfer_cb_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/homscanbox_cb_date"
+            android:textColor="@color/androidblued"
+            android:textSize="20sp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        android:gravity="center">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/yltransfer_rbtn_get"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/box_tv_get"
+                android:textSize="25sp"/>
+
+            <RadioButton
+                android:id="@+id/yltransfer_rbtn_give"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/box_tv_give"
+                android:textSize="25sp"/>
+
+        </RadioGroup>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        android:gravity="center">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/yltransfer_rbtn_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/box_tv_full"
+                android:textSize="25sp"/>
+
+            <RadioButton
+                android:id="@+id/yltransfer_rbtn_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/box_tv_empty"
+                android:textSize="25sp"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/yltransfer_btn_boxtype"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/box_btn_boxtype"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/yltransfer_cb_scan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/box_cb_scan"
+                    android:textColor="@color/androidredl"
+                    android:textSize="25sp"/>
+
+                <CheckBox
+                    android:id="@+id/yltransfer_cb_complie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/box_cb_complie"
+                    android:textColor="@color/androidgreenl"
+                    android:textSize="25sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/border"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/yltransfer_tv_moneybox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/boxitem_monenybox"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/yltransfer_tv_Voucher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/boxitem_Voucherbox"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/boxitem_cardbox"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/boxitem_Voucherboxbag"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransfer_ll_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/border"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/yltransfer_btn_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:text="@string/HomTmp_scan_btn_print"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/yltransfer_btn_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10sp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="@string/HomTmp_scan_btn_scan"/>
+
+        <Button
+            android:id="@+id/yltransfer_btn_nonelable"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="@string/box_btn_nolable"/>
+
+        <Button
+            android:id="@+id/yltransfer_btn_ent"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="@string/box_btn_arrive"/>
+    </LinearLayout>
+</LinearLayout>

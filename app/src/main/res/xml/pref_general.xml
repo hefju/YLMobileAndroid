@@ -1,0 +1,61 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<CheckBoxPreference-->
+        <!--android:key="example_checkbox"-->
+        <!--android:title="@string/pref_title_social_recommendations"-->
+        <!--android:summary="@string/pref_description_social_recommendations"-->
+        <!--android:defaultValue="true" />-->
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <PreferenceCategory android:title="设备">
+    <EditTextPreference
+        android:key="HandsetName"
+        android:title="@string/pref_title_display_name"
+        android:defaultValue="@string/pref_default_display_name"
+        android:selectAllOnFocus="true"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="服务">
+        <CheckBoxPreference
+            android:key="TestOrNot"
+            android:title="测试服务"/>
+    </PreferenceCategory>
+
+<PreferenceCategory android:title="系统">
+    <Preference android:key="CacheData" android:title="缓存基础数据" android:summary="缓存人员,网点,客户,钱箱">
+        <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
+    </Preference>
+    <Preference android:key="CacheLastUpdate" android:title="上次缓存时间" android:defaultValue="All"
+        android:summary="All">
+    </Preference>
+    <Preference android:key="CacheCleanData" android:title="清除缓存数据"
+        android:summary="删除基础数据:人员,网点,客户,钱箱">
+    </Preference>
+
+    <Preference
+        android:key="GetNewVersion"
+        android:title="检查新版本">
+        <!--<intent android:action="android.settings.SYNC_SETTINGS" />-->
+    </Preference>
+
+    <Preference
+        android:key="version"
+        android:title="版本">
+    </Preference>
+    <EditTextPreference
+        android:key="UHFPower"
+        android:summary="功率范围：20-33"
+        android:title="@string/uhfpowername"
+        android:defaultValue="@string/uhfpower"
+        android:selectAllOnFocus="true"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1"/>
+</PreferenceCategory>
+
+</PreferenceScreen>

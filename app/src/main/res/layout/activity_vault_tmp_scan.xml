@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ylescort.ylmobileandroid.vault_tmp_scan">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vaulttmp_scan_ll_title"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vaulttmp_scan_tv_title"
+            android:textSize="30sp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vaulttmp_scan_ll_title"
+        android:layout_above="@+id/vaulttmp_scan_ll_oper">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vaulttmp_scan_listview">
+        </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vaulttmp_scan_ll_oper"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/vaulttmp_scan_btn_scan"
+            android:text="@string/valuttmp_scan_btn_scan"
+            android:background="@color/androidblued"/>
+        <Button
+            android:layout_width="120sp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:id="@+id/vaulttmp_scan_btn_upload"
+            android:text="@string/valuttmp_scan_btn_upload"
+            android:background="@color/androidyellowl"/>
+    </LinearLayout>
+</RelativeLayout>

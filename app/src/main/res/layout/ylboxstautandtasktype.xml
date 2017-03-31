@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/boxstaut_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/boxstaut_empty"
+                android:textSize="25sp" />
+
+            <RadioButton
+                android:id="@+id/boxstaut_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/boxstaut_full"
+                android:textSize="25sp" />
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/boxstaut_ToT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tasktype_ToT"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp">
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/boxstaut_gog"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:checked="true"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/tasktype_gog"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/boxstaut_upordown"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/tasktype_upordown"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/boxstaut_samebankdispatch"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/tasktype_samebankdispatch"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/boxstaut_differentbankdispatch"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/tasktype_differentbankdispatch"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/boxstaut_compelygog"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/tasktype_compelygog"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/boxstaut_invaultbox"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/tasktype_invaultbox"
+                android:textSize="20sp" />
+        </RadioGroup>
+    </LinearLayout>
+</LinearLayout>

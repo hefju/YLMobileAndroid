@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ylprinter_ll_title"
+    android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ylprinter_title"
+        android:textSize="30sp"/>
+    <Spinner
+        android:layout_width="110sp"
+        android:layout_height="match_parent"
+        android:id="@+id/ylprinter_sp"
+        android:background="@color/lightblue"
+        android:gravity="center"
+        android:layout_marginStart="10sp"
+        android:paddingStart="30sp"
+        android:paddingEnd="10sp">
+    </Spinner>
+
+</LinearLayout>
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ylprinter_rl_detail"
+    android:layout_below="@+id/ylprinter_ll_title">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ylprinter_tv_give"
+        android:textColor="@color/androidgreend"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ylprinter_tv_get"
+        android:layout_below="@+id/ylprinter_tv_give"
+        android:textColor="@color/androidblued"
+        android:layout_marginTop="10sp"
+        android:textSize="20sp"/>
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ylprinter_sw"
+        android:layout_marginStart="20sp"
+        android:layout_below="@+id/ylprinter_tv_get"
+        android:textOn="@string/ylprinter_sw_texton"
+        android:textOff="@string/ylprinter_sw_textoff"
+        android:text="@string/ylprinter_sw_text"
+        android:textSize="20sp"
+        android:visibility="gone"/>
+
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ylprinter_rl_lv"
+        android:layout_below="@+id/ylprinter_rl_detail"
+        android:layout_above="@+id/ylprinter_rl_btn">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ylprinter_lv">
+        </ListView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ylprinter_rl_btn">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ylprinter_btn_gather"
+            android:layout_alignParentStart="true"
+            android:text="@string/ylprinter_btn_gather"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ylprinter_btn_detail"
+            android:layout_marginStart="12sp"
+            android:layout_toEndOf="@+id/ylprinter_btn_gather"
+            android:text="@string/ylprinter_btn_detail"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ylprinter_btn_readhf"
+            android:layout_toStartOf="@+id/ylprinter_btn_cancel"
+            android:layout_marginEnd="12sp"
+            android:text="@string/ylprinter_btn_readcard"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ylprinter_btn_cancel"
+            android:layout_alignParentEnd="true"
+            android:text="@string/ylprinter_btn_cancel"/>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="ylescort.ylmobileandroid.HomTmp_Scan">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/HomTmp_Scan_ll_title">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/HomTmp_Scan_tv_title"
+            android:textSize="20sp"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Homtmp_Scan_tv_basename"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/HomTmp_Scan_ll_title"
+        android:layout_above="@+id/HomTmp_Scan_ll_oper">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/HomTmp_Scan_listview">
+        </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40sp"
+        android:id="@+id/HomTmp_Scan_ll_oper"
+        android:gravity="center"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/HomTmp_Scan_btn_apply"
+            android:text="@string/HomTmp_scan_applycation"
+            android:layout_weight="1"
+            android:background="@color/androidgreenl"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="15sp"
+            android:id="@+id/HomTmp_Scan_btn_refresh"
+            android:text="@string/HomTmp_scan_btn_refersh"
+            android:background="@color/androidpurplel"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/HomTmp_Scan_btn_scan"
+            android:layout_weight="1"
+            android:text="@string/HomTmp_scan_btn_scan"
+            android:background="@color/androidblued"
+            android:layout_marginStart="15sp"
+            android:enabled="false"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="15sp"
+            android:id="@+id/HomTmp_Scan_btn_upload"
+            android:text="@string/HomTmp_scan_btn_upload"
+            android:background="@color/androidyellowl"
+            android:enabled="false"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

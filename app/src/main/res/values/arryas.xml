@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tasktype">
+        <item>早送</item>
+        <item>晚收</item>
+        <item>日间上介</item>
+        <item>日间下介</item>
+        <item>库内上介</item>
+        <item>库内下介</item>
+        <item>日间跨行调拨</item>
+        <item>日间同行调拨</item>
+        <item>库内跨行调拨</item>
+        <item>企业即收即送</item>
+        <item>企业次日送</item>
+        <item>长途押运</item>
+        <item>寄库箱</item>
+    </string-array>
+
+    <string-array name="TaskType">
+        <item>早送晚收</item>
+        <item>上下介</item>
+        <item>同行调拨</item>
+        <item>跨行调拨</item>
+        <item>企业收送款</item>
+        <item>寄库箱</item>
+    </string-array>
+
+    <array name="ylboxfullorempty">
+        <item>实箱</item>
+        <item>空箱</item>
+        <item>删除</item>
+    </array>
+
+    <string-array name="ylboxvalut">
+        <item>实款箱</item>
+        <item>实卡箱</item>
+        <item>实凭证箱</item>
+        <item>实凭证袋</item>
+        <item>空款箱</item>
+        <item>空卡箱</item>
+        <item>空凭证箱</item>
+        <item>空凭证袋</item>
+        <item>"删  除"</item>
+    </string-array>
+    <string-array name="vaultcheck">
+        <item>南海基地</item>
+        <item>大良基地</item>
+        <item>乐从基地</item>
+        <item>三水基地</item>
+        <item>补打标签</item>
+    </string-array>
+
+    <string-array name="basedepartment">
+        <item>南海基地</item>
+        <item>大良基地</item>
+        <item>乐从基地</item>
+        <item>三水基地</item>
+    </string-array>
+
+    <string-array name="baseNameanddelet">
+        <item>南海基地</item>
+        <item>大良基地</item>
+        <item>乐从基地</item>
+        <item>三水基地</item>
+        <item>删除</item>
+    </string-array>
+
+    <string-array name="ylboxtype">
+        <item>款箱</item>
+        <item>卡箱</item>
+        <item>凭证箱</item>
+        <item>凭证袋</item>
+    </string-array>
+</resources>

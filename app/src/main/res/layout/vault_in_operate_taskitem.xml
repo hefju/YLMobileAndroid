@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20sp"
+                android:textSize="25sp"
+                android:id="@+id/vault_in_operate_taskitme_taskname"
+                android:text="任务名称"/>
+
+        </LinearLayout>
+       <RelativeLayout
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           >
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="25sp"
+               android:id="@+id/vault_in_operate_taskitme_handoverman"
+               android:layout_marginStart="20sp"
+               android:text="执行人"/>
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textSize="25sp"
+               android:layout_alignParentEnd="true"
+               android:id="@+id/vault_in_operate_taskitme_taskstaut"
+               android:text="执行状态"/>
+       </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

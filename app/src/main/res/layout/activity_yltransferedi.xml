@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ylescort.ylmobileandroid.YLtransferedi">
+
+    <LinearLayout
+        android:id="@+id/yltransferedi_ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/yltransferedi_tv_title"
+            style="@style/TextSize25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/royalblue"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransferedi_ll_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/yltransferedi_ll_tasktype"
+        android:layout_below="@+id/yltransferedi_ll_title">
+
+        <ListView
+            android:id="@+id/yltransferedi_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ListView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/yltransferedi_ll_tasktype"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/yltransferedi_rl"
+        android:gravity="center">
+
+        <TextView
+            style="@style/TextSize20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boxitem_tasktype"/>
+
+        <Spinner
+            android:id="@+id/yltransferedi_sp_tasktype"
+            android:layout_width="110sp"
+            android:layout_height="30sp"
+            android:background="@color/lightblue"
+            android:minHeight="30sp"
+            android:spinnerMode="dialog">
+        </Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="顺序:"
+            android:textSize="20sp"/>
+
+        <Spinner
+            android:id="@+id/yltransferedi_sp_TimeID"
+            android:layout_width="70sp"
+            android:layout_height="30sp"
+            android:background="@color/lightblue"
+            android:minHeight="30sp">
+        </Spinner>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransferedi_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/yltransferedi_ll_button"
+        android:background="@color/mintcream"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/yltransferedi_tv_gog"
+            style="@style/TextSize25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/yltransferedi_tv_eof"
+            style="@style/TextSize25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/yltransferedi_tv_mac"
+            style="@style/TextSize25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/yltransferedi_tv_vab"
+            style="@style/TextSize25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/yltransferedi_ll_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/yltransferedi_btn_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:text="@string/YLtransferedi_save"/>
+
+        <Button
+            android:id="@+id/yltransferedi_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:text="@string/YLtransferedi_back"/>
+
+        <Button
+            android:id="@+id/yltransferedi_btn_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15sp"
+            android:text="@string/YLtransferedi_del"/>
+    </LinearLayout>
+
+</RelativeLayout>

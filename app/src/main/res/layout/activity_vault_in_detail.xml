@@ -1,0 +1,169 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ylescort.ylmobileandroid.vault_in_detail">
+
+    <LinearLayout
+        android:id="@+id/vault_in_detail_LL_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/vault_in_detail_tv_taskname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_out_detail_tv_taskname"
+            android:textColor="@color/royalblue"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vault_in_detail_LL_listtital"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/vault_in_detail_LL_info">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/vault_out_detail_tv_boxname" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10sp"
+            android:textSize="20sp"
+            android:textColor="@color/androidredl"
+            android:id="@+id/vault_in_detail_tv_boxname" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vault_in_detail_LL_listview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vault_in_detail_LL_boxstype"
+        android:layout_below="@+id/vault_in_detail_LL_listtital">
+
+        <ListView
+            android:id="@+id/vault_in_detail_listview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vault_in_detail_LL_boxstype"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vault_in_detail_LL_tolly"
+        android:gravity="center">
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/vault_in_detail_rbtn_allbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/vault_out_detail_btn_Allbox"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/vault_in_detail_rbtn_lackbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:textColor="@color/androidbluel"
+                android:text="@string/vault_out_detail_btn_Lack"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/vault_in_detail_rbtn_morebox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:textColor="@color/orange"
+                android:text="@string/vault_out_detail_btn_more"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/vault_in_detail_rbtn_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:textColor="@color/androidgreenl"
+                android:text="@string/vault_out_detail_btn_order"
+                android:textSize="20sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/vault_in_detail_LL_tolly"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/vault_in_detail_LL_button"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/vault_in_detail_tv_tolly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/vault_in_detail_tv_tolly"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/vault_in_detail_tv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vault_in_detail_tv_tolly"
+            android:text="@string/vault_in_detail_tv_check"
+            android:textSize="20sp" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/vault_out_detail_btn_order"
+            android:text="@string/vault_out_detail_btn_time"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/vault_in_detail_LL_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="5sp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/vault_in_detail_btn_scan1d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:text="@string/vault_out_detail_btn_sacan1d" />
+
+        <Button
+            android:id="@+id/vault_in_detail_btn_scanuhf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:visibility="gone"
+            android:text="@string/vault_out_detail_btn_sacanuhf" />
+
+        <Button
+            android:id="@+id/vault_in_detail_btn_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:text="@string/vault_out_detail_btn_enter" />
+
+        <Button
+            android:id="@+id/vault_in_detail_btn_cleanmore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5sp"
+            android:text="@string/vault_out_detail_btn_cleanmore" />
+    </LinearLayout>
+</RelativeLayout>

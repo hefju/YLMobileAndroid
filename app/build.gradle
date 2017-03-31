@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "ylescort.ylmobileandroid"
+        minSdkVersion 17
+        targetSdkVersion 21
+        versionCode 5
+        versionName "1.1.2"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    compile files('libs/uhf.jar')
+    //    compile files('libs/nfc.jar')
+    //    compile files('libs/zpSDK.jar')
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:support-v4:21.0.3'
+    //    compile files('libs/gson-2.2.4.jar')
+    compile files('libs/dev_v1_2.jar')
+    compile files('libs/HF.jar')
+}

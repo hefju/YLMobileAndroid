@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">粤龙保安押运交接端</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">系统设置</string>
+    <string name="UserName">用户名：</string>
+    <string name="UserPassword">密码：</string>
+    <string name="Log_Ent">登陆/F1</string>
+    <string name="Log_readcard">读卡/F2</string>
+    <string name="Log_Can">取消</string>
+    <string name="Log_Test">测试</string>
+    <string name="print">打印</string>
+    <string name="Log_Update">更新</string>
+    <string name="title_activity_task_">任务管理</string>
+    <string name="Task_Name">任务列表</string>
+    <string name="title_activity_task_item">TaskItem</string>
+    <string name="title_activity_site">site</string>
+    <string name="title_activity_box">款箱操作</string>
+    <string name="title_activity_boxlist">款箱明细</string>
+    <string name="title_activity_setup">setup</string>
+    <string name="title_activity_ftask">Ftask</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_taskitem">Taskitem</string>
+    <string name="app_versionName">1.01</string>
+    <string name="title_activity_chong__test">CHONG_TEST</string>
+    <string name="setup_labelPassword">输入密码</string>
+    <string name="action_close">关闭</string>
+    <string name="title_activity_ylsite">网点</string>
+    <string name="title_activity_ylsiteitem">YLsiteitem</string>
+    <string name="title_activity_cache_data_view">CacheDataView</string>
+    <string name="title_activity_ylbox_edit">款箱明细</string>
+    <string name="title_activity_ylbox_scan">数量</string>
+    <!--出入库管理-->
+    <string name="homscanbox_tasktype">交接</string>
+    <string name="homscanbox_cb_date">长期</string>
+    <string name="homscanbox_cb_ToT">即日收送</string>
+    <string name="homscanbox_cb_ylclearing">清分上介</string>
+    <string name="homscanbox_refresh">刷新</string>
+
+    <!--款箱编辑-->
+    <string name="YLtransferedi_save">保存</string>
+    <string name="YLtransferedi_back">返回</string>
+    <string name="YLtransferedi_del">删除</string>
+
+    <!--出入库管理-->
+    <string name="box_tv_title">标题</string>
+    <string name="box_btn_scan1d">扫描/F1</string>
+    <string name="box_btn_nolable">手输</string>
+    <string name="box_btn_arrive">到达</string>
+    <string name="boxitem_monenybox">款箱:0</string>
+    <string name="boxitem_cardbox">卡箱:0</string>
+    <string name="boxitem_Voucherbox">凭证箱:0</string>
+    <string name="boxitem_Voucherboxbag">凭证袋:0</string>
+    <string name="boxitem_order">序号</string>
+    <string name="boxitem_Boxid">箱名:</string>
+    <string name="boxitem_TradeAction">收/送:</string>
+    <string name="boxitem_Status">空/实:</string>
+    <string name="boxitem_type">箱类:</string>
+    <string name="boxitem_tasktype">类型:</string>
+    <string name="boxitem_count">数量:</string>
+    <string name="boxitem_tot">即日：</string>
+    <string name="box_tv_amount">0</string>
+    <string name="box_tv_general">普通</string>
+    <string name="box_tv_transfer">中调</string>
+    <string name="box_tv_empty">空箱:0</string>
+    <string name="box_tv_full">实箱:0</string>
+    <string name="box_tv_get">收箱:0</string>
+    <string name="box_tv_give">送箱:0</string>
+    <string name="box_tv_total">总数:</string>
+    <string name="box_btn_boxtype">款箱类</string>
+    <string name="box_cb_scan">多</string>
+    <string name="box_cb_complie">补</string>
+    <!--出入库管理-->
+    <string name="title_activity_ylbox_operate">YLBoxOperate</string>
+    <string name="title_activity_ylatmlist">ATM列表</string>
+    <string name="title_activity_ylatmdetail">ATM明细</string>
+    <string name="title_activity_kim_test">KimTest</string>
+    <!--出入库管理-->
+    <string name="title_activity_vault_in_or_out">出入库</string>
+    <string name="vaultinorout_btn_in">入库(F1)</string>
+    <string name="vaultinorout_btn_out">出库(F2)</string>
+    <string name="vaultinorout_btn_CheckVault">盘库</string>
+    <string name="vaultinorout_btn_turnover">夜间周转</string>
+    <string name="vaultinorout_btn_tmpinorout">临时出入库</string>
+    <string name="vaultinorout_btn_weight">超重扫描</string>
+    <!--出库管理-->
+    <string name="title_activity_vault_out_operate">出库管理</string>
+    <string name="vault_out_operate_tv_text">任务线路:</string>
+    <string name="vault_out_operate_btn_search">查找/F1</string>
+    <string name="vault_out_operate_btn_readcard">读卡/F2</string>
+    <string name="vault_out_operate_tv_taskname">任务名称</string>
+    <string name="vault_out_operate_tv_taskstaut">状态</string>
+    <!--出库明细-->
+    <string name="title_activity_vault_out_detail">出库明细</string>
+    <string name="vault_out_detail_tv_taskname">任务名称</string>
+    <string name="vault_out_detail_btn_readcard">读卡</string>
+    <string name="vault_out_detail_tv_boxname">箱名:</string>
+    <string name="vault_out_detail_tv_boxstaut">状态</string>
+    <string name="vault_out_detail_tv_boxstype">类型</string>
+    <string name="vault_out_detail_tv_boxtasktype">任务类型</string>
+    <string name="vault_out_detail_tv_boxcheck">核对</string>
+    <string name="vault_out_detail_btn_sacan1d">扫描</string>
+    <string name="vault_out_detail_btn_sacanuhf">UHF</string>
+    <string name="vault_out_detail_btn_cleanmore">清多箱</string>
+    <string name="vault_out_detail_btn_stop">停止</string>
+    <string name="vault_out_detail_btn_enter">确认</string>
+    <string name="vault_out_detail_btn_Allbox">全部</string>
+    <string name="vault_out_detail_btn_Lack">缺箱</string>
+    <string name="vault_out_detail_btn_more">多箱</string>
+    <string name="vault_out_detail_btn_order">顺序</string>
+    <string name="vault_out_detail_btn_time">1</string>
+    <string name="vault_out_detail_btn_save">保存</string>
+    <string name="vault_out_detail_btn_boxtype">类型</string>
+    <string name="vault_out_detail_btn_scanuhf">UHF/F2</string>
+    <!--入库管理-->
+    <string name="title_activity_vault_in_operate">入库管理</string>
+    <string name="vault_in_operate_btn_readcard">读卡/F2</string>
+    <string name="vault_in_operate_btn_line">线路/F1</string>
+    <string name="vault_in_operate_tv_empNo">编号:</string>
+    <string name="vault_in_operate_btn_EmpNO">编号查找</string>
+    <string name="vault_in_operate_btn_Alltask">全部</string>
+    <!--入库明细-->
+    <string name="title_activity_vault_in_detail">入库明细</string>
+    <string name="vault_in_detail_tv_check">汇总:</string>
+    <string name="vault_in_detail_tv_tolly">统计:</string>
+    <string name="vault_in_detail_correct">对</string>
+    <string name="vault_in_detail_more">多</string>
+    <string name="vault_in_detail_lack">缺</string>
+    <!--盘库-->
+    <string name="title_activity_vault_check_ylbox">""</string>
+    <string name="vault_check_ylbox_boxname">所属基地</string>
+    <string name="vault_check_ylbox_basename">盘库人-</string>
+    <string name="vault_check_ylbox_Scan1d">扫描</string>
+    <string name="vault_check_ylbox_complete">补打</string>
+    <string name="vault_check_ylbox_comfrom">上传</string>
+    <string name="vault_check_ylbox_changbase">基地</string>
+    <!--业务员申请-->
+    <string name="title_activity_handoverman_check">入库申请</string>
+    <string name="handoverman_btn_cancel">返回</string>
+    <string name="handoverman_btn_enter">确认</string>
+    <string name="handoverman_btn_invalut">打印</string>
+    <string name="handoverman_btn_carbox">车内箱</string>
+    <!--业务员检测-->
+    <string name="title_activity_local_check">汇总检测</string>
+    <string name="local_check_taskname">任务名称</string>
+    <string name="local_check_sitename">网点名称</string>
+    <string name="local_check_allbox">合计</string>
+    <!--库内中转-->
+    <string name="valut_turnover_title">库内中转</string>
+    <string name="valut_turnover_btn_scan">扫描/F1</string>
+    <string name="valut_turnover_btn_uhf">UHF/F2</string>
+    <string name="valut_turnover_btn_upload">上传</string>
+    <string name="valut_turnover_btn_vaultin">入库</string>
+    <string name="valut_turnover_btn_vaultout">出库</string>
+    <string name="valut_turnover_btn_count">1</string>
+    <string name="valut_turnover_btn_clearmore">清多箱</string>
+    <string name="valut_turnover_rbtn_all">全部</string>
+    <string name="valut_turnover_rbtn_more">多箱</string>
+    <string name="valut_turnover_rbtn_lack">缺箱</string>
+    <string name="valut_turnover_rbtn_count">批次</string>
+    <!--库内中转-->
+    <string name="hom_ylbox_btn_scan">款箱扫描</string>
+    <string name="hom_ylbox_btn_tasktype">交接类型</string>
+    <string name="hom_ylbox_btn_date">日期</string>
+    <!--超高频读写操作-->
+    <string name="yluhfwriter_activityname">超高频读写操作</string>
+    <string name="yluhfwriter_title">红外扫描信息</string>
+    <string name="yluhfwriter_boxname">箱名：</string>
+    <string name="yluhfwriter_boxid">条码：</string>
+    <string name="yluhfwriter_uhftitle">超高频编码</string>
+    <string name="yluhfwriter_uhfno">编码：</string>
+    <string name="yluhfwriter_opertitle">读写操作</string>
+    <string name="yluhfwriter_1dread">红外扫描</string>
+    <string name="yluhfwriter_uhfread">UHF扫描</string>
+    <string name="yluhfwriter_uhfwrite">写入UHF</string>
+    <!--交接类型-->
+    <string name="tasktype_gog">早送晚收</string>
+    <string name="tasktype_upordown">上下介</string>
+    <string name="tasktype_samebankdispatch">同行调拨</string>
+    <string name="tasktype_differentbankdispatch">跨行调拨</string>
+    <string name="tasktype_compelygog">企业收送款</string>
+    <string name="tasktype_invaultbox">寄库箱</string>
+    <string name="tasktype_ToT">即日收送</string>
+    <!--款箱状态-->
+    <string name="boxstaut_full">实</string>
+    <string name="boxstaut_empty">空</string>
+    <!--库管员临时出入库任务-->
+    <string name="valuttmp_inorout_btn_in">临时入库</string>
+    <string name="valuttmp_inorout_btn_out">临时出库</string>
+    <string name="valuttmp_inorout_title">临时出入库</string>
+    <!--库管员临时出入库扫描-->
+    <string name="valuttmp_scan_btn_scan">扫描/F1</string>
+    <string name="valuttmp_scan_btn_upload">上传/F2</string>
+
+    <!--业务员临时出入库扫描-->
+    <string name="HomTmp_scan_applycation">入库</string>
+    <string name="HomTmp_scan_btn_refersh">出库</string>
+    <string name="HomTmp_scan_btn_scan">扫描</string>
+    <string name="HomTmp_scan_btn_print">打印</string>
+    <string name="HomTmp_scan_btn_upload">上传</string>
+    <!--入库汇总-->
+    <string name="vault_in_detail_statistics_title">入库汇总</string>
+    <string name="vault_in_detail_statistics_fullbox">实箱：</string>
+    <string name="vault_in_detail_statistics_emptybox">空箱：</string>
+    <string name="vault_in_detail_statistics_hom">业务员</string>
+    <string name="vault_in_detail_statistics_vault">库管员</string>
+    <string name="vault_in_detail_statistics_surplus">未扫描</string>
+
+    <!--车组交接-->
+    <string name="ylcartocartask">车组交接任务</string>
+    <string name="ylcartocartask_taskname">任务名称</string>
+    <string name="ylcartocartask_btn_get">收箱任务</string>
+    <string name="ylcartocartask_btn_give">送箱任务</string>
+    <string name="ylcartocarScan">车组交接扫描</string>
+    <string name="ylcartocarScan_btn_scan">扫描</string>
+    <string name="ylcartocarScan_upload">上传</string>
+
+    <!--蓝牙打印-->
+    <string name="ylprinter">蓝牙打印</string>
+    <string name="ylprinter_title">到达顺序：</string>
+    <string name="ylprinter_btn_gather">汇总</string>
+    <string name="ylprinter_btn_detail">明细</string>
+    <string name="ylprinter_btn_cancel">取消</string>
+    <string name="ylprinter_btn_readcard">读卡</string>
+    <string name="ylprinter_sw_texton">时间正序</string>
+    <string name="ylprinter_sw_textoff">款箱顺序</string>
+    <string name="ylprinter_sw_text">明细顺序</string>
+
+    <string name="title_activity_launcher">Launcher</string>
+    <string name="title_activity_yllauncher">YLLauncherActivity</string>
+
+    <!--钞盒盘库-->
+    <string name="clientname">客户名称</string>
+    <string name="useclient">使用客户</string>
+    <string name="atmboxname">钞盒名称</string>
+    <string name="atmboxbrand">钞盒品牌</string>
+    <string name="atmboxtype">钞盒类型</string>
+    <string name="atmboxvalue">钞盒面值</string>
+    <string name="atmboxpassageway">钞盒通道</string>
+    <string name="atmboxcode">钞盒条码</string>
+    <string name="atmcheckscan">扫描</string>
+    <string name="atmcheckclean">清除</string>
+    <string name="atmcheckblack">返回</string>
+
+    <!--超重箱-->
+    <string name="overweight_tv_order">序号</string>
+    <string name="overweight_tv_boxname">款箱名称</string>
+    <string name="overweight_tv_boxweight">重量</string>
+    <string name="overweight_tv_kg">KG</string>
+    <string name="overweight_btn_scan">扫描</string>
+    <string name="overweight_btn_upload">上传</string>
+</resources>

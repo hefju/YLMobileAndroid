@@ -1,0 +1,146 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".Login">
+
+    <LinearLayout
+        android:id="@+id/Logic_LL_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/Log_TV_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/UserName"
+            android:textSize="30sp"/>
+
+        <EditText
+            android:id="@+id/Log_ET_Name"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="6"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Logic_LL_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Logic_LL_user">
+
+        <TextView
+            android:id="@+id/Log_TV_PassWord"
+            android:layout_width="120sp"
+            android:layout_height="wrap_content"
+            android:text="@string/UserPassword"
+            android:textSize="30sp"/>
+
+        <EditText
+            android:id="@+id/Log_ET_PassWord"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Logic_LL_Operbtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Logic_LL_pass"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/Log_BN_Ent"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:text="@string/Log_Ent"
+
+            android:textSize="25sp"/>
+
+        <Button
+            android:id="@+id/Log_BN_HF"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:text="@string/Log_readcard"
+            android:textSize="25sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Logic_LL_info"
+        android:layout_marginTop="20sp"
+        android:orientation="vertical">
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/logic_sw_address"
+            android:visibility="invisible"
+            android:text="访问地址:      "
+            android:textSize="20sp"
+            android:textOn="测试服务"
+            android:textOff="正式服务"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Logic_LL_info"
+        android:layout_below="@+id/Logic_LL_Operbtn"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/log_tv_vision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/androidblued"
+            android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/log_tv_vision"
+            android:id="@+id/log_tv_hsimei"
+            android:textSize="15sp"
+            android:textColor="@color/androidyellowd"/>
+
+        <Button
+            android:id="@+id/Log_BN_Cal"
+            android:layout_width="1sp"
+            android:layout_height="wrap_content"
+            android:text="@string/Log_Can"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/btnTest2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:layout_toStartOf="@+id/btnTest1"
+            android:text="@string/Log_Test"/>
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="1sp"
+            android:layout_height="wrap_content"
+            android:onClick="chongtest"
+            android:text="翀测试1"
+            android:visibility="invisible"/>
+        <Button
+            android:id="@+id/btnTest1"
+            android:layout_width="120sp"
+            android:layout_height="50sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="90sp"
+            android:text="@string/Log_Update"
+            />
+    </RelativeLayout>
+</RelativeLayout>
