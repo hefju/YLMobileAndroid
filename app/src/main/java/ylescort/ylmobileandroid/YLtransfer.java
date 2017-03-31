@@ -239,6 +239,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                         yltransfer_cb_date.setChecked(false);
                         yltransfer_cb_ylclearing.setEnabled(false);
                         yltransfer_cb_ylclearing.setChecked(false);
+                        yltransfer_btn_date.setText(TodayStrDate);
                         ChooseBox.setNextOutTime("");
                         ChooseBox.setBoxToT("0");
                         yltransfer_cb_ylclearing.setChecked(false);
@@ -258,6 +259,16 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                         ChooseBox.setYlclearing("0");
                         break;
                     case "上下介":
+                        yltransfer_cb_ToT.setEnabled(true);
+                        yltransfer_btn_date.setEnabled(false);
+                        yltransfer_cb_date.setEnabled(false);
+                        yltransfer_cb_date.setChecked(false);
+                        yltransfer_cb_ylclearing.setEnabled(true);
+                        yltransfer_cb_ylclearing.setChecked(false);
+                        ChooseBox.setNextOutTime("");
+                        ChooseBox.setYlclearing("0");
+                        break;
+                    case "跨行调拨":
                         yltransfer_cb_ToT.setEnabled(true);
                         yltransfer_btn_date.setEnabled(false);
                         yltransfer_cb_date.setEnabled(false);
@@ -924,6 +935,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
                         }
                     }
                 }, year, Month, day);
+        datePickerDialog.getDatePicker().setCalendarViewShown(true);
         datePickerDialog.show();
     }
 
