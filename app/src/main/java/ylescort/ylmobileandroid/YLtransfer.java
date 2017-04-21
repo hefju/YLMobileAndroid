@@ -1062,6 +1062,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     //返回按钮
     private void LeaveAction() {
         if (yltransfer_btn_ent.getText().equals("到达")) {
+            YLRecord.WriteRecord("网点交接", "未按到达离开网点");
             finish();
             overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             return;

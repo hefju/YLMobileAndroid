@@ -340,6 +340,7 @@ public class YLtransferDataOperate {
 
     public YLTask AcieveData(String Sietid,ArriveTime arriveTime,YLTask ylTask,int TaskTimeID){
         try {
+            if (Transferingboxes.size()  == 0)return  ylTask;
             ylTask.lstBox = YLtransferDataOperate.getTransferedboxes();
             for (int j = 0; j < ylTask.lstSite.size(); j++) {
                 if (ylTask.lstSite.get(j).getSiteID().equals(Sietid)) {
