@@ -46,6 +46,7 @@ public class YLSystem {
     /**
      * UHF+HF+1D==> UHF:13 HF:12
      * HF+1D ==> HF:13
+     * 新手持机HF：14
      */
     private static int HFport;
     private static int UHFport;
@@ -53,7 +54,7 @@ public class YLSystem {
     private static int Flags;
 
     public static int getHFport() {
-        return 13;
+        return 14;
     }
 
     public static int getUHFport() {
