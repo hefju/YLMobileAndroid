@@ -333,8 +333,8 @@ public class YLtransferDataOperate {
         strings.add("空箱:" + emptybox);
         strings.add("款箱:" + moneybox);
         strings.add("卡箱:" + cardbox);
-        strings.add("凭证箱:\r\n     " + voucher);
-        strings.add( "凭证袋:\r\n     " + voucherbag);
+        strings.add("凭证箱:" + voucher);
+        strings.add( "凭证袋:" + voucherbag);
         return strings;
     }
 

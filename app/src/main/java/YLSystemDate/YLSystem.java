@@ -53,7 +53,7 @@ public class YLSystem {
     private static int Flags;
 
     public static int getHFport() {
-        return 14;
+        return 13;
     }
 
     public static int getUHFport() {

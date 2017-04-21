@@ -375,7 +375,7 @@
                 android:gravity="center">
 
                 <TextView
-
+                    android:id="@+id/yltransfer_tv_cardbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -384,7 +384,7 @@
                     android:textSize="20sp"/>
 
                 <TextView
-
+                    android:id="@+id/yltransfer_tv_Voucherbag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

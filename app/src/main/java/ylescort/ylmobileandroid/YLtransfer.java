@@ -435,6 +435,11 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
     }
 
     private void GetBoxDetail(Box box, boolean tempbox) {
+        if (ChooseBox.getTradeAction() == null || ChooseBox.getBoxStatus() == null) {
+            YLMessagebox("未设置收送空实，请重新点击");
+            return;
+        }
+
         box.setTradeAction(ChooseBox.getTradeAction());
         box.setBoxStatus(ChooseBox.getBoxStatus());
         box.setBoxToT(ChooseBox.getBoxToT());
@@ -1044,16 +1049,19 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         String str = "";
         if (yltransfer_btn_ent.getText().equals("到达")) {
             str = "请先到达再扫描交接";
+            YLRecord.WriteRecord("网点交接", "未到达扫描");
             return str;
         }
 
         if (!yltransfer_rbtn_get.isChecked() & !yltransfer_rbtn_give.isChecked()) {
             str = "收送类型未选择";
+            YLRecord.WriteRecord("网点交接", "未选择收送扫描");
             return str;
         }
         if (yltransfer_rbtn_get.isChecked()) {
             if (!yltransfer_rbtn_full.isChecked() & !yltransfer_rbtn_empty.isChecked()) {
                 str = "空实状态未选择";
+                YLRecord.WriteRecord("网点交接", "未选择空实扫描");
             }
         }
         return str;
