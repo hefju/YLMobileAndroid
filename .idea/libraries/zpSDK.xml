@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="zpSDK">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/zpSDK.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

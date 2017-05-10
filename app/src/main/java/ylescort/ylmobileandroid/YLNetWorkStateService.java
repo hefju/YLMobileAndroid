@@ -1,5 +1,6 @@
 package ylescort.ylmobileandroid;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,6 +56,13 @@ public class YLNetWorkStateService extends Service {
                         Toast.makeText(context, "没有可用网络", Toast.LENGTH_SHORT).show();
                         //doSomething()
                     }
+                }
+                TelephonyManager tm = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+                String simSer = tm.getSimSerialNumber();
+                if(simSer == null || simSer.equals("")) {
+                    YLSystem.setNetWorkInfo(false);
+                }else {
+                    YLSystem.setNetWorkInfo(true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

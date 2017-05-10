@@ -37,6 +37,7 @@ public class YLSystem {
     private static String appversion;//软件版本号
     private static List<Box> ediboxList;//编辑中的箱数组
     private static String NetWorkState;//网络状态:0为移动通道、1为WIFI通道、2为无网络连接
+    private static boolean NetWorkInfo;//判断移动网络是否生效0失效、1生效
     private static String handsetIMEI;//手持机IMEI
     private static String kimTag;
     private static String BaseName;//基地名称
@@ -111,6 +112,14 @@ public class YLSystem {
 
     public static void setEdiboxList(List<Box> ediboxList) {
         YLSystem.ediboxList = ediboxList;
+    }
+
+    public static boolean isNetWorkInfo() {
+        return NetWorkInfo;
+    }
+
+    public static void setNetWorkInfo(boolean netWorkInfo) {
+        NetWorkInfo = netWorkInfo;
     }
 
     //endregion

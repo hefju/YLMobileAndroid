@@ -74,7 +74,7 @@ import YLPrinter.YLPrint;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
-public class KimTest extends ActionBarActivity implements View.OnClickListener {
+public class KimTest extends YLBaseActivity implements View.OnClickListener {
 
     private Button kim_test1;
     private Button kim_test2;
@@ -132,13 +132,18 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
 
 //        InitReciveUHF();
 
-        InitHFreader();
+//        InitHFreader();
 
         InitData();
 
     }
 
-    private void InitData() {
+    @Override
+    protected void InitLayout() {
+
+    }
+
+    protected void InitData() {
         int count= (new BaseBoxDBSer(KimTest.this)).BaseBoxCount();
         kim_vibrate.setText(count+" 个款箱");
         this.setTitle("测试");
@@ -871,14 +876,16 @@ public class KimTest extends ActionBarActivity implements View.OnClickListener {
     }
 
     private void TestHF() {
-        manager.init_14443A();
-        manager.readerPowerOn();
-        byte[] uid = manager.inventory_14443A();
-        if(uid != null){
-            String EmpHF = Tools.Bytes2HexString(uid, uid.length);
-            Toast.makeText(getApplicationContext(), EmpHF, Toast.LENGTH_SHORT).show();
-            manager.readerPowerOff();
-        }
+//        manager.init_14443A();
+//        manager.readerPowerOn();
+//        byte[] uid = manager.inventory_14443A();
+//        if(uid != null){
+//            String EmpHF = Tools.Bytes2HexString(uid, uid.length);
+//            Toast.makeText(getApplicationContext(), EmpHF, Toast.LENGTH_SHORT).show();
+//            manager.readerPowerOff();
+//        }
+        String hfcode = HFReadUID();
+        YLMessagebox(hfcode);
     }
 
     private void PushBoxList() {

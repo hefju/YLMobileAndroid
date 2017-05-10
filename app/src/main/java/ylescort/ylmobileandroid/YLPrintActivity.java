@@ -86,7 +86,7 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_ylprinter);
         InitLayout();
         InitData();
-        InitHFreader();
+//        InitHFreader();
     }
 
     @Override
@@ -323,18 +323,20 @@ public class YLPrintActivity extends YLBaseActivity implements View.OnClickListe
     }
 
     private Boolean CheckSietHF(){
-        manager.init_14443A();
-        byte[] uid = manager.inventory_14443A();
-        if (uid!= null){
-            String readhf = Tools.Bytes2HexString(uid, uid.length);
-            MyLog("卡号:"+readhf+"网点ID："+site.getSiteID());
-            if (ylSiteInfo.CheckSiteHF(site.getSiteID(),readhf)){
-                arriveTime.setClientHFNO(readhf);
+//        manager.init_14443A();
+//        byte[] uid = manager.inventory_14443A();
+        String hfcode = HFReadUID();
+        if (hfcode!= "")
+        {
+//            String readhf = Tools.Bytes2HexString(uid, uid.length);
+//            MyLog("卡号:"+readhf+"网点ID："+site.getSiteID());
+            if (ylSiteInfo.CheckSiteHF(site.getSiteID(),hfcode)){
+                arriveTime.setClientHFNO(hfcode);
                 ylMediaPlayer.SuccessOrFail(true);
                 Toast.makeText(getApplicationContext(),"录入成功",Toast.LENGTH_SHORT).show();
                 return true;
             }else {
-                String site = ylSiteInfo.GetBaseSiteName(readhf);
+                String site = ylSiteInfo.GetBaseSiteName(hfcode);
                 YLMessagebox("该交接卡为：\n\n"+"            "+site+"\n\n"+"请确认卡后录入。");
                 ylMediaPlayer.SuccessOrFail(false);
             }
