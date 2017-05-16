@@ -104,8 +104,8 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         //正式服务测试服务
         //正式checked为false
         //测试checked为true
-//        logic_sw_address.setVisibility(View.VISIBLE);
 
+//        logic_sw_address.setVisibility(View.VISIBLE);
 //        logic_sw_address.setChecked(true);
 
         if (logic_sw_address.isChecked()) {
@@ -124,8 +124,9 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                 + "-" + YLHandSetBaseData.getHandSetIMEI()
                 + "-" + YLHandSetBaseData.getSIMIMEI()
                 + "-" +YLHandSetBaseData.getYLVersion());
+
         if ( !YLSystem.isNetWorkInfo()){
-            YLMessagebox("SIM卡未插好，请重新拆装。");
+            YLMessagebox("未检测到SIM卡\r\n\r\n可能导致无法使用移动网络\r\n\r\n建议重新安装。");
         }
 
     }
@@ -259,7 +260,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     }
 
     private void GetEmpByServer(User yluser) {
-        MyLog(yluser.toString());
+//        MyLog(yluser.toString());
         if (yluser.getServerReturn().equals("1")) {
             yluser.setISWIFI(YLSystem.getNetWorkState());
             yluser.setDeviceID(YLSystem.getHandsetIMEI());
