@@ -51,11 +51,10 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/vault_turnover_ll_inorout"
-        android:layout_marginBottom="10sp"
-        android:gravity="center">
+        android:layout_marginBottom="10sp">
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -63,6 +62,7 @@
                 android:id="@+id/vault_turnover_rbtn_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:checked="true"
                 android:text="@string/valut_turnover_rbtn_all"
                 android:textSize="20sp" />
@@ -71,6 +71,7 @@
                 android:id="@+id/vault_turnover_rbtn_lack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/valut_turnover_rbtn_lack"
                 android:textColor="@color/androidbluel"
                 android:textSize="20sp" />
@@ -79,6 +80,7 @@
                 android:id="@+id/vault_turnover_rbtn_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/valut_turnover_rbtn_more"
                 android:textColor="@color/orange"
                 android:textSize="20sp" />
@@ -87,6 +89,7 @@
                 android:id="@+id/vault_turnover_rbtn_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="@string/valut_turnover_rbtn_count"
                 android:textColor="@color/androidgreenl"
                 android:textSize="20sp" />
@@ -103,22 +106,25 @@
 
         <Button
             android:id="@+id/vault_turnover_btn_vaultin"
-            android:layout_width="90sp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:text="@string/valut_turnover_btn_vaultin" />
 
         <Button
             android:id="@+id/vault_turnover_btn_vaultout"
-            android:layout_width="90sp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginStart="10sp"
+            android:layout_weight="1"
             android:text="@string/valut_turnover_btn_vaultout" />
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/valut_turnover_btn_clearmore"
             android:layout_marginStart="10sp"
+            android:layout_weight="1"
             android:text="@string/valut_turnover_btn_clearmore"/>
 
     </LinearLayout>
@@ -132,29 +138,33 @@
 
         <Button
             android:id="@+id/vault_turnover_btn_scan"
-            android:layout_width="90sp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:text="@string/valut_turnover_btn_scan" />
 
         <Button
             android:id="@+id/vault_turnover_btn_uhf"
-            android:layout_width="90sp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginStart="10sp"
+            android:layout_weight="0"
             android:text="@string/valut_turnover_btn_uhf"
             android:visibility="gone"/>
         <Button
             android:id="@+id/vault_turnover_btn_count"
-            android:layout_width="90sp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_marginStart="10sp"
+            android:layout_weight="1"
             android:text="@string/valut_turnover_btn_count" />
 
         <Button
             android:id="@+id/vault_turnover_btn_upload"
-            android:layout_width="90sp"
+            android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginStart="10sp"
+            android:layout_weight="1"
             android:text="@string/valut_turnover_btn_upload" />
 
     </LinearLayout>

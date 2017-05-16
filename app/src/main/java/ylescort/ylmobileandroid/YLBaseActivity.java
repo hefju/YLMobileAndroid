@@ -83,7 +83,6 @@ public abstract class YLBaseActivity extends ActionBarActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.rfid.FUN_KEY");
         registerReceiver(keyReceiver, filter);
-        MyLog("广播注册");
     }
 
     protected abstract void InitLayout();

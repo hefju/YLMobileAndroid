@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
     private TextView vault_out_detail_tv_taskname;
     private TextView vault_out_detail_tv_boxstaut;
     private TextView vault_out_detail_tv_type;
+    private TextView vault_out_detail_tv_boxinfo;
+    private LinearLayout vault_out_detail_ll_boxinfo;
 
     private Button vault_out_detail_btn_readcard;
     private ListView vault_out_detail_lv;
@@ -105,6 +108,9 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
         vault_out_detail_tv_taskname = (TextView)findViewById(R.id.vault_out_detail_tv_taskname);
         vault_out_detail_tv_boxstaut = (TextView)findViewById(R.id.vault_out_detail_tv_boxstaut);
         vault_out_detail_tv_type = (TextView)findViewById(R.id.vault_out_detail_tv_type);
+        vault_out_detail_tv_boxinfo = (TextView)findViewById(R.id.vault_out_detail_tv_boxinfo);
+        vault_out_detail_ll_boxinfo = (LinearLayout)findViewById(R.id.vault_out_detail_ll_boxinfo);
+
         vault_out_detail_btn_readcard = (Button)findViewById(R.id.vault_out_detail_btn_readcard);
         vault_out_detail_lv = (ListView)findViewById(R.id.vault_out_detail_lv);
         vault_out_detail_btn_scan1d = (Button)findViewById(R.id.vault_out_detail_btn_scan1d);
@@ -301,6 +307,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 YLBoxScan1D();
                 break;
             case R.id.vault_out_detail_btn_scanuhf:
+                ShowBoxInfo();
                 break;
             case R.id.vault_out_detail_btn_enter:
                 try {
@@ -314,6 +321,17 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
 //                ReadHFCard();
                 break;
         }
+    }
+
+    private void ShowBoxInfo() {
+        if (vault_out_detail_ll_boxinfo.getVisibility() == View.GONE){
+            vault_out_detail_ll_boxinfo.setVisibility(View.VISIBLE);
+            vault_out_detail_btn_scanuhf.setText("隐藏");
+        }else  {
+            vault_out_detail_ll_boxinfo.setVisibility(View.GONE);
+            vault_out_detail_btn_scanuhf.setText("显示");
+        }
+
     }
 
     @Override
@@ -352,6 +370,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 Box listbox = AllboxList.get(i);
                 if (listbox.getBoxID().equals(recivedata)){
                     if (form.equals("1D")){
+                        vault_out_detail_tv_boxinfo.setText(listbox.getBoxName());
                         ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
                     }
                     boxcheck = false;
@@ -368,7 +387,8 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
             box.setBoxCount("1");
             box.setServerReturn("1");
             box.setTimeID("1");
-            Log.e(YLSystem.getKimTag(), box.toString());
+//            Log.e(YLSystem.getKimTag(), box.toString());
+            vault_out_detail_tv_boxinfo.setText(box.getBoxName());
             AllboxList.add(box);
             DisPlayBoxlistAdapter(AllboxList);
             ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());

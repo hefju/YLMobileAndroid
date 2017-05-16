@@ -36,6 +36,7 @@ import YLDataService.YLBoxScanCheck;
 import YLSystemDate.YLBaseDBSer;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLMediaPlayer;
+import YLSystemDate.YLRecord;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -171,6 +172,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
         user.setServerReturn(OutBaseName);
         user.setTaskDate(PickDate);
         DisplayBoxListAdapter(Displayboxlist);
+        YLRecord.WriteRecord("夜间周转","出库基地:"+OutBaseName+"日期"+PickDate);
     }
 
     @Override
@@ -186,28 +188,28 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
     public void onClick(View v) {
         try {
             switch (v.getId()){
-                case R.id.vault_turnover_btn_vaultin:VaultIn();
+                case R.id.vault_turnover_btn_vaultin:YLRecord.WriteRecord("夜间周转","选择入库");VaultIn();
                     break;
-                case R.id.vault_turnover_btn_vaultout:VaultOut();
+                case R.id.vault_turnover_btn_vaultout:YLRecord.WriteRecord("夜间周转","选择出库");VaultOut();
                     break;
-                case R.id.vault_turnover_btn_scan:ValutScanCmd();
+                case R.id.vault_turnover_btn_scan:YLRecord.WriteRecord("夜间周转","连续扫描");ValutScanCmd();
                     break;
-                case R.id.vault_turnover_btn_upload:UpLoadDialog();
+                case R.id.vault_turnover_btn_upload:YLRecord.WriteRecord("夜间周转","上传数据");UpLoadDialog();
                     break;
 //                case R.id.vault_check_btn_uhf:
 //                ScanUHF("scan");
 //                    break;
-                case R.id.vault_turnover_btn_count:Addcount();
+                case R.id.vault_turnover_btn_count:YLRecord.WriteRecord("夜间周转","点击添加批次");Addcount();
                     break;
-                case R.id.vault_turnover_rbtn_all:FilterBoxdisplay();
+                case R.id.vault_turnover_rbtn_all:YLRecord.WriteRecord("夜间周转","点击筛选全部"); FilterBoxdisplay();
                     break;
-                case R.id.vault_turnover_rbtn_count:FilterBoxdisplay();
+                case R.id.vault_turnover_rbtn_count: YLRecord.WriteRecord("夜间周转","点击筛选批次");FilterBoxdisplay();
                     break;
-                case R.id.vault_turnover_rbtn_more:FilterBoxdisplay();
+                case R.id.vault_turnover_rbtn_more:YLRecord.WriteRecord("夜间周转","点击筛选多箱");FilterBoxdisplay();
                     break;
-                case R.id.vault_turnover_rbtn_lack:FilterBoxdisplay();
+                case R.id.vault_turnover_rbtn_lack:YLRecord.WriteRecord("夜间周转","点击筛选缺箱");FilterBoxdisplay();
                     break;
-                case R.id.valut_turnover_btn_clearmore:ClearMoreBox();
+                case R.id.valut_turnover_btn_clearmore:YLRecord.WriteRecord("夜间周转","点击清除多箱");ClearMoreBox();
                     break;
             }
         }catch (Exception e){
@@ -390,6 +392,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                 vaultoutylTask.setTaskDate(PickDate);
                 vaultoutylTask.setLstBox(AllboxList);
                 YLEditData.setYlTask(vaultoutylTask);
+                uploadflag= true;
                 String uploadstate =
                         webServerValutturnover.Valutturnoverupload(YLSystem.getUser(), getApplicationContext());
                 if (uploadstate.equals("1")) {
@@ -404,7 +407,6 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                     boxorder = 1;
                     vault_turnover_btn_count.setText("1");
                     BoxOper = "0";
-                    uploadflag= true;
                 }else {
                     uploadflag= false;
                 }
@@ -691,6 +693,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                 public void onClick(DialogInterface dialog, int which) {
                     boxorder = Count;
                     vault_turnover_btn_count.setText(boxorder + "");
+                    YLRecord.WriteRecord("夜间周转","点击添加批次");
                     dialog.dismiss();
                 }
             });

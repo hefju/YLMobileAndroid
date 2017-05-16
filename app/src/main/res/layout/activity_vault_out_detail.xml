@@ -49,11 +49,29 @@
             android:textColor="@color/androidgreend"
             android:text="@string/vault_out_detail_tv_boxstype"/>
         </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_out_detail_ll_boxinfo"
+        android:layout_below="@+id/vault_out_detail_LL_listtitle"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_out_detail_tv_boxinfo"
+            android:textSize="45sp"
+            android:textColor="@color/androidredd"
+            android:text="@string/vault_out_detail_tv_boxinf"/>
+    </LinearLayout>
+
+
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/vault_out_detail_LL_listview"
-        android:layout_below="@+id/vault_out_detail_LL_listtitle"
+        android:layout_below="@+id/vault_out_detail_ll_boxinfo"
         android:layout_above="@+id/vault_out_detail_LL_operate">
         <ListView
             android:layout_width="fill_parent"
@@ -61,27 +79,28 @@
             android:id="@+id/vault_out_detail_lv">
             </ListView>
         </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50sp"
         android:id="@+id/vault_out_detail_LL_operate"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/vault_out_detail_btn_scan1d"
+            android:layout_weight="1"
             android:text="@string/vault_out_detail_btn_sacan1d"/>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/vault_out_detail_btn_scanuhf"
-            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
             android:text="@string/vault_out_detail_btn_scanuhf"/>
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:id="@+id/vault_out_detail_btn_enter"
-            android:layout_alignParentEnd="true"
+            android:layout_weight="1"
             android:text="@string/vault_out_detail_btn_enter"/>
-        </RelativeLayout>
+        </LinearLayout>
 </RelativeLayout>
