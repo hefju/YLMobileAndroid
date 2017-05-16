@@ -77,8 +77,9 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
     }
 
     private void DeleteBoxinList(final int position) {
+        Box box = AllboxList.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(vault_out_detail.this);
-        builder.setMessage("确认删除?");
+        builder.setMessage("确认删除:\r\n"+box.getBoxName()+"?");
         builder.setTitle("提示");
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -173,7 +174,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
 
     private void ShowBoxList() {
 
-        if (AllboxList.size() > 0) {
+//        if (AllboxList.size() > 0) {
             List<String> stringList = analysisBoxList.AnsysisBoxListForKeeper2(AllboxList);
             String boxtype = "实款箱：" + stringList.get(0) + "  实卡箱：" + stringList.get(2) + "\r\n实凭证箱：" + stringList.get(4) +
                     " 实凭证袋：" + stringList.get(6);
@@ -185,7 +186,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
             vault_out_detail_tv_taskname.setText(total);
             vault_out_detail_tv_boxstaut.setText(boxtype);
             vault_out_detail_tv_type.setText(boxstaut);
-        }
+//        }
     }
 
     private void YLBoxScan1D() {
@@ -319,6 +320,8 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 break;
             case R.id.vault_out_detail_btn_readcard:
 //                ReadHFCard();
+                if (AllboxList.size()==0)return;
+                DeleteBoxinList(AllboxList.size()-1);
                 break;
         }
     }
