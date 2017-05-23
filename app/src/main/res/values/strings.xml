@@ -136,6 +136,7 @@
     <string name="vault_check_ylbox_Scan1d">扫描</string>
     <string name="vault_check_ylbox_complete">补打</string>
     <string name="vault_check_ylbox_comfrom">上传</string>
+    <string name="vault_check_ylbox_boxinfo">显示</string>
     <string name="vault_check_ylbox_changbase">基地</string>
     <!--业务员申请-->
     <string name="title_activity_handoverman_check">入库申请</string>

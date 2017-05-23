@@ -450,7 +450,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
             }
 
             if (boxcheck) {
-                Log.e(YLSystem.getKimTag(), AllboxList.size() + "插入数据");
+//                Log.e(YLSystem.getKimTag(), AllboxList.size() + "插入数据");
 //                box.setBoxType(vault_out_detail_tv_type.getTag().toString());
 //                box.setBoxStatus(vault_out_detail_tv_boxstaut.getTag().toString());
                 box.setActionTime(YLSysTime.GetStrCurrentTime());
@@ -458,7 +458,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 box.setBoxCount("1");
                 box.setServerReturn("1");
                 box.setTimeID("1");
-                Log.e(YLSystem.getKimTag(), box.toString());
+//                Log.e(YLSystem.getKimTag(), box.toString());
                 AllboxList.add(box);
                 DisPlayBoxlistAdapter(AllboxList);
                 ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());

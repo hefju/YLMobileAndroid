@@ -30,11 +30,27 @@
             android:id="@+id/vault_check_tv_scanman"/>
 
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/vault_check_rl_boxinfo"
+        android:layout_below="@+id/vault_check_rl_title"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/vault_check_tv_boxinfo"
+            android:textColor="@color/androidredd"
+            android:textSize="50sp"
+            />
+    </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/vault_check_rl_listview"
-        android:layout_below="@+id/vault_check_rl_title"
+        android:layout_below="@+id/vault_check_rl_boxinfo"
         android:layout_above="@+id/vault_check_rl_operate">
         <ListView
             android:layout_width="wrap_content"
@@ -65,6 +81,12 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/vault_check_btn_boxinfo"
+                android:layout_weight="1"
+                android:text="@string/vault_check_ylbox_boxinfo"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/vault_check_btn_complete"
                 android:layout_weight="1"
                 android:text="@string/vault_check_ylbox_complete"/>
@@ -74,6 +96,7 @@
                 android:id="@+id/vault_check_btn_conFirm"
                 android:layout_weight="1"
                 android:text="@string/vault_check_ylbox_comfrom"/>
+
         </LinearLayout>
 
 

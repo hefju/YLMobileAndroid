@@ -30,10 +30,13 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
     private Button vault_check_btn_conFirm;
     private Button vault_check_btn_basedep;
     private Button vault_check_btn_complete;
+    private Button vault_check_btn_boxinfo;
     private TextView vault_check_tv_statistics;
     private TextView vault_check_tv_scanman;
     private TextView vault_check_tv_baseName;
+    private TextView vault_check_tv_boxinfo;
     private RelativeLayout vault_check_rl_title;
+    private RelativeLayout vault_check_rl_boxinfo;
 
     private YLVaultcheckboxAdapter ylVaultcheckboxAdapter;
     private YLMediaPlayer ylMediaPlayer;
@@ -70,15 +73,19 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
         vault_check_btn_conFirm = (Button)findViewById(R.id.vault_check_btn_conFirm);
         vault_check_btn_basedep = (Button)findViewById(R.id.vault_check_btn_basedep);
         vault_check_btn_complete = (Button)findViewById(R.id.vault_check_btn_complete);
+        vault_check_btn_boxinfo = (Button)findViewById(R.id.vault_check_btn_boxinfo);
         vault_check_tv_statistics = (TextView)findViewById(R.id.vault_check_tv_statistics);
         vault_check_rl_title = (RelativeLayout)findViewById(R.id.vault_check_rl_title);
         vault_check_tv_scanman =  (TextView)findViewById(R.id.vault_check_tv_scanman);
         vault_check_tv_baseName = (TextView)findViewById(R.id.vault_check_tv_baseName);
+        vault_check_tv_boxinfo = (TextView)findViewById(R.id.vault_check_tv_boxinfo);
+        vault_check_rl_boxinfo = (RelativeLayout)findViewById(R.id.vault_check_rl_boxinfo);
 
         vault_check_btn_scan.setOnClickListener(this);
         vault_check_btn_conFirm.setOnClickListener(this);
         vault_check_btn_basedep.setOnClickListener(this);
         vault_check_btn_complete.setOnClickListener(this);
+        vault_check_btn_boxinfo.setOnClickListener(this);
 
         vault_check_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -179,6 +186,7 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
         box.setActionTime(YLSysTime.GetStrCurrentTime());
         Allboxlist.add(box);
         String str = "总计："+Allboxlist.size()+"个";
+        vault_check_tv_boxinfo.setText(box.getBoxName());
         vault_check_tv_statistics.setText(str);
         vault_check_rl_title.setBackgroundColor(bulecolor);
         ylMediaPlayer.SuccessOrFail(true);
@@ -206,6 +214,18 @@ public class vault_check_ylbox extends YLBaseScanActivity implements View.OnClic
                 vault_check_btn_basedep.setEnabled(true);
                 vault_check_btn_complete.setEnabled(false);
                 break;
+            case R.id.vault_check_btn_boxinfo:
+                ShowBoxInfo();
+        }
+    }
+
+    private void ShowBoxInfo() {
+        if (vault_check_rl_boxinfo.getVisibility() == View.GONE){
+            vault_check_rl_boxinfo.setVisibility(View.VISIBLE);
+            vault_check_btn_boxinfo.setText("隐藏");
+        }else{
+            vault_check_rl_boxinfo.setVisibility(View.GONE);
+            vault_check_btn_boxinfo.setText("显示");
         }
     }
 
