@@ -21,10 +21,12 @@ import android.widget.NumberPicker;
 import java.util.ArrayList;
 import java.util.List;
 
+import TaskClass.Site;
 import TaskClass.TasksManager;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValuttaskitemAdapter;
+import YLDataService.WebServerYLSite;
 import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSysTime;
@@ -75,6 +77,8 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
                 ListView listView = (ListView) parent;
                 YLTask ylTask = (YLTask) listView.getItemAtPosition(position);
                 //tasksManager.SetCurrentTask(ylTask.getTaskID());
+                GetSite(ylTask);
+
                 YLEditData.setYlTask(ylTask);
                 Intent intent = new Intent();
                 intent.setClass(vault_out_operate.this, vault_out_detail.class);
@@ -85,6 +89,21 @@ public class vault_out_operate extends ActionBarActivity implements View.OnClick
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
+    private void GetSite(YLTask ylTask) {
+        WebServerYLSite webServerYLSite = new WebServerYLSite();
+        List<Site> lstSite = null;
+        try {
+            User user = new User();
+            user = YLSystem.getUser();
+            user.setTaskDate(ylTask.getTaskID());
+            lstSite = webServerYLSite.GetYLTaskSite(YLSystem.getUser(), getApplicationContext());
+            if (lstSite != null){
+                ylTask.setLstSite(lstSite);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void GetTaskbyReadCard() {
 

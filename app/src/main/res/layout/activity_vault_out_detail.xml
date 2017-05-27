@@ -101,5 +101,11 @@
             android:id="@+id/vault_out_detail_btn_enter"
             android:layout_weight="1"
             android:text="@string/vault_out_detail_btn_enter"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/vault_out_detail_cb_tips"
+            android:text="@string/vault_out_detail_btn_tips"/>
         </LinearLayout>
 </RelativeLayout>

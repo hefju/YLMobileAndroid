@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.Box;
+import TaskClass.Site;
 import TaskClass.User;
 import TaskClass.YLTask;
 import YLAdapter.YLValutboxitemAdapter;
@@ -50,15 +53,18 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
     private Button vault_out_detail_btn_scan1d;
     private Button vault_out_detail_btn_scanuhf;
     private Button vault_out_detail_btn_enter;
+    private CheckBox vault_out_detail_cb_tips;
 
 
     private List<Box> vaulteroutboxlist ;
     private YLMediaPlayer ylMediaPlayer;
     private List<Box> AllboxList;
+    private List<Site> siteList;
 
     private AnalysisBoxList analysisBoxList;
     private WebServerValutInorOut webServerValutInorOut;
     private YLValutboxitemAdapter ylValutboxitemAdapter;
+    private boolean Scanflag;
 
     private YLTask ylTask;
 
@@ -117,11 +123,13 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
         vault_out_detail_btn_scan1d = (Button)findViewById(R.id.vault_out_detail_btn_scan1d);
         vault_out_detail_btn_scanuhf = (Button)findViewById(R.id.vault_out_detail_btn_scanuhf);
         vault_out_detail_btn_enter = (Button)findViewById(R.id.vault_out_detail_btn_enter);
+        vault_out_detail_cb_tips = (CheckBox) findViewById(R.id.vault_out_detail_cb_tips);
 
         vault_out_detail_btn_readcard.setOnClickListener(this);
         vault_out_detail_btn_scan1d.setOnClickListener(this);
         vault_out_detail_btn_scanuhf.setOnClickListener(this);
         vault_out_detail_btn_enter.setOnClickListener(this);
+        vault_out_detail_cb_tips.setOnClickListener(this);
 
         vault_out_detail_btn_scan1d.setBackgroundColor(-13388315);
 //        vault_out_detail_btn_scanuhf.setBackgroundColor(-13388315);
@@ -146,11 +154,12 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
 
         vaulteroutboxlist = new ArrayList<>();
         AllboxList = new ArrayList<>();
-        ylMediaPlayer = new YLMediaPlayer();
+        ylMediaPlayer = new YLMediaPlayer(getApplicationContext());
         ylTask = YLEditData.getYlTask();
         vault_out_detail_tv_taskname.setText(ylTask.getLine());
         analysisBoxList = new AnalysisBoxList();
         webServerValutInorOut = new WebServerValutInorOut();
+        Scanflag = false;
 
         User user = YLSystem.getUser();
         user.setTaskDate(ylTask.getTaskID());
@@ -159,6 +168,11 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
 
         if (AllboxList.get(0).getServerReturn().contains("没有出库箱")){
             AllboxList.clear();
+        }
+
+        siteList = ylTask.getLstSite();
+        if (siteList == null){
+            siteList = new ArrayList<>();
         }
 
         DisPlayBoxlistAdapter(AllboxList);
@@ -190,6 +204,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
     }
 
     private void YLBoxScan1D() {
+        if (Scanflag)return;
         if (vault_out_detail_btn_scan1d.getText().equals("扫描")){
             vault_out_detail_btn_scan1d.setBackgroundColor(-30720);
             Scan1DCmd(2);
@@ -323,6 +338,8 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 if (AllboxList.size()==0)return;
                 DeleteBoxinList(AllboxList.size()-1);
                 break;
+            case R.id.vault_out_detail_cb_tips:
+                break;
         }
     }
 
@@ -363,6 +380,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
 
     private void ScanBoxInListView(String recivedata, String form) {
         if (recivedata.length() !=10)return;
+        if (Scanflag)return;
         boolean boxcheck = true;
         if (AllboxList.size() ==0){
             AllboxList.clear();
@@ -374,7 +392,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 if (listbox.getBoxID().equals(recivedata)){
                     if (form.equals("1D")){
                         vault_out_detail_tv_boxinfo.setText(listbox.getBoxName());
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFail(true);
                     }
                     boxcheck = false;
                     break;
@@ -390,14 +408,59 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
             box.setBoxCount("1");
             box.setServerReturn("1");
             box.setTimeID("1");
+
+            ChcekTaskSite(box);
+
 //            Log.e(YLSystem.getKimTag(), box.toString());
-            vault_out_detail_tv_boxinfo.setText(box.getBoxName());
-            AllboxList.add(box);
-            DisPlayBoxlistAdapter(AllboxList);
-            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+//            vault_out_detail_tv_boxinfo.setText(box.getBoxName());
+//            AllboxList.add(box);
+//            DisPlayBoxlistAdapter(AllboxList);
+//            ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
         }
 
         ShowBoxList();
+    }
+
+    private void ChcekTaskSite(final Box box) {
+        boolean line = true;
+        for (Site site : siteList) {
+            if (site.getSiteID() == box.getSiteID()){
+                line = false;
+            }
+        }
+        if (vault_out_detail_cb_tips.isChecked() & line){
+            YLBoxScan1D();
+            Scanflag = true;
+            ylMediaPlayer.SuccessOrFail(false);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(vault_out_detail.this);
+            builder.setMessage("该款箱不属于任务网点，是否继续添加此线路？");
+            builder.setTitle("提示");
+            builder.setCancelable(false);
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Scanflag = false;
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    vault_out_detail_tv_boxinfo.setText(box.getBoxName());
+                    AllboxList.add(box);
+                    DisPlayBoxlistAdapter(AllboxList);
+                    ylMediaPlayer.SuccessOrFail(true);
+                    Scanflag = false;
+                }
+            });
+            builder.show();
+
+        }else {
+            vault_out_detail_tv_boxinfo.setText(box.getBoxName());
+            AllboxList.add(box);
+            DisPlayBoxlistAdapter(AllboxList);
+            ylMediaPlayer.SuccessOrFail(true);
+        }
     }
 
     private Box CheckBox(String recivedata ){
@@ -424,7 +487,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
     private void AddYLBoxtoListView(Box box) {
         try {
             if (box.getBoxName().equals("illegalbox") || box.getBoxName().equals("无数据")) {
-                ylMediaPlayer.SuccessOrFailMidia("fail", getApplicationContext());
+                ylMediaPlayer.SuccessOrFail(false);
                 return;
             }
 
@@ -442,7 +505,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
                 for (int i = 0; i < AllboxList.size(); i++) {
                     Box scanbox = AllboxList.get(listcount - i);
                     if (scanbox.getBoxID().equals(box.getBoxID())) {
-                        ylMediaPlayer.SuccessOrFailMidia("success ", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFail(true);
                         boxcheck = false;
                         break;
                     }
@@ -461,7 +524,7 @@ public class vault_out_detail extends YLBaseScanActivity implements View.OnClick
 //                Log.e(YLSystem.getKimTag(), box.toString());
                 AllboxList.add(box);
                 DisPlayBoxlistAdapter(AllboxList);
-                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                ylMediaPlayer.SuccessOrFail(true);
 
             }
             ShowBoxList();
