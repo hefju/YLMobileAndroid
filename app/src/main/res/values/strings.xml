@@ -254,4 +254,10 @@
     <string name="overweight_tv_kg">KG</string>
     <string name="overweight_btn_scan">扫描</string>
     <string name="overweight_btn_upload">上传</string>
+
+    <!--基地名称-->
+    <string name="nhbase">南海基地</string>
+    <string name="dlbase">大良基地</string>
+    <string name="lcbase">乐从基地</string>
+    <string name="ssbase">三水基地</string>
 </resources>
