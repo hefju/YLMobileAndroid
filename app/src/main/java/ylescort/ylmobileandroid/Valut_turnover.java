@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,6 +86,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
     private int androidblue;
     private int androidorange;
     private boolean uploadflag;
+    private boolean scanflag;
 
     private YLBaseDBSer ylBaseDBSer;
 
@@ -154,7 +156,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
     @Override
     protected void InitData() throws Exception {
         boxorder = 1;
-        ylMediaPlayer = new YLMediaPlayer();
+        ylMediaPlayer = new YLMediaPlayer(getApplicationContext());
         ylBaseDBSer = new YLBaseDBSer(getApplication());
         vaultinylTask = new YLTask();
         vaultoutylTask = new YLTask();
@@ -166,6 +168,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
         InBaseName = "";
         analysisBoxList = new AnalysisBoxList();
         uploadflag = true;
+        scanflag = false;
 
         user = new User();
         user = YLSystem.getUser();
@@ -552,7 +555,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                 if (AllboxList.get(i).getBoxID().equals(recivedata)){
                     checkbox = false;
                     if (form.equals("1D")){
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());}
+                        ylMediaPlayer.SuccessOrFail(true);}
                     break;
                 }
             }
@@ -567,7 +570,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                 box.setBoxOrder(boxorder + "");
                 box.setActionTime(YLSysTime.GetStrCurrentTime());
                 AllboxList.add(box);
-                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                ylMediaPlayer.SuccessOrFail(true);
                 AnalyBoxes(AllboxList, "out");
                 Log.e(YLSystem.getKimTag(),box.toString()+"出库");
                 vault_turnover_listview.setSelection(AllboxList.size() - 1);
@@ -583,7 +586,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
 //                    if (box.getValutcheck().equals("对")||box.getValutcheck().equals("多")){
                     if (boxcheck.equals("对")||boxcheck.equals("多")|| boxcheck.equals("核")){
                         addmore = false;
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFail(true);
                         continue;
                     }
 
@@ -595,28 +598,17 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                     box.setActionTime(YLSysTime.GetStrCurrentTime());
                     AllboxList.set(i, box);
                     addmore = false;
-                    ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                    ylMediaPlayer.SuccessOrFail(true);
                     vault_turnover_listview.setSelection(i);
                     AnalyBoxes(AllboxList, "in");
                 }
             }
             if (addmore){
-                Box morebox = YLBoxScanCheck.CheckBoxbyUHF(recivedata, getApplicationContext());
-                if (morebox.getBoxID().equals("0")){
-                    ylMediaPlayer.SuccessOrFailMidia("fail",getApplicationContext());
-                    return;
-                }
-                morebox.setValutcheck("多");
-                morebox.setTradeAction("入");
-                morebox.setBaseValutIn(OutBaseName);
-                morebox.setBaseValutOut("");
-                morebox.setTimeID("2");
-                morebox.setBoxOrder(boxorder + "");
-                morebox.setActionTime(YLSysTime.GetStrCurrentTime());
-                AllboxList.add(morebox);
-                ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
-                vault_turnover_listview.setSelection(AllboxList.size()-1);
-                AnalyBoxes(AllboxList, "in");
+                ylMediaPlayer.SuccessOrFail(false);
+                Scan1DCmd(0);
+                ValutScanCmd();
+                ChoiceBoxBaseAndStauts(recivedata);
+                scanflag = true;
             }
         }
         FilterBoxdisplay();
@@ -643,7 +635,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                         box.setTimeID("1");
                         box.setActionTime(YLSysTime.GetStrCurrentTime());
                         AllboxList.add(box);
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFail(true);
                         AnalyBoxes(AllboxList, "out");
                         vault_turnover_listview.setSelection(AllboxList.size() - 1);
                     }
@@ -659,7 +651,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                         boxin.setTimeID("2");
                         boxin.setActionTime(YLSysTime.GetStrCurrentTime());
                         AllboxList.set(i, boxin);
-                        ylMediaPlayer.SuccessOrFailMidia("success", getApplicationContext());
+                        ylMediaPlayer.SuccessOrFail(true);
                         vault_turnover_listview.setSelection(i);
                         AnalyBoxes(AllboxList, "in");
                     }
@@ -669,6 +661,93 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void ChoiceBoxBaseAndStauts(final  String moreboxid){
+        if (scanflag)return;
+        final Box morebox = YLBoxScanCheck.CheckBoxbyUHF(moreboxid, getApplicationContext());
+        if (morebox.getBoxID().equals("0")){
+            ylMediaPlayer.SuccessOrFail(false);
+            scanflag = false;
+            return;
+        }
+
+        AlertDialog.Builder builder = new  AlertDialog.Builder(Valut_turnover.this);
+        builder.setIcon(android.R.drawable.ic_input_add);
+        builder.setTitle("请选择周转入库多箱信息");
+        builder.setCancelable(false);
+        View view = LayoutInflater.from(Valut_turnover.this).inflate(R.layout.vault_trunover_choice,null);
+        builder.setView(view);
+        final RadioButton boxempty = (RadioButton) view.findViewById(R.id.vault_turnover_rbtn_boxempty);
+        final RadioButton boxfull = (RadioButton) view.findViewById(R.id.vault_turnover_rbtn_boxfull);
+        final RadioButton rbtn_nh = (RadioButton) view.findViewById(R.id.vault_turnover_rbtn_nh);
+        final RadioButton rbtn_dl = (RadioButton) view.findViewById(R.id.vault_turnover_rbtn_dl);
+        final RadioButton rbtn_lc = (RadioButton) view.findViewById(R.id.vault_turnover_rbtn_lc);
+        final RadioButton rbtn_ss = (RadioButton) view.findViewById(R.id.vault_turnover_rbtn_ss);
+
+        switch (OutBaseName){
+            case "南海基地":rbtn_nh.setEnabled(false);rbtn_dl.setChecked(true);rbtn_nh.setVisibility(View.GONE);
+                break;
+            case "大良基地":rbtn_dl.setEnabled(false);rbtn_lc.setChecked(true);rbtn_dl.setVisibility(View.GONE);
+                break;
+            case "乐从基地":rbtn_lc.setEnabled(false);rbtn_ss.setChecked(true);rbtn_lc.setVisibility(View.GONE);
+                break;
+            case "三水基地":rbtn_ss.setEnabled(false);rbtn_nh.setChecked(true);rbtn_ss.setVisibility(View.GONE);
+                break;
+        }
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String stauts = "";
+                String base = "";
+                if (boxempty.isChecked()){
+                    stauts = "空";
+                }else {
+                    stauts = "实";
+                }
+                if (rbtn_nh.isChecked()){
+                    base = "南海基地";
+                }
+                if (rbtn_dl.isChecked()){
+                    base = "大良基地";
+                }
+                if (rbtn_lc.isChecked()){
+                    base = "乐从基地";
+                }
+                if (rbtn_ss.isChecked()){
+                    base = "三水基地";
+                }
+
+                morebox.setBoxStatus(stauts);
+                morebox.setValutcheck("核");
+                morebox.setTradeAction("入");
+                morebox.setBaseValutIn(OutBaseName);
+                morebox.setBaseValutOut(base);
+                morebox.setTimeID("2");
+                morebox.setBoxOrder(boxorder + "");
+                morebox.setActionTime(YLSysTime.GetStrCurrentTime());
+                AllboxList.add(morebox);
+                ylMediaPlayer.SuccessOrFail(true);
+                vault_turnover_listview.setSelection(AllboxList.size()-1);
+                AnalyBoxes(AllboxList, "in");
+                try {
+                    FilterBoxdisplay();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                scanflag = false;
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                scanflag = false;
+                ylMediaPlayer.SuccessOrFail(false);
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
 
@@ -829,7 +908,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
     private void ValutScanCmd() {
 
         if (BoxOper.equals("0"))return;
-
+        if (scanflag)return;
         String sacnbtntext = vault_turnover_btn_scan.getText().toString();
         if (sacnbtntext.equals("扫描/F1")) {
             Scan1DCmd(2);
