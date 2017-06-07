@@ -699,12 +699,12 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String stauts = "";
+                String status = "";
                 String base = "";
                 if (boxempty.isChecked()){
-                    stauts = "空";
+                    status = "空";
                 }else {
-                    stauts = "实";
+                    status = "实";
                 }
                 if (rbtn_nh.isChecked()){
                     base = "南海基地";
@@ -719,7 +719,7 @@ public class Valut_turnover extends YLBaseScanActivity implements View.OnClickLi
                     base = "三水基地";
                 }
 
-                morebox.setBoxStatus(stauts);
+                morebox.setBoxStatus(status);
                 morebox.setValutcheck("核");
                 morebox.setTradeAction("入");
                 morebox.setBaseValutIn(OutBaseName);
