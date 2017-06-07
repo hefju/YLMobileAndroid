@@ -87,6 +87,8 @@ public class YLValutboxitemAdapter extends BaseAdapter {
                     break;
                 case "核":convertView.setBackgroundColor(-5374161);
                     break;
+                case "误":convertView.setBackgroundColor(-48060);
+                    break;
                 default:convertView.setBackgroundColor(Color.TRANSPARENT);
                     break;
             }
