@@ -42,7 +42,7 @@ public abstract class YLBaseScanActivity extends YLBaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String recivedata = intent.getStringExtra("result");
-            Log.e(YLSystem.getKimTag(), recivedata);
+//            Log.e(YLSystem.getKimTag(), recivedata);
             if (recivedata != null) {
                 if (recivedata.length() == 10) {
                     YLPutdatatoList(recivedata);
