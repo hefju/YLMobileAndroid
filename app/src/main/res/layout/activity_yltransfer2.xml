@@ -163,9 +163,7 @@
             android:id="@+id/yltransfer_btn_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
             android:layout_marginStart="10sp"
-            android:layout_marginTop="5sp"
             android:text="@string/hom_ylbox_btn_date"
             android:textSize="15sp"/>
 

@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -927,21 +928,37 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
         int Month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DATE);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(YLtransfer.this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        PickDate = YLSysTime.IntToStrDate(year, monthOfYear, dayOfMonth);
-                        yltransfer_btn_date.setText(PickDate);
-                        if (TodayStrDate.equals(PickDate)) {
-                            ChooseBox.setNextOutTime("");
-                        } else {
-                            ChooseBox.setNextOutTime(PickDate);
-                        }
-                    }
-                }, year, Month, day);
-        datePickerDialog.getDatePicker().setCalendarViewShown(true);
-        datePickerDialog.show();
+//        DatePickerDialog datePickerDialog = new DatePickerDialog(YLtransfer.this,
+//                new DatePickerDialog.OnDateSetListener() {
+//                    @Override
+//                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//                        PickDate = YLSysTime.IntToStrDate(year, monthOfYear, dayOfMonth);
+//                        yltransfer_btn_date.setText(PickDate);
+//                        if (TodayStrDate.equals(PickDate)) {
+//                            ChooseBox.setNextOutTime("");
+//                        } else {
+//                            ChooseBox.setNextOutTime(PickDate);
+//                        }
+//                    }
+//                }, year, Month, day);
+
+//        datePickerDialog.getDatePicker().setCalendarViewShown(false);
+
+        DatePickerDialog dpd = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                PickDate = YLSysTime.IntToStrDate(year, monthOfYear, dayOfMonth);
+                yltransfer_btn_date.setText(PickDate);
+                if (TodayStrDate.equals(PickDate)) {
+                    ChooseBox.setNextOutTime("");
+                } else {
+                    ChooseBox.setNextOutTime(PickDate);
+                }
+            }
+        },year,Month,day);
+
+
+        dpd.show();
     }
 
     //统计交接款箱数量

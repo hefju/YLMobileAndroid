@@ -106,6 +106,7 @@
     <string name="vault_out_detail_btn_cleanmore">清多箱</string>
     <string name="vault_out_detail_btn_stop">停止</string>
     <string name="vault_out_detail_btn_enter">确认</string>
+    <string name="vault_out_detail_btn_tips">提示</string>
     <string name="vault_out_detail_btn_Allbox">全部</string>
     <string name="vault_out_detail_btn_Lack">缺箱</string>
     <string name="vault_out_detail_btn_more">多箱</string>
@@ -136,6 +137,7 @@
     <string name="vault_check_ylbox_Scan1d">扫描</string>
     <string name="vault_check_ylbox_complete">补打</string>
     <string name="vault_check_ylbox_comfrom">上传</string>
+    <string name="vault_check_ylbox_boxinfo">显示</string>
     <string name="vault_check_ylbox_changbase">基地</string>
     <!--业务员申请-->
     <string name="title_activity_handoverman_check">入库申请</string>
@@ -252,4 +254,10 @@
     <string name="overweight_tv_kg">KG</string>
     <string name="overweight_btn_scan">扫描</string>
     <string name="overweight_btn_upload">上传</string>
+
+    <!--基地名称-->
+    <string name="nhbase">南海基地</string>
+    <string name="dlbase">大良基地</string>
+    <string name="lcbase">乐从基地</string>
+    <string name="ssbase">三水基地</string>
 </resources>

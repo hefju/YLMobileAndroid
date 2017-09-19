@@ -68,9 +68,11 @@ import YLDataService.BaseSiteDBSer;
 import YLDataService.TasksManagerDBSer;
 import YLDataService.WebServerBaseData;
 import YLDataService.YLBoxScanCheck;
+import YLDataService.YLSiteInfo;
 import YLFileOperate.DBMove;
 import YLFileOperate.YLLoghandle;
 import YLPrinter.YLPrint;
+import YLSystemDate.YLMediaPlayer;
 import YLSystemDate.YLSysTime;
 import YLSystemDate.YLSystem;
 
@@ -97,6 +99,7 @@ public class KimTest extends YLBaseActivity implements View.OnClickListener {
     private ATMMachineDBSer atmMachineDBSer;
     private int count = 0;
     private  YLPrint ylPrint;
+    private YLMediaPlayer ylMediaPlayer;
 
 
 
@@ -146,6 +149,7 @@ public class KimTest extends YLBaseActivity implements View.OnClickListener {
     protected void InitData() {
         int count= (new BaseBoxDBSer(KimTest.this)).BaseBoxCount();
         kim_vibrate.setText(count+" 个款箱");
+        ylMediaPlayer = new YLMediaPlayer(getApplicationContext());
         this.setTitle("测试");
     }
 
@@ -885,7 +889,24 @@ public class KimTest extends YLBaseActivity implements View.OnClickListener {
 //            manager.readerPowerOff();
 //        }
         String hfcode = HFReadUID();
-        YLMessagebox(hfcode);
+
+        if (hfcode.length() >0){
+            YLSiteInfo ylSiteInfo = new YLSiteInfo(getApplicationContext());
+            String sitename = ylSiteInfo.GetBaseSiteName(hfcode);
+            if (sitename.equals("未录入网点")){
+                ylMediaPlayer.SuccessOrFail(false);
+                YLMessagebox(hfcode);
+            }else {
+                ylMediaPlayer.SuccessOrFail(true);
+                YLMessagebox(sitename);
+            }
+
+        }else {
+            YLMessagebox("不能读卡，请重新读取");
+            ylMediaPlayer.SuccessOrFail(false);
+        }
+
+//        YLMessagebox(hfcode);
     }
 
     private void PushBoxList() {

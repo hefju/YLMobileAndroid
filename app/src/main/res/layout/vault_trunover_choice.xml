@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="@string/boxstaut_empty"
+                android:id="@+id/vault_turnover_rbtn_boxempty"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="@string/boxstaut_full"
+                android:checked="true"
+                android:layout_marginStart="60sp"
+                android:id="@+id/vault_turnover_rbtn_boxfull"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30sp">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RadioButton
+                android:id="@+id/vault_turnover_rbtn_nh"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:checked="true"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/nhbase"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/vault_turnover_rbtn_dl"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/dlbase"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/vault_turnover_rbtn_lc"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/lcbase"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+            <RadioButton
+                android:id="@+id/vault_turnover_rbtn_ss"
+                android:layout_width="fill_parent"
+                android:layout_height="45sp"
+                android:layout_marginStart="20sp"
+                android:button="@null"
+                android:drawableEnd="@android:drawable/btn_radio"
+                android:text="@string/ssbase"
+                android:textSize="20sp" />
+
+            <View
+                android:layout_width="250sp"
+                android:layout_height="1px"
+                android:background="?android:attr/listDivider" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>
