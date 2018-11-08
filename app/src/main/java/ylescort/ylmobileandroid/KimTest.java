@@ -876,7 +876,8 @@ public class KimTest extends YLBaseActivity implements View.OnClickListener {
         DBMove dbMove = new DBMove();
         String OldFile ="/data/data/ylescort.ylmobileandroid/databases/YLDB.db";
         String newFile =  "/storage/emulated/0/YLLOG/YLDB.db";   //旧机型 "/storage/sdcard0/YLDB.db";
-        dbMove.CopySdcardFile(OldFile, newFile);
+        String outputfolder =  "/storage/emulated/0/YLLOG/";  //日志输出文件夹
+        dbMove.CopySdcardFile(OldFile, newFile,outputfolder);
     }
 
     private void TestHF() {

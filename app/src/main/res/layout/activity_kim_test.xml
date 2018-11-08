@@ -11,35 +11,41 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_test1"
         android:text="红外测试"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_test2"
         android:layout_below="@+id/kim_test1"
         android:text="HF测试"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_copydb"
         android:layout_below="@+id/kim_test2"
         android:text="复制数据"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_vibrate"
         android:layout_below="@+id/kim_copydb"
         android:text="重新缓存"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_uhftest"
         android:layout_below="@+id/kim_vibrate"
         android:text="激活root"/>
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_uhfwrite"
         android:layout_below="@+id/kim_uhftest"
         android:text="打印测试"/>
@@ -47,6 +53,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_cleardata"
         android:layout_below="@+id/kim_uploadOR"
         android:text="钞盒盘库"/>
@@ -54,6 +61,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:id="@+id/kim_uploadOR"
         android:text="上传操作记录"
         android:layout_below="@+id/kim_uhfwrite"

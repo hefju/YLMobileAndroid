@@ -1,23 +1,26 @@
 package YLFileOperate;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2015-06-29.
  */
 
 public class DBMove {
+    private String TAG="DBMove";
 
-
-    public void CopySdcardFile(String fromFile, String toFile)
+    public void CopySdcardFile(String fromFile, String toFile,String outputfolder)
     {
 //        File olefile = new File(fromFile);
 //        File newfile = new File(toFile);
-        copyFile(fromFile,toFile);
+        copyFile(fromFile,toFile,outputfolder);
     }
 
 
@@ -27,7 +30,7 @@ public class DBMove {
      * @param newPath String 复制后路径 如：f:/fqf.txt
      * @return boolean
      */
-    public void copyFile(String oldPath, String newPath) {
+    public void copyFile(String oldPath, String newPath,String outputfolder) {
         try {
             int bytesum = 0;
             int byteread = 0;
@@ -49,6 +52,20 @@ public class DBMove {
             System.out.println("复制单个文件操作出错");
             e.printStackTrace();
 
+        }
+        sendfile(newPath,outputfolder);
+    }
+
+    private void sendfile(String newPath,String outputfolder) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String time=format.format(new Date());
+        try {
+            // 源文件 ="/storage/emulated/0/YLLOG/YLDB.db"
+            // 新文件 ="/storage/emulated/0/YLLOG/20181108203117.zip"
+            ZIP.ZipFolder(newPath,outputfolder+time+".zip");
+        } catch (Exception e) {
+            Log.e(TAG,e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -101,3 +118,5 @@ public class DBMove {
     }
 
 }
+
+
