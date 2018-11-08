@@ -5,3 +5,4 @@ app/src/main/java/YLDataService/LocalSetting.java
 /build
 *.iml
 /projectFilesBackup
+local.properties
