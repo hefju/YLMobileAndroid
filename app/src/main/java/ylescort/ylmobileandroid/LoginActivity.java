@@ -86,7 +86,7 @@ public class LoginActivity extends ActionBarActivity implements View.OnClickList
             } else {
                 oper = "库管员端";
             }
-            LoginActivity.this.setTitle("粤龙保安押运--" + oper);
+            LoginActivity.this.setTitle("海盾押运--" + oper);
             int b = getResources().getColor(R.color.androidbluel);//得到配置文件里的颜色
             final String ylvision = getVersionName();
             log_tv_vision.setTextColor(b);

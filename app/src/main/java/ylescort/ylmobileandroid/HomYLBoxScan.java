@@ -429,7 +429,7 @@ public class HomYLBoxScan extends ActionBarActivity implements View.OnClickListe
         }
         if (homylboxscan_rbtn_get.isChecked()) {
             try {
-                if (box.getBoxName().contains("粤龙临") || box.getBoxType().equals("无")) {
+                if (box.getBoxName().contains("海盾临") || box.getBoxType().equals("无")) {
                     if (!checkboxsype().equals("款箱类")) {
                         YLRecord.WriteRecord("扫描","收箱录入箱状态:"+box.getBoxName()+box.getBoxType());
                         box.setBoxType(checkboxsype());

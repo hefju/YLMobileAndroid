@@ -145,8 +145,8 @@ public class ATMBoxDBSer {
             }
         }else{
             atmBox.setClientID("0");
-            atmBox.setClientName("粤龙保安押运");
-            atmBox.setBoxName("粤龙钞箱");
+            atmBox.setClientName("海盾押运");
+            atmBox.setBoxName("海盾钞箱");
         }
         sdb.close();
         return atmBox;
@@ -157,8 +157,8 @@ public class ATMBoxDBSer {
         ATMBox box = new ATMBox();
         if (boxcode.length() !=10){
             box.setClientID("0");
-            box.setClientName("粤龙保安押运");
-            box.setBoxName("粤龙钞箱");
+            box.setClientName("海盾押运");
+            box.setBoxName("海盾钞箱");
         }else {
             BaseClientDBSer b = new BaseClientDBSer(context);
             box = FindATMbox(boxcode);

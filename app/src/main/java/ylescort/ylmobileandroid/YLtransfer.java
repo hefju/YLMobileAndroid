@@ -380,7 +380,7 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             YLRecord.WriteRecord("网点交接", "临时标签未选类型");
             YLMessagebox("临时标签款箱类型未选");
         } else {
-            if (box.getBoxName().startsWith("粤龙临")) {
+            if (box.getBoxName().startsWith("海盾临")) {
                 YLRecord.WriteRecord("网点交接", "添加临时标签");
                 GetBoxDetail(box, true);
             } else {
@@ -715,10 +715,10 @@ public class YLtransfer extends YLBaseScanActivity implements View.OnClickListen
             case R.id.yltransfer_cb_ylclearing:
 
                 if (yltransfer_cb_ylclearing.isChecked()) {
-                    YLRecord.WriteRecord("网点交接", "设置粤龙清分");
+                    YLRecord.WriteRecord("网点交接", "设置海盾清分");
                     ChooseBox.setYlclearing("1");
                 } else {
-                    YLRecord.WriteRecord("网点交接", "设置非粤龙清分");
+                    YLRecord.WriteRecord("网点交接", "设置非海盾清分");
                     ChooseBox.setYlclearing("0");
                 }
                 break;

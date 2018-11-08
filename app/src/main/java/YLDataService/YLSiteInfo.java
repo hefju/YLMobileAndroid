@@ -30,10 +30,10 @@ public class YLSiteInfo {
             if (baseClient.size() >0){
                 ClienName = baseClient.get(0).ClientName;
             }else {
-                ClienName = "粤龙交接客户";
+                ClienName = "海盾交接客户";
             }
         }else {
-            ClienName = "粤龙交接客户";
+            ClienName = "海盾交接客户";
         }
         return ClienName;
     }

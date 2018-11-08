@@ -72,7 +72,7 @@ public class YLPrint {
 
         Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
 
-        zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
+        zpSDK.zp_draw_text(10, rowshight, "珠海市海盾押运押运有限公司");
 
         String title = "";
         String Address = "";
@@ -370,7 +370,7 @@ public class YLPrint {
 
         Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
 
-        zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
+        zpSDK.zp_draw_text(10, rowshight, "珠海市海盾押运押运有限公司");
         String title = "";
         String Address = "";
         String NetPoint = "";
@@ -618,7 +618,7 @@ public class YLPrint {
 
         Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
 
-        zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
+        zpSDK.zp_draw_text(10, rowshight, "珠海市海盾押运押运有限公司");
         String title = "";
         String Address = "";
         String NetPoint = "";
@@ -682,7 +682,7 @@ public class YLPrint {
         Boolean creatpage = zpSDK.zp_page_create(80,40);
 
         Log.e(YLSystem.getKimTag(), "creat" + creatpage.toString());
-        zpSDK.zp_draw_text(10, rowshight, "佛山市粤龙保安押运有限公司");
+        zpSDK.zp_draw_text(10, rowshight, "珠海市海盾押运押运有限公司");
         String title = "押运交接单";
         String Address = "单位名称";
         String NetPoint = "网点名称";

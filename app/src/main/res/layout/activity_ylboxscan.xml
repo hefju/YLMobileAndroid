@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="广东省佛山市粤龙保安押运有限公司安卓客户端"/>
+            android:text="珠海市海盾押运押运有限公司安卓客户端"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"

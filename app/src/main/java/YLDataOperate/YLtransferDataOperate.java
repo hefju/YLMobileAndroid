@@ -255,7 +255,7 @@ public class YLtransferDataOperate {
     }
 
     public boolean CheckBoxName(Box box, String btnname){
-        return box.getBoxName().startsWith("粤龙临") &btnname.equals("款箱类");
+        return box.getBoxName().startsWith("海盾临") &btnname.equals("款箱类");
     }
 
     public String TranferBoxcount(int taskTimeID){

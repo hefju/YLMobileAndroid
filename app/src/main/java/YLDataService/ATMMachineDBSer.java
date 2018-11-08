@@ -128,7 +128,7 @@ public class ATMMachineDBSer {
             }
         }else{
             b.setMachineID("0");
-            b.setMachineName("粤龙保安押运");
+            b.setMachineName("海盾押运");
             b.setSiteID("0");
         }
         sdb.close();
@@ -140,8 +140,8 @@ public class ATMMachineDBSer {
         BaseATMMachine box = new BaseATMMachine();
 //        if (boxcode.length() !=10){
 //            box.setMachineID("0");
-//            box.setMachineName("粤龙保安押运");
-//            box.setSiteID("粤龙钞箱");
+//            box.setMachineName("海盾押运");
+//            box.setSiteID("海盾钞箱");
 //        }else {
 //            BaseClientDBSer b = new BaseClientDBSer(context);
 //            box = FindATMMachine(boxcode);

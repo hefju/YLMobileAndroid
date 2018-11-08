@@ -46,7 +46,7 @@ public class BaseClientDBSer {
     }
 
     public String GetClientName (String clientID){
-        String str = "粤龙客户";
+        String str = "海盾客户";
         try {
             SQLiteDatabase sdb = ylsqlHelper.getReadableDatabase();
             Cursor c = sdb.rawQuery("select * from BaseClient where ClientID = ?",new String[]{clientID});

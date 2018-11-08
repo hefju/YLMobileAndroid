@@ -357,7 +357,7 @@ public class YLBoxEdit extends ActionBarActivity implements View.OnClickListener
                 break;
         }
 
-        if (box.getBoxName().contains("粤龙临")){
+        if (box.getBoxName().contains("海盾临")){
             boxedi_rbtn_moneyboxs.setEnabled(true);
             boxedi_rbtn_cardbox.setEnabled(true);
             boxedi_rbtn_Voucher.setEnabled(true);
