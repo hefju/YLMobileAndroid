@@ -1,21 +1,22 @@
 package YLWebService;
 
-import android.content.Context;
-import android.content.Intent;
-import android.webkit.URLUtil;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
+import android.webkit.URLUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 import YLDataService.LocalSetting;
 import YLSystemDate.YLSystem;
@@ -102,8 +103,8 @@ public class UpdateManager {
                 break;
             case 13:strURL = LocalSetting.getWebupdateappaddresshf();
                 break;
-            case 14:strURL = LocalSetting.getWebupdateappaddressC5000();
-                break;
+//            case 14:strURL = LocalSetting.getWebupdateappaddressC5000();
+//                break;
         }
 
 
