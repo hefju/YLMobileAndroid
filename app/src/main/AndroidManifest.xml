@@ -1,162 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="ylescort.ylmobileandroid"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ylescort.ylmobileandroid">
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/yllogo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <service android:name=".YLNetWorkStateService"/>
-        <service android:name=".SerTimeService"/>
-        <service android:name=".ScanUHFService"/>
-        <service android:name=".Scan1DService"/>
+        <service android:name=".YLNetWorkStateService" />
+        <service android:name=".SerTimeService" />
+        <service android:name=".ScanUHFService" />
+        <service android:name=".Scan1DService" />
 
         <activity android:name=".YLlauncher">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Login"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".Task"
-            android:label="@string/title_activity_task_"/>
+            android:label="@string/title_activity_task_" />
         <activity
             android:name=".YLBoxScan"
             android:label="@string/title_activity_box">
             <intent-filter>
-                <action android:name="ylescort.ylmobileandroid.box"/>
+                <action android:name="ylescort.ylmobileandroid.box" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".boxlist"
-            android:label="@string/title_activity_boxlist"/>
+            android:label="@string/title_activity_boxlist" />
         <activity
             android:name=".setup"
-            android:label="@string/title_activity_setup"/>
+            android:label="@string/title_activity_setup" />
         <activity
             android:name=".Taskitem"
-            android:label="@string/title_activity_taskitem"/>
+            android:label="@string/title_activity_taskitem" />
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"/>
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".YLSite"
-            android:label="@string/title_activity_ylsite"/>
+            android:label="@string/title_activity_ylsite" />
         <activity
             android:name=".YLsiteitem"
-            android:label="@string/title_activity_ylsiteitem"/>
+            android:label="@string/title_activity_ylsiteitem" />
         <activity
             android:name=".util.CacheDataView"
-            android:label="@string/title_activity_cache_data_view"/>
+            android:label="@string/title_activity_cache_data_view" />
         <activity
             android:name=".YLBoxEdit"
-            android:label="@string/title_activity_ylbox_edit"/>
+            android:label="@string/title_activity_ylbox_edit" />
         <activity
             android:name=".chongTest3"
-            android:label="@string/title_activity_chong__test"/>
+            android:label="@string/title_activity_chong__test" />
         <activity
             android:name=".YLATMSite"
             android:label="@string/title_activity_ylatmlist">
             <intent-filter>
-                <action android:name="ylescort.ylmobileandroid.YLATMSite"/>
+                <action android:name="ylescort.ylmobileandroid.YLATMSite" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".YLATMDetail"
-            android:label="@string/title_activity_ylatmdetail"/>
+            android:label="@string/title_activity_ylatmdetail" />
         <activity
             android:name=".KimTest"
             android:label="@string/title_activity_kim_test">
             <intent-filter>
-                <action android:name="ylescort.ylmobileandroid.KimTest"/>
+                <action android:name="ylescort.ylmobileandroid.KimTest" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".VaultInOrOut"
-            android:label="@string/title_activity_vault_in_or_out"/>
+            android:label="@string/title_activity_vault_in_or_out" />
         <activity
             android:name=".vault_out_operate"
             android:label="@string/title_activity_vault_out_operate"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".vault_out_detail"
-            android:label="@string/title_activity_vault_out_detail"/>
+            android:label="@string/title_activity_vault_out_detail" />
         <activity
             android:name=".vault_in_detail"
             android:label="@string/title_activity_vault_in_detail"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".vault_in_operate"
-            android:label="@string/title_activity_vault_in_operate"/>
+            android:label="@string/title_activity_vault_in_operate" />
         <activity
             android:name=".vault_check_ylbox"
-            android:label="@string/title_activity_vault_check_ylbox"/>
+            android:label="@string/title_activity_vault_check_ylbox" />
         <activity
             android:name=".HandovermanCheck"
-            android:label="@string/title_activity_handoverman_check"/>
+            android:label="@string/title_activity_handoverman_check" />
         <activity
             android:name=".LocalCheck"
-            android:label="@string/title_activity_local_check"/>
+            android:label="@string/title_activity_local_check" />
         <activity
             android:name=".Valut_turnover"
-            android:label="@string/valut_turnover_title"/>
+            android:label="@string/valut_turnover_title" />
         <activity
             android:name=".HomYLBoxScan"
-            android:label="@string/hom_ylbox_btn_scan"/>
+            android:label="@string/hom_ylbox_btn_scan" />
         <activity
             android:name=".YLUHFWriter"
-            android:label="@string/yluhfwriter_activityname"/>
+            android:label="@string/yluhfwriter_activityname" />
         <activity
             android:name=".vault_tmp_inorout"
-            android:label="@string/valuttmp_inorout_title"/>
-        <activity android:name=".vault_tmp_scan"/>
-        <activity android:name=".HomTmp_Scan"/>
+            android:label="@string/valuttmp_inorout_title" />
+        <activity android:name=".vault_tmp_scan" />
+        <activity android:name=".HomTmp_Scan" />
         <activity
             android:name=".vault_in_detail_statistics"
-            android:label="@string/vault_in_detail_statistics_title"/>
+            android:label="@string/vault_in_detail_statistics_title" />
         <activity
             android:name=".YLCarToCarTask"
-            android:label="@string/ylcartocartask"/>
+            android:label="@string/ylcartocartask" />
         <activity
             android:name=".YLCarToCarScan"
-            android:label="@string/ylcartocarScan"/>
+            android:label="@string/ylcartocarScan" />
         <activity
             android:name=".YLPrintActivity"
-            android:label="@string/ylprinter"/>
-        <activity android:name=".YLtransfer">
-        </activity>
-        <activity android:name=".YLtransferedi">
-        </activity>
-        <activity android:name=".ATMBoxCheck">
-        </activity>
-        <activity android:name=".Overweight">
-        </activity>
-        <activity android:name=".NewHandSet">
-        </activity>
+            android:label="@string/ylprinter" />
+        <activity android:name=".YLtransfer"></activity>
+        <activity android:name=".YLtransferedi"></activity>
+        <activity android:name=".ATMBoxCheck"></activity>
+        <activity android:name=".Overweight"></activity>
+        <activity android:name=".NewHandSet"></activity>
+        <activity android:name=".LoginFpActivity"></activity>
     </application>
 
 </manifest>

@@ -50,7 +50,7 @@
     <EditTextPreference
         android:key="UHFPower"
         android:summary="功率范围：20-33"
-        android:title="@string/uhfpowername"
+        android:title="UHF功率设置"
         android:defaultValue="@string/uhfpower"
         android:selectAllOnFocus="true"
         android:capitalize="words"
