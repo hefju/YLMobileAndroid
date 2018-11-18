@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +36,7 @@ import YLWebService.UpdateManager;
 
 
 public class Login extends YLBaseActivity implements View.OnClickListener {
-
+    private String Tag="LoginActivity";
 
     private EditText Log_ET_Name;
     private EditText Log_ET_PassWord;
@@ -93,7 +94,11 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         Log_BN_Ent.setOnClickListener(this);
         btnTest1.setOnClickListener(this);
         btnTest2.setOnClickListener(this);
-        logic_sw_address.setOnClickListener(this);
+
+        Button btnRegisterFp = (Button) findViewById(R.id.btnRegisterFp);
+        btnRegisterFp.setOnClickListener(this);
+        Button btnLoginFp = (Button) findViewById(R.id.btnLoginFp);
+        btnLoginFp.setOnClickListener(this);
     }
 
     @Override
@@ -178,10 +183,12 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                     }
                     break;
                 case R.id.btnRegisterFp:
+                    Log.e(Tag,"btnRegisterFp.click!");
                      intent = new Intent(Login.this,FpRegisterActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.btnLoginFp:
+                    Log.e(Tag,"btnLoginFp.click!");
                     intent = new Intent(Login.this,LoginFpActivity.class);
                     startActivity(intent);
                     break;
