@@ -98,10 +98,22 @@
         android:id="@+id/Logic_LL_info"
         android:layout_below="@+id/Logic_LL_textview">
         <Button
-            android:id="@+id/btnTest2"
+            android:id="@+id/btnRegisterFp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/btnTest1"
+            android:text="注册指纹"/>
+        <Button
+            android:id="@+id/btnLoginFp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/btnRegisterFp"
+            android:text="指纹登录"/>
+        <Button
+            android:id="@+id/btnTest2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/btnLoginFp"
             android:text="@string/Log_Test"/>
 
         <Button

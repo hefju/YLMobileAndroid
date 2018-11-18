@@ -177,6 +177,16 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                         YLSystem.setSerAdress("1");
                     }
                     break;
+                case R.id.btnRegisterFp:
+                     intent = new Intent(Login.this,FpRegisterActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btnLoginFp:
+                    intent = new Intent(Login.this,LoginFpActivity.class);
+                    startActivity(intent);
+                    break;
+                default:
+                        break;
             }
         } catch (Exception e) {
             e.printStackTrace();

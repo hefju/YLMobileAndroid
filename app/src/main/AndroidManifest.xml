@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".Login"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".Task"
             android:label="@string/title_activity_task_" />
@@ -146,12 +146,13 @@
         <activity
             android:name=".YLPrintActivity"
             android:label="@string/ylprinter" />
-        <activity android:name=".YLtransfer"></activity>
-        <activity android:name=".YLtransferedi"></activity>
-        <activity android:name=".ATMBoxCheck"></activity>
-        <activity android:name=".Overweight"></activity>
-        <activity android:name=".NewHandSet"></activity>
-        <activity android:name=".LoginFpActivity"></activity>
+        <activity android:name=".YLtransfer" />
+        <activity android:name=".YLtransferedi" />
+        <activity android:name=".ATMBoxCheck" />
+        <activity android:name=".Overweight" />
+        <activity android:name=".NewHandSet" />
+        <activity android:name=".LoginFpActivity" />
+        <activity android:name=".FpRegisterActivity"></activity>
     </application>
 
 </manifest>
