@@ -1,14 +1,10 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.za.finger;
 
-public interface IUsbConnState {
-    void onUsbConnected();
+public abstract interface IUsbConnState
+{
+  public abstract void onUsbConnected();
 
-    void onUsbPermissionDenied();
+  public abstract void onUsbPermissionDenied();
 
-    void onDeviceNotFound();
+  public abstract void onDeviceNotFound();
 }
