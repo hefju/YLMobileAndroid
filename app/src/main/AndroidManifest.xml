@@ -152,7 +152,9 @@
         <activity android:name=".Overweight" />
         <activity android:name=".NewHandSet" />
         <activity android:name=".LoginFpActivity" />
-        <activity android:name=".FpRegisterActivity"></activity>
+        <activity android:name=".FpRegisterActivity" />
+        <activity android:name=".scanfptest" />
+        <activity android:name=".FpRegisterActivity2"></activity>
     </application>
 
 </manifest>

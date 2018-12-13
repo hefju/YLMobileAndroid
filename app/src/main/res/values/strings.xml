@@ -260,4 +260,37 @@
     <string name="dlbase">大良基地</string>
     <string name="lcbase">乐从基地</string>
     <string name="ssbase">三水基地</string>
+
+    <string name="open_dev">打开设备</string>
+    <string name="get_fp_img">获取指纹图像</string>
+    <string name="gen_char">生成特征</string>
+    <string name="match_fp">对比特征</string>
+    <string name="search">搜索指纹</string>
+    <string name="enroll">登记指纹</string>
+    <string name="empty">清空指纹库</string>
+    <string name="close">关闭设备</string>
+    <string name="conn_dev_success">连接USB指纹设备成功</string>
+    <string name="conn_dev_fail">连接USB指纹设备失败</string>
+    <string name="usb_perssion_deny">USB授权拒绝</string>
+    <string name="dev_not_found">设备未发现</string>
+    <string name="get_finger_img_time_out">未发现手指</string>
+    <string name="get_finger_img_success">获取指纹图像成功</string>
+    <string name="searching_finger">请把手持按在传感器上</string>
+    <string name="get_img_error">获取图像错误</string>
+    <string name="dev_error">设备异常</string>
+    <string name="get_finger_char_success">获取指纹特征成功</string>
+    <string name="finger_char_is_bad_try_again">指纹特征质量太差，请重新录取</string>
+    <string name="empty_flash_database">清空指纹库</string>
+
+    <string name="gen_finger_buffer_a_press_again">在缓冲区A生成特征,移开手指，再按</string>
+    <string name="gen_finger_buffer_b_success">在缓冲区B生成特征 </string>
+    <string name="match_a_b_success_score">比对缓冲区A和缓冲区B的特征,分值</string>
+    <string name="already_exist_flash">此特征在指纹库中已经存在</string>
+    <string name="flash_database_full">指纹库已满</string>
+    <string name="enroll_success">登记指纹成功</string>
+    <string name="enroll_fail">登记指纹失败</string>
+    <string name="finger_is_found">手指已经找到</string>
+    <string name="no_found_finger_in_flash">在指纹库中未发现此特征</string>
+    <string name="about">关于软件</string>
+
 </resources>
