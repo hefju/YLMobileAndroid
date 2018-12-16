@@ -154,7 +154,8 @@
         <activity android:name=".LoginFpActivity" />
         <activity android:name=".FpRegisterActivity" />
         <activity android:name=".scanfptest" />
-        <activity android:name=".FpRegisterActivity2"></activity>
+        <activity android:name=".FpRegisterActivity2" />
+        <activity android:name=".FpLoginActivity"></activity>
     </application>
 
 </manifest>

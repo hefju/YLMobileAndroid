@@ -1,6 +1,5 @@
 package ylescort.ylmobileandroid;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,38 +9,32 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.za.finger.FingerHelper;
 import com.za.finger.IUsbConnState;
 
+import java.util.List;
+
 import ScanFP.ScanThread;
 import ScanFP.YLFPHelper;
-import YLDataService.FingerPrintDBSer;
 import cn.pda.serialport.Tools;
-import ylescort.ylmobileandroid.R;
 
-public class FpRegisterActivity2 extends ActionBarActivity implements View.OnClickListener {
+public class FpLoginActivity extends ActionBarActivity  implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fp_register2);
+        setContentView(R.layout.activity_fp_login);
         InitLayout();
         InitData();
     }
-
     private String Tag = "kim";
-    private ImageView img_fp; //指纹图谱
-    private EditText edit_tips; //显示指纹设备运行信息.例如提示按指纹,提示超时,成功等
-    private Button btn_open,btn_get_char,btn_enroll,btn_close;//打开指纹设备,获取指纹特征码,注册指纹(这个没有用的),关闭指纹
-    private EditText txtEmpNum;//员工编号
-    private  Button btnSetEmpNum;//确定已经输入员工编号
-
+    private ImageView img_fp;
+    private EditText edit_tips;
+    private Button btn_open,btn_get_img,btn_get_char,btn_match_fp,btn_search,btn_enroll,btn_empty,btn_close,btn_scan;
 
     //scan
 
@@ -57,9 +50,6 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         }
     };
 
-    private Context getActivityContext() {
-        return FpRegisterActivity2.this;
-    }
     //fp
     private FingerHelper mFingerHelper;
     private int statues = 0;
@@ -102,54 +92,34 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         }
     };
 
-
-
-
     private void InitLayout() {
-        img_fp = (ImageView) findViewById(R.id.img_fp);
+//        img_fp = (ImageView) findViewById(R.id.img_fp);
         edit_tips = (EditText) findViewById(R.id.edit_tips);
-        txtEmpNum = (EditText) findViewById(R.id.txtEmpNum);
         btn_open = (Button) findViewById(R.id.btn_open);
-        btn_get_char = (Button) findViewById(R.id.btn_get_char);
+
+        btn_search = (Button) findViewById(R.id.btn_search);
         btn_close = (Button) findViewById(R.id.btn_close);
-        btn_enroll = (Button) findViewById(R.id.btn_enroll);
-        btnSetEmpNum = (Button) findViewById(R.id.btnSetEmpNum);
 
         btn_open.setOnClickListener(this);
-        btn_enroll.setOnClickListener(this);
-        btn_get_char.setOnClickListener(this);
-        btn_close.setOnClickListener(this);
-        btnSetEmpNum.setOnClickListener(this);
 
-        //禁用指纹
-        btn_open.setEnabled(false);
-        btn_get_char.setEnabled(false);
-        btn_close.setEnabled(false);
-    }
-    private boolean inputFirst=true;//输入第一个员工
-    private void retsetUerInput() {//重置用户输入界面
-        inputFirst=false;//已经录入多个员工了,不用再打开指纹
-        txtEmpNum.setText("");
-        txtEmpNum.setHint("请输入下一个员工编号.");
-        btn_open.setEnabled(false);
-        btn_get_char.setEnabled(false);
-       // btn_close.setEnabled(false);
+        btn_search.setOnClickListener(this);
+        btn_close.setOnClickListener(this);
+
     }
 
     private void InitData() {
-        //scan
-        try {
-            scanThread = new ScanThread(mHandler);
-            scanThread.start();
-        }catch (Exception e){
-            Log.e(Tag,"扫描打开失败");
-        }
+//        //scan
+//        try {
+//            scanThread = new ScanThread(mHandler);
+//            scanThread.start();
+//        }catch (Exception e){
+//            Log.e(Tag,"扫描打开失败");
+//        }
 
         //fp
         mFingerHelper = new FingerHelper(this,usbConnState);
-        res = this.getResources();
-        defaultBm = BitmapFactory.decodeResource(getResources(),R.drawable.fingerprint);
-
+//        res = this.getResources();
+//        defaultBm = BitmapFactory.decodeResource(getResources(),R.drawable.fingerprint);
     }
 
     @Override
@@ -157,46 +127,34 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         switch (view.getId()){
             case R.id.btn_open: OpenDevice();
                 break;
+            case R.id.btn_get_img: GetImage();
+                break;
             case R.id.btn_get_char: GetChar();
+                break;
+            case R.id.btn_match_fp: MatchFp();
+                break;
+            case R.id.btn_search: SearchFp();
                 break;
             case R.id.btn_enroll: EnrollFp();
                 break;
+            case R.id.btn_empty: EmptyFp();
+                break;
             case R.id.btn_close: CloseDevice();
                 break;
-            case R.id.btnSetEmpNum: UserInputEmpNum();
+            case R.id.btn_scan: ScanData();
                 break;
-
-        }
-    }
-    private  String ipEmpNum="";//员工编号
-    private void UserInputEmpNum() {
-        ipEmpNum=txtEmpNum.getText().toString();
-        //if(string.is)
-        if(ipEmpNum==null||ipEmpNum.equals("")){
-            Toast.makeText(getActivityContext(),"请输入员工编号", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(inputFirst)
-            btn_open.setEnabled(true);
-        else{
-            btn_get_char.setEnabled(true);
-            btn_close.setEnabled(true);
-        }
-        closeinput();//关闭软键盘
-    }
-
-    private void closeinput() {
-        View view = getWindow().peekDecorView();
-        if (view != null) {
-            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
     private void OpenDevice() {
         mFingerHelper.init();
-        btn_get_char.setEnabled(true);
-        btn_close.setEnabled(true);
+    }
+
+    private void GetImage() {
+        img_fp.setImageBitmap(defaultBm);
+        startTime = System.currentTimeMillis();
+        endTime = startTime;
+        fpHandler.postDelayed(getFPImageTask,0);
     }
 
     private void GetChar() {
@@ -205,6 +163,23 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         endTime = startTime ;
         //run get finger char task
         mHandler.postDelayed(getCharTask, 0);
+    }
+
+    private void MatchFp() {
+        img_fp.setImageBitmap(defaultBm);
+        startTime = System.currentTimeMillis() ;
+        endTime = startTime ;
+
+        fpCharBuffer = mFingerHelper.CHAR_BUFFER_A ;
+        //run match finger char task
+        mHandler.postDelayed(matchFingerTask, 0);
+    }
+
+    private void SearchFp() {
+        startTime = System.currentTimeMillis() ;
+        endTime = startTime ;
+        //run match finger char task
+        mHandler.postDelayed(searchTask, 0);
     }
 
     private void EnrollFp() {
@@ -217,17 +192,26 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         mHandler.postDelayed(enrollTask, 0);
     }
 
-    private void CloseDevice() {
-        mFingerHelper.close();
-        this.finish();
+    private void EmptyFp() {
+        statues = mFingerHelper.emptyChar() ;
+        if (statues == mFingerHelper.PS_OK) {
+            edit_tips.setText(res.getString(R.string.empty_flash_database));
+        }
     }
 
+    private void CloseDevice() {
+        mFingerHelper.close();
+    }
     @Override
     protected void onDestroy() {
         if (mFingerHelper !=null){
             mFingerHelper.close();
         }
         super.onDestroy();
+    }
+
+    private void ScanData() {
+        scanThread.scan();
     }
 
     private Runnable getFPImageTask = new Runnable() {
@@ -298,22 +282,9 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
                     statues = mFingerHelper.upCharFromBufferID(mFingerHelper.CHAR_BUFFER_A, charBytes, iCharLen);
                     if (statues == mFingerHelper.PS_OK) {
                         //upload success
-//                        temp = res.getString(R.string.get_finger_char_success) +":\r\n " + Tools.Bytes2HexString(charBytes, 512);
-//                        edit_tips.setText(temp);
-                        //保存到数据库
-                        FingerPrintDBSer fingerPrintDBSer=new  FingerPrintDBSer(getActivityContext());
-                        String fp=Tools.Bytes2HexString(charBytes, 512);
-                        YLFPHelper ylfpHelper=new YLFPHelper();
-                        int count=ylfpHelper.SaveFp(ipEmpNum,fp,fingerPrintDBSer);
-                        Log.d("unit_test","ipEmpNum:"+ipEmpNum);
-                        if(count==0){
-                            temp="保存指纹失败.";
-                            edit_tips.setText(temp);
-                        }else{
-                            temp = "指纹保存成功";
-                            edit_tips.setText(temp);
-                            retsetUerInput();//重置界面,录入下一个员工编号和指纹
-                        }
+                        temp = res.getString(R.string.get_finger_char_success) +":\r\n " + Tools.Bytes2HexString(charBytes, 512);
+                        edit_tips.setText(temp);
+
                     }
                 }else{
                     //char is bad quickly
@@ -339,8 +310,6 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
             }
         }
     } ;
-
-
 
     /**
      * match two finger char, if match score > 60 is the same finger
@@ -462,7 +431,6 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
 
                             return ;
                         }
-                       // mFingerHelper.g
                         //store template to flash database
                         statues =  mFingerHelper.storeTemplate(mFingerHelper.MODEL_BUFFER, templateNum);
                         if (statues == mFingerHelper.PS_OK) {
@@ -527,6 +495,76 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
 
                     }else{
                         temp = res.getString(R.string.no_found_finger_in_flash);
+                        edit_tips.setText(temp);
+                    }
+
+                }
+            } else if (statues == mFingerHelper.PS_NO_FINGER) {
+                temp = res.getString(R.string.searching_finger) + " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
+                edit_tips.setText(temp);
+                fpHandler.postDelayed(searchTask, 100);
+            } else if (statues == mFingerHelper.PS_GET_IMG_ERR) {
+                temp = res.getString(R.string.get_img_error);
+                edit_tips.setText(temp);
+
+                return ;
+            }else{
+                temp = res.getString(R.string.dev_error);
+                edit_tips.setText(temp);
+
+                return ;
+            }
+        }
+    } ;
+
+    /**
+     * 对比指纹,采用字符串的方式,
+     */
+    private Runnable CompareTask = new Runnable() {
+        @Override
+        public void run() {
+            String temp = ""  ;
+            long timeCount = 0L ;
+            endTime = System.currentTimeMillis() ;
+            timeCount = endTime - startTime ;
+            //search finger time 10s
+            if (timeCount > 10000) {
+                temp = res.getString(R.string.get_finger_img_time_out);
+                edit_tips.setText(temp);
+
+                return ;
+            }
+            statues = mFingerHelper.getImage() ;
+            //find finger
+            if (statues == mFingerHelper.PS_OK) {
+                //gen char to bufferA
+                statues = mFingerHelper.genChar(mFingerHelper.CHAR_BUFFER_A);
+                if (statues == mFingerHelper.PS_OK) {
+                    int[] iMaddr = {0, 0} ;
+                    byte[] charBytes = new byte[512];
+                    //is exist flash database,database size = 512
+                   // statues = mFingerHelper.search(mFingerHelper.CHAR_BUFFER_A, 0, 512, iMaddr);
+                    statues = mFingerHelper.upCharFromBufferID(mFingerHelper.CHAR_BUFFER_A, charBytes, iMaddr);
+                    if (statues == mFingerHelper.PS_OK) {
+                        String fpInput= Tools.Bytes2HexString(charBytes, 512);
+                        YLFPHelper ylfpHelper=new YLFPHelper();
+                        List<String> listfp=null;
+
+                        int empindex=-1;
+                        try {
+                            empindex= ylfpHelper.MatchFP(listfp,fpInput);
+                            if(empindex>0){
+                                //找到员工的指纹
+                            }else{
+                                //找不到员工的指纹
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            temp = e.getMessage();
+                            edit_tips.setText(temp);
+                        }
+                    }else{
+                        temp = res.getString(R.string.finger_char_is_bad_try_again);
                         edit_tips.setText(temp);
                     }
 

@@ -266,6 +266,7 @@
     <string name="gen_char">生成特征</string>
     <string name="match_fp">对比特征</string>
     <string name="search">搜索指纹</string>
+    <string name="fplogin">指纹登录</string>
     <string name="enroll">登记指纹</string>
     <string name="empty">清空指纹库</string>
     <string name="close">关闭设备</string>

@@ -33,7 +33,33 @@ tools:context="ylescort.ylmobileandroid.FpRegisterActivity2">
         android:padding="3dp"
         android:focusable="false"
         android:gravity="top"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:orientation="horizontal">
+        <TextView
+            android:text="请输入:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:layout_weight="1" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:hint="员工编号"
+            android:id="@+id/txtEmpNum"
+            android:layout_weight="1" />
 
+        <Button
+        android:text="确定"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSetEmpNum"
+        android:layout_weight="1" />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_weight="2"
@@ -51,7 +77,15 @@ tools:context="ylescort.ylmobileandroid.FpRegisterActivity2">
             android:minHeight="50dp"
             android:background="@drawable/btn_bg"
             android:id="@+id/btn_open" />
-
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:minHeight="50dp"
+            android:text="@string/gen_char"
+            android:background="@drawable/btn_bg"
+            android:id="@+id/btn_get_char" />
 
         <Button
             android:layout_width="0dp"
@@ -60,6 +94,7 @@ tools:context="ylescort.ylmobileandroid.FpRegisterActivity2">
             android:layout_marginTop="10dp"
             android:minHeight="50dp"
             android:text="@string/enroll"
+            android:visibility="gone"
             android:background="@drawable/btn_bg"
             android:id="@+id/btn_enroll" />
 

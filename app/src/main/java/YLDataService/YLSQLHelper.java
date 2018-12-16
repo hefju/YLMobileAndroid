@@ -12,7 +12,7 @@ import YLSystemDate.YLSystem;
  * Created by Administrator on 2015/1/19.
  */
 public class YLSQLHelper extends SQLiteOpenHelper {
-    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,4);}
+    public YLSQLHelper(Context context) { super(context, "YLDB.db", null,5);}
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -47,6 +47,8 @@ public class YLSQLHelper extends SQLiteOpenHelper {
                 " MachineType varchar(50), MachineNo varchar(50), MachineHFNo varchar(50), MachineCode varchar(50),"+
                 " Mark varchar(50),ServerTime varchar(50))");
 
+        db.execSQL("CREATE TABLE FingerPrint (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50), " +
+                "EmpNum varchar(50), Finger varchar(512), CreateAt int)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -73,6 +75,11 @@ public class YLSQLHelper extends SQLiteOpenHelper {
                         "ServerReturn varchar(50), MachineID varchar(50), SiteID varchar(50), MachineName varchar(50), "+
                         " MachineType varchar(50), MachineNo varchar(50), MachineHFNo varchar(50), MachineCode varchar(50),"+
                         " Mark varchar(50),ServerTime varchar(50))");
+                break;
+            case 4:
+
+                db.execSQL("CREATE TABLE FingerPrint (Id INTEGER PRIMARY KEY autoincrement NOT NULL, ServerReturn varchar(50), " +
+                        "EmpNum varchar(50), Finger varchar(512), CreateAt int)");
                 break;
         }
     }

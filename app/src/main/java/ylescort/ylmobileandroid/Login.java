@@ -188,12 +188,12 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
 //                    startActivity(intent);
                     //20181201kim test
                    // YLstartActivity(scanfptest.class);
-                    intent = new Intent(Login.this,FpRegisterActivity2.class);//scanfptest
+                    intent = new Intent(Login.this,FpRegisterActivity2.class);//scanfptest  FpRegisterActivity2
                    startActivity(intent);
                     break;
                 case R.id.btnLoginFp:
                     Log.e(Tag,"btnLoginFp.click!");
-                    intent = new Intent(Login.this,LoginFpActivity.class);
+                    intent = new Intent(Login.this,FpLoginActivity.class);//LoginFpActivity
                     startActivity(intent);
                     break;
                 default:
