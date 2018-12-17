@@ -1,5 +1,7 @@
 package ylescort.ylmobileandroid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.za.finger.FingerHelper;
 import com.za.finger.IUsbConnState;
@@ -35,10 +38,15 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
     private ImageView img_fp;
     private EditText edit_tips;
     private Button btn_open,btn_get_img,btn_get_char,btn_match_fp,btn_search,btn_enroll,btn_empty,btn_close,btn_scan;
+    private TextView txtUser1,txtUser2;
+    private String EmpNumA="";//用工A
+    private String EmpNumB="";//员工B
+    YLFPHelper ylfpHelper=new YLFPHelper();
 
+    private Context getActivityContext() {
+        return FpLoginActivity.this;
+    }
     //scan
-
-    private ScanThread scanThread;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -95,8 +103,9 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
     private void InitLayout() {
 //        img_fp = (ImageView) findViewById(R.id.img_fp);
         edit_tips = (EditText) findViewById(R.id.edit_tips);
+        txtUser1 = (TextView) findViewById(R.id.txtUser1);
+        txtUser2 = (TextView) findViewById(R.id.txtUser2);
         btn_open = (Button) findViewById(R.id.btn_open);
-
         btn_search = (Button) findViewById(R.id.btn_search);
         btn_close = (Button) findViewById(R.id.btn_close);
 
@@ -108,18 +117,11 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
     }
 
     private void InitData() {
-//        //scan
-//        try {
-//            scanThread = new ScanThread(mHandler);
-//            scanThread.start();
-//        }catch (Exception e){
-//            Log.e(Tag,"扫描打开失败");
-//        }
-
         //fp
         mFingerHelper = new FingerHelper(this,usbConnState);
-//        res = this.getResources();
+       res = this.getResources();
 //        defaultBm = BitmapFactory.decodeResource(getResources(),R.drawable.fingerprint);
+        ylfpHelper.setmFingerHelper(mFingerHelper);
     }
 
     @Override
@@ -127,21 +129,11 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
         switch (view.getId()){
             case R.id.btn_open: OpenDevice();
                 break;
-            case R.id.btn_get_img: GetImage();
-                break;
-            case R.id.btn_get_char: GetChar();
-                break;
-            case R.id.btn_match_fp: MatchFp();
-                break;
+
             case R.id.btn_search: SearchFp();
                 break;
-            case R.id.btn_enroll: EnrollFp();
-                break;
-            case R.id.btn_empty: EmptyFp();
-                break;
+
             case R.id.btn_close: CloseDevice();
-                break;
-            case R.id.btn_scan: ScanData();
                 break;
         }
     }
@@ -150,53 +142,11 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
         mFingerHelper.init();
     }
 
-    private void GetImage() {
-        img_fp.setImageBitmap(defaultBm);
-        startTime = System.currentTimeMillis();
-        endTime = startTime;
-        fpHandler.postDelayed(getFPImageTask,0);
-    }
-
-    private void GetChar() {
-        img_fp.setImageBitmap(defaultBm);
-        startTime = System.currentTimeMillis() ;
-        endTime = startTime ;
-        //run get finger char task
-        mHandler.postDelayed(getCharTask, 0);
-    }
-
-    private void MatchFp() {
-        img_fp.setImageBitmap(defaultBm);
-        startTime = System.currentTimeMillis() ;
-        endTime = startTime ;
-
-        fpCharBuffer = mFingerHelper.CHAR_BUFFER_A ;
-        //run match finger char task
-        mHandler.postDelayed(matchFingerTask, 0);
-    }
-
     private void SearchFp() {
         startTime = System.currentTimeMillis() ;
         endTime = startTime ;
         //run match finger char task
-        mHandler.postDelayed(searchTask, 0);
-    }
-
-    private void EnrollFp() {
-        img_fp.setImageBitmap(defaultBm);
-        startTime = System.currentTimeMillis() ;
-        endTime = startTime ;
-
-        fpCharBuffer = mFingerHelper.CHAR_BUFFER_A ;
-        //run match finger char task
-        mHandler.postDelayed(enrollTask, 0);
-    }
-
-    private void EmptyFp() {
-        statues = mFingerHelper.emptyChar() ;
-        if (statues == mFingerHelper.PS_OK) {
-            edit_tips.setText(res.getString(R.string.empty_flash_database));
-        }
+        mHandler.postDelayed(CompareTask, 0);//CompareTask searchTask
     }
 
     private void CloseDevice() {
@@ -209,313 +159,6 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
         }
         super.onDestroy();
     }
-
-    private void ScanData() {
-        scanThread.scan();
-    }
-
-    private Runnable getFPImageTask = new Runnable() {
-        @Override
-        public void run() {
-            String temp = "";
-            long timeCount = 0L;
-            endTime = System.currentTimeMillis();
-            timeCount = endTime - startTime;
-            if (timeCount > 10000){
-                temp = "获取图像超时";
-                edit_tips.setText(temp);
-                return;
-            }
-            statues = mFingerHelper.getImage();
-            if (statues == mFingerHelper.PS_OK){
-                int[] recvLen = {0,0};
-                byte[] imageByte = new byte[IMAGE_SIZE];
-                mFingerHelper.uploadImage(imageByte,recvLen);
-                mFingerHelper.imageData2BMP(imageByte,tempImgPath);
-                temp = "获取图像成功";
-                edit_tips.setText(temp);
-                Bitmap bm = BitmapFactory.decodeFile(tempImgPath,null);
-                img_fp.setImageBitmap(bm);
-            }else if(statues == mFingerHelper.PS_NO_FINGER){
-                temp = "查找指纹,请按指纹"+ " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(getFPImageTask,100);
-            }else if (statues == mFingerHelper.PS_GET_IMG_ERR){
-                temp = "获取图像出错";
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(getFPImageTask,100);
-                return;
-            }else{
-                temp = "设备故障";
-                edit_tips.setText(temp);
-                return;
-            }
-        }
-    };
-
-    /**
-     * get finger char
-     */
-    private Runnable getCharTask = new Runnable() {
-        @Override
-        public void run() {
-            String temp = ""  ;
-            long timeCount = 0L ;
-            endTime = System.currentTimeMillis() ;
-            timeCount = endTime - startTime ;
-            //search finger time 10s
-            if (timeCount > 10000) {
-                temp = res.getString(R.string.get_finger_img_time_out);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-            statues = mFingerHelper.getImage() ;
-            //find finger
-            if (statues == mFingerHelper.PS_OK) {
-                //gen char to bufferA
-                statues = mFingerHelper.genChar(mFingerHelper.CHAR_BUFFER_A);
-                if (statues == mFingerHelper.PS_OK) {
-                    int[] iCharLen = {0, 0} ;
-                    byte[] charBytes = new byte[512];
-                    //upload char
-                    statues = mFingerHelper.upCharFromBufferID(mFingerHelper.CHAR_BUFFER_A, charBytes, iCharLen);
-                    if (statues == mFingerHelper.PS_OK) {
-                        //upload success
-                        temp = res.getString(R.string.get_finger_char_success) +":\r\n " + Tools.Bytes2HexString(charBytes, 512);
-                        edit_tips.setText(temp);
-
-                    }
-                }else{
-                    //char is bad quickly
-                    temp = res.getString(R.string.finger_char_is_bad_try_again);
-                    edit_tips.setText(temp);
-
-                    return ;
-                }
-            } else if (statues == mFingerHelper.PS_NO_FINGER) {
-                temp = res.getString(R.string.searching_finger) + " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(getCharTask, 100);
-            } else if (statues == mFingerHelper.PS_GET_IMG_ERR) {
-                temp = res.getString(R.string.get_img_error);
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(getCharTask, 100);
-                return ;
-            }else{
-                temp = res.getString(R.string.dev_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-        }
-    } ;
-
-    /**
-     * match two finger char, if match score > 60 is the same finger
-     */
-    private Runnable matchFingerTask = new Runnable() {
-        @Override
-        public void run() {
-            String temp = ""  ;
-            long timeCount = 0L ;
-            endTime = System.currentTimeMillis() ;
-            timeCount = endTime - startTime ;
-            //search finger time 10s
-            if (timeCount > 10000) {
-                temp = res.getString(R.string.get_finger_img_time_out);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-            statues = mFingerHelper.getImage() ;
-            //find finger
-            if (statues == mFingerHelper.PS_OK) {
-                //first finger
-                if (fpCharBuffer == mFingerHelper.CHAR_BUFFER_A) {
-                    //gen char to bufferA
-                    statues = mFingerHelper.genChar(fpCharBuffer);
-                    if (statues == mFingerHelper.PS_OK) {
-                        temp = res.getString(R.string.gen_finger_buffer_a_press_again);
-                        edit_tips.setText(temp);
-                        fpCharBuffer = mFingerHelper.CHAR_BUFFER_B ;
-                        fpHandler.postDelayed(matchFingerTask, 2000);
-                    }
-                } else if (fpCharBuffer == mFingerHelper.CHAR_BUFFER_B) { //second finger
-                    //gen char to bufferB
-                    statues = mFingerHelper.genChar(fpCharBuffer);
-                    if (statues == mFingerHelper.PS_OK) {
-                        temp = res.getString(R.string.gen_finger_buffer_b_success) + " \r\n";
-                        edit_tips.setText(temp);
-                        //match buffer_a with buffer_b
-                        int[] iScore = {0, 0} ;
-                        mFingerHelper.match(iScore);
-                        temp = res.getString(R.string.match_a_b_success_score) + " = " + iScore[0] ;
-                        edit_tips.append(temp);
-
-                    }
-                }
-
-            } else if (statues == mFingerHelper.PS_NO_FINGER) {
-                temp = res.getString(R.string.searching_finger) + " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(matchFingerTask, 100);
-            } else if (statues == mFingerHelper.PS_GET_IMG_ERR) {
-                temp = res.getString(R.string.get_img_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }else{
-                temp = res.getString(R.string.dev_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-        }
-    }  ;
-
-
-    /**
-     * enroll finger char to flash database
-     */
-    private Runnable enrollTask  = new Runnable() {
-        @Override
-        public void run() {
-            String temp = ""  ;
-            long timeCount = 0L ;
-            endTime = System.currentTimeMillis() ;
-            timeCount = endTime - startTime ;
-            //search finger time 10s
-            if (timeCount > 10000) {
-                temp = res.getString(R.string.get_finger_img_time_out);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-            statues = mFingerHelper.getImage() ;
-            //find finger
-            if (statues == mFingerHelper.PS_OK) {
-                //first finger
-                if (fpCharBuffer == mFingerHelper.CHAR_BUFFER_A) {
-                    //gen char to bufferA
-                    statues = mFingerHelper.genChar(fpCharBuffer);
-                    if (statues == mFingerHelper.PS_OK) {
-                        int[] iMaddr = {0, 0} ;
-                        //is exist flash database,database size = 512
-                        statues = mFingerHelper.search(mFingerHelper.CHAR_BUFFER_A, 0, 512, iMaddr);
-                        if (statues == mFingerHelper.PS_OK) {
-                            temp = res.getString(R.string.already_exist_flash) + " , User id index["+ iMaddr[0] +"]";
-                            edit_tips.setText(temp);
-
-                            return ;
-                        }
-                        temp = res.getString(R.string.gen_finger_buffer_a_press_again);
-                        edit_tips.setText(temp);
-                        fpCharBuffer = mFingerHelper.CHAR_BUFFER_B ;
-                        fpHandler.postDelayed(enrollTask, 2000);
-                    }
-                } else if (fpCharBuffer == mFingerHelper.CHAR_BUFFER_B) { //second finger
-                    //gen char to bufferB
-                    statues = mFingerHelper.genChar(fpCharBuffer);
-                    if (statues == mFingerHelper.PS_OK) {
-                        temp = res.getString(R.string.gen_char) + " \r\n";
-                        edit_tips.setText(temp);
-                        //merge BUFFER_A with BUFFER_B , gen template to MODULE_BUFFER
-                        mFingerHelper.regTemplate() ;
-                        int[] iMbNum = {0, 0} ;
-                        mFingerHelper.getTemplateNum(iMbNum);
-                        templateNum = iMbNum[0];
-                        if (templateNum >= 512) {
-                            temp = res.getString(R.string.flash_database_full) + " \r\n";
-                            edit_tips.setText(temp);
-
-                            return ;
-                        }
-                        //store template to flash database
-                        statues =  mFingerHelper.storeTemplate(mFingerHelper.MODEL_BUFFER, templateNum);
-                        if (statues == mFingerHelper.PS_OK) {
-                            temp = res.getString(R.string.enroll_success) + ", User id index["+templateNum +"] \r\n";
-                            edit_tips.setText(temp);
-                        }else{
-                            temp = res.getString(R.string.enroll_fail) + ",statues= " + statues +" \r\n";
-                            edit_tips.setText(temp);
-                        }
-
-                    }
-
-                }
-
-            } else if (statues == mFingerHelper.PS_NO_FINGER) {
-                temp = res.getString(R.string.searching_finger) + " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(enrollTask, 100);
-            } else if (statues == mFingerHelper.PS_GET_IMG_ERR) {
-                temp = res.getString(R.string.get_img_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }else{
-                temp = res.getString(R.string.dev_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-        }
-    } ;
-
-    /**
-     * search finger in flash database
-     */
-    private Runnable searchTask = new Runnable() {
-        @Override
-        public void run() {
-            String temp = ""  ;
-            long timeCount = 0L ;
-            endTime = System.currentTimeMillis() ;
-            timeCount = endTime - startTime ;
-            //search finger time 10s
-            if (timeCount > 10000) {
-                temp = res.getString(R.string.get_finger_img_time_out);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-            statues = mFingerHelper.getImage() ;
-            //find finger
-            if (statues == mFingerHelper.PS_OK) {
-                //gen char to bufferA
-                statues = mFingerHelper.genChar(mFingerHelper.CHAR_BUFFER_A);
-                if (statues == mFingerHelper.PS_OK) {
-                    int[] iMaddr = {0, 0} ;
-                    //is exist flash database,database size = 512
-                    statues = mFingerHelper.search(mFingerHelper.CHAR_BUFFER_A, 0, 512, iMaddr);
-                    if (statues == mFingerHelper.PS_OK) {
-                        temp = res.getString(R.string.finger_is_found) +" , User id index["+ iMaddr[0] +"]";
-                        edit_tips.setText(temp);
-
-                    }else{
-                        temp = res.getString(R.string.no_found_finger_in_flash);
-                        edit_tips.setText(temp);
-                    }
-
-                }
-            } else if (statues == mFingerHelper.PS_NO_FINGER) {
-                temp = res.getString(R.string.searching_finger) + " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
-                edit_tips.setText(temp);
-                fpHandler.postDelayed(searchTask, 100);
-            } else if (statues == mFingerHelper.PS_GET_IMG_ERR) {
-                temp = res.getString(R.string.get_img_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }else{
-                temp = res.getString(R.string.dev_error);
-                edit_tips.setText(temp);
-
-                return ;
-            }
-        }
-    } ;
 
     /**
      * 对比指纹,采用字符串的方式,
@@ -547,22 +190,21 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
                     statues = mFingerHelper.upCharFromBufferID(mFingerHelper.CHAR_BUFFER_A, charBytes, iMaddr);
                     if (statues == mFingerHelper.PS_OK) {
                         String fpInput= Tools.Bytes2HexString(charBytes, 512);
-                        YLFPHelper ylfpHelper=new YLFPHelper();
-                        List<String> listfp=null;
 
-                        int empindex=-1;
-                        try {
-                            empindex= ylfpHelper.MatchFP(listfp,fpInput);
-                            if(empindex>0){
-                                //找到员工的指纹
-                            }else{
-                                //找不到员工的指纹
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            temp = e.getMessage();
+
+                        String empNum= ylfpHelper.FindEmpByFP(fpInput,getActivityContext());
+                        if(EmpNumA=="") {
+                            EmpNumA = empNum;
+                            SetLoginFlag(EmpNumA,txtUser1);
+                            temp = "请第二个员工验证指纹";
                             edit_tips.setText(temp);
                         }
+                        else if(EmpNumB==""){
+                            EmpNumB = empNum;
+                            SetLoginFlag(EmpNumB,txtUser2);
+                            UnLockUI();//解锁界面,跳转到下一个界面,暂时不知道要转到哪里,可以跳转到多个目标界面才行
+                        }
+
                     }else{
                         temp = res.getString(R.string.finger_char_is_bad_try_again);
                         edit_tips.setText(temp);
@@ -572,7 +214,7 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
             } else if (statues == mFingerHelper.PS_NO_FINGER) {
                 temp = res.getString(R.string.searching_finger) + " ,time:" +((10000-(endTime - startTime)))/1000 +"s";
                 edit_tips.setText(temp);
-                fpHandler.postDelayed(searchTask, 100);
+                fpHandler.postDelayed(CompareTask, 100);
             } else if (statues == mFingerHelper.PS_GET_IMG_ERR) {
                 temp = res.getString(R.string.get_img_error);
                 edit_tips.setText(temp);
@@ -585,5 +227,17 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
                 return ;
             }
         }
+
+
     } ;
+
+    private void UnLockUI() {
+        Intent intent = new Intent();
+        intent.setClass(FpLoginActivity.this, Task.class);
+        startActivity(intent);
+    }
+
+    private void SetLoginFlag(String empNumAB, TextView txtUser12) {
+        txtUser12.setText(empNumAB+" 已验证");
+    }
 }
