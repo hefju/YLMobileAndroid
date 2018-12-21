@@ -517,7 +517,6 @@ public class WebService {
         }.start();
     }
 
-
     public static void GetTaskList(final Context ctx, final Handler mHandler) {
         new Thread() {
             public void run() {
@@ -561,7 +560,6 @@ public class WebService {
             }
         }. start();
     }
-
 
     public static void GetTaskSite(final Context ctx, final Handler mHandler, final String taskid) {
         new Thread() {
@@ -1151,5 +1149,50 @@ public class WebService {
         }
     }
 
+    //region 指纹数据上传下载 2018.12.21
+    public static void GetFp(final Context ctx, final Handler mHandler) {
+        new Thread() {
+            public void run() {
+                try {
+                    String url = YLSystem.GetBaseUrl(ctx)+"GetTask1";
+                    HttpPost post = new HttpPost(url);
+
+                    User user=YLSystem.getUser();
+                    //测试数据
+                    user.DeviceID = YLSystem.getHandsetIMEI();
+                    //user.TaskDate = "2015-03-12";
+
+                    Gson gson = new Gson();
+                    //设置POST请求中的参数
+                    JSONObject p = new JSONObject();
+                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
+                    HttpClient client = new DefaultHttpClient();
+                    HttpResponse response = client.execute(post);
+                    if (response.getStatusLine().getStatusCode() == 200) {
+                        String content = EntityUtils.toString(response.getEntity());
+
+                        List<YLTask> lstYLTask = gson.fromJson(content, new TypeToken<List<YLTask>>() {
+                        }.getType());
+                        String result = lstYLTask.get(0).ServerReturn;
+                        if (result.equals("1")) {
+                            Message msg = mHandler.obtainMessage(20);
+                            msg.obj = lstYLTask;
+                            mHandler.sendMessage(msg);
+                        } else {
+                            Message msg = mHandler.obtainMessage(21);
+                            msg.obj = result;
+                            mHandler.sendMessage(msg);
+                        }
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }. start();
+    }
+    //endregion
 }
 
