@@ -14,9 +14,12 @@ import java.util.List;
 
 import ScanFP.YLFPHelper;
 import TaskClass.FingerPrint;
+import TaskClass.User;
 import TaskClass.YLTask;
+import YLDataService.EmpDBSer;
 import YLDataService.FingerPrintDBSer;
 import YLDataService.WebService;
+import YLWebService.YLWebService;
 
 //登录前请先下载指纹,因为指纹库不会全部下载到本地
 public class FPDownloadActivity extends ActionBarActivity implements View.OnClickListener{
@@ -97,6 +100,7 @@ public class FPDownloadActivity extends ActionBarActivity implements View.OnClic
 
     //下载指纹
     private void DownLoadFP() {
+        Context context=getActivityContext();
         String empNum=txtEmpNum.getText().toString();//员工编号
         if(empNum==null||empNum.equals("")){
             txtInfo.setText("请输入员工编号");
@@ -104,7 +108,7 @@ public class FPDownloadActivity extends ActionBarActivity implements View.OnClic
         }
 
         //检查本地数据库是否存在指纹
-        FingerPrintDBSer fingerPrintDBSer=new  FingerPrintDBSer(getActivityContext());
+        FingerPrintDBSer fingerPrintDBSer=new  FingerPrintDBSer(context);
         FingerPrint fingerPrint=new FingerPrint();
         fingerPrint.setEmpNum(empNum);
         boolean isExists= fingerPrintDBSer.Exists(fingerPrint);
@@ -114,6 +118,19 @@ public class FPDownloadActivity extends ActionBarActivity implements View.OnClic
         }
 
         //从网络上下载指纹
-        WebService.GetTaskList(getApplicationContext(), mHandler);
+      //  WebService.GetTaskList(getApplicationContext(), mHandler);
+        EmpDBSer empDBSer=new EmpDBSer(context);
+        User user= empDBSer.GetUserByEmpId(empNum);
+        if(user==null){
+            txtInfo.setText("员工不存在");
+            return;
+        }
+        String empid=user.getEmpID();
+        YLWebService ylWebService = new YLWebService();
+        List<String> list = ylWebService.GetEmpFingerPrints(context, empid, "unitest", "1");
+        if(list.size()>0){
+            txtInfo.setText("指纹下载成功.");
+            return;
+        }
     }
 }

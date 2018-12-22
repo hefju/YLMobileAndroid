@@ -45,6 +45,28 @@ public class EmpDBSer {
         DeleteUser(lst);
     }
 
+    //通过员工编号获取员工ID
+    public User GetUserByEmpId(String EmpNO){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseEmp where EmpNO =?" + EmpNO, null);
+
+        User u=new User();
+        while(cursor.moveToNext()){
+            String EmpID = cursor.getString(cursor.getColumnIndex("EmpID"));
+            //String EmpNO = cursor.getString(cursor.getColumnIndex("EmpNO"));
+            String Name = cursor.getString(cursor.getColumnIndex("Name"));
+            String DeviceID = cursor.getString(cursor.getColumnIndex("DeviceID"));
+
+            u.EmpID=EmpID;
+            u.EmpNO=EmpNO;
+            u.Name=Name;
+            u.DeviceID=DeviceID;
+            break;
+        }
+        sdb.close(); //关闭数据库
+        return u;
+    }
+
     //通过EmpID查找用户
     public User GetUser(String HFNO) {
         SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();

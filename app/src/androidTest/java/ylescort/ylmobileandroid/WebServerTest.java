@@ -8,8 +8,10 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -17,7 +19,10 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import TaskClass.Box;
 import TaskClass.Site;
@@ -33,6 +38,13 @@ import YLDataService.WebService;
 import YLSystemDate.YLEditData;
 import YLSystemDate.YLSystem;
 import YLWebService.YLWebService;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 /**
  * Created by Administrator on 2015/4/29.
@@ -300,4 +312,23 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         String s = w.UploadState(getContext(),"272044");
         Log.e(TAG,"返回："+s);
     }
+
+    //region 测试与服务器的通讯 2018.12.22
+    private String juTAG="unit_test";
+
+    //获取单个员工的指纹
+    public void testGetFingerPrint() throws IOException {
+        YLWebService ylWebService = new YLWebService();
+        String empid = "3638";
+        List<String> list = ylWebService.GetEmpFingerPrints(getContext(), empid, "unitest", "1");
+        for (int i = 0; i < list.size(); i++) {
+            Log.e(juTAG, list.get(i));
+        }
+        if (list.size() == 0) {
+            Log.e(juTAG, "no finger print by emp:" + empid);
+        }
+    }
+
+
+    //endregion
 }

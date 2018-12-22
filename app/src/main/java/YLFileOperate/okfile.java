@@ -27,9 +27,9 @@ private void upFile(File file1){
 //
 //            /* 下边的就和post一样了 */
 //            Request request = new Request.Builder().url("http://192.168.10.117:8080/test").post(mBody).build();
-//                OkHttpClient client = new OkHttpClient();
-//                client.newCall(request).enqueue(new Callback() {
-//                public void onResponse(Call call, Response response) throws IOException {
+//
+//                public void onResponse(Call call, Response response) throw  OkHttpClient client = new OkHttpClient();
+//                client.newCall(request).enqueue(new Callback() {s IOException {
 //                    final  String bodyStr = response.body().string();
 //                    final boolean ok = response.isSuccessful();
 ////                    runOnUiThread(new Runnable() {

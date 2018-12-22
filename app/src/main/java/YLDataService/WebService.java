@@ -31,7 +31,9 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -82,27 +84,6 @@ public class WebService {
         }
     }
 
-    public final String getBaseEmp(String webapi, User user) throws JSONException, IOException {
-
-        webserviceaddress += webapi;
-        HttpPost post = new HttpPost(webserviceaddress);
-        Gson gson = new Gson();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", gson.toJson(user));
-        post.setEntity(new StringEntity(jsonObject.toString(), "UTF-8"));//将参数设置入POST请求
-        post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-        HttpClient client = new DefaultHttpClient();
-        HttpResponse response = client.execute(post);
-        if (response.getStatusLine().getStatusCode() == 200) {
-            String content = EntityUtils.toString(response.getEntity());    //得到返回字符串
-            User getjsonuser = gson.fromJson(content, new TypeToken<User>() {
-            }.getType());
-            return getjsonuser.getServerReturn();
-        } else {
-            return null;
-        }
-    }
-
     public final static String TaskWebContent(String webapi, User user) throws Exception {
 
         webserviceaddress += webapi;
@@ -123,51 +104,6 @@ public class WebService {
     }
 
     private String webcontent = null;
-
-    public String gettask() throws Exception {
-        final String content = null;
-        singleThreadExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String url = "";
-                    //String url = YLSystem.GetBaseUrl(getApplicationContext())+"GetTask1";
-                    HttpPost post = new HttpPost(url);
-                    //添加数值到User类
-                    User user = new User();
-                    user.EmpNO = "600241";
-                    user.Name = "杨磊";
-                    user.Pass = YLSystem.SetMD5("600241");
-                    user.DeviceID = "NH008";
-                    user.ISWIFI = "1";
-                    user.EmpID = "2703";
-                    user.TaskDate = "2014-08-07";
-                    Gson gson = new Gson();
-                    //设置POST请求中的参数
-                    JSONObject p = new JSONObject();
-                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
-                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-                    HttpClient client = new DefaultHttpClient();
-                    HttpResponse response = client.execute(post);
-                    if (response.getStatusLine().getStatusCode() == 200) {
-                        webcontent = EntityUtils.toString(response.getEntity());
-                        if (content.equals("1")) {
-                            mh.sendEmptyMessage(0);
-                        } else {
-
-                            mh.sendEmptyMessage(0);
-                        }
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        return webcontent;
-    }
 
     public String getServerVer() {
         webcontent = "1.02";
@@ -561,55 +497,6 @@ public class WebService {
         }. start();
     }
 
-    public static void GetTaskSite(final Context ctx, final Handler mHandler, final String taskid) {
-        new Thread() {
-            public void run() {
-                try {
-                    String url =  YLSystem.GetBaseUrl(ctx)+"GetTaskStie";
-                    HttpPost post = new HttpPost(url);
-
-                    User user=YLSystem.getUser();
-                    //测试数据
-                    user.DeviceID = "NH008";
-                    user.TaskDate = "2014-08-07";
-
-                    //添加数值到User类
-                    Gson gson = new Gson();
-                    //设置POST请求中的参数
-                    JSONObject p = new JSONObject();
-                    p.put("taskID",taskid);
-                    p.put("deviceID",YLSystem.getHandsetIMEI());
-                    p.put("empid",user.getEmpID());
-                    p.put("ISWIFI",user.getISWIFI());
-
-                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
-                    post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
-                    HttpClient client = new DefaultHttpClient();
-                    HttpResponse response = client.execute(post);
-                    if (response.getStatusLine().getStatusCode() == 200) {
-                        String content = EntityUtils.toString(response.getEntity());
-
-                        List<Site> lstSite  = gson.fromJson(content, new TypeToken<List<Site>>() {
-                        }.getType());
-                        String result = lstSite.get(0).ServerReturn;
-                        if (result.equals("1")) {
-                            Log.d("jutest", "GetTaskSite:" + lstSite.toString());
-                            Message msg = mHandler.obtainMessage(20);
-                            msg.obj = lstSite;
-                            mHandler.sendMessage(msg);
-                        } else {
-                            Message msg = mHandler.obtainMessage(21);
-                            msg.obj = result;
-                            mHandler.sendMessage(msg);
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }. start();
-    }
-
     /**
      * 根据HF登陆界面
      * @param loguser HF编号
@@ -617,7 +504,6 @@ public class WebService {
      * @return User
      * @throws Exception
      */
-
     public User LogicByHF(User loguser,String url) throws Exception {
         GetUserFormServerbyHF getUserFormServer = new GetUserFormServerbyHF();
         getUserFormServer.execute(url, loguser.getEmpNO());
@@ -856,37 +742,6 @@ public class WebService {
         }
     }
 
-    public String PostVaultCheckBox(User user,Context context)throws Exception{
-        String url = YLSystem.GetBaseUrl(context)+"盘库上传方法";
-        PostVaultCheckBoxAsycnTask postVaultCheckBoxAsycnTask = new PostVaultCheckBoxAsycnTask();
-        postVaultCheckBoxAsycnTask.execute(url, user.getEmpID(), YLSystem.getHandsetIMEI());
-        return postVaultCheckBoxAsycnTask.get();
-    }
-
-    private class PostVaultCheckBoxAsycnTask extends AsyncTask<String,Integer,String>{
-        @Override
-        protected String doInBackground(String... params) {
-            String url = params[0];
-            HttpPost post = new HttpPost(url);
-            Gson gson = new Gson();
-            JSONObject p = new JSONObject();
-            try {
-                p.put("STask", gson.toJson(YLEditData.getYlTask()));
-                p.put("empid", params[1]);
-                p.put("deviceID", params[2]);
-                post.setEntity(new StringEntity(p.toString(), "UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE, "text/json");
-                HttpClient client = new DefaultHttpClient();
-                HttpResponse response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    return EntityUtils.toString(response.getEntity());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 
     /**
      * 根据业务员HF或ID获取出库任务列表
@@ -932,54 +787,6 @@ public class WebService {
             return null;
         }
     }
-
-    /**
-     * 上传盘库记录。init=1就初始化所有在库箱为出库
-     * @param init 库管员
-     * @param context
-     *<param name="STask">任务类包含box类</param>
-     *<param name="empid">库管员ID 3361</param>
-     *<param name="deviceID">手持机号 NHJ01</param>
-     * <param name="init">=1就初始化所有在库箱为出库</param>
-     * @return string
-     * @throws Exception
-     */
-
-    public String PostCheckVaultboxlist(String init,Context context)throws Exception{
-        String url = YLSystem.GetBaseUrl(context)+"StoreUploadCountBoxRecord";
-        PostCheckVaultboxlistAsycnTask postCheckVaultboxlistAsycnTask =
-                new PostCheckVaultboxlistAsycnTask();
-        postCheckVaultboxlistAsycnTask.execute(url,init);
-        return postCheckVaultboxlistAsycnTask.get();
-    }
-
-    private class PostCheckVaultboxlistAsycnTask extends AsyncTask<String,Integer,String>{
-        @Override
-        protected String doInBackground(String... params) {
-            String url = params[0];
-            HttpPost post = new HttpPost(url);
-            Gson gson = new Gson();
-            JSONObject p = new JSONObject();
-            try {
-                p.put("STask",gson.toJson(YLEditData.getYlTask()));
-                p.put("empid",YLSystem.getUser().getEmpID());
-                p.put("deviceID", YLSystem.getHandsetIMEI());
-                p.put("init",params[1]);
-                post.setEntity(new StringEntity(p.toString(),"UTF-8"));
-                post.setHeader(HTTP.CONTENT_TYPE,"text/json");
-                HttpClient client = new DefaultHttpClient();
-                HttpResponse response = client.execute(post);
-                if (response.getStatusLine().getStatusCode() == 200){
-                    String content = EntityUtils.toString(response.getEntity());
-                    return gson.fromJson(content, new TypeToken<List<YLTask>>() {}.getType());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
 
     /**
      * 获取金库所有款箱类
@@ -1038,7 +845,6 @@ public class WebService {
         confirmStoreInAsycnTask.execute(url,user.getTaskDate(),user.getEmpID(),YLSystem.getHandsetIMEI(),user.getISWIFI());
         return confirmStoreInAsycnTask.get();
     }
-
 
     private class  ConfirmStoreInAsycnTask extends AsyncTask<String,Integer,String>{
         @Override
@@ -1149,24 +955,27 @@ public class WebService {
         }
     }
 
-    //region 指纹数据上传下载 2018.12.21
+    //region  2018.12.21 全局的
     public static void GetFp(final Context ctx, final Handler mHandler) {
         new Thread() {
             public void run() {
                 try {
-                    String url = YLSystem.GetBaseUrl(ctx)+"GetTask1";
+                    String url = YLSystem.GetBaseUrl(ctx)+"GetEmpFPPhone";
                     HttpPost post = new HttpPost(url);
 
                     User user=YLSystem.getUser();
-                    //测试数据
-                    user.DeviceID = YLSystem.getHandsetIMEI();
-                    //user.TaskDate = "2015-03-12";
-
                     Gson gson = new Gson();
+                    Map map=new HashMap();
+                    map.put("empid", user.getEmpID());
+                    map.put("deviceID", user.getDeviceID());//YLSystem.getHandsetIMEI();
+                    map.put("ISWIFI", user.getISWIFI());
+                    String poststring=  gson.toJson(map);
+
                     //设置POST请求中的参数
-                    JSONObject p = new JSONObject();
-                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
-                    post.setEntity(new StringEntity(p.toString(), "UTF-8"));//将参数设置入POST请求
+//                    JSONObject p = new JSONObject();
+//                    p.put("user", gson.toJson(user));//将User类转换成Json传到服务器。
+
+                    post.setEntity(new StringEntity(poststring, "UTF-8"));//将参数设置入POST请求
                     post.setHeader(HTTP.CONTENT_TYPE, "text/json");//设置为json格式。
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(post);
@@ -1177,11 +986,11 @@ public class WebService {
                         }.getType());
                         String result = lstYLTask.get(0).ServerReturn;
                         if (result.equals("1")) {
-                            Message msg = mHandler.obtainMessage(20);
+                            Message msg = mHandler.obtainMessage(20);//成功
                             msg.obj = lstYLTask;
                             mHandler.sendMessage(msg);
                         } else {
-                            Message msg = mHandler.obtainMessage(21);
+                            Message msg = mHandler.obtainMessage(21);//失败
                             msg.obj = result;
                             mHandler.sendMessage(msg);
                         }
@@ -1193,6 +1002,9 @@ public class WebService {
             }
         }. start();
     }
+
+
+
     //endregion
 }
 
