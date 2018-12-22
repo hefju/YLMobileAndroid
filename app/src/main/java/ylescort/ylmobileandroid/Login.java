@@ -90,14 +90,16 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         Button Log_BN_Ent = (Button) findViewById(R.id.Log_BN_Ent);
         Button btnTest1 = (Button) findViewById(R.id.btnTest1);
         Button btnTest2 = (Button) findViewById(R.id.btnTest2);
+        Button btnDownloadFp = (Button) findViewById(R.id.btnDownloadFp);//下载指纹
+        Button btnRegisterFp = (Button) findViewById(R.id.btnRegisterFp);//注册指纹
+        Button btnLoginFp = (Button) findViewById(R.id.btnLoginFp);//指纹登录
+
         Log_BN_HF.setOnClickListener(this);
         Log_BN_Ent.setOnClickListener(this);
         btnTest1.setOnClickListener(this);
         btnTest2.setOnClickListener(this);
-
-        Button btnRegisterFp = (Button) findViewById(R.id.btnRegisterFp);
+        btnDownloadFp.setOnClickListener(this);
         btnRegisterFp.setOnClickListener(this);
-        Button btnLoginFp = (Button) findViewById(R.id.btnLoginFp);
         btnLoginFp.setOnClickListener(this);
     }
 
@@ -175,6 +177,10 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                     YLRecord.WriteRecord("登录界面","进入测试界面");
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     break;
+                case R.id.btnDownloadFp://下载指纹
+                    intent = new Intent(Login.this,FPDownloadActivity.class);
+                    startActivity(intent);
+                    break;
                 case R.id.logic_sw_address:
                     if (logic_sw_address.isChecked()) {
                         YLSystem.setSerAdress("0");
@@ -182,6 +188,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                         YLSystem.setSerAdress("1");
                     }
                     break;
+
                 case R.id.btnRegisterFp:
                     Log.e(Tag,"btnRegisterFp.click!");
 //                     intent = new Intent(Login.this,FpRegisterActivity.class);

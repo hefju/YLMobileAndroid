@@ -146,17 +146,15 @@
         <activity
             android:name=".YLPrintActivity"
             android:label="@string/ylprinter" />
-        <activity android:name=".YLtransfer" />
-        <activity android:name=".YLtransferedi" />
-        <activity android:name=".ATMBoxCheck" />
+        <activity android:name=".YLtransfer" android:label="日志传输" />
+        <activity android:name=".YLtransferedi" android:label="" />
+        <activity android:name=".ATMBoxCheck" android:label="atmbox检查" />
         <activity android:name=".Overweight" />
-        <activity android:name=".NewHandSet" />
-        <activity android:name=".LoginFpActivity" />
-        <activity android:name=".FpRegisterActivity" />
-        <activity android:name=".scanfptest" />
-        <activity android:name=".FpRegisterActivity2" />
-        <activity android:name=".FpLoginActivity" />
-        <activity android:name=".FPDownloadActivity"></activity>
+        <activity android:name=".FpRegisterActivity" android:label="指纹注册" />
+        <activity android:name=".scanfptest" android:label="kim指纹测试例子" />
+        <activity android:name=".FpRegisterActivity2" android:label="指纹注册" />
+        <activity android:name=".FpLoginActivity" android:label="指纹登录" />
+        <activity android:name=".FPDownloadActivity" android:label="下载指纹"></activity>
     </application>
 
 </manifest>
