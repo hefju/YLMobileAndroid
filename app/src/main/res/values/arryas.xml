@@ -71,4 +71,8 @@
         <item>凭证箱</item>
         <item>凭证袋</item>
     </string-array>
+    <array name="fpIndex">
+        <item>1</item>
+        <item>2</item>
+    </array>
 </resources>

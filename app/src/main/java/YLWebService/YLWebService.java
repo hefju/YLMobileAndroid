@@ -37,13 +37,14 @@ public class YLWebService {
     //根据员工ID,返回指纹列表
     public List<String> GetEmpFingerPrints(Context context,String empId,String deviceID, String ISWIFI){
         List<String> list=new ArrayList<>();
-        String url= YLSystem.GetBaseUrl(context)+"GetEmpFPPhone";
+        String url= YLSystem.GetBaseUrl(context)+"GetEmpFPPhone";  //GetEmpFPPhone //没有分手指类型 GetEmpFPPhoneMore //分手指类型
         Map map=new HashMap();//EmpID empid
         map.put("empid", empId);
         map.put("deviceID", deviceID);
         map.put("ISWIFI",ISWIFI);
         String webresult=BaseWebRequest(url,map);
         if(webresult!=null&&!webresult.equals("")) {
+            webresult= webresult.replace("\"","");
             String[] result = webresult.split(",");
             for (int i = 0; i < result.length; i++) {
                 list.add(result[i]);

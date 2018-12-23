@@ -10,9 +10,8 @@ public class FingerPrint {
     private String ServerReturn;//服务器返回的成功与否，成功1
     private String EmpNum ;//员工编号
     private String Finger ;//指纹字符串
+    private String FingerType;//指纹类型,
     private long CreateAt ;//新建时间
-
-
 
     @Override
     public String toString() {
@@ -20,10 +19,12 @@ public class FingerPrint {
                 "Id=" + Id +
                 ", EmpNum='" + EmpNum + '\'' +
                 ", CreateAt=" + CreateAt +
+                ", FingerType=" + FingerType +
                 ", Finger='" + Finger + '\'' +
                 ", ServerReturn='" + ServerReturn + '\'' +
                 '}';
     }
+
     public int getId() {
         return Id;
     }
@@ -51,7 +52,13 @@ public class FingerPrint {
     public String getFinger() {
         return Finger;
     }
+    public String getFingerType() {
+        return FingerType;
+    }
 
+    public void setFingerType(String fingerType) {
+        FingerType = fingerType;
+    }
     public void setFinger(String finger) {
         Finger = finger;
     }

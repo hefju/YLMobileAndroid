@@ -315,7 +315,6 @@ public class WebServerTest extends ApplicationTestCase<Application> {
 
     //region 测试与服务器的通讯 2018.12.22
     private String juTAG="unit_test";
-
     //获取单个员工的指纹
     public void testGetFingerPrint() throws IOException {
         YLWebService ylWebService = new YLWebService();

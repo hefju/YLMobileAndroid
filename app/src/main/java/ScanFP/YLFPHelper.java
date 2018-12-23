@@ -75,12 +75,21 @@ public class YLFPHelper {
         List<FingerPrint> list= fpDb.GetAllFingerPrint();
     }
 
-    //根据员工编号保存指纹
-    public int SaveFp(String EmpNum,String BufferA,FingerPrintDBSer fpDb){
+    //从手持机注册指纹, 根据员工编号保存指纹  EmpNum=员工编号, ipFpIndex=指纹编号, BufferA=指纹, fpDb=数据库
+    public int SaveFp(String EmpNum,String ipFpIndex,String BufferA,FingerPrintDBSer fpDb){
 
         FingerPrint fingerPrint=new FingerPrint();
         fingerPrint.setEmpNum(EmpNum);
+        fingerPrint.setFingerType(ipFpIndex);
         fingerPrint.setFinger(BufferA);
+        if(fpDb.Exists(fingerPrint)){//检查数据库是否存在员工编号
+            return fpDb.UpdateFingerPrint(fingerPrint);//存在就更新
+        }else{
+            return fpDb.InsFingerPrint(fingerPrint);//不存在就插入
+        }
+    }
+    //从网络下载指纹,保存到数据库
+    public int SaveFp(FingerPrint fingerPrint,FingerPrintDBSer fpDb){
         if(fpDb.Exists(fingerPrint)){//检查数据库是否存在员工编号
             return fpDb.UpdateFingerPrint(fingerPrint);//存在就更新
         }else{

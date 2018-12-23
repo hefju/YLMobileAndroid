@@ -11,9 +11,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.za.finger.FingerHelper;
@@ -25,6 +27,7 @@ import YLDataService.FingerPrintDBSer;
 import cn.pda.serialport.Tools;
 import ylescort.ylmobileandroid.R;
 
+//此Activity用于注册指纹,收集到指纹之后,上传到服务器
 public class FpRegisterActivity2 extends ActionBarActivity implements View.OnClickListener {
 
     @Override
@@ -41,10 +44,8 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
     private Button btn_open,btn_get_char,btn_enroll,btn_close;//打开指纹设备,获取指纹特征码,注册指纹(这个没有用的),关闭指纹
     private EditText txtEmpNum;//员工编号
     private  Button btnSetEmpNum;//确定已经输入员工编号
-
-
+    private Spinner spFPIndex;  //指纹编号用1,2,3表示
     //scan
-
     private ScanThread scanThread;
     private Handler mHandler = new Handler(){
         @Override
@@ -87,23 +88,18 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
                 edit_tips.setText(tips+"statues ="+statues);
             }
         }
-
         @Override
         public void onUsbPermissionDenied() {
             Log.e(Tag,"onUsbPermissionDenied()");
             tips = "usb 权限拒绝";
             edit_tips.setText(tips);
         }
-
         @Override
         public void onDeviceNotFound() {
             tips = "未找到设备";
             edit_tips.setText(tips);
         }
     };
-
-
-
 
     private void InitLayout() {
         img_fp = (ImageView) findViewById(R.id.img_fp);
@@ -114,18 +110,28 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         btn_close = (Button) findViewById(R.id.btn_close);
         btn_enroll = (Button) findViewById(R.id.btn_enroll);
         btnSetEmpNum = (Button) findViewById(R.id.btnSetEmpNum);
+        spFPIndex=(Spinner)findViewById(R.id.spFPIndex);
 
         btn_open.setOnClickListener(this);
         btn_enroll.setOnClickListener(this);
         btn_get_char.setOnClickListener(this);
         btn_close.setOnClickListener(this);
         btnSetEmpNum.setOnClickListener(this);
+        initSpFPIndexItem();//初始化下拉框的值,设置为"@array/fpIndex"出错,我艹
 
         //禁用指纹
         btn_open.setEnabled(false);
         btn_get_char.setEnabled(false);
         btn_close.setEnabled(false);
     }
+
+    private void initSpFPIndexItem() {
+        String[] m_Countries = { "第一个手指", "第二个手指" };   //定义下拉数组
+        ArrayAdapter<String> adapter;
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,m_Countries);
+        spFPIndex.setAdapter(adapter);
+    }
+
     private boolean inputFirst=true;//输入第一个员工
     private void retsetUerInput() {//重置用户输入界面
         inputFirst=false;//已经录入多个员工了,不用再打开指纹
@@ -169,8 +175,14 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         }
     }
     private  String ipEmpNum="";//员工编号
+    private  String ipFpIndex="";//指纹编号
     private void UserInputEmpNum() {
         ipEmpNum=txtEmpNum.getText().toString();
+        ipFpIndex=(String) spFPIndex.getSelectedItem();//spFPIndex.get 获取指纹编号
+        if(ipFpIndex.equals("第一个手指"))
+            ipFpIndex="0";
+        else
+            ipFpIndex="1";
         //if(string.is)
         if(ipEmpNum==null||ipEmpNum.equals("")){
             Toast.makeText(getActivityContext(),"请输入员工编号", Toast.LENGTH_SHORT).show();
@@ -300,11 +312,14 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
                         //upload success
 //                        temp = res.getString(R.string.get_finger_char_success) +":\r\n " + Tools.Bytes2HexString(charBytes, 512);
 //                        edit_tips.setText(temp);
-                        //保存到数据库
+                        //保存到数据库  保存指纹,
                         FingerPrintDBSer fingerPrintDBSer=new  FingerPrintDBSer(getActivityContext());
                         String fp=Tools.Bytes2HexString(charBytes, 512);
                         YLFPHelper ylfpHelper=new YLFPHelper();
-                        int count=ylfpHelper.SaveFp(ipEmpNum,fp,fingerPrintDBSer);
+
+                        int count=ylfpHelper.SaveFp(ipEmpNum,ipFpIndex,fp,fingerPrintDBSer);
+                        //上传到服务器.
+
                         Log.d("unit_test","ipEmpNum:"+ipEmpNum);
                         if(count==0){
                             temp="保存指纹失败.";

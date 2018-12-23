@@ -13,9 +13,13 @@ import java.util.List;
 
 import TaskClass.ATMBox;
 import TaskClass.BaseATMBox;
+import TaskClass.BaseEmp;
 import TaskClass.FingerPrint;
+import TaskClass.User;
 import YLDataService.ATMBoxDBSer;
 import YLDataService.BaseClientDBSer;
+import YLDataService.BaseEmpDBSer;
+import YLDataService.EmpDBSer;
 import YLDataService.FingerPrintDBSer;
 import YLDataService.YLSQLHelper;
 import YLSystemDate.YLSystem;
@@ -94,30 +98,21 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
     }
 
     //region   2018.12.15指纹测试
-    String fpTag="unit_test";
+    String juTag="unit_test";
+    //插入指纹
     public void testInsFingerPrint(){
         FingerPrintDBSer dbSer=new FingerPrintDBSer(getContext());
         FingerPrint fingerPrint=new FingerPrint();
         fingerPrint.setEmpNum("600300");
+        fingerPrint.setFingerType("1");
         fingerPrint.setFinger("fp600300");
-       Integer count=  dbSer.InsFingerPrint(fingerPrint);
-        if(count!=1)
-            Log.d(fpTag,"600300员工的指纹插入成功");
+       int count=  dbSer.InsFingerPrint(fingerPrint);
+        if(count>0)
+            Log.e(juTag,"600300员工的指纹插入成功");
         else
-            Log.e(fpTag,"600300员工的指纹插入失败");
+            Log.e(juTag,"600300员工的指纹插入失败");
     }
-    public void testUpdateFingerPrint(){
-        FingerPrintDBSer dbSer=new FingerPrintDBSer(getContext());
-        FingerPrint fingerPrint=new FingerPrint();
-        fingerPrint.setEmpNum("600034");
-        fingerPrint.setFinger("fp600034update");
-        Integer count=  dbSer.UpdateFingerPrint(fingerPrint);
-        if(count!=1)
-            Log.e(fpTag,"600034员工的指纹更新失败");
-        else
-            Log.d(fpTag,"600034员工的指纹更新成功");
-    }
-
+    //指纹是否存在
     public  void  testFingerPrint_Exists() {
         FingerPrintDBSer dbSer=new FingerPrintDBSer(getContext());
         FingerPrint fingerPrint=new FingerPrint();
@@ -126,9 +121,21 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
         boolean exists=  dbSer.Exists(fingerPrint);
 
         if(!exists)
-            Log.d(fpTag,"存在600300员工的指纹");
+            Log.e(juTag,"存在600300员工的指纹");
         else
-            Log.e(fpTag,"不存在600300员工的指纹");
+            Log.e(juTag,"不存在600300员工的指纹");
+    }
+    //更新指纹
+    public void testUpdateFingerPrint(){
+        FingerPrintDBSer dbSer=new FingerPrintDBSer(getContext());
+        FingerPrint fingerPrint=new FingerPrint();
+        fingerPrint.setEmpNum("600034");
+        fingerPrint.setFinger("fp600034update");
+        Integer count=  dbSer.UpdateFingerPrint(fingerPrint);
+        if(count!=1)
+            Log.e(juTag,"600034员工的指纹更新失败");
+        else
+            Log.d(juTag,"600034员工的指纹更新成功");
     }
 
     //获取所有的指纹,逐个打印出来,
@@ -140,28 +147,25 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
             Log.d("unit_test",f.toString());
         }
         if(list.size()<1)
-            Log.e(fpTag,"指纹数据记录只有0条");
+            Log.e(juTag,"指纹数据记录只有0条");
             else
-            Log.d(fpTag,"指纹数据记录大于1条");
+            Log.e(juTag,"指纹数据记录大于1条");
     }
 
+    //获取单个运功的指纹
     public void testGetFingerPrint(){
         FingerPrintDBSer dbSer=new FingerPrintDBSer(getContext());
         FingerPrint fingerPrint=new FingerPrint();
-        fingerPrint.setEmpNum("600030");
+        fingerPrint.setEmpNum("620142");
 
-        FingerPrint entity=dbSer.GetFingerPrint(fingerPrint);
-        if(entity==null){
-            Log.e(fpTag,"读取600030员工指纹失败.");
+        List<FingerPrint> lstFP=dbSer.GetFingerPrint(fingerPrint);
+        if(lstFP==null||lstFP.size()<1){
+            Log.e(juTag,"读取620142员工指纹失败.");
         }else{
-            Log.d(fpTag,"读取单个员工成功:"+entity.toString());
+            Log.e(juTag,"读取单个员工成功, 数量为:"+ String.valueOf(lstFP.size()));
         }
 
     }
-
-
-
-
 
     //小心,这是删除所有数据!!!!!!!
     public  void  testDeleteAllFingerPrint(){
@@ -169,13 +173,50 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
         int count=dbSer.DeleteAllFingerPrint();
 
         if(count<1)
-            Log.e(fpTag,"指纹数据删除失败.");
+            Log.e(juTag,"指纹数据删除失败.");
         else
-            Log.d(fpTag,"指纹数据删除成功.");
+            Log.e(juTag,"指纹数据删除成功.");
     }
+    public  void testDropFingerPrint(){
+        FingerPrintDBSer dbSer=new FingerPrintDBSer(getContext());
+        int count=dbSer.DropFingerPrint();
 
-
+        if(count<1)
+            Log.e(juTag,"指纹数据表drop失败.");
+        else
+            Log.e(juTag,"指纹数据表drop成功.");
+    }
     //end
 
+    //region 员工数据表测试 2018.12.23
+    //返回所有员工
+    public void testGetAllUser(){
+        BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getContext());
+        List<BaseEmp> lstUser=baseEmpDBSer.GetAllUser();
+//        for (int i=0;i<lstUser.size();i++){
+//            Log.e(juTag,lstUser.get(i).toString());
+//        }
+        if(lstUser.size()==0){
+            Log.e(juTag,"错误:baseEmpDBSer.GetAllUser() 无数据.");
+        }else{
+            Log.e(juTag,"成功:baseEmpDBSer.GetAllUser() 数量:"+String.valueOf(lstUser.size()));
+        }
+    }
+    //根据empid返回员工
+    public void testGetUserByEmpId(){
+        String empid="3638";
+        BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getContext());
+        BaseEmp user=baseEmpDBSer.GetUserByEmpId(empid);
+        Log.e(juTag,user.toString());
+    }
+
+    //根据empNo返回员工
+    public void testGetUserByEmpNo(){
+        String empid="620124";
+        BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getContext());
+        BaseEmp user=baseEmpDBSer.GetUserByEmpNo(empid);
+        Log.e(juTag,user.toString());
+    }
+    //endregion
 
 }

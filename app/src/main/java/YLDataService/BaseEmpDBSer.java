@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import TaskClass.BaseEmp;
+import TaskClass.User;
 
 /**
  * Created by rush on 2015/2/11.
@@ -109,6 +110,90 @@ public class BaseEmpDBSer {
         }
 
     }
+
+    //region 查询员工表 2018.12.23
+
+
+    //通过员工ID获取员工编号等信息,名字被GetUserByEmpId占用了,
+    public  List<BaseEmp>  GetAllUser(){
+        List<BaseEmp> lstUser = new ArrayList<>();
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseEmp where 1=1" ,null);
+        //Cursor cursor = sdb.rawQuery("select * from FingerPrint where EmpNum=?", new String[]{fingerPrint.getEmpNum()});
+        while(cursor.moveToNext()){
+            BaseEmp u=new BaseEmp();
+            String EmpID = cursor.getString(cursor.getColumnIndex("EmpID"));
+            String EmpNo = cursor.getString(cursor.getColumnIndex("EmpNo"));
+            String EmpName = cursor.getString(cursor.getColumnIndex("EmpName"));
+            String EmpHFNo = cursor.getString(cursor.getColumnIndex("EmpHFNo"));
+            String EmpWorkState = cursor.getString(cursor.getColumnIndex("EmpWorkState"));
+            String EmpJJNo = cursor.getString(cursor.getColumnIndex("EmpJJNo"));
+
+            u.EmpID=EmpID;
+            u.EmpNo=EmpNo;
+            u.EmpName=EmpName;
+            u.EmpHFNo=EmpHFNo;
+            u.EmpName=EmpName;
+            u.EmpWorkState=EmpWorkState;
+            u.EmpJJNo=EmpJJNo;
+            lstUser.add(u);
+        }
+        sdb.close(); //关闭数据库
+        return lstUser;
+    }
+    //通过员工ID获取员工编号等信息
+    public BaseEmp GetUserByEmpId(String EmpID){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseEmp where EmpID =?" ,new String[]{ EmpID});
+        BaseEmp u=new BaseEmp();
+        while(cursor.moveToNext()){
+            //String EmpID = cursor.getString(cursor.getColumnIndex("EmpID"));
+            String EmpNo = cursor.getString(cursor.getColumnIndex("EmpNo"));
+            String EmpName = cursor.getString(cursor.getColumnIndex("EmpName"));
+            String EmpHFNo = cursor.getString(cursor.getColumnIndex("EmpHFNo"));
+            String EmpWorkState = cursor.getString(cursor.getColumnIndex("EmpWorkState"));
+            String EmpJJNo = cursor.getString(cursor.getColumnIndex("EmpJJNo"));
+
+            u.EmpID=EmpID;
+            u.EmpNo=EmpNo;
+            u.EmpName=EmpName;
+            u.EmpHFNo=EmpHFNo;
+            u.EmpName=EmpName;
+            u.EmpWorkState=EmpWorkState;
+            u.EmpJJNo=EmpJJNo;
+            break;
+        }
+        sdb.close(); //关闭数据库
+        return u;
+    }
+
+    //通过员工编号获取员工ID
+    public BaseEmp GetUserByEmpNo(String EmpNO){
+        SQLiteDatabase sdb =ylsqlHelper.getReadableDatabase();
+        Cursor cursor = sdb.rawQuery("select * from BaseEmp where EmpNO =" + EmpNO, null);
+
+        BaseEmp u=new BaseEmp();
+        while(cursor.moveToNext()){
+            String EmpID = cursor.getString(cursor.getColumnIndex("EmpID"));
+            //String EmpNo = cursor.getString(cursor.getColumnIndex("EmpNo"));
+            String EmpName = cursor.getString(cursor.getColumnIndex("EmpName"));
+            String EmpHFNo = cursor.getString(cursor.getColumnIndex("EmpHFNo"));
+            String EmpWorkState = cursor.getString(cursor.getColumnIndex("EmpWorkState"));
+            String EmpJJNo = cursor.getString(cursor.getColumnIndex("EmpJJNo"));
+
+            u.EmpID=EmpID;
+            u.EmpNo=EmpNO;
+            u.EmpName=EmpName;
+            u.EmpHFNo=EmpHFNo;
+            u.EmpName=EmpName;
+            u.EmpWorkState=EmpWorkState;
+            u.EmpJJNo=EmpJJNo;
+            break;
+        }
+        sdb.close(); //关闭数据库
+        return u;
+    }
+    //endregion
 
 
     public void DeleteBaseEmp(List<BaseEmp> lst) {

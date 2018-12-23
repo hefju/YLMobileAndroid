@@ -143,31 +143,23 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
         try {
             switch (view.getId()) {
                 case R.id.Log_BN_HF:
-
                     LoginByHF();
-
 //                    String user = "500008";
 //                    Log_ET_Name.setText(user);
 //                    Log_ET_PassWord.setText(user);
 //                    LoginByPassword();
-
                     YLRecord.WriteRecord("登录界面","HF登录");
                     break;
                 case R.id.Log_BN_Ent:
-
 //                    String user2 = "520037";
 //                    Log_ET_Name.setText(user2);
 //                    Log_ET_PassWord.setText(user2);
-
                     LoginByPassword();
                     YLRecord.WriteRecord("登录界面","帐号登录"+Log_ET_Name.getText());
                     break;
                 case R.id.btnTest1:
-
                     UpDataAPK();
-
 //                    DeleteTaskbyDate();
-
                     YLRecord.WriteRecord("登录界面","升级");
                     break;
                 case R.id.btnTest2:
@@ -177,10 +169,6 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                     YLRecord.WriteRecord("登录界面","进入测试界面");
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     break;
-                case R.id.btnDownloadFp://下载指纹
-                    intent = new Intent(Login.this,FPDownloadActivity.class);
-                    startActivity(intent);
-                    break;
                 case R.id.logic_sw_address:
                     if (logic_sw_address.isChecked()) {
                         YLSystem.setSerAdress("0");
@@ -188,18 +176,15 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
                         YLSystem.setSerAdress("1");
                     }
                     break;
-
-                case R.id.btnRegisterFp:
-                    Log.e(Tag,"btnRegisterFp.click!");
-//                     intent = new Intent(Login.this,FpRegisterActivity.class);
-//                    startActivity(intent);
-                    //20181201kim test
-                   // YLstartActivity(scanfptest.class);
+                case R.id.btnDownloadFp://下载指纹
+                    intent = new Intent(Login.this,FPDownloadActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btnRegisterFp://注册指纹
                     intent = new Intent(Login.this,FpRegisterActivity2.class);//scanfptest  FpRegisterActivity2
                    startActivity(intent);
                     break;
-                case R.id.btnLoginFp:
-                    Log.e(Tag,"btnLoginFp.click!");
+                case R.id.btnLoginFp://指纹登录
                     intent = new Intent(Login.this,FpLoginActivity.class);//LoginFpActivity FpLoginActivity
                     startActivity(intent);
                     break;
