@@ -53,6 +53,27 @@ public class YLWebService {
         return list;
     }
 
+    //根据员工ID,返回指纹列表
+    public List<String> UploadEmpFPPhone(Context context,String empId,String type,String deviceID, String ISWIFI,String FP){
+        List<String> list=new ArrayList<>();
+        String url= YLSystem.GetBaseUrl(context)+"GetEmpFPPhone";  //GetEmpFPPhone //没有分手指类型 GetEmpFPPhoneMore //分手指类型
+        Map map=new HashMap();//EmpID empid
+        map.put("empid", empId);
+        map.put("type", type);
+        map.put("deviceID", deviceID);
+        map.put("FP", FP);
+        map.put("ISWIFI",ISWIFI);
+        String webresult=BaseWebRequest(url,map);
+        if(webresult!=null&&!webresult.equals("")) {
+            webresult= webresult.replace("\"","");
+            String[] result = webresult.split(",");
+            for (int i = 0; i < result.length; i++) {
+                list.add(result[i]);
+            }
+        }
+        return list;
+    }
+
     //基础的网络请求, 输入请求地址url和请求参数map发起网络请求, 直接返回请求字符串结果,不作任何处理.
     private String BaseWebRequest(  String url,Map map ) {
         String result="";//返回结果,如果是空表示出现错误了.

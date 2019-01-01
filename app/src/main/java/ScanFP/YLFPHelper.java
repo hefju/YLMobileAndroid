@@ -8,8 +8,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import TaskClass.BaseEmp;
 import TaskClass.FingerPrint;
+import YLDataService.BaseEmpDBSer;
 import YLDataService.FingerPrintDBSer;
+import YLWebService.YLWebService;
 import cn.pda.serialport.Tools;
 
 /**
@@ -96,4 +99,22 @@ public class YLFPHelper {
             return fpDb.InsFingerPrint(fingerPrint);//不存在就插入
         }
     }
+
+    //ipEmpNum,ipFpIndex,fp);
+    public List<String> UploadEmpFPPhone(Context context,String ipEmpNum,String ipFpIndex,String FP){
+
+
+        BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(context);
+        BaseEmp user=baseEmpDBSer.GetUserByEmpNo(ipEmpNum);
+
+        String empId=user.getEmpID();//ipEmpNum
+        String deviceID="";
+        String ISWIFI="1";
+        YLWebService ylWebService = new YLWebService();
+
+        List<String> list = ylWebService.UploadEmpFPPhone(context, empId,ipFpIndex, deviceID, ISWIFI,FP);
+        return  list;
+    }
+
+
 }

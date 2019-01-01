@@ -318,6 +318,8 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
                         YLFPHelper ylfpHelper=new YLFPHelper();
 
                         int count=ylfpHelper.SaveFp(ipEmpNum,ipFpIndex,fp,fingerPrintDBSer);
+                       // String empId,String deviceID, String ISWIFI,String FP
+                        ylfpHelper.UploadEmpFPPhone(getActivityContext(),ipEmpNum,ipFpIndex,fp);
                         //上传到服务器.
 
                         Log.d("unit_test","ipEmpNum:"+ipEmpNum);
