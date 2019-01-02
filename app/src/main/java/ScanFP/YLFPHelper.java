@@ -101,7 +101,7 @@ public class YLFPHelper {
     }
 
     //ipEmpNum,ipFpIndex,fp);
-    public List<String> UploadEmpFPPhone(Context context,String ipEmpNum,String ipFpIndex,String FP){
+    public boolean UploadEmpFPPhone(Context context,String ipEmpNum,String ipFpIndex,String FP){
 
 
         BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(context);
@@ -112,8 +112,8 @@ public class YLFPHelper {
         String ISWIFI="1";
         YLWebService ylWebService = new YLWebService();
 
-        List<String> list = ylWebService.UploadEmpFPPhone(context, empId,ipFpIndex, deviceID, ISWIFI,FP);
-        return  list;
+        boolean success = ylWebService.UploadEmpFPPhone(context, empId,ipFpIndex, deviceID, ISWIFI,FP);
+        return  success;
     }
 
 

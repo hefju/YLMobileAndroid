@@ -319,18 +319,25 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
 
                         int count=ylfpHelper.SaveFp(ipEmpNum,ipFpIndex,fp,fingerPrintDBSer);
                        // String empId,String deviceID, String ISWIFI,String FP
-                        ylfpHelper.UploadEmpFPPhone(getActivityContext(),ipEmpNum,ipFpIndex,fp);
+                       boolean webcount= ylfpHelper.UploadEmpFPPhone(getActivityContext(),ipEmpNum,ipFpIndex,fp);
                         //上传到服务器.
 
                         Log.d("unit_test","ipEmpNum:"+ipEmpNum);
+                        temp="";
                         if(count==0){
                             temp="保存指纹失败.";
-                            edit_tips.setText(temp);
+
                         }else{
                             temp = "指纹保存成功";
-                            edit_tips.setText(temp);
+
                             retsetUerInput();//重置界面,录入下一个员工编号和指纹
                         }
+                        if(webcount){
+                            temp+=" 上传指纹成功.";
+                        }else{
+                            temp+=" 上传指纹失败.";
+                        }
+                        edit_tips.setText(temp);
                     }
                 }else{
                     //char is bad quickly

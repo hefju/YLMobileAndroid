@@ -328,6 +328,24 @@ public class WebServerTest extends ApplicationTestCase<Application> {
         }
     }
 
+    public void testUploadEmpFPPhone() throws IOException {
+        YLWebService ylWebService = new YLWebService();
+        String empid = "3638";
+        String type="右手食指";
+        String deviceID="deviceID";
+        String ISWIFI="1";
+        String FP="unit_test2";
+
+        boolean success = ylWebService.UploadEmpFPPhone(getContext(), empid, type,deviceID, ISWIFI,FP);
+
+        if (success ) {
+            Log.e(juTAG, "upload finger print success,emp:" + empid);
+        }
+        else{
+            Log.e(juTAG, "upload finger failed,emp:" + empid);
+        }
+    }
+
 
     //endregion
 }
