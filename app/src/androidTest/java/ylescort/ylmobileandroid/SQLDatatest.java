@@ -204,7 +204,7 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
     }
     //根据empid返回员工
     public void testGetUserByEmpId(){
-        String empid="3638";
+        String empid="3638"; //EmpNo='620142' EmpName='林润发'
         BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getContext());
         BaseEmp user=baseEmpDBSer.GetUserByEmpId(empid);
         Log.e(juTag,user.toString());
@@ -212,11 +212,15 @@ public class SQLDatatest extends ApplicationTestCase<Application> {
 
     //根据empNo返回员工
     public void testGetUserByEmpNo(){
-        String empid="620124";
+        String empid="620124"; //EmpID='3466' EmpName='刘艺'
+        // String empid="600300"; //EmpID='4489', EmpName='李汶峰'
         BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getContext());
         BaseEmp user=baseEmpDBSer.GetUserByEmpNo(empid);
         Log.e(juTag,user.toString());
     }
+    //用来测试的员工: EmpNo=620124 EmpID=3466 EmpName=刘艺
+    //用来测试的员工: EmpNo=620142 EmpID=3638 EmpName=林润发
+    //用来测试的员工: EmpNo=600300 EmpID=4489 EmpName=李汶峰
     //endregion
 
 }

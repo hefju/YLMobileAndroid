@@ -330,7 +330,7 @@ public class WebServerTest extends ApplicationTestCase<Application> {
 
     public void testUploadEmpFPPhone() throws IOException {
         YLWebService ylWebService = new YLWebService();
-        String empid = "3638";
+        String empid = "3638"; //620124
         String type="右手食指";
         String deviceID="deviceID";
         String ISWIFI="1";

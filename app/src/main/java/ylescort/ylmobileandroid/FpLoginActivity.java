@@ -193,16 +193,21 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
 
 
                         String empNum= ylfpHelper.FindEmpByFP(fpInput,getActivityContext());
-                        if(EmpNumA=="") {
-                            EmpNumA = empNum;
-                            SetLoginFlag(EmpNumA,txtUser1);
-                            temp = "请第二个员工验证指纹";
+                        if(empNum.equals("")){
+                            temp = "通过指纹没有找到用户,请重试.";
                             edit_tips.setText(temp);
-                        }
-                        else if(EmpNumB==""){
-                            EmpNumB = empNum;
-                            SetLoginFlag(EmpNumB,txtUser2);
-                            UnLockUI();//解锁界面,跳转到下一个界面,暂时不知道要转到哪里,可以跳转到多个目标界面才行
+                        }else{
+                            if(EmpNumA.equals("")) {
+                                EmpNumA = empNum;
+                                SetLoginFlag(EmpNumA,txtUser1);
+                                temp = "请第二个员工验证指纹";
+                                edit_tips.setText(temp);
+                            }
+                            else if(EmpNumB.equals("")) {
+                                EmpNumB = empNum;
+                                SetLoginFlag(EmpNumB,txtUser2);
+                                UnLockUI();//解锁界面,跳转到下一个界面,暂时不知道要转到哪里,可以跳转到多个目标界面才行
+                            }
                         }
 
                     }else{

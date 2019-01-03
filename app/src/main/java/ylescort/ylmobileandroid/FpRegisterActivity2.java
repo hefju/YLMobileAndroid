@@ -319,7 +319,8 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
 
                         int count=ylfpHelper.SaveFp(ipEmpNum,ipFpIndex,fp,fingerPrintDBSer);
                        // String empId,String deviceID, String ISWIFI,String FP
-                       boolean webcount= ylfpHelper.UploadEmpFPPhone(getActivityContext(),ipEmpNum,ipFpIndex,fp);
+
+                        FPUploadToServer(getActivityContext(),ipEmpNum,ipFpIndex,fp);
                         //上传到服务器.
 
                         Log.d("unit_test","ipEmpNum:"+ipEmpNum);
@@ -332,11 +333,11 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
 
                             retsetUerInput();//重置界面,录入下一个员工编号和指纹
                         }
-                        if(webcount){
-                            temp+=" 上传指纹成功.";
-                        }else{
-                            temp+=" 上传指纹失败.";
-                        }
+//                        if(webcount){
+//                            temp+=" 上传指纹成功.";
+//                        }else{
+//                            temp+=" 上传指纹失败.";
+//                        }
                         edit_tips.setText(temp);
                     }
                 }else{
@@ -364,6 +365,25 @@ public class FpRegisterActivity2 extends ActionBarActivity implements View.OnCli
         }
     } ;
 
+    private void FPUploadToServer(final Context activityContext, final String ipEmpNum, final String ipFpIndex, final String fp) {
+        new Thread(){
+            public void run(){
+                try {
+                    YLFPHelper ylfpHelper = new YLFPHelper();
+                    boolean webcount = ylfpHelper.UploadEmpFPPhone(activityContext, ipEmpNum, ipFpIndex, fp);
+                }catch (Exception e){
+                    Log.e(Tag,e.getMessage());//网络访问错误
+                }
+//                userInfo= HttpRequest.sendGet(URL, param);
+//                Message msg = new Message();
+//                Bundle data = new Bundle();
+//                data.putString("userInfo",userInfo);
+//                msg.setData(data);
+//                handler.sendMessage(msg);
+            }
+        }.start();
+
+    }
 
 
     /**
