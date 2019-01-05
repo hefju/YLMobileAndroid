@@ -359,8 +359,7 @@ public class Login extends YLBaseActivity implements View.OnClickListener {
     private void LoginByPassword()throws Exception {
 //        CacheData();
         if (Log_ET_Name.getText().toString().equals("")|| Log_ET_PassWord.getText().toString().equals(""))return;
-        if (YLSystem.getNetWorkState() == null
-                || YLSystem.getNetWorkState().equals("2")){
+        if (YLSystem.getNetWorkState() == null|| YLSystem.getNetWorkState().equals("2")){//无网络登录
             BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getApplicationContext());
             List<BaseEmp> baseEmpList = baseEmpDBSer.GetBaseEmps("where EmpNo ='" + Log_ET_Name.getText().toString() + "'");
             FindEmpByLocal(baseEmpList);

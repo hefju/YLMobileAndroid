@@ -23,6 +23,10 @@ import java.util.List;
 
 import ScanFP.ScanThread;
 import ScanFP.YLFPHelper;
+import TaskClass.BaseEmp;
+import TaskClass.User;
+import YLDataService.BaseEmpDBSer;
+import YLSystemDate.YLSystem;
 import cn.pda.serialport.Tools;
 
 public class FpLoginActivity extends ActionBarActivity  implements View.OnClickListener{
@@ -39,8 +43,8 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
     private EditText edit_tips;
     private Button btn_open,btn_get_img,btn_get_char,btn_match_fp,btn_search,btn_enroll,btn_empty,btn_close,btn_scan;
     private TextView txtUser1,txtUser2;
-    private String EmpNumA="";//用工A
-    private String EmpNumB="";//员工B
+    private String EmpNumA="";//员工编号A
+    private String EmpNumB="";//员工编号B
     YLFPHelper ylfpHelper=new YLFPHelper();
 
     private Context getActivityContext() {
@@ -151,6 +155,7 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
 
     private void CloseDevice() {
         mFingerHelper.close();
+       // UnLockUI();//测试
     }
     @Override
     protected void onDestroy() {
@@ -237,9 +242,29 @@ public class FpLoginActivity extends ActionBarActivity  implements View.OnClickL
     } ;
 
     private void UnLockUI() {
-        Intent intent = new Intent();
-        intent.setClass(FpLoginActivity.this, Task.class);
-        startActivity(intent);
+        try {
+//            if(EmpNumA.equals(""))   //测试
+//                EmpNumA="620142";
+            BaseEmpDBSer baseEmpDBSer=new BaseEmpDBSer(getActivityContext());
+            BaseEmp baseUser=baseEmpDBSer.GetUserByEmpNo(EmpNumA);
+
+            User user = new User();
+            user.setEmpNO(baseUser.EmpNo);
+            user.setEmpID(baseUser.EmpID);
+            user.setPass("");
+            user.setName(baseUser.EmpName);
+            user.setISWIFI("0");
+            user.setTaskDate("");
+            YLSystem.setUser(user);
+
+            //如果要打开任务界面Task.class, 必须先设置用户
+            Intent intent = new Intent();
+            intent.setClass(FpLoginActivity.this, Task.class);
+            startActivity(intent);
+        }
+        catch (Exception e){
+            Log.e(Tag,e.getMessage());
+        }
     }
 
     private void SetLoginFlag(String empNumAB, TextView txtUser12) {
